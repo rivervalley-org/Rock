@@ -1,0 +1,4 @@
+--to comment out code in LAVA do the following
+
+
+`{% comment %} Your comment here {% endcomment %}`

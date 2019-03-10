@@ -1,0 +1,9 @@
+﻿.panel .panel-heading.panel-follow.panel-watch {
+    padding-right: 110px;
+}
+
+.panel-follow .panel-watch-status {
+    width: 50px;
+    right: 50px;
+    padding-top: 14px;
+}

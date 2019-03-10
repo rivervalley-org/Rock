@@ -1,0 +1,19 @@
+﻿    <nav id="site-navigation" class="main-navigation" role="navigation">
+        <a href="https://www.rivervalley.org" class="logo">
+            <div class="logo-interior"></div>
+        </a>
+        <a href="https://www.rivervalley.org" class="network-site-title">River Valley Network</a>
+        <a href="https://www.rivervalley.org" class="site-title">River Valley Church</a>
+        <button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false"><span class="menu-toggle-interior"></span></button>
+        <div class="menu-primary-container">
+            <ul id="primary-menu" class="menu nav-menu" aria-expanded="false">
+                <li id="menu-item-385" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-385"><a href="https://www.rivervalley.org/about-us/">About Us</a></li>
+                <li id="menu-item-124" class="menu-item menu-item-type-post_type menu-item-object-page page_item page-item-57 menu-item-has-children menu-item-124"><a href="https://www.rivervalley.org/next-steps/">Next Steps</a></li>
+                <li id="menu-item-123" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-123"><a href="https://www.rivervalley.org/ministries/">Ministries</a></li>
+                <li id="menu-item-131" class="location-link menu-item menu-item-type-custom menu-item-object-custom menu-item-131"><a href="/locations">Locations</a></li>
+                <li id="menu-item-304" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-304"><a href="https://www.rivervalley.org/watch/">Watch</a></li>
+                <li id="menu-item-195" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-195"><a href="https://www.rivervalley.org/give/">Give</a></li>
+            </ul>
+        </div>
+    </nav>
+    <!-- #site-navigation -->

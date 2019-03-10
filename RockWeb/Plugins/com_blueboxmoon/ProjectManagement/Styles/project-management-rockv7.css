@@ -1,0 +1,18 @@
+﻿.panel-watch-status::before {
+    content: "\f1f6";
+}
+
+.panel-watch-status.watching::before {
+    content: "\f0f3";
+}
+
+/* Following Styles */
+.pm-task-follow-status::before {
+    font-weight: 400;
+    content: "\f005";
+}
+
+.pm-task-follow-status.following::before {
+    font-weight: 800;
+    content: "\f005";
+}

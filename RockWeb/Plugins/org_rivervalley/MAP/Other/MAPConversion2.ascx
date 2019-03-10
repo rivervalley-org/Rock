@@ -1,0 +1,2 @@
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="MAPConversion2.ascx.cs" Inherits="RockWeb.Plugins.org_rivervalley.MAP.Other.MAPConversion2" %>
+<asp:Literal ID="lOutputString" runat="server" />

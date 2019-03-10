@@ -1,0 +1,32 @@
+﻿<style>
+    .nav-pills > li.active > ul.nav > li.active > a, .nav-pills > li.active > ul.nav > li.active > a:hover, .nav-pills > li.active > ul.nav > li.active > a:focus {
+        color: #fff;
+        background-color: #8cc63e;
+    }
+</style>
+
+<ul class="nav nav-pills">
+    {% for childPage in Page.Pages %}
+    {% if childPage.Current == 'true' or childPage.IsParentOfCurrent == 'true' %}
+    <li class='active'>
+        <a href="{{ childPage.Url }}">{{ childPage.Title }}</a>
+        {% if childPage.DisplayChildPages == 'true' and childPage.Pages != empty %}
+        <i class="{{ childPage.IconCssClass }}"></i>
+        <ul class="nav nav-childpages">
+            <!--<li class="title">{{ childPage.Title }}</li>-->
+            {% for grandchildPage in childPage.Pages %}
+            {% if grandchildPage.Current == 'true' %}
+            <li class="title active"><a role="menu-item" href="{{ grandchildPage.Url }}">{{ grandchildPage.Title }}</a></li>
+            {% else %}
+            <li class="title"><a role="menu-item" href="{{ grandchildPage.Url }}">{{ grandchildPage.Title }}</a></li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% else %}
+    <li>
+        <a href="{{ childPage.Url }}">{{ childPage.Title }}</a>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>

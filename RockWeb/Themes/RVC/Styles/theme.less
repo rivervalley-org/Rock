@@ -1,0 +1,746 @@
+﻿
+// Load Master Styles
+// -------------------------
+@import "../../../Styles/Bootstrap/variables.less";
+@import "../../../Styles/_rock-core.less";
+@import "../../../Styles/_store.less";
+@import "../../../Styles/_rock-variables.less";
+@import "_variables.less";
+@import "_variable-overrides.less";
+@import "_print.less";
+
+@import "MyFontsWebfontsKit.less";
+
+/*
+    Rock Theme Styles
+
+    1. HTML Overrides
+    2. Bootstrap Overides
+    3. Theme Styling
+    4. Responsive Overrides
+
+*/
+
+// 1. HTML Overrides
+// -------------------------
+
+html {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    font-family: 'AvenirNextLTPro-Regular';
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    width: 100%;
+}
+
+body, button, input, select, textarea {
+    color: #404040;
+    font-family: 'AvenirNextLTPro-Regular';
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+// Rock Panel Resets due to theme.
+
+#cms-admin-footer .btn {
+    height: auto;
+    line-height: normal;
+    padding: 6px 12px;
+}
+
+.zone-highlight {
+    .hide-block {
+        display: block !important;
+        opacity: 1 !important;
+    }
+}
+
+
+// 2. Bootstrap Overrides
+// -------------------------
+
+a:hover i.fs {
+    text-decoration: none;
+}
+
+// 3. Theme Styling
+// -------------------------
+
+// homepage items
+#announcement-rotator {
+    margin: 0 -@grid-gutter-width/2 @spacing-lg-px;
+
+    .item {
+        img {
+            width: 100%;
+        }
+    }
+}
+
+.announcement-list {
+    .announcement {
+        margin: 0 auto @spacing-lg-px;
+        max-width: 390px;
+    }
+
+    .announcement-title {
+        margin: @spacing-sm-px 0;
+    }
+
+    img {
+        width: 100%;
+    }
+}
+
+.announcement-detail {
+    img {
+        width: 100%;
+    }
+}
+
+#splash.error {
+    background-color: @gray-lighter;
+
+    #content {
+        margin-top: 20px;
+        background-color: @body-bg;
+        border-radius: @border-radius-base;
+        padding: 20px;
+    }
+}
+
+.not-found h2 {
+    font-size: 200px;
+    font-weight: @font-weight-bold;
+    letter-spacing: -5px;
+    line-height: 210px;
+
+    i {
+        color: #F03;
+        font-size: 210px;
+        position: relative;
+        top: -12px;
+    }
+}
+
+.panel.panel-block {
+    border: 0;
+    box-shadow: none;
+
+    & > .panel-heading {
+        display: none;
+    }
+
+    & > .panel-body {
+        padding: 0;
+
+        .grid.grid-panel {
+            margin: 0;
+        }
+    }
+}
+
+a, .btn-link {
+    -moz-transition: color 0.2s ease;
+    -o-transition: color 0.2s ease;
+    -webkit-transition: color 0.2s ease;
+    transition: color 0.2s ease;
+    background-color: transparent;
+    color: #202020;
+    text-decoration: none;
+}
+
+a:hover, a:focus, .btn-link:hover, .btn-link:focus {
+    color: #202020;
+}
+
+h1, .h1 {
+    color: #1c2630;
+    font-family: 'AvenirNextLTPro-Light';
+    font-size: 36px;
+    font-weight: normal;
+    letter-spacing: -1px;
+    line-height: 46px;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    text-align: center;
+}
+
+h2, .h2 {
+    color: #1c2630;
+    font-family: 'AvenirNextLTPro-Light';
+    font-size: 32px;
+    font-weight: normal;
+    line-height: 40px;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    text-align: center;
+}
+
+h2.gray {
+    color: #D8D8D8;
+}
+
+h3, .h3 {
+    color: #1c2630;
+    font-family: 'AvenirNextLTPro-Bold';
+    font-size: 26px;
+    letter-spacing: .67px;
+    line-height: 34px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+h4, .h4 {
+    color: #1c2630;
+    font-family: 'AvenirNextLTPro-Bold';
+    font-size: 22px;
+    line-height: 30px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+p {
+    color: #666;
+    font-size: 20px;
+    line-height: 30px;
+    margin: 14px 0;
+}
+
+p:last-child {
+    margin-bottom: 0px;
+}
+
+.navbar-inverse {
+    margin-bottom: 0;
+    border-radius: 0;
+    background: none;
+    background-color: #151D25;
+    border: none;
+    min-height: 40px;
+    line-height: 40px;
+    color: #FFF;
+}
+
+.navbar-inverse a {
+    color: #FFF;
+}
+
+header.logo {
+    background: url("../Assets/img/rvcHeaderBg.jpg") center center;
+    background-size: cover;
+    min-height: 155px;
+    color: #FFF;
+    h1, h2, h3, h4, h5, h6, p, a {
+        color: #FFF;
+    }
+    h2 {
+        display: inline-block;
+        white-space: nowrap;
+        font-size: 16pt;
+        text-transform: uppercase;
+        color: #FFF;
+    }
+
+    img {
+        vertical-align: top;
+        margin-top: 20px;
+        width: 115px;
+    }
+}
+
+.innerLogo {
+    display: inline-block;
+}
+
+.navbar-default {
+    background-image: none;
+    background: #f4f4f4;
+    padding: 0 20px;
+    text-align: center;
+    /*margin-bottom: 40px;*/
+    box-shadow: none;
+    border: none;
+    border-radius: 0;
+}
+
+.navbar-default ul.nav li {
+    font-size: 20px;
+    letter-spacing: .1em;
+    height: 55px;
+    line-height: 55px;
+    text-transform: uppercase;
+}
+
+.navbar-default ul.nav li > a {
+    padding: 0;
+    line-height: inherit;
+    display: inline;
+}
+
+.navbar-default .dropdown-menu li {
+    height: 40px !important;
+    line-height: 40px !important;
+    font-size: 15px !important;
+}
+
+.general-listings .general-listing {
+    line-height: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.panel-default {
+    border-radius: 0;
+    border: none;
+    background-color: #f4f4f4;
+    box-shadow: none;
+}
+
+.panel-default .panel-heading {
+    background: none;
+    background-color: #f4f4f4;
+    border: none;
+    text-align: center;
+}
+
+.panel-primary > .panel-heading {
+    background-image: none;
+    background-color: #323232;
+    color: #ffffff;
+}
+
+.general-listing-container {
+    background-color: #ebebeb;
+    min-width: 49%;
+    min-height: 50px;
+    text-align: left;
+    padding: 10px 20px;
+}
+.general-listing {
+    width: 100% !important;
+}
+.general-listing-container>ul>li {
+    list-style-type: none;
+}
+.general-listing-container>ul {
+    margin-left: 25px;
+}
+.item-heading {
+    font-weight: bold;
+}
+@media all and (max-width: 900px) {
+  .general-listing-container > ul > li {
+    border: 2px solid @theme-1;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+  }
+}
+
+
+.btn {
+    border: 0;
+    border-radius: 4px;
+    display: inline-block;
+    float: none;
+    font-family: 'AvenirNextLTPro-Medium';
+    font-size: 20px;
+    height: 50px;
+    line-height: 54px;
+    margin-bottom: 15px;
+    padding: 0 30px;
+    text-align: center;
+    text-transform: none;
+}
+
+.btn-lg {
+    font-size: 20px !important;
+    font-family: 'AvenirNextLTPro-Bold';
+    text-transform: uppercase;
+    line-height: 50px;
+    margin-bottom: 17px;
+}
+
+.btn-primary, .btn--theme {
+    background-image: none;
+    transition: .3s background-color ease;
+    background-color: #222;
+	box-shadow: inset 0 0 0 2px #222;
+    color: #ffffff;
+}
+
+.btn-primary:hover, .btn--theme:hover {
+    background-color: transparent;
+    box-shadow: inset 0 0 0 2px #222;
+    color: #323232;
+}
+
+.btn-default {
+    background-image: none;
+    transition: .3s background-color ease, .3s color ease;
+    background-color: transparent;
+    box-shadow: inset 0 0 0 2px #222;
+    color: #222;
+}
+
+.btn-default:hover {
+    background-color: #222;
+    color: #fff;
+}
+
+.btn-header {
+    line-height: 50px !important;
+    height: auto;
+}
+
+.btn-header:hover {
+    height: auto;
+}
+
+.btn-header .panel-heading {
+    text-align: left;
+}
+
+.btn-primary.disabled, .btn-primary[disabled], fieldset[disabled] .btn-primary, .btn-primary.disabled:hover, .btn-primary[disabled]:hover, fieldset[disabled] .btn-primary:hover, .btn-primary.disabled:focus, .btn-primary[disabled]:focus, fieldset[disabled] .btn-primary:focus, .btn-primary.disabled:active, .btn-primary[disabled]:active, fieldset[disabled] .btn-primary:active, .btn-primary.disabled.active, .btn-primary[disabled].active, fieldset[disabled] .btn-primary.active {
+    background-color: #222;
+    border-color: #222;
+}
+.btn-xs {
+    padding: 8px 10px 5px;
+    margin-bottom: 0;
+    line-height: normal;
+    height: auto;
+    font-size: .8em;
+}
+
+.well {
+    background-image: none;
+    border: none;
+    box-shadow: none;
+    background-color: #f4f4f4;
+    border-radius: 0;
+}
+
+.buttons {
+    overflow: hidden;
+    *zoom: 1;
+    list-style-type: none;
+}
+
+.buttons li {
+    float: left;
+    margin-right: 2.5%;
+}
+
+.buttons--flex li {
+    position: relative;
+    text-align: center;
+}
+
+.buttons--flex li > a {
+    padding: 0 !important;
+    width: 100% !important;
+}
+
+footer {
+    text-align: center;
+    text-transform: uppercase;
+    color: #ccc;
+    font-size: 14px;
+    letter-spacing: .8px;
+    line-height: 19px;
+    margin-top: 40px;
+}
+
+footer a {
+    color: #ccc;
+    font-size: 14px;
+    letter-spacing: .8px;
+    line-height: 19px;
+}
+
+.footer-bottom {
+    background-color: #1B2630;
+    padding: 35px 20px;
+}
+
+.footer-bottom p:last-child {
+    margin: 0;
+}
+
+.footer-info {
+    background-color: #151D25;
+    padding: 10px 0;
+    ul:not(.dropdown-menu) {
+        margin: 0;
+        padding: 0;
+        display: inline-block;
+    }
+    .dropup .fa-caret-down:before {
+        content: "\f0d8";
+    }
+    .dropup .navbar-nav>li>.dropdown-menu {
+        border-radius: 4px;
+    }
+
+}
+
+.footer-info ul li, .footer-info .block-instance, .footer-info .login-status {
+    display: inline-block;
+    list-style-type: none;
+    vertical-align: middle;
+    min-width: 0;
+}
+.block-highlight .footer-info .block-instance {
+    display: block;
+}
+
+.footer-info ul li a, .footer-info .logWrap a {
+    color: #ccc;
+    font-size: 14px;
+    letter-spacing: .8px;
+    padding: 0 10px;
+    position: relative;
+    text-transform: uppercase;
+    transition: color .2s ease;
+}
+
+.footer-info a:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+.footer-info ul li a:after {
+    background-color: #ccc;
+    content: "";
+    height: 100%;
+    position: absolute;
+    transform: translateY(-50%);
+    top: 50%;
+    right: -1px;
+    width: 1px;
+}
+
+.footer-info ul li:last-child a:after {
+    display: none;
+}
+
+.footer-info .loginstatus > li > a:before {
+    background-color: #ccc;
+    content: "";
+    height: 100%;
+    position: absolute;
+    transform: translateY(-50%);
+    top: 50%;
+    left: -1px;
+    width: 1px;
+}
+
+.site-info__social {
+    margin: 20px 0;
+}
+
+.site-info__social a {
+    transition: opacity .2s ease;
+    opacity: .15;
+    margin: 0 10px;
+}
+
+.site-info__social a:hover {
+    opacity: .4;
+}
+
+.absoluteright {
+    position: absolute;
+    top: -72px;
+    z-index: 200;
+}
+
+@media only screen and (min-width: 481px) {
+    .btn {
+        height: 66px;
+        line-height: 66px;
+        padding: 0 20px;
+    }
+    .btn-xs {
+        .btn-xs;
+    }
+}
+
+/* Arena Template Media Queries*/
+@media only screen and (min-width: 701px) {  
+}
+
+@media only screen and (min-width: 1024px) {
+}
+
+@media only screen and (min-width: 1160px) { 
+}
+
+// 4. Responsive Overrides
+// -------------------------
+
+// default styling should be for phones 767px or less
+
+// Small devices (tablets, 768px and up)
+@media (min-width: @screen-sm-min) {
+    #announcement-rotator {
+        margin: @spacing-lg-px 0;
+    }
+
+    .container-login {
+        margin-right: 200px;
+    }
+    .btn {
+        font-size: 22px;
+        padding: 0 30px;
+    }
+    .btn-xs {
+        .btn-xs;
+    }
+
+    /*h1, .h1 {
+        font-size: 92px;
+        line-height: 112px;
+        margin-bottom: 80px;
+        margin-top: 80px;
+    }*/
+
+    h1, .h1, h2, .h2 {
+        font-size: 46px;
+        line-height: 46px;
+        margin-bottom: 80px;
+        margin-top: 80px;
+    }
+
+    h3, .h3 {
+        font-size: 32px;
+        line-height: 40px;
+    }
+
+    h4, .h4 {
+        font-size: 24px;
+        line-height: 33px;
+    }
+
+    header.logo h2 {
+        line-height: 155px;
+        margin: 0;
+    }
+
+    header.logo img {
+        margin-right: 25px;
+    }
+
+    .navbar-default {
+        /*margin-bottom: 80px;*/
+    }
+
+    .navbar-default ul.nav {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-align: center;
+        align-items: center;
+        height: 80px;
+        margin: 0 auto;
+        max-width: 1210px;
+        float:none;
+    }
+
+    .navbar-default ul.nav li {
+        -webkit-flex: 1 1 auto;
+        flex: 1 1 auto;
+        font-size: 15px;
+        height: auto;
+        line-height: normal;
+        position: relative;
+        padding-left: 1em;
+        padding-right: 1em;
+    }
+
+    .buttons--flex li {
+        width: 31.66666%;
+    }
+
+    .buttons--flex li:last-child, .buttons--flex li:nth-child(3n) {
+        margin-right: 0;
+    }
+
+    footer {
+        margin-top: 80px;
+    }
+
+    .site-info__social {
+        margin: 40px 0;
+    }
+
+    .footer-info {
+        padding: 20px 0;
+    }
+    .absoluteright {
+        position: absolute;
+        right: 0;
+        top: auto;
+    }
+}
+
+// Medium devices (desktops, 992px and up)
+@media (min-width: @screen-md-min) {
+    .navbar-default ul.nav li {
+        font-size: 20px;
+    }
+}
+
+// Large devices (large desktops, 1200px and up)
+@media (min-width: @screen-lg-min) {
+     .navbar-default .container, .navbar-collapse {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .navbar-default ul.nav .dropdown-menu li {
+        display: list-item;
+    }
+
+}
+@media (max-width: 767px) {
+    .dropup .navbar-nav .open .dropdown-menu {
+        position: absolute;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border: 1px solid rgba(0,0,0,0.15);
+        -webkit-box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+    }
+}
+
+
+.btn-group-sm > .btn {
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+    min-width: 0;
+    height: auto;
+}
+
+.btn--small, .btn-sm {
+    font-family: AvenirNextLTPro-Medium;
+    font-size: 20px!important;
+    height: 50px;
+    line-height: 54px;
+    margin-bottom: 15px;
+    min-width: 197px;
+    padding: 0 30px;
+    text-transform: none;
+}
+.note-btn.btn-sm, .btn-group-sm>.note-btn.btn {
+    padding: 5px 10px;
+    font-size: 12px !important;
+    line-height: 1.5;
+    height: auto;
+    margin-bottom: 0px;
+    min-width: 0;
+}
+
+@import "_css-overrides.less";
