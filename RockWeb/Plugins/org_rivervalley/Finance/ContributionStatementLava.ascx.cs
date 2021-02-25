@@ -1,4 +1,4 @@
-﻿// <copyright>
+// <copyright>
 // Copyright by the Spark Development Network
 //
 // Licensed under the Rock Community License (the "License");
@@ -36,6 +36,10 @@ namespace RockWeb.Plugins.org_riverValley.Finance
     /// <summary>
     /// Template block for developers to use to start a new block.
     /// </summary>
+    /// <remarks>
+    /// This is a copy of the core v11.2 block with following changes:
+	/// - Update amount given to a pledge to include amounts given to any child account of the account that was pledged to
+	/// </remarks>
     [DisplayName( "Contribution Statement Lava" )]
     [Category( "River Valley > Finance" )]
     [Description( "Block for displaying a Lava based contribution statement." )]
@@ -49,7 +53,7 @@ namespace RockWeb.Plugins.org_riverValley.Finance
         <div class=""pull-left"">
             <img src=""{{ 'Global' | Attribute:'PublicApplicationRoot' }}{{ 'Global' | Attribute:'EmailHeaderLogo' }}"" width=""100px"" />
         </div>
-        
+
         <div class=""pull-left margin-l-md margin-t-sm"">
             <strong>{{ 'Global' | Attribute:'OrganizationName' }}</strong><br />
             {{ 'Global' | Attribute:'OrganizationAddress' }}<br />
@@ -74,7 +78,7 @@ namespace RockWeb.Plugins.org_riverValley.Finance
 
 <div class=""clearfix"">
     <div class=""pull-right"">
-        <a href=""#"" class=""btn btn-primary hidden-print"" onClick=""window.print();""><i class=""fa fa-print""></i> Print Statement</a> 
+        <a href=""#"" class=""btn btn-primary hidden-print"" onClick=""window.print();""><i class=""fa fa-print""></i> Print Statement</a>
     </div>
 </div>
 
@@ -91,17 +95,17 @@ namespace RockWeb.Plugins.org_riverValley.Finance
                 <th>Check/Trans #</th>
                 <th align=""right"">Amount</th>
             </tr>
-        </thead>    
+        </thead>
 
         {% for transaction in TransactionDetails %}
             <tr>
                 <td>{{ transaction.Transaction.TransactionDateTime | Date:'M/d/yyyy' }}</td>
                 <td>{{ transaction.Account.Name }}</td>
                 <td>{{ transaction.Transaction.TransactionCode }}</td>
-                <td align=""right"">{{ 'Global' | Attribute:'CurrencySymbol' }}{{ transaction.Amount }}</td>
+                <td align=""right"">{{ transaction.Amount | FormatAsCurrency }}</td>
             </tr>
         {% endfor %}
-    
+
     </table>
 
 
@@ -118,11 +122,11 @@ namespace RockWeb.Plugins.org_riverValley.Finance
                 <strong>Total Amount</strong>
             </div>
         </div>
-        
+
         {% for accountsummary in AccountSummary %}
             <div class=""row"">
                 <div class=""col-xs-6"">{{ accountsummary.AccountName }}</div>
-                <div class=""col-xs-6 text-right"">{{ 'Global' | Attribute:'CurrencySymbol' }}{{ accountsummary.Total }}</div>
+                <div class=""col-xs-6 text-right"">{{ accountsummary.Total | FormatAsCurrency }}</div>
             </div>
          {% endfor %}
     </div>
@@ -133,23 +137,23 @@ namespace RockWeb.Plugins.org_riverValley.Finance
 {% if pledgeCount > 0 %}
     <hr style=""opacity: .5;"" />
     <h4 class=""margin-t-md margin-b-md"">Pledges <small>(as of {{ StatementEndDate | Date:'M/dd/yyyy' }})</small></h4>
- 
+
     {% for pledge in Pledges %}
         <div class=""row"">
             <div class=""col-xs-6"">
                 <strong>{{ pledge.AccountName }}</strong>
-                
+
                 <p>
-                    Amt Pledged: {{ 'Global' | Attribute:'CurrencySymbol' }}{{ pledge.AmountPledged }} <br />
-                    Amt Given: {{ 'Global' | Attribute:'CurrencySymbol' }}{{ pledge.AmountGiven }} <br />
-                    Amt Remaining: {{ 'Global' | Attribute:'CurrencySymbol' }}{{ pledge.AmountRemaining }}
+                    Amt Pledged: {{ pledge.AmountPledged | FormatAsCurrency }} <br />
+                    Amt Given: {{ pledge.AmountGiven | FormatAsCurrency }} <br />
+                    Amt Remaining: {{ pledge.AmountRemaining | FormatAsCurrency }}
                 </p>
             </div>
             <div class=""col-xs-6 padding-t-md"">
                 <div class=""hidden-print"">
                     Pledge Progress
                     <div class=""progress"">
-                      <div class=""progress-bar"" role=""progressbar"" aria-valuenow=""{{ pledge.PercentComplete }}"" aria-valuemin=""0"" aria-valuemax=""100"" style=""width: {{ pledge.PercentComplete }}%;"">
+                      <div class=""progress-bar"" role=""progressbar"" aria-valuenow=""{{ pledge.PercentComplete }}"" aria-valuemin=""0"" aria-valuemax=""100"" style=""width: {{ pledge.PercentComplete }}%;"" style=""max-width:100%;min-width:2em;"">
                         {{ pledge.PercentComplete }}%
                       </div>
                     </div>
@@ -233,9 +237,9 @@ namespace RockWeb.Plugins.org_riverValley.Finance
 
             var statementYear = RockDateTime.Now.Year;
 
-            if ( Request["StatementYear"] != null )
+            if ( PageParameter( "StatementYear" ).IsNotNullOrWhiteSpace() )
             {
-                Int32.TryParse( Request["StatementYear"].ToString(), out statementYear );
+                Int32.TryParse( PageParameter( "StatementYear" ), out statementYear );
             }
 
             FinancialTransactionDetailService financialTransactionDetailService = new FinancialTransactionDetailService( rockContext );
@@ -249,8 +253,8 @@ namespace RockWeb.Plugins.org_riverValley.Finance
                 excludedCurrencyTypes = GetAttributeValue( "ExcludedCurrencyTypes" ).Split( ',' ).Select( Guid.Parse ).ToList();
             }
 
-            var personGuid = Request["PersonGuid"].AsGuidOrNull();
-            
+            var personGuid = PageParameter( "PersonGuid" ).AsGuidOrNull();
+
             if ( personGuid.HasValue )
             {
                 // if "AllowPersonQueryString is False", only use the PersonGuid if it is a Guid of one of the current person's businesses
@@ -262,6 +266,20 @@ namespace RockWeb.Plugins.org_riverValley.Finance
                     {
                         targetPerson = person;
                     }
+                }
+            }
+            else
+            {
+                var contextPersonOrBusiness = RockPage.GetCurrentContext(EntityTypeCache.Get<Rock.Model.Person>());
+                Person person = null; 
+				if (contextPersonOrBusiness != null)
+				{
+					person = new PersonService(rockContext).Get(contextPersonOrBusiness.Guid);
+				}
+
+                if (person != null)
+                {
+                    targetPerson = person;
                 }
             }
 
@@ -313,11 +331,12 @@ namespace RockWeb.Plugins.org_riverValley.Finance
                                         p => p.Id,
                                         m => m.PersonId,
                                         ( p, m ) => new { p, m } )
-                                   .SelectMany( x => x.m.DefaultIfEmpty(), ( y, z ) => new { Person = y.p, GroupMember = z } )
-                                   .Select( p => new { FirstName = p.Person.NickName, LastName = p.Person.LastName, FamilyRoleOrder = p.GroupMember != null ? p.GroupMember.GroupRole.Order : 99, Gender = p.Person.Gender, PersonId = p.Person.Id } )
-                                   .DistinctBy( p => p.PersonId )
-                                   .OrderBy( p => p.FamilyRoleOrder ).ThenBy( p => p.Gender )
+                                    .SelectMany( x => x.m.DefaultIfEmpty(), ( y, z ) => new { Person = y.p, GroupMember = z } )
+                                    .Select( p => new { FirstName = p.Person.NickName, LastName = p.Person.LastName, FamilyRoleOrder = p.GroupMember.GroupRole.Order, Gender = p.Person.Gender, PersonId = p.Person.Id } )
+                                    .DistinctBy( p => p.PersonId )
+                                    .OrderBy( p => p.FamilyRoleOrder ).ThenBy( p => p.Gender )
                                     .ToList();
+
             string salutation = string.Empty;
 
             if ( givingGroup.GroupBy( g => g.LastName ).Count() == 1 )
@@ -370,28 +389,50 @@ namespace RockWeb.Plugins.org_riverValley.Finance
                                                     Order = s.Max( a => a.Account.Order )
                                                 } )
                                                 .OrderBy( s => s.Order ) );
+
             // pledge information
+            if ( GetAttributeValue( "DisplayPledges" ).AsBoolean() )
+            {
+                List<PledgeSummary> pledges = GetPledgeDataForPersonYear( rockContext, statementYear, personAliasIds );
+                mergeFields.Add( "Pledges", pledges );
+            }
+
+            var template = GetAttributeValue( "LavaTemplate" );
+
+            lResults.Text = template.ResolveMergeFields( mergeFields );
+
+        }
+
+        /// <summary>
+        /// Gets the pledge data for the given person and year.
+        /// </summary>
+        /// <param name="rockContext">The rock context.</param>
+        /// <param name="statementYear">The statement year.</param>
+        /// <param name="personAliasIds">The person alias ids.</param>
+        /// <returns></returns>
+        private static List<PledgeSummary> GetPledgeDataForPersonYear( RockContext rockContext, int statementYear, List<int> personAliasIds )
+        {
             var pledges = new FinancialPledgeService( rockContext ).Queryable().AsNoTracking()
-                                .Where( p => p.PersonAliasId.HasValue && personAliasIds.Contains(p.PersonAliasId.Value)
-                                    && p.StartDate.Year <= statementYear && p.EndDate.Year >= statementYear )
-                                .GroupBy( p => p.Account )
-                                .Select( g => new PledgeSummary
-                                {
-                                    AccountId = g.Key.Id,
-                                    AccountName = g.Key.Name,
-                                    PublicName = g.Key.PublicName,
-                                    AmountPledged = g.Sum( p => p.TotalAmount ),
-                                    PledgeStartDate = g.Min( p => p.StartDate ),
-                                    PledgeEndDate = g.Max( p => p.EndDate )
-                                } )
-                                .ToList();
+                                            .Where( p => p.PersonAliasId.HasValue && personAliasIds.Contains( p.PersonAliasId.Value )
+                                                && p.StartDate.Year <= statementYear && p.EndDate.Year >= statementYear )
+                                            .GroupBy( p => p.Account )
+                                            .Select( g => new PledgeSummary
+                                            {
+                                                AccountId = g.Key.Id,
+                                                AccountName = g.Key.Name,
+                                                PublicName = g.Key.PublicName,
+                                                AmountPledged = g.Sum( p => p.TotalAmount ),
+                                                PledgeStartDate = g.Min( p => p.StartDate ),
+                                                PledgeEndDate = g.Max( p => p.EndDate )
+                                            } )
+                                            .ToList();
 
             // add detailed pledge information
             foreach ( var pledge in pledges )
             {
                 var adjustedPledgeEndDate = pledge.PledgeEndDate.Value.Date;
                 var statementYearEnd = new DateTime( statementYear + 1, 1, 1 );
-                
+
                 if ( adjustedPledgeEndDate != DateTime.MaxValue.Date )
                 {
                     adjustedPledgeEndDate = adjustedPledgeEndDate.AddDays( 1 );
@@ -436,12 +477,7 @@ namespace RockWeb.Plugins.org_riverValley.Finance
                 }
             }
 
-            mergeFields.Add( "Pledges", pledges );
-
-            var template = GetAttributeValue( "LavaTemplate" );
-
-            lResults.Text = template.ResolveMergeFields( mergeFields );
-
+            return pledges;
         }
 
         #endregion
@@ -571,6 +607,6 @@ namespace RockWeb.Plugins.org_riverValley.Finance
             /// </value>
             public int Order { get; set; }
         }
-        #endregion  
+        #endregion
     }
 }

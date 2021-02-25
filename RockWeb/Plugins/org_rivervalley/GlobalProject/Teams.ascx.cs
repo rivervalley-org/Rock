@@ -18,7 +18,7 @@ namespace RockWeb.Plugins.org_rivervalley.GlobalProject
     [Description( "Global Project Teams" )]
     public partial class TeamsBlock : Rock.Web.UI.RockBlock
     {
-		private static readonly string TeamsApiBase = "http://apidev.rivervalley.org/globalproject/teams/";
+		private static readonly string TeamsApiBase = "http://api.rivervalley.org/globalproject/teams/";
 		
 		protected string UserJSON
 		{

@@ -1294,22 +1294,23 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             decimal tenure = 0;
             
             DateTime tenureDate = currentOffer.TenureDate;
-            days = (today - tenureDate).TotalDays;
+			DateTime effectiveDate = currentOffer.EffectiveDate;
+            days = (effectiveDate - tenureDate).TotalDays;
             years = (days / 365);
             tenure = System.Convert.ToDecimal(years);
 
             //ldebugString.Text += "<br> Tenure " + tenure;
 
             string qryString = "";
-            qryString = qryString + "SELECT dv.Id, dv.Value, av1.ValueAsNumeric, av2.ValueAsNumeric, av3.Value ";
+            qryString = qryString + "SELECT dv.Id, dv.Value, CAST(av1.Value AS Decimal), CAST(av2.ValueAsNumeric AS Decimal), av3.Value ";
             qryString = qryString + "FROM DefinedValue dv ";
             qryString = qryString + "LEFT OUTER JOIN AttributeValue av1 ON dv.Id = av1.EntityId ";
             qryString = qryString + "LEFT OUTER JOIN AttributeValue av2 ON dv.Id = av2.EntityId ";
             qryString = qryString + "LEFT OUTER JOIN AttributeValue av3 ON dv.Id = av3.EntityId ";
             qryString = qryString + "WHERE dv.DefinedTypeId = 148 ";
-            qryString = qryString + "AND av1.AttributeId = 2151 ";
-            qryString = qryString + "AND av2.AttributeId = 2152 ";
-            qryString = qryString + "AND av3.AttributeId = 2153 ";
+            qryString = qryString + "AND av1.AttributeId = 2151 "; // Min Years
+            qryString = qryString + "AND av2.AttributeId = 2152 "; // Max Years
+            qryString = qryString + "AND av3.AttributeId = 2153 "; // Days Per Month
             qryString = qryString + "ORDER BY dv.[Order]";
 
             SqlConnection conn = new SqlConnection(connString);

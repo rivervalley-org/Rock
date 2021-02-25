@@ -164,7 +164,7 @@ namespace RockWeb.Plugins.org_rivervalley.Utility
                         service.Add(groupMember);
                         groupMember.GroupId = groupId;
                         groupMember.PersonId = id;
-                        groupMember.GroupRoleId = 163;
+                        groupMember.GroupRoleId = 34; //163;
                         rockContext.SaveChanges();
 
                         lOutputString.Text = cPerson.FullName + " was added to group " + mGroup.Name;

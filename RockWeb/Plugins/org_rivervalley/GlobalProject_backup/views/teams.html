@@ -1,0 +1,124 @@
+
+<div class="tb-container global" ng-cloak>
+
+	<div class="tb-nav">
+		<div class="items lfloat">
+			<a href="teams" class="selected"><span>TEAMS</span></a>
+			<a href="missionaries"><span>MISSIONARIES</span></a>
+			<a href="organizations"><span>ORGANIZATIONS</span></a>
+		</div>
+	</div>
+	
+	<ul class="content teams">
+		<div class="rfloat year-selector">
+			<strong>YEAR</strong>&nbsp;
+			<select ng-model="selectedYear" ng-options="year for year in availableYears track by year">
+				<option value="">Upcoming</option>
+			</select>
+		</div>
+		<div class="clear"></div>
+	
+		<li ng-repeat="team in teams" ng-class-odd="'odd'" ng-class-even="'even'">
+			<div class="pic lfloat">
+				<img ng-src="{{team.Picture}}&height=452" alt="pic" ng-show="team.Picture" />
+			</div>
+			<div class="details">
+				<div class="location lfloat">
+					<a ng-hide="team.HideDetails" href="teams/{{team.ID}}">{{team.Name}}</a>
+					<span ng-show="team.HideDetails">{{team.Name}}</span>
+				</div>
+				
+				<div class="visible-md visible-lg">
+					<div ng-if="team.Status == 'opening'" class="status opening rfloat has-tooltip" onclick="void(0)" tooltip-trigger="mouseenter click"
+						uib-tooltip="Details available at each campus at the Global Project Display. Registration opens at 12noon on Monday.">{{team.StatusText}}</div>
+					<div ng-if="team.Status != 'opening'" class="status {{team.Status}} rfloat">{{team.StatusText}}</div>
+					
+					<div class="month lfloat">{{team.DateMonth}}</div>
+
+					<!-- using a dummy onclick handler to make mobile Safari recognize it as clickable, to display the tooltip -->
+					<div class="level lfloat has-tooltip" onclick="void(0)" uib-tooltip="{{team.LevelDescription}}" tooltip-trigger="mouseenter click" ng-if="team.Level > 0">
+						(level {{team.Level}})
+					</div>
+				</div>
+
+				<div class="hidden-md hidden-lg">
+					<div class="clear"></div>
+
+					<span class="month">{{team.DateMonth}}</span>
+
+					<!-- using a dummy onclick handler to make mobile Safari recognize it as clickable, to display the tooltip -->
+					<span class="level has-tooltip" onclick="void(0)" uib-tooltip="{{team.LevelDescription}}" tooltip-trigger="mouseenter click" ng-if="team.Level > 0">
+						(level {{team.Level}})
+					</span>
+
+					<div ng-if="team.Status == 'opening'" class="status opening has-tooltip" onclick="void(0)" tooltip-trigger="mouseenter click"
+						uib-tooltip="Details available at each campus at the Global Project Display. Registration opens at 12noon on Monday.">{{team.StatusText}}</div>
+					<div ng-if="team.Status != 'opening'" class="status {{team.Status}}">{{team.StatusText}}</div>
+				</div>
+				
+				<div class="clear"></div>
+				<div class="description">{{team.Description}}</div>
+				
+				<ul class="footer-actions rfloat">
+					<li ng-hide="team.HideDetails">
+						<a class="btn btn-link" href="teams/{{team.ID}}">
+							Details
+						</a>
+					</li>
+					<li ng-show="team.InformationalVideoLink && team.Status == 'open'">
+						<a class="btn btn-link" href="{{InformationalVideoLink}}" target="_blank">
+							Info Video
+						</a>
+					</li>
+					<li ng-show="team.JoinLink">
+						<a class="btn btn-primary" href="{{team.JoinLink}}">
+							Join
+						</a>
+					</li>
+					<li ng-show="team.GiveLink">
+						<a class="btn btn-primary" href="{{team.GiveLink}}">
+							Give
+						</a>
+					</li>
+					<li ng-show="team.Status !== 'complete' && (!team.RegistrationStart || team.RegistrationStart.isAfter(oneWeekFromNow))">
+						<a class="btn btn-primary" href="" ng-click="addToInterestList(team)" ng-show="!isInterestedIn(team)">
+							I'm Interested
+						</a>
+						<a class="btn btn-primary" href="" ng-click="removeFromInterestList(team)" ng-show="isInterestedIn(team)">
+							I'm Not Interested
+						</a>
+					</li>
+					<li ng-show="team.FacebookAlbum">
+						<a class="btn btn-link" href="{{team.FacebookAlbum.Link}}" target="_blank">
+							Pictures
+						</a>
+					</li>
+				</ul>
+				
+				<div m-thumbnail-scroller ng-if="team.FacebookAlbum" class="mThumbnailScroller lfloat hidden-phone">
+					<ul magnific="gallery">
+						<li ng-repeat="photo in team.FacebookAlbum.Photos" class="mTSThumbContainer">
+							<a href="{{photo.LargeImage}}" class="fb-img-link" title="{{team.FullName}}">
+								<img ng-src="{{photo.SmallImage}}" style="height: 44px" class="mTSThumb" />
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</li>
+
+		<div class="rfloat">
+			<a href="upcoming-teams" style="color: #EC6A59">
+				Printable view of upcoming teams
+			</a>
+		</div>
+
+		<div class="clear"></div>
+
+		<p style="text-align: center">
+			<span ng-if="!selectedYear">Listed above are teams currently open and upcoming (within the next 45 days) for registration.<br/></span>
+			Select a year <a href="#" style="color: #EC6A59" onclick="jQuery(window).scrollTop(0); return false;">at the top</a> to see more teams.
+		</p>
+	</ul>
+	
+</div>

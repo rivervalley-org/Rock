@@ -1,8 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="Teams.ascx.cs" Inherits="RockWeb.Plugins.org_rivervalley.GlobalProject.TeamsBlock" %>
 
-<link rel="stylesheet" href="<%= TemplateSourceDirectory %>/bower_components/magnific-popup/dist/magnific-popup.css" />
-<link rel="stylesheet" href="<%= TemplateSourceDirectory %>/scripts/vendor/jquery.mThumbnailScroller/2.0.0/jquery.mThumbnailScroller.css">
-<link rel="stylesheet" href="<%= TemplateSourceDirectory %>/styles/main.css">
+<link rel="stylesheet" href="<%= TemplateSourceDirectory %>/dist/main.css">
 
 <div ng-app="globalProjectApp">
 	<!-- loading indicator -->
@@ -45,35 +43,4 @@
 	};
 </script>
 
-<script src="<%= TemplateSourceDirectory %>/bower_components/angular/angular.min.js"></script>
-<script src="<%= TemplateSourceDirectory %>/bower_components/angular-resource/angular-resource.min.js"></script>
-<script src="<%= TemplateSourceDirectory %>/bower_components/angular-cookies/angular-cookies.min.js"></script>
-<script src="<%= TemplateSourceDirectory %>/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
-<script src="<%= TemplateSourceDirectory %>/bower_components/angular-route/angular-route.min.js"></script>
-<script src="<%= TemplateSourceDirectory %>/bower_components/moment/min/moment.min.js"></script>
-<script src="<%= TemplateSourceDirectory %>/bower_components/twix/dist/twix.min.js"></script>
-<script src="<%= TemplateSourceDirectory %>/bower_components/angular-touch/angular-touch.min.js"></script>
-<script src="<%= TemplateSourceDirectory %>/bower_components/fastclick/lib/fastclick.js"></script>
-<script src="<%= TemplateSourceDirectory %>/bower_components/magnific-popup/dist/jquery.magnific-popup.min.js"></script>
-<script src="<%= TemplateSourceDirectory %>/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-<script src="<%= TemplateSourceDirectory %>/scripts/vendor/jquery.mThumbnailScroller/2.0.0/jquery.mThumbnailScroller.min.js"></script>
-
-<script src="<%= TemplateSourceDirectory %>/scripts/modules/dirPagination.js"></script>
-<script src="<%= TemplateSourceDirectory %>/scripts/core/core.module.js"></script>
-<script src="<%= TemplateSourceDirectory %>/scripts/core/directives/magnificPopup.js"></script>
-<script src="<%= TemplateSourceDirectory %>/scripts/core/directives/mThumbnailScroller.js"></script>
-<script src="<%= TemplateSourceDirectory %>/scripts/core/directives/ngEnter.js"></script>
-<script src="<%= TemplateSourceDirectory %>/scripts/core/directives/routeLoadingIndicator.js"></script>
-<script src="<%= TemplateSourceDirectory %>/scripts/core/services/mission-service.js"></script>
-<script src="<%= TemplateSourceDirectory %>/scripts/core/services/team-service.js"></script>
-<script src="<%= TemplateSourceDirectory %>/scripts/core/services/title-service.js"></script>
-<script src="<%= TemplateSourceDirectory %>/scripts/core/services/interest-list-service.js"></script>
-<script src="<%= TemplateSourceDirectory %>/scripts/teams/teams.module.js"></script>
-<script src="<%= TemplateSourceDirectory %>/scripts/teams/controllers/team.js"></script>
-<script src="<%= TemplateSourceDirectory %>/scripts/teams/controllers/teams.js"></script>
-<script src="<%= TemplateSourceDirectory %>/scripts/teams/controllers/teams-upcoming.js"></script>
-<script src="<%= TemplateSourceDirectory %>/scripts/app.js"></script>
-<script src="<%= TemplateSourceDirectory %>/scripts/controllers/missionaries.js"></script>
-<script src="<%= TemplateSourceDirectory %>/scripts/controllers/missionary.js"></script>
-<script src="<%= TemplateSourceDirectory %>/scripts/controllers/organizations.js"></script>
-<script src="<%= TemplateSourceDirectory %>/scripts/controllers/organization.js"></script>
+<script src="<%= TemplateSourceDirectory %>/dist/main.js"></script>
