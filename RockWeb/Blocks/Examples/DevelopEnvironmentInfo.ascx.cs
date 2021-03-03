@@ -19,10 +19,12 @@ using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Web;
 using System.Web.UI;
 using Rock;
 using Rock.Data;
 using Rock.Model;
+using Rock.Utility;
 using Rock.Web;
 using Rock.Web.Cache;
 using Rock.Web.UI;
@@ -124,11 +126,18 @@ Path: {2}",
                 var blockTypeCache = BlockTypeCache.Get( blockType.Guid );
                 if ( !blockTypeCache.IsInstancePropertiesVerified )
                 {
-                    var blockControl = this.Page.LoadControl( blockTypeCache.Path ) as RockBlock;
-                    int? blockEntityTypeId = EntityTypeCache.Get( typeof( Block ) ).Id;
-                    Rock.Attribute.Helper.UpdateAttributes( blockControl.GetType(), blockEntityTypeId, "BlockTypeId", blockType.Id.ToString(), rockContext );
-                    blockTypeCache.MarkInstancePropertiesVerified( true );
-                    System.Diagnostics.Debug.WriteLine( string.Format( "[{1}ms] BlockType {0}", blockTypeCache.Path, stopwatch.Elapsed.TotalMilliseconds ) );
+                    try
+                    {
+                        var blockControl = this.Page.LoadControl( blockTypeCache.Path ) as RockBlock;
+                        int? blockEntityTypeId = EntityTypeCache.Get( typeof( Block ) ).Id;
+                        Rock.Attribute.Helper.UpdateAttributes( blockControl.GetType(), blockEntityTypeId, "BlockTypeId", blockType.Id.ToString(), rockContext );
+                        blockTypeCache.MarkInstancePropertiesVerified( true );
+                        System.Diagnostics.Debug.WriteLine( string.Format( "[{1}ms] BlockType {0}", blockTypeCache.Path, stopwatch.Elapsed.TotalMilliseconds ) );
+                    }
+                    catch (Exception ex)
+                    {
+                        ExceptionLogService.LogException( ex );
+                    }
                 }
 
                 stopwatch.Stop();
@@ -143,7 +152,7 @@ Path: {2}",
 
                     url = string.Format( "http{0}://{1}:{2}{3}",
                         ( Request.IsSecureConnection ) ? "s" : "",
-                        Request.Url.Host,
+                        WebRequestHelper.GetHostNameFromRequest( HttpContext.Current ),
                         Request.Url.Port,
                         ResolveRockUrl( new PageReference( page.Id ).BuildUrl() ) );
 

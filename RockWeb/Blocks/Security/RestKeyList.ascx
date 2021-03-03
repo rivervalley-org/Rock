@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="RestKeyList.ascx.cs" Inherits="RockWeb.Blocks.Security.RestKeyList" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="RestKeyList.ascx.cs" Inherits="RockWeb.Blocks.Security.RestKeyList" %>
 
 <asp:UpdatePanel ID="upnlRestKeys" runat="server">
     <ContentTemplate>
@@ -27,6 +27,11 @@
                                 <HeaderTemplate>Key</HeaderTemplate>
                                 <ItemTemplate>
                                     <asp:Label ID="lblKey" runat="server" />
+                                </ItemTemplate>
+                            </Rock:RockTemplateField>
+                            <Rock:RockTemplateField HeaderText="Status" SortExpression="RecordStatusValueId">
+                                <ItemTemplate>
+                                    <asp:Label ID="lblStatus" runat="server" />
                                 </ItemTemplate>
                             </Rock:RockTemplateField>
                             <Rock:DeleteField OnClick="gRestKeyList_Delete" />

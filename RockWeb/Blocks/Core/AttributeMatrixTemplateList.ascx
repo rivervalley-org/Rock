@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="AttributeMatrixTemplateList.ascx.cs" Inherits="RockWeb.Blocks.Core.AttributeMatrixTemplateList" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="AttributeMatrixTemplateList.ascx.cs" Inherits="RockWeb.Blocks.Core.AttributeMatrixTemplateList" %>
 
 <asp:UpdatePanel ID="upnlContent" runat="server">
     <ContentTemplate>

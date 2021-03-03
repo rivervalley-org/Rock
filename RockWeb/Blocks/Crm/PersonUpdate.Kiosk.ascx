@@ -16,17 +16,17 @@
                     if ($(".js-pnlsearch").is(":visible")) {
 
                         // setup digits buttons
-                        $('.js-pnlsearch .tenkey a.digit').click(function () {
+                        $('.js-pnlsearch .tenkey a.digit').on('click', function () {
                             $phoneNumber = $("input[id$='tbPhone']");
                             $phoneNumber.val($phoneNumber.val() + $(this).html());
                             return false;
                         });
-                        $('.js-pnlsearch .tenkey a.back').click(function () {
+                        $('.js-pnlsearch .tenkey a.back').on('click', function () {
                             $phoneNumber = $("input[id$='tbPhone']");
                             $phoneNumber.val($phoneNumber.val().slice(0, -1));
                             return false;
                         });
-                        $('.js-pnlsearch .tenkey a.clear').click(function () {
+                        $('.js-pnlsearch .tenkey a.clear').on('click', function () {
                             $phoneNumber = $("input[id$='tbPhone']");
                             $phoneNumber.val('');
                             return false;
@@ -182,8 +182,8 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-8">
-                            <asp:LinkButton ID="lbProfileBack" runat="server" OnClick="lbProfileBack_Click" CssClass="btn btn-default btn-kiosk">Back</asp:LinkButton>
-                            <asp:LinkButton ID="lbProfileCancel" runat="server" OnClick="lbProfileCancel_Click" CssClass="btn btn-default btn-kiosk">Cancel</asp:LinkButton>
+                            <asp:LinkButton ID="lbProfileBack" CausesValidation="false" runat="server" OnClick="lbProfileBack_Click" CssClass="btn btn-default btn-kiosk">Back</asp:LinkButton>
+                            <asp:LinkButton ID="lbProfileCancel" CausesValidation="false" runat="server" OnClick="lbProfileCancel_Click" CssClass="btn btn-default btn-kiosk">Cancel</asp:LinkButton>
                         </div>
                     </div>
                 </div>

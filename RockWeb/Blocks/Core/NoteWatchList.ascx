@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="NoteWatchList.ascx.cs" Inherits="RockWeb.Blocks.Core.NoteWatchList" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="NoteWatchList.ascx.cs" Inherits="RockWeb.Blocks.Core.NoteWatchList" %>
 
 <asp:UpdatePanel ID="upnlContent" runat="server">
     <ContentTemplate>

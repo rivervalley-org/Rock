@@ -34,9 +34,22 @@ namespace RockWeb.Blocks.Core
     [DisplayName( "Device Detail" )]
     [Category( "Core" )]
     [Description( "Displays the details of the given device." )]
-    [DefinedValueField( Rock.SystemGuid.DefinedType.MAP_STYLES, "Map Style", "The map theme that should be used for styling the GeoPicker map.", true, false, Rock.SystemGuid.DefinedValue.MAP_STYLE_ROCK )]
+
+    [DefinedValueField( "Map Style",
+        DefinedTypeGuid = Rock.SystemGuid.DefinedType.MAP_STYLES,
+        Description = "The map theme that should be used for styling the GeoPicker map.",
+        IsRequired = true,
+        AllowMultiple = false,
+        DefaultValue = Rock.SystemGuid.DefinedValue.MAP_STYLE_ROCK,
+        Key = AttributeKey.MapStyle )]
+
     public partial class DeviceDetail : RockBlock, IDetailBlock
     {
+        public static class AttributeKey
+        {
+            public const string MapStyle = "MapStyle";
+        }
+
         #region Properties
 
         /// <summary>
@@ -85,6 +98,7 @@ namespace RockWeb.Blocks.Core
             gLocations.Actions.ShowAdd = true;
             gLocations.Actions.AddClick += gLocations_AddClick;
             gLocations.GridRebind += gLocations_GridRebind;
+            geopFence.SelectGeography += geopFence_SelectGeography;
         }
 
         /// <summary>
@@ -100,15 +114,6 @@ namespace RockWeb.Blocks.Core
             if ( !Page.IsPostBack )
             {
                 ShowDetail( PageParameter( "DeviceId" ).AsInteger() );
-            }
-            else
-            {
-                var device = new Device();
-                device.Id = hfDeviceId.ValueAsInt();
-                device.DeviceTypeValueId = hfTypeId.ValueAsInt();
-                device.LoadAttributes();
-                phAttributes.Controls.Clear();
-                Rock.Attribute.Helper.AddEditControls( device, phAttributes, false, BlockValidationGroup );
             }
 
             if ( hfAddLocationId.Value.AsIntegerOrNull().HasValue )
@@ -128,7 +133,7 @@ namespace RockWeb.Blocks.Core
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void Block_BlockUpdated( object sender, EventArgs e )
         {
-            Guid mapStyleValueGuid = GetAttributeValue( "MapStyle" ).AsGuid();
+            Guid mapStyleValueGuid = GetAttributeValue( AttributeKey.MapStyle ).AsGuid();
             geopPoint.MapStyleValueGuid = mapStyleValueGuid;
             geopFence.MapStyleValueGuid = mapStyleValueGuid;
         }
@@ -140,7 +145,9 @@ namespace RockWeb.Blocks.Core
         /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
         protected void btnSave_Click( object sender, EventArgs e )
         {
+            Page.Validate();
             Device device = null;
+            nbGeoFence.Visible = false;
 
             var rockContext = new RockContext();
             var deviceService = new DeviceService( rockContext );
@@ -178,21 +185,34 @@ namespace RockWeb.Blocks.Core
                 device.Name = tbName.Text;
                 device.Description = tbDescription.Text;
                 device.IPAddress = tbIpAddress.Text;
-                device.DeviceTypeValueId = ddlDeviceType.SelectedValueAsInt().Value;
+                device.DeviceTypeValueId = dvpDeviceType.SelectedValueAsInt().Value;
                 device.PrintToOverride = ( PrintTo ) System.Enum.Parse( typeof( PrintTo ), ddlPrintTo.SelectedValue );
                 device.PrinterDeviceId = ddlPrinter.SelectedValueAsInt();
                 device.PrintFrom = ( PrintFrom ) System.Enum.Parse( typeof( PrintFrom ), ddlPrintFrom.SelectedValue );
+                device.IsActive = cbIsActive.Checked;
+                device.HasCamera = cbHasCamera.Checked;
+                device.CameraBarcodeConfigurationType = ddlCameraBarcodeConfigurationType.SelectedValue.ConvertToEnumOrNull<CameraBarcodeConfiguration>();
 
                 if ( device.Location == null )
                 {
                     device.Location = new Location();
                 }
 
+                // Custom validation checking
+                string errorMessage = string.Empty;
+                if ( ! geopFence.IsGeoFenceValid( out errorMessage ) )
+                {
+                    geopFence.RequiredErrorMessage = "error";
+                    nbGeoFence.Visible = true;
+                    nbGeoFence.Text = errorMessage;
+                    return;
+                }
+
                 device.Location.GeoPoint = geopPoint.SelectedValue;
                 device.Location.GeoFence = geopFence.SelectedValue;
 
                 device.LoadAttributes( rockContext );
-                Rock.Attribute.Helper.GetEditValues( phAttributes, device );
+                avcAttributes.GetEditValues( device );
 
                 if ( !device.IsValid || !Page.IsValid )
                 {
@@ -202,7 +222,7 @@ namespace RockWeb.Blocks.Core
 
                 // Remove any deleted locations
                 foreach ( var location in device.Locations
-                    .Where( l =>!Locations.Keys.Contains( l.Id ) )
+                    .Where( l => !Locations.Keys.Contains( l.Id ) )
                     .ToList() )
                 {
                     device.Locations.Remove( location );
@@ -271,6 +291,7 @@ namespace RockWeb.Blocks.Core
             }
 
             SetPrinterSettingsVisibility();
+            SetCameraVisibility();
             UpdateControlsForDeviceType( device );
         }
 
@@ -348,6 +369,25 @@ namespace RockWeb.Blocks.Core
             mdLocationPicker.Hide();
         }
 
+        /// <summary>
+        /// Handles the SelectGeography event of the geopFence control.
+        /// We're doing this to check if the fence they just picked was valid for Rock.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        protected void geopFence_SelectGeography( object sender, EventArgs e )
+        {
+            string message = string.Empty;
+            if ( !geopFence.IsGeoFenceValid( out message ) )
+            {
+                nbGeoFence.Visible = true;
+                nbGeoFence.Text = message;
+            }
+            else
+            {
+                nbGeoFence.Visible = false;
+            }
+        }
         #endregion
 
         #region Methods
@@ -357,8 +397,7 @@ namespace RockWeb.Blocks.Core
         /// </summary>
         private void LoadDropDowns()
         {
-            ddlDeviceType.BindToDefinedType( DefinedTypeCache.Get( new Guid( Rock.SystemGuid.DefinedType.DEVICE_TYPE ) ) );
-            ddlDeviceType.Items.Insert( 0, new ListItem() );
+            dvpDeviceType.DefinedTypeId = DefinedTypeCache.Get( new Guid( Rock.SystemGuid.DefinedType.DEVICE_TYPE ) ).Id;
 
             ddlPrintFrom.BindToEnum<PrintFrom>();
 
@@ -370,6 +409,8 @@ namespace RockWeb.Blocks.Core
 
             ddlPrinter.DataBind();
             ddlPrinter.Items.Insert( 0, new ListItem() );
+
+            ddlCameraBarcodeConfigurationType.BindToEnum<CameraBarcodeConfiguration>( true );
         }
 
         /// <summary>
@@ -406,13 +447,17 @@ namespace RockWeb.Blocks.Core
             tbName.Text = device.Name;
             tbDescription.Text = device.Description;
             tbIpAddress.Text = device.IPAddress;
-            ddlDeviceType.SetValue( device.DeviceTypeValueId );
+            cbIsActive.Checked = device.IsActive;
+            dvpDeviceType.SetValue( device.DeviceTypeValueId );
             ddlPrintTo.SetValue( device.PrintToOverride.ConvertToInt().ToString() );
             ddlPrinter.SetValue( device.PrinterDeviceId );
             ddlPrintFrom.SetValue( device.PrintFrom.ConvertToInt().ToString() );
+            cbHasCamera.Checked = device.HasCamera;
+            ddlCameraBarcodeConfigurationType.SetValue( device.CameraBarcodeConfigurationType.HasValue ? device.CameraBarcodeConfigurationType.ConvertToInt().ToString() : null );
 
             SetPrinterVisibility();
             SetPrinterSettingsVisibility();
+            SetCameraVisibility();
 
             Guid? orgLocGuid = GlobalAttributesCache.Get().GetValue( "OrganizationAddress" ).AsGuidOrNull();
             if ( orgLocGuid.HasValue )
@@ -447,7 +492,7 @@ namespace RockWeb.Blocks.Core
 
             BindLocations();
 
-            Guid mapStyleValueGuid = GetAttributeValue( "MapStyle" ).AsGuid();
+            Guid mapStyleValueGuid = GetAttributeValue( AttributeKey.MapStyle ).AsGuid();
             geopPoint.MapStyleValueGuid = mapStyleValueGuid;
             geopFence.MapStyleValueGuid = mapStyleValueGuid;
 
@@ -472,10 +517,12 @@ namespace RockWeb.Blocks.Core
             tbName.ReadOnly = readOnly;
             tbDescription.ReadOnly = readOnly;
             tbIpAddress.ReadOnly = readOnly;
-            ddlDeviceType.Enabled = !readOnly;
+            cbIsActive.Enabled = !readOnly;
+            dvpDeviceType.Enabled = !readOnly;
             ddlPrintTo.Enabled = !readOnly;
             ddlPrinter.Enabled = !readOnly;
             ddlPrintFrom.Enabled = !readOnly;
+            SetHighlightLabelVisibility( device, readOnly );
 
             btnSave.Visible = !readOnly;
         }
@@ -486,13 +533,12 @@ namespace RockWeb.Blocks.Core
         /// <param name="device">The device.</param>
         private void AddAttributeControls( Device device )
         {
-            int typeId = ddlDeviceType.SelectedValueAsInt() ?? 0;
+            int typeId = dvpDeviceType.SelectedValueAsInt() ?? 0;
             hfTypeId.Value = typeId.ToString();
 
             device.DeviceTypeValueId = typeId;
             device.LoadAttributes();
-            phAttributes.Controls.Clear();
-            Rock.Attribute.Helper.AddEditControls( device, phAttributes, true, BlockValidationGroup );
+            avcAttributes.AddEditControls( device );
         }
 
         /// <summary>
@@ -511,7 +557,7 @@ namespace RockWeb.Blocks.Core
         {
             bool isValid = true;
             int currentDeviceId = int.Parse( hfDeviceId.Value );
-            int? deviceTypeId = ddlDeviceType.SelectedValueAsInt().Value;
+            int? deviceTypeId = dvpDeviceType.SelectedValueAsInt().Value;
             if ( !string.IsNullOrWhiteSpace( tbIpAddress.Text ) && deviceTypeId != null )
             {
                 var rockContext = new RockContext();
@@ -526,12 +572,35 @@ namespace RockWeb.Blocks.Core
         }
 
         /// <summary>
+        /// Sets the highlight label visibility.
+        /// </summary>
+        /// <param name="device">The group.</param>
+        private void SetHighlightLabelVisibility( Device device, bool readOnly )
+        {
+            if ( readOnly )
+            {
+                // if we are just showing readonly detail of the group, we don't have to worry about the highlight labels changing while editing on the client
+                hlInactive.Visible = !device.IsActive;
+            }
+            else
+            {
+                // in edit mode, the labels will have javascript handle if/when they are shown
+                hlInactive.Visible = true;
+            }
+
+            if ( device.IsActive )
+            {
+                hlInactive.Style[HtmlTextWriterStyle.Display] = "none";
+            }
+        }
+
+        /// <summary>
         /// Decide if the printer settings section should be hidden.
         /// </summary>
         private void SetPrinterSettingsVisibility()
         {
             var checkinKioskDeviceTypeId = DefinedValueCache.Get( Rock.SystemGuid.DefinedValue.DEVICE_TYPE_CHECKIN_KIOSK.AsGuid() ).Id;
-            pnlPrinterSettings.Visible = ddlDeviceType.SelectedValue.AsIntegerOrNull() == checkinKioskDeviceTypeId;
+            pnlPrinterSettings.Visible = dvpDeviceType.SelectedValue.AsIntegerOrNull() == checkinKioskDeviceTypeId;
         }
 
         /// <summary>
@@ -541,6 +610,18 @@ namespace RockWeb.Blocks.Core
         {
             var printTo = ( PrintTo ) System.Enum.Parse( typeof( PrintTo ), ddlPrintTo.SelectedValue );
             ddlPrinter.Visible = printTo != PrintTo.Location;
+        }
+
+        /// <summary>
+        /// Decide if the camera settings section should be hidden.
+        /// </summary>
+        private void SetCameraVisibility()
+        {
+            var deviceTypeValueId = dvpDeviceType.SelectedValue.AsInteger();
+            var deviceType = DefinedValueCache.Get( deviceTypeValueId );
+
+            cbHasCamera.Visible = deviceType != null && deviceType.GetAttributeValue( "core_SupportsCameras" ).AsBoolean();
+            ddlCameraBarcodeConfigurationType.Visible = deviceType != null && deviceType.GetAttributeValue( "core_SupportsCameras" ).AsBoolean();
         }
 
         /// <summary>

@@ -39,10 +39,23 @@ namespace RockWeb.Blocks.Crm
     [Category( "CRM > PhotoRequest" )]
     [Description( "Allows uploaded photos to be verified." )]
 
-    [IntegerField( "Photo Size", "The size of the preview photo. Default is 65.", false, 65 )]
+    [IntegerField(
+        "Photo Size",
+        Key = AttributeKey.PhotoSize,
+        Description = "The size of the preview photo. Default is 65.",
+        IsRequired = false,
+        DefaultIntegerValue = 65,
+        Order = 0 )]
 
     public partial class PhotoVerify : Rock.Web.UI.RockBlock
     {
+        #region Attribute Keys
+        private static class AttributeKey
+        {
+            public const string PhotoSize = "PhotoSize";
+        }
+        #endregion Attribute Keys
+
         #region Fields
 
         // used for private variables
@@ -74,12 +87,12 @@ namespace RockWeb.Blocks.Crm
         {
             base.OnInit( e );
 
-            RockPage.AddCSSLink( ResolveRockUrl( "~/Styles/fluidbox.css" ) );
-            RockPage.AddScriptLink( ResolveRockUrl( "~/Scripts/imagesloaded.min.js" ) );
-            RockPage.AddScriptLink( ResolveRockUrl( "~/Scripts/jquery.fluidbox.min.js" ) );
+            RockPage.AddCSSLink( "~/Styles/fluidbox.css" );
+            RockPage.AddScriptLink( "~/Scripts/imagesloaded.min.js" );
+            RockPage.AddScriptLink( "~/Scripts/jquery.fluidbox.min.js" );
 
 
-            size = GetAttributeValue( "PhotoSize" ).AsInteger();
+            size = GetAttributeValue( AttributeKey.PhotoSize ).AsInteger();
             if ( size <= 0 )
             {
                 size = 65;
@@ -170,7 +183,7 @@ namespace RockWeb.Blocks.Crm
                     }
 
                     Literal lStatus = e.Row.FindControl( "lStatus" ) as Literal;
-                    var bStatus = e.Row.FindControl( "bStatus" ) as Badge;
+                    var bStatus = e.Row.FindControl( "bStatus" ) as Rock.Web.UI.Controls.Badge;
 
                     switch ( groupMember.GroupMemberStatus )
                     {

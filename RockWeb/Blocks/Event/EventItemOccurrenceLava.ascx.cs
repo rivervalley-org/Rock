@@ -1,4 +1,4 @@
-﻿// <copyright>
+// <copyright>
 // Copyright by the Spark Development Network
 //
 // Licensed under the Rock Community License (the "License");
@@ -156,20 +156,17 @@ namespace RockWeb.Blocks.Event
                     Dictionary<int, string> registrationStatusLabels = new Dictionary<int, string>();
                     foreach ( var registrationInstance in eventItemOccurrence.Linkages.Select( a => a.RegistrationInstance ).Distinct().ToList() )
                     {
-                        var maxRegistrantCount = 0;
+                        int? maxRegistrantCount = null;
                         var currentRegistrationCount = 0;
 
                         if ( registrationInstance != null )
                         {
-                            if ( registrationInstance.MaxAttendees != 0 )
-                            {
-                                maxRegistrantCount = registrationInstance.MaxAttendees;
-                            }
+                            maxRegistrantCount = registrationInstance.MaxAttendees;
                         }
 
 
                         int? registrationSpotsAvailable = null;
-                        if ( maxRegistrantCount != 0 )
+                        if ( maxRegistrantCount.HasValue )
                         {
                             currentRegistrationCount = new RegistrationRegistrantService( rockContext ).Queryable().AsNoTracking()
                                                             .Where( r =>

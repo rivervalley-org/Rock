@@ -11,7 +11,7 @@
         base.OnInit( e );
     }
 
-</script><html class="no-js">
+</script><html>
 <head runat="server">
     <meta charset="utf-8">
     <title></title>
@@ -26,7 +26,6 @@
 	<!-- Included CSS Files -->
     <link rel="stylesheet" href="<%# ResolveRockUrl("~~/Styles/bootstrap.css", true) %>"/>
 	<link rel="stylesheet" href="<%# ResolveRockUrl("~~/Styles/theme.css", true) %>"/>
-    <script src="<%# ResolveRockUrl("~/Scripts/modernizr.js" ) %>" ></script>
 
     <asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
 
@@ -45,7 +44,7 @@
                         <Rock:Lava ID="Header" runat="server">
                         <a class="navbar-brand" href="{{ 'Global' | Attribute:'PublicApplicationRoot' }}">
                         {%- if CurrentPage.Layout.Site.SiteLogoBinaryFileId != '' -%}
-                            <img src="/GetImage.ashx?id={{ CurrentPage.Layout.Site.SiteLogoBinaryFileId }}" alt="{{ 'Global' | Attribute:'OrganizationName' }}" class="logo">
+                            <img src="{{ '~' | ResolveRockUrl }}GetImage.ashx?id={{ CurrentPage.Layout.Site.SiteLogoBinaryFileId }}" alt="{{ 'Global' | Attribute:'OrganizationName' }}" class="logo">
                         {%- else -%}
                             {{ 'Global' | Attribute:'OrganizationName' }}
                         {%- endif -%}

@@ -35,9 +35,19 @@ namespace RockWeb.Blocks.Core
     [DisplayName( "Defined Value List" )]
     [Category( "Core" )]
     [Description( "Block for viewing values for a defined type." )]
-    [DefinedTypeField( "Defined Type", "If a Defined Type is set, only its Defined Values will be displayed (regardless of the querystring parameters).", required: false, defaultValue: "" )]
+
+    [DefinedTypeField( "Defined Type",
+        Description = "If a Defined Type is set, only its Defined Values will be displayed (regardless of the querystring parameters).",
+        IsRequired = false,
+        Key = AttributeKey.DefinedType )]
+
     public partial class DefinedValueList : RockBlock, ISecondaryBlock, ICustomGridColumns
     {
+        public static class AttributeKey
+        {
+            public const string DefinedType = "DefinedType";
+        }
+
         #region Private Variables
 
         private DefinedType _definedType = null;
@@ -100,13 +110,13 @@ namespace RockWeb.Blocks.Core
             int definedTypeId = 0;
 
             // A configured defined type takes precedence over any definedTypeId param value that is passed in.
-            if ( Guid.TryParse( GetAttributeValue( "DefinedType" ), out definedTypeGuid ) )
+            if ( Guid.TryParse( GetAttributeValue( AttributeKey.DefinedType ), out definedTypeGuid ) )
             {
                 definedTypeId = DefinedTypeCache.Get( definedTypeGuid ).Id;
             }
             else
             {
-                definedTypeId = PageParameter( "definedTypeId" ).AsInteger();
+                definedTypeId = PageParameter( "DefinedTypeId" ).AsInteger();
             }
 
             return definedTypeId;
@@ -129,13 +139,6 @@ namespace RockWeb.Blocks.Core
                 else
                 {
                     pnlList.Visible = false;
-                }
-            }
-            else
-            {
-                if ( !string.IsNullOrWhiteSpace( hfDefinedValueId.Value ) )
-                {
-                    ShowDefinedValueEdit( hfDefinedValueId.ValueAsInt(), false );
                 }
             }
         }
@@ -245,8 +248,8 @@ namespace RockWeb.Blocks.Core
 
             definedValue.Value = tbValueName.Text;
             definedValue.Description = tbValueDescription.Text;
-            definedValue.LoadAttributes();
-            Rock.Attribute.Helper.GetEditValues( phDefinedValueAttributes, definedValue );
+            definedValue.IsActive = cbValueActive.Checked;
+            avcDefinedValueAttributes.GetEditValues( definedValue );
 
             if ( !Page.IsValid )
             {
@@ -314,7 +317,7 @@ namespace RockWeb.Blocks.Core
 
             var rockContext = new RockContext();
             var definedValueService = new DefinedValueService( rockContext );
-            var definedValues = definedValueService.Queryable().Where( a => a.DefinedTypeId == definedTypeId ).OrderBy( a => a.Order ).ThenBy( a => a.Value);
+            var definedValues = definedValueService.Queryable().Where( a => a.DefinedTypeId == definedTypeId ).OrderBy( a => a.Order ).ThenBy( a => a.Value );
             var changedIds = definedValueService.Reorder( definedValues.ToList(), e.OldIndex, e.NewIndex );
             rockContext.SaveChanges();
             BindDefinedValuesGrid();
@@ -357,6 +360,7 @@ namespace RockWeb.Blocks.Core
                         var attributeCache = Rock.Web.Cache.AttributeCache.Get( attribute.Id );
                         if ( attributeCache != null )
                         {
+                            boundField.HeaderStyle.HorizontalAlign = attributeCache.FieldType.Field.AlignValue;
                             boundField.ItemStyle.HorizontalAlign = attributeCache.FieldType.Field.AlignValue;
                         }
 
@@ -387,10 +391,10 @@ namespace RockWeb.Blocks.Core
         /// <param name="valueId">The value id.</param>
         protected void gDefinedValues_ShowEdit( int valueId )
         {
-            ShowDefinedValueEdit( valueId, true );
+            ShowDefinedValueEdit( valueId );
         }
 
-        private void ShowDefinedValueEdit( int valueId, bool setValues )
+        private void ShowDefinedValueEdit( int valueId )
         {
             var definedType = DefinedTypeCache.Get( hfDefinedTypeId.ValueAsInt() );
             DefinedValue definedValue;
@@ -415,16 +419,14 @@ namespace RockWeb.Blocks.Core
                 }
             }
 
-            if ( setValues )
-            {
-                hfDefinedValueId.SetValue( definedValue.Id );
-                tbValueName.Text = definedValue.Value;
-                tbValueDescription.Text = definedValue.Description;
-            }
 
-            definedValue.LoadAttributes();
-            phDefinedValueAttributes.Controls.Clear();
-            Rock.Attribute.Helper.AddEditControls( definedValue, phDefinedValueAttributes, setValues, modalValue.ValidationGroup );
+            hfDefinedValueId.SetValue( definedValue.Id );
+            tbValueName.Text = definedValue.Value;
+            tbValueDescription.Text = definedValue.Description;
+            cbValueActive.Checked = definedValue.IsActive;
+
+            avcDefinedValueAttributes.ValidationGroup = modalValue.ValidationGroup;
+            avcDefinedValueAttributes.AddEditControls( definedValue );
 
             modalValue.Show();
         }

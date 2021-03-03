@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ShortLink.ascx.cs" Inherits="RockWeb.Blocks.Administration.ShortLink" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ShortLink.ascx.cs" Inherits="RockWeb.Blocks.Administration.ShortLink" %>
 
 <asp:UpdatePanel ID="upPanel" runat="server">
     <ContentTemplate>

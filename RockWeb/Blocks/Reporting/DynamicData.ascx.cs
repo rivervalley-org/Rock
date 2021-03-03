@@ -42,12 +42,13 @@ namespace RockWeb.Blocks.Reporting
 
     // Block Properties
     [BooleanField( "Update Page", "If True, provides fields for updating the parent page's Name and Description", true, "", 0 )]
+    [LavaCommandsField( "Enabled Lava Commands", "The Lava commands that should be enabled for this dynamic data block.", false, "", "", 1 )]
 
     // Custom Settings
     [CodeEditorField( "Query", "The query to execute. Note that if you are providing SQL you can add items from the query string using Lava like {{ QueryParmName }}.", CodeEditorMode.Sql, CodeEditorTheme.Rock, 400, false, "", "CustomSetting" )]
     [TextField( "Query Params", "Parameters to pass to query", false, "", "CustomSetting" )]
     [BooleanField( "Stored Procedure", "Is the query a stored procedure?", false, "CustomSetting" )]
-    [TextField( "Url Mask", "The Url to redirect to when a row is clicked", false, "", "CustomSetting" )]
+    [TextField( "Url Mask", "The URL to redirect to when a row is clicked", false, "", "CustomSetting" )]
     [BooleanField( "Show Columns", "Should the 'Columns' specified below be the only ones shown (vs. the only ones hidden)", false, "CustomSetting" )]
     [TextField( "Columns", "The columns to hide or show", false, "", "CustomSetting" )]
     [CodeEditorField( "Formatted Output", "Optional formatting to apply to the returned results.  If left blank, a grid will be displayed. Example: {% for row in rows %} {{ row.FirstName }}<br/> {% endfor %}",
@@ -317,6 +318,7 @@ namespace RockWeb.Blocks.Reporting
             errorMessage = string.Empty;
 
             string query = GetAttributeValue( "Query" );
+            string enabledLavaCommands = this.GetAttributeValue( "EnabledLavaCommands" );
             if ( !string.IsNullOrWhiteSpace( query ) )
             {
                 try
@@ -329,7 +331,7 @@ namespace RockWeb.Blocks.Reporting
                         mergeFields.AddOrReplace( pageParam.Key, pageParam.Value );
                     }
 
-                    query = query.ResolveMergeFields( mergeFields );
+                    query = query.ResolveMergeFields( mergeFields, enabledLavaCommands );
 
                     var parameters = GetParameters();
                     int timeout = GetAttributeValue( "Timeout" ).AsInteger();
@@ -434,6 +436,7 @@ namespace RockWeb.Blocks.Reporting
         private void BuildControls( bool setData )
         {
             var showGridFilterControls = GetAttributeValue( "ShowGridFilter" ).AsBoolean();
+            string enabledLavaCommands = this.GetAttributeValue( "EnabledLavaCommands" );
             string errorMessage = string.Empty;
 
             // get just the schema of the data until we actually need the data
@@ -463,6 +466,15 @@ namespace RockWeb.Blocks.Reporting
 
                         // Formatted output needs all the rows, so get the data regardless of the setData parameter
                         var dataSet = GetData( out errorMessage);
+
+                        if ( dataSet == null || dataSet.Tables == null )
+                        {
+
+                            nbError.Text = errorMessage;
+                            nbError.Visible = true;
+                            return;
+                        }
+
                         foreach ( DataTable dataTable in dataSet.Tables )
                         {
                             var dropRows = new List<DataRowDrop>();
@@ -488,7 +500,7 @@ namespace RockWeb.Blocks.Reporting
                     // set page title
                     if ( !string.IsNullOrWhiteSpace( GetAttributeValue( "PageTitleLava" ) ) )
                     {
-                        string title = GetAttributeValue( "PageTitleLava" ).ResolveMergeFields( mergeFields );
+                        string title = GetAttributeValue( "PageTitleLava" ).ResolveMergeFields( mergeFields, enabledLavaCommands );
 
                         RockPage.BrowserTitle = title;
                         RockPage.PageTitle = title;
@@ -585,7 +597,7 @@ namespace RockWeb.Blocks.Reporting
                     }
                     else
                     {
-                        phContent.Controls.Add( new LiteralControl( formattedOutput.ResolveMergeFields( mergeFields ) ) );
+                        phContent.Controls.Add( new LiteralControl( formattedOutput.ResolveMergeFields( mergeFields, enabledLavaCommands ) ) );
                     }
                 }
 
@@ -750,7 +762,7 @@ namespace RockWeb.Blocks.Reporting
                         if ( dateObj is DateTime )
                         {
                             DateTime dateTime = ( DateTime ) dateObj;
-                            if ( dateTime.TimeOfDay.Seconds != 0 )
+                            if ( dateTime.TimeOfDay.TotalSeconds != 0 )
                             {
                                 bf = new DateTimeField();
                                 break;

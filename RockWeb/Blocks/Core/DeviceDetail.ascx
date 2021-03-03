@@ -10,7 +10,7 @@
     <ContentTemplate>
 
         <%-- Edit Device Details --%>
-        <asp:Panel ID="pnlDetails" CssClass="panel panel-block" runat="server" Visible="false">
+        <asp:Panel ID="pnlDetails" CssClass="panel panel-block js-device-panel" runat="server" Visible="false">
 
             <asp:HiddenField ID="hfDeviceId" runat="server" />
             <asp:HiddenField ID="hfTypeId" runat="server" />
@@ -20,6 +20,10 @@
                     <i class="fa fa-desktop"></i>
                     <asp:Literal ID="lActionTitle" runat="server" />
                 </h1>
+
+                <div class="panel-labels">
+                    <Rock:HighlightLabel ID="hlInactive" runat="server" CssClass="js-inactivedevice-label" LabelType="Danger" Text="Inactive" />
+                </div>
             </div>
             <Rock:PanelDrawer ID="pdAuditDetails" runat="server"></Rock:PanelDrawer>
             <div class="panel-body">
@@ -36,6 +40,7 @@
                             <Rock:DataTextBox ID="tbName" runat="server" SourceTypeName="Rock.Model.Device, Rock" PropertyName="Name" Required="true" />
                         </div>
                         <div class="col-md-6">
+                            <Rock:RockCheckBox ID="cbIsActive" runat="server" CssClass="js-isactivedevice" Text="Active" />
                         </div>
                     </div>
 
@@ -48,12 +53,13 @@
                     <div class="row">
                         <div class="col-md-6">
                             <Rock:DataTextBox ID="tbIpAddress" runat="server" SourceTypeName="Rock.Model.Device, Rock" PropertyName="IPAddress"
-                                Help="What is the IP Address or Hostname of this device? Note: when using Hostname to match a Check-in Kiosk to this device, the 'Enable Kiosk Match By Name' setting on the check-in Admin block must be enabled." LabelTextFromPropertyName="false" Label="IPAddress / Hostname" />
+                                Help="What is the IP Address or Hostname of this device? Note: when using Hostname to match a Check-in Kiosk to this device, the 'Enable Kiosk Match By Name' setting on the check-in Admin block must be enabled." LabelTextFromPropertyName="false" Label="IP Address / Hostname" />
                             <asp:CustomValidator ID="cvIpAddress" runat="server" ControlToValidate="tbIpAddress" Display="None"
                                 OnServerValidate="cvIpAddress_ServerValidate" ErrorMessage="IP address must be unique to the device type." />
-                            <Rock:DataDropDownList ID="ddlDeviceType" runat="server" SourceTypeName="Rock.Model.Device, Rock" PropertyName="DeviceTypeValueId" Required="true" Label="Device Type"
+                            <Rock:DefinedValuePicker ID="dvpDeviceType" runat="server" SourceTypeName="Rock.Model.Device, Rock" PropertyName="DeviceTypeValueId" Required="true" Label="Device Type"
                                 Help="What type of device is this?" AutoPostBack="true" OnSelectedIndexChanged="ddlDeviceType_SelectedIndexChanged" />
                             <Rock:GeoPicker ID="geopPoint" runat="server" Required="false" Label="Point" DrawingMode="Point" />
+                            <Rock:NotificationBox ID="nbGeoFence" runat="server" NotificationBoxType="Danger" />
                             <Rock:GeoPicker ID="geopFence" runat="server" Required="false" Label="Geo-fence" DrawingMode="Polygon" />
                         </div>
                         <div class="col-md-6">
@@ -72,12 +78,15 @@
                                         Help="When this device needs to print, where should the printing be initiated from?  Either the server running Rock, or from the actual client device? " />
                                 </div>
                             </asp:Panel>
+
+                            <Rock:RockCheckBox ID="cbHasCamera" runat="server" Label="Has Camera" Help="Determines if the device has a camera. This is currently only used for reading barcodes on iPads." />
+                            <Rock:RockDropDownList ID="ddlCameraBarcodeConfigurationType" runat="server" Label="Camera Barcode Configuration" Help="If set, this value will override any block setting for check-in." />
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-6">
-                            <Rock:DynamicPlaceholder ID="phAttributes" runat="server" />
+                            <Rock:AttributeValuesContainer ID="avcAttributes" runat="server" />
                         </div>
                     </div>
 
@@ -107,6 +116,32 @@
                 <Rock:LocationItemPicker ID="locationPicker" runat="server" Label="Check-in Location" ValidationGroup="Location" />
             </Content>
         </Rock:ModalDialog>
+
+          <script>
+
+            Sys.Application.add_load(function () {
+                function setIsActiveControls(activeCheckbox) {
+
+                    var $inactiveLabel = $(activeCheckbox).closest(".js-device-panel").find('.js-inactivedevice-label');
+                    if ($(activeCheckbox).is(':checked')) {
+                        $inactiveLabel.hide();
+                    }
+                    else {
+                        $inactiveLabel.show();
+                    }
+                }
+
+                $('.js-isactivedevice').on('click', function () {
+                    setIsActiveControls(this);
+                });
+
+                  $('.js-isactivedevice').each(function (i) {
+                    setIsActiveControls(this);
+                });
+
+            });
+
+        </script>
 
     </ContentTemplate>
 </asp:UpdatePanel>

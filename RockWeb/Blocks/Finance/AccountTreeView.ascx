@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="AccountTreeView.ascx.cs" Inherits="RockWeb.Blocks.Finance.AccountTreeView" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="AccountTreeView.ascx.cs" Inherits="RockWeb.Blocks.Finance.AccountTreeView" %>
 
 <asp:UpdatePanel ID="upAccountType" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
     <ContentTemplate>
@@ -123,18 +123,8 @@
                             window.location = locationUrl;
                         }
                     })
-                    .on('rockTree:rendered', function () {
-
+                    .on('rockTree:rendered rockTree:expand rockTree:collapse rockTree:itemClicked', function () {
                         // update viewport height
-                        resizeScrollbar(scrollbCategory);
-
-                    })
-                    .on('rockTree:collapse', function ()
-                    {
-                        resizeScrollbar(scrollbCategory);
-                    })
-                    .on('rockTree:expand', function ()
-                    {
                         resizeScrollbar(scrollbCategory);
                     })
                     .rockTree({

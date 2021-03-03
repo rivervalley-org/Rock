@@ -45,6 +45,9 @@
                                             <Rock:DatePicker ID="dtpStartDate" runat="server" Label="Next Gift" />
                                         </div>
 
+                                        <Rock:DataTextBox ID="tbSummary" runat="server" Label="Summary" TextMode="MultiLine" Rows="2" ValidateRequestMode="Disabled"
+                                            SourceTypeName="Rock.Model.FinancialScheduledTransaction, Rock" PropertyName="Summary" />
+
                                     </fieldset>
                                 </div>
                             </div>
@@ -55,7 +58,7 @@
                         <div class="col-md-6">
                         <% } %>
 
-                            <div class="panel panel-default contribution-payment">
+                            <div runat="server" ID="divPaymentMethodModification" class="panel panel-default contribution-payment">
 
                                 <asp:HiddenField ID="hfPaymentTab" runat="server" />
 
@@ -141,7 +144,7 @@
                                 <Rock:TermDescription runat="server" />
                                 <asp:Repeater ID="rptAccountListConfirmation" runat="server">
                                     <ItemTemplate>
-                                        <Rock:TermDescription ID="tdAddress" runat="server" Term='<%# Eval("Name") %>' Description='<%# this.FormatValueAsCurrency((decimal)Eval("Amount")) %>' />
+                                        <Rock:TermDescription ID="tdAccount" runat="server" Term='<%# Eval("PublicName") %>' Description='<%# this.FormatValueAsCurrency((decimal)Eval("Amount")) %>' />
                                     </ItemTemplate>
                                 </asp:Repeater>
                                 <Rock:TermDescription ID="tdTotal" runat="server" Term="Total" />

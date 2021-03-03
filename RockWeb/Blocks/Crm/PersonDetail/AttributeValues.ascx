@@ -1,12 +1,12 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="AttributeValues.ascx.cs" Inherits="RockWeb.Blocks.Crm.PersonDetail.AttributeValues" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="AttributeValues.ascx.cs" Inherits="RockWeb.Blocks.Crm.PersonDetail.AttributeValues" %>
 
 <asp:UpdatePanel ID="upnlAttributeValues" runat="server" class="context-attribute-values">
 <ContentTemplate>
 
     <section class="panel panel-persondetails">
         <div class="panel-heading rollover-container clearfix">
-            <h3 class="panel-title pull-left">
-                <asp:Literal ID="lCategoryName" runat="server" />
+            <h3 class="panel-title pull-left"><i runat="server" id="iIcon"></i>
+                <asp:Literal ID="lTitle" runat="server" />
             </h3>
             <div class="actions rollover-item pull-right">
                 <asp:LinkButton ID="lbOrder" runat="server" CssClass="edit" ToolTip="Order Attributes" OnClick="lbOrder_Click" CausesValidation="false"><i class="fa fa-bars"></i></asp:LinkButton>

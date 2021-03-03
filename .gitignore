@@ -1,5 +1,3 @@
-/*.suo
-*.sln.GhostDoc.xml
+*.suo
 .vs
-
-Packages/*
+/packages/*.*

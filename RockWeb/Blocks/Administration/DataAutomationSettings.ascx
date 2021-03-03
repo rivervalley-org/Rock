@@ -73,6 +73,15 @@
 
                             <div class="clearfix margin-b-lg">
                                 <div class="pull-left" style="width: 40px">
+                                    <Rock:RockCheckBox ID="cbSiteLogin" runat="server" />
+                                </div>
+                                <div class="pull-left">
+                                    <Rock:NumberBox ID="nbSiteLogin" runat="server" Label="Any family member has logged into Rock in the last" AppendText="days" CssClass="input-width-md" Text="90" />
+                                </div>
+                            </div>
+
+                            <div class="clearfix margin-b-lg">
+                                <div class="pull-left" style="width: 40px">
                                     <Rock:RockCheckBox ID="cbPrayerRequest" runat="server" />
                                 </div>
                                 <div class="pull-left">
@@ -148,9 +157,9 @@
                     <Rock:PanelWidget ID="pwInactivatePeople" runat="server" Title="Inactivate People">
 
                         <Rock:NotificationBox ID="nbInactiveWarning" runat="server" NotificationBoxType="Warning" Title="Important" Text="<p>
-                            Enabling this option could result in a large number of people being inactivated in your database. Everyone in your database that meets all of the selected criteria below will be inactivated. Unselecting any of the criteria
-                            below, will result in <em>more</em> people being inactivated. Each person that is inactivated will also be inactivated in most of the groups that they belong to as well. This includes the security roles they belong to.
-                            Once these people have been inactivated in their groups, there is no process to revert that change.</p>"/>
+                            Enabling this option could result in a large number of people being inactivated in your database. Everyone in your database that does not meet all of the selected criteria below will be inactivated. Unselecting any of the options
+                            below, will result in more people being inactivated. Each person that is inactivated will also be inactivated in most of the groups that they belong to as well. This includes the security roles they belong to.
+                            Once these people have been inactivated in their groups, there is no process to revert that change."/>
 
                         <Rock:RockCheckBox ID="cbInactivatePeople" runat="server"
                             Label="Enable" Text="Enable the automatic inactivating of individuals who are currently active and who meet all of the following selected criteria."
@@ -192,6 +201,15 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+
+                            <div class="clearfix margin-b-lg">
+                                <div class="pull-left" style="width: 40px">
+                                    <Rock:RockCheckBox ID="cbNoSiteLogin" runat="server" />
+                                </div>
+                                <div class="pull-left">
+                                    <Rock:NumberBox ID="nbNoSiteLogin" runat="server" Label="No family member has logged into Rock in the last" AppendText="days" CssClass="input-width-md" Text="500" />
                                 </div>
                             </div>
 

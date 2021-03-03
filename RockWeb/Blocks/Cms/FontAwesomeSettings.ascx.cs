@@ -1,4 +1,4 @@
-﻿// <copyright>
+// <copyright>
 // Copyright by the Spark Development Network
 //
 // Licensed under the Rock Community License (the "License");
@@ -100,7 +100,7 @@ namespace RockWeb.Blocks.Cms
             {
                 if ( FontAwesomeHelper.ExtractFontAwesomePackage( fupFontAwesomeProPackage.BinaryFileId.Value ) )
                 {
-                    updateMessages.Add( "Font Awesome Pro Package updated" );
+                    updateMessages.Add( "Font Awesome Pro Package updated. In order to use any new fonts you must manually re-compile the theme where they will be used" );
                     btnInstallUpdate.Text = "Update";
                 }
             }

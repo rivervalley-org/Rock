@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="PersonalDeviceInteractions.ascx.cs" Inherits="RockWeb.Blocks.Crm.PersonalDeviceInteractions" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="PersonalDeviceInteractions.ascx.cs" Inherits="RockWeb.Blocks.Crm.PersonalDeviceInteractions" %>
 
 <asp:UpdatePanel ID="upPersonBadge" runat="server">
     <ContentTemplate>

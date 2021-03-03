@@ -388,7 +388,7 @@ namespace RockWeb.Blocks.Event
                         var lbtnLinkExisting = new LinkButton();
                         lbtnLinkExisting.Attributes.Add( "title", "Link Existing Item" );
                         lbtnLinkExisting.CommandArgument = contentChannel.Id.ToString();
-                        lbtnLinkExisting.CssClass = "btn btn-default btn-sm";
+                        lbtnLinkExisting.CssClass = "btn btn-grid-action btn-default btn-sm";
                         lbtnLinkExisting.Click += lbtnLinkExisting_Click;
                         lbtnLinkExisting.Text = "<i class='fa fa-link'></i>";
 
@@ -450,7 +450,7 @@ namespace RockWeb.Blocks.Event
                     foreach ( var attributeCache in new AttributeService( rockContext ).GetByEntityTypeQualifier(entityTypeId, "ContentChannelTypeId", qualifier, false )
                         .Where( a => a.IsGridColumn )
                         .OrderBy( a => a.Order )
-                        .ThenBy( a => a.Name ).ToCacheAttributeList() )
+                        .ThenBy( a => a.Name ).ToAttributeCacheList() )
                     {
                         string dataFieldExpression = attributeCache.Key;
                         bool columnExists = gItems.Columns.OfType<AttributeField>().FirstOrDefault( a => a.DataField.Equals( dataFieldExpression ) ) != null;

@@ -336,6 +336,20 @@
             LayoutDefinedValueGuid option must be specified
             </exception>
         </member>
+        <member name="M:Rock.StatementGenerator.Rest.StatementGeneratorFinancialTransactionsController.RenderGivingStatement(System.Int32,System.Nullable{System.Int32},System.Nullable{System.Int32})">
+            <summary>
+            Render and return a giving statement for the specified person.
+            </summary>
+            <param name="personId">The person that made the contributions. That person's entire
+            giving group is included, which is typically the family.</param>
+            <param name="year">The contribution calendar year. ie 2019.  If not specified, the
+            current year is assumed.</param>
+            <param name="templateDefinedValueId">The defined value ID that represents the statement
+            lava. This defined value should be a part of the Statement Generator Lava Template defined
+            type. If no ID is specified, then the default defined value for the Statement Generator Lava
+            Template defined type is assumed.</param>
+            <returns>The rendered giving statement</returns>
+        </member>
         <member name="M:Rock.StatementGenerator.Rest.StatementGeneratorFinancialTransactionsController.GetFinancialPledgeQuery(Rock.StatementGenerator.StatementGeneratorOptions,Rock.Data.RockContext,System.Boolean)">
             <summary>
             Gets the financial pledge query.
@@ -621,12 +635,17 @@
         </member>
         <member name="F:Rock.StatementGenerator.OrderBy.PostalCode">
             <summary>
-            The postal code
+            Sort by postal code
             </summary>
         </member>
         <member name="F:Rock.StatementGenerator.OrderBy.LastName">
             <summary>
-            The last name
+            Sort by Last Name
+            </summary>
+        </member>
+        <member name="F:Rock.StatementGenerator.OrderBy.PageCount">
+            <summary>
+            Sort by Page Count
             </summary>
         </member>
         <member name="T:Rock.StatementGenerator.SystemGuid.Attribute">

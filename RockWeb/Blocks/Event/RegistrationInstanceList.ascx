@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="RegistrationInstanceList.ascx.cs" Inherits="RockWeb.Blocks.Event.RegistrationInstanceList" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="RegistrationInstanceList.ascx.cs" Inherits="RockWeb.Blocks.Event.RegistrationInstanceList" %>
 
 <asp:UpdatePanel ID="upList" runat="server">
     <ContentTemplate>
@@ -8,8 +8,8 @@
             <div id="pnlInstances" runat="server">
 
                 <div class="panel panel-block">
-                
-                    <div class="panel-heading clearfix">
+
+                    <div class="panel-heading">
                         <h1 class="panel-title pull-left">
                             <i class="fa fa-file-o"></i>
                             <asp:Literal ID="lHeading" runat="server" Text="Instances" />

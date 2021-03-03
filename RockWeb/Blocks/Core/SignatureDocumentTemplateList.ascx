@@ -1,11 +1,11 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="SignatureDocumentTemplateList.ascx.cs" Inherits="RockWeb.Blocks.Core.SignatureDocumentTemplateList" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="SignatureDocumentTemplateList.ascx.cs" Inherits="RockWeb.Blocks.Core.SignatureDocumentTemplateList" %>
 
 <asp:UpdatePanel ID="upSettings" runat="server">
     <ContentTemplate>
-        
+
         <div class="panel panel-block">
             <div class="panel-heading">
-                <h1 class="panel-title"><i class="fa fa fa-pencil-square-o"></i> Document Templates</h1>
+                <h1 class="panel-title"><i class="fa fa-file-signature"></i> Document Templates</h1>
             </div>
             <div class="panel-body">
                 <div class="grid grid-panel">

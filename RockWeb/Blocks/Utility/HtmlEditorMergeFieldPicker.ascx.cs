@@ -1,4 +1,4 @@
-// <copyright>
+﻿// <copyright>
 // Copyright by the Spark Development Network
 //
 // Licensed under the Rock Community License (the "License");
@@ -41,7 +41,7 @@ namespace RockWeb.Blocks.Utility
         {
             base.OnInit( e );
 
-            string mergeFields = PageParameter( "mergeFields" );
+            string mergeFields = PageParameter( "MergeFields" );
 
             if ( !string.IsNullOrEmpty( mergeFields ) )
             {

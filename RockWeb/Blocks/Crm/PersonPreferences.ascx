@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="PersonPreferences.ascx.cs" Inherits="RockWeb.Blocks.Crm.PersonPreferences" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="PersonPreferences.ascx.cs" Inherits="RockWeb.Blocks.Crm.PersonPreferences" %>
 
 <asp:UpdatePanel ID="upnlContent" runat="server">
     <ContentTemplate>

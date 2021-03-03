@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ProcessOnly.ascx.cs" Inherits="RockWeb.Blocks.CheckIn.ProcessOnly" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ProcessOnly.ascx.cs" Inherits="RockWeb.Blocks.CheckIn.ProcessOnly" %>
 
 <asp:UpdatePanel ID="upContent" runat="server">
 <ContentTemplate>

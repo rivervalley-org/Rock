@@ -112,7 +112,7 @@ namespace org.rivervalley.JobOffers.Migrations
             REFERENCES [dbo].[PersonAlias] ([Id])
             ALTER TABLE [dbo].[_org_rivervalley_JobOffer_Details] CHECK CONSTRAINT [FK_dbo._org_rivervalley_JobOffer_Details_dbo.PersonAlias_ModifiedByPersonAliasId]
 
-            /// Foreign Key added after the fact for RetireEmplPercentageValue
+            -- Foreign Key added after the fact for RetireEmplPercentageValue
 
         ");
 

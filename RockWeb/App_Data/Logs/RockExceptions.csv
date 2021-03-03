@@ -1,8 +1,95 @@
-2/25/2021 8:54:24 AM,System.Exception,"Unable to load MEF from com.centralaz.RoomManagement, Version=1.3.2.0, Culture=neutral, PublicKeyToken=null",""
-2/25/2021 8:54:24 AM,System.IO.FileNotFoundException,"Could not load file or assembly 'itextsharp, Version=4.1.6.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca' or one of its dependencies. The system cannot find the file specified.",""
-2/25/2021 8:54:54 AM,System.Exception,"Unable to load MEF from com.centralaz.RoomManagement, Version=1.3.2.0, Culture=neutral, PublicKeyToken=null",""
-2/25/2021 8:54:54 AM,System.IO.FileNotFoundException,"Could not load file or assembly 'itextsharp, Version=4.1.6.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca' or one of its dependencies. The system cannot find the file specified.",""
-2/25/2021 9:26:18 AM,System.Data.SqlClient.SqlException,"Conversion failed when converting from a character string to uniqueidentifier.","   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+10/8/2020 1:45:15 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+10/8/2020 1:45:15 PM,System.Exception,"Unable to load MEF from Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null",""
+10/8/2020 1:45:15 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+10/8/2020 1:50:09 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+10/8/2020 1:50:09 PM,System.Exception,"Unable to load MEF from Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null",""
+10/8/2020 1:50:09 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+10/8/2020 1:51:52 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+10/8/2020 1:51:52 PM,System.Exception,"Unable to load MEF from Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null",""
+10/8/2020 1:51:52 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+1/22/2021 12:08:00 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+1/22/2021 12:08:00 PM,System.Exception,"Unable to load MEF from Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null",""
+1/22/2021 12:08:00 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+1/22/2021 12:08:29 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+1/22/2021 12:08:29 PM,System.Exception,"Unable to load MEF from Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null",""
+1/22/2021 12:08:29 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+1/22/2021 1:02:02 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+1/22/2021 1:02:02 PM,System.Exception,"Unable to load MEF from Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null",""
+1/22/2021 1:02:02 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+1/22/2021 1:32:38 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+1/22/2021 1:32:38 PM,System.Exception,"Unable to load MEF from Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null",""
+1/22/2021 1:32:38 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+1/22/2021 1:42:41 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+1/22/2021 1:42:41 PM,System.Exception,"Unable to load MEF from Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null",""
+1/22/2021 1:42:41 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+1/22/2021 3:05:29 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+1/22/2021 3:05:29 PM,System.Exception,"Unable to load MEF from Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null",""
+1/22/2021 3:05:29 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+1/22/2021 3:23:08 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+1/22/2021 3:23:08 PM,System.Exception,"Unable to load MEF from Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null",""
+1/22/2021 3:23:08 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+1/26/2021 2:49:59 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+1/26/2021 2:49:59 PM,System.Exception,"Unable to load MEF from Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null",""
+1/26/2021 2:49:59 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+1/27/2021 1:22:42 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+1/27/2021 1:22:42 PM,System.Exception,"Unable to load MEF from Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null",""
+1/27/2021 1:22:42 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+1/27/2021 1:36:48 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+1/27/2021 1:36:48 PM,System.Exception,"Unable to load MEF from Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null",""
+1/27/2021 1:36:48 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+1/28/2021 3:02:17 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+1/28/2021 3:02:17 PM,System.Exception,"Unable to load MEF from Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null",""
+1/28/2021 3:02:17 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+1/28/2021 3:03:14 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+1/28/2021 3:03:14 PM,System.Exception,"Unable to load MEF from Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null",""
+1/28/2021 3:03:14 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+2/3/2021 2:00:04 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+2/3/2021 2:00:04 PM,System.Exception,"Unable to load MEF from Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null",""
+2/3/2021 2:00:04 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+2/3/2021 3:02:43 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+2/3/2021 3:02:43 PM,System.Exception,"Unable to load MEF from Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null",""
+2/3/2021 3:02:43 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+3/3/2021 1:23:07 PM,System.Data.SqlClient.SqlException,"Incorrect syntax near '/'.","   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean async, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at Rock.Plugin.Migration.Sql(String sql)
+   at org.rivervalley.JobOffers.Migrations.CreateDb.Up() in C:\Development\Misc\RiverValley-Rock\org.rivervalley.JobOffers\Migrations\001_CreateDb.cs:line 20
+   at Rock.WebStartup.RockApplicationStartupHelper.RunPluginMigrations(Assembly pluginAssembly)"
+3/3/2021 1:23:07 PM,Rock.WebStartup.RockStartupException,"##Plugin Migration error occurred in 1, CreateDb##:Incorrect syntax near '/'.","   at Rock.WebStartup.RockApplicationStartupHelper.RunPluginMigrations(Assembly pluginAssembly)
+   at Rock.WebStartup.RockApplicationStartupHelper.MigratePlugins()
+   at Rock.WebStartup.RockApplicationStartupHelper.RunApplicationStartup()
+   at Rock.AssemblyInitializer.Initialize()
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   at System.Reflection.RuntimeMethodInfo.UnsafeInvokeInternal(Object obj, Object[] parameters, Object[] arguments)
+   at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at System.Web.Compilation.BuildManager.InvokePreStartInitMethodsCore(ICollection`1 methods, Func`1 setHostingEnvironmentCultures)
+   at System.Web.Compilation.BuildManager.InvokePreStartInitMethods(ICollection`1 methods)
+   at System.Web.Compilation.BuildManager.CallPreStartInitMethods(String preStartInitListPath, Boolean& isRefAssemblyLoaded)
+   at System.Web.Compilation.BuildManager.ExecutePreAppStart()
+   at System.Web.Hosting.HostingEnvironment.Initialize(ApplicationManager appManager, IApplicationHost appHost, IConfigMapPathFactory configMapPathFactory, HostingEnvironmentParameters hostingParameters, PolicyLevel policyLevel, Exception appDomainCreationException)
+   at System.Web.Hosting.HostingEnvironment.Initialize(ApplicationManager appManager, IApplicationHost appHost, IConfigMapPathFactory configMapPathFactory, HostingEnvironmentParameters hostingParameters, PolicyLevel policyLevel)
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean async, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at Rock.Plugin.Migration.Sql(String sql)
+   at org.rivervalley.JobOffers.Migrations.CreateDb.Up() in C:\Development\Misc\RiverValley-Rock\org.rivervalley.JobOffers\Migrations\001_CreateDb.cs:line 20
+   at Rock.WebStartup.RockApplicationStartupHelper.RunPluginMigrations(Assembly pluginAssembly)"
+3/3/2021 1:23:07 PM,System.Data.SqlClient.SqlException,"Incorrect syntax near '/'.","   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean async, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at Rock.Plugin.Migration.Sql(String sql)
+   at org.rivervalley.JobOffers.Migrations.CreateDb.Up() in C:\Development\Misc\RiverValley-Rock\org.rivervalley.JobOffers\Migrations\001_CreateDb.cs:line 20
+   at Rock.WebStartup.RockApplicationStartupHelper.RunPluginMigrations(Assembly pluginAssembly)"
+3/3/2021 1:23:07 PM,System.Data.SqlClient.SqlException,"Conversion failed when converting from a character string to uniqueidentifier.","   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
    at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
    at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
    at System.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean async, Int32 timeout, Boolean asyncWrite)
@@ -11,9 +98,21 @@
    at Rock.Plugin.Migration.Sql(String sql)
    at Rock.Data.MigrationHelper.AddPage(String parentPageGuid, String layoutGuid, String name, String description, String guid, String iconCssClass, String insertAfterPageGuid)
    at org.secc.Microframe.Migrations.PagesMigration.Up()
-   at RockWeb.Global.MigratePlugins(RockContext rockContext) in c:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 713"
-2/25/2021 9:26:18 AM,System.Exception,"Plugin Migration error occurred in org.secc.Microframe, PagesMigration","   at RockWeb.Global.MigratePlugins(RockContext rockContext) in c:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 733"
-2/25/2021 9:26:18 AM,System.Data.SqlClient.SqlException,"Conversion failed when converting from a character string to uniqueidentifier.","   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Rock.WebStartup.RockApplicationStartupHelper.RunPluginMigrations(Assembly pluginAssembly)"
+3/3/2021 1:23:07 PM,Rock.WebStartup.RockStartupException,"##Plugin Migration error occurred in 2, PagesMigration##:Conversion failed when converting from a character string to uniqueidentifier.","   at Rock.WebStartup.RockApplicationStartupHelper.RunPluginMigrations(Assembly pluginAssembly)
+   at Rock.WebStartup.RockApplicationStartupHelper.MigratePlugins()
+   at Rock.WebStartup.RockApplicationStartupHelper.RunApplicationStartup()
+   at Rock.AssemblyInitializer.Initialize()
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   at System.Reflection.RuntimeMethodInfo.UnsafeInvokeInternal(Object obj, Object[] parameters, Object[] arguments)
+   at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at System.Web.Compilation.BuildManager.InvokePreStartInitMethodsCore(ICollection`1 methods, Func`1 setHostingEnvironmentCultures)
+   at System.Web.Compilation.BuildManager.InvokePreStartInitMethods(ICollection`1 methods)
+   at System.Web.Compilation.BuildManager.CallPreStartInitMethods(String preStartInitListPath, Boolean& isRefAssemblyLoaded)
+   at System.Web.Compilation.BuildManager.ExecutePreAppStart()
+   at System.Web.Hosting.HostingEnvironment.Initialize(ApplicationManager appManager, IApplicationHost appHost, IConfigMapPathFactory configMapPathFactory, HostingEnvironmentParameters hostingParameters, PolicyLevel policyLevel, Exception appDomainCreationException)
+   at System.Web.Hosting.HostingEnvironment.Initialize(ApplicationManager appManager, IApplicationHost appHost, IConfigMapPathFactory configMapPathFactory, HostingEnvironmentParameters hostingParameters, PolicyLevel policyLevel)
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
    at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
    at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
    at System.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean async, Int32 timeout, Boolean asyncWrite)
@@ -22,8 +121,8 @@
    at Rock.Plugin.Migration.Sql(String sql)
    at Rock.Data.MigrationHelper.AddPage(String parentPageGuid, String layoutGuid, String name, String description, String guid, String iconCssClass, String insertAfterPageGuid)
    at org.secc.Microframe.Migrations.PagesMigration.Up()
-   at RockWeb.Global.MigratePlugins(RockContext rockContext) in c:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 713"
-2/25/2021 9:30:57 AM,System.Data.SqlClient.SqlException,"Conversion failed when converting from a character string to uniqueidentifier.","   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Rock.WebStartup.RockApplicationStartupHelper.RunPluginMigrations(Assembly pluginAssembly)"
+3/3/2021 1:23:07 PM,System.Data.SqlClient.SqlException,"Conversion failed when converting from a character string to uniqueidentifier.","   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
    at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
    at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
    at System.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean async, Int32 timeout, Boolean asyncWrite)
@@ -32,9 +131,99 @@
    at Rock.Plugin.Migration.Sql(String sql)
    at Rock.Data.MigrationHelper.AddPage(String parentPageGuid, String layoutGuid, String name, String description, String guid, String iconCssClass, String insertAfterPageGuid)
    at org.secc.Microframe.Migrations.PagesMigration.Up()
-   at RockWeb.Global.MigratePlugins(RockContext rockContext) in c:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 713"
-2/25/2021 9:30:57 AM,System.Exception,"Plugin Migration error occurred in org.secc.Microframe, PagesMigration","   at RockWeb.Global.MigratePlugins(RockContext rockContext) in c:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 733"
-2/25/2021 9:30:57 AM,System.Data.SqlClient.SqlException,"Conversion failed when converting from a character string to uniqueidentifier.","   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Rock.WebStartup.RockApplicationStartupHelper.RunPluginMigrations(Assembly pluginAssembly)"
+3/3/2021 1:23:10 PM,System.TypeLoadException,"Could not load type 'Rock.Rest.Controllers.PersonBadgesController' from assembly 'Rock.Rest, Version=1.11.2.1, Culture=neutral, PublicKeyToken=null'.",""
+3/3/2021 1:23:10 PM,System.Exception,"Unable to load MEF from com.bricksandmortarstudio.checkinextensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",""
+3/3/2021 1:23:10 PM,System.TypeLoadException,"Could not load type 'Rock.Rest.Controllers.PersonBadgesController' from assembly 'Rock.Rest, Version=1.11.2.1, Culture=neutral, PublicKeyToken=null'.",""
+3/3/2021 1:23:10 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+3/3/2021 1:23:10 PM,System.Exception,"Unable to load MEF from Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null",""
+3/3/2021 1:23:10 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+3/3/2021 1:23:20 PM,System.IO.FileLoadException,"Could not load file or assembly 'Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' or one of its dependencies. The located assembly's manifest definition does not match the assembly reference. (Exception from HRESULT: 0x80131040)","   at Rock.Rest.WebApiConfig.Register(HttpConfiguration config)
+   at System.Web.Http.GlobalConfiguration.Configure(Action`1 configurationCallback)
+   at RockWeb.Global.Application_Start(Object sender, EventArgs e) in C:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 164"
+3/3/2021 1:23:20 PM,Rock.WebStartup.RockStartupException,"Error occurred during application startup:Could not load file or assembly 'Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' or one of its dependencies. The located assembly's manifest definition does not match the assembly reference. (Exception from HRESULT: 0x80131040)","   at RockWeb.Global.Application_Start(Object sender, EventArgs e) in C:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 164
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   at System.Reflection.RuntimeMethodInfo.UnsafeInvokeInternal(Object obj, Object[] parameters, Object[] arguments)
+   at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at System.Reflection.MethodBase.Invoke(Object obj, Object[] parameters)
+   at System.Web.HttpApplication.InvokeMethodWithAssert(MethodInfo method, Int32 paramCount, Object eventSource, EventArgs eventArgs)
+   at System.Web.HttpApplication.ProcessSpecialRequest(HttpContext context, MethodInfo method, Int32 paramCount, Object eventSource, EventArgs eventArgs, HttpSessionState session)
+   at System.Web.HttpApplicationFactory.EnsureAppStartCalledForIntegratedMode(HttpContext context, HttpApplication app)
+   at System.Web.HttpApplication.RegisterEventSubscriptionsWithIIS(IntPtr appContext, HttpContext context, MethodInfo[] handlers)
+   at System.Web.HttpApplication.InitSpecial(HttpApplicationState state, MethodInfo[] handlers, IntPtr appContext, HttpContext context)
+   at System.Web.HttpApplicationFactory.GetSpecialApplicationInstance(IntPtr appContext, HttpContext context)
+   at System.Web.Hosting.PipelineRuntime.InitializeApplication(IntPtr appContext)
+   at Rock.Rest.WebApiConfig.Register(HttpConfiguration config)
+   at System.Web.Http.GlobalConfiguration.Configure(Action`1 configurationCallback)
+   at RockWeb.Global.Application_Start(Object sender, EventArgs e) in C:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 164"
+3/3/2021 1:23:20 PM,System.IO.FileLoadException,"Could not load file or assembly 'Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' or one of its dependencies. The located assembly's manifest definition does not match the assembly reference. (Exception from HRESULT: 0x80131040)","   at Rock.Rest.WebApiConfig.Register(HttpConfiguration config)
+   at System.Web.Http.GlobalConfiguration.Configure(Action`1 configurationCallback)
+   at RockWeb.Global.Application_Start(Object sender, EventArgs e) in C:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 164"
+3/3/2021 1:24:41 PM,System.TypeLoadException,"Could not load type 'Rock.Rest.Controllers.PersonBadgesController' from assembly 'Rock.Rest, Version=1.11.2.1, Culture=neutral, PublicKeyToken=null'.",""
+3/3/2021 1:24:41 PM,System.Exception,"Unable to load MEF from com.bricksandmortarstudio.checkinextensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",""
+3/3/2021 1:24:41 PM,System.TypeLoadException,"Could not load type 'Rock.Rest.Controllers.PersonBadgesController' from assembly 'Rock.Rest, Version=1.11.2.1, Culture=neutral, PublicKeyToken=null'.",""
+3/3/2021 1:24:43 PM,System.IO.FileLoadException,"Could not load file or assembly 'Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' or one of its dependencies. The located assembly's manifest definition does not match the assembly reference. (Exception from HRESULT: 0x80131040)","   at Rock.Rest.WebApiConfig.Register(HttpConfiguration config)
+   at System.Web.Http.GlobalConfiguration.Configure(Action`1 configurationCallback)
+   at RockWeb.Global.Application_Start(Object sender, EventArgs e) in C:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 164"
+3/3/2021 1:24:43 PM,Rock.WebStartup.RockStartupException,"Error occurred during application startup:Could not load file or assembly 'Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' or one of its dependencies. The located assembly's manifest definition does not match the assembly reference. (Exception from HRESULT: 0x80131040)","   at RockWeb.Global.Application_Start(Object sender, EventArgs e) in C:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 164
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   at System.Reflection.RuntimeMethodInfo.UnsafeInvokeInternal(Object obj, Object[] parameters, Object[] arguments)
+   at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at System.Reflection.MethodBase.Invoke(Object obj, Object[] parameters)
+   at System.Web.HttpApplication.InvokeMethodWithAssert(MethodInfo method, Int32 paramCount, Object eventSource, EventArgs eventArgs)
+   at System.Web.HttpApplication.ProcessSpecialRequest(HttpContext context, MethodInfo method, Int32 paramCount, Object eventSource, EventArgs eventArgs, HttpSessionState session)
+   at System.Web.HttpApplicationFactory.EnsureAppStartCalledForIntegratedMode(HttpContext context, HttpApplication app)
+   at System.Web.HttpApplication.RegisterEventSubscriptionsWithIIS(IntPtr appContext, HttpContext context, MethodInfo[] handlers)
+   at System.Web.HttpApplication.InitSpecial(HttpApplicationState state, MethodInfo[] handlers, IntPtr appContext, HttpContext context)
+   at System.Web.HttpApplicationFactory.GetSpecialApplicationInstance(IntPtr appContext, HttpContext context)
+   at System.Web.Hosting.PipelineRuntime.InitializeApplication(IntPtr appContext)
+   at Rock.Rest.WebApiConfig.Register(HttpConfiguration config)
+   at System.Web.Http.GlobalConfiguration.Configure(Action`1 configurationCallback)
+   at RockWeb.Global.Application_Start(Object sender, EventArgs e) in C:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 164"
+3/3/2021 1:24:43 PM,System.IO.FileLoadException,"Could not load file or assembly 'Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' or one of its dependencies. The located assembly's manifest definition does not match the assembly reference. (Exception from HRESULT: 0x80131040)","   at Rock.Rest.WebApiConfig.Register(HttpConfiguration config)
+   at System.Web.Http.GlobalConfiguration.Configure(Action`1 configurationCallback)
+   at RockWeb.Global.Application_Start(Object sender, EventArgs e) in C:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 164"
+3/3/2021 1:28:11 PM,System.Data.SqlClient.SqlException,"Incorrect syntax near '/'.","   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean async, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at Rock.Plugin.Migration.Sql(String sql)
+   at org.rivervalley.JobOffers.Migrations.CreateDb.Up() in C:\Development\Misc\RiverValley-Rock\org.rivervalley.JobOffers\Migrations\001_CreateDb.cs:line 20
+   at Rock.WebStartup.RockApplicationStartupHelper.RunPluginMigrations(Assembly pluginAssembly)"
+3/3/2021 1:28:11 PM,Rock.WebStartup.RockStartupException,"##Plugin Migration error occurred in 1, CreateDb##:Incorrect syntax near '/'.","   at Rock.WebStartup.RockApplicationStartupHelper.RunPluginMigrations(Assembly pluginAssembly)
+   at Rock.WebStartup.RockApplicationStartupHelper.MigratePlugins()
+   at Rock.WebStartup.RockApplicationStartupHelper.RunApplicationStartup()
+   at Rock.AssemblyInitializer.Initialize()
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   at System.Reflection.RuntimeMethodInfo.UnsafeInvokeInternal(Object obj, Object[] parameters, Object[] arguments)
+   at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at System.Web.Compilation.BuildManager.InvokePreStartInitMethodsCore(ICollection`1 methods, Func`1 setHostingEnvironmentCultures)
+   at System.Web.Compilation.BuildManager.InvokePreStartInitMethods(ICollection`1 methods)
+   at System.Web.Compilation.BuildManager.CallPreStartInitMethods(String preStartInitListPath, Boolean& isRefAssemblyLoaded)
+   at System.Web.Compilation.BuildManager.ExecutePreAppStart()
+   at System.Web.Hosting.HostingEnvironment.Initialize(ApplicationManager appManager, IApplicationHost appHost, IConfigMapPathFactory configMapPathFactory, HostingEnvironmentParameters hostingParameters, PolicyLevel policyLevel, Exception appDomainCreationException)
+   at System.Web.Hosting.HostingEnvironment.Initialize(ApplicationManager appManager, IApplicationHost appHost, IConfigMapPathFactory configMapPathFactory, HostingEnvironmentParameters hostingParameters, PolicyLevel policyLevel)
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean async, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at Rock.Plugin.Migration.Sql(String sql)
+   at org.rivervalley.JobOffers.Migrations.CreateDb.Up() in C:\Development\Misc\RiverValley-Rock\org.rivervalley.JobOffers\Migrations\001_CreateDb.cs:line 20
+   at Rock.WebStartup.RockApplicationStartupHelper.RunPluginMigrations(Assembly pluginAssembly)"
+3/3/2021 1:28:11 PM,System.Data.SqlClient.SqlException,"Incorrect syntax near '/'.","   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean async, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at Rock.Plugin.Migration.Sql(String sql)
+   at org.rivervalley.JobOffers.Migrations.CreateDb.Up() in C:\Development\Misc\RiverValley-Rock\org.rivervalley.JobOffers\Migrations\001_CreateDb.cs:line 20
+   at Rock.WebStartup.RockApplicationStartupHelper.RunPluginMigrations(Assembly pluginAssembly)"
+3/3/2021 1:28:11 PM,System.Data.SqlClient.SqlException,"Conversion failed when converting from a character string to uniqueidentifier.","   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
    at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
    at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
    at System.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean async, Int32 timeout, Boolean asyncWrite)
@@ -43,8 +232,21 @@
    at Rock.Plugin.Migration.Sql(String sql)
    at Rock.Data.MigrationHelper.AddPage(String parentPageGuid, String layoutGuid, String name, String description, String guid, String iconCssClass, String insertAfterPageGuid)
    at org.secc.Microframe.Migrations.PagesMigration.Up()
-   at RockWeb.Global.MigratePlugins(RockContext rockContext) in c:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 713"
-2/25/2021 9:31:53 AM,System.Data.SqlClient.SqlException,"Conversion failed when converting from a character string to uniqueidentifier.","   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Rock.WebStartup.RockApplicationStartupHelper.RunPluginMigrations(Assembly pluginAssembly)"
+3/3/2021 1:28:11 PM,Rock.WebStartup.RockStartupException,"##Plugin Migration error occurred in 2, PagesMigration##:Conversion failed when converting from a character string to uniqueidentifier.","   at Rock.WebStartup.RockApplicationStartupHelper.RunPluginMigrations(Assembly pluginAssembly)
+   at Rock.WebStartup.RockApplicationStartupHelper.MigratePlugins()
+   at Rock.WebStartup.RockApplicationStartupHelper.RunApplicationStartup()
+   at Rock.AssemblyInitializer.Initialize()
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   at System.Reflection.RuntimeMethodInfo.UnsafeInvokeInternal(Object obj, Object[] parameters, Object[] arguments)
+   at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at System.Web.Compilation.BuildManager.InvokePreStartInitMethodsCore(ICollection`1 methods, Func`1 setHostingEnvironmentCultures)
+   at System.Web.Compilation.BuildManager.InvokePreStartInitMethods(ICollection`1 methods)
+   at System.Web.Compilation.BuildManager.CallPreStartInitMethods(String preStartInitListPath, Boolean& isRefAssemblyLoaded)
+   at System.Web.Compilation.BuildManager.ExecutePreAppStart()
+   at System.Web.Hosting.HostingEnvironment.Initialize(ApplicationManager appManager, IApplicationHost appHost, IConfigMapPathFactory configMapPathFactory, HostingEnvironmentParameters hostingParameters, PolicyLevel policyLevel, Exception appDomainCreationException)
+   at System.Web.Hosting.HostingEnvironment.Initialize(ApplicationManager appManager, IApplicationHost appHost, IConfigMapPathFactory configMapPathFactory, HostingEnvironmentParameters hostingParameters, PolicyLevel policyLevel)
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
    at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
    at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
    at System.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean async, Int32 timeout, Boolean asyncWrite)
@@ -53,9 +255,8 @@
    at Rock.Plugin.Migration.Sql(String sql)
    at Rock.Data.MigrationHelper.AddPage(String parentPageGuid, String layoutGuid, String name, String description, String guid, String iconCssClass, String insertAfterPageGuid)
    at org.secc.Microframe.Migrations.PagesMigration.Up()
-   at RockWeb.Global.MigratePlugins(RockContext rockContext) in c:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 713"
-2/25/2021 9:31:53 AM,System.Exception,"Plugin Migration error occurred in org.secc.Microframe, PagesMigration","   at RockWeb.Global.MigratePlugins(RockContext rockContext) in c:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 733"
-2/25/2021 9:31:53 AM,System.Data.SqlClient.SqlException,"Conversion failed when converting from a character string to uniqueidentifier.","   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Rock.WebStartup.RockApplicationStartupHelper.RunPluginMigrations(Assembly pluginAssembly)"
+3/3/2021 1:28:11 PM,System.Data.SqlClient.SqlException,"Conversion failed when converting from a character string to uniqueidentifier.","   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
    at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
    at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
    at System.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean async, Int32 timeout, Boolean asyncWrite)
@@ -64,8 +265,59 @@
    at Rock.Plugin.Migration.Sql(String sql)
    at Rock.Data.MigrationHelper.AddPage(String parentPageGuid, String layoutGuid, String name, String description, String guid, String iconCssClass, String insertAfterPageGuid)
    at org.secc.Microframe.Migrations.PagesMigration.Up()
-   at RockWeb.Global.MigratePlugins(RockContext rockContext) in c:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 713"
-2/25/2021 9:40:38 AM,System.Data.SqlClient.SqlException,"Conversion failed when converting from a character string to uniqueidentifier.","   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Rock.WebStartup.RockApplicationStartupHelper.RunPluginMigrations(Assembly pluginAssembly)"
+3/3/2021 1:28:17 PM,System.TypeLoadException,"Could not load type 'Rock.Rest.Controllers.PersonBadgesController' from assembly 'Rock.Rest, Version=1.11.2.1, Culture=neutral, PublicKeyToken=null'.",""
+3/3/2021 1:28:17 PM,System.Exception,"Unable to load MEF from com.bricksandmortarstudio.checkinextensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",""
+3/3/2021 1:28:17 PM,System.TypeLoadException,"Could not load type 'Rock.Rest.Controllers.PersonBadgesController' from assembly 'Rock.Rest, Version=1.11.2.1, Culture=neutral, PublicKeyToken=null'.",""
+3/3/2021 1:28:17 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+3/3/2021 1:28:17 PM,System.Exception,"Unable to load MEF from Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null",""
+3/3/2021 1:28:17 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+3/3/2021 1:28:28 PM,System.IO.FileLoadException,"Could not load file or assembly 'Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' or one of its dependencies. The located assembly's manifest definition does not match the assembly reference. (Exception from HRESULT: 0x80131040)","   at Rock.Rest.WebApiConfig.Register(HttpConfiguration config)
+   at System.Web.Http.GlobalConfiguration.Configure(Action`1 configurationCallback)
+   at RockWeb.Global.Application_Start(Object sender, EventArgs e) in C:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 164"
+3/3/2021 1:28:28 PM,Rock.WebStartup.RockStartupException,"Error occurred during application startup:Could not load file or assembly 'Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' or one of its dependencies. The located assembly's manifest definition does not match the assembly reference. (Exception from HRESULT: 0x80131040)","   at RockWeb.Global.Application_Start(Object sender, EventArgs e) in C:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 164
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   at System.Reflection.RuntimeMethodInfo.UnsafeInvokeInternal(Object obj, Object[] parameters, Object[] arguments)
+   at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at System.Reflection.MethodBase.Invoke(Object obj, Object[] parameters)
+   at System.Web.HttpApplication.InvokeMethodWithAssert(MethodInfo method, Int32 paramCount, Object eventSource, EventArgs eventArgs)
+   at System.Web.HttpApplication.ProcessSpecialRequest(HttpContext context, MethodInfo method, Int32 paramCount, Object eventSource, EventArgs eventArgs, HttpSessionState session)
+   at System.Web.HttpApplicationFactory.EnsureAppStartCalledForIntegratedMode(HttpContext context, HttpApplication app)
+   at System.Web.HttpApplication.RegisterEventSubscriptionsWithIIS(IntPtr appContext, HttpContext context, MethodInfo[] handlers)
+   at System.Web.HttpApplication.InitSpecial(HttpApplicationState state, MethodInfo[] handlers, IntPtr appContext, HttpContext context)
+   at System.Web.HttpApplicationFactory.GetSpecialApplicationInstance(IntPtr appContext, HttpContext context)
+   at System.Web.Hosting.PipelineRuntime.InitializeApplication(IntPtr appContext)
+   at Rock.Rest.WebApiConfig.Register(HttpConfiguration config)
+   at System.Web.Http.GlobalConfiguration.Configure(Action`1 configurationCallback)
+   at RockWeb.Global.Application_Start(Object sender, EventArgs e) in C:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 164"
+3/3/2021 1:28:28 PM,System.IO.FileLoadException,"Could not load file or assembly 'Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' or one of its dependencies. The located assembly's manifest definition does not match the assembly reference. (Exception from HRESULT: 0x80131040)","   at Rock.Rest.WebApiConfig.Register(HttpConfiguration config)
+   at System.Web.Http.GlobalConfiguration.Configure(Action`1 configurationCallback)
+   at RockWeb.Global.Application_Start(Object sender, EventArgs e) in C:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 164"
+3/3/2021 1:29:28 PM,System.IO.FileNotFoundException,"Could not load file or assembly 'itextsharp, Version=4.1.6.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca' or one of its dependencies. The system cannot find the file specified.",""
+3/3/2021 1:29:28 PM,System.Exception,"Unable to load MEF from com.centralaz.RoomManagement, Version=1.3.2.0, Culture=neutral, PublicKeyToken=null",""
+3/3/2021 1:29:28 PM,System.IO.FileNotFoundException,"Could not load file or assembly 'itextsharp, Version=4.1.6.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca' or one of its dependencies. The system cannot find the file specified.",""
+3/3/2021 1:29:29 PM,System.IO.FileLoadException,"Could not load file or assembly 'Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' or one of its dependencies. The located assembly's manifest definition does not match the assembly reference. (Exception from HRESULT: 0x80131040)","   at Rock.Rest.WebApiConfig.Register(HttpConfiguration config)
+   at System.Web.Http.GlobalConfiguration.Configure(Action`1 configurationCallback)
+   at RockWeb.Global.Application_Start(Object sender, EventArgs e) in C:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 164"
+3/3/2021 1:29:29 PM,Rock.WebStartup.RockStartupException,"Error occurred during application startup:Could not load file or assembly 'Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' or one of its dependencies. The located assembly's manifest definition does not match the assembly reference. (Exception from HRESULT: 0x80131040)","   at RockWeb.Global.Application_Start(Object sender, EventArgs e) in C:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 164
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   at System.Reflection.RuntimeMethodInfo.UnsafeInvokeInternal(Object obj, Object[] parameters, Object[] arguments)
+   at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at System.Reflection.MethodBase.Invoke(Object obj, Object[] parameters)
+   at System.Web.HttpApplication.InvokeMethodWithAssert(MethodInfo method, Int32 paramCount, Object eventSource, EventArgs eventArgs)
+   at System.Web.HttpApplication.ProcessSpecialRequest(HttpContext context, MethodInfo method, Int32 paramCount, Object eventSource, EventArgs eventArgs, HttpSessionState session)
+   at System.Web.HttpApplicationFactory.EnsureAppStartCalledForIntegratedMode(HttpContext context, HttpApplication app)
+   at System.Web.HttpApplication.RegisterEventSubscriptionsWithIIS(IntPtr appContext, HttpContext context, MethodInfo[] handlers)
+   at System.Web.HttpApplication.InitSpecial(HttpApplicationState state, MethodInfo[] handlers, IntPtr appContext, HttpContext context)
+   at System.Web.HttpApplicationFactory.GetSpecialApplicationInstance(IntPtr appContext, HttpContext context)
+   at System.Web.Hosting.PipelineRuntime.InitializeApplication(IntPtr appContext)
+   at Rock.Rest.WebApiConfig.Register(HttpConfiguration config)
+   at System.Web.Http.GlobalConfiguration.Configure(Action`1 configurationCallback)
+   at RockWeb.Global.Application_Start(Object sender, EventArgs e) in C:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 164"
+3/3/2021 1:29:29 PM,System.IO.FileLoadException,"Could not load file or assembly 'Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' or one of its dependencies. The located assembly's manifest definition does not match the assembly reference. (Exception from HRESULT: 0x80131040)","   at Rock.Rest.WebApiConfig.Register(HttpConfiguration config)
+   at System.Web.Http.GlobalConfiguration.Configure(Action`1 configurationCallback)
+   at RockWeb.Global.Application_Start(Object sender, EventArgs e) in C:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 164"
+3/3/2021 1:30:08 PM,System.Data.SqlClient.SqlException,"Conversion failed when converting from a character string to uniqueidentifier.","   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
    at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
    at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
    at System.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean async, Int32 timeout, Boolean asyncWrite)
@@ -74,9 +326,21 @@
    at Rock.Plugin.Migration.Sql(String sql)
    at Rock.Data.MigrationHelper.AddPage(String parentPageGuid, String layoutGuid, String name, String description, String guid, String iconCssClass, String insertAfterPageGuid)
    at org.secc.Microframe.Migrations.PagesMigration.Up()
-   at RockWeb.Global.MigratePlugins(RockContext rockContext) in c:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 713"
-2/25/2021 9:40:38 AM,System.Exception,"Plugin Migration error occurred in org.secc.Microframe, PagesMigration","   at RockWeb.Global.MigratePlugins(RockContext rockContext) in c:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 733"
-2/25/2021 9:40:38 AM,System.Data.SqlClient.SqlException,"Conversion failed when converting from a character string to uniqueidentifier.","   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Rock.WebStartup.RockApplicationStartupHelper.RunPluginMigrations(Assembly pluginAssembly)"
+3/3/2021 1:30:08 PM,Rock.WebStartup.RockStartupException,"##Plugin Migration error occurred in 2, PagesMigration##:Conversion failed when converting from a character string to uniqueidentifier.","   at Rock.WebStartup.RockApplicationStartupHelper.RunPluginMigrations(Assembly pluginAssembly)
+   at Rock.WebStartup.RockApplicationStartupHelper.MigratePlugins()
+   at Rock.WebStartup.RockApplicationStartupHelper.RunApplicationStartup()
+   at Rock.AssemblyInitializer.Initialize()
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   at System.Reflection.RuntimeMethodInfo.UnsafeInvokeInternal(Object obj, Object[] parameters, Object[] arguments)
+   at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at System.Web.Compilation.BuildManager.InvokePreStartInitMethodsCore(ICollection`1 methods, Func`1 setHostingEnvironmentCultures)
+   at System.Web.Compilation.BuildManager.InvokePreStartInitMethods(ICollection`1 methods)
+   at System.Web.Compilation.BuildManager.CallPreStartInitMethods(String preStartInitListPath, Boolean& isRefAssemblyLoaded)
+   at System.Web.Compilation.BuildManager.ExecutePreAppStart()
+   at System.Web.Hosting.HostingEnvironment.Initialize(ApplicationManager appManager, IApplicationHost appHost, IConfigMapPathFactory configMapPathFactory, HostingEnvironmentParameters hostingParameters, PolicyLevel policyLevel, Exception appDomainCreationException)
+   at System.Web.Hosting.HostingEnvironment.Initialize(ApplicationManager appManager, IApplicationHost appHost, IConfigMapPathFactory configMapPathFactory, HostingEnvironmentParameters hostingParameters, PolicyLevel policyLevel)
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
    at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
    at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
    at System.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean async, Int32 timeout, Boolean asyncWrite)
@@ -85,8 +349,8 @@
    at Rock.Plugin.Migration.Sql(String sql)
    at Rock.Data.MigrationHelper.AddPage(String parentPageGuid, String layoutGuid, String name, String description, String guid, String iconCssClass, String insertAfterPageGuid)
    at org.secc.Microframe.Migrations.PagesMigration.Up()
-   at RockWeb.Global.MigratePlugins(RockContext rockContext) in c:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 713"
-2/25/2021 9:44:56 AM,System.Data.SqlClient.SqlException,"Conversion failed when converting from a character string to uniqueidentifier.","   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Rock.WebStartup.RockApplicationStartupHelper.RunPluginMigrations(Assembly pluginAssembly)"
+3/3/2021 1:30:08 PM,System.Data.SqlClient.SqlException,"Conversion failed when converting from a character string to uniqueidentifier.","   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
    at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
    at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
    at System.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean async, Int32 timeout, Boolean asyncWrite)
@@ -95,15 +359,31 @@
    at Rock.Plugin.Migration.Sql(String sql)
    at Rock.Data.MigrationHelper.AddPage(String parentPageGuid, String layoutGuid, String name, String description, String guid, String iconCssClass, String insertAfterPageGuid)
    at org.secc.Microframe.Migrations.PagesMigration.Up()
-   at RockWeb.Global.MigratePlugins(RockContext rockContext) in c:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 713"
-2/25/2021 9:44:56 AM,System.Exception,"Plugin Migration error occurred in org.secc.Microframe, PagesMigration","   at RockWeb.Global.MigratePlugins(RockContext rockContext) in c:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 733"
-2/25/2021 9:44:56 AM,System.Data.SqlClient.SqlException,"Conversion failed when converting from a character string to uniqueidentifier.","   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
-   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
-   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
-   at System.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean async, Int32 timeout, Boolean asyncWrite)
-   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
-   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
-   at Rock.Plugin.Migration.Sql(String sql)
-   at Rock.Data.MigrationHelper.AddPage(String parentPageGuid, String layoutGuid, String name, String description, String guid, String iconCssClass, String insertAfterPageGuid)
-   at org.secc.Microframe.Migrations.PagesMigration.Up()
-   at RockWeb.Global.MigratePlugins(RockContext rockContext) in c:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 713"
+   at Rock.WebStartup.RockApplicationStartupHelper.RunPluginMigrations(Assembly pluginAssembly)"
+3/3/2021 1:30:10 PM,System.TypeLoadException,"Could not load type 'Rock.Rest.Controllers.PersonBadgesController' from assembly 'Rock.Rest, Version=1.11.2.1, Culture=neutral, PublicKeyToken=null'.",""
+3/3/2021 1:30:10 PM,System.Exception,"Unable to load MEF from com.bricksandmortarstudio.checkinextensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",""
+3/3/2021 1:30:10 PM,System.TypeLoadException,"Could not load type 'Rock.Rest.Controllers.PersonBadgesController' from assembly 'Rock.Rest, Version=1.11.2.1, Culture=neutral, PublicKeyToken=null'.",""
+3/3/2021 1:30:10 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+3/3/2021 1:30:10 PM,System.Exception,"Unable to load MEF from Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null",""
+3/3/2021 1:30:10 PM,System.TypeLoadException,"Method 'GetSupportedHostedGatewayModes' in type 'Rock.TransNational.Pi.PiGateway' from assembly 'Rock.TransNational.Pi, Version=1.9.0.23, Culture=neutral, PublicKeyToken=null' does not have an implementation.",""
+3/3/2021 1:30:54 PM,System.IO.FileLoadException,"Could not load file or assembly 'Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' or one of its dependencies. The located assembly's manifest definition does not match the assembly reference. (Exception from HRESULT: 0x80131040)","   at Rock.Rest.WebApiConfig.Register(HttpConfiguration config)
+   at System.Web.Http.GlobalConfiguration.Configure(Action`1 configurationCallback)
+   at RockWeb.Global.Application_Start(Object sender, EventArgs e) in C:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 164"
+3/3/2021 1:30:54 PM,Rock.WebStartup.RockStartupException,"Error occurred during application startup:Could not load file or assembly 'Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' or one of its dependencies. The located assembly's manifest definition does not match the assembly reference. (Exception from HRESULT: 0x80131040)","   at RockWeb.Global.Application_Start(Object sender, EventArgs e) in C:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 164
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   at System.Reflection.RuntimeMethodInfo.UnsafeInvokeInternal(Object obj, Object[] parameters, Object[] arguments)
+   at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at System.Reflection.MethodBase.Invoke(Object obj, Object[] parameters)
+   at System.Web.HttpApplication.InvokeMethodWithAssert(MethodInfo method, Int32 paramCount, Object eventSource, EventArgs eventArgs)
+   at System.Web.HttpApplication.ProcessSpecialRequest(HttpContext context, MethodInfo method, Int32 paramCount, Object eventSource, EventArgs eventArgs, HttpSessionState session)
+   at System.Web.HttpApplicationFactory.EnsureAppStartCalledForIntegratedMode(HttpContext context, HttpApplication app)
+   at System.Web.HttpApplication.RegisterEventSubscriptionsWithIIS(IntPtr appContext, HttpContext context, MethodInfo[] handlers)
+   at System.Web.HttpApplication.InitSpecial(HttpApplicationState state, MethodInfo[] handlers, IntPtr appContext, HttpContext context)
+   at System.Web.HttpApplicationFactory.GetSpecialApplicationInstance(IntPtr appContext, HttpContext context)
+   at System.Web.Hosting.PipelineRuntime.InitializeApplication(IntPtr appContext)
+   at Rock.Rest.WebApiConfig.Register(HttpConfiguration config)
+   at System.Web.Http.GlobalConfiguration.Configure(Action`1 configurationCallback)
+   at RockWeb.Global.Application_Start(Object sender, EventArgs e) in C:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 164"
+3/3/2021 1:30:54 PM,System.IO.FileLoadException,"Could not load file or assembly 'Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' or one of its dependencies. The located assembly's manifest definition does not match the assembly reference. (Exception from HRESULT: 0x80131040)","   at Rock.Rest.WebApiConfig.Register(HttpConfiguration config)
+   at System.Web.Http.GlobalConfiguration.Configure(Action`1 configurationCallback)
+   at RockWeb.Global.Application_Start(Object sender, EventArgs e) in C:\Development\Misc\RiverValley-Rock\RockWeb\App_Code\Global.asax.cs:line 164"

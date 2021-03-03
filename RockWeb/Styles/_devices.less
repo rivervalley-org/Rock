@@ -213,8 +213,8 @@
 .sms {
   position: relative;
   width: 400px;
+  overflow-x: hidden;
   background: none repeat scroll 0 0 #fff;
-  overflow-X: hidden;
 
   .left {
     position: absolute;
@@ -242,7 +242,7 @@
     position: absolute;
     top: 0;
     right: 15px;
-    font-size: 14px
+    font-size: 14px;
   }
 
   header {
@@ -260,7 +260,7 @@
 
   header h2 {
     font-size: 16px;
-    font-weight: bold;
+    font-weight: @font-weight-bold;
     color: #111;
   }
 
@@ -277,7 +277,7 @@
     padding: 15px 20px;
     margin: 0 15px 10px;
     font-size: 16px;
-    border-radius: 20px 20px 20px 20px;
+    border-radius: 20px;
   }
 
   .message.to {
@@ -309,7 +309,7 @@
     border-color: #2095fe;
     border-style: solid;
     border-width: 0 20px;
-    border-radius: 50% 50% 50% 50%;
+    border-radius: 50%;
   }
 
   .message.from::before {

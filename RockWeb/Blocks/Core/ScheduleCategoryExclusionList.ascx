@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ScheduleCategoryExclusionList.ascx.cs" Inherits="RockWeb.Blocks.Core.ScheduleCategoryExclusionList" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ScheduleCategoryExclusionList.ascx.cs" Inherits="RockWeb.Blocks.Core.ScheduleCategoryExclusionList" %>
 
 <asp:UpdatePanel ID="upPanel" runat="server">
     <ContentTemplate>

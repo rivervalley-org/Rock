@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="FundraisingParticipant.ascx.cs" Inherits="RockWeb.Blocks.Fundraising.FundraisingParticipant" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="FundraisingParticipant.ascx.cs" Inherits="RockWeb.Blocks.Fundraising.FundraisingParticipant" %>
 
 <asp:UpdatePanel ID="upnlContent" runat="server">
     <ContentTemplate>
@@ -59,7 +59,7 @@
                             <Rock:RockLiteralField ID="lPersonName" HeaderText="Name" />
                             <Rock:RockLiteralField ID="lAddress" HeaderText="Address" />
                             <Rock:DateTimeField DataField="TransactionDateTime" HeaderText="Date" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left" />
-							<Rock:RockLiteralField ID="lTransactionDetailAmount" HeaderText="Amount" HeaderStyle-HorizontalAlign="Right" />
+                            <Rock:RockLiteralField ID="lTransactionDetailAmount" HeaderText="Amount" HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right" />
                         </Columns>
                     </Rock:Grid>
                 </asp:Panel>

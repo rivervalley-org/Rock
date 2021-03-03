@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ConnectionOpportunityList.ascx.cs" Inherits="RockWeb.Blocks.Connection.ConnectionOpportunityList" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ConnectionOpportunityList.ascx.cs" Inherits="RockWeb.Blocks.Connection.ConnectionOpportunityList" %>
 
 <asp:UpdatePanel ID="upList" runat="server">
     <ContentTemplate>
@@ -9,7 +9,7 @@
 
                 <div class="panel panel-block">
 
-                    <div class="panel-heading clearfix">
+                    <div class="panel-heading">
                         <h1 class="panel-title pull-left">
                             <i class="fa fa-list"></i>
                             Connection Opportunities

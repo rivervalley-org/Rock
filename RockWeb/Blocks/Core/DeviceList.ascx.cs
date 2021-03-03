@@ -35,9 +35,16 @@ namespace RockWeb.Blocks.Core
     [Category( "Core" )]
     [Description( "Lists all the devices." )]
 
-    [LinkedPage("Detail Page")]
+    [LinkedPage( "Detail Page",
+        Key = AttributeKey.DetailPage )]
+
     public partial class DeviceList : RockBlock, ICustomGridColumns
     {
+        public static class AttributeKey
+        {
+            public const string DetailPage = "DetailPage";
+        }
+
         #region Control Methods
 
         /// <summary>
@@ -51,7 +58,7 @@ namespace RockWeb.Blocks.Core
             BindFilter();
             fDevice.ApplyFilterClick += fDevice_ApplyFilterClick;
             fDevice.DisplayFilterValue += fDevice_DisplayFilterValue;
-            
+
             gDevice.DataKeyNames = new string[] { "Id" };
             gDevice.Actions.ShowAdd = true;
             gDevice.Actions.AddClick += gDevice_Add;
@@ -91,11 +98,12 @@ namespace RockWeb.Blocks.Core
         protected void fDevice_ApplyFilterClick( object sender, EventArgs e )
         {
             fDevice.SaveUserPreference( "Name", tbName.Text );
-            fDevice.SaveUserPreference( "Device Type", ddlDeviceType.SelectedValue );
+            fDevice.SaveUserPreference( "Device Type", dvpDeviceType.SelectedValue );
             fDevice.SaveUserPreference( "IP Address", tbIPAddress.Text );
             fDevice.SaveUserPreference( "Print To", ddlPrintTo.SelectedValue );
             fDevice.SaveUserPreference( "Printer", ddlPrinter.SelectedValue );
             fDevice.SaveUserPreference( "Print From", ddlPrintFrom.SelectedValue );
+            fDevice.SaveUserPreference( "Active Status", ddlActiveFilter.SelectedValue );
 
             BindGrid();
         }
@@ -140,12 +148,20 @@ namespace RockWeb.Blocks.Core
 
                 case "Print To":
 
-                    e.Value = ( (PrintTo)System.Enum.Parse( typeof( PrintTo ), e.Value ) ).ToString();
+                    e.Value = ( ( PrintTo ) System.Enum.Parse( typeof( PrintTo ), e.Value ) ).ToString();
                     break;
 
                 case "Print From":
 
-                    e.Value = ( (PrintFrom)System.Enum.Parse( typeof( PrintFrom ), e.Value ) ).ToString();
+                    e.Value = ( ( PrintFrom ) System.Enum.Parse( typeof( PrintFrom ), e.Value ) ).ToString();
+                    break;
+                case "Active Status":
+
+                    if ( !string.IsNullOrEmpty( e.Value ) && e.Value == "all" )
+                    {
+                        e.Value = string.Empty;
+                    }
+
                     break;
 
             }
@@ -158,7 +174,7 @@ namespace RockWeb.Blocks.Core
         /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
         protected void gDevice_Add( object sender, EventArgs e )
         {
-            NavigateToLinkedPage( "DetailPage", "DeviceId", 0 );
+            NavigateToLinkedPage( AttributeKey.DetailPage, "DeviceId", 0 );
         }
 
         /// <summary>
@@ -168,7 +184,7 @@ namespace RockWeb.Blocks.Core
         /// <param name="e">The <see cref="RowEventArgs" /> instance containing the event data.</param>
         protected void gDevice_Edit( object sender, RowEventArgs e )
         {
-            NavigateToLinkedPage( "DetailPage", "DeviceId", e.RowKeyId );
+            NavigateToLinkedPage( AttributeKey.DetailPage, "DeviceId", e.RowKeyId );
         }
 
         /// <summary>
@@ -232,7 +248,7 @@ namespace RockWeb.Blocks.Core
             foreach ( var attribute in new AttributeService( new RockContext() ).Queryable()
                 .Where( a =>
                     a.EntityTypeId == entityTypeId &&
-                    a.IsGridColumn && 
+                    a.IsGridColumn &&
                     a.EntityTypeQualifierColumn == string.Empty
                     )
                 .OrderBy( a => a.Order )
@@ -267,8 +283,7 @@ namespace RockWeb.Blocks.Core
         /// </summary>
         private void BindFilter()
         {
-            ddlDeviceType.BindToDefinedType( DefinedTypeCache.Get( new Guid( Rock.SystemGuid.DefinedType.DEVICE_TYPE ) ) );
-            ddlDeviceType.Items.Insert( 0, new ListItem( string.Empty, string.Empty ) );
+            dvpDeviceType.DefinedTypeId = DefinedTypeCache.Get( new Guid( Rock.SystemGuid.DefinedType.DEVICE_TYPE ) ).Id;
 
             ddlPrintTo.BindToEnum<PrintTo>();
             ddlPrintTo.Items.Insert( 0, new ListItem( string.Empty, string.Empty ) );
@@ -286,12 +301,17 @@ namespace RockWeb.Blocks.Core
             if ( !Page.IsPostBack )
             {
                 tbName.Text = fDevice.GetUserPreference( "Name" );
-                ddlDeviceType.SetValue( fDevice.GetUserPreference( "Device Type" ) );
+                dvpDeviceType.SetValue( fDevice.GetUserPreference( "Device Type" ) );
                 tbIPAddress.Text = fDevice.GetUserPreference( "IP Address" );
                 ddlPrintTo.SetValue( fDevice.GetUserPreference( "Print To" ) );
                 ddlPrinter.SetValue( fDevice.GetUserPreference( "Printer" ) );
                 ddlPrintFrom.SetValue( fDevice.GetUserPreference( "Print From" ) );
-            }            
+                var itemActiveStatus = ddlActiveFilter.Items.FindByValue( fDevice.GetUserPreference( "Active Status" ) );
+                if ( itemActiveStatus != null )
+                {
+                    itemActiveStatus.Selected = true;
+                }
+            }
         }
 
         /// <summary>
@@ -326,7 +346,8 @@ namespace RockWeb.Blocks.Core
 
             if ( !string.IsNullOrWhiteSpace( fDevice.GetUserPreference( "Print To" ) ) )
             {
-                PrintTo printTo = (PrintTo)System.Enum.Parse( typeof( PrintTo ), fDevice.GetUserPreference( "Print To" ) ); ;
+                PrintTo printTo = ( PrintTo ) System.Enum.Parse( typeof( PrintTo ), fDevice.GetUserPreference( "Print To" ) );
+                ;
                 queryable = queryable.Where( d => d.PrintToOverride == printTo );
             }
 
@@ -338,8 +359,23 @@ namespace RockWeb.Blocks.Core
 
             if ( !string.IsNullOrWhiteSpace( fDevice.GetUserPreference( "Print From" ) ) )
             {
-                PrintFrom printFrom = (PrintFrom)System.Enum.Parse( typeof( PrintFrom ), fDevice.GetUserPreference( "Print From" ) ); ;
+                PrintFrom printFrom = ( PrintFrom ) System.Enum.Parse( typeof( PrintFrom ), fDevice.GetUserPreference( "Print From" ) );
+                ;
                 queryable = queryable.Where( d => d.PrintFrom == printFrom );
+            }
+
+            string activeFilterValue = fDevice.GetUserPreference( "Active Status" );
+            if ( !string.IsNullOrWhiteSpace( activeFilterValue ) )
+            {
+                if ( activeFilterValue != "all" )
+                {
+                    var activeFilter = activeFilterValue.AsBoolean();
+                    queryable = queryable.Where( b => b.IsActive == activeFilter );
+                }
+            }
+            else
+            {
+                queryable = queryable.Where( b => b.IsActive );
             }
 
             gDevice.ObjectList = new Dictionary<string, object>();
@@ -356,7 +392,8 @@ namespace RockWeb.Blocks.Core
                     a.PrintFrom,
                     PrinterDeviceName = a.PrinterDevice.Name,
                     a.PrinterDeviceId,
-                    a.DeviceTypeValueId
+                    a.DeviceTypeValueId,
+                    a.IsActive
                 } );
 
             if ( sortProperty != null )

@@ -1,4 +1,4 @@
-﻿// <copyright>
+// <copyright>
 // Copyright by the Spark Development Network
 //
 // Licensed under the Rock Community License (the "License");
@@ -23,6 +23,7 @@ using System.Web.UI.WebControls;
 
 using Rock;
 using Rock.Model;
+using Rock.Utility;
 using Rock.Web;
 using Rock.Web.Cache;
 
@@ -62,9 +63,10 @@ public partial class Http404Error : System.Web.UI.Page
         {
             // Set form action to pass XSS test
             form1.Action = "/";
-        
+
             // try to get site's 404 page
-            SiteCache site = SiteCache.GetSiteByDomain(Request.Url.Host);
+            var host = WebRequestHelper.GetHostNameFromRequest( HttpContext.Current );
+            SiteCache site = SiteCache.GetSiteByDomain( host );
             if ( site != null && site.PageNotFoundPageId.HasValue )
             {
                 site.RedirectToPageNotFoundPage();

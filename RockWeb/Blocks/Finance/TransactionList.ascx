@@ -18,9 +18,9 @@
             <div class="panel panel-block">
                 <div class="panel-heading">
                     <h1 class="panel-title"><i class="fa fa-credit-card"></i> <asp:Literal ID="lTitle" runat="server"></asp:Literal></h1>
-                    
-                    <div class="pull-right">                    
-                        <Rock:ButtonDropDownList ID="bddlOptions" runat="server" FormGroupCssClass="panel-options pull-right" Title="Options" SelectionStyle="Checkmark" OnSelectionChanged="bddlOptions_SelectionChanged">
+
+                    <div class="pull-right">
+                        <Rock:ButtonDropDownList ID="bddlOptions" runat="server" FormGroupCssClass="panel-options pull-right dropdown-right" Title="Options" SelectionStyle="Checkmark" OnSelectionChanged="bddlOptions_SelectionChanged">
                             <asp:ListItem Text="Show Images" Value="1" />
                             <asp:ListItem Text="Show Summary" Value="0" />
                         </Rock:ButtonDropDownList>
@@ -30,7 +30,7 @@
                             <asp:LinkButton ID="btnTransactionDetails" CssClass="btn btn-xs btn-outline-primary" runat="server" Text="Transaction Details" OnClick="btnTransactionsViewMode_Click" />
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="panel-body">
 
@@ -41,13 +41,13 @@
                         <Rock:GridFilter ID="gfTransactions" runat="server">
                             <Rock:DateRangePicker ID="drpDates" runat="server" Label="Date Range" />
                             <Rock:NumberRangeEditor ID="nreAmount" runat="server" Label="Amount Range" NumberType="Double" />
-                            <Rock:RockDropDownList ID="ddlCurrencyType" runat="server" Label="Currency Type" />
-                            <Rock:RockDropDownList ID="ddlCreditCardType" runat="server" Label="Credit Card Type" />
+                            <Rock:DefinedValuePicker ID="dvpCurrencyType" runat="server" Label="Currency Type" />
+                            <Rock:DefinedValuePicker ID="dvpCreditCardType" runat="server" Label="Credit Card Type" />
                             <Rock:RockTextBox ID="tbTransactionCode" runat="server" Label="Transaction Code"></Rock:RockTextBox>
                             <Rock:RockTextBox ID="tbForeignKey" runat="server" Label="Foreign Key"></Rock:RockTextBox>
                             <Rock:AccountPicker ID="apAccount" runat="server" Label="Account" AllowMultiSelect="true" />
-                            <Rock:RockDropDownList ID="ddlTransactionType" runat="server" Label="Transaction Type" />
-                            <Rock:RockDropDownList ID="ddlSourceType" runat="server" Label="Source Type" />
+                            <Rock:DefinedValuePicker ID="dvpTransactionType" runat="server" Label="Transaction Type" />
+                            <Rock:DefinedValuePicker ID="dvpSourceType" runat="server" Label="Source Type" />
                             <Rock:CampusPicker ID="campCampusBatch" runat="server" Label="Campus (of Batch)" />
                             <Rock:CampusPicker ID="campCampusAccount" runat="server" Label="Campus (of Account)" />
                             <Rock:PersonPicker ID="ppPerson" runat="server" Label="Person" IncludeBusinesses="true" />
@@ -56,18 +56,18 @@
 
                         <Rock:ModalAlert ID="mdGridWarning" runat="server" />
 
-                        <Rock:Grid ID="gTransactions" runat="server" EmptyDataText="No Transactions Found" 
+                        <Rock:Grid ID="gTransactions" runat="server" EmptyDataText="No Transactions Found"
                             RowItemText="Transaction" AllowSorting="true" ExportSource="ColumnOutput" >
                             <Columns>
                                 <Rock:SelectField></Rock:SelectField>
                                 <Rock:RockLiteralField ID="lPersonId" HeaderText="Person Id" Visible="false" ExcelExportBehavior="AlwaysInclude" />
-                                <Rock:RockLiteralField ID="lPersonFullNameReversed" HeaderText="Person" 
-                                    SortExpression="_PERSONNAME_" /> 
-                                <Rock:RockBoundField DataField="TransactionDateTime" HeaderText="Date / Time" SortExpression="TransactionDateTime" />                
+                                <Rock:RockLiteralField ID="lPersonFullNameReversed" HeaderText="Person"
+                                    SortExpression="_PERSONNAME_" />
+                                <Rock:RockBoundField DataField="TransactionDateTime" HeaderText="Date / Time" SortExpression="TransactionDateTime" />
                                 <Rock:CurrencyField DataField="TotalAmount" HeaderText="Amount" SortExpression="TotalAmount" />
                                 <Rock:RockLiteralField ID="lCurrencyType" HeaderText="Currency Type" />
-                                <Rock:RockBoundField DataField="TransactionCode" HeaderText="Transaction Code" SortExpression="TransactionCode" ColumnPriority="DesktopSmall" />                
-                                <Rock:RockBoundField DataField="ForeignKey" HeaderText="Foreign Key" SortExpression="ForeignKey" ColumnPriority="DesktopSmall" />                
+                                <Rock:RockBoundField DataField="TransactionCode" HeaderText="Transaction Code" SortExpression="TransactionCode" ColumnPriority="DesktopSmall" />
+                                <Rock:RockBoundField DataField="ForeignKey" HeaderText="Foreign Key" SortExpression="ForeignKey" ColumnPriority="DesktopSmall" />
                                 <Rock:RockLiteralField ID="lBatchId" HeaderText="Batch Id" SortExpression="BatchId" ColumnPriority="DesktopSmall" HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right"  ExcelExportBehavior="AlwaysInclude" />
                                 <Rock:RockLiteralField ID="lAccounts" HeaderText="Accounts" />
                                 <Rock:RockBoundField DataField="Status" HeaderText="Status" ExcelExportBehavior="AlwaysInclude" Visible="false" />

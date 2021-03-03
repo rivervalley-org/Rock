@@ -1,4 +1,4 @@
-﻿// <copyright>
+// <copyright>
 // Copyright by the Spark Development Network
 //
 // Licensed under the Rock Community License (the "License");
@@ -169,7 +169,7 @@ namespace RockWeb.Blocks.Groups
             AttributeService attributeService = new AttributeService( rockContext );
 
             // Load all the group member attributes for comparison below.
-            var attributes = attributeService.GetGroupMemberAttributesCombined( group.Id, group.GroupTypeId, true ).ToCacheAttributeList();
+            var attributes = attributeService.GetGroupMemberAttributesCombined( group.Id, group.GroupTypeId, true ).ToAttributeCacheList();
 
             // In order to add attributes to the person, you have to first load them all
             groupMember.LoadAttributes( rockContext );

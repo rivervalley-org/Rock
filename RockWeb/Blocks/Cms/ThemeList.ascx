@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ThemeList.ascx.cs" Inherits="RockWeb.Blocks.Cms.ThemeList" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ThemeList.ascx.cs" Inherits="RockWeb.Blocks.Cms.ThemeList" %>
 
 <asp:UpdatePanel ID="upnlContent" runat="server">
     <ContentTemplate>

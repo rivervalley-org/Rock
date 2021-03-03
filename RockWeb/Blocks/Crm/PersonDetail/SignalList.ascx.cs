@@ -1,4 +1,4 @@
-﻿// <copyright>
+// <copyright>
 // Copyright by the Spark Development Network
 //
 // Licensed under the Rock Community License (the "License");
@@ -217,6 +217,7 @@ namespace RockWeb.Blocks.CRM.PersonDetail
             signal.SignalTypeId = ddlSignalType.SelectedValue.AsInteger();
             signal.ExpirationDate = dpExpirationDate.SelectedDate;
             signal.Note = tbNote.Text;
+            signal.OwnerPersonAliasId = ppSignalOwner.PersonAliasId.Value;
 
             rockContext.SaveChanges();
 

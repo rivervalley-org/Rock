@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="FundraisingLeaderToolbox.ascx.cs" Inherits="RockWeb.Blocks.Fundraising.FundraisingLeaderToolbox" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="FundraisingLeaderToolbox.ascx.cs" Inherits="RockWeb.Blocks.Fundraising.FundraisingLeaderToolbox" %>
 
 <asp:UpdatePanel ID="upnlContent" runat="server">
     <ContentTemplate>

@@ -1,11 +1,11 @@
-// <copyright>
-// Copyright 2013 by the Spark Development Network
+﻿// <copyright>
+// Copyright by the Spark Development Network
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
+// Licensed under the Rock Community License (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-// http://www.apache.org/licenses/LICENSE-2.0
+// http://www.rockrms.com/license
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,16 +33,16 @@ using Rock.Web.UI.Controls;
 namespace RockWeb.Blocks.Follow
 {
     /// <summary>
-    /// "Block for users to select which following events they would like to subscribe to."
+    /// Block for users to select which following events they would like to subscribe to.
     /// </summary>
     [DisplayName( "Event Subscription" )]
     [Category( "Follow" )]
     [Description( "Block for users to select which following events they would like to subscribe to." )]
     public partial class EventSubscription : RockBlock
     {
-
         #region Fields
 
+        // private global rockContext that is specifically for binding in ItemDataBound
         private RockContext _rockContext = null;
         protected List<int> _currentSubscriptions = new List<int>();
 

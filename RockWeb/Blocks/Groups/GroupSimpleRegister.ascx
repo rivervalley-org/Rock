@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="GroupSimpleRegister.ascx.cs" Inherits="RockWeb.Blocks.Groups.GroupSimpleRegister" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="GroupSimpleRegister.ascx.cs" Inherits="RockWeb.Blocks.Groups.GroupSimpleRegister" %>
 
 <asp:UpdatePanel ID="upPayment" runat="server">
     <ContentTemplate>

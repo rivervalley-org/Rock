@@ -1,4 +1,4 @@
-﻿// <copyright>
+// <copyright>
 // Copyright by the Spark Development Network
 //
 // Licensed under the Rock Community License (the "License");
@@ -154,8 +154,10 @@ namespace RockWeb.Blocks.Finance
             }
 
             // get the transactions for the person or all the members in the person's giving group (Family)
-            var qry = financialTransactionDetailService.Queryable().AsNoTracking()
-                        .Where( t=> t.Transaction.AuthorizedPersonAliasId.HasValue && personAliasIds.Contains( t.Transaction.AuthorizedPersonAliasId.Value ) );
+            var qry = financialTransactionDetailService.Queryable().AsNoTracking().Where( t =>
+                t.Transaction.AuthorizedPersonAliasId.HasValue
+                && personAliasIds.Contains( t.Transaction.AuthorizedPersonAliasId.Value )
+                && t.Transaction.TransactionDateTime.HasValue );
 
             if ( string.IsNullOrWhiteSpace( GetAttributeValue( "Accounts" ) ) )
             {

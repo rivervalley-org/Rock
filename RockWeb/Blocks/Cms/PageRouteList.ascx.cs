@@ -27,6 +27,7 @@ using System.ComponentModel;
 using Rock.Security;
 using Rock.Web.Cache;
 using System.Web.UI.WebControls;
+using System.Data.Entity;
 
 namespace RockWeb.Blocks.Cms
 {
@@ -36,9 +37,26 @@ namespace RockWeb.Blocks.Cms
     [DisplayName("Route List")]
     [Category("CMS")]
     [Description("Displays a list of page routes.")]
-    [LinkedPage("Detail Page")]
+
+    #region Block Attributes
+
+    [LinkedPage(
+        "Detail Page",
+        Key = AttributeKey.DetailPage,
+        Order = 0 )]
+
+    #endregion
     public partial class PageRouteList : RockBlock, ICustomGridColumns
     {
+        #region Attribute Keys
+
+        private static class AttributeKey
+        {
+            public const string DetailPage = "DetailPage";
+        }
+
+        #endregion Attribute Keys
+
         #region Control Methods
 
         /// <summary>
@@ -104,7 +122,7 @@ namespace RockWeb.Blocks.Cms
         /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
         protected void gPageRoutes_Add( object sender, EventArgs e )
         {
-            NavigateToLinkedPage( "DetailPage", "pageRouteId", 0 );
+            NavigateToLinkedPage( AttributeKey.DetailPage, "PageRouteId", 0 );
         }
 
         /// <summary>
@@ -114,7 +132,7 @@ namespace RockWeb.Blocks.Cms
         /// <param name="e">The <see cref="RowEventArgs" /> instance containing the event data.</param>
         protected void gPageRoutes_Edit( object sender, RowEventArgs e )
         {
-            NavigateToLinkedPage( "DetailPage", "pageRouteId", e.RowKeyId );
+            NavigateToLinkedPage( AttributeKey.DetailPage, "PageRouteId", e.RowKeyId );
         }
 
         /// <summary>
@@ -194,7 +212,7 @@ namespace RockWeb.Blocks.Cms
             }
 
             int entityTypeId = new PageRoute().TypeId;
-            foreach ( var attribute in new AttributeService( new RockContext() ).Queryable()
+            foreach ( var attribute in new AttributeService( new RockContext() ).Queryable().AsNoTracking()
                 .Where( a =>
                     a.EntityTypeId == entityTypeId &&
                     a.IsGridColumn
@@ -228,7 +246,8 @@ namespace RockWeb.Blocks.Cms
         private void BindFilter()
         {
             ddlSite.Items.Clear();
-            foreach ( SiteCache site in new SiteService( new RockContext() ).Queryable().OrderBy( s => s.Name ).Select( a => a.Id ).ToList().Select( a => SiteCache.Get( a ) ) )
+
+            foreach ( SiteCache site in new SiteService( new RockContext() ).Queryable().AsNoTracking().OrderBy( s => s.Name ).Select( a => a.Id ).ToList().Select( a => SiteCache.Get( a ) ) )
             {
                 ddlSite.Items.Add( new ListItem( site.Name, site.Id.ToString() ) );
             }
@@ -245,7 +264,7 @@ namespace RockWeb.Blocks.Cms
             SortProperty sortProperty = gPageRoutes.SortProperty;
             gPageRoutes.EntityTypeId = EntityTypeCache.Get<PageRoute>().Id;
 
-            var queryable = pageRouteService.Queryable();
+            var queryable = pageRouteService.Queryable().AsNoTracking();
 
             int? siteId = gFilter.GetUserPreference( "Site" ).AsIntegerOrNull();
             if ( siteId.HasValue )

@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="VerifySecurity.ascx.cs" Inherits="RockWeb.Blocks.Security.VerifySecurity" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="VerifySecurity.ascx.cs" Inherits="RockWeb.Blocks.Security.VerifySecurity" %>
 
 <asp:UpdatePanel ID="upnlContent" runat="server">
     <ContentTemplate>

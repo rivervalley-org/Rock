@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="InternalCommunicationView.ascx.cs" Inherits="RockWeb.Blocks.Utility.InternalCommunicationView" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="InternalCommunicationView.ascx.cs" Inherits="RockWeb.Blocks.Utility.InternalCommunicationView" %>
 
 <asp:UpdatePanel ID="upnlContent" runat="server">
     <ContentTemplate>

@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="StarkDynamicAttributes.ascx.cs" Inherits="RockWeb.Blocks.Utility.StarkDynamicAttributes" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="StarkDynamicAttributes.ascx.cs" Inherits="RockWeb.Blocks.Utility.StarkDynamicAttributes" %>
 
 <asp:UpdatePanel ID="upnlContent" runat="server">
     <ContentTemplate>

@@ -103,7 +103,20 @@ class TextToWorkflowReponseAsync : IAsyncResult
     /// </summary>
     public void StartAsyncWork()
     {
-        ThreadPool.QueueUserWorkItem( StartAsyncTask, null );
+        ThreadPool.QueueUserWorkItem( ( workItemState ) =>
+        {
+            try
+            {
+                StartAsyncTask( workItemState );
+            }
+            catch ( Exception ex )
+            {
+                Rock.Model.ExceptionLogService.LogException( ex );
+                _context.Response.StatusCode = 500;
+                _completed = true;
+                _callback( this );
+            }
+        }, null );
     }
 
     /// <summary>
@@ -132,6 +145,10 @@ class TextToWorkflowReponseAsync : IAsyncResult
                         var fromPhone = string.Empty;
                         var toPhone = string.Empty;
                         var message = string.Empty;
+                        var twilioMessage = new Twilio.TwiML.Message();
+                        var messagingResponse = new Twilio.TwiML.MessagingResponse();
+
+                        response.ContentType = "application/xml";
 
                         if ( !string.IsNullOrEmpty( request.Form["To"] ) )
                         {
@@ -153,8 +170,11 @@ class TextToWorkflowReponseAsync : IAsyncResult
 
                         if ( processResponse != string.Empty )
                         {
-                            response.Write( processResponse );
+                            twilioMessage.Body( processResponse );
+                            messagingResponse.Message( twilioMessage );
                         }
+
+                        response.Write( messagingResponse.ToString() );
 
                         break;
                 }

@@ -789,21 +789,21 @@ namespace RockWeb.Blocks.CheckIn.Manager
     var options = {2};
     $.plot( $('#{0}'), data, options );
 
-    $('.js-threshold-btn-edit').click(function(e){{
+    $('.js-threshold-btn-edit').on('click', function(e){{
         var $parentDiv = $(this).closest('div.js-threshold');
         $parentDiv.find('.js-threshold-nb').val($parentDiv.find('.js-threshold-hf').val());
         $parentDiv.find('.js-threshold-view').hide();
         $parentDiv.find('.js-threshold-edit').show();
     }});
 
-    $('a.js-threshold-edit').click(function(e){{
+    $('a.js-threshold-edit').on('click', function(e){{
         var $parentDiv = $(this).closest('div.js-threshold');
         $parentDiv.find('.js-threshold-edit').hide();
         $parentDiv.find('.js-threshold-view').show();
         return true;
     }});
 
-    $('.js-threshold').click(function(e){{
+    $('.js-threshold').on('click', function(e){{
         e.stopPropagation();
     }});
 ",
@@ -1082,6 +1082,12 @@ namespace RockWeb.Blocks.CheckIn.Manager
 
             foreach ( var parentGroupType in groupType.ParentGroupTypes )
             {
+                // skip if parent group type and current group type are the same (a situation that should not be possible) to prevent stack overflow
+                if ( groupType.Id == parentGroupType.Id )
+                {
+                    continue;
+                }
+
                 var testGroupType = GetParentPurposeGroupType( parentGroupType, purposeGuid );
                 if ( testGroupType != null )
                 {

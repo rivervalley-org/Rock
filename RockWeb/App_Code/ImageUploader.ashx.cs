@@ -1,4 +1,4 @@
-﻿// <copyright>
+// <copyright>
 // Copyright by the Spark Development Network
 //
 // Licensed under the Rock Community License (the "License");
@@ -57,7 +57,9 @@ namespace RockWeb
             // clean up list
             contentImageFileTypeWhiteList = contentImageFileTypeWhiteList.Select( a => a.ToLower().TrimStart( new char[] { '.', ' ' } ) );
 
-            string fileExtension = Path.GetExtension( uploadedFile.FileName ).ToLower().TrimStart( new char[] { '.' } );
+            var filename = base.ScrubFileName( uploadedFile.FileName );
+
+            string fileExtension = Path.GetExtension( filename ).ToLower().TrimStart( new char[] { '.' } );
             if ( !contentImageFileTypeWhiteList.Contains( fileExtension ) )
             {
                 throw new Rock.Web.FileUploadException( "Image filetype not allowed", System.Net.HttpStatusCode.NotAcceptable );

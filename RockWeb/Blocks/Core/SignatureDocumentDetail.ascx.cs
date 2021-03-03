@@ -1,4 +1,4 @@
-// <copyright>
+﻿// <copyright>
 // Copyright by the Spark Development Network
 //
 // Licensed under the Rock Community License (the "License");
@@ -88,7 +88,7 @@ namespace RockWeb.Blocks.Core
 
             if ( !Page.IsPostBack )
             {
-                ShowDetail( PageParameter( "signatureDocumentId" ).AsInteger() );
+                ShowDetail( PageParameter( "SignatureDocumentId" ).AsInteger() );
             }
         }
 
@@ -103,7 +103,7 @@ namespace RockWeb.Blocks.Core
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void Block_BlockUpdated( object sender, EventArgs e )
         {
-            ShowDetail( PageParameter( "signatureDocumentId" ).AsInteger() );
+            ShowDetail( PageParameter( "SignatureDocumentId" ).AsInteger() );
         }
 
         /// <summary>

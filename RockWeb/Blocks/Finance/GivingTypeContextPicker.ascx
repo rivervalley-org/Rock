@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="GivingTypeContextPicker.ascx.cs" Inherits="RockWeb.Blocks.Finance.GivingTypeContextPicker" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="GivingTypeContextPicker.ascx.cs" Inherits="RockWeb.Blocks.Finance.GivingTypeContextPicker" %>
 
 <asp:UpdatePanel ID="upnlContent" runat="server">
     <ContentTemplate>

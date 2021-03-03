@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="LinkListLava.ascx.cs" Inherits="RockWeb.Blocks.Cms.LinkListLava" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="LinkListLava.ascx.cs" Inherits="RockWeb.Blocks.Cms.LinkListLava" %>
 
 <script type="text/javascript">
     function clearActiveDialog() {

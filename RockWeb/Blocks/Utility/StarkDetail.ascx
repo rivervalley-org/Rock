@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="StarkDetail.ascx.cs" Inherits="RockWeb.Blocks.Utility.StarkDetail" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="StarkDetail.ascx.cs" Inherits="RockWeb.Blocks.Utility.StarkDetail" %>
 
 <asp:UpdatePanel ID="upnlContent" runat="server">
     <ContentTemplate>
@@ -35,8 +35,6 @@
                         <li>Remove this text... unless you really like it...</li>
                     </ul>
                 </div>
-                <asp:PlaceHolder ID="ph1" runat="server" />
-                <Rock:ControlMirror ID="mMirror" ControlID="ph1" runat="server" />
             </div>
         
         </asp:Panel>

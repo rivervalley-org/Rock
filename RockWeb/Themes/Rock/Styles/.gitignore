@@ -1,3 +1,5 @@
 /bootstrap.css
-/email-editor.css
 /theme.css
+/email-editor.css
+/font-awesome.css
+/_variable-overrides.less

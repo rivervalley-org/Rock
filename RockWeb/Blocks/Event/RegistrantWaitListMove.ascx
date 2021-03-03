@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="RegistrantWaitListMove.ascx.cs" Inherits="RockWeb.Blocks.Event.RegistrantWaitListMove" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="RegistrantWaitListMove.ascx.cs" Inherits="RockWeb.Blocks.Event.RegistrantWaitListMove" %>
 
 <asp:UpdatePanel ID="upnlContent" runat="server">
     <ContentTemplate>

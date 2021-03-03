@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="CategoryTreeView.ascx.cs" Inherits="RockWeb.Blocks.Core.CategoryTreeView" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="CategoryTreeView.ascx.cs" Inherits="RockWeb.Blocks.Core.CategoryTreeView" %>
 
 <asp:UpdatePanel ID="upCategoryTree" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
     <ContentTemplate>
@@ -188,22 +188,20 @@
                         }
 
                     })
-                        .on('rockTree:rendered', function () {
-
-                            // update viewport height
-                            resizeScrollbar(scrollbCategory);
-
-                        })
-                        .rockTree({
-                            restUrl: '<%= ResolveUrl( "~/api/categories/getchildren/" ) %>',
-                            restParams: '<%= RestParms %>',
-                            mapping: {
-                                include: ['isCategory', 'entityId'],
-                                mapData: _mapCategories
-                            },
-                            selectedIds: $selectedId.val() ? $selectedId.val().split(',') : null,
-                            expandedIds: $expandedIds.val() ? $expandedIds.val().split(',') : null
-                        });
+                    // update viewport height
+                    .on('rockTree:rendered rockTree:expand rockTree:collapse rockTree:itemClicked', function () {
+                        resizeScrollbar(scrollbCategory);
+                    })
+                    .rockTree({
+                        restUrl: '<%= ResolveUrl( "~/api/categories/getchildren/" ) %>',
+                        restParams: '<%= RestParms %>',
+                        mapping: {
+                            include: ['isCategory', 'entityId'],
+                            mapData: _mapCategories
+                        },
+                        selectedIds: $selectedId.val() ? $selectedId.val().split(',') : null,
+                        expandedIds: $expandedIds.val() ? $expandedIds.val().split(',') : null
+                    });
             });
 
             function resizeScrollbar(scrollControl) {
