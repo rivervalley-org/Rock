@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ScheduledTransactionView.ascx.cs" Inherits="RockWeb.Blocks.Finance.ScheduledTransactionView" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ScheduledTransactionView.ascx.cs" Inherits="RockWeb.Blocks.Finance.ScheduledTransactionView" %>
 
 <asp:UpdatePanel ID="upPayment" runat="server">
     <ContentTemplate>
@@ -61,6 +61,9 @@
                                 <asp:LinkButton ID="btnCancelAccounts" runat="server" Text="Cancel" CssClass="btn btn-link btn-xs" OnClick="btnCancelAccounts_Click" />
                             </div>
                         </asp:Panel>
+
+                        <Rock:RockLiteral ID="lSummary" runat="server" Label="Summary" />
+
                     </div>
                 </div>
 

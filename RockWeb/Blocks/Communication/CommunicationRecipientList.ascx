@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="CommunicationRecipientList.ascx.cs" Inherits="RockWeb.Blocks.Communication.CommunicationRecipientList" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="CommunicationRecipientList.ascx.cs" Inherits="RockWeb.Blocks.Communication.CommunicationRecipientList" %>
 
 <asp:UpdatePanel ID="upPanel" runat="server">
     <ContentTemplate>
@@ -26,7 +26,7 @@
                             <Rock:EnumField DataField="Status" SortExpression="Status" HeaderText="Status" />
                             <Rock:DateTimeField DataField="CreatedDateTime" SortExpression="CreatedDateTime" ColumnPriority="DesktopLarge" HeaderText="Created" />
                             <Rock:RockBoundField DataField="Sender.FullName" HeaderText="Created By" SortExpression="Sender.LastName,Sender.NickName" />
-                            <Rock:LinkButtonField CssClass="btn btn-default btn-sm fa fa-file-text-o" OnClick="gCommunication_RowSelected" />
+                            <Rock:LinkButtonField CssClass="btn btn-default btn-sm" Text="<i class='fa fa-file-text-o'></i>" OnClick="gCommunication_RowSelected" />
                         </Columns>
                     </Rock:Grid>
                 </div>

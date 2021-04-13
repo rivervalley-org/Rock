@@ -51,6 +51,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.rivervalley.SampleProje
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.rivervalley.SampleProject_TwoDefinedValues", "org.rivervalley.SampleProject_TwoDefinedValues\org.rivervalley.SampleProject_TwoDefinedValues.csproj", "{D6C9972E-E53C-42C0-8D26-6119150E88F5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.rivervalley.EngagementScores", "org.rivervalley.EngagementScores\org.rivervalley.EngagementScores.csproj", "{CCD5BFE3-B3F6-4DD9-8357-6893B44C8096}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +115,10 @@ Global
 		{D6C9972E-E53C-42C0-8D26-6119150E88F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6C9972E-E53C-42C0-8D26-6119150E88F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6C9972E-E53C-42C0-8D26-6119150E88F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCD5BFE3-B3F6-4DD9-8357-6893B44C8096}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCD5BFE3-B3F6-4DD9-8357-6893B44C8096}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCD5BFE3-B3F6-4DD9-8357-6893B44C8096}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCD5BFE3-B3F6-4DD9-8357-6893B44C8096}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

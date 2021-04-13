@@ -1,4 +1,4 @@
-// <copyright>
+﻿// <copyright>
 // Copyright by the Spark Development Network
 //
 // Licensed under the Rock Community License (the "License");
@@ -287,8 +287,8 @@ namespace RockWeb.Blocks.Prayer
         {
             Guid guid = new Guid( categoryGuid );
 
-            bddlCategory.DataSource = new CategoryService( new RockContext() ).GetByEntityTypeId( this.PrayerRequestEntityTypeId ).Where( c => c.Guid == guid ||
-                ( c.ParentCategory != null && c.ParentCategory.Guid == guid ) ).AsQueryable().ToList();
+            bddlCategory.DataSource = new CategoryService( new RockContext() ).GetByEntityTypeId( this.PrayerRequestEntityTypeId )
+                .Where( c => ( c.ParentCategory != null && c.ParentCategory.Guid == guid ) ).AsQueryable().ToList();
             bddlCategory.DataTextField = "Name";
             bddlCategory.DataValueField = "Id";
             bddlCategory.DataBind();

@@ -1,4 +1,4 @@
-// <copyright>
+﻿// <copyright>
 // Copyright by the Spark Development Network
 //
 // Licensed under the Rock Community License (the "License");
@@ -219,18 +219,23 @@ namespace RockWeb.Blocks.Reporting
 
             fullsizer.Visible = GetAttributeValue( "ShowFullsizeBtn" ).AsBoolean();
 
-            nbError.Text = string.Empty;
-            hfReportEmbedUrl.Value = GetAttributeValue( "ReportUrl" ) +
-                ( cbSettingPowerBIRightPane.Checked ? "" : "&filterPaneEnabled=false" ) +
-                ( cbSettingPowerBINavPane.Checked ? "" : "&navContentPaneEnabled=false" );
+            string reportUrl = GetAttributeValue( "ReportUrl" );
+            bool showRightPane = GetAttributeValue( "ShowRightPane" ).AsBoolean();
+            bool showNavPane = GetAttributeValue( "ShowNavPane" ).AsBoolean();
 
-            if ( hfReportEmbedUrl.Value.IsNullOrWhiteSpace() )
+            nbError.Text = string.Empty;
+
+            if ( reportUrl.IsNullOrWhiteSpace() )
             {
                 pnlView.Visible = false;
                 nbError.NotificationBoxType = NotificationBoxType.Warning;
                 nbError.Text = "No report has been configured.";
                 return;
             }
+
+            hfReportEmbedUrl.Value = reportUrl +
+                ( showRightPane ? "" : "&filterPaneEnabled=false" ) +
+                ( showNavPane ? "" : "&navContentPaneEnabled=false" );
 
             if ( !string.IsNullOrWhiteSpace( GetAttributeValue( "PowerBiAccount" ) ) )
             {

@@ -2,4 +2,5 @@
 /theme.css
 /email-editor.css
 /font-awesome.css
-/_variable-overrides.less
+/group-scheduler.css
+/group-placement.css
