@@ -31,8 +31,29 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DotLiquid">
+      <HintPath>..\RockWeb\Bin\DotLiquid.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\RockWeb\Bin\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Rock">
+      <HintPath>..\RockWeb\Bin\Rock.dll</HintPath>
+    </Reference>
+    <Reference Include="Rock.Rest">
+      <HintPath>..\RockWeb\Bin\Rock.Rest.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\RockWeb\Bin\System.Web.Http.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,11 +62,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Badge\EngagementScoreBadge.cs" />
     <Compile Include="Model\EngagementScore.cs" />
+    <Compile Include="Model\EngagementScoreService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rest\EngagementScoreController.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Rest\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
