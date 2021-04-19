@@ -1,26 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.Composition;
+using System.Configuration;
+using System.Data;
+using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using System.Data.SqlClient;
-using System.Configuration;
-using System.Data.Entity;
-using System.Text.RegularExpressions;
-
-using org.rivervalley.JobOffers.Model;
 
 using Rock;
-using Rock.Attribute;
-using Rock.Model;
-using Rock.Web.UI.Controls;
 using Rock.Data;
-using System.Data;
-using Rock.Web.Cache;
-using Rock.Communication;
+using Rock.Model;
+
+using org.rivervalley.JobOffers.Model;
 
 namespace RockWeb.Plugins.org_rivervalley.JobOffers
 {
@@ -62,7 +54,6 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         decimal housing = 0;
         string vacationDays = "";
         string vacationRate = "";
-        //decimal vacMax = 0;
         bool formError = false;
         string calculateVacation;
         private Guid campusGuid;
@@ -72,6 +63,11 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
 
         #region Base Control Methods
 
+
+        /// <summary>
+        /// Raises the <see cref="E:System.Web.UI.Control.Load" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="T:System.EventArgs" /> object that contains the event data.</param>
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
@@ -107,18 +103,33 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
 
         #region Events
 
+        /// <summary>
+        /// Handles the Click event of the btnCancel control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void btnCancel_Click(object sender, EventArgs e)
         {
             string link = "~/JobOffersListing";
             Response.Redirect(link);
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnEmployeeNumber control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void btnEmployeeNumber_Click(object sender, EventArgs e)
         {
             string link = "~/JobOffersListing";
             Response.Redirect(link);
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnPrint control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void btnPrint_Click(object sender, EventArgs e)
         {
             jobOfferId = int.Parse(hfJobOfferId.Value);
@@ -126,6 +137,11 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             Response.Redirect(link);
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnEmployeeNumberSave control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void btnEmployeeNumberSave_Click(object sender, EventArgs e)
         {
             pnlError.Visible = false;
@@ -155,7 +171,12 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             string link = "~/JobOfferDataDisplay?id=" + jobOfferId.ToString();
             Response.Redirect(link);
         }
-        
+
+        /// <summary>
+        /// Handles the Click event of the btnJOUpdate control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void btnJOUpdate_Click(object sender, EventArgs e)
         {
             pnlJobOffer.Visible = false;
@@ -175,17 +196,6 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             var personAliasService = new PersonAliasService(rockContext);
             var personAlias = personAliasService.Get(currentOffer.PersonAliasId);
             int employeeId = personAlias.PersonId;
-            // need to convert guid to  string and then to a new guid
-            string guidString = personAlias.AliasPersonGuid.ToString();
-            Guid paGuid = Guid.Empty;
-            try
-            {
-                paGuid = Guid.Parse(guidString);
-            }
-            catch (Exception)
-            {
-                // should not error out...
-            }
            
             offerEmployee = new PersonService(rockContext).Get(employeeId);
             offerEmployee.LoadAttributes(rockContext);            
@@ -207,8 +217,6 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             employmentStatus.LoadAttributes(rockContext);
 
             string esCode = employmentStatus.GetAttributeValue("FTorPTCode");
-
-            
 
             if (esCode == "F")
             {
@@ -234,8 +242,6 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             offerEmployee.SetAttributeValue("JobTitle", position.Guid);
 
             offerEmployee.SetAttributeValue("Arena-67-289", employeeId);
-            //offerEmployee.SetAttributeValue("EmployeeNumber", employeeId);
-
 
             int campusId = currentOffer.CampusId ?? default(int);
             ConvertCampusData(campusId);
@@ -244,42 +250,15 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
 
             offerEmployee.SaveAttributeValues();
 
-            // add tag - first check if person has tag
-            string qryString = "";
-            qryString = qryString + "SELECT * ";
-            qryString = qryString + "FROM TaggedItem ";
-            qryString = qryString + "WHERE EntityGuid LIKE '" + personAlias.AliasPersonGuid + "' ";
-            qryString = qryString + "AND TagId = 1";
-
-            SqlConnection conn = new SqlConnection(connString);
-            conn.Open();
-            SqlCommand cmd = new SqlCommand(qryString, conn);
-            cmd.CommandType = System.Data.CommandType.Text;
-            SqlDataReader rdr = cmd.ExecuteReader();
-            int counter = 0;
-            while (rdr.Read())
-            {
-                counter++;
-            }
-            conn.Close();
-
-            if (counter == 0)
-            {
-                TagService tagService = new TagService(rockContext);
-                Tag orgTag = tagService.Queryable().Where(t => t.Name == "Staff" && t.EntityTypeId == 15).FirstOrDefault();
-
-                TaggedItem taggedPerson = new TaggedItem();
-                taggedPerson.Tag = orgTag;
-                taggedPerson.EntityTypeId = 15;
-                taggedPerson.EntityGuid = paGuid;
-                orgTag.TaggedItems.Add(taggedPerson);
-                rockContext.SaveChanges();
-            }
-
             string link = "~/JobOffersListing";
             Response.Redirect(link);
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnJOEdit control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void btnJOEdit_Click(object sender, EventArgs e)
         {
             pnlJobOffer.Visible = false;
@@ -296,6 +275,11 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             LoadEditDetail();
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnJOCompensation control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void btnJOCompensation_Click(object sender, EventArgs e)
         {
             pnlJobOffer.Visible = false;
@@ -314,6 +298,11 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             LoadCompensationDetail();
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnJOBenefits control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void btnJOBenefits_Click(object sender, EventArgs e)
         {
             pnlJobOffer.Visible = false;
@@ -332,6 +321,11 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             LoadBenefitsDetail();
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnJOCopy control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void btnJOCopy_Click(object sender, EventArgs e)
         {
             pnlJobOffer.Visible = false;
@@ -350,6 +344,11 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             dpNewOfferDate.Text = today.ToShortDateString();
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnJobDetailsSave control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void btnJobDetailsSave_Click(object sender, EventArgs e)
         {           
             jobOfferId = int.Parse(hfJobOfferId.Value);
@@ -445,6 +444,11 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             }           
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnCompensationSave control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void btnCompensationSave_Click(object sender, EventArgs e)
         {           
             jobOfferId = int.Parse(hfJobOfferId.Value);
@@ -462,6 +466,11 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnBenefitsSave control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void btnBenefitsSave_Click(object sender, EventArgs e)
         {            
             jobOfferId = int.Parse(hfJobOfferId.Value);
@@ -478,6 +487,11 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             LoadJobOfferDetails();
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnCopyRecordSave control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void btnCopyRecordSave_Click(object sender, EventArgs e)
         {
             jobOfferId = int.Parse(hfJobOfferId.Value);
@@ -486,7 +500,6 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             currentOffer = new JobOfferDetailService(new RockContext()).Get(jobOfferId);
 
             pnlDebug.Visible = true;
-            //ldebugString.Text = "Title " + currentOffer.Title;
             SaveCopyDetails();
             
             string link = "~/JobOffersListing";
@@ -497,6 +510,9 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
 
         #region Methods
 
+        /// <summary>
+        /// Gets the identifier.
+        /// </summary>
         protected void GetId()
         {
             int? id = PageParameter("id").AsIntegerOrNull();
@@ -526,6 +542,9 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             }            
         }
 
+        /// <summary>
+        /// Creates new joboffer.
+        /// </summary>
         private void NewJobOffer()
         {
             pnlJobOffer.Visible = false;
@@ -540,6 +559,9 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             LoadJobDetailDropDownValues();
         }
 
+        /// <summary>
+        /// Loads the job offer details.
+        /// </summary>
         private void LoadJobOfferDetails()
         {
             // Load all variables for display
@@ -677,6 +699,9 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             }
         }
 
+        /// <summary>
+        /// Loads the edit detail.
+        /// </summary>
         private void LoadEditDetail()
         {
             LoadJobDetailDropDownValues();            
@@ -714,6 +739,9 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             }
         }
 
+        /// <summary>
+        /// Loads the compensation detail.
+        /// </summary>
         private void LoadCompensationDetail()
         {
             tbWeeklyHours.Text = currentOffer.WeeklyHours.ToString();
@@ -738,6 +766,9 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             tbHousing.Text = currentOffer.HousingAllowance.ToString();
         }
 
+        /// <summary>
+        /// Loads the benefits detail.
+        /// </summary>
         private void LoadBenefitsDetail()
         {
             string medical = "Med";
@@ -805,6 +836,11 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             }
         }
 
+        /// <summary>
+        /// Gets the payroll status.
+        /// </summary>
+        /// <param name="pastor">if set to <c>true</c> [pastor].</param>
+        /// <param name="status">The status.</param>
         private void GetPayrollStatus(bool pastor, string status)
         {
             if (pastor)
@@ -821,6 +857,9 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             isSalary = status.Contains("Salary");
         }
 
+        /// <summary>
+        /// Sets the job detail.
+        /// </summary>
         private void SetJobDetail()
         {
             nbWarningMessage.Text = "Please Correct the Following";
@@ -899,7 +938,8 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
                 int aliasId = currentPerson.PrimaryAliasId ?? default(int);
                 //currentOffer.PersonId = personId;
                 currentOffer.PersonAliasId = aliasId;
-            }            
+            }
+
             // compare new IsPastor with previous IsPastor
             if (cbIsPastor.Checked == true )
             {
@@ -932,6 +972,9 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             currentOffer.CurrentHourlyRate = 0;
         }
 
+        /// <summary>
+        /// Sets the compensation data.
+        /// </summary>
         private void SetCompensationData()
         {
             decimal.TryParse(tbWeeklyHours.Text.Trim(), out weeklyHours);
@@ -973,6 +1016,9 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             currentOffer.CurrentBaseSalary = currentBaseSalary;
         }
 
+        /// <summary>
+        /// Sets the benefits data.
+        /// </summary>
         private void SetBenefitsData()
         {            
             decimal medicalReimbursement = 0;
@@ -1069,6 +1115,9 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             currentOffer.OtherDescription = tbOtherDescription.Text;
         }
 
+        /// <summary>
+        /// Gets the new job offer.
+        /// </summary>
         private void GetNewJobOffer()
         {
             int counter = 0;
@@ -1085,6 +1134,9 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             }
         }
 
+        /// <summary>
+        /// Loads the job detail drop down values.
+        /// </summary>
         private void LoadJobDetailDropDownValues()
         {
             var osQry = new DefinedValueService(new RockContext()).Queryable().AsNoTracking();
@@ -1134,6 +1186,9 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             }
         }
 
+        /// <summary>
+        /// Gets the social security rates.
+        /// </summary>
         private void GetSocialSecurityRates()
         {
             var ss1Qry = new AttributeService(new RockContext()).Queryable().AsNoTracking();
@@ -1158,6 +1213,9 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             }
         }
 
+        /// <summary>
+        /// Calculates the social security gross up.
+        /// </summary>
         private void CalculateSocialSecurityGrossUp()
         {
             GetSocialSecurityRates();
@@ -1198,6 +1256,9 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             }
         }
 
+        /// <summary>
+        /// Calculates the payroll tax.
+        /// </summary>
         private void CalculatePayrollTax()
         {
             var pt1Qry = new AttributeService(new RockContext()).Queryable().AsNoTracking();
@@ -1215,8 +1276,11 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             {
                 currentOffer.EmployerPayrollTax = totalSalary * payrollTaxRate;
             }
-        }                
+        }
 
+        /// <summary>
+        /// Calculates the workers comp.
+        /// </summary>
         private void CalculateWorkersComp()
         {
             decimal premiumRate = 0;
@@ -1275,6 +1339,9 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             }
         }
 
+        /// <summary>
+        /// Gets the vacation status.
+        /// </summary>
         private void GetVacationStatus()
         {
             var statusId = currentOffer.EmploymentStatusValueId;
@@ -1287,6 +1354,9 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             }
         }
 
+        /// <summary>
+        /// Calculates the vacation days.
+        /// </summary>
         private void CalculateVacationDays()
         {
             double days = 0;
@@ -1330,6 +1400,10 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             conn.Close();
         }
 
+        /// <summary>
+        /// Calculates the retirement.
+        /// </summary>
+        /// <param name="valueId">The value identifier.</param>
         private void CalculateRetirement(int valueId)
         {
             if (isFullTime == true)
@@ -1357,6 +1431,9 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             currentOffer.RetirementEmployerPercentage = rate;
         }
 
+        /// <summary>
+        /// Calculates the disability insurance.
+        /// </summary>
         private void CalculateDisabilityInsurance()
         {
             decimal rate = 0;
@@ -1385,6 +1462,9 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             }
         }
 
+        /// <summary>
+        /// Calculates the life insurance.
+        /// </summary>
         private void CalculateLifeInsurance()
         {
             decimal rate = 0;
@@ -1413,6 +1493,10 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             }
         }
 
+        /// <summary>
+        /// Calculates the medical premiums.
+        /// </summary>
+        /// <param name="valueId">The value identifier.</param>
         private void CalculateMedicalPremiums(int valueId)
         {
             decimal rate = 0;
@@ -1436,6 +1520,10 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             currentOffer.MedicalEmployeePremium = rate;
         }
 
+        /// <summary>
+        /// Calculates the dental premiums.
+        /// </summary>
+        /// <param name="valueId">The value identifier.</param>
         private void CalculateDentalPremiums(int valueId)
         {
             decimal rate = 0;
@@ -1459,6 +1547,10 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             currentOffer.DentalEmployeePremium = rate;
         }
 
+        /// <summary>
+        /// Converts the campus data.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
         private void ConvertCampusData(int id)
         {
             string qryString = "";
@@ -1482,8 +1574,9 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             conn.Close();
         }
 
-
-
+        /// <summary>
+        /// Saves the copy details.
+        /// </summary>
         private void SaveCopyDetails()
         {
             var dataContext = new RockContext();
@@ -1508,7 +1601,6 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             copyOffer.EmploymentStatusValueId = currentOffer.EmploymentStatusValueId;
             copyOffer.DepartmentValueId = currentOffer.DepartmentValueId;
             copyOffer.CampusId = currentOffer.CampusId;
-            //copyOffer.PersonId = currentOffer.PersonId;
             copyOffer.PersonAliasId = currentOffer.PersonAliasId;
             copyOffer.IsPastor = currentOffer.IsPastor;
             copyOffer.JobOfferStatusValueId = currentOffer.JobOfferStatusValueId;
@@ -1556,7 +1648,7 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             dataContext.SaveChanges();
 
         }
-        #endregion
 
+        #endregion
     }
 }
