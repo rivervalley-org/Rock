@@ -1,4 +1,3 @@
-﻿
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -260,7 +259,7 @@ namespace RockWeb.Plugins.org_riverValley.Groups
     [DefinedTypeField( "Group Type Defined Type", "The defined type used for the group type.", true, "", "", 4 )]
     [DefinedTypeField( "Demographic Defined Type", "The defined type used for the demographic.", true, "", "", 5 )]
     [DefinedTypeField( "Meeting Type Defined Type", "The defined type used for meeting type.", true, "", "", 6 )]
-    
+
     public partial class GroupFinderV2 : RockBlock
     {
         #region Private Variables
@@ -271,7 +270,7 @@ namespace RockWeb.Plugins.org_riverValley.Groups
 
         #region Properties
 
-        
+
 
         #endregion
 
@@ -306,6 +305,18 @@ namespace RockWeb.Plugins.org_riverValley.Groups
                 {
                     ddlCampuses.SelectedValue = _campusId.Value.ToString();
                 }
+
+                List<Day> days = new List<Day>();
+                days.Add(new Day("Sunday", "Sun"));
+                days.Add(new Day("Monday", "Mon"));
+                days.Add(new Day("Tuesday", "Tue"));
+                days.Add(new Day("Wednesday", "Wed"));
+                days.Add(new Day("Thursday", "Thu"));
+                days.Add(new Day("Friday", "Fri"));
+                days.Add(new Day("Saturday", "Sat"));
+
+                rptDays.DataSource = days.ToList();
+                rptDays.DataBind();
 
                 BindGroups();
             }
@@ -362,6 +373,26 @@ namespace RockWeb.Plugins.org_riverValley.Groups
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void dvpMeetingType_SelectedIndexChanged( object sender, EventArgs e )
         {
+            BindGroups();
+        }
+
+        protected void btnDay_ItemCommand(object sender, RepeaterCommandEventArgs e)
+        {
+            foreach(RepeaterItem item in rptDays.Items)
+            {
+                LinkButton btnDay = item.FindControl("btnDay") as LinkButton;
+                if(btnDay == e.CommandSource)
+                {
+                    if( btnDay.CssClass.Contains("active") )
+                    {
+                        btnDay.RemoveCssClass("active");
+                    }
+                    else
+                    {
+                        btnDay.AddCssClass("active");
+                    }
+                }
+            }
             BindGroups();
         }
 
@@ -484,14 +515,14 @@ namespace RockWeb.Plugins.org_riverValley.Groups
                     GroupType = g.GroupType.Name,
                     CampusId = g.Campus != null ? g.Campus.Id : 0,
                     CampusName = g.Campus != null ? g.Campus.Name : string.Empty,
-                    DayOfWeek = g.Schedule != null ? g.Schedule.WeeklyDayOfWeek.ToString() : string.Empty,
+                    DayOfWeek = g.Schedule != null ? (g.Schedule.WeeklyDayOfWeek.ToString() != null ? g.Schedule.WeeklyDayOfWeek.ToString() : g.Schedule.GetNextStartDateTime(DateTime.Now).ToString()) : string.Empty,
                     TimeOfDay = g.Schedule != null ? g.Schedule.WeeklyTimeOfDay.ToString() : string.Empty,
-                    Leader = g.Members.Where( m => 
-                                        !m.IsArchived && 
-                                         m.GroupMemberStatus == GroupMemberStatus.Active && 
+                    Leader = g.Members.Where( m =>
+                                        !m.IsArchived &&
+                                         m.GroupMemberStatus == GroupMemberStatus.Active &&
                                          m.GroupRole.IsLeader &&
- 										 m.GroupRole.Name != "Admin" )
-									.OrderBy( m => m.GroupRole.Order )
+                                          m.GroupRole.Name != "Admin" )
+                                    .OrderBy( m => m.GroupRole.Order )
                                     .Select( m => m.Person ).FirstOrDefault(),
                     Capacity = g.GroupCapacity,
                     SpotsFilled = g.Members.Where( m => !m.IsArchived && m.GroupMemberStatus == GroupMemberStatus.Active ).Count(),
@@ -505,8 +536,8 @@ namespace RockWeb.Plugins.org_riverValley.Groups
                         demographicLookup.Where( l => l.Key == g.Id ).Any() ?
                         demographicLookup.Where( l => l.Key == g.Id ).Select( l => l.Value ).First() :
                         attributeService.Where( a => a.EntityTypeId == groupEntityTypeId && a.Key == "Demographic" && a.EntityTypeQualifierValue == g.GroupType.Id.ToString() ).Select( a => a.DefaultValue ).FirstOrDefault(),
-                    MeetingTypeValue = 
-                        meetingTypeLookup.Where( l => l.Key == g.Id ).Any() ? 
+                    MeetingTypeValue =
+                        meetingTypeLookup.Where( l => l.Key == g.Id ).Any() ?
                         meetingTypeLookup.Where( l => l.Key == g.Id ).Select( l => l.Value ).First() :
                         attributeService.Where( a => a.EntityTypeId == groupEntityTypeId && a.Key == "MeetingType" && a.EntityTypeQualifierValue == g.GroupType.Id.ToString() ).Select( a => a.DefaultValue ).FirstOrDefault()
                 } )
@@ -551,13 +582,31 @@ namespace RockWeb.Plugins.org_riverValley.Groups
                 }
             }
 
+            // filter Meeting Day(s)
+            List<string> selectedDays = new List<string>();
+            foreach (RepeaterItem item in rptDays.Items) //iterate through the repeater buttons and figure out which ones are selected
+            {
+                var btnDay = item.FindControl("btnDay") as LinkButton;
+                if (btnDay != null)
+                {
+                    if(btnDay.CssClass.Contains("active"))
+                    {
+                        selectedDays.Add(btnDay.CommandArgument); //adds the full day string to the list
+                    }
+                }
+            }
+            if ( selectedDays.Any() )
+            {
+                groupItems = groupItems.Where(g => selectedDays.Contains(g.DayOfWeek)).ToList();
+            }
+            
             // filter Meeting Type
             if ( dvpMeetingType.SelectedDefinedValueId.HasValue )
             {
                 var definedValue = DefinedValueCache.Get( dvpMeetingType.SelectedDefinedValueId.Value );
                 if ( definedValue != null )
                 {
-                    groupItems = groupItems.Where( g => g.MeetingTypeValue != null && g.MeetingTypeValue.Contains( definedValue.Guid.ToString() ) ).ToList(); 
+                    groupItems = groupItems.Where( g => g.MeetingTypeValue != null && g.MeetingTypeValue.Contains( definedValue.Guid.ToString() ) ).ToList();
                 }
             }
 
@@ -571,6 +620,8 @@ namespace RockWeb.Plugins.org_riverValley.Groups
 
             lLavaTemplate.Text = GetAttributeValue( "LavaTemplate" ).ResolveMergeFields( mergeObjects );
         }
+
+
 
         #endregion
     }
@@ -611,6 +662,18 @@ namespace RockWeb.Plugins.org_riverValley.Groups
         public string DemographicValue { get; set; }
 
         public string MeetingTypeValue { get; set; }
+    }
+
+    public class Day
+    {
+        public string FullName { get; set; }
+        public string AbbreviatedName { get; set; }
+
+        public Day(string fn, string an)
+        {
+            FullName = fn;
+            AbbreviatedName = an;
+        }
     }
 
     #endregion
