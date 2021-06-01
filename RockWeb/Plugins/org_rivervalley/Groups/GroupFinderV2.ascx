@@ -15,7 +15,7 @@
                     <Rock:RockDropDownList ID="ddlCampuses" runat="server" Label="Campus" AutoPostBack="true" OnSelectedIndexChanged="ddlCampuses_SelectedIndexChanged" />
                 </div>
                 <div class="col-md-4 col-sm-6 col-xs-6">
-                    <Rock:DefinedValuePicker ID="dvpGroupTypes" runat="server" Label="Life Group Type" AutoPostBack="true" OnSelectedIndexChanged="dvpGroupTypes_SelectedIndexChanged" />
+                    <Rock:DefinedValuePicker ID="dvpGroupTypes" runat="server" Label="Small Group Type" AutoPostBack="true" OnSelectedIndexChanged="dvpGroupTypes_SelectedIndexChanged" />
                 </div>
                 <div class="col-md-4 col-sm-6 col-xs-6">
                     <Rock:DefinedValuePicker ID="dvpDemographic" runat="server" Label="Demographic" AutoPostBack="true" OnSelectedIndexChanged="dvpDemographic_SelectedIndexChanged" />
