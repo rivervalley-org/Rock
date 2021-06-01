@@ -511,7 +511,7 @@ namespace RockWeb.Plugins.org_riverValley.Groups
                 {
                     Id = g.Id,
                     Name = g.Name,
-                    Description = g.Description,
+                    Description = g.Description != null ? g.Description : string.Empty,
                     GroupType = g.GroupType.Name,
                     CampusId = g.Campus != null ? g.Campus.Id : 0,
                     CampusName = g.Campus != null ? g.Campus.Name : string.Empty,
