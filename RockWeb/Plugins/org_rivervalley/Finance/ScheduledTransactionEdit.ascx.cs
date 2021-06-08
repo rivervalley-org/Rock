@@ -1420,7 +1420,7 @@ achieve our mission.  We are so grateful for your commitment.
         /// </summary>
         private void BindAccounts()
         {
-            rptAccountList.DataSource = SelectedAccounts.OrderBy( f => f.PublicName ); // RVC Custom Change
+            rptAccountList.DataSource = SelectedAccounts.OrderByDescending( f => f.Amount ).ThenBy( f => f.Name ); // RVC Custom Change
             rptAccountList.DataBind();
 
             btnAddAccount.Visible = AvailableAccounts.Any();
