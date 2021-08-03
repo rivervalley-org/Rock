@@ -185,137 +185,145 @@ namespace com.paysley.Paysley.Jobs
             DateTime endDateTime = today;
             DateTime startDateTime = endDateTime.Subtract( daysBackTimeSpan );
 
+            int numOfDays = ( endDateTime - startDateTime ).Days;
+
             string errorMessage = string.Empty;
 
-            // fetch payments
-            int page = 1;
-            var response = PaysleyGetPayments( url, authToken, page, BATCH_SIZE, startDateTime, endDateTime, out errorMessage );
-
-            if ( errorMessage.IsNotNullOrWhiteSpace() )
+            for ( int x = 0; x < numOfDays; x++ )
             {
-                exceptionMsgs.Add( errorMessage );
-            }
+                var startDate = endDateTime.AddDays( -x - 1 );
+                var endDate = endDateTime.AddDays( -x );
 
-            while ( response != null && page <= response.page_count )
-            {
-                response = PaysleyGetPayments( url, authToken, page, BATCH_SIZE, startDateTime, endDateTime, out errorMessage );
+                // fetch payments
+                int page = 1;
+                var response = PaysleyGetPayments( url, authToken, page, BATCH_SIZE, startDate, endDate, out errorMessage );
 
                 if ( errorMessage.IsNotNullOrWhiteSpace() )
                 {
                     exceptionMsgs.Add( errorMessage );
                 }
 
-                foreach ( var payment in response.payments )
+                while ( response != null && page <= response.page_count )
                 {
-                    rockContext = new RockContext();
+                    response = PaysleyGetPayments( url, authToken, page, BATCH_SIZE, startDate, endDate, out errorMessage );
 
-                    if ( payment.status != "success" )
+                    if ( errorMessage.IsNotNullOrWhiteSpace() )
                     {
-                        continue;
+                        exceptionMsgs.Add( errorMessage );
                     }
 
-                    if ( payment.amount <= 0 )
+                    foreach ( var payment in response.payments )
                     {
-                        continue;
-                    }
+                        rockContext = new RockContext();
 
-                    var financialTransactionService = new FinancialTransactionService( rockContext );
-
-                    // check to see if transaction already exists
-                    var txn = financialTransactionService.Queryable().AsNoTracking()
-                        .Where( ft => ft.TransactionCode == payment.payment_id )
-                        .FirstOrDefault();
-
-                    // first, check to see if the payment is a refund
-                    if ( payment.payment_type == "CC.RF" || payment.payment_type == "CC.RV" )
-                    {
-                        // find the original transaction
-                        var orgTxn = financialTransactionService.Queryable().AsNoTracking()
-                            .Where( ft => ft.TransactionCode == payment.reference_payment_id )
-                            .FirstOrDefault();
-
-                        // and that we didn't already process the refund
-                        if ( orgTxn != null && !orgTxn.Refunds.Any() )
-                        {
-                            var refundTxn = financialTransactionService.ProcessRefund( orgTxn, payment.amount, null, "Transaction was refunded through Paysley.", false, "", out errorMessage );
-
-                            if ( refundTxn != null )
-                            {
-                                refundTxn.TransactionCode = payment.payment_id;
-                                refundTxn.Summary = BuildSummary( payment );
-                                rockContext.SaveChanges(); 
-                            }
-
-                            if ( errorMessage.IsNotNullOrWhiteSpace() )
-                            {
-                                exceptionMsgs.Add( errorMessage );
-                            }
-                        }
-                    }
-                    // next, check if the transaction is new and then add it
-                    else if ( txn == null )
-                    {
-                        var transaction = new FinancialTransaction();
-                        transaction.Guid = Guid.NewGuid();
-                        transaction.TransactionCode = payment.payment_id;
-                        transaction.TransactionDateTime = payment.payment_date;
-                        transaction.Status = payment.status;
-                        transaction.IsSettled = true;
-                        transaction.SettledDate = payment.payment_date;
-                        transaction.StatusMessage = payment.result_description;
-                        transaction.FinancialPaymentDetail = new FinancialPaymentDetail();
-
-                        transaction.AuthorizedPersonAliasId = FindPersonMatch( payment, rockContext );
-                        transaction.SourceTypeValueId = sourceTypeValueId;
-                        transaction.FinancialGatewayId = null;
-                        transaction.TransactionTypeValueId = DefinedValueCache.Get( Rock.SystemGuid.DefinedValue.TRANSACTION_TYPE_CONTRIBUTION.AsGuid() ).Id;
-
-                        var transactionDetail = new FinancialTransactionDetail();
-                        transactionDetail.Amount = payment.amount;
-                            
-                        int? accountId = MapPaymentToAccount( payment, defaultAccountId, rockContext );
-                        if ( !accountId.HasValue )
+                        if ( payment.status != "success" )
                         {
                             continue;
                         }
 
-                        transaction.FinancialPaymentDetail = new FinancialPaymentDetail();
-                        transaction.FinancialPaymentDetail.CurrencyTypeValueId = DefinedValueCache.Get( Rock.SystemGuid.DefinedValue.CURRENCY_TYPE_CREDIT_CARD.AsGuid() ).Id;
-
-                        transactionDetail.AccountId = accountId.Value;
-                        transaction.TransactionDetails.Add( transactionDetail );
-
-                        transaction.Summary = BuildSummary( payment );
-
-                        // Get the batch
-                        var batchService = new FinancialBatchService( rockContext );
-                        var batch = batchService.Get(
-                            string.Format( "{0} {1}", batchNamePrefix, transaction.TransactionDateTime.Value.ToString( "MMddy" ) ),
-                            string.Empty,
-                            null,
-                            null,
-                            transaction.TransactionDateTime.Value,
-                            new TimeSpan( 0, 0, 0, 0 ),
-                            null );
-
-                        if ( batch.Id == 0 )
+                        if ( payment.amount <= 0 )
                         {
-                            // get a batch Id
-                            rockContext.SaveChanges();
+                            continue;
                         }
 
-                        transaction.BatchId = batch.Id;
-                        financialTransactionService.Add( transaction );
+                        var financialTransactionService = new FinancialTransactionService( rockContext );
 
-                        batch.ControlAmount += transaction.TotalAmount;
+                        // check to see if transaction already exists
+                        var txn = financialTransactionService.Queryable().AsNoTracking()
+                            .Where( ft => ft.TransactionCode == payment.payment_id )
+                            .FirstOrDefault();
 
-                        transactionCount++;
-                    }                  
+                        // first, check to see if the payment is a refund
+                        if ( payment.payment_type == "CC.RF" || payment.payment_type == "CC.RV" )
+                        {
+                            // find the original transaction
+                            var orgTxn = financialTransactionService.Queryable().AsNoTracking()
+                                .Where( ft => ft.TransactionCode == payment.reference_payment_id )
+                                .FirstOrDefault();
 
-                    rockContext.SaveChanges();
-                }
-                    
-                page++;
+                            // and that we didn't already process the refund
+                            if ( orgTxn != null && !orgTxn.Refunds.Any() )
+                            {
+                                var refundTxn = financialTransactionService.ProcessRefund( orgTxn, payment.amount, null, "Transaction was refunded through Paysley.", false, "", out errorMessage );
+
+                                if ( refundTxn != null )
+                                {
+                                    refundTxn.TransactionCode = payment.payment_id;
+                                    refundTxn.Summary = BuildSummary( payment );
+                                    rockContext.SaveChanges();
+                                }
+
+                                if ( errorMessage.IsNotNullOrWhiteSpace() )
+                                {
+                                    exceptionMsgs.Add( errorMessage );
+                                }
+                            }
+                        }
+                        // next, check if the transaction is new and then add it
+                        else if ( txn == null )
+                        {
+                            var transaction = new FinancialTransaction();
+                            transaction.Guid = Guid.NewGuid();
+                            transaction.TransactionCode = payment.payment_id;
+                            transaction.TransactionDateTime = payment.payment_date;
+                            transaction.Status = payment.status;
+                            transaction.IsSettled = true;
+                            transaction.SettledDate = payment.payment_date;
+                            transaction.StatusMessage = payment.result_description;
+                            transaction.FinancialPaymentDetail = new FinancialPaymentDetail();
+
+                            transaction.AuthorizedPersonAliasId = FindPersonMatch( payment, rockContext );
+                            transaction.SourceTypeValueId = sourceTypeValueId;
+                            transaction.FinancialGatewayId = null;
+                            transaction.TransactionTypeValueId = DefinedValueCache.Get( Rock.SystemGuid.DefinedValue.TRANSACTION_TYPE_CONTRIBUTION.AsGuid() ).Id;
+
+                            var transactionDetail = new FinancialTransactionDetail();
+                            transactionDetail.Amount = payment.amount;
+
+                            int? accountId = MapPaymentToAccount( payment, defaultAccountId, rockContext );
+                            if ( !accountId.HasValue )
+                            {
+                                continue;
+                            }
+
+                            transaction.FinancialPaymentDetail = new FinancialPaymentDetail();
+                            transaction.FinancialPaymentDetail.CurrencyTypeValueId = DefinedValueCache.Get( Rock.SystemGuid.DefinedValue.CURRENCY_TYPE_CREDIT_CARD.AsGuid() ).Id;
+
+                            transactionDetail.AccountId = accountId.Value;
+                            transaction.TransactionDetails.Add( transactionDetail );
+
+                            transaction.Summary = BuildSummary( payment );
+
+                            // Get the batch
+                            var batchService = new FinancialBatchService( rockContext );
+                            var batch = batchService.Get(
+                                string.Format( "{0} {1}", batchNamePrefix, transaction.TransactionDateTime.Value.ToString( "MMddy" ) ),
+                                string.Empty,
+                                null,
+                                null,
+                                transaction.TransactionDateTime.Value,
+                                new TimeSpan( 0, 0, 0, 0 ),
+                                null );
+
+                            if ( batch.Id == 0 )
+                            {
+                                // get a batch Id
+                                rockContext.SaveChanges();
+                            }
+
+                            transaction.BatchId = batch.Id;
+                            financialTransactionService.Add( transaction );
+
+                            batch.ControlAmount += transaction.TotalAmount;
+
+                            transactionCount++;
+                        }
+
+                        rockContext.SaveChanges();
+                    }
+
+                    page++;
+                } 
             }
 
             if ( exceptionMsgs.Any() )
@@ -348,6 +356,7 @@ namespace com.paysley.Paysley.Jobs
             restRequest.AddParameter( "limit", batchAmount.ToString() );
             restRequest.AddParameter( "start_date", startDate.ToString( "yyyy-MM-dd" ) );
             restRequest.AddParameter( "end_date", endDate.ToString( "yyyy-MM-dd" ) );
+            restRequest.Timeout = 120000;
 
             var restResponse = restClient.Execute( restRequest );
             if ( ( int ) restResponse.StatusCode == 200 )
