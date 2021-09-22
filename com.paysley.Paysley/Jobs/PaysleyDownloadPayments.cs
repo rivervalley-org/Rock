@@ -453,6 +453,8 @@ namespace com.paysley.Paysley.Jobs
                     number.PersonId = person.Id;
                     number.NumberTypeValueId = DefinedValueCache.Get( Rock.SystemGuid.DefinedValue.PERSON_PHONE_TYPE_MOBILE.AsGuid() ).Id;
 
+                    person.PhoneNumbers.Add( number );
+
                     var defaultConnectionStatus = DefinedValueCache.Get( Rock.SystemGuid.DefinedValue.PERSON_CONNECTION_STATUS_WEB_PROSPECT.AsGuid() );
                     if ( defaultConnectionStatus != null )
                     {
