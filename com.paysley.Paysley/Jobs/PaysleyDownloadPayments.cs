@@ -413,7 +413,14 @@ namespace com.paysley.Paysley.Jobs
 
                     if ( textField.Key == "Email Address" )
                     {
-                        email = textField.Value;
+                        // It's possible that the email address is not valid because Paysley
+                        // is not enforcing valid email addresses.
+                        email = textField.Value.RemoveSpaces();
+                        if ( !email.IsValidEmail() )
+                        {
+                            email = "";
+                        }
+
                     }
                 }
             }
@@ -423,27 +430,20 @@ namespace com.paysley.Paysley.Jobs
             if ( firstName.IsNotNullOrWhiteSpace() && lastName.IsNotNullOrWhiteSpace() && email.IsNotNullOrWhiteSpace() )
             {
                 PersonService.PersonMatchQuery matchQuery = new PersonService.PersonMatchQuery( firstName, lastName, email, phoneNumber );
-                var personMatches = new PersonService( rockContext ).FindPersons( matchQuery, true, true ).ToList();
+                var person = new PersonService( rockContext ).FindPerson( matchQuery, true, true );
 
-                if ( personMatches.Count == 1 )
+                if ( person != null )
                 {
-                    return personMatches.FirstOrDefault().PrimaryAliasId;
+                    return person.PrimaryAliasId;
                 }
                 else
                 {
                     // Add New Person
-                    var person = new Person();
+                    person = new Person();
                     person.FirstName = firstName.FixCase();
                     person.LastName = lastName.FixCase();
                     person.IsEmailActive = true;
-
-                    // It's possible that the email address is not valid because Paysley
-                    // is not enforcing valid email addresses.
-                    if ( email.IsValidEmail() )
-                    {
-                        person.Email = email;
-                    }
-
+                    person.Email = email;
                     person.EmailPreference = EmailPreference.EmailAllowed;
                     person.RecordTypeValueId = DefinedValueCache.Get( Rock.SystemGuid.DefinedValue.PERSON_RECORD_TYPE_PERSON.AsGuid() ).Id;
 
