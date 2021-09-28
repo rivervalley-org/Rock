@@ -1,0 +1,24 @@
+<div class="well well-sm">
+	<h4 class="item-heading">{{ Page.Title }}</h4>
+	{% if Page.DisplayChildPages == 'true' and Page.Pages != empty %}
+	<ul>
+		{% for childPage in Page.Pages %}
+		{% if childPage.DisplayChildPages == 'true' and childPage.Pages and childPage.Pages != empty %}{% assign displayChildPages = true %}{% else %}{% assign displayChildPages = false %}{% endif %}
+		<li>
+			<a href="{{ childPage.Url }}">
+				{{ childPage.Title }}
+			</a>
+			{% if displayChildPages %}
+			<ul>
+				{% for grandChildPage in childPage.Pages %}
+				<li class="{% if grandChildPage.Current == 'true' %}current_page{% endif %}">
+					<a href="{{ grandChildPage.Url }}">{{ grandChildPage.Title }}</a>
+				</li>
+				{% endfor %}
+			</ul>
+			{% endif %}
+		</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+</div>

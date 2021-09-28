@@ -1,0 +1,10 @@
+<div class="scheduledtransaction-summary">
+	{% capture accounts %}{% for detail in ScheduledTransaction.TransactionDetails %}{{ detail.AccountName }}{% endfor %}{% endcapture%}
+
+    ${{ScheduledTransaction.ScheduledAmount}} towards <b>{{ accounts }}</b> on {{ScheduledTransaction.CurrencyType}}
+    {{ScheduledTransaction.FrequencyDescription | downcase}}. 
+     
+    {% if ScheduledTransaction.NextPaymentDate != null %}
+        Next gift will be on {{ScheduledTransaction.NextPaymentDate | Date:"MMMM d, yyyy"}}.
+    {% endif %}
+</div>

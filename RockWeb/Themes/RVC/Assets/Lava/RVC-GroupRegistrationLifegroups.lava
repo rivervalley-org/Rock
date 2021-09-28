@@ -1,0 +1,22 @@
+<div class="well">
+    <div class="row">
+        <div class="col-md-12">
+            <h4 class="pull-right">{{ Group.Campus.Name }}</h4>
+            <h4>{{ Group.Name }}</h4>
+            <hr />
+        </div>
+        <div class="col-md-8">
+            <p>{{ Group.Description }}</p>
+        </div>
+        <div class="col-md-4">
+            <p><b>Where:</b> {% for gl in Group.GroupLocations %}{{ gl.Location.FormattedHtmlAddress }}{% endfor %}</p>
+            <p><b>When:</b> {{ Group.Schedule.FriendlyScheduleText }}</p>
+            {% assign startDate = Group | Attribute:'StartDate' %}
+            {% if startDate %}
+            <div class="alert alert-info">
+                Group begins on {{ startDate | Date:'MM/dd/yyyy' }}.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

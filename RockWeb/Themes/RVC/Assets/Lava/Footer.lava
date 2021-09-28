@@ -1,0 +1,16 @@
+﻿<div class="col-sm-12">
+
+    <p>Leading people into an authentic, life changing relationship with Jesus Christ</p>
+    <div class="site-info__social">
+        <a href="https://www.rivervalley.org/contact-us"><img width="40" height="40" src="/Themes/RVC/Assets/img/mail.svg"></a>
+        <a href="https://www.facebook.com/rivervalleychurch/" target="_blank"><img width="40" height="40" src="/Themes/RVC/Assets/img/facebook.svg"></a>
+        <a href="https://twitter.com/rivervalleymn" target="_blank"><img width="40" height="40" src="/Themes/RVC/Assets/img/twitter.svg"></a>
+        <a href="https://www.instagram.com/rivervalleymn" target="_blank"><img width="40" height="40" src="/Themes/RVC/Assets/img/instagram.svg"></a>
+        <a href="https://www.youtube.com/user/rivervalleymn" target="_blank"><img width="40" height="40" src="/Themes/RVC/Assets/img/youtube.svg"></a>
+    </div>
+    <p>
+        Central Offices: 12345 Portland Ave, Burnsville, MN 55337 | 952.255.8800<br>
+        &copy; {{ 'Now' | Date:'yyyy' }} River Valley Church
+    </p>
+
+</div>

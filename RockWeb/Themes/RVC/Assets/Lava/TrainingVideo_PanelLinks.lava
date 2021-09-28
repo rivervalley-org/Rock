@@ -1,0 +1,68 @@
+<div id="videos">
+    {% assign hadChildItems = true %}
+    {% for item in Items %}
+		{% if item.ChildItems and item.ChildItems != empty %}
+		{% if hadChildItems == false %}
+			</ul>
+		</div>
+		{% endif %}
+
+{% assign hadChildItems = true %}
+<div class="panel panel-default">
+    <div class="panel-heading clickable collapsed clearfix" data-target="#child{{ item.Id }}" data-toggle="collapse" data-parent="#videos">
+        {{ item.Title }}
+        <div class="pull-right"><a class="btn btn-link btn-xs view-state"><i class="fa fa-chevron-down"></i></a></div>
+    </div>
+    {% if item.Content != "" %}
+    <div class="panel-body">
+        <p>{{ item.Content }}</p>
+    </div>{% endif %}
+    <ul class="list-group collapse" id="child{{ item.Id }}">
+		{% assign childItemsSorted = item.ChildItems | BBM_OrderBy:'ChildContentChannelItem.StartDateTime' %}
+        {% for child in childItemsSorted %}
+			{% assign childItem = child.ChildContentChannelItem %}
+			{% assign active = childItem | Attribute:'RecordStatus' %}
+			{% if active == 'Active' %}
+			<li class="list-group-item"><a href="{{ LinkedPages.DetailPage }}?Item={{ childItem.Id }}">{{ childItem.Title }}</a></li>{% endif %}
+        {% endfor %}
+    </ul>
+</div>
+{% else %}
+  {% if hadChildItems == true %}
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading clickable collapsed" data-target="#child{{ item.ContentChannel.Id }}_{{forloop.index}}" data-toggle="collapse" data-parent="#videos">
+        {{ item.ContentChannel.Name }}
+        <div class="pull-right"><a class="btn btn-link btn-xs view-state"><i class="fa fa-chevron-down"></i></a></div>
+    </div>
+    {% assign channelImg = item.ContentChannel | Attribute:'Image' %} {% if item.ContentChannel.Description != "" or channelImg != empty %}
+    <div class="panel-body">
+        {{ item.ContentChannel | Attribute:'Image' }} {% if item.ContentChannel.Description != "" %}
+        <p>{{ item.ContentChannel.Description }}</p>
+        {% endif %}
+    </div>{% endif %}
+
+    <!-- List group -->
+    <ul class="list-group collapse" id="child{{ item.ContentChannel.Id }}_{{forloop.index}}">
+        {% endif %}
+        {% assign hadChildItems = false %}{% assign active = item | Attribute:'RecordStatus' %}
+        {% if active == 'Active' %}
+        <li class="list-group-item"><a href="{{ LinkedPages.DetailPage }}?item={{ item.Id }}">{{ item.Title }}</a></li>{% endif %}
+        {% endif %}
+        {% endfor %}
+        {% if hadChildItems == true %}
+        <div>
+            <ul>
+                {% endif %}
+            </ul>
+        </div>
+</div>
+<style>
+    .clickable i.fa-chevron-down:before {
+        content: "\f077";
+    }
+
+    .clickable.collapsed i.fa-chevron-down:before {
+        content: "\f078";
+    }
+</style>

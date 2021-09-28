@@ -1,0 +1,25 @@
+{% for group in Groups %}
+<div class="well">
+    <div class="row">
+        <div class="col-md-12">
+            <h4 class="pull-right">{{ group.Campus.Name }}</h4>
+            <h4>{{ group.Name }}</h4>
+            <hr />
+        </div>
+        <div class="col-md-8">
+            <p>{{ group.Description }}</p>
+        </div>
+        <div class="col-md-4">
+            <p><b>Where:</b> {% for gl in group.GroupLocations %}{{ gl.Location.FormattedHtmlAddress }}{% endfor %}</p>
+            <p><b>When:</b> {{ group.Schedule.FriendlyScheduleText }}</p>
+            {% assign startDate = group | Attribute:'StartDate' %}
+            {% if startDate %}
+            <div class="alert alert-info">
+                Group begins on {{ startDate | Date:'MM/dd/yyyy' }}.
+            </div>
+            {% endif %}
+            <a class="btn btn-primary btn-sm btn-block" href="{{ LinkedPages.RegisterPage }}?GroupGuid={{ group.Guid }}">Register</a>
+        </div>
+    </div>
+</div>
+{% endfor %}

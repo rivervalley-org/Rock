@@ -1,0 +1,4 @@
+<div class="alert alert-success">
+    <h4>Registration Confirmed</h4>
+    <p>You are registered for {{ Group.Name }}.</p>
+</div>

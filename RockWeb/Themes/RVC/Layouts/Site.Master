@@ -1,0 +1,177 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" Inherits="Rock.Web.UI.RockMasterPage" %>
+<%@ Import Namespace="System.Web.Optimization" %>
+<!DOCTYPE html>
+
+<script runat="server">
+
+    // keep code below to call base class init method
+
+    /// <summary>
+    /// Raises the <see cref="E:System.Web.UI.Control.Init" /> event.
+    /// </summary>
+    /// <param name="e">An <see cref="T:System.EventArgs" /> object that contains the event data.</param>
+    protected override void OnInit( EventArgs e )
+    {
+        base.OnInit( e );
+    }
+
+</script>
+
+<html class="no-js">
+<head runat="server">
+
+    <meta charset="utf-8">
+    <title></title>
+
+    <script src="<%# ResolveRockUrl("~/Scripts/jquery-1.12.4.min.js" ) %>"></script>
+
+    <!-- Set the viewport width to device width for mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <asp:ContentPlaceHolder ID="css" runat="server" />
+
+    <!-- Included CSS Files -->
+    <link rel="stylesheet" href="<%# ResolveRockUrl("~~/Styles/bootstrap.css", true) %>" />
+    <link rel="stylesheet" href="<%# ResolveRockUrl("~~/Styles/theme.css", true) %>" />
+
+
+    <asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
+
+    <!-- Icons -->
+    <link rel="shortcut icon" href="<%# ResolveRockUrl("~/Content/ExternalSite/Icons/favicon.ico", true) %>" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="<%# ResolveRockUrl("~/Content/ExternalSite/Icons/touch-icon-ipad-retina.png", true) %>" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<%# ResolveRockUrl("~/Content/ExternalSite/Icons/touch-icon-iphone-retina.png", true) %>" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="<%# ResolveRockUrl("~/Content/ExternalSite/Icons/touch-icon-ipad.png", true) %>" />
+    <link rel="apple-touch-icon-precomposed" href="<%# ResolveRockUrl("~/Content/ExternalSite/Icons/touch-icon-iphone.png", true) %>" />
+</head>
+<body runat="server" id="body">
+	<Rock:Lava runat="server">
+		{% assign preventTracking = CurrentPage | Attribute:'PreventFacebookTracking' | AsBoolean %}
+		{% if preventTracking == false %}
+		 <!-- Facebook Pixel Code -->
+		<script>
+			!function (f, b, e, v, n, t, s)
+			{
+				if (f.fbq) return; n = f.fbq = function ()
+				{
+					n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+				}; if (!f._fbq) f._fbq = n;
+				n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0;
+				t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s)
+			}(window,
+			document, 'script', '//connect.facebook.net/en_US/fbevents.js');
+			fbq('init', '609055679247825');
+			fbq('track', "PageView");
+		</script>
+		<noscript>
+			<img height="1" width="1" style="display: none" src="//www.facebook.com/tr?id=609055679247825&ev=PageView&noscript=1" /></noscript>
+		{% endif %}
+	</Rock:Lava>
+
+    <form id="form1" runat="server">
+
+        <nav class="navbar navbar-inverse" id="divHeaderRow" runat="server">
+            <div class="container">
+                <Rock:Zone Name="Top Nav" runat="server" />
+            </div>
+        </nav>
+
+        <header class="logo">
+            <div class="container text-center">
+                <Rock:Zone Name="Header" runat="server" />
+            </div>
+        </header>
+
+        <nav class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <Rock:Zone Name="Navigation" runat="server" />
+                </div>
+                <!--/.navbar-collapse -->
+            </div>
+        </nav>
+        <!-- Ajax Error -->
+        <div class="alert alert-danger ajax-error" style="display: none">
+            <p><strong>Error</strong></p>
+            <span class="ajax-error-message"></span>
+        </div>
+
+        <asp:ContentPlaceHolder ID="feature" runat="server"></asp:ContentPlaceHolder>
+
+        <div class="main">
+            <div class="container">
+                <div class="row" id="divFullWideTop" runat="server">
+                    <div class="col-sm-12">
+                        <Rock:Zone Name="Full Wide Top" runat="server" />
+                    </div>
+                </div>
+
+                <asp:ContentPlaceHolder ID="main" runat="server"></asp:ContentPlaceHolder>
+
+                <Rock:Zone Name="Single Column Unformatted" runat="server" />
+                <div class="row" id="divFullWideBottom" runat="server">
+                    <div class="col-sm-12">
+                        <Rock:Zone Name="Full Wide Bottom" runat="server" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="container-fluid">
+            <div class="row footer-bottom" id="divFooterBottom" runat="server">
+                <div class="col-sm-12">
+                    <Rock:Zone Name="Footer" runat="server" />
+                </div>
+            </div>
+            <div class="row footer-info" id="divFooterInfo" runat="server">
+                <div class="col-sm-12">
+                    <Rock:Zone Name="Footer Bottom" runat="server" />
+                    <Rock:Zone Name="Login" runat="server" />
+                </div>
+            </div>
+        </footer>
+
+        <script>
+            (function (i, s, o, g, r, a, m)
+            {
+                i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function ()
+                {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+            ga('create', 'UA-52446047-4', 'auto');
+            ga('send', 'pageview');
+
+        </script>
+
+        <%-- controls for scriptmanager and update panel --%>
+        <asp:ScriptManager ID="sManager" runat="server" />
+        <asp:UpdateProgress ID="updateProgress" runat="server" DisplayAfter="800">
+            <ProgressTemplate>
+                <div class="updateprogress-status">
+                    <div class="spinner">
+                        <div class="rect1"></div>
+                        <div class="rect2"></div>
+                        <div class="rect3"></div>
+                        <div class="rect4"></div>
+                        <div class="rect5"></div>
+                    </div>
+                </div>
+                <div class="updateprogress-bg modal-backdrop"></div>
+            </ProgressTemplate>
+        </asp:UpdateProgress>
+
+    </form>
+
+</body>
+
+</html>
