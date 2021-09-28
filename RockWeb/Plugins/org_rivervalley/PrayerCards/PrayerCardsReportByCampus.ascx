@@ -46,7 +46,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <asp:Literal ID="lLifeGroups" runat="server" />
+                        <asp:Literal ID="lSmallGroups" runat="server" />
                     </div>        
                 </div>
             </div>
