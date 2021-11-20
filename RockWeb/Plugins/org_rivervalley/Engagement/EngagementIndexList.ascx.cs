@@ -101,6 +101,11 @@ namespace RockWeb.Plugins.org_rivervalley.Engagement
 
         }
 
+        /// <summary>
+        /// Handles the Add event of the gList control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void gList_Add( object sender, EventArgs e )
         {
             var pageParams = new Dictionary<string, string>();
@@ -110,6 +115,11 @@ namespace RockWeb.Plugins.org_rivervalley.Engagement
             NavigateToLinkedPage( "DetailPage", pageParams );
         }
 
+        /// <summary>
+        /// Handles the ShowEdit event of the gList control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RowEventArgs"/> instance containing the event data.</param>
         protected void gList_ShowEdit( object sender, RowEventArgs e )
         {
             var pageParams = new Dictionary<string, string>();
@@ -157,6 +167,11 @@ namespace RockWeb.Plugins.org_rivervalley.Engagement
             BindGrid();
         }
 
+        /// <summary>
+        /// Handles the GridReorder event of the gList control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="GridReorderEventArgs"/> instance containing the event data.</param>
         protected void gList_GridReorder( object sender, GridReorderEventArgs e )
         {
             var rockContext = new RockContext();
@@ -167,6 +182,11 @@ namespace RockWeb.Plugins.org_rivervalley.Engagement
             BindGrid();
         }
 
+        /// <summary>
+        /// Handles the RowSelected event of the gList control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RowEventArgs"/> instance containing the event data.</param>
         protected void gList_RowSelected( object sender, RowEventArgs e )
         {
             var pageParams = new Dictionary<string, string>();

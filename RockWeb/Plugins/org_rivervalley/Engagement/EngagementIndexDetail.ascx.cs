@@ -189,6 +189,10 @@ namespace RockWeb.Plugins.org_rivervalley.Engagement
 
                 ddlCategory.SetValue( _categoryId );
             }
+            else
+            {
+                ddlCategory.SetValue( index.CategoryId );
+            }
 
             hfIndexId.Value = index.Id.ToString();
 
@@ -198,8 +202,6 @@ namespace RockWeb.Plugins.org_rivervalley.Engagement
             dvpDataView.SetValue( index.DataViewId );
             tbSQL.Text = index.SqlQuery;
 
-            ddlCategory.SetValue( index.CategoryId );
-
             // set query type panel
             tglQueryType.Checked = !index.IsSQL();
             SetPanels( !index.IsSQL() );
@@ -207,12 +209,19 @@ namespace RockWeb.Plugins.org_rivervalley.Engagement
             nbEditModeMessage.Text = string.Empty;
         }
 
+        /// <summary>
+        /// Sets the panels.
+        /// </summary>
+        /// <param name="isDataView">if set to <c>true</c> [is data view].</param>
         public void SetPanels( bool isDataView )
         {
             divSQL.Visible = !isDataView;
             divDataView.Visible = isDataView;
         }
 
+        /// <summary>
+        /// Loads the drop downs.
+        /// </summary>
         private void LoadDropDowns()
         {
 

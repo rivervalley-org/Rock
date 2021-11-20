@@ -40,6 +40,12 @@ namespace org.rivervalley.Engagement.Model
 
         public virtual EngagementIndex EngagementIndex { get; set; }
 
+        public int Score { get
+            {
+                return Completions * EngagementIndex.ScoreWeight;
+            }
+        }
+
         #endregion  
     }
 

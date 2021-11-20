@@ -80,11 +80,14 @@ namespace org.rivervalley.Engagement.Jobs
                 }
             }
 
+            List<string> jobResults = new List<string>();
             List<EngagementIndex> indices = engagementIndexService.Queryable().AsNoTracking().ToList();
             foreach ( var index in indices )
             {
                 rockContext = new RockContext();
 
+                int newRows = 0;
+                int existingRows = 0;
                 string errorMessage = string.Empty;
 
                 // calculate results
@@ -113,6 +116,12 @@ namespace org.rivervalley.Engagement.Jobs
                         engagementIndexResult.RunDate = runDate;
 
                         newEngagementIndexResults.Add( engagementIndexResult );
+
+                        newRows++;
+                    }
+                    else
+                    {
+                        existingRows++;
                     }
                 }
 
@@ -120,9 +129,17 @@ namespace org.rivervalley.Engagement.Jobs
                 rockContext.BulkInsert<EngagementIndexResult>( newEngagementIndexResults );
                 rockContext.SaveChanges();
 
+                jobResults.Add( string.Format( "Calculated {0}: {1} new results - {2} existing results", index.Name, newRows.ToString(), existingRows.ToString() ) );
             }
 
-            context.Result = string.Format( "{0} Personas Updated", "todo" );
+            StringBuilder jobSummaryBuilder = new StringBuilder();
+            jobSummaryBuilder.AppendLine( "Summary:" );
+            foreach( string result in jobResults )
+            {
+                jobSummaryBuilder.AppendLine( result );
+            }
+
+            context.Result = jobSummaryBuilder.ToString();
         }
     }
 }
