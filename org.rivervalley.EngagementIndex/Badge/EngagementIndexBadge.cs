@@ -12,10 +12,10 @@ using System.Data.Entity;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace org.rivervalley.EngagementScores.Model.Badge
+namespace org.rivervalley.Engagement.Model.Badge
 {
     [Export( typeof( BadgeComponent ) )]
-    [ExportMetadata( "ComponentName", "Engagement Score" )]
+    [ExportMetadata( "ComponentName", "Engagement Index" )]
 
     [LavaField( "Template", "The lava template to be used. (Note: {0} will be replaced with the person's guid.) ", true,
         @"
@@ -41,7 +41,7 @@ namespace org.rivervalley.EngagementScores.Model.Badge
             }});
         </script>"
         , "", 0 )]
-    class EngagementScoreBadge : BadgeComponent
+    class EngagementIndexBadge : BadgeComponent
     {
         /// <summary>
         /// Determines of this badge component applies to the given type
