@@ -30,16 +30,38 @@ namespace org.rivervalley.Engagement.Migrations
 
 			// Setup Blocks
 			RockMigrationHelper.AddBlock( Page.PAGE_ENGAGEMENT, "", BlockType.BLOCKTYPE_ENGAGEMENT_CATEGORY_LIST, "Engagement Category List", "Main", "", "", 0, Block.BLOCK_CATEGORY_LIST );
-			RockMigrationHelper.UpdateBlockTypeAttribute( BlockType.BLOCKTYPE_ENGAGEMENT_CATEGORY_LIST, Rock.SystemGuid.FieldType.PAGE_REFERENCE, "Linked Page", "LinkedPage", "", "", 0, "", BlockTypeAttribute.BLOCKTYPEATTRIBUTE_LINKEDPAGE_CATEGORY );
+			RockMigrationHelper.UpdateBlockTypeAttribute( BlockType.BLOCKTYPE_ENGAGEMENT_CATEGORY_LIST, Rock.SystemGuid.FieldType.PAGE_REFERENCE, "Detail Page", "DetailPage", "", "", 0, "", BlockTypeAttribute.BLOCKTYPEATTRIBUTE_LINKEDPAGE_CATEGORY );
 			RockMigrationHelper.AddBlockAttributeValue( Block.BLOCK_CATEGORY_LIST, BlockTypeAttribute.BLOCKTYPEATTRIBUTE_LINKEDPAGE_CATEGORY, Page.PAGE_ENGAGEMENT_CATEGORY_DETAIL );
 			
 			RockMigrationHelper.AddBlock( Page.PAGE_ENGAGEMENT_CATEGORY_DETAIL, "", BlockType.BLOCKTYPE_ENGAGEMENT_CATEGORY_DETAIL, "Engagement Category Detail", "Main", "", "", 0, Block.BLOCK_CATEGORY_DETAIL );
 						
 			RockMigrationHelper.AddBlock( Page.PAGE_ENGAGEMENT_CATEGORY_DETAIL, "", BlockType.BLOCKTYPE_ENGAGEMENT_INDEX_LIST, "Engagement Index List", "Main", "", "", 1, Block.BLOCK_INDEX_LIST );
-			RockMigrationHelper.UpdateBlockTypeAttribute( BlockType.BLOCKTYPE_ENGAGEMENT_INDEX_LIST, Rock.SystemGuid.FieldType.PAGE_REFERENCE, "Linked Page", "LinkedPage", "", "", 0, "", BlockTypeAttribute.BLOCKTYPEATTRIBUTE_LINKEDPAGE_INDEX );
-			RockMigrationHelper.AddBlockAttributeValue( Block.BLOCK_INDEX_LIST, BlockTypeAttribute.BLOCKTYPEATTRIBUTE_LINKEDPAGE_CATEGORY, Page.PAGE_ENGAGEMENT_INDEX_DETAIL );
+			RockMigrationHelper.UpdateBlockTypeAttribute( BlockType.BLOCKTYPE_ENGAGEMENT_INDEX_LIST, Rock.SystemGuid.FieldType.PAGE_REFERENCE, "Detail Page", "DetailPage", "", "", 0, "", BlockTypeAttribute.BLOCKTYPEATTRIBUTE_LINKEDPAGE_INDEX );
+			RockMigrationHelper.AddBlockAttributeValue( Block.BLOCK_INDEX_LIST, BlockTypeAttribute.BLOCKTYPEATTRIBUTE_LINKEDPAGE_INDEX, Page.PAGE_ENGAGEMENT_INDEX_DETAIL );
 
 			RockMigrationHelper.AddBlock( Page.PAGE_ENGAGEMENT_INDEX_DETAIL, "", BlockType.BLOCKTYPE_ENGAGEMENT_INDEX_DETAIL, "Engagement Index Detail", "Main", "", "", 0, Block.BLOCK_INDEX_DETAIL );
+
+			// Setup Job
+			Sql( $@"
+                INSERT INTO [ServiceJob] (
+                     [IsSystem]
+                    ,[IsActive]
+                    ,[Name]
+                    ,[Description]
+                    ,[Class]
+                    ,[CronExpression]
+                    ,[NotificationStatus]
+                    ,[Guid]
+                ) VALUES (
+                     0
+                    ,0
+                    ,'Calculate Engagement'
+                    ,'This job calculates engagement indices.'
+                    ,'org.rivervalley.Engagement.CalculateEngagement'
+                    ,'0 0 12 1 1/1 ? *'
+                    ,1
+                    ,NEWID()
+                );" );
 		}
 
 		/// <summary>

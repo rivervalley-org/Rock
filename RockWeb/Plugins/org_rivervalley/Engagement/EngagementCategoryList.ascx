@@ -20,6 +20,7 @@
                             <Rock:ReorderField />
                             <Rock:RockBoundField DataField="Name" HeaderText="Name" />
                             <Rock:RockBoundField DataField="Description" HeaderText="Description" />
+                            <Rock:RockBoundField DataField="Weight" HeaderText="Weight" />
                         </Columns>
                     </Rock:Grid>
                 </div>

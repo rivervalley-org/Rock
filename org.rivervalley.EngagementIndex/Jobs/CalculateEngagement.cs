@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
@@ -14,14 +15,17 @@ using Rock.Model;
 
 namespace org.rivervalley.Engagement.Jobs
 {
+    [DisplayName( "Calculate Engagement" )]
+    [Category( "River Valley > Engagement" )]
+    [Description( "This job calculates engagement indices." )]
     [DisallowConcurrentExecution]
 
     [DataViewField( "Data View", "The dataview of people that will be processed.", required: true )]
-    [BooleanField( "Only Run at Start of Month", "Should this job only be ran at the start of the month?", true, "", 1, Key = "OnlyRunAtStartOfMonth" )]
+    [BooleanField( "Only Run at Start of Month", "Should this job only be ran at the start of the month?", true, "", 1, Key = "OnlyRunAtStartOfMonth", IsRequired = true )]
 
-    public class CalculateEngagementIndex : IJob
+    public class CalculateEngagement : IJob
     {
-        public CalculateEngagementIndex()
+        public CalculateEngagement()
         {
         }
 

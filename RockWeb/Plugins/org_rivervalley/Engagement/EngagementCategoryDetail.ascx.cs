@@ -127,6 +127,7 @@ namespace RockWeb.Plugins.org_rivervalley.Engagement
 
             engagementCategory.Name = tbName.Text;
             engagementCategory.Description = tbDescription.Text;
+            engagementCategory.Weight = nbWeight.Text.AsInteger();
             engagementCategory.HtmlColor = cpHtmlColor.Text;
 
             if ( !engagementCategory.IsValid )
@@ -232,6 +233,7 @@ namespace RockWeb.Plugins.org_rivervalley.Engagement
 
             tbName.Text = engagementCategory.Name;
             tbDescription.Text = engagementCategory.Description;
+            nbWeight.Text = engagementCategory.Weight.ToString();
             cpHtmlColor.Text = engagementCategory.HtmlColor;
         }
 

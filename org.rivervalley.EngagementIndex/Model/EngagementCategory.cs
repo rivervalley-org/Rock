@@ -24,6 +24,9 @@ namespace org.rivervalley.Engagement.Model
         public string Description { get; set; }
 
         [DataMember]
+        public int Weight { get; set; }
+
+        [DataMember]
         public string HtmlColor { get; set; }
 
         [DataMember]

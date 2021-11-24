@@ -23,14 +23,14 @@ namespace org.rivervalley.Engagement.Model
         public static EngagementResult GetCurrentEngagementResult( int personId )
         {
             var rockContext = new RockContext();
-            var engagementScoreService = new EngagementIndexService( rockContext );
+            var engagementIndexService = new EngagementIndexService( rockContext );
             var engagementCategories = new EngagementCategoryService( rockContext ).Queryable().ToList();
 
             var currentDate = RockDateTime.Now;
             var runDate = new DateTime( currentDate.Year, currentDate.Month, 1 );
 
             // get results for person and run date
-            var results = engagementScoreService.Queryable().AsNoTracking()
+            var results = engagementIndexService.Queryable().AsNoTracking()
                 .SelectMany( e => e.Results )
                 .Where( r => r.PersonAlias.Person.Id == personId && r.RunDate == runDate )
                 .ToList();
@@ -39,7 +39,7 @@ namespace org.rivervalley.Engagement.Model
             EngagementResult engagementResult = new EngagementResult();
             foreach ( var category in engagementCategories )
             {
-                engagementResult.CategoryResults.Add( new CategoryResult { Id = category.Id, Name = category.Name } );
+                engagementResult.CategoryResults.Add( new CategoryResult { Id = category.Id, Name = category.Name, Weight = category.Weight, HtmlColor = category.HtmlColor } );
             }
 
             // fill in category results
@@ -77,7 +77,13 @@ namespace org.rivervalley.Engagement.Model
 
         public class EngagementResult : Rock.Lava.ILiquidizable
         {
-            public decimal TotalEngagementIndex { get; set; }
+            public decimal TotalEngagementIndex
+            {
+                get
+                {
+                    return CategoryResults.Sum( cr => cr.Total ) > 0 ? CategoryResults.Sum( cr => cr.Total ) / CategoryResults.Count : 0;
+                }
+            }
 
             public List<CategoryResult> CategoryResults { get; set; }
 
@@ -161,7 +167,17 @@ namespace org.rivervalley.Engagement.Model
 
             public string Name { get; set; }
 
-            public decimal Total { get; set; }
+            public int Weight { get; set; }
+
+            public string HtmlColor { get; set; }
+
+            public decimal Total 
+            { 
+                get
+                {
+                    return Results.Sum( r => r.Score ) > 0 ? ( Results.Sum( r => r.Score ) / Weight) * 100 : 0;
+                }
+            }
 
             public List<ResultDetail> Results { get; set; }
 
@@ -188,7 +204,7 @@ namespace org.rivervalley.Engagement.Model
             {
                 get
                 {
-                    var availableKeys = new List<string> { "Id", "Name", "Total", "Results" };
+                    var availableKeys = new List<string> { "Id", "Name", "Weight", "HtmlColor", "Total", "Results" };
                     return availableKeys;
                 }
             }
@@ -212,6 +228,10 @@ namespace org.rivervalley.Engagement.Model
                             return Id;
                         case "Name":
                             return Name;
+                        case "Weight":
+                            return Weight;
+                        case "HtmlColor":
+                            return HtmlColor;
                         case "Total":
                             return Total;
                         case "Results":
@@ -229,7 +249,7 @@ namespace org.rivervalley.Engagement.Model
             /// <returns></returns>
             public bool ContainsKey( object key )
             {
-                var additionalKeys = new List<string> { "Id", "Name", "Total", "Results" };
+                var additionalKeys = new List<string> { "Id", "Name", "Weight", "HtmlColor", "Total", "Results" };
                 if ( additionalKeys.Contains( key.ToStringSafe() ) )
                 {
                     return true;

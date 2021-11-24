@@ -21,6 +21,7 @@ namespace org.rivervalley.Engagement.Migrations
 				[Id] [int] IDENTITY(1,1) NOT NULL,
 				[Name] [varchar](100) NOT NULL,
 				[Description] [varchar](max) NULL,
+				[Weight] [int] NOT NULL,
 				[HtmlColor] [varchar](100) NULL,
 				[Order] [int] NOT NULL,
 				[CreatedDateTime] [datetime],

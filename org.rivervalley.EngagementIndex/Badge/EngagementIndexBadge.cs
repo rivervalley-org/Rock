@@ -15,48 +15,17 @@ namespace org.rivervalley.Engagement.Model.Badge
 
     [LavaField( "Template", "The lava template to be used.", true,
         @"
-        {% comment %}I'm manually including the easypie JS library here because the javascript lava tag is not working when using the lava short code inside a lava badge.{% endcomment %}
+                {% comment %}I'm manually including the easypie JS library here because the javascript lava tag is not working when using the lava short code inside a lava badge.{% endcomment %}
 <script src='https://cdnjs.cloudflare.com/ajax/libs/easy-pie-chart/2.1.6/jquery.easypiechart.min.js'></script>
 
-{% sql %}
-    SELECT TOP 1 *
-    FROM _org_rivervalley_EngagementIndex ES
-    INNER JOIN PersonAlias PA ON PA.Id = ES.PersonAliasId
-    WHERE PA.PersonId = {{ Person.Id }}
-    ORDER BY RunDate DESC, TotalEngagementIndex DESC
-{% endsql %}
 
-{% for row in results %}
     <style>
-        .progress-bar-committing {
-            width: {{ row.Committing_Index }}%;
-            background-color: #231f20;
-        }
-        
-        .progress-bar-growing {
-            width: {{ row.Growing_Index }}%;
-            background-color: #231f20;
-        }
-        
-        .progress-bar-serving {
-            width: {{ row.Serving_Index }}%;
-            background-color: #231f20;
-        }
-        
-        .progress-bar-investing {
-            width: {{ row.Investing_Index }}%;
-            background-color: #231f20;
-        }
-        
-        .progress-bar-multiplying {
-            width: {{ row.Multiplying_Index }}%;
-            background-color: #231f20;
-        }
-        
-        .progress-bar-going {
-            width: {{ row.Going_Index }}%;
-            background-color: #231f20;
-        }
+        {% for category in EngagementResult.CategoryResults %}
+            .{{ 'Progress bar ' | Append:category.Name | ToCssClass }} {
+                width: {{ category.Total }}%;
+                background-color: {{ category.HtmlColor }};
+            }
+        {% endfor %}
         
         .progress {
             margin-bottom: 4px;
@@ -131,62 +100,28 @@ namespace org.rivervalley.Engagement.Model.Badge
          }
     </style>
     {% capture tooltip %}
-        <strong>Engagement Index</strong><span class='pull-right'>{{ row.TotalEngagementIndex }}</span><br/>
+        <strong>Engagement Index</strong><span class='pull-right'>{{ EngagementResult.TotalEngagementIndex }}</span><br/>
         <hr class='engagement-hr'/>
     
-        <span class='engagement-title pull-left margin-r-sm'>Committing</span>
+        {% for category in EngagementResult.CategoryResults %}
+        <span class='engagement-title pull-left margin-r-sm'>{{ category.Name }}</span>
         <div class='progress'>
-            <div class='progress-bar progress-bar-committing' role='progressbar' aria-valuenow='{{ row.Committing_Index }}' aria-valuemin='0' aria-valuemax='100'>
-            <span>{{ row.Committing_Index }}%</span>
+            <div class='progress-bar {{ 'Progress bar ' | Append:category.Name | ToCssClass }}' role='progressbar' aria-valuenow='{{ category.Total }}' aria-valuemin='0' aria-valuemax='100'>
+            <span>{{ category.Total }}%</span>
             </div>
         </div>
-
-        <span class='engagement-title pull-left margin-r-sm'>Growing</span>
-        <div class='progress'>
-            <div class='progress-bar progress-bar-growing' role='progressbar' aria-valuenow='{{ row.Growing_Index }}' aria-valuemin='0' aria-valuemax='100'>
-            <span>{{ row.Growing_Index }}%</span>
-            </div>
-        </div>
-
-        <span class='engagement-title pull-left margin-r-sm'>Serving</span>
-        <div class='progress'>
-            <div class='progress-bar progress-bar-serving' role='progressbar' aria-valuenow='{{ row.Serving_Index }}' aria-valuemin='0' aria-valuemax='100'>
-            <span>{{ row.Serving_Index }}%</span>
-            </div>
-        </div>
-
-        <span class='engagement-title pull-left margin-r-sm'>Investing</span>
-        <div class='progress'>
-            <div class='progress-bar progress-bar-investing' role='progressbar' aria-valuenow='{{ row.Investing_Index }}' aria-valuemin='0' aria-valuemax='100'>
-            <span>{{ row.Investing_Index }}%</span>
-            </div>
-        </div>
-
-        <span class='engagement-title pull-left margin-r-sm'>Multiplying</span>
-        <div class='progress'>
-            <div class='progress-bar progress-bar-multiplying' role='progressbar' aria-valuenow='{{ row.Multiplying_Index }}' aria-valuemin='0' aria-valuemax='100'>
-            <span>{{ row.Multiplying_Index }}%</span>
-            </div>
-        </div>
-
-        <span class='engagement-title pull-left margin-r-sm'>Going</span> 
-        <div class='progress'>
-            <div class='progress-bar progress-bar-going' role='progressbar' aria-valuenow='{{ row.Going_Index }}' aria-valuemin='0' aria-valuemax='100'>
-            <span>{{ row.Going_Index }}%</span>
-            </div>
-        </div>
+        {% endfor %}
     {% endcapture %}
     
     <div id='engagement-index' class='badge badge-default engagement-badge' data-toggle='tooltip' data-placement='top' data-original-title='Click for details.' >
-        {[ easypie value:'{{ row.TotalEngagementIndex }}'  showpercent:'true' primarycolor:'#16c98d' chartwidth:'48' scalelinelength:'0']} {[ endeasypie ]}
+        {[ easypie value:'{{ EngagementResult.TotalEngagementIndex }}'  showpercent:'true' primarycolor:'#16c98d' chartwidth:'48' scalelinelength:'0']} {[ endeasypie ]}
         
     </div>
-{% endfor %}
 
 
 <script>
     // create content for popover
-    var popoverContent = '{{ tooltip | StripNewlines }}';
+    var popoverContent = ""{{ tooltip | StripNewlines }}"";
 
     // disable the anchor tag
     $( '.engagement-badge' ).on( 'click', function( e ) {
@@ -257,6 +192,7 @@ namespace org.rivervalley.Engagement.Model.Badge
         })
     });
 </script>
+
 "
         , "", 0 )]
 

@@ -67,7 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Badge\EngagementIndexBadge.cs" />
-    <Compile Include="Jobs\CalculateEngagementIndex.cs" />
+    <Compile Include="Jobs\CalculateEngagement.cs" />
     <Compile Include="Migrations\003_PopulateData.cs" />
     <Compile Include="Migrations\002_Pages.cs" />
     <Compile Include="Migrations\001_CreateTables.cs" />

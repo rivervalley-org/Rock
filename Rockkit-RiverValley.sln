@@ -1,27 +1,27 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30523.141
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "RockWeb", "RockWeb\", "{4D4C92BB-E1B4-40E1-A8D8-ABFB23431950}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "RockWeb(1)", "RockWeb\", "{4D4C92BB-E1B4-40E1-A8D8-ABFB23431950}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5.2"
 		ProjectReferences = "{a5607433-18cf-4cd4-897d-bdddb7416539}|org.rivervalley.GLFunds.dll;{f00dd9d8-eba6-490c-9a1e-dc6e25f67de4}|org.rivervalley.GlobalTripChecklists.dll;{02b6ec8d-0d2c-4778-9347-dc63afb1a21d}|org.rivervalley.JobOffers.dll;{824d8f46-51d7-4cf7-b715-da0c1a9ed307}|org.rivervalley.LaborPool.dll;{b1f419e2-d20e-4b59-9c74-97c9b80c6e98}|org.rivervalley.PastorOnCall.dll;{71bfaeab-c7b5-4c82-8bb9-7b55ccee3472}|org.rivervalley.PatientIncidents.dll;{3cd74868-47ba-48ef-9fce-d5b4dfad3437}|org.rivervalley.PersonnelRequests.dll;{f0264a80-25ef-4553-914c-3b4a49bd7f3e}|org.rivervalley.PrayerDates.dll;{3c1d71fa-7564-4355-8797-1c89731ad2c4}|org.rivervalley.SampleProject_ComplexFields.dll;{3634eb25-6d3d-4f3b-8d88-9c0768ebc5cd}|org.rivervalley.SampleProject_DefinedValue.dll;{3aa2e918-500a-4c17-88cd-5ac7198bf58b}|org.rivervalley.SampleProject_SimpleFields.dll;{d6c9972e-e53c-42c0-8d26-6119150e88f5}|org.rivervalley.SampleProject_TwoDefinedValues.dll;{ccd5bfe3-b3f6-4dd9-8357-6893b44c8096}|org.rivervalley.EngagementIndex.dll;{5075c0bb-bcde-41ab-8dfb-ba1385c51bed}|com.paysley.Paysley.dll;{3976a998-02b8-4ae1-9f30-2b796860d45b}|org.rivervalley.Jobs.dll;"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_50786"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_6229"
 		Debug.AspNetCompiler.PhysicalPath = "RockWeb\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50786\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_6229\"
 		Debug.AspNetCompiler.Updateable = "true"
 		Debug.AspNetCompiler.ForceOverwrite = "true"
 		Debug.AspNetCompiler.FixedNames = "false"
 		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_50786"
+		Release.AspNetCompiler.VirtualPath = "/localhost_6229"
 		Release.AspNetCompiler.PhysicalPath = "RockWeb\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50786\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_6229\"
 		Release.AspNetCompiler.Updateable = "true"
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "50786"
+		VWDPort = "6229"
 		SlnRelativePath = "RockWeb\"
 	EndProjectSection
 EndProject
@@ -51,7 +51,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.rivervalley.SampleProje
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.rivervalley.SampleProject_TwoDefinedValues", "org.rivervalley.SampleProject_TwoDefinedValues\org.rivervalley.SampleProject_TwoDefinedValues.csproj", "{D6C9972E-E53C-42C0-8D26-6119150E88F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.rivervalley.EngagementIndex", "org.rivervalley.EngagementIndex\org.rivervalley.EngagementIndex.csproj", "{CCD5BFE3-B3F6-4DD9-8357-6893B44C8096}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.rivervalley.Engagement", "org.rivervalley.EngagementIndex\org.rivervalley.Engagement.csproj", "{CCD5BFE3-B3F6-4DD9-8357-6893B44C8096}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.paysley.Paysley", "com.paysley.Paysley\com.paysley.Paysley.csproj", "{5075C0BB-BCDE-41AB-8DFB-BA1385C51BED}"
 EndProject
