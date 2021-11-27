@@ -13,7 +13,7 @@ namespace org.rivervalley.Engagement.Model
 {
     [Table( "_org_rivervalley_Engagement_EngagementIndexCategory" )]
     [DataContract]
-    public class EngagementCategory : Model<EngagementCategory>, IRockEntity
+    public class EngagementCategory : Model<EngagementCategory>, IRockEntity, IOrdered
     {
 		#region Entity Properties
 

@@ -35,7 +35,7 @@ namespace org.rivervalley.Engagement.Migrations
 			 CONSTRAINT [PK__org_rivervalley_Engagement_EngagementIndexCategory] PRIMARY KEY CLUSTERED 
 			(
 				[Id] ASC
-			)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+			)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 			) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 			CREATE UNIQUE INDEX [IX_Guid] ON [dbo].[_org_rivervalley_Engagement_EngagementIndexCategory]([Guid])
@@ -66,7 +66,7 @@ namespace org.rivervalley.Engagement.Migrations
 			 CONSTRAINT [PK__org_rivervalley_Engagement_EngagementIndex] PRIMARY KEY CLUSTERED 
 			(
 				[Id] ASC
-			)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+			)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 			) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 			CREATE UNIQUE INDEX [IX_Guid] ON [dbo].[_org_rivervalley_Engagement_EngagementIndex]([Guid])
@@ -99,7 +99,7 @@ namespace org.rivervalley.Engagement.Migrations
 			 CONSTRAINT [PK__org_rivervalley_Engagement_EngagementIndexResult] PRIMARY KEY CLUSTERED 
 			(
 				[Id] ASC
-			)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+			)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 			) ON [PRIMARY]
 
 			CREATE UNIQUE INDEX [IX_Guid] ON [dbo].[_org_rivervalley_Engagement_EngagementIndexResult]([Guid])
@@ -108,6 +108,8 @@ namespace org.rivervalley.Engagement.Migrations
 			CREATE INDEX [IX_ForeignKey] ON [dbo].[_org_rivervalley_Engagement_EngagementIndexResult] (ForeignKey)
 			CREATE INDEX [IX_ForeignId] ON [dbo].[_org_rivervalley_Engagement_EngagementIndexResult] (ForeignId)
 			CREATE INDEX [IX_ForeignGuid] ON [dbo].[_org_rivervalley_Engagement_EngagementIndexResult] (ForeignGuid)
+			CREATE INDEX [IX_RunDate] ON [dbo].[_org_rivervalley_Engagement_EngagementIndexResult] (RunDate)
+			CREATE INDEX [IX_PersonAliasId] ON [dbo].[_org_rivervalley_Engagement_EngagementIndexResult] (PersonAliasId)
 
 			ALTER TABLE [dbo].[_org_rivervalley_Engagement_EngagementIndexResult]  WITH CHECK ADD  CONSTRAINT [FK_dbo.EngagementIndexResult_dbo.EngagementIndex_EngagementIndexId] FOREIGN KEY([EngagementIndexId])
 			REFERENCES [dbo].[_org_rivervalley_Engagement_EngagementIndex] ([Id])

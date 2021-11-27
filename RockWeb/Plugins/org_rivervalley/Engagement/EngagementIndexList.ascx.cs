@@ -176,8 +176,8 @@ namespace RockWeb.Plugins.org_rivervalley.Engagement
         {
             var rockContext = new RockContext();
             var engagementIndexService = new EngagementIndexService( rockContext );
-            var categories = engagementIndexService.Queryable().OrderBy( a => a.Order );
-            var changedIds = engagementIndexService.Reorder( categories.ToList(), e.OldIndex, e.NewIndex );
+            var indices = engagementIndexService.Queryable().Where( a => a.CategoryId == _categoryId ).OrderBy( a => a.Order );
+            engagementIndexService.Reorder( indices.ToList(), e.OldIndex, e.NewIndex );
             rockContext.SaveChanges();
             BindGrid();
         }
@@ -208,7 +208,7 @@ namespace RockWeb.Plugins.org_rivervalley.Engagement
             RockContext rockContext = new RockContext();
             EngagementIndexService engagementIndexService = new EngagementIndexService( rockContext );
 
-            var qry = engagementIndexService.Queryable().AsNoTracking().Where( i => i.CategoryId == _categoryId );
+            var qry = engagementIndexService.Queryable().Where( i => i.CategoryId == _categoryId );
 
             qry = qry.OrderBy( a => a.Order );
 

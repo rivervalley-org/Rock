@@ -7,8 +7,8 @@
     <ProjectGuid>{CCD5BFE3-B3F6-4DD9-8357-6893B44C8096}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>org.rivervalley.EngagementIndex</RootNamespace>
-    <AssemblyName>org.rivervalley.EngagementIndex</AssemblyName>
+    <RootNamespace>org.rivervalley.Engagement</RootNamespace>
+    <AssemblyName>org.rivervalley.Engagement</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

@@ -15,8 +15,9 @@
                 <Rock:ModalAlert ID="mdGridWarningValues" runat="server" />
 
                 <div class="grid grid-panel">
-                    <Rock:Grid ID="gList" runat="server" AllowSorting="false" OnGridReorder="gList_GridReorder" OnRowSelected="gList_RowSelected">
+                    <Rock:Grid ID="gList" runat="server" AllowSorting="false" OnRowSelected="gList_RowSelected">
                         <Columns>
+                            <Rock:ReorderField />
                             <Rock:RockBoundField DataField="Name" HeaderText="Name" />
                             <Rock:RockBoundField DataField="Description" HeaderText="Description" />
                             <Rock:RockBoundField DataField="Category" HeaderText="Category" />

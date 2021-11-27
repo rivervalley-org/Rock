@@ -25,7 +25,7 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            <Rock:DataTextBox ID="tbName" runat="server" SourceTypeName="org.rivervalley.Engagement.Model.EngagementIndex, org.rivervalley.EngagementIndex" PropertyName="Name" Required="true" />
+                            <Rock:DataTextBox ID="tbName" runat="server" SourceTypeName="org.rivervalley.Engagement.Model.EngagementIndex, org.rivervalley.Engagement" PropertyName="Name" Required="true" />
                         </div>
                         <div class="col-md-6">
                             <Rock:RockDropDownList ID="ddlCategory" runat="server" Label="Category" Required="true" />
@@ -34,7 +34,7 @@
 
                     <div class="row">
                         <div class="col-md-12">
-                            <Rock:DataTextBox ID="tbDescription" runat="server" SourceTypeName="org.rivervalley.Engagement.Model.EngagementIndex, org.rivervalley.EngagementIndex" PropertyName="Description" TextMode="MultiLine" Rows="3" />
+                            <Rock:DataTextBox ID="tbDescription" runat="server" SourceTypeName="org.rivervalley.Engagement.Model.EngagementIndex, org.rivervalley.Engagement" PropertyName="Description" TextMode="MultiLine" Rows="3" />
                         </div>
                     </div>
 

@@ -97,43 +97,51 @@ namespace org.rivervalley.Engagement.Jobs
                 // calculate results
                 List<EngagementIndex.IndexResult> indexResults = index.CalculateResults( out errorMessage );
 
-                // only include people that are in our base data view
-                var results = indexResults.Where( r => personIds.Contains( r.PersonId ) ).ToList();
-                var personAliasService = new PersonAliasService( rockContext ).Queryable().AsNoTracking();
-
-                // get a list of current results so that we make sure we don't add them twice
-                var currentResults = engagementIndexService.Queryable().AsNoTracking().SelectMany( e => e.Results ).Where( r => r.RunDate == runDate ).ToList();
-
-                // add results
-                List<EngagementIndexResult> newEngagementIndexResults = new List<EngagementIndexResult>();
-                foreach ( var result in results )
+                if ( !errorMessage.IsNotNullOrWhiteSpace() )
                 {
-                    var personAliasId = personAliasService.Where( pa => pa.PersonId == result.PersonId ).FirstOrDefault().Id;
+                    // only include people that are in our base data view
+                    var results = indexResults.Where( r => personIds.Contains( r.PersonId ) ).ToList();
+                    var personAliasService = new PersonAliasService( rockContext ).Queryable().AsNoTracking();
 
-                    bool exists = currentResults.Where( r => r.EngagementIndexId == index.Id && r.PersonAliasId == personAliasId && r.RunDate == runDate ).Any();
-                    if ( !exists )
+                    // get a list of current results so that we make sure we don't add them twice
+                    var currentResults = engagementIndexService.Queryable().AsNoTracking().SelectMany( e => e.Results ).Where( r => r.RunDate == runDate ).ToList();
+
+                    // add results
+                    List<EngagementIndexResult> newEngagementIndexResults = new List<EngagementIndexResult>();
+                    foreach ( var result in results )
                     {
-                        EngagementIndexResult engagementIndexResult = new EngagementIndexResult();
-                        engagementIndexResult.PersonAliasId = personAliasId;
-                        engagementIndexResult.Completions = result.Completions;
-                        engagementIndexResult.EngagementIndexId = index.Id;
-                        engagementIndexResult.RunDate = runDate;
+                        var personAliasId = personAliasService.Where( pa => pa.PersonId == result.PersonId ).FirstOrDefault().Id;
 
-                        newEngagementIndexResults.Add( engagementIndexResult );
+                        bool exists = currentResults.Where( r => r.EngagementIndexId == index.Id && r.PersonAliasId == personAliasId && r.RunDate == runDate ).Any();
+                        if ( !exists )
+                        {
+                            EngagementIndexResult engagementIndexResult = new EngagementIndexResult();
+                            engagementIndexResult.PersonAliasId = personAliasId;
+                            engagementIndexResult.Completions = result.Completions;
+                            engagementIndexResult.EngagementIndexId = index.Id;
+                            engagementIndexResult.RunDate = runDate;
 
-                        newRows++;
+                            newEngagementIndexResults.Add( engagementIndexResult );
+
+                            newRows++;
+                        }
+                        else
+                        {
+                            existingRows++;
+                        }
                     }
-                    else
-                    {
-                        existingRows++;
-                    }
+
+                    // save results
+                    rockContext.BulkInsert<EngagementIndexResult>( newEngagementIndexResults );
+                    rockContext.SaveChanges();
+
+                    jobResults.Add( string.Format( "<span class='badge badge-success'>&nbsp;</span> Calculated {0}: {1} new results - {2} existing results", index.Name, newRows.ToString(), existingRows.ToString() ) );
                 }
-
-                // save results
-                rockContext.BulkInsert<EngagementIndexResult>( newEngagementIndexResults );
-                rockContext.SaveChanges();
-
-                jobResults.Add( string.Format( "Calculated {0}: {1} new results - {2} existing results", index.Name, newRows.ToString(), existingRows.ToString() ) );
+                else
+                {
+                    jobResults.Add( string.Format( "<span class='badge badge-danger'>&nbsp;</span> Calculated {0}: {1}", index.Name, errorMessage ) );
+                }    
+                
             }
 
             StringBuilder jobSummaryBuilder = new StringBuilder();

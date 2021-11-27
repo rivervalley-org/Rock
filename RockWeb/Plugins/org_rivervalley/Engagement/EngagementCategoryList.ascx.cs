@@ -155,7 +155,7 @@ namespace RockWeb.Plugins.org_rivervalley.Engagement
             var rockContext = new RockContext();
             var engagementCategoryService = new EngagementCategoryService( rockContext );
             var categories = engagementCategoryService.Queryable().OrderBy( a => a.Order );
-            var changedIds = engagementCategoryService.Reorder( categories.ToList(), e.OldIndex, e.NewIndex );
+            engagementCategoryService.Reorder( categories.ToList(), e.OldIndex, e.NewIndex );
             rockContext.SaveChanges();
             BindGrid();
         }

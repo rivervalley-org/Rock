@@ -15,7 +15,7 @@ namespace org.rivervalley.Engagement.Model
 {
     [Table( "_org_rivervalley_Engagement_EngagementIndex" )]
     [DataContract]
-    public class EngagementIndex : Model<EngagementIndex>, IRockEntity
+    public class EngagementIndex : Model<EngagementIndex>, IRockEntity, IOrdered
     {
 		#region Entity Properties
 
@@ -83,6 +83,22 @@ namespace org.rivervalley.Engagement.Model
                 // execute the sql defining that persona
                 if ( IsSQL() )
                 {
+                    if ( SqlQuery.Contains( "UPDATE" ))
+                    {
+                        errorMessage = "Invalid SQL: Keyword UPDATE is not allowed.";
+                        return null;
+                    }
+                    else if ( SqlQuery.Contains( "DELETE" ) )
+                    {
+                        errorMessage = "Invalid SQL: Keyword DELETE is not allowed.";
+                        return null;
+                    }
+                    else if ( !SqlQuery.Contains( "PersonId" ) )
+                    {
+                        errorMessage = "Invalid SQL: SQL must contain a single select column name of 'PersonId'.";
+                        return null;
+                    }
+
                     var sqlResults = rockContext.Database.SqlQuery<int>
                     (
                         SqlQuery
@@ -111,7 +127,6 @@ namespace org.rivervalley.Engagement.Model
                 // execute the dataview defining that persona
                 if ( DataView != null )
                 {
-
                     try
                     {
                         var errorMessages = new List<string>();
