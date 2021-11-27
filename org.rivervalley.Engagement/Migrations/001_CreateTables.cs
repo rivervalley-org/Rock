@@ -19,6 +19,7 @@ namespace org.rivervalley.Engagement.Migrations
 			Sql( @"
 			CREATE TABLE [dbo].[_org_rivervalley_Engagement_EngagementIndexCategory](
 				[Id] [int] IDENTITY(1,1) NOT NULL,
+				[IsActive] [bit] NOT NULL,
 				[Name] [varchar](100) NOT NULL,
 				[Description] [varchar](max) NULL,
 				[Weight] [int] NOT NULL,
@@ -47,6 +48,7 @@ namespace org.rivervalley.Engagement.Migrations
 
 			CREATE TABLE [dbo].[_org_rivervalley_Engagement_EngagementIndex](
 				[Id] [int] IDENTITY(1,1) NOT NULL,
+				[IsActive] [bit] NOT NULL,
 				[Name] [varchar](100) NOT NULL,
 				[Description] [varchar](max) NULL,
 				[CategoryId] [int] NOT NULL,

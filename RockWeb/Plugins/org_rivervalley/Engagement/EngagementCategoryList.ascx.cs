@@ -170,6 +170,25 @@ namespace RockWeb.Plugins.org_rivervalley.Engagement
             NavigateToLinkedPage( "DetailPage", "CategoryId", e.RowKeyId );
         }
 
+        /// <summary>
+        /// Handles the RowDataBound event of the rGrid control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="GridViewRowEventArgs" /> instance containing the event data.</param>
+        protected void gList_RowDataBound( object sender, GridViewRowEventArgs e )
+        {
+            if ( e.Row.RowType == DataControlRowType.DataRow )
+            {
+                int id = ( int ) gList.DataKeys[e.Row.RowIndex].Value;
+                var category = new EngagementCategoryService( new RockContext() ).Get( id );
+
+                if ( category.IsActive == false )
+                {
+                    e.Row.AddCssClass( "is-inactive" );
+                }
+            }
+        }
+
         #endregion
 
         #region Methods

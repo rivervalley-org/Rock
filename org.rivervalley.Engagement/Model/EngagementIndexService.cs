@@ -24,13 +24,14 @@ namespace org.rivervalley.Engagement.Model
         {
             var rockContext = new RockContext();
             var engagementIndexService = new EngagementIndexService( rockContext );
-            var engagementCategories = new EngagementCategoryService( rockContext ).Queryable().ToList();
+            var engagementCategories = new EngagementCategoryService( rockContext ).Queryable().Where( e => e.IsActive ).ToList();
 
             var currentDate = RockDateTime.Now;
             var runDate = new DateTime( currentDate.Year, currentDate.Month, 1 );
 
             // get results for person and run date
             var results = engagementIndexService.Queryable().AsNoTracking()
+                .Where( e => e.IsActive )
                 .SelectMany( e => e.Results )
                 .Where( r => r.PersonAlias.Person.Id == personId && r.RunDate == runDate )
                 .ToList();
@@ -70,6 +71,13 @@ namespace org.rivervalley.Engagement.Model
         public bool CanDelete( EngagementIndex item, out string errorMessage )
         {
             errorMessage = string.Empty;
+
+            if ( new Service<EngagementIndexResult>( Context ).Queryable().Any( a => a.EngagementIndexId == item.Id ) )
+            {
+                errorMessage = string.Format( "Cannot delete {0} because it contains results.", EngagementIndex.FriendlyTypeName );
+                return false;
+            }
+
             return true;
         }
 

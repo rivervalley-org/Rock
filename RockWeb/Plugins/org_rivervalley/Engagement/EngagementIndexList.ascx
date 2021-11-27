@@ -15,7 +15,7 @@
                 <Rock:ModalAlert ID="mdGridWarningValues" runat="server" />
 
                 <div class="grid grid-panel">
-                    <Rock:Grid ID="gList" runat="server" AllowSorting="false" OnRowSelected="gList_RowSelected">
+                    <Rock:Grid ID="gList" runat="server" AllowSorting="false" OnRowSelected="gList_RowSelected"  OnRowDataBound="gList_RowDataBound">
                         <Columns>
                             <Rock:ReorderField />
                             <Rock:RockBoundField DataField="Name" HeaderText="Name" />
@@ -23,7 +23,8 @@
                             <Rock:RockBoundField DataField="Category" HeaderText="Category" />
                             <Rock:RockBoundField DataField="Type" HeaderText="Type" />
                             <Rock:RockBoundField DataField="ScoreWeight" HeaderText="Score Weight" />
-                            <Rock:RockBoundField DataField="AllowMultipleCompletions" HeaderText="Allow Multiple Completions" />
+                            <Rock:BoolField DataField="AllowMultipleCompletions" HeaderText="Allow Multiple Completions" />
+                            <Rock:BoolField DataField="IsActive" HeaderText="Active" />
                         </Columns>
                     </Rock:Grid>
                 </div>

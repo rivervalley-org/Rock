@@ -9,6 +9,10 @@
             <div class="panel-heading">
                 <h1 class="panel-title"><i class="fa fa-file-text"></i>
                     <asp:Literal ID="lTitle" runat="server" /></h1>
+
+                <div class="panel-labels">
+                        <Rock:HighlightLabel ID="hlInactive" runat="server" LabelType="Danger" Text="Inactive" />
+                    </div>
             </div>
             <Rock:PanelDrawer ID="pdAuditDetails" runat="server"></Rock:PanelDrawer>
             <div class="panel-body">
@@ -21,6 +25,9 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <Rock:RockTextBox ID="tbName" Label="Name" runat="server" PropertyName="Name" />
+                            </div>
+                            <div class="col-md-6">
+                                <Rock:RockCheckBox ID="cbIsActive" runat="server" Label="Active" />
                             </div>
                         </div>
 

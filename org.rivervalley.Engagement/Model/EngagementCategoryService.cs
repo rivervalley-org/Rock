@@ -23,6 +23,13 @@ namespace org.rivervalley.Engagement.Model
         public bool CanDelete( EngagementCategory item, out string errorMessage )
         {
             errorMessage = string.Empty;
+
+            if ( new Service<EngagementIndex>( Context ).Queryable().Any( a => a.CategoryId == item.Id ) )
+            {
+                errorMessage = string.Format( "Cannot delete {0} because it contains indices.", EngagementCategory.FriendlyTypeName );
+                return false;
+            }
+
             return true;
         }
     }

@@ -20,7 +20,7 @@ namespace org.rivervalley.Engagement.Model
 		#region Entity Properties
 
 		[DataMember]
-		public int Id { get; set; }
+		public bool IsActive { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }

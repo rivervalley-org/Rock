@@ -17,6 +17,9 @@ namespace org.rivervalley.Engagement.Model
     {
 		#region Entity Properties
 
+        [DataMember]
+        public bool IsActive { get; set; }
+
 		[DataMember]
 		public string Name { get; set; }
 

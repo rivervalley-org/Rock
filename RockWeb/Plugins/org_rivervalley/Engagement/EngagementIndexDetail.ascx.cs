@@ -106,6 +106,7 @@ namespace RockWeb.Plugins.org_rivervalley.Engagement
 
             if ( index != null )
             {
+                index.IsActive = cbIsActive.Checked;
                 index.Name = tbName.Text;
                 index.Description = tbDescription.Text;
                 index.CategoryId = ddlCategory.SelectedItem.Value.AsInteger();
@@ -196,6 +197,7 @@ namespace RockWeb.Plugins.org_rivervalley.Engagement
 
             hfIndexId.Value = index.Id.ToString();
 
+            cbIsActive.Checked = index.IsActive;
             tbName.Text = index.Name;
             tbDescription.Text = index.Description;
             nbScoreWeight.SelectedValue = index.ScoreWeight;

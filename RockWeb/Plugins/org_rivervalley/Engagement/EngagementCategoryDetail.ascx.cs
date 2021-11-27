@@ -125,6 +125,7 @@ namespace RockWeb.Plugins.org_rivervalley.Engagement
                 engagementCategory = service.Get( categoryId );
             }
 
+            engagementCategory.IsActive = cbIsActive.Checked;
             engagementCategory.Name = tbName.Text;
             engagementCategory.Description = tbDescription.Text;
             engagementCategory.Weight = nbWeight.Text.AsInteger();
@@ -231,10 +232,13 @@ namespace RockWeb.Plugins.org_rivervalley.Engagement
 
             SetEditMode( true );
 
+            cbIsActive.Checked = engagementCategory.IsActive;
             tbName.Text = engagementCategory.Name;
             tbDescription.Text = engagementCategory.Description;
             nbWeight.Text = engagementCategory.Weight.ToString();
             cpHtmlColor.Text = engagementCategory.HtmlColor;
+
+            hlInactive.Visible = !engagementCategory.IsActive;
         }
 
         /// <summary>
@@ -275,6 +279,7 @@ namespace RockWeb.Plugins.org_rivervalley.Engagement
             {
                 category = new EngagementCategoryService( new RockContext() ).Get( categoryId );
                 pdAuditDetails.SetEntity( category, ResolveRockUrl( "~" ) );
+                hlInactive.Visible = !category.IsActive;
             }
 
             if ( category == null )

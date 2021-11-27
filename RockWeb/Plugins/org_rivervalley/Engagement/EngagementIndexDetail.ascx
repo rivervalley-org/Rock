@@ -28,7 +28,7 @@
                             <Rock:DataTextBox ID="tbName" runat="server" SourceTypeName="org.rivervalley.Engagement.Model.EngagementIndex, org.rivervalley.Engagement" PropertyName="Name" Required="true" />
                         </div>
                         <div class="col-md-6">
-                            <Rock:RockDropDownList ID="ddlCategory" runat="server" Label="Category" Required="true" />
+                            <Rock:RockCheckBox ID="cbIsActive" runat="server" Label="Active" />
                         </div>
                     </div>
 
@@ -42,12 +42,15 @@
                         <div class="col-md-6">
                             <Rock:RangeSlider ID="nbScoreWeight" runat="server" Label="Score Weight" Required="true" MaxValue="20" />
                         </div>
+                        <div class="col-md-6">
+                            <Rock:RockDropDownList ID="ddlCategory" runat="server" Label="Category" Required="true" />
+                        </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-12">
                             <div class="well well-sm">
-                                <Rock:Toggle ID="tglQueryType" runat="server" Label="Query Type" OffText="SQL" OnText="DataView" OffCssClass="btn-primary" OnCssClass="btn-primary" OnCheckedChanged="tglQueryType_CheckedChanged" />
+                                <Rock:Toggle ID="tglQueryType" runat="server" Label="Type" OffText="SQL" OnText="DataView" OffCssClass="btn-primary" OnCssClass="btn-primary" OnCheckedChanged="tglQueryType_CheckedChanged" />
                                 <div id="divSQL" runat="server" visible="false">
                                     <Rock:CodeEditor Label="Sql Query" runat="server" ClientIDMode="Static" TextMode="MultiLine" Rows="10" ID="tbSQL"></Rock:CodeEditor>
                                     <Rock:RockCheckBox ID="cbAllowMultiple" runat="server" Label="Allow Multiple Completions" />

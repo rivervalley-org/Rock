@@ -85,7 +85,7 @@ namespace org.rivervalley.Engagement.Jobs
             }
 
             List<string> jobResults = new List<string>();
-            List<EngagementIndex> indices = engagementIndexService.Queryable().AsNoTracking().ToList();
+            List<EngagementIndex> indices = engagementIndexService.Queryable().AsNoTracking().Where( i => i.IsActive ).ToList();
             foreach ( var index in indices )
             {
                 rockContext = new RockContext();

@@ -15,12 +15,13 @@
                 <Rock:ModalAlert ID="mdGridWarningValues" runat="server" />
 
                 <div class="grid grid-panel">
-                    <Rock:Grid ID="gList" runat="server" AllowSorting="false" OnRowSelected="gList_RowSelected" >
+                    <Rock:Grid ID="gList" runat="server" AllowSorting="false" OnRowSelected="gList_RowSelected" OnRowDataBound="gList_RowDataBound">
                         <Columns>
                             <Rock:ReorderField />
                             <Rock:RockBoundField DataField="Name" HeaderText="Name" />
                             <Rock:RockBoundField DataField="Description" HeaderText="Description" />
                             <Rock:RockBoundField DataField="Weight" HeaderText="Weight" />
+                            <Rock:BoolField DataField="IsActive" HeaderText="Active" />
                         </Columns>
                     </Rock:Grid>
                 </div>
