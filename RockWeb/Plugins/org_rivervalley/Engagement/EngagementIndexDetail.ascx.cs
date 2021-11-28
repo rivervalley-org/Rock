@@ -203,6 +203,7 @@ namespace RockWeb.Plugins.org_rivervalley.Engagement
             nbScoreWeight.SelectedValue = index.ScoreWeight;
             dvpDataView.SetValue( index.DataViewId );
             tbSQL.Text = index.SqlQuery;
+            cbAllowMultiple.Checked = index.AllowMultipleCompletions;
 
             // set query type panel
             tglQueryType.Checked = !index.IsSQL();
