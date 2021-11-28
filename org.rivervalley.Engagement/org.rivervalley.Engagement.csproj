@@ -77,10 +77,13 @@
     <Compile Include="Model\EngagementCategoryService.cs" />
     <Compile Include="Model\EngagementIndexService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
     <Compile Include="SystemGuids\Block.cs" />
     <Compile Include="SystemGuids\Page.cs" />
     <Compile Include="SystemGuids\BlockType.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Lava\RockFilters.cs" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

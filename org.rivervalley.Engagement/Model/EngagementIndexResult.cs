@@ -18,9 +18,6 @@ namespace org.rivervalley.Engagement.Model
 		#region Entity Properties
 
 		[DataMember]
-		public int Id { get; set; }
-
-		[DataMember]
 		public DateTime RunDate { get; set; }
 
         [DataMember]
@@ -41,9 +38,10 @@ namespace org.rivervalley.Engagement.Model
         public virtual EngagementIndex EngagementIndex { get; set; }
 
         public int Score 
-        { get
+        { 
+            get
             {
-                return Completions * EngagementIndex.ScoreWeight;
+                return EngagementIndex.AllowMultipleCompletions ? Completions * EngagementIndex.ScoreWeight : EngagementIndex.ScoreWeight;
             }
         }
 

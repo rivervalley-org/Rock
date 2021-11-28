@@ -15,19 +15,40 @@ namespace org.rivervalley.Engagement.Model
         /// <param name="context">The context.</param>
         public EngagementIndexService( RockContext context ) : base( context ) { }
 
+        public static List<EngagementResult> GetEngagementResults( int personId, int howMany = 12 )
+        {
+            var results = new List<EngagementResult>();
+            var currentDate = RockDateTime.Now;
+            var runDate = new DateTime( currentDate.Year, currentDate.Month, 1 );
+
+            for ( int i = 0; i < howMany; i++ )
+            {
+                results.Add( GetEngagementResult( personId, runDate ) );
+                runDate = runDate.AddMonths( -1 );
+            }
+
+            return results;
+        }
+
+        public static EngagementResult GetCurrentEngagementResult( int PersonId )
+        {
+            var currentDate = RockDateTime.Now;
+            var runDate = new DateTime( currentDate.Year, currentDate.Month, 1 );
+
+            return GetEngagementResult( PersonId, runDate );
+        }
+
         /// <summary>
         /// Gets the current engagement result.
         /// </summary>
         /// <param name="personId">The person identifier.</param>
         /// <returns></returns>
-        public static EngagementResult GetCurrentEngagementResult( int personId )
+        public static EngagementResult GetEngagementResult( int personId, DateTime runDate )
         {
             var rockContext = new RockContext();
             var engagementIndexService = new EngagementIndexService( rockContext );
-            var engagementCategories = new EngagementCategoryService( rockContext ).Queryable().Where( e => e.IsActive ).ToList();
-
-            var currentDate = RockDateTime.Now;
-            var runDate = new DateTime( currentDate.Year, currentDate.Month, 1 );
+            var engagementCategories = new EngagementCategoryService( rockContext ).Queryable().Where( e => e.IsActive ).OrderBy( e => e.Order ).ToList();
+            var engagementIndices = new EngagementIndexService( rockContext ).Queryable().Where( i => i.IsActive ).OrderBy( i => i.Order ).ToList();
 
             // get results for person and run date
             var results = engagementIndexService.Queryable().AsNoTracking()
@@ -36,26 +57,34 @@ namespace org.rivervalley.Engagement.Model
                 .Where( r => r.PersonAlias.Person.Id == personId && r.RunDate == runDate )
                 .ToList();
 
-            // pre-populate categories
-            EngagementResult engagementResult = new EngagementResult();
+            // build categories
+            EngagementResult engagementResult = new EngagementResult( runDate );
             foreach ( var category in engagementCategories )
             {
-                engagementResult.CategoryResults.Add( new CategoryResult { Id = category.Id, Name = category.Name, Weight = category.Weight, HtmlColor = category.HtmlColor } );
+                engagementResult.CategoryResults.Add( new CategoryResult { Id = category.Id, Name = category.Name, Description = category.Description, Weight = category.Weight, HtmlColor = category.HtmlColor } );
             }
 
-            // fill in category results
             foreach ( var categoryResult in engagementResult.CategoryResults )
             {
-                foreach ( var result in results.Where( r => r.EngagementIndex.CategoryId == categoryResult.Id ) )
+                // build indices
+                foreach ( var index in engagementIndices.Where( i => i.CategoryId == categoryResult.Id ) )
                 {
-                    categoryResult.Results.Add( new ResultDetail { Name = result.EngagementIndex.Name, Score = result.Score } );
+                    // add result if one exists
+                    EngagementIndexResult result = results.Where( r => r.EngagementIndex.CategoryId == categoryResult.Id && r.EngagementIndexId == index.Id ).FirstOrDefault();
+                    categoryResult.Results.Add( 
+                        new ResultDetail { 
+                            Name = index.Name, 
+                            Description = index.Description, 
+                            Score = result != null ? result.Score : 0, 
+                            ScoreWeight = index.ScoreWeight, 
+                            Completions = result != null ? result.Completions : 0
+                        } );
                 }
             }
 
             // TODO: Need to fix the potential of someone getting skewed results because of a duplicate record (maybe it doesn't matter)
             // If a person was merged, they could end up with two scores for the same time period.
             //  This makes sure we get the highest score.
-
 
             return engagementResult;
         }
@@ -85,6 +114,8 @@ namespace org.rivervalley.Engagement.Model
 
         public class EngagementResult : Rock.Lava.ILiquidizable
         {
+            public DateTime RunDate { get; set; }
+
             public decimal TotalEngagementIndex
             {
                 get
@@ -95,8 +126,9 @@ namespace org.rivervalley.Engagement.Model
 
             public List<CategoryResult> CategoryResults { get; set; }
 
-            public EngagementResult()
+            public EngagementResult( DateTime runDate )
             {
+                RunDate = runDate;
                 CategoryResults = new List<CategoryResult>();
             }
 
@@ -118,7 +150,7 @@ namespace org.rivervalley.Engagement.Model
             {
                 get
                 {
-                    var availableKeys = new List<string> { "TotalEngagementIndex", "CategoryResults" };
+                    var availableKeys = new List<string> { "RunDate", "TotalEngagementIndex", "CategoryResults" };
                     return availableKeys;
                 }
             }
@@ -138,6 +170,8 @@ namespace org.rivervalley.Engagement.Model
                 {
                     switch ( key.ToStringSafe() )
                     {
+                        case "RunDate":
+                            return RunDate;
                         case "TotalEngagementIndex":
                             return TotalEngagementIndex;
                         case "CategoryResults":
@@ -155,7 +189,7 @@ namespace org.rivervalley.Engagement.Model
             /// <returns></returns>
             public bool ContainsKey( object key )
             {
-                var additionalKeys = new List<string> { "TotalEngagementIndex", "CategoryResults" };
+                var additionalKeys = new List<string> { "RunDate", "TotalEngagementIndex", "CategoryResults" };
                 if ( additionalKeys.Contains( key.ToStringSafe() ) )
                 {
                     return true;
@@ -174,6 +208,8 @@ namespace org.rivervalley.Engagement.Model
             public int Id { get; set; }
 
             public string Name { get; set; }
+
+            public string Description { get; set; }
 
             public int Weight { get; set; }
 
@@ -212,7 +248,7 @@ namespace org.rivervalley.Engagement.Model
             {
                 get
                 {
-                    var availableKeys = new List<string> { "Id", "Name", "Weight", "HtmlColor", "Total", "Results" };
+                    var availableKeys = new List<string> { "Id", "Name", "Description", "Weight", "HtmlColor", "Total", "Results" };
                     return availableKeys;
                 }
             }
@@ -236,6 +272,8 @@ namespace org.rivervalley.Engagement.Model
                             return Id;
                         case "Name":
                             return Name;
+                        case "Description":
+                            return Description;
                         case "Weight":
                             return Weight;
                         case "HtmlColor":
@@ -257,7 +295,7 @@ namespace org.rivervalley.Engagement.Model
             /// <returns></returns>
             public bool ContainsKey( object key )
             {
-                var additionalKeys = new List<string> { "Id", "Name", "Weight", "HtmlColor", "Total", "Results" };
+                var additionalKeys = new List<string> { "Id", "Name", "Description", "Weight", "HtmlColor", "Total", "Results" };
                 if ( additionalKeys.Contains( key.ToStringSafe() ) )
                 {
                     return true;
@@ -275,7 +313,13 @@ namespace org.rivervalley.Engagement.Model
         {
             public string Name { get; set; }
 
+            public string Description { get; set; }
+
             public decimal Score { get; set; }
+
+            public int ScoreWeight { get; set; }
+
+            public int Completions { get; set; }
 
             #region ILiquidizable Implementation
 
@@ -295,7 +339,7 @@ namespace org.rivervalley.Engagement.Model
             {
                 get
                 {
-                    var availableKeys = new List<string> { "Name", "Score" };
+                    var availableKeys = new List<string> { "Name", "Description", "Score", "ScoreWeight", "Completions" };
                     return availableKeys;
                 }
             }
@@ -317,8 +361,14 @@ namespace org.rivervalley.Engagement.Model
                     {
                         case "Name":
                             return Name;
+                        case "Description":
+                            return Description;
                         case "Score":
                             return Score;
+                        case "ScoreWeight":
+                            return ScoreWeight;
+                        case "Completions":
+                            return Completions;
                         default:
                             return null;
                     }
@@ -332,7 +382,7 @@ namespace org.rivervalley.Engagement.Model
             /// <returns></returns>
             public bool ContainsKey( object key )
             {
-                var additionalKeys = new List<string> { "Name", "Score" };
+                var additionalKeys = new List<string> { "Name", "Description", "Score", "ScoreWeight", "Completions" };
                 if ( additionalKeys.Contains( key.ToStringSafe() ) )
                 {
                     return true;
