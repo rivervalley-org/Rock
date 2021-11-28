@@ -57,7 +57,7 @@ namespace org.rivervalley.Engagement.Migrations
                     ,0
                     ,'Calculate Engagement'
                     ,'This job calculates engagement indices.'
-                    ,'org.rivervalley.Engagement.CalculateEngagement'
+                    ,'org.rivervalley.Engagement.Jobs.CalculateEngagement'
                     ,'0 0 12 1 1/1 ? *'
                     ,1
                     ,NEWID()
