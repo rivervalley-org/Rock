@@ -61,7 +61,7 @@
         </member>
         <member name="M:Rock.Rest.ApiController`1.GetByCampus(System.Int32)">
             <summary>
-            Gets items associated with a campus uisng the EntityCampusFilter model. The Entity must implement ICampusFilterable.
+            Gets items associated with a campus using the EntityCampusFilter model. The Entity must implement ICampusFilterable.
             </summary>
             <param name="campusId">The campus identifier.</param>
             <returns></returns>
@@ -114,6 +114,14 @@
             <param name="dataViewId">The data view identifier.</param>
             <param name="entityId">The entity identifier.</param>
             <returns></returns>
+        </member>
+        <member name="M:Rock.Rest.ApiController`1.ValidateDataView(Rock.Model.DataView)">
+            <summary>
+            Checks to makes sure DataView exists, has the correct entityType, and person has View rights, etc
+            </summary>
+            <param name="dataView">The data view.</param>
+            <exception cref="T:System.Web.Http.HttpResponseException">
+            </exception>
         </member>
         <member name="M:Rock.Rest.ApiController`1.LaunchWorkflow(System.Int32,System.Guid,System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
             <summary>
@@ -362,19 +370,26 @@
             <returns></returns>
             <exception cref="T:System.Web.Http.HttpResponseException"></exception>
         </member>
-        <member name="M:Rock.Rest.Controllers.CheckinController.PrintSessionLabels(System.String,System.Nullable{System.Int32})">
+        <member name="M:Rock.Rest.Controllers.CheckinController.PrintSessionLabels(System.String,System.Nullable{System.Int32},System.Nullable{System.Int32},Rock.Rest.Controllers.CheckinController.PrintSessionLabelsPrinterOverride)">
             <summary>
             Prints the session labels for the specified sessions.
             </summary>
             <param name="session">The session(s) to be printed.</param>
             <param name="kioskId">The kiosk identifier requesting the labels.</param>
+            <param name="printerId">The printer identifier to use when overriding where to print labels to.</param>
+            <param name="printerOverride">Which labels to override the destination printer.</param>
             <returns>
             A collection of <see cref="T:Rock.CheckIn.CheckInLabel">labels</see> that should be printed by the client.
             </returns>
+            <remarks>
+            This API call is primarily used by the Rock Check-in Application to support no-touch check-in.
+            However, it is likely to be used by 3rd party mobile applications as well so care should be
+            taken when modifying functionality.
+            </remarks>
         </member>
         <member name="T:Rock.Rest.Controllers.CheckinController.PrintSessionLabelsResponse">
             <summary>
-            The response data used with the <see cref="M:Rock.Rest.Controllers.CheckinController.PrintSessionLabels(System.String,System.Nullable{System.Int32})" />
+            The response data used with the <see cref="M:Rock.Rest.Controllers.CheckinController.PrintSessionLabels(System.String,System.Nullable{System.Int32},System.Nullable{System.Int32},Rock.Rest.Controllers.CheckinController.PrintSessionLabelsPrinterOverride)" />
             API endpoint.
             </summary>
         </member>
@@ -392,6 +407,91 @@
             </summary>
             <value>
             The errors encountered by the server.
+            </value>
+        </member>
+        <member name="T:Rock.Rest.Controllers.CheckinController.PrintSessionLabelsPrinterOverride">
+            <summary>
+            The override options used with the <see cref="M:Rock.Rest.Controllers.CheckinController.PrintSessionLabels(System.String,System.Nullable{System.Int32},System.Nullable{System.Int32},Rock.Rest.Controllers.CheckinController.PrintSessionLabelsPrinterOverride)"/>
+            API endpoint.
+            </summary>
+        </member>
+        <member name="F:Rock.Rest.Controllers.CheckinController.PrintSessionLabelsPrinterOverride.Client">
+            <summary>
+            The client printed labels will have their printer overridden.
+            </summary>
+        </member>
+        <member name="F:Rock.Rest.Controllers.CheckinController.PrintSessionLabelsPrinterOverride.Server">
+            <summary>
+            The server printed labels will have their printer overridden.
+            </summary>
+        </member>
+        <member name="F:Rock.Rest.Controllers.CheckinController.PrintSessionLabelsPrinterOverride.Both">
+            <summary>
+            Both the client and server printed labels will have their printer overridden.
+            </summary>
+        </member>
+        <member name="T:Rock.Rest.Controllers.AchievementTypesController">
+            <summary>
+            AchievementTypes REST API
+            </summary>
+            <summary>
+            AchievementTypes REST API
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Controllers.AchievementTypesController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.AchievementTypesController"/> class.
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Controllers.AchievementTypesController.GetProgressForPerson(System.Int32,System.Boolean)">
+            <summary>
+            Gets the progress for the person.
+            </summary>
+            <param name="personId">The person identifier. The current person is used if this is omitted.</param>
+            <param name="includeOnlyEligible">Include only progress statements for achievement types that have no unmet prerequisites</param>
+            <returns></returns>
+            <exception cref="T:System.Web.Http.HttpResponseException"></exception>
+        </member>
+        <member name="M:Rock.Rest.Controllers.AchievementTypesController.GetProgressForAchiever(System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Gets the progress for the achiever.
+            </summary>
+            <param name="achieverEntityTypeId">The achiever entity type identifier.</param>
+            <param name="achieverEntityId">The achiever identifier. The current person is used if this is omitted.</param>
+            <param name="includeOnlyEligible">Include only progress statements for achievement types that have no unmet prerequisites</param>
+            <returns></returns>
+            <exception cref="T:System.Web.Http.HttpResponseException">
+            </exception>
+        </member>
+        <member name="M:Rock.Rest.Controllers.AchievementTypesController.GetBadgeData(System.Int32,System.Nullable{System.Int32})">
+            <summary>
+            Gets the badge data for the achiever.
+            </summary>
+            <param name="achievementTypeId">The achievement type identifier.</param>
+            <param name="achieverEntityId">The achiever identifier. The current person is used if this is omitted.</param>
+            <returns></returns>
+            <exception cref="T:System.Web.Http.HttpResponseException">
+            </exception>
+        </member>
+        <member name="T:Rock.Rest.Controllers.AchievementTypesController.BadgeData">
+            <summary>
+            <see cref="M:Rock.Rest.Controllers.AchievementTypesController.GetBadgeData(System.Int32,System.Nullable{System.Int32})"/> Response
+            </summary>
+        </member>
+        <member name="P:Rock.Rest.Controllers.AchievementTypesController.BadgeData.AchievementTypeName">
+            <summary>
+            Gets or sets the name of the achievement type.
+            </summary>
+            <value>
+            The name of the achievement type.
+            </value>
+        </member>
+        <member name="P:Rock.Rest.Controllers.AchievementTypesController.BadgeData.BadgeMarkup">
+            <summary>
+            Gets or sets the badge markup.
+            </summary>
+            <value>
+            The badge markup.
             </value>
         </member>
         <member name="T:Rock.Rest.Controllers.AnalyticsDimCampusController">
@@ -412,6 +512,16 @@
         <member name="M:Rock.Rest.Controllers.AnalyticsSourceCampusController.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.AnalyticsSourceCampusController"/> class.
+            </summary>
+        </member>
+        <member name="T:Rock.Rest.Controllers.AnalyticsSourceGivingUnitsController">
+            <summary>
+            AnalyticsSourceGivingUnits REST API
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Controllers.AnalyticsSourceGivingUnitsController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.AnalyticsSourceGivingUnitsController"/> class.
             </summary>
         </member>
         <member name="T:Rock.Rest.Controllers.AssessmentsController">
@@ -452,6 +562,46 @@
         <member name="M:Rock.Rest.Controllers.AttributeValueHistoricalsController.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.AttributeValueHistoricalsController"/> class.
+            </summary>
+        </member>
+        <member name="T:Rock.Rest.Controllers.AuthClaimsController">
+            <summary>
+            AuthClaims REST API
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Controllers.AuthClaimsController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.AuthClaimsController"/> class.
+            </summary>
+        </member>
+        <member name="T:Rock.Rest.Controllers.AuthClientsController">
+            <summary>
+            AuthClients REST API
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Controllers.AuthClientsController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.AuthClientsController"/> class.
+            </summary>
+        </member>
+        <member name="T:Rock.Rest.Controllers.AuthScopesController">
+            <summary>
+            AuthScopes REST API
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Controllers.AuthScopesController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.AuthScopesController"/> class.
+            </summary>
+        </member>
+        <member name="T:Rock.Rest.Controllers.CommunicationResponseAttachmentsController">
+            <summary>
+            CommunicationResponseAttachments REST API
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Controllers.CommunicationResponseAttachmentsController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.CommunicationResponseAttachmentsController"/> class.
             </summary>
         </member>
         <member name="T:Rock.Rest.Controllers.CommunicationResponsesController">
@@ -591,6 +741,36 @@
             Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.EntityCampusFiltersController"/> class.
             </summary>
         </member>
+        <member name="T:Rock.Rest.Controllers.FinancialStatementTemplatesController">
+            <summary>
+            FinancialStatementTemplates REST API
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Controllers.FinancialStatementTemplatesController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.FinancialStatementTemplatesController"/> class.
+            </summary>
+        </member>
+        <member name="T:Rock.Rest.Controllers.FinancialTransactionAlertsController">
+            <summary>
+            FinancialTransactionAlerts REST API
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Controllers.FinancialTransactionAlertsController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.FinancialTransactionAlertsController"/> class.
+            </summary>
+        </member>
+        <member name="T:Rock.Rest.Controllers.FinancialTransactionAlertTypesController">
+            <summary>
+            FinancialTransactionAlertTypes REST API
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Controllers.FinancialTransactionAlertTypesController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.FinancialTransactionAlertTypesController"/> class.
+            </summary>
+        </member>
         <member name="T:Rock.Rest.Controllers.GroupDemographicTypesController">
             <summary>
             GroupDemographicTypes REST API
@@ -694,6 +874,26 @@
             Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.GroupSyncsController"/> class.
             </summary>
         </member>
+        <member name="T:Rock.Rest.Controllers.IdentityVerificationCodesController">
+            <summary>
+            IdentityVerificationCodes REST API
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Controllers.IdentityVerificationCodesController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.IdentityVerificationCodesController"/> class.
+            </summary>
+        </member>
+        <member name="T:Rock.Rest.Controllers.IdentityVerificationsController">
+            <summary>
+            IdentityVerifications REST API
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Controllers.IdentityVerificationsController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.IdentityVerificationsController"/> class.
+            </summary>
+        </member>
         <member name="T:Rock.Rest.Controllers.LavaShortcodesController">
             <summary>
             LavaShortcodes REST API
@@ -702,6 +902,150 @@
         <member name="M:Rock.Rest.Controllers.LavaShortcodesController.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.LavaShortcodesController"/> class.
+            </summary>
+        </member>
+        <member name="T:Rock.Rest.Controllers.MediaAccountsController">
+            <summary>
+            MediaAccounts REST API
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Controllers.MediaAccountsController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.MediaAccountsController"/> class.
+            </summary>
+        </member>
+        <member name="T:Rock.Rest.Controllers.MediaElementsController">
+            <summary>
+            MediaElements REST API
+            </summary>
+            <summary>
+            <see cref="T:Rock.Model.MediaElement"/> REST API
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Controllers.MediaElementsController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.MediaElementsController"/> class.
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Controllers.MediaElementsController.GetWatchInteraction(System.Nullable{System.Guid},System.Nullable{System.Guid},System.Nullable{System.Guid})">
+            <summary>
+            Gets the most recent MediaElementInteraction for the specified
+            MediaElement and person.
+            </summary>
+            <param name="mediaElementGuid">The <see cref="T:Rock.Model.MediaElement"/> unique identifier.</param>
+            <param name="personGuid">The <see cref="T:Rock.Model.Person"/> unique identifier.</param>
+            <param name="personAliasGuid">The <see cref="T:Rock.Model.PersonAlias"/> unique identifier.</param>
+            <returns>The application data for the given MediaElement interaction.</returns>
+        </member>
+        <member name="M:Rock.Rest.Controllers.MediaElementsController.PostWatchInteraction(Rock.Rest.Controllers.MediaElementsController.MediaElementInteraction)">
+            <summary>
+            Writes a Watch interaction for a <see cref="T:Rock.Model.MediaElement" />.
+            </summary>
+            <param name="mediaInteraction">The media interaction data.</param>
+            <returns>The application data for the MediaElement interaction.</returns>
+            <exception cref="T:System.Web.Http.HttpResponseException">
+            </exception>
+        </member>
+        <member name="M:Rock.Rest.Controllers.MediaElementsController.IsWatchMapValid(System.String)">
+            <summary>
+            Determines whether the watch map is valid.
+            </summary>
+            <param name="watchMap">The watch map.</param>
+            <returns>
+              <c>true</c> if the watch map is valid; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Rock.Rest.Controllers.MediaElementsController.CalculateWatchedPercentage(System.String)">
+            <summary>
+            Calculates the watched percentage of the watch map.
+            </summary>
+            <param name="watchMap">The watch map.</param>
+            <returns>The percentage of the media element that was watched.</returns>
+        </member>
+        <member name="T:Rock.Rest.Controllers.MediaElementsController.MediaElementInteraction">
+            <summary>
+            The data structure that is used with the WatchInteraction endpoint.
+            </summary>
+        </member>
+        <member name="P:Rock.Rest.Controllers.MediaElementsController.MediaElementInteraction.MediaElementGuid">
+            <summary>
+            Gets or sets the media element unique identifier.
+            </summary>
+            <value>
+            The media element unique identifier.
+            </value>
+        </member>
+        <member name="P:Rock.Rest.Controllers.MediaElementsController.MediaElementInteraction.WatchMap">
+            <summary>
+            Gets or sets the watch map as an run length encoded string.
+            </summary>
+            <value>
+            The watch map as an run length encoded string.
+            </value>
+        </member>
+        <member name="P:Rock.Rest.Controllers.MediaElementsController.MediaElementInteraction.InteractionGuid">
+            <summary>
+            Gets or sets the interaction unique identifier.
+            </summary>
+            <value>
+            The interaction unique identifier.
+            </value>
+        </member>
+        <member name="P:Rock.Rest.Controllers.MediaElementsController.MediaElementInteraction.PersonAliasGuid">
+            <summary>
+            Gets or sets the person alias unique identifier.
+            </summary>
+            <value>
+            The person alias unique identifier.
+            </value>
+        </member>
+        <member name="P:Rock.Rest.Controllers.MediaElementsController.MediaElementInteraction.PersonGuid">
+            <summary>
+            Gets or sets the person unique identifier.
+            </summary>
+            <value>
+            The person unique identifier.
+            </value>
+        </member>
+        <member name="P:Rock.Rest.Controllers.MediaElementsController.MediaElementInteraction.RelatedEntityTypeId">
+            <summary>
+            Gets or sets the related entity type identifier.
+            </summary>
+            <value>
+            The related entity type identifier.
+            </value>
+        </member>
+        <member name="P:Rock.Rest.Controllers.MediaElementsController.MediaElementInteraction.RelatedEntityId">
+            <summary>
+            Gets or sets the related entity identifier.
+            </summary>
+            <value>
+            The related entity identifier.
+            </value>
+        </member>
+        <member name="T:Rock.Rest.Controllers.MediaElementsController.WatchInteractionData">
+            <summary>
+            The custom data object to store in the interaction data for a
+            "media watched" interaction. Marked private for now so we can
+            move it to a better location later without breaking anything.
+            </summary>
+        </member>
+        <member name="P:Rock.Rest.Controllers.MediaElementsController.WatchInteractionData.WatchMap">
+            <summary>
+            Gets or sets the watch map.
+            </summary>
+            <value>
+            The watch map.
+            </value>
+        </member>
+        <member name="T:Rock.Rest.Controllers.MediaFoldersController">
+            <summary>
+            MediaFolders REST API
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Controllers.MediaFoldersController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.MediaFoldersController"/> class.
             </summary>
         </member>
         <member name="T:Rock.Rest.Controllers.MetaFirstNameGenderLookupsController">
@@ -792,6 +1136,16 @@
         <member name="M:Rock.Rest.Controllers.PersonSignalsController.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.PersonSignalsController"/> class.
+            </summary>
+        </member>
+        <member name="T:Rock.Rest.Controllers.RegistrationSessionsController">
+            <summary>
+            RegistrationSessions REST API
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Controllers.RegistrationSessionsController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.RegistrationSessionsController"/> class.
             </summary>
         </member>
         <member name="T:Rock.Rest.Controllers.RegistrationTemplateFeeItemsController">
@@ -995,14 +1349,14 @@
             Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.StepWorkflowTriggersController"/> class.
             </summary>
         </member>
-        <member name="T:Rock.Rest.Controllers.StreakAchievementAttemptsController">
+        <member name="T:Rock.Rest.Controllers.AchievementAttemptsController">
             <summary>
-            StreakAchievementAttempts REST API
+            AchievementAttempts REST API
             </summary>
         </member>
-        <member name="M:Rock.Rest.Controllers.StreakAchievementAttemptsController.#ctor">
+        <member name="M:Rock.Rest.Controllers.AchievementAttemptsController.#ctor">
             <summary>
-            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.StreakAchievementAttemptsController"/> class.
+            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.AchievementAttemptsController"/> class.
             </summary>
         </member>
         <member name="T:Rock.Rest.Controllers.StreaksController">
@@ -1015,37 +1369,15 @@
             Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.StreaksController"/> class.
             </summary>
         </member>
-        <member name="T:Rock.Rest.Controllers.StreakTypeAchievementTypePrerequisitesController">
+        <member name="T:Rock.Rest.Controllers.AchievementTypePrerequisitesController">
             <summary>
-            StreakTypeAchievementTypePrerequisites REST API
+            AchievementTypePrerequisites REST API
             </summary>
         </member>
-        <member name="M:Rock.Rest.Controllers.StreakTypeAchievementTypePrerequisitesController.#ctor">
+        <member name="M:Rock.Rest.Controllers.AchievementTypePrerequisitesController.#ctor">
             <summary>
-            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.StreakTypeAchievementTypePrerequisitesController"/> class.
+            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.AchievementTypePrerequisitesController"/> class.
             </summary>
-        </member>
-        <member name="T:Rock.Rest.Controllers.StreakTypeAchievementTypesController">
-            <summary>
-            StreakTypeAchievementTypes REST API
-            </summary>
-            <summary>
-            StreakTypeAchievementTypes REST API
-            </summary>
-        </member>
-        <member name="M:Rock.Rest.Controllers.StreakTypeAchievementTypesController.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.StreakTypeAchievementTypesController"/> class.
-            </summary>
-        </member>
-        <member name="M:Rock.Rest.Controllers.StreakTypeAchievementTypesController.GetProgressForPerson(System.Int32,System.Boolean)">
-            <summary>
-            Gets the progress for the person.
-            </summary>
-            <param name="personId">The person identifier. The current person is used if this is omitted.</param>
-            <param name="includeOnlyEligible">Include only progress statements for achievement types that have no unmet prerequisites</param>
-            <returns></returns>
-            <exception cref="T:System.Web.Http.HttpResponseException"></exception>
         </member>
         <member name="T:Rock.Rest.Controllers.StreakTypeExclusionsController">
             <summary>
@@ -1141,33 +1473,90 @@
             <param name="scheduleId">Obsolete: This param will be removed in v13. Use the MarkAttendanceEngagement method instead</param>
             <returns></returns>
         </member>
-        <member name="M:Rock.Rest.Controllers.StreakTypesController.MarkInteractionEngagement(System.Int32,Rock.Model.InteractionEngagementArgs,System.Nullable{System.Int32},System.Nullable{System.DateTime})">
+        <member name="M:Rock.Rest.Controllers.StreakTypesController.MarkInteractionEngagement(System.Int32,Rock.Model.InteractionEngagementArgs,System.Nullable{System.Int32},System.Nullable{System.DateTime},System.Boolean)">
             <summary>
             Notes that the person has engaged through interaction. This will update the occurrence map and also add an
             interaction record (if enabled).
             </summary>
-            <param name="streakTypeId"></param>
+            <param name="streakTypeId">The streak type identifier.</param>
+            <param name="interactionEngagementArgs">Data used to create an interaction record if enabled in the streak type</param>
             <param name="personId">Defaults to the current person</param>
             <param name="dateOfEngagement">Defaults to now</param>
-            <param name="interactionEngagementArgs">Data used to create an interaction record if enabled in the streak type</param>
+            <param name="returnAchievements">if set to <c>true</c> [return achievements].</param>
             <returns></returns>
+            <exception cref="T:System.Web.Http.HttpResponseException">
+            </exception>
         </member>
-        <member name="M:Rock.Rest.Controllers.StreakTypesController.MarkAttendanceEngagement(System.Int32,Rock.Model.AttendanceEngagementArgs,System.Nullable{System.Int32},System.Nullable{System.DateTime})">
+        <member name="M:Rock.Rest.Controllers.StreakTypesController.MarkAttendanceEngagement(System.Int32,Rock.Model.AttendanceEngagementArgs,System.Nullable{System.Int32},System.Nullable{System.DateTime},System.Boolean)">
             <summary>
             Notes that the person has engaged through attendance. This will update the occurrence map and also add an
             attendance record (if enabled).
             </summary>
-            <param name="streakTypeId"></param>
+            <param name="streakTypeId">The streak type identifier.</param>
+            <param name="attendanceEngagementArgs">Optional data used to create an attendance record if enabled in the streak type</param>
             <param name="personId">Defaults to the current person</param>
             <param name="dateOfEngagement">Defaults to now</param>
-            <param name="attendanceEngagementArgs">Optional data used to create an attendance record if enabled in the streak type</param>
+            <param name="returnAchievements">if set to <c>true</c> [return achievements].</param>
             <returns></returns>
+            <exception cref="T:System.Web.Http.HttpResponseException">
+            </exception>
         </member>
         <member name="M:Rock.Rest.Controllers.StreakTypesController.GetCurrentPersonId">
             <summary>
             Gets the current person identifier.
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:Rock.Rest.Controllers.StreakTypesController.MarkEngagementResponse">
+            <summary>
+            Mark Engagement Response
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Controllers.StreakTypesController.MarkEngagementResponse.#ctor(System.Collections.Generic.List{Rock.Model.AchievementAttempt})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.StreakTypesController.MarkEngagementResponse"/> class.
+            </summary>
+            <param name="achievementAttempts">The achievement attempts.</param>
+        </member>
+        <member name="P:Rock.Rest.Controllers.StreakTypesController.MarkEngagementResponse.AchievementAttempts">
+            <summary>
+            Gets the achievement attempts.
+            </summary>
+        </member>
+        <member name="T:Rock.Rest.Controllers.StreakTypesController.MarkEngagementResponse.AttemptListItem">
+            <summary>
+            Attempt List Item
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Controllers.StreakTypesController.MarkEngagementResponse.AttemptListItem.#ctor(Rock.Model.AchievementAttempt)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.StreakTypesController.MarkEngagementResponse"/> class.
+            </summary>
+        </member>
+        <member name="P:Rock.Rest.Controllers.StreakTypesController.MarkEngagementResponse.AttemptListItem.AchievementAttemptId">
+            <summary>
+            Gets or sets the achievement attempt identifier.
+            </summary>
+        </member>
+        <member name="P:Rock.Rest.Controllers.StreakTypesController.MarkEngagementResponse.AttemptListItem.AchievementTypeId">
+            <summary>
+            Gets or sets the achievement type identifier.
+            </summary>
+        </member>
+        <member name="P:Rock.Rest.Controllers.StreakTypesController.MarkEngagementResponse.AttemptListItem.AchievementTypeGuid">
+            <summary>
+            Gets or sets the achievement type unique identifier.
+            </summary>
+        </member>
+        <member name="P:Rock.Rest.Controllers.StreakTypesController.MarkEngagementResponse.AttemptListItem.Progress">
+            <summary>
+            Gets or sets the progress.
+            </summary>
+        </member>
+        <member name="P:Rock.Rest.Controllers.StreakTypesController.MarkEngagementResponse.AttemptListItem.IsComplete">
+            <summary>
+            Gets or sets a value indicating whether this instance is complete.
+            </summary>
         </member>
         <member name="T:Rock.Rest.Controllers.ServiceJobHistoriesController">
             <summary>
@@ -1227,6 +1616,36 @@
         <member name="M:Rock.Rest.Controllers.SystemCommunicationsController.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.SystemCommunicationsController"/> class.
+            </summary>
+        </member>
+        <member name="T:Rock.Rest.Controllers.WebFarmNodeLogsController">
+            <summary>
+            WebFarmNodeLogs REST API
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Controllers.WebFarmNodeLogsController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.WebFarmNodeLogsController"/> class.
+            </summary>
+        </member>
+        <member name="T:Rock.Rest.Controllers.WebFarmNodeMetricsController">
+            <summary>
+            WebFarmNodeMetrics REST API
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Controllers.WebFarmNodeMetricsController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.WebFarmNodeMetricsController"/> class.
+            </summary>
+        </member>
+        <member name="T:Rock.Rest.Controllers.WebFarmNodesController">
+            <summary>
+            WebFarmNodes REST API
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Controllers.WebFarmNodesController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.WebFarmNodesController"/> class.
             </summary>
         </member>
         <member name="T:Rock.Rest.Controllers.ContentChannelItemsController">
@@ -1351,6 +1770,19 @@
             </summary>
             <seealso cref="T:Rock.Rest.ApiControllerBase" />
         </member>
+        <member name="P:Rock.Rest.Controllers.MobileController.CommunicationInteractionChannelId">
+            <summary>
+            Gets the communication interaction channel identifier.
+            </summary>
+            <value>
+            The communication interaction channel identifier.
+            </value>
+        </member>
+        <member name="F:Rock.Rest.Controllers.MobileController._communicationInteractionChannelGuid">
+            <summary>
+            The communication interaction channel unique identifier
+            </summary>
+        </member>
         <member name="M:Rock.Rest.Controllers.MobileController.GetLaunchPacket(System.String)">
             <summary>
             Gets the launch packet.
@@ -1381,6 +1813,15 @@
             <param name="loginParameters">The login parameters to use during authentication.</param>
             <param name="personalDeviceGuid">The personal device unique identifier being used to log the person in.</param>
             <returns>A MobilePerson object if the login was successful.</returns>
+        </member>
+        <member name="M:Rock.Rest.Controllers.MobileController.ProcessCommunicationInteraction(Rock.Common.Mobile.MobileInteractionSession,Rock.Common.Mobile.MobileInteraction,Rock.Data.RockContext)">
+            <summary>
+            Checks if the interaction is for a communication and if so do
+            additional steps to mark the communication as opened..
+            </summary>
+            <param name="session">The interaction session.</param>
+            <param name="interaction">The interaction data.</param>
+            <param name="rockContext">The rock context.</param>
         </member>
         <member name="T:Rock.Rest.Controllers.NotesController">
             <summary>
@@ -1626,7 +2067,7 @@
             <param name="locationId">The location identifier.</param>
             <param name="scheduleId">The schedule identifier.</param>
             <param name="occurrenceDate">The occurrence date.</param>
-            <param name="personId">The person identifier. If provided it is used to get the primary PersonAliasId and takes presidence over "personAliasId"</param>
+            <param name="personId">The person identifier. If provided it is used to get the primary PersonAliasId and takes precedence over "personAliasId"</param>
             <param name="personAliasId">The person alias identifier. Is not used if a "personId" is provided.</param>
             <returns>Attendance</returns>
         </member>
@@ -1635,6 +2076,14 @@
             Gets a list of available the scheduler resources (people) based on the options specified in schedulerResourceParameters 
             </summary>
             <param name="schedulerResourceParameters">The scheduler resource parameters.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Rock.Rest.Controllers.AttendancesController.GetSchedulerResource(Rock.Model.SchedulerResourceParameters,System.Int32)">
+            <summary>
+            Gets an individual scheduler resource.
+            </summary>
+            <param name="schedulerResourceParameters">The scheduler resource parameters.</param>
+            <param name="personId">The person identifier.</param>
             <returns></returns>
         </member>
         <member name="M:Rock.Rest.Controllers.AttendancesController.GetAttendingSchedulerResources(System.Int32)">
@@ -1649,6 +2098,15 @@
             Updates attendance record to indicate person is not pending, or confirmed, or declined
             </summary>
             <param name="attendanceId">The attendance identifier.</param>
+        </member>
+        <member name="M:Rock.Rest.Controllers.AttendancesController.CanSchedulePerson(System.Int32,System.Int32,System.Nullable{System.Int32})">
+            <summary>
+            Determines whether this the person can be scheduled for the specified occurrence
+            </summary>
+            <param name="personId">The person identifier.</param>
+            <param name="attendanceOccurrenceId">The attendance occurrence identifier.</param>
+            <param name="fromAttendanceOccurrenceId">From attendance occurrence identifier.</param>
+            <returns></returns>
         </member>
         <member name="M:Rock.Rest.Controllers.AttendancesController.ScheduledPersonAddPending(System.Int32,System.Int32)">
             <summary>
@@ -2138,6 +2596,23 @@
             <exception cref="T:System.Web.Http.HttpResponseException">
             </exception>
         </member>
+        <member name="M:Rock.Rest.Controllers.BlocksController.BlockAction(System.Guid,System.String)">
+            <summary>
+            Executes an action handler on a specific block.
+            </summary>
+            <param name="blockGuid">The block unique identifier.</param>
+            <param name="actionName">Name of the action.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Rock.Rest.Controllers.BlocksController.BlockActionAsPost(System.String,System.String,System.String)">
+            <summary>
+            Executes an action handler on a specific block.
+            </summary>
+            <param name="blockGuid">The block unique identifier.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameters">The parameters.</param>
+            <returns></returns>
+        </member>
         <member name="M:Rock.Rest.Controllers.BlocksController.BlockAction(System.String,System.String,System.String)">
             <summary>
             Executes an action handler on a specific block.
@@ -2146,6 +2621,7 @@
             <param name="block">The block unique identifier.</param>
             <param name="actionName">Name of the action.</param>
             <returns></returns>
+            <remarks>Use api/blocks/action/{blockGuid}/{actionName} instead, used by Rock Mobile shell v1 only.</remarks>
         </member>
         <member name="M:Rock.Rest.Controllers.BlocksController.BlockAction(System.String,System.String,System.String,System.String)">
             <summary>
@@ -2156,32 +2632,41 @@
             <param name="actionName">Name of the action.</param>
             <param name="parameters">The parameters.</param>
             <returns></returns>
+            <remarks>Use api/blocks/action/{blockGuid}/{actionName} instead, used by Rock Mobile shell v1 only.</remarks>
         </member>
-        <member name="M:Rock.Rest.Controllers.BlocksController.ProcessAction(System.String,System.String,System.String,System.String,Newtonsoft.Json.Linq.JToken)">
+        <member name="M:Rock.Rest.Controllers.BlocksController.BlockAction(System.String,System.String,System.String,Newtonsoft.Json.Linq.JToken)">
             <summary>
-            Processes the action.
+            Executes an action handler on a specific block.
             </summary>
-            <param name="verb">The HTTP Method Verb that was used for the request.</param>
-            <param name="pageIdentifier">The page identifier (either Guid or int).</param>
-            <param name="blockIdentifier">The block identifier (either Guid or int).</param>
+            <param name="pageIdentifier">The page unique identifier.</param>
+            <param name="blockIdentifier">The block unique identifier.</param>
             <param name="actionName">Name of the action.</param>
             <param name="parameters">The parameters.</param>
             <returns></returns>
         </member>
-        <member name="M:Rock.Rest.Controllers.BlocksController.InvokeAction(Rock.Blocks.IRockBlockType,System.String,System.String,System.Collections.Generic.Dictionary{System.String,Newtonsoft.Json.Linq.JToken})">
+        <member name="M:Rock.Rest.Controllers.BlocksController.ProcessAction(System.Net.Http.HttpMethod,System.Nullable{System.Guid},System.String,Newtonsoft.Json.Linq.JToken)">
+            <summary>
+            Processes the action.
+            </summary>
+            <param name="method">The HTTP Method Verb that was used for the request.</param>
+            <param name="blockGuid">The block unique identifier.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameters">The parameters.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Rock.Rest.Controllers.BlocksController.InvokeAction(Rock.Blocks.IRockBlockType,System.Net.Http.HttpMethod,System.String,System.Collections.Generic.Dictionary{System.String,Newtonsoft.Json.Linq.JToken},Newtonsoft.Json.Linq.JToken)">
             <summary>
             Processes the specified block action.
             </summary>
             <param name="block">The block.</param>
-            <param name="verb">The HTTP Method Verb that was used for the request.</param>
+            <param name="method">The HTTP Method Verb that was used for the request.</param>
             <param name="actionName">Name of the action.</param>
             <param name="actionParameters">The action parameters.</param>
+            <param name="bodyParameters">The posted body parameters.</param>
             <returns></returns>
-            <exception cref="T:System.ArgumentNullException">
-            actionName
+            <exception cref="T:System.ArgumentNullException">actionName
             or
-            actionData
-            </exception>
+            actionData</exception>
         </member>
         <member name="M:Rock.Rest.Controllers.BlocksController.#ctor">
             <summary>
@@ -2206,9 +2691,9 @@
         </member>
         <member name="M:Rock.Rest.Controllers.CategoriesController.GetAllMetricDescendants(Rock.Rest.Controllers.CategoryItem,System.String,Rock.Model.MetricCategoryService)">
             <summary>
-            Gets all category and non-category item decendents for the provided <see cref="T:Rock.Rest.Controllers.CategoryItem"/>, which should represent a <see cref="T:Rock.Model.Metric"/> or <see cref="T:Rock.Model.MetricCategory"/>.
+            Gets all category and non-category item decendents for the provided <see cref="T:Rock.Rest.Controllers.CategoryItem" />, which should represent a <see cref="T:Rock.Model.Metric" /> or <see cref="T:Rock.Model.MetricCategory" />.
             </summary>
-            <param name="categoryItem">The <see cref="T:Rock.Rest.Controllers.CategoryItem"/>, which should represent a <see cref="T:Rock.Model.Metric"/> or <see cref="T:Rock.Model.MetricCategory"/>.</param>
+            <param name="categoryItem">The <see cref="T:Rock.Rest.Controllers.CategoryItem" />, which should represent a <see cref="T:Rock.Model.Metric" /> or <see cref="T:Rock.Model.MetricCategory" />.</param>
             <param name="includedCategoryIds">The included category ids.</param>
             <param name="metricCategoryService">The <see cref="T:Rock.Model.MetricCategoryService"/>.</param>
             <returns></returns>
@@ -2504,7 +2989,7 @@
             ConnectionRequests REST API
             </summary>
             <summary>
-            
+            Connection Requests Controller
             </summary>
         </member>
         <member name="M:Rock.Rest.Controllers.ConnectionRequestsController.#ctor">
@@ -2512,12 +2997,67 @@
             Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.ConnectionRequestsController"/> class.
             </summary>
         </member>
+        <member name="M:Rock.Rest.Controllers.ConnectionRequestsController.Delete(System.Int32)">
+            <summary>
+            DELETE endpoint. To delete the record
+            </summary>
+            <param name="id">The identifier.</param>
+            <exception cref="T:System.Web.Http.HttpResponseException"></exception>
+        </member>
         <member name="M:Rock.Rest.Controllers.ConnectionRequestsController.GetChildren(System.String)">
             <summary>
             Gets the children.
             </summary>
             <param name="id">The identifier.</param>
             <returns></returns>
+        </member>
+        <member name="M:Rock.Rest.Controllers.ConnectionRequestsController.DoesStatusChangeCauseWorkflows(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Does the status change cause workflows to be triggered?
+            </summary>
+            <param name="connectionOpportunityId">The connection opportunity identifier.</param>
+            <param name="fromStatusId">From status identifier.</param>
+            <param name="toStatusId">To status identifier.</param>
+            <returns></returns>
+            <exception cref="T:System.Web.Http.HttpResponseException"></exception>
+        </member>
+        <member name="M:Rock.Rest.Controllers.ConnectionRequestsController.GetConnectionBoardStatusViewModel(System.Int32,System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.String,System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Gets the connection board status view models.
+            </summary>
+            <param name="connectionRequestId">The connection request identifier.</param>
+            <param name="campusId">The campus identifier.</param>
+            <param name="connectorPersonAliasId">The connector person alias identifier.</param>
+            <param name="requesterPersonAliasId">The requester person alias identifier.</param>
+            <param name="minDate">The minimum date.</param>
+            <param name="maxDate">The maximum date.</param>
+            <param name="delimitedStatusIds">The delimited status ids.</param>
+            <param name="delimitedConnectionStates">The delimited connection states.</param>
+            <param name="delimitedLastActivityTypeIds">The delimited last activity type ids.</param>
+            <param name="statusIconsTemplate">The status icons template.</param>
+            <param name="pastDueOnly">if set to <c>true</c> [past due only] for requests that are future follow-up.</param>
+            <returns></returns>
+            <exception cref="T:System.Web.Http.HttpResponseException"></exception>
+        </member>
+        <member name="M:Rock.Rest.Controllers.ConnectionRequestsController.GetConnectionBoardStatusViewModels(System.Int32,System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.String,System.String,System.String,System.String,System.Nullable{Rock.Model.ConnectionRequestViewModelSortProperty},System.Nullable{System.Int32},System.Boolean)">
+            <summary>
+            Gets the connection board status view models.
+            </summary>
+            <param name="connectionOpportunityId">The connection opportunity identifier.</param>
+            <param name="campusId">The campus identifier.</param>
+            <param name="connectorPersonAliasId">The connector person alias identifier.</param>
+            <param name="requesterPersonAliasId">The requester person alias identifier.</param>
+            <param name="minDate">The minimum date.</param>
+            <param name="maxDate">The maximum date.</param>
+            <param name="delimitedStatusIds">The delimited status ids.</param>
+            <param name="delimitedConnectionStates">The delimited connection states.</param>
+            <param name="delimitedLastActivityTypeIds">The delimited last activity type ids.</param>
+            <param name="statusIconsTemplate">The status icons template.</param>
+            <param name="sortProperty">The sort property.</param>
+            <param name="maxRequestsPerStatus">The maximum requests per status.</param>
+            <param name="pastDueOnly">if set to <c>true</c> [past due only] for future follow-up requests.</param>
+            <returns></returns>
+            <exception cref="T:System.Web.Http.HttpResponseException">errorResponse</exception>
         </member>
         <member name="T:Rock.Rest.Controllers.ConnectionRequestWorkflowsController">
             <summary>
@@ -3304,7 +3844,7 @@
         </member>
         <member name="P:Rock.Rest.Controllers.FinancialTransactionsController.GiftPaymentDetail.ExpirationMonth">
             <summary>
-            Gets the expiration month by decrypting ExpirationMonthEncrypted
+            Gets the expiration month
             </summary>
             <value>
             The expiration month.
@@ -3312,7 +3852,7 @@
         </member>
         <member name="P:Rock.Rest.Controllers.FinancialTransactionsController.GiftPaymentDetail.ExpirationYear">
             <summary>
-            Gets the expiration year by decrypting ExpirationYearEncrypted
+            Gets the expiration year
             </summary>
             <value>
             The expiration year.
@@ -3441,27 +3981,30 @@
             Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.FollowingsController"/> class.
             </summary>
         </member>
-        <member name="M:Rock.Rest.Controllers.FollowingsController.Delete(System.Int32,System.Int32,System.Int32)">
+        <member name="M:Rock.Rest.Controllers.FollowingsController.Delete(System.Int32,System.Int32,System.Int32,System.String)">
             <summary>
             Deletes the following record(s).
             </summary>
             <param name="entityTypeId">The entity type identifier.</param>
             <param name="entityId">The entity identifier.</param>
             <param name="personId">The person identifier.</param>
+            <param name="purposeKey">The custom purpose to identify the type of following.</param>
         </member>
-        <member name="M:Rock.Rest.Controllers.FollowingsController.Delete(System.Int32,System.Int32)">
+        <member name="M:Rock.Rest.Controllers.FollowingsController.Delete(System.Int32,System.Int32,System.String)">
             <summary>
             Deletes the following record(s).
             </summary>
             <param name="entityTypeId">The entity type identifier.</param>
             <param name="entityId">The entity identifier.</param>
+            <param name="purposeKey">The custom purpose to identify the type of following.</param>
         </member>
-        <member name="M:Rock.Rest.Controllers.FollowingsController.Follow(System.Int32,System.Int32)">
+        <member name="M:Rock.Rest.Controllers.FollowingsController.Follow(System.Int32,System.Int32,System.String)">
             <summary>
             Follows the specified entity.
             </summary>
             <param name="entityTypeId">The entity type identifier.</param>
             <param name="entityId">The entity identifier.</param>
+            <param name="purposeKey">The custom purpose to identify the type of following.</param>
         </member>
         <member name="T:Rock.Rest.Controllers.FollowingSuggestedsController">
             <summary>
@@ -4572,6 +5115,14 @@
             <param name="siteType">Type of the site.</param>
             <returns></returns>
         </member>
+        <member name="M:Rock.Rest.Controllers.PagesController.GetChildren(System.Int32,System.String)">
+            <summary>
+            Gets the children.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="hidePageIds">The hide page ids.</param>
+            <returns></returns>
+        </member>
         <member name="T:Rock.Rest.Controllers.PeopleController">
             <summary>
             People REST API
@@ -5660,16 +6211,6 @@
             Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.WorkflowActivityTypesController"/> class.
             </summary>
         </member>
-        <member name="T:Rock.Rest.Controllers.WorkflowLogsController">
-            <summary>
-            WorkflowLogs REST API
-            </summary>
-        </member>
-        <member name="M:Rock.Rest.Controllers.WorkflowLogsController.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.WorkflowLogsController"/> class.
-            </summary>
-        </member>
         <member name="T:Rock.Rest.Controllers.WorkflowsController">
             <summary>
             Workflows REST API
@@ -6097,6 +6638,21 @@
             
             </summary>
             <seealso cref="T:System.Web.Http.Filters.AuthorizationFilterAttribute" />
+        </member>
+        <member name="T:Rock.Rest.Filters.AuthenticateAttribute.Claims">
+            <summary>
+            Standard Claims needed for OIDC Authentication.
+            </summary>
+        </member>
+        <member name="F:Rock.Rest.Filters.AuthenticateAttribute.Claims.Username">
+            <summary>
+            The username
+            </summary>
+        </member>
+        <member name="F:Rock.Rest.Filters.AuthenticateAttribute.Claims.ClientId">
+            <summary>
+            The client identifier
+            </summary>
         </member>
         <member name="M:Rock.Rest.Filters.AuthenticateAttribute.OnAuthorization(System.Web.Http.Controllers.HttpActionContext)">
             <summary>

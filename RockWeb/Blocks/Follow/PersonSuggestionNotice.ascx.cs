@@ -1,4 +1,4 @@
-// <copyright>
+﻿// <copyright>
 // Copyright by the Spark Development Network
 //
 // Licensed under the Rock Community License (the "License");
@@ -116,6 +116,7 @@ namespace RockWeb.Blocks.Follow
                         .Queryable().AsNoTracking()
                         .Where( f =>
                             f.EntityTypeId == personAliasEntityType.Id &&
+                            string.IsNullOrEmpty( f.PurposeKey ) &&
                             f.PersonAliasId == CurrentPersonAlias.Id )
                         .Join( personAliasQry, s => s.EntityId, p => p.Id, ( s, p ) => p.PersonId )
                         .Distinct();

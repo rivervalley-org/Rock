@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="WorkflowDetail.ascx.cs" Inherits="RockWeb.Blocks.WorkFlow.WorkflowDetail" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="WorkflowDetail.ascx.cs" Inherits="RockWeb.Blocks.WorkFlow.WorkflowDetail" %>
 
 <asp:UpdatePanel ID="upDetail" runat="server">
     <ContentTemplate>
@@ -167,7 +167,6 @@
                                 <Columns>
                                     <Rock:DateTimeField DataField="LogDateTime" HeaderText="When" FormatAsElapsedTime="true" />
                                     <Rock:RockBoundField DataField="LogText" HeaderText="Message" />
-                                    <Rock:RockBoundField DataField="CreatedByPersonAlias.Person.FullName" HeaderText="By" />
                                 </Columns>
                             </Rock:Grid>
                         </div>

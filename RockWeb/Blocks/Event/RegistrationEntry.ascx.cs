@@ -35,6 +35,7 @@ using Rock.Field;
 using Rock.Financial;
 using Rock.Model;
 using Rock.Security;
+using Rock.Utility;
 using Rock.Web;
 using Rock.Web.Cache;
 using Rock.Web.UI;
@@ -1301,7 +1302,7 @@ namespace RockWeb.Blocks.Event
                 CurrentRegistrantIndex = RegistrationState != null ? RegistrationState.RegistrantCount - 1 : 0;
                 CurrentFormIndex = FormCount - 1;
 
-                nbAmountPaid.Text = string.Empty;
+                nbAmountPaid.Value = null;
                 RegistrationState.PaymentAmount = null;
 
                 ShowRegistrant( false, false );
@@ -1753,9 +1754,9 @@ namespace RockWeb.Blocks.Event
                                     savedAccount.FinancialPaymentDetail.AccountNumberMasked = paymentDetail.AccountNumberMasked;
                                     savedAccount.FinancialPaymentDetail.CurrencyTypeValueId = paymentDetail.CurrencyTypeValueId;
                                     savedAccount.FinancialPaymentDetail.CreditCardTypeValueId = paymentDetail.CreditCardTypeValueId;
-                                    savedAccount.FinancialPaymentDetail.NameOnCardEncrypted = paymentDetail.NameOnCardEncrypted;
-                                    savedAccount.FinancialPaymentDetail.ExpirationMonthEncrypted = paymentDetail.ExpirationMonthEncrypted;
-                                    savedAccount.FinancialPaymentDetail.ExpirationYearEncrypted = paymentDetail.ExpirationYearEncrypted;
+                                    savedAccount.FinancialPaymentDetail.NameOnCard = paymentDetail.NameOnCard;
+                                    savedAccount.FinancialPaymentDetail.ExpirationMonth = paymentDetail.ExpirationMonth;
+                                    savedAccount.FinancialPaymentDetail.ExpirationYear = paymentDetail.ExpirationYear;
                                     savedAccount.FinancialPaymentDetail.BillingLocationId = paymentDetail.BillingLocationId;
 
                                     var savedAccountService = new FinancialPersonSavedAccountService( rockContext );
@@ -3188,7 +3189,7 @@ namespace RockWeb.Blocks.Event
         /// <returns></returns>
         private Person SavePerson( RockContext rockContext, Person person, Guid familyGuid, int? campusId, Location location, int adultRoleId, int childRoleId, Dictionary<Guid, int> multipleFamilyGroupIds, ref int? singleFamilyId )
         {
-            if( !person.PrimaryCampusId.HasValue && campusId.HasValue )
+            if ( !person.PrimaryCampusId.HasValue && campusId.HasValue )
             {
                 person.PrimaryCampusId = campusId;
                 rockContext.SaveChanges();
@@ -4370,8 +4371,8 @@ namespace RockWeb.Blocks.Event
                 var enableSavedAccount = this.GetAttributeValue( AttributeKey.EnableSavedAccount ).AsBoolean();
 
                 if ( enableSavedAccount && ( nbAmountPaid.Visible = true ) &&
-                    nbAmountPaid.Text.AsDecimalOrNull().HasValue &&
-                    nbAmountPaid.Text.AsDecimalOrNull().Value > 0.0M &&
+                    nbAmountPaid.Value.HasValue &&
+                    nbAmountPaid.Value.Value > 0.0M &&
                     ( rblSavedCC.Items.Count == 0 || ( rblSavedCC.SelectedValueAsId() ?? 0 ) == 0 ) )
                 {
                     cbSaveAccount.Visible = true;
@@ -4493,6 +4494,12 @@ namespace RockWeb.Blocks.Event
         /// </summary>
         private void RegisterClientScript()
         {
+            // If there isn't a RegistrationTemplate to load then skip this
+            if ( RegistrationTemplate == null )
+            {
+                return;
+            }
+
             RockPage.AddScriptLink( "~/Scripts/jquery.creditCardTypeDetector.js" );
 
             var controlFamilyGuid = Guid.Empty;
@@ -4552,10 +4559,10 @@ namespace RockWeb.Blocks.Event
                 amountPaid = balanceDue
             }}
         }}
-        $(this).val(amountPaid.toFixed(2));
+        $(this).val(amountPaid.toFixed({16}));
 
         var amountRemaining = totalCost - ( previouslyPaid + amountPaid );
-        $('#{4}').text( '{6}' + amountRemaining.toFixed(2) );
+        $('#{4}').text( '{6}' + amountRemaining.toFixed({16}) );
     }});
 
     // Detect credit card type
@@ -4611,7 +4618,7 @@ namespace RockWeb.Blocks.Event
             , hfPreviouslyPaid.ClientID              // {3}
             , lRemainingDue.ClientID                 // {4}
             , hfTriggerScroll.ClientID               // {5}
-            , GlobalAttributesCache.Value( "CurrencySymbol" ) // {6}
+            , RockCurrencyCodeInfo.GetCurrencySymbol()   // {6}
             , hfRequiredDocumentQueryString.ClientID // {7}
             , this.Page.ClientScript.GetPostBackEventReference( lbRequiredDocumentNext, "" ) // {8}
             , hfRequiredDocumentLinkUrl.ClientID     // {9}
@@ -4620,7 +4627,9 @@ namespace RockWeb.Blocks.Event
             , rblFamilyOptions.ClientID              // {12}
             , pnlFamilyMembers.ClientID              // {13}
             , controlFamilyGuid                      // {14}
+            // NULL check not needed here because it is checked at the start of this method.
             , RegistrationTemplate.ShowCurrentFamilyMembers.ToString().ToLower() // {15}
+            , RockCurrencyCodeInfo.GetDecimalPlaces() // {16}
 );
 
             ScriptManager.RegisterStartupScript( Page, Page.GetType(), "registrationEntry", script, true );
@@ -5004,6 +5013,10 @@ namespace RockWeb.Blocks.Event
                         {
                             registrant.FeeValues.AddOrReplace( fee.Id, feeValues );
                         }
+                        else
+                        {
+                            registrant.FeeValues.Remove( fee.Id );
+                        }
                     }
                 }
             }
@@ -5364,46 +5377,6 @@ namespace RockWeb.Blocks.Event
                     lUpdateEmailWarning.Visible = true;
                 }
 
-                // Build Discount info
-                if ( ShowDiscountCode() )
-                {
-                    divDiscountCode.Visible = true;
-
-                    string discountCode = RegistrationState.DiscountCode;
-                    if ( !string.IsNullOrWhiteSpace( discountCode ) )
-                    {
-                        var discount = RegistrationTemplate.Discounts
-                            .Where( d => d.Code.Equals( discountCode, StringComparison.OrdinalIgnoreCase ) )
-                            .FirstOrDefault();
-
-                        if ( discount == null )
-                        {
-                            nbDiscountCode.Text = string.Format( "'{1}' is not a valid {1}.", discountCode, DiscountCodeTerm );
-                            nbDiscountCode.Visible = true;
-                        }
-                        else
-                        {
-                            ShowDiscountAppliedNotificationBox( discount );
-                        }
-                    }
-
-                    tbDiscountCode.Text = tbDiscountCode.Text.IsNotNullOrWhiteSpace() ? tbDiscountCode.Text : RegistrationState.DiscountCode;
-
-                    if ( !AllowDiscountCodeEntry() )
-                    {
-                        tbDiscountCode.Enabled = false;
-
-                        // If we cannot edit and there is no existing value then just hide the discount div.
-                        divDiscountCode.Visible = tbDiscountCode.Text.IsNotNullOrWhiteSpace();
-                        lbDiscountApply.Visible = false;
-                    }
-                }
-                else
-                {
-                    divDiscountCode.Visible = false;
-                    tbDiscountCode.Text = RegistrationState.DiscountCode;
-                }
-
                 decimal? minimumInitialPaymentPerRegistrant = RegistrationTemplate.MinimumInitialPayment;
                 if ( RegistrationTemplate.SetCostOnInstance ?? false )
                 {
@@ -5631,7 +5604,7 @@ namespace RockWeb.Blocks.Event
                     }
 
                     nbAmountPaid.Visible = allowPartialPayment;
-                    nbAmountPaid.Text = ( RegistrationState.PaymentAmount ?? 0.0m ).ToString( "N2" );
+                    nbAmountPaid.Value = ( RegistrationState.PaymentAmount ?? 0.0m );
 
                     // If a previous payment was made, or partial payment is allowed, show the amount remaining after selected payment amount
                     lRemainingDue.Visible = allowPartialPayment;
@@ -5741,9 +5714,13 @@ namespace RockWeb.Blocks.Event
 
                     RegistrationState.TotalCost = 0.0m;
                     RegistrationState.DiscountedCost = 0.0m;
+                    RegistrationState.PaymentAmount = 0.0m;
+                    nbAmountPaid.Value = null;
                     pnlCostAndFees.Visible = false;
                     pnlPaymentInfo.Visible = false;
                 }
+
+                ShowDiscountCode();
             }
         }
 
@@ -5770,17 +5747,52 @@ namespace RockWeb.Blocks.Event
         }
 
         /// <summary>
-        /// Determines if the discount code should be displayed.
+        /// Shows or hides the discount code div "divDiscountCode".
+        /// Shows or hides the Apply Discount link button "lbDiscountApply"
+        /// Enables or disables the discount code textbox "tbDiscountCode"
         /// </summary>
         /// <returns></returns>
-        private bool ShowDiscountCode()
+        private void ShowDiscountCode()
         {
             if ( RegistrationTemplate == null || !RegistrationTemplate.Discounts.Any() )
             {
-                return false;
+                divDiscountCode.Visible = false;
+                tbDiscountCode.Text = RegistrationState.DiscountCode;
+                return;
             }
 
-            return true;
+            divDiscountCode.Visible = true;
+            tbDiscountCode.Enabled = true;
+            lbDiscountApply.Visible = true;
+
+            string discountCode = RegistrationState.DiscountCode;
+            if ( !string.IsNullOrWhiteSpace( discountCode ) )
+            {
+                var discount = RegistrationTemplate.Discounts
+                    .Where( d => d.Code.Equals( discountCode, StringComparison.OrdinalIgnoreCase ) )
+                    .FirstOrDefault();
+
+                if ( discount == null )
+                {
+                    nbDiscountCode.Text = string.Format( "'{1}' is not a valid {1}.", discountCode, DiscountCodeTerm );
+                    nbDiscountCode.Visible = true;
+                }
+                else
+                {
+                    ShowDiscountAppliedNotificationBox( discount );
+                }
+            }
+
+            tbDiscountCode.Text = tbDiscountCode.Text.IsNotNullOrWhiteSpace() ? tbDiscountCode.Text : RegistrationState.DiscountCode;
+
+            if ( !AllowDiscountCodeEntry() )
+            {
+                tbDiscountCode.Enabled = false;
+
+                // If we cannot edit and there is no existing value then just hide the discount div.
+                divDiscountCode.Visible = tbDiscountCode.Text.IsNotNullOrWhiteSpace();
+                lbDiscountApply.Visible = false;
+            }
         }
 
         /// <summary>
@@ -5865,7 +5877,7 @@ namespace RockWeb.Blocks.Event
                     RegistrationState.FamilyGuid = Guid.NewGuid();
                 }
 
-                RegistrationState.PaymentAmount = nbAmountPaid.Text.AsDecimal();
+                RegistrationState.PaymentAmount = nbAmountPaid.Value ?? 0.0m;
             }
         }
 
@@ -5963,10 +5975,10 @@ namespace RockWeb.Blocks.Event
                     }
 
                     string discountTypeAndAmountString = discount.DiscountPercentage > 0.0m ? discount.DiscountPercentage.FormatAsPercent() : discount.DiscountAmount.FormatAsCurrency();
-                    
+
                     nbDiscountCode.Visible = true;
                     nbDiscountCode.NotificationBoxType = NotificationBoxType.Success;
-                    nbDiscountCode.Text = string.Format( "The {0} {1} of {2} {3} was automatically applied.", DiscountCodeTerm.ToLower(), discount.Code,  discountTypeAndAmountString, discountRegistrantNumberString );
+                    nbDiscountCode.Text = string.Format( "The {0} {1} of {2} {3} was automatically applied.", DiscountCodeTerm.ToLower(), discount.Code, discountTypeAndAmountString, discountRegistrantNumberString );
                     return true;
                 }
             }

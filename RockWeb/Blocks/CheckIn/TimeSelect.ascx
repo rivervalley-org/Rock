@@ -1,11 +1,11 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="TimeSelect.ascx.cs" Inherits="RockWeb.Blocks.CheckIn.TimeSelect" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="TimeSelect.ascx.cs" Inherits="RockWeb.Blocks.CheckIn.TimeSelect" %>
 <asp:UpdatePanel ID="upContent" runat="server">
 <ContentTemplate>
 
     <Rock:ModalAlert ID="maWarning" runat="server" />
 
     <div class="checkin-header">
-        <h1><asp:Literal ID="lTitle" runat="server" /><div class="checkin-sub-title"><asp:Literal ID="lSubTitle" runat="server"></asp:Literal></div></h1>
+        <h1><asp:Literal ID="lTitle" runat="server" /></h1>
     </div>
 
     <div class="checkin-body">

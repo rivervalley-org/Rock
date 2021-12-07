@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="MetricValueList.ascx.cs" Inherits="RockWeb.Blocks.Reporting.MetricValueList" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="MetricValueList.ascx.cs" Inherits="RockWeb.Blocks.Reporting.MetricValueList" %>
 
 <asp:UpdatePanel ID="upList" runat="server">
     <ContentTemplate>
@@ -18,7 +18,7 @@
                         <Rock:RockDropDownList ID="ddlGoalMeasure" runat="server" Label="Goal/Measure" />
                         <asp:PlaceHolder ID="phMetricValuePartitions" runat="server" />
                     </Rock:GridFilter>
-                    <Rock:Grid ID="gMetricValues" runat="server" AllowSorting="true" OnRowSelected="gMetricValues_Edit" OnRowDataBound="gMetricValues_RowDataBound" ExportSource="ColumnOutput">
+                    <Rock:Grid ID="gMetricValues" runat="server" AllowSorting="true" OnRowSelected="gMetricValues_Edit" OnRowDataBound="gMetricValues_RowDataBound" ExportSource="ColumnOutput" TooltipField="MetricValueDateTime">
                         <Columns>
                             <Rock:DateField DataField="MetricValueDateTime" HeaderText="Date" SortExpression="MetricValueDateTime" />
                             <Rock:EnumField DataField="MetricValueType" HeaderText="Type" SortExpression="MetricValueType" />
