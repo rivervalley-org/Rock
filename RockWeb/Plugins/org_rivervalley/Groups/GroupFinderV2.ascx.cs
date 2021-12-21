@@ -485,7 +485,7 @@ namespace RockWeb.Plugins.org_riverValley.Groups
                 .Where( g => groupTypesGuids.Contains( g.GroupType.Guid ) &&
                              g.IsActive && g.IsPublic && !g.IsArchived &&
                              ( !g.GroupCapacity.HasValue || g.GroupCapacity.Value > g.Members.Where( m => !m.IsArchived && m.GroupMemberStatus == GroupMemberStatus.Active ).Count() ) &&
-                             ( _campusId == null || g.Campus.Id == _campusId.Value ) );
+                             ( _campusId == null || g.CampusId == null || g.CampusId == _campusId.Value ) );
 
             // life group type
             var lifeGroupTypeLookup = avService.Where( av => av.Attribute.EntityTypeId == groupEntityTypeId &&
