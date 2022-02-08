@@ -216,7 +216,16 @@ namespace com.paysley.Paysley.Jobs
                     {
                         rockContext = new RockContext();
 
+                        // we only want successful transactions
                         if ( payment.status != "success" )
+                        {
+                            continue;
+                        }
+
+                        // if this is not a debit or a refund, then we should skip this
+                        if ( payment.payment_type != PaymentType.PAYMENT_TYPE_CCDB && 
+                             payment.payment_type != PaymentType.PAYMENT_TYPE_CCRV &&
+                             payment.payment_type != PaymentType.PAYMENT_TYPE_CCRF )
                         {
                             continue;
                         }
@@ -234,7 +243,7 @@ namespace com.paysley.Paysley.Jobs
                             .FirstOrDefault();
 
                         // first, check to see if the payment is a refund
-                        if ( payment.payment_type == "CC.RF" || payment.payment_type == "CC.RV" )
+                        if ( payment.payment_type == PaymentType.PAYMENT_TYPE_CCRF || payment.payment_type == PaymentType.PAYMENT_TYPE_CCRV )
                         {
                             // find the original transaction
                             var orgTxn = financialTransactionService.Queryable().AsNoTracking()
@@ -453,7 +462,10 @@ namespace com.paysley.Paysley.Jobs
                     number.PersonId = person.Id;
                     number.NumberTypeValueId = DefinedValueCache.Get( Rock.SystemGuid.DefinedValue.PERSON_PHONE_TYPE_MOBILE.AsGuid() ).Id;
 
-                    person.PhoneNumbers.Add( number );
+                    if ( number.Number.Any() )
+                    {
+                        person.PhoneNumbers.Add( number ); 
+                    }
 
                     var defaultConnectionStatus = DefinedValueCache.Get( Rock.SystemGuid.DefinedValue.PERSON_CONNECTION_STATUS_WEB_PROSPECT.AsGuid() );
                     if ( defaultConnectionStatus != null )
@@ -782,5 +794,57 @@ namespace com.paysley.Paysley.Jobs
 
             return defaultAccountId;
         }
+
+        #region Helper Classes
+
+        private static class PaymentType
+        {
+            /// <summary>
+            /// Debit (cc.db): Debit transaction( payment)
+            /// </summary>
+            public const string PAYMENT_TYPE_CCDB = "CC.DB";
+
+            /// <summary>
+            /// Pre-Authorization (cc.pa): Funds are put on hold to be captured at a later date within Paysley.
+            /// </summary>
+            public const string PAYMENT_TYPE_CCPA = "CC.PA";
+
+            /// <summary>
+            /// Capture (cc.cp): Funds that have previously been put on hold are debited.
+            /// </summary>
+            public const string PAYMENT_TYPE_CCCP = "CC.CP";
+
+            /// <summary>
+            /// Schedule (cc.sd): The recurring payment schedule is saved in the gateway and will start debiting on the start date.
+            /// </summary>
+            public const string PAYMENT_TYPE_CCSD = "CC.SD"; 
+
+            /// <summary>
+            /// Recurring Ended (cc.ds): AKA “Deschedule”. A recurring payment schedule is ended and no further debits will occur.
+            /// </summary>
+            public const string PAYMENT_TYPE_CCDS = "CC.DS";
+
+            /// <summary>
+            /// Registration (cc.rg): The card details are securely stored in the gateway (new recurring payment or card saved for later use).
+            /// </summary>
+            public const string PAYMENT_TYPE_CCRG = "CC.RG";
+
+            /// <summary>
+            /// Refund (cc.rf): Refund transaction will debit the merchant and credit the cardholder.
+            /// </summary>
+            public const string PAYMENT_TYPE_CCRF = "CC.RF";
+
+            /// <summary>
+            /// Reversal (cc.rv): Reversal transaction which will void a payment that is still in pre-authorization status( first ~2 business days after debit).
+            /// </summary>
+            public const string PAYMENT_TYPE_CCRV = "CC.RV";
+
+            /// <summary>
+            /// Chargeback (cc.cb): Cardhodler initiated chargeback transaction.
+            /// </summary>
+            public const string PAYMENT_TYPE_CCCB = "CC.CB";
+        }
+
+        #endregion
     }
 }
