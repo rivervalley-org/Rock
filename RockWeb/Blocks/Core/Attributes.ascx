@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="Attributes.ascx.cs" Inherits="RockWeb.Blocks.Core.Attributes" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="Attributes.ascx.cs" Inherits="RockWeb.Blocks.Core.Attributes" %>
 
 <script type="text/javascript">
     function clearActiveDialog() {
@@ -32,7 +32,7 @@
                                 <asp:ListItem Text="No" Value="false" />
                             </Rock:RockDropDownList>
                         </Rock:GridFilter>
-                            <Rock:Grid ID="rGrid" runat="server" RowItemText="setting" TooltipField="Description" OnRowSelected="rGrid_RowSelected">
+                            <Rock:Grid ID="rGrid" runat="server" RowItemText="setting" TooltipField="Description">
                             <Columns>
                                 <Rock:ReorderField />
                                 <Rock:RockBoundField
@@ -44,7 +44,7 @@
                                     HeaderStyle-HorizontalAlign="Right" />
                                 <Rock:RockLiteralField ItemStyle-Wrap="false" HeaderText="Qualifier" ID="lEntityQualifier" SortExpression="Qualifier"/>
                                 <Rock:RockBoundField DataField="Name" HeaderText="Name" SortExpression="Name" />
-                                <Rock:RockTemplateField>
+                                <Rock:RockTemplateField ID="rtCategories">
                                     <HeaderTemplate>Categories</HeaderTemplate>
                                     <ItemTemplate>
                                         <asp:Literal ID="lCategories" runat="server"></asp:Literal>
