@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="AttributeMatrixTemplateDetail.ascx.cs" Inherits="RockWeb.Blocks.Core.AttributeMatrixTemplateDetail" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="AttributeMatrixTemplateDetail.ascx.cs" Inherits="RockWeb.Blocks.Core.AttributeMatrixTemplateDetail" %>
 
 <asp:UpdatePanel ID="upnlContent" runat="server">
     <ContentTemplate>
@@ -46,7 +46,7 @@
                         </Rock:Grid>
                     </div>
 
-                    <Rock:PanelWidget ID="pwAdvanced" runat="server" Title="Advanced" Expanded="false">
+                    <Rock:PanelWidget ID="pwAdvanced" runat="server" Title="Advanced" CssClass="mb-0" Expanded="false">
                         <div class="row">
                             <div class="col-md-6">
                                 <Rock:NumberBox ID="tbMinimumRows" runat="server" MinimumValue="0" Label="Minimum Rows" />

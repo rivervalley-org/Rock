@@ -1,4 +1,4 @@
-// <copyright>
+﻿// <copyright>
 // Copyright by the Spark Development Network
 //
 // Licensed under the Rock Community License (the "License");
@@ -37,7 +37,7 @@ namespace RockWeb.Blocks.WorkFlow
     [DisplayName( "Workflow Trigger Detail" )]
     [Category( "WorkFlow" )]
     [Description( "Displays the details of the given workflow trigger." )]
-    public partial class WorkflowTriggerDetail : RockBlock, IDetailBlock
+    public partial class WorkflowTriggerDetail : RockBlock
     {
         #region Control Methods
 

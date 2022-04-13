@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ShortLinkClickList.ascx.cs" Inherits="RockWeb.Blocks.Cms.ShortLinkClickList" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ShortLinkClickList.ascx.cs" Inherits="RockWeb.Blocks.Cms.ShortLinkClickList" %>
 
 <asp:UpdatePanel ID="upList" runat="server">
     <ContentTemplate>
@@ -20,7 +20,7 @@
                             <Rock:PersonField DataField="PersonAlias.Person" HeaderText="Person" SortExpression="PersonAlias.Person.LastName,PersonAlias.Person.NickName" />
                             <Rock:RockBoundField DataField="InteractionSession.DeviceType.ClientType" HeaderText="Client Type" SortExpression="InteractionSession.DeviceType.ClientType" />
                             <Rock:RockBoundField DataField="InteractionSession.DeviceType.OperatingSystem" HeaderText="Operating System" SortExpression="InteractionSession.DeviceType.OperatingSystem" />
-                            <Rock:RockBoundField DataField="InteractionSession.DeviceType.Application" HeaderText="Browswer" SortExpression="InteractionSession.DeviceType.Application" />
+                            <Rock:RockBoundField DataField="InteractionSession.DeviceType.Application" HeaderText="Browser" SortExpression="InteractionSession.DeviceType.Application" />
                         </Columns>
                     </Rock:Grid>
                 </div>

@@ -1,4 +1,4 @@
-// <copyright>
+﻿// <copyright>
 // Copyright by the Spark Development Network
 //
 // Licensed under the Rock Community License (the "License");
@@ -18,6 +18,7 @@ using System;
 using System.ComponentModel;
 using System.Web.UI;
 
+using Rock;
 using Rock.Model;
 using Rock.Reporting;
 using Rock.Web.Cache;
@@ -106,7 +107,7 @@ namespace RockWeb.Blocks.Reporting
         protected void btnRegister_Click( object sender, EventArgs e )
         {
             // Authenticate
-            PowerBiUtilities.CreateAccount( txtAccountName.Text, txtAccountDescription.Text, txtClientId.Text, txtClientSecret.Text, txtRedirectUrl.Text, Request.Url.AbsoluteUri );
+            PowerBiUtilities.CreateAccount( txtAccountName.Text, txtAccountDescription.Text, txtClientId.Text, txtClientSecret.Text, txtRedirectUrl.Text, Request.UrlProxySafe().AbsoluteUri );
         }
 
         #endregion

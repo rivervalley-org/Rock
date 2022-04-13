@@ -372,7 +372,6 @@
             <summary>
             A Pledge (or Multiple Pledges) for a specific Account
             </summary>
-            <seealso cref="T:DotLiquid.Drop" />
         </member>
         <member name="P:Rock.StatementGenerator.PledgeSummary.PledgeList">
             <summary>
@@ -688,14 +687,6 @@
             </summary>
             <value>
             The layout defined value unique identifier.
-            </value>
-        </member>
-        <member name="P:Rock.StatementGenerator.StatementGeneratorOptions.OrderByPostalCode">
-            <summary>
-            Gets or sets a value indicating whether [order by postal code].
-            </summary>
-            <value>
-              <c>true</c> if [order by postal code]; otherwise, <c>false</c>.
             </value>
         </member>
         <member name="P:Rock.StatementGenerator.StatementGeneratorOptions.OrderBy">

@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="PersonDirectory.ascx.cs" Inherits="RockWeb.Blocks.Crm.PersonDirectory" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="PersonDirectory.ascx.cs" Inherits="RockWeb.Blocks.Crm.PersonDirectory" %>
 
 <asp:UpdatePanel ID="upnlContent" runat="server">
     <ContentTemplate>
@@ -12,13 +12,13 @@
         </script>
 
         <asp:Panel ID="pnlView" runat="server" CssClass="panel panel-block" DefaultButton="lbSearch">
-        
+
             <div class="panel-heading">
                 <h1 class="panel-title"><i class="fa fa-users"></i> Directory</h1>
             </div>
             <div class="panel-body">
 
-                <Rock:NotificationBox ID="nbValidation" runat="server" NotificationBoxType="Warning" />
+                <Rock:NotificationBox ID="nbValidation" runat="server" NotificationBoxType="Validation" />
 
                 <div class="row">
                     <div class="col-md-4">
@@ -83,7 +83,7 @@
                 </asp:Panel>
 
             </div>
-        
+
         </asp:Panel>
 
     </ContentTemplate>

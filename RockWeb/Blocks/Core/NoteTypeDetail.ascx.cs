@@ -1,4 +1,4 @@
-// <copyright>
+﻿// <copyright>
 // Copyright by the Spark Development Network
 //
 // Licensed under the Rock Community License (the "License");
@@ -35,7 +35,7 @@ namespace RockWeb.Blocks.Core
     [DisplayName( "Note Type Detail" )]
     [Category( "Core" )]
     [Description( "Block for managing a note type" )]
-    public partial class NoteTypeDetail : RockBlock, IDetailBlock
+    public partial class NoteTypeDetail : RockBlock
     {
         #region Base Control Methods
 

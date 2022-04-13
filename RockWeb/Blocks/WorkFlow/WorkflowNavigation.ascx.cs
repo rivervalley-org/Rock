@@ -1,4 +1,4 @@
-// <copyright>
+﻿// <copyright>
 // Copyright by the Spark Development Network
 //
 // Licensed under the Rock Community License (the "License");
@@ -164,7 +164,7 @@ namespace RockWeb.Blocks.WorkFlow
             headingA.Controls.Add( divHeadingTitle );
 
             var headingTitle = new HtmlGenericControl( "h3" );
-            headingTitle.AddCssClass( "pull-left" );
+            headingTitle.AddCssClass( "pull-left d-flex align-items-center" );
             divHeadingTitle.Controls.Add( headingTitle );
 
             var panelNavigation = new HtmlGenericControl( "i" );

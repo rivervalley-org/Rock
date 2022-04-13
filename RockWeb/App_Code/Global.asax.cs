@@ -27,8 +27,6 @@ using System.Web.Http;
 using System.Web.Optimization;
 using System.Web.Routing;
 
-using DotLiquid;
-
 using Rock;
 using Rock.Communication;
 using Rock.Data;
@@ -36,6 +34,7 @@ using Rock.Logging;
 using Rock.Model;
 using Rock.Transactions;
 using Rock.Utility;
+using Rock.Utility.Settings;
 using Rock.Web.Cache;
 using Rock.Web.UI;
 using Rock.WebStartup;
@@ -56,6 +55,9 @@ namespace RockWeb
 
         // cache callback object
         private static CacheItemRemovedCallback _onCacheRemove = null;
+
+        public static Thread CompileThemesThread = null;
+        public static Thread BlockTypeCompilationThread = null;
 
         #endregion
 
@@ -169,9 +171,6 @@ namespace RockWeb
 
                 RockApplicationStartupHelper.ShowDebugTimingMessage( "Register Routes" );
 
-                // Perform any Rock startups
-                RunStartups();
-
                 // add call back to keep IIS process awake at night and to provide a timer for the queued transactions
                 AddCallBack();
 
@@ -195,6 +194,10 @@ namespace RockWeb
                 }
 
                 ExceptionLogService.AlwaysLogToFile = false;
+
+                // Perform any Rock startups
+                RunStartups();
+
             }
             catch ( Exception ex )
             {
@@ -227,7 +230,7 @@ namespace RockWeb
         private static void StartCompileThemesThread()
         {
             // compile less files
-            new Thread( () =>
+            CompileThemesThread = new Thread( () =>
             {
                 /* Set to background thread so that this thread doesn't prevent Rock from shutting down. */
                 var stopwatchCompileLess = Stopwatch.StartNew();
@@ -248,7 +251,9 @@ namespace RockWeb
                         System.Diagnostics.Debug.WriteLine( "RockTheme.CompileAll messages: " + messages );
                     }
                 }
-            } ).Start();
+            } );
+
+            CompileThemesThread.Start();
         }
 
         /// <summary>
@@ -272,7 +277,7 @@ namespace RockWeb
         /// </summary>
         private static void StartBlockTypeCompilationThread()
         {
-            new Thread( () =>
+            BlockTypeCompilationThread = new Thread( () =>
             {
                 // Set to background thread so that this thread doesn't prevent Rock from shutting down.
                 Thread.CurrentThread.IsBackground = true;
@@ -292,7 +297,9 @@ namespace RockWeb
                 BlockTypeService.VerifyBlockTypeInstanceProperties( allUsedBlockTypeIds, _threadCancellationTokenSource.Token );
 
                 Debug.WriteLine( string.Format( "[{0,5:#} seconds] All block types Compiled", stopwatchCompileBlockTypes.Elapsed.TotalSeconds ) );
-            } ).Start();
+            } );
+
+            BlockTypeCompilationThread.Start();
         }
 
         /// <summary>
@@ -763,7 +770,7 @@ namespace RockWeb
                             "An error occurred{0} on the {1} site on page: <br>{2}<p>{3}</p>",
                                 person != null ? " for " + person.FullName : string.Empty,
                                 siteName,
-                                Context.Request.Url.OriginalString,
+                                Context.Request.UrlProxySafe().OriginalString,
                                 FormatException( ex, string.Empty ) );
 
                         // setup merge codes for email
@@ -772,7 +779,7 @@ namespace RockWeb
 
                         try
                         {
-                            mergeFields.Add( "Exception", Hash.FromAnonymousObject( ex ) );
+                            mergeFields.Add( "Exception", ex );
                         }
                         catch
                         {
@@ -837,7 +844,7 @@ namespace RockWeb
                     "IISCallBack",
                     60,
                     null,
-                    DateTime.Now.AddSeconds( 60 ),
+                    RockInstanceConfig.SystemDateTime.AddSeconds( 60 ),
                     Cache.NoSlidingExpiration,
                     CacheItemPriority.NotRemovable,
                     _onCacheRemove );

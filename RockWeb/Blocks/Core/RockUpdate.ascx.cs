@@ -86,12 +86,23 @@ namespace RockWeb.Blocks.Core
             Server.ScriptTimeout = 900;
             ScriptManager.GetCurrent( Page ).AsyncPostBackTimeout = 900;
 
-            _isEarlyAccessOrganization = rockUpdateService.IsEarlyAccessInstance();
+            _isEarlyAccessOrganization = true;
             _installedVersion = new Version( VersionInfo.GetRockSemanticVersionNumber() );
 
             if ( rockUpdateService.GetRockReleaseProgram() != RockReleaseProgram.Production )
             {
                 nbRepoWarning.Visible = true;
+            }
+
+            if ( Global.CompileThemesThread.IsAlive || Global.BlockTypeCompilationThread.IsAlive )
+            {
+                // Display a warning here but don't prevent them from going forward. This will be checked again after clicking update.
+                nbCompileThreadsIssue.Visible = true;
+            }
+            else
+            {
+                // Hide the warning
+                nbCompileThreadsIssue.Visible = false;
             }
 
             DisplayRockVersion();
@@ -472,6 +483,14 @@ namespace RockWeb.Blocks.Core
 
         protected void mdConfirmInstall_SaveClick( object sender, EventArgs e )
         {
+            if ( Global.CompileThemesThread.IsAlive || Global.BlockTypeCompilationThread.IsAlive )
+            {
+                // Show message here and return
+                nbCompileThreadsIssue.Visible = true;
+                return;
+            }
+
+            nbCompileThreadsIssue.Visible = false;
             mdConfirmInstall.Hide();
             Update( hdnInstallVersion.Value );
         }

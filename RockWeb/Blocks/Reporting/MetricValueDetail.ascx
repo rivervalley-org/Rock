@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="MetricValueDetail.ascx.cs" Inherits="RockWeb.Blocks.Reporting.MetricValueDetail" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="MetricValueDetail.ascx.cs" Inherits="RockWeb.Blocks.Reporting.MetricValueDetail" %>
 
 <asp:UpdatePanel ID="upMetricValueDetail" runat="server">
     <ContentTemplate>
@@ -25,7 +25,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <Rock:RockDropDownList ID="ddlMetricValueType" runat="server" Label="Type" />
-                            <Rock:DatePicker ID="dpMetricValueDateTime" runat="server" Label="Value Date" />
+                            <Rock:DatePicker ID="dpMetricValueDateTime" runat="server" Label="Value Date" Required="true" />
 
                         </div>
                         <div class="col-md-6">

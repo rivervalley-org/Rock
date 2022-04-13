@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ExternalApplicationList.ascx.cs" Inherits="RockWeb.Blocks.Administration.ExternalApplicationList" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ExternalApplicationList.ascx.cs" Inherits="RockWeb.Blocks.Administration.ExternalApplicationList" %>
 
 <asp:UpdatePanel ID="upBinaryFile" runat="server">
     <ContentTemplate>
@@ -11,7 +11,7 @@
             </div>
             <div class="panel-body">
 
-                <div class="grid grid-panel">
+                <div class="grid grid-panel hide-row-border">
                     <Rock:Grid ShowHeader="false" ID="gExternalApplication" CssClass="table-padded" runat="server" AllowSorting="true" DisplayType="Light" OnRowDataBound="gExternalApplication_RowDataBound">
                         <Columns>
                             <Rock:AttributeField DataField="Icon" HeaderText="" ItemStyle-CssClass="grid-icon" />

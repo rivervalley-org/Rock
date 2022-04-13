@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="InteractionList.ascx.cs" Inherits="RockWeb.Blocks.Reporting.InteractionList" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="InteractionList.ascx.cs" Inherits="RockWeb.Blocks.Reporting.InteractionList" %>
 <asp:UpdatePanel ID="upnlContent" runat="server">
     <ContentTemplate>
         <div class='panel panel-block'>
@@ -7,7 +7,7 @@
                     <i class='fa fa-user'></i>
                     Interactions
                 </h1>
-                 <div class="form-inline pull-right clearfix hidden-xs">
+                 <div class="form-inline panel-labels hidden-xs">
                     <Rock:PersonPicker ID="ppPerson" runat="server" Label="Person" />
                     <Rock:DateRangePicker ID="drpDateFilter" runat="server" Label="Date Filter" />
                     <asp:Button ID="btnFilter" runat="server" Text="Filter" CssClass="btn btn-action btn-xs" OnClick="btnFilter_Click" />
