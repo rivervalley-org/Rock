@@ -684,7 +684,7 @@ namespace RockWeb.Plugins.org_riverValley.Finance
                             gift.Zip.IsNotNullOrWhiteSpace()
                             )
                         {
-                            GroupService.AddNewGroupAddress( rockContext, familyGroup, Rock.SystemGuid.DefinedValue.GROUP_LOCATION_TYPE_HOME, gift.Address1, gift.Address2, gift.City, gift.State, gift.Zip, "" ); 
+                            GroupService.AddNewGroupAddress( rockContext, familyGroup, Rock.SystemGuid.DefinedValue.GROUP_LOCATION_TYPE_HOME, gift.Address1, gift.Address2, gift.City, gift.State, gift.Zip, "US" ); 
                         }
                     }
                     else

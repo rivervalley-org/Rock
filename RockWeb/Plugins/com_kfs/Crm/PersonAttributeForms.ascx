@@ -3,6 +3,8 @@
 <script type="text/javascript">
     function clearActiveDialog() {
         $('#<%=hfActiveDialog.ClientID %>').val('');
+        var postbackArg = 'cancel-dlg-field:0;0'
+        window.location = "javascript:__doPostBack('<%=upnlContent.ClientID %>', '" + postbackArg + "')";
     }
 </script>
 
@@ -49,7 +51,7 @@
         <asp:Panel ID="pnlView" runat="server" Visible="false">
 
             <h1><asp:Literal ID="lTitle" runat="server" /></h1>
-        
+
             <asp:Panel ID="pnlProgressBar" runat="server">
                 <div class="progress">
                     <div class="progress-bar" role="progressbar" aria-valuenow="<%=this.PercentComplete%>" aria-valuemin="0" aria-valuemax="100" style="width: <%=this.PercentComplete%>%;">
@@ -68,7 +70,6 @@
                 <asp:LinkButton ID="lbPrev" runat="server" AccessKey="p" ToolTip="Alt+p" Text="Previous" CssClass="btn btn-default" CausesValidation="false" OnClick="lbPrev_Click" />
                 <Rock:BootstrapButton ID="lbNext" runat="server" AccessKey="n" ToolTip="Alt+n" Text="Next" DataLoadingText="Next" CssClass="btn btn-primary pull-right" CausesValidation="true" OnClick="lbNext_Click" />
             </div>
-
         </asp:Panel>
 
         <%-- Edit Panel --%>
@@ -125,7 +126,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </ContentTemplate>
                     </asp:UpdatePanel>

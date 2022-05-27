@@ -1,6 +1,23 @@
+define("com/blueboxmoon/project-markdown-highlight-rules", ['require', 'exports', 'module', 'ace/lib/oop', 'ace/mode/markdown_highlight_rules'], function (require, exports, module) {
+    "use strict";
+
+    var oop = require("ace/lib/oop");
+    var MarkdownHighlightRules = require("ace/mode/markdown_highlight_rules").MarkdownHighlightRules;
+
+    var ProjectMarkdownHighlightRules = function () {
+        MarkdownHighlightRules.call(this);
+
+        this.$rules["start"].unshift({
+            token: "string.strikethrough",
+            regex: "([~]{2}(?=\\S))(.*?\\S[~]*)(\\1)"
+        });
+    };
+
+    oop.inherits(ProjectMarkdownHighlightRules, MarkdownHighlightRules);
+    exports.MarkdownHighlightRules = ProjectMarkdownHighlightRules;
+});
 
 (function ($) {
-
     "use strict";
 
     function uploadFiles (url, files, editor, snippetManager, loading, uploadHelper) {
@@ -225,7 +242,24 @@
             $(this).data('editor', editor);
 
             editor.setTheme('ace/theme/' + defaults.theme);
+
+            // Can't find a way to make ace load the markdown module first so
+            // we can modify it. So trick it. Have it load the markdown mode
+            // and then create a new markdown mode with our custom highlighter.
+            var skipModeChange = false;
+            editor.getSession().on('changeMode', function () {
+                var originalMode = editor.getSession().getMode();
+                if (originalMode.$id === 'ace/mode/markdown' && skipModeChange === false) {
+                    skipModeChange = true;
+
+                    var modeType = ace.require('ace/mode/markdown').Mode;
+                    var mode = new modeType();
+                    mode.HighlightRules = ace.require('com/blueboxmoon/project-markdown-highlight-rules').MarkdownHighlightRules;
+                    editor.getSession().setMode(mode);
+                }
+            });
             editor.getSession().setMode('ace/mode/markdown');
+
             editor.getSession().setUseWrapMode(true);
             editor.getSession().setUseSoftTabs(defaults.softTabs);
 

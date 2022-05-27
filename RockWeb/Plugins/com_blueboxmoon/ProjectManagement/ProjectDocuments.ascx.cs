@@ -89,10 +89,10 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
                     {
                         a.BinaryFileId,
                         a.BinaryFile.FileName,
-                        NoteId = notes.Where( n => n.Text.Contains( String.Format( "/GetFile.ashx?Id={0}", a.BinaryFileId ) ) ).Select( n => ( int? ) n.Id ).FirstOrDefault(),
+                        NoteId = notes.Where( n => n.Text.Contains( string.Format( "/GetFile.ashx?Id={0}", a.BinaryFileId ) ) || n.Text.Contains( string.Format( "/GetImage.ashx?Id={0}", a.BinaryFileId ) ) ).Select( n => ( int? ) n.Id ).FirstOrDefault(),
                         Url = string.Format( "/GetFile.ashx?id={0}", a.BinaryFile.Id )
                     } )
-                    .Where( a => a.NoteId.HasValue || project.Description.Contains( String.Format( "/GetFile.ashx?Id={0}", a.BinaryFileId ) ) )
+                    .Where( a => a.NoteId.HasValue || project.Description.Contains( string.Format( "/GetFile.ashx?Id={0}", a.BinaryFileId ) ) || project.Description.Contains( string.Format( "/GetImage.ashx?Id={0}", a.BinaryFileId ) ) )
                     .ToList();
 
                 rpDocument.DataSource = documents;

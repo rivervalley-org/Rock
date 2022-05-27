@@ -36,7 +36,7 @@
                     <Rock:CodeEditor ID="ceSettingsLavaTemplate" runat="server" Label="Lava Template" Help="The Lava to use when rendering the list of available entry items." Required="true" ValidationGroup="Settings" />
                 </asp:Panel>
 
-                <asp:Panel ID="pnlSettingsEntry" runat="server" Visible="true">
+                <asp:Panel ID="pnlSettingsEntry" runat="server" Visible="false">
                     <asp:HiddenField ID="hfSettingsEntryRow" runat="server" />
                     <asp:ValidationSummary ID="vsSettingsEntry" runat="server" CssClass="alert alert-danger" ValidationGroup="Settings" />
 

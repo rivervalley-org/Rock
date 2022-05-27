@@ -33,8 +33,12 @@
 
             <asp:Panel ID="pnlConfigureHeader" runat="server" CssClass="panel-heading">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <asp:CheckBox ID="cbHideEmptyTypes" runat="server" Text="Hide Empty Project Types" OnCheckedChanged="cbHideEmptyTypes_CheckedChanged" CausesValidation="false" AutoPostBack="true" />
+                    </div>
+
+                    <div class="col-md-4">
+                        <asp:CheckBox ID="cbHideChildProjects" runat="server" Text="Hide Child Projects" OnCheckedChanged="cbHideChildProjects_CheckedChanged" CausesValidation="false" AutoPostBack="true" />
                     </div>
                 </div>
             </asp:Panel>
@@ -47,10 +51,10 @@
                                 <asp:LinkButton ID="lbProjectType" runat="server" CommandArgument='<%# Eval("ProjectType.Id") %>' CommandName="Select">
                                     <i class='<%# Eval("ProjectType.IconCssClass") %>'></i>
                                     <h3><%# Eval("ProjectType.Name") %></h3>
-                                    <div class="notification">
-                                        <span class="label label-danger" title="Overdue"><%# Eval("DangerCount") %></span>
-                                        <span class="label label-warning"><%# Eval("WarningCount") %></span>
-                                        <span class="label label-info" title="Active"><%# Eval("ActiveCount") %></span>
+                                    <div class="badges">
+                                        <span class="badge badge-danger" title="Overdue"><%# Eval("DangerCount") %></span>
+                                        <span class="badge badge-warning"><%# Eval("WarningCount") %></span>
+                                        <span class="badge badge-info" title="Active"><%# Eval("ActiveCount") %></span>
                                     </div>
                                 </asp:LinkButton>
                             </li>
@@ -86,21 +90,20 @@
 
         <script>
             Sys.Application.add_load(function () {
-                $('#<%= upnlContent.ClientID %> .label').tooltip();
+                $('#<%= upnlContent.ClientID %> .badge').tooltip();
 
                 $('#<%= upnlContent.ClientID %> .js-configure').on('click', function (e) {
                     e.preventDefault();
 
                     var $header = $('#<%= pnlConfigureHeader.ClientID %>');
                     if ($header.is(':visible')) {
-                        $(this).find('i').removeClass('down');
                         $('#<%= hfConfigureVisible.ClientID %>').val('false');
                     }
                     else {
-                        $(this).find('i').addClass('down');
                         $('#<%= hfConfigureVisible.ClientID %>').val('true');
                     }
-                    $header.slideToggle(500);
+                    $header.slideToggle(250);
+                    $(this).find('.fa').toggleClass('down');
                 });
             })
         </script>

@@ -40,6 +40,7 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.text.html.simpleparser;
 using com.centralaz.RoomManagement.ReportTemplates;
+using System.Web;
 
 namespace RockWeb.Plugins.com_centralaz.RoomManagement
 {
@@ -56,20 +57,17 @@ namespace RockWeb.Plugins.com_centralaz.RoomManagement
     [BooleanField( "Show Date Range Filter", "Determines whether the date range filters are shown", false, order: 7, category: "Filter Settings" )]
 
     [LinkedPage( "Details Page", "Detail page for events", order: 8, category: "Lava Settings" )]
-    [CodeEditorField( "Lava Template", "Lava template to use to display the list of reservations.", CodeEditorMode.Lava, CodeEditorTheme.Rock, 400, true, @"{% include '~/Plugins/com_centralaz/RoomManagement/Assets/Lava/Reservation.lava' %}", "Lava Settings", 9 )]
-    [BooleanField( "Enable Debug", "Display a list of merge fields available for lava.", false, "Lava Settings", 10 )]
+    [DefinedValueField( "13B169EA-A090-45FF-8B11-A9E02776E35E", "Visible Printable Report Options", "The Printable Reports that the user is able to select", true, true, "5D53E2F0-BA82-4154-B996-085C979FACB0,46C855B0-E50E-49E7-8B99-74561AFB3DD2", "Lava Settings", 9 )]
+    [DefinedValueField( "32EC3B34-01CF-4513-BC2E-58ECFA91D010", "Visible Reservation View Options", "The Reservation Views that the user is able to select", true, true, "67EA36B0-D861-4399-998E-3B69F7700DC0", "Lava Settings", 10 )]
+    [BooleanField( "Enable Debug", "Display a list of merge fields available for lava.", false, "Lava Settings", 11 )]
 
-    [TextField( "Report Font", "", true, "Gotham", "Report Settings", 11 )]
-    [TextField( "Report Logo", "URL to the logo (PNG) to display in the printed report.", true, "~/Plugins/com_centralaz/RoomManagement/Assets/Icons/Central_Logo_Black_rgb_165_90.png", "Report Settings", 12 )]
-    [ReportTemplateField( "Report Template", "The template for the printed report. The Default and Advanced Templates will generate a printed report based on the templates' hardcoded layout. The Lava Template will generate a report based on the lava provided below in the Report Lava Setting. Any other custom templates will format based on their developer's documentation.", true, "9b74314a-37e0-40f2-906c-2862c93f8888", "Report Settings", 13 )]
-    [CodeEditorField( "Report Lava", "If the Lava Template is selected, this is the lava that will be used in the report", CodeEditorMode.Lava, CodeEditorTheme.Rock, 400, true, @"{% include '~/Plugins/com_centralaz/RoomManagement/Assets/Lava/ReservationReport.lava' %}", "Report Settings", 14 )]
-
-    [CustomDropdownListField( "Default View Option", "Determines the default view option", "Day,Week,Month", true, "Week", order: 15, category: "View Settings" )]
-    [DayOfWeekField( "Start of Week Day", "Determines what day is the start of a week.", true, DayOfWeek.Sunday, order: 16, category: "View Settings" )]
-    [BooleanField( "Show Small Calendar", "Determines whether the calendar widget is shown", true, order: 17, category: "View Settings" )]
-    [BooleanField( "Show Day View", "Determines whether the day view option is shown", false, order: 18, category: "View Settings" )]
-    [BooleanField( "Show Week View", "Determines whether the week view option is shown", true, order: 19, category: "View Settings" )]
-    [BooleanField( "Show Month View", "Determines whether the month view option is shown", true, order: 20, category: "View Settings" )]
+    [CustomDropdownListField( "Default View Option", "Determines the default view option", "Day,Week,Month", true, "Week", order: 12, category: "View Settings" )]
+    [DayOfWeekField( "Start of Week Day", "Determines what day is the start of a week.", true, DayOfWeek.Sunday, order: 13, category: "View Settings" )]
+    [BooleanField( "Show Small Calendar", "Determines whether the calendar widget is shown", true, order: 14, category: "View Settings" )]
+    [BooleanField( "Show Day View", "Determines whether the day view option is shown", false, order: 15, category: "View Settings" )]
+    [BooleanField( "Show Week View", "Determines whether the week view option is shown", true, order: 16, category: "View Settings" )]
+    [BooleanField( "Show Month View", "Determines whether the month view option is shown", true, order: 17, category: "View Settings" )]
+    [BooleanField( "Show Year View", "Determines whether the year view option is shown", false, order: 18, category: "View Settings" )]
 
     public partial class ReservationLava : Rock.Web.UI.RockBlock
     {
@@ -95,9 +93,19 @@ namespace RockWeb.Plugins.com_centralaz.RoomManagement
         #region Properties
 
         private String ViewMode { get; set; }
+
+        private int? ReservationViewId { get; set; }
         private DateTime? FilterStartDate { get; set; }
         private DateTime? FilterEndDate { get; set; }
         private List<DateTime> ReservationDates { get; set; }
+
+        private String PreferenceKey
+        {
+            get
+            {
+                return string.Format( "reservation-lava-{0}-", this.BlockId );
+            }
+        }
 
         #endregion
 
@@ -112,6 +120,7 @@ namespace RockWeb.Plugins.com_centralaz.RoomManagement
             base.LoadViewState( savedState );
 
             ViewMode = ViewState["ViewMode"] as String;
+            ReservationViewId = ViewState["ReservationViewId"] as int?;
             FilterStartDate = ViewState["FilterStartDate"] as DateTime?;
             FilterEndDate = ViewState["FilterEndDate"] as DateTime?;
             ReservationDates = ViewState["ReservationDates"] as List<DateTime>;
@@ -153,9 +162,12 @@ namespace RockWeb.Plugins.com_centralaz.RoomManagement
 
             // register lbPrint as a PostBackControl since it is returning a File download
             ScriptManager scriptManager = ScriptManager.GetCurrent( Page );
-            scriptManager.RegisterPostBackControl( lbPrint );
+            scriptManager.RegisterPostBackControl( rptReports );
 
             RockPage.AddScriptLink( "~/Plugins/com_centralaz/RoomManagement/Assets/Scripts/circle-progress.js", fingerprint: false );
+            RockPage.AddScriptLink( "~/Plugins/com_centralaz/RoomManagement/Assets/Scripts/event-calendar.js", fingerprint: false );
+            RockPage.AddScriptLink( "~/Plugins/com_centralaz/RoomManagement/Assets/Scripts/moment.js", fingerprint: false );
+            RockPage.AddCSSLink( "~/Plugins/com_centralaz/RoomManagement/Assets/Styles/event-calendar.css", fingerprint: false );
         }
 
         /// <summary>
@@ -168,10 +180,44 @@ namespace RockWeb.Plugins.com_centralaz.RoomManagement
 
             nbMessage.Visible = false;
 
+            var reportCache = DefinedTypeCache.Get( "13B169EA-A090-45FF-8B11-A9E02776E35E" );
+            var selectedReports = GetAttributeValue( "VisiblePrintableReportOptions" ).SplitDelimitedValues().AsGuidList();
+            rptReports.DataSource = reportCache.DefinedValues.Where( dv => selectedReports.Contains( dv.Guid ) ).ToList();
+            rptReports.DataBind();
+
+            var viewCache = DefinedTypeCache.Get( "32EC3B34-01CF-4513-BC2E-58ECFA91D010" );
+            var selectedViews = GetAttributeValue( "VisibleReservationViewOptions" ).SplitDelimitedValues().AsGuidList();
+            var definedValueList = viewCache.DefinedValues.Where( dv => selectedViews.Contains( dv.Guid ) ).ToList();
+            rptViews.DataSource = definedValueList;
+            rptViews.DataBind();
+
+            // Set User Preference
+            ReservationViewId = this.GetUserPreference( PreferenceKey + "ReservationViewId" ).AsIntegerOrNull();
+            if ( ReservationViewId == null && definedValueList.FirstOrDefault() != null )
+            {
+                ReservationViewId = definedValueList.FirstOrDefault().Id;
+            }
+
             if ( !Page.IsPostBack )
             {
                 if ( SetFilterControls() )
                 {
+                    if ( ReservationViewId != null && hfSelectedView.ValueAsInt() == 0 )
+                    {
+                        hfSelectedView.Value = ReservationViewId.ToString();
+                    }
+
+                    if ( definedValueList.Count > 1 )
+                    {
+                        var selectedValue = DefinedValueCache.Get( hfSelectedView.ValueAsInt() );
+                        lSelectedView.Text = string.Format( "View As: {0}", selectedValue.Value );
+                        divViewDropDown.Visible = true;
+                    }
+                    else
+                    {
+                        divViewDropDown.Visible = false;
+                    }
+
                     pnlDetails.Visible = true;
                     BindData();
                 }
@@ -192,6 +238,7 @@ namespace RockWeb.Plugins.com_centralaz.RoomManagement
         protected override object SaveViewState()
         {
             ViewState["ViewMode"] = ViewMode;
+            ViewState["ReservationViewId"] = ReservationViewId;
             ViewState["FilterStartDate"] = FilterStartDate;
             ViewState["FilterEndDate"] = FilterEndDate;
             ViewState["ReservationDates"] = ReservationDates;
@@ -201,9 +248,57 @@ namespace RockWeb.Plugins.com_centralaz.RoomManagement
 
         protected override void OnPreRender( EventArgs e )
         {
-            btnDay.CssClass = "btn btn-default" + ( ViewMode == "Day" ? " active" : "" );
-            btnWeek.CssClass = "btn btn-default" + ( ViewMode == "Week" ? " active" : "" );
-            btnMonth.CssClass = "btn btn-default" + ( ViewMode == "Month" ? " active" : "" );
+            btnDay.RemoveCssClass( "active" );
+            btnWeek.RemoveCssClass( "active" );
+            btnMonth.RemoveCssClass( "active" );
+            btnYear.RemoveCssClass( "active" );
+            pnlCalendar.RemoveCssClass( "hidden" );
+            ypYearPicker.Visible = false;
+
+            switch ( ViewMode )
+            {
+                case "Day":
+                    btnDay.AddCssClass( "active" );
+                    break;
+
+                case "Week":
+                    btnWeek.AddCssClass( "active" );
+                    break;
+
+                case "Month":
+                    btnMonth.AddCssClass( "active" );
+                    break;
+
+                case "Year":
+                    btnYear.AddCssClass( "active" );
+                    pnlCalendar.AddCssClass( "hidden" );
+                    ypYearPicker.Visible = true;
+
+                    if ( ypYearPicker.SelectedYear.HasValue )
+                    {
+                        dpEndDate.SelectedDate = new DateTime( ypYearPicker.SelectedYear.Value, 12, 31 );
+                        // Start at the current date if they have the current year selected.
+                        if ( ypYearPicker.SelectedYear.Value == RockDateTime.Today.Year )
+                        {
+                            FilterStartDate = RockDateTime.Today;
+                        }
+                        else
+                        {
+                            FilterStartDate = new DateTime( ypYearPicker.SelectedYear.Value, 1, 1 );
+                        }
+                        FilterEndDate = dpEndDate.SelectedDate;
+                        BindData();
+                    }
+                    else
+                    {
+                        ypYearPicker.SelectedYear = RockDateTime.Now.Year;
+                    }
+
+                    break;
+
+                default:
+                    break;
+            }
 
             base.OnPreRender( e );
         }
@@ -270,13 +365,13 @@ namespace RockWeb.Plugins.com_centralaz.RoomManagement
 
         protected void lipLocation_SelectItem( object sender, EventArgs e )
         {
-            this.SetUserPreference( "Locations", lipLocation.SelectedValues.AsIntegerList().AsDelimited( "," ) );
+            this.SetUserPreference( PreferenceKey + "Locations", lipLocation.SelectedValues.AsIntegerList().AsDelimited( "," ) );
             BindData();
         }
 
         protected void rpResource_SelectItem( object sender, EventArgs e )
         {
-            this.SetUserPreference( "Resources", rpResource.SelectedValues.AsIntegerList().AsDelimited( "," ) );
+            this.SetUserPreference( PreferenceKey + "Resources", rpResource.SelectedValues.AsIntegerList().AsDelimited( "," ) );
             BindData();
         }
 
@@ -287,7 +382,7 @@ namespace RockWeb.Plugins.com_centralaz.RoomManagement
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void cblCampus_SelectedIndexChanged( object sender, EventArgs e )
         {
-            this.SetUserPreference( "Campuses", cblCampus.Items.OfType<System.Web.UI.WebControls.ListItem>().Where( l => l.Selected ).Select( a => a.Value.AsInteger() ).ToList().AsDelimited( "," ) );
+            this.SetUserPreference( PreferenceKey + "Campuses", cblCampus.Items.OfType<System.Web.UI.WebControls.ListItem>().Where( l => l.Selected ).Select( a => a.Value.AsInteger() ).ToList().AsDelimited( "," ) );
             BindData();
         }
 
@@ -298,7 +393,7 @@ namespace RockWeb.Plugins.com_centralaz.RoomManagement
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void cblMinistry_SelectedIndexChanged( object sender, EventArgs e )
         {
-            this.SetUserPreference( "Ministries", cblMinistry.Items.OfType<System.Web.UI.WebControls.ListItem>().Where( l => l.Selected ).Select( a => a.Value.AsInteger() ).ToList().AsDelimited( "," ) );
+            this.SetUserPreference( PreferenceKey + "Ministries", cblMinistry.Items.OfType<System.Web.UI.WebControls.ListItem>().Where( l => l.Selected ).Select( a => a.Value.AsInteger() ).ToList().AsDelimited( "," ) );
             BindData();
         }
 
@@ -309,7 +404,7 @@ namespace RockWeb.Plugins.com_centralaz.RoomManagement
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void cblApproval_SelectedIndexChanged( object sender, EventArgs e )
         {
-            this.SetUserPreference( "Approval State", cblApproval.Items.OfType<System.Web.UI.WebControls.ListItem>().Where( l => l.Selected ).Select( a => a.Value.ConvertToEnum<ReservationApprovalState>().ConvertToInt() ).ToList().AsDelimited( "," ) );
+            this.SetUserPreference( PreferenceKey + "Approval State", cblApproval.Items.OfType<System.Web.UI.WebControls.ListItem>().Where( l => l.Selected ).Select( a => a.Value.ConvertToEnum<ReservationApprovalState>().ConvertToInt() ).ToList().AsDelimited( "," ) );
             BindData();
         }
 
@@ -320,18 +415,20 @@ namespace RockWeb.Plugins.com_centralaz.RoomManagement
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void cblReservationType_SelectedIndexChanged( object sender, EventArgs e )
         {
-            this.SetUserPreference( "Reservation Type", cblReservationType.Items.OfType<System.Web.UI.WebControls.ListItem>().Where( l => l.Selected ).Select( a => a.Value.AsInteger() ).ToList().AsDelimited( "," ) );
+            this.SetUserPreference( PreferenceKey + "Reservation Type", cblReservationType.Items.OfType<System.Web.UI.WebControls.ListItem>().Where( l => l.Selected ).Select( a => a.Value.AsInteger() ).ToList().AsDelimited( "," ) );
             BindData();
         }
 
         protected void dpStartDate_TextChanged( object sender, EventArgs e )
         {
+            this.SetUserPreference( PreferenceKey + "Start Date", dpStartDate.SelectedDate.ToString() );
             FilterStartDate = dpStartDate.SelectedDate;
             BindData();
         }
 
         protected void dpEndDate_TextChanged( object sender, EventArgs e )
         {
+            this.SetUserPreference( PreferenceKey + "End Date", dpEndDate.SelectedDate.ToString() );
             FilterEndDate = dpEndDate.SelectedDate;
             BindData();
         }
@@ -341,45 +438,65 @@ namespace RockWeb.Plugins.com_centralaz.RoomManagement
             var btnViewMode = sender as BootstrapButton;
             if ( btnViewMode != null )
             {
-                this.SetUserPreference( "ViewMode", btnViewMode.Text );
+                this.SetUserPreference( PreferenceKey + "ViewMode", btnViewMode.Text );
                 ViewMode = btnViewMode.Text;
                 ResetCalendarSelection();
                 BindData();
             }
         }
 
-        protected void lbPrint_Click( object sender, EventArgs e )
+        protected void btnAllReservations_Click( object sender, EventArgs e )
         {
-            List<ReservationService.ReservationSummary> reservationSummaryList = GetReservationSummaries();
+            hfShowBy.Value = ( ( int ) ShowBy.All ).ToString();
+            BindData( ShowBy.All );
+        }
 
-            string logoFileUrl = GetAttributeValue( "ReportLogo" );
-            if ( !logoFileUrl.ToLower().StartsWith( "http" ) )
+        protected void btnMyReservations_Click( object sender, EventArgs e )
+        {
+            hfShowBy.Value = ( ( int ) ShowBy.MyReservations ).ToString();
+            BindData( ShowBy.MyReservations );
+        }
+
+        protected void btnMyApprovals_Click( object sender, EventArgs e )
+        {
+            hfShowBy.Value = ( ( int ) ShowBy.MyApprovals ).ToString();
+            BindData( ShowBy.MyApprovals );
+        }
+        protected void rptReports_ItemCommand( object source, RepeaterCommandEventArgs e )
+        {
+            var definedValueId = e.CommandArgument.ToString().AsIntegerOrNull();
+            if ( definedValueId.HasValue )
             {
-                logoFileUrl = Server.MapPath( ResolveRockUrl( logoFileUrl ) );
+                PrintReport( definedValueId.Value );
             }
-
-            var reportTemplate = GetReportTemplate( GetAttributeValue( "ReportTemplate" ).AsGuidOrNull() );
-
-            var outputArray = reportTemplate.GenerateReport( reservationSummaryList, logoFileUrl, GetAttributeValue( "ReportFont" ), FilterStartDate, FilterEndDate, GetAttributeValue( "ReportLava" ) );
-
-            Response.ClearHeaders();
-            Response.ClearContent();
-            Response.Clear();
-            Response.ContentType = "application/pdf";
-            Response.AddHeader( "Content-Disposition", string.Format( "attachment;filename=Reservation Schedule for {0} - {1}.pdf", FilterStartDate.Value.ToString( "MMMM d" ), FilterEndDate.Value.ToString( "MMMM d" ) ) );
-            Response.BinaryWrite( outputArray );
-            Response.Flush();
-            Response.End();
-            return;
+        }
+        protected void rptViews_ItemCommand( object source, RepeaterCommandEventArgs e )
+        {
+            var definedValueId = e.CommandArgument.ToString().AsIntegerOrNull();
+            if ( definedValueId.HasValue )
+            {
+                var selectedValue = DefinedValueCache.Get( definedValueId.Value );
+                this.SetUserPreference( PreferenceKey + "ReservationViewId", selectedValue.Id.ToString() );
+                lSelectedView.Text = string.Format( "View As: {0}", selectedValue.Value );
+                hfSelectedView.Value = definedValueId.ToString();
+                BindData();
+            }
         }
 
         #endregion
 
         #region Methods
-
         private void BindData()
         {
-            List<ReservationService.ReservationSummary> reservationSummaryList = GetReservationSummaries();
+            var showBy = ( ShowBy ) hfShowBy.ValueAsInt();
+            BindData( showBy );
+        }
+
+        private void BindData( ShowBy showBy )
+        {
+            HighlightActionButtons( showBy );
+
+            List<ReservationService.ReservationSummary> reservationSummaryList = GetReservationSummaries( showBy );
 
             // Bind to Grid
             var reservationSummaries = reservationSummaryList.Select( r => new
@@ -388,6 +505,7 @@ namespace RockWeb.Plugins.com_centralaz.RoomManagement
                 ReservationName = r.ReservationName,
                 ReservationType = r.ReservationType,
                 ApprovalState = r.ApprovalState.ConvertToString(),
+                ApprovalStateInt = r.ApprovalState.ConvertToInt(),
                 Locations = r.ReservationLocations.ToList(),
                 Resources = r.ReservationResources.ToList(),
                 CalendarDate = r.EventStartDateTime.ToLongDateString(),
@@ -413,11 +531,19 @@ namespace RockWeb.Plugins.com_centralaz.RoomManagement
 
             var mergeFields = new Dictionary<string, object>();
             mergeFields.Add( "TimeFrame", ViewMode );
+            mergeFields.Add( "FilterStartDate", FilterStartDate );
+            mergeFields.Add( "FilterEndDate", FilterEndDate );
             mergeFields.Add( "DetailsPage", LinkedPageUrl( "DetailsPage", null ) );
             mergeFields.Add( "ReservationSummaries", reservationSummaries );
             mergeFields.Add( "CurrentPerson", CurrentPerson );
 
-            lOutput.Text = GetAttributeValue( "LavaTemplate" ).ResolveMergeFields( mergeFields );
+            var definedValue = new DefinedValueService( new RockContext() ).Get( hfSelectedView.ValueAsInt() );
+            definedValue.LoadAttributes();
+
+            var lavaTemplate = definedValue.GetAttributeValue( "Lava" );
+            var lavaCommands = definedValue.GetAttributeValue( "LavaCommands" );
+
+            lOutput.Text = lavaTemplate.ResolveMergeFields( mergeFields, lavaCommands );
 
             // show debug info
             if ( GetAttributeValue( "EnableDebug" ).AsBoolean() && IsUserAuthorized( Authorization.EDIT ) )
@@ -433,12 +559,110 @@ namespace RockWeb.Plugins.com_centralaz.RoomManagement
 
         }
 
+        protected void PrintReport( int definedValueId )
+        {
+            var definedValue = new DefinedValueService( new RockContext() ).Get( definedValueId );
+            definedValue.LoadAttributes();
+
+            var logoFileUrl = definedValue.GetAttributeValue( "ReportLogo" );
+            var reportTemplateGuid = definedValue.GetAttributeValue( "ReportTemplate" ).AsGuidOrNull();
+            var reportFont = definedValue.GetAttributeValue( "ReportFont" );
+            var reportLava = definedValue.GetAttributeValue( "Lava" );
+
+            var showBy = ( ShowBy ) hfShowBy.ValueAsInt();
+            List<ReservationService.ReservationSummary> reservationSummaryList = GetReservationSummaries( showBy );
+
+            if ( !logoFileUrl.ToLower().StartsWith( "http" ) )
+            {
+                logoFileUrl = Server.MapPath( ResolveRockUrl( logoFileUrl ) );
+            }
+
+            var reportTemplate = GetReportTemplate( reportTemplateGuid );
+
+            var outputArray = reportTemplate.GenerateReport( reservationSummaryList, logoFileUrl, reportFont, FilterStartDate, FilterEndDate, reportLava );
+
+            Response.ClearHeaders();
+            Response.ClearContent();
+            Response.Clear();
+            Response.ContentType = "application/pdf";
+            Response.AddHeader( "Content-Disposition", string.Format( "attachment;filename=Reservation Schedule for {0} - {1}.pdf", FilterStartDate.Value.ToString( "MMMM d" ), FilterEndDate.Value.ToString( "MMMM d" ) ) );
+            Response.BinaryWrite( outputArray );
+            Response.Flush();
+            Response.End();
+            return;
+        }
+
+        private void HighlightActionButtons( ShowBy showBy )
+        {
+            switch ( showBy )
+            {
+                case ShowBy.All:
+                    btnAllReservations.AddCssClass( "active btn-primary" );
+                    btnMyReservations.RemoveCssClass( "active btn-primary" );
+                    btnMyApprovals.RemoveCssClass( "active btn-primary" );
+                    break;
+                case ShowBy.MyReservations:
+                    btnAllReservations.RemoveCssClass( "active btn-primary" );
+                    btnMyReservations.AddCssClass( "active btn-primary" );
+                    btnMyApprovals.RemoveCssClass( "active btn-primary" );
+                    break;
+                case ShowBy.MyApprovals:
+                    btnAllReservations.RemoveCssClass( "active btn-primary" );
+                    btnMyReservations.RemoveCssClass( "active btn-primary" );
+                    btnMyApprovals.AddCssClass( "active btn-primary" );
+                    break;
+                default:
+                    btnAllReservations.AddCssClass( "active btn-primary" );
+                    btnMyReservations.RemoveCssClass( "active btn-primary" );
+                    btnMyApprovals.RemoveCssClass( "active btn-primary" );
+                    break;
+            }
+        }
         private List<ReservationService.ReservationSummary> GetReservationSummaries()
+        {
+            return GetReservationSummaries( ShowBy.All );
+        }
+
+        private List<ReservationService.ReservationSummary> GetReservationSummaries( ShowBy showBy )
         {
             var rockContext = new RockContext();
             var reservationService = new ReservationService( rockContext );
             var qry = reservationService.Queryable();
 
+            // Do additional filtering based on the ShowBy selection (My Reservations, My Approvals)
+            switch ( showBy )
+            {
+                case ShowBy.MyReservations:
+                    qry = qry.Where( r => r.CreatedByPersonAliasId == CurrentPersonAliasId || r.AdministrativeContactPersonAliasId == CurrentPersonAliasId || r.EventContactPersonAliasId == CurrentPersonAliasId );
+                    break;
+                case ShowBy.MyApprovals:
+                    if ( CurrentPersonId.HasValue )
+                    {
+                        var myLocationsToApproveIds = new List<int>();
+                        var myResourcesToApproveIds = new List<int>();
+
+                        // NICK TODO: GetLocationsByApprovalGroupMembership is not returning the locations correctly, I'll probably will need to re-write it
+                        var myLocationsToApprove = reservationService.GetLocationsByApprovalGroupMembership( CurrentPersonId.Value );
+                        if ( myLocationsToApprove != null )
+                        {
+                            myLocationsToApproveIds = myLocationsToApprove.Select( l => l.Id ).ToList();
+                        }
+
+                        var myResourcesToApprove = reservationService.GetResourcesByApprovalGroupMembership( CurrentPersonId.Value );
+                        if ( myResourcesToApprove != null )
+                        {
+                            myResourcesToApproveIds = myResourcesToApprove.Select( r => r.Id ).ToList();
+                        }
+
+                        qry = qry.Where( r => r.ReservationLocations.Any( rl => ( myLocationsToApproveIds.Contains( rl.LocationId ) ) ) ||
+                                            r.ReservationResources.Any( rr => ( myResourcesToApproveIds.Contains( rr.ResourceId ) ) ||
+                                            ( r.ReservationType.FinalApprovalGroup != null && r.ReservationType.FinalApprovalGroup.Members.Any( m => m.PersonId == CurrentPersonId.Value && m.GroupMemberStatus == GroupMemberStatus.Active ) ) )
+                                        );
+                    }
+                    break;
+                default:
+                    break;
+            }
             // Filter by Resources
             var resourceIdList = rpResource.SelectedValuesAsInt().ToList();
             if ( resourceIdList.Where( r => r != 0 ).Any() )
@@ -464,13 +688,13 @@ namespace RockWeb.Plugins.com_centralaz.RoomManagement
             }
 
             // Filter by Ministry
-            List<int> ministryIds = cblMinistry.Items.OfType<System.Web.UI.WebControls.ListItem>().Where( l => l.Selected ).Select( a => a.Value.AsInteger() ).ToList();
-            if ( ministryIds.Any() )
+            List<String> ministryNames = cblMinistry.Items.OfType<System.Web.UI.WebControls.ListItem>().Where( l => l.Selected ).Select( a => a.Text ).ToList();
+            if ( ministryNames.Any() )
             {
                 qry = qry
                     .Where( r =>
                         !r.ReservationMinistryId.HasValue ||    // All
-                        ministryIds.Contains( r.ReservationMinistryId.Value ) );
+                        ministryNames.Contains( r.ReservationMinistry.Name ) );
             }
 
             // Filter by Approval
@@ -504,7 +728,7 @@ namespace RockWeb.Plugins.com_centralaz.RoomManagement
         private bool SetFilterControls()
         {
             // Get and verify the view mode
-            ViewMode = this.GetUserPreference( "ViewMode" );
+            ViewMode = this.GetUserPreference( PreferenceKey + "ViewMode" );
             if ( string.IsNullOrWhiteSpace( ViewMode ) )
             {
                 ViewMode = GetAttributeValue( "DefaultViewOption" );
@@ -512,8 +736,9 @@ namespace RockWeb.Plugins.com_centralaz.RoomManagement
 
             if ( !GetAttributeValue( string.Format( "Show{0}View", ViewMode ) ).AsBoolean() )
             {
-                ShowError( "Configuration Error", string.Format( "The Default View Option setting has been set to '{0}', but the Show {0} View setting has not been enabled.", ViewMode ) );
-                return false;
+                ViewMode = GetAttributeValue( "DefaultViewOption" );
+                //ShowError( "Configuration Error", string.Format( "The Default View Option setting has been set to '{0}', but the Show {0} View setting has not been enabled.", ViewMode ) );
+                //return false;
             }
 
             // Show/Hide calendar control
@@ -521,6 +746,12 @@ namespace RockWeb.Plugins.com_centralaz.RoomManagement
 
             // Get the first/last dates based on today's date and the viewmode setting
             var today = RockDateTime.Today;
+
+            if ( PageParameter( "SelectedDate" ).AsDateTime() != null )
+            {
+                today = PageParameter( "SelectedDate" ).AsDateTime().Value;
+                calReservationCalendar.VisibleDate = today;
+            }
 
             // Use the CalendarVisibleDate if it's in session.
             if ( Session["CalendarVisibleDate"] != null )
@@ -541,6 +772,11 @@ namespace RockWeb.Plugins.com_centralaz.RoomManagement
                 FilterStartDate = new DateTime( today.Year, today.Month, 1 );
                 FilterEndDate = FilterStartDate.Value.AddMonths( 1 ).AddDays( -1 );
             }
+            else if ( ViewMode == "Year" )
+            {
+                FilterStartDate = new DateTime( RockDateTime.Today.Year, RockDateTime.Today.Month, 1 );
+                FilterEndDate = FilterStartDate.Value.AddMonths( 12 );
+            }
 
             // Setup small calendar Filter
             calReservationCalendar.FirstDayOfWeek = _firstDayOfWeek.ConvertToInt().ToString().ConvertToEnum<FirstDayOfWeek>();
@@ -549,25 +785,25 @@ namespace RockWeb.Plugins.com_centralaz.RoomManagement
 
             // Setup Location Filter
             lipLocation.Visible = GetAttributeValue( "LocationFilterDisplayMode" ).AsInteger() > 1;
-            if ( !string.IsNullOrWhiteSpace( this.GetUserPreference( "Locations" ) ) )
+            if ( !string.IsNullOrWhiteSpace( this.GetUserPreference( PreferenceKey + "Locations" ) ) )
             {
-                lipLocation.SetValues( this.GetUserPreference( "Locations" ).Split( ',' ).AsIntegerList() );
+                lipLocation.SetValues( this.GetUserPreference( PreferenceKey + "Locations" ).Split( ',' ).AsIntegerList() );
             }
 
             // Setup Resource Filter
             rpResource.Visible = GetAttributeValue( "ResourceFilterDisplayMode" ).AsInteger() > 1;
-            if ( !string.IsNullOrWhiteSpace( this.GetUserPreference( "Resources" ) ) )
+            if ( !string.IsNullOrWhiteSpace( this.GetUserPreference( PreferenceKey + "Resources" ) ) )
             {
-                rpResource.SetValues( this.GetUserPreference( "Resources" ).Split( ',' ).AsIntegerList() );
+                rpResource.SetValues( this.GetUserPreference( PreferenceKey + "Resources" ).Split( ',' ).AsIntegerList() );
             }
 
             // Setup Campus Filter
             rcwCampus.Visible = GetAttributeValue( "CampusFilterDisplayMode" ).AsInteger() > 1;
             cblCampus.DataSource = CampusCache.All( false );
             cblCampus.DataBind();
-            if ( !string.IsNullOrWhiteSpace( this.GetUserPreference( "Campuses" ) ) )
+            if ( !string.IsNullOrWhiteSpace( this.GetUserPreference( PreferenceKey + "Campuses" ) ) )
             {
-                cblCampus.SetValues( this.GetUserPreference( "Campuses" ).SplitDelimitedValues() );
+                cblCampus.SetValues( this.GetUserPreference( PreferenceKey + "Campuses" ).SplitDelimitedValues() );
             }
             else
             {
@@ -583,21 +819,21 @@ namespace RockWeb.Plugins.com_centralaz.RoomManagement
 
             // Setup Ministry Filter
             rcwMinistry.Visible = GetAttributeValue( "MinistryFilterDisplayMode" ).AsInteger() > 1;
-            cblMinistry.DataSource = ReservationMinistryCache.All();
+            cblMinistry.DataSource = ReservationMinistryCache.All().DistinctBy( rmc => rmc.Name ).OrderBy( m => m.Name );
             cblMinistry.DataBind();
 
-            if ( !string.IsNullOrWhiteSpace( this.GetUserPreference( "Ministries" ) ) )
+            if ( !string.IsNullOrWhiteSpace( this.GetUserPreference( PreferenceKey + "Ministries" ) ) )
             {
-                cblMinistry.SetValues( this.GetUserPreference( "Ministries" ).SplitDelimitedValues() );
+                cblMinistry.SetValues( this.GetUserPreference( PreferenceKey + "Ministries" ).SplitDelimitedValues() );
             }
 
             // Setup Approval Filter
             rcwApproval.Visible = GetAttributeValue( "ApprovalFilterDisplayMode" ).AsInteger() > 1;
             cblApproval.BindToEnum<ReservationApprovalState>();
 
-            if ( !string.IsNullOrWhiteSpace( this.GetUserPreference( "Approval State" ) ) )
+            if ( !string.IsNullOrWhiteSpace( this.GetUserPreference( PreferenceKey + "Approval State" ) ) )
             {
-                cblApproval.SetValues( this.GetUserPreference( "Approval State" ).SplitDelimitedValues() );
+                cblApproval.SetValues( this.GetUserPreference( PreferenceKey + "Approval State" ).SplitDelimitedValues() );
             }
 
             // Setup Reservation Type Filter
@@ -605,29 +841,45 @@ namespace RockWeb.Plugins.com_centralaz.RoomManagement
             cblReservationType.DataSource = new ReservationTypeService( new RockContext() ).Queryable().ToList();
             cblReservationType.DataBind();
 
-            if ( !string.IsNullOrWhiteSpace( this.GetUserPreference( "Reservation Type" ) ) )
+            if ( !string.IsNullOrWhiteSpace( this.GetUserPreference( PreferenceKey + "Reservation Type" ) ) )
             {
-                cblReservationType.SetValues( this.GetUserPreference( "Reservation Type" ).SplitDelimitedValues() );
+                cblReservationType.SetValues( this.GetUserPreference( PreferenceKey + "Reservation Type" ).SplitDelimitedValues() );
             }
 
             // Date Range Filter
             dpStartDate.Visible = GetAttributeValue( "ShowDateRangeFilter" ).AsBoolean();
-            dpStartDate.SelectedDate = FilterStartDate;
+            if ( dpStartDate.Visible && !string.IsNullOrWhiteSpace( this.GetUserPreference( PreferenceKey + "Start Date" ) ) )
+            {
+                dpStartDate.SelectedDate = this.GetUserPreference( PreferenceKey + "Start Date" ).AsDateTime();
+                if ( dpStartDate.SelectedDate.HasValue )
+                {
+                    FilterStartDate = dpStartDate.SelectedDate;
+                }
+            }
 
             dpEndDate.Visible = GetAttributeValue( "ShowDateRangeFilter" ).AsBoolean();
-            dpEndDate.SelectedDate = FilterEndDate;
+            if ( dpEndDate.Visible && !string.IsNullOrWhiteSpace( this.GetUserPreference( PreferenceKey + "End Date" ) ) )
+            {
+                dpEndDate.SelectedDate = this.GetUserPreference( PreferenceKey + "End Date" ).AsDateTime();
+                if ( dpEndDate.SelectedDate.HasValue )
+                {
+                    FilterEndDate = dpEndDate.SelectedDate;
+                }
+            }
 
             // Get the View Modes, and only show them if more than one is visible
             var viewsVisible = new List<bool> {
                 GetAttributeValue( "ShowDayView" ).AsBoolean(),
                 GetAttributeValue( "ShowWeekView" ).AsBoolean(),
-                GetAttributeValue( "ShowMonthView" ).AsBoolean()
+                GetAttributeValue( "ShowMonthView" ).AsBoolean(),
+                GetAttributeValue( "ShowYearView" ).AsBoolean()
             };
 
             var howManyVisible = viewsVisible.Where( v => v ).Count();
             btnDay.Visible = howManyVisible > 1 && viewsVisible[0];
             btnWeek.Visible = howManyVisible > 1 && viewsVisible[1];
             btnMonth.Visible = howManyVisible > 1 && viewsVisible[2];
+            btnYear.Visible = howManyVisible > 1 && viewsVisible[3];
 
             // Set filter visibility
             bool showFilter = ( pnlCalendar.Visible || lipLocation.Visible || rpResource.Visible || rcwCampus.Visible || rcwMinistry.Visible || rcwApproval.Visible || dpStartDate.Visible || dpEndDate.Visible );
@@ -658,6 +910,15 @@ namespace RockWeb.Plugins.com_centralaz.RoomManagement
                 FilterStartDate = new DateTime( selectedDate.Year, selectedDate.Month, 1 );
                 FilterEndDate = FilterStartDate.Value.AddMonths( 1 ).AddDays( -1 );
             }
+            else if ( ViewMode == "Year" )
+            {
+                FilterStartDate = new DateTime( RockDateTime.Today.Year, RockDateTime.Today.Month, 1 );
+                FilterEndDate = FilterStartDate.Value.AddMonths( 12 );
+            }
+
+            dpStartDate.SelectedDate = dpEndDate.SelectedDate = null;
+            this.SetUserPreference( PreferenceKey + "Start Date", null );
+            this.SetUserPreference( PreferenceKey + "End Date", null );
 
             // Reset the selection
             calReservationCalendar.SelectedDates.SelectRange( FilterStartDate.Value, FilterEndDate.Value );
@@ -722,5 +983,31 @@ namespace RockWeb.Plugins.com_centralaz.RoomManagement
         }
 
         #endregion
+
+        #region Helper Classes, etc.
+
+        /// <summary>
+        ///
+        /// </summary>
+        private enum ShowBy
+        {
+            /// <summary>
+            /// All reservations
+            /// </summary>
+            All = 0,
+
+            /// <summary>
+            /// Only my reservations
+            /// </summary>
+            MyReservations = 1,
+
+            /// <summary>
+            /// Only resevations that need my approval
+            /// </summary>
+            MyApprovals = 2
+
+        }
+        #endregion
+
     }
 }

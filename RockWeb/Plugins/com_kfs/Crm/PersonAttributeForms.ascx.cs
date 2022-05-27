@@ -1,3 +1,27 @@
+// <copyright>
+// Copyright by the Spark Development Network
+//
+// Licensed under the Rock Community License (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.rockrms.com/license
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// </copyright>
+//
+// <notice>
+// This file contains modifications by Kingdom First Solutions
+// and is a derivative work.
+//
+// Modification (including but not limited to):
+// * This adds ability to include person properties as form fields
+// </notice>
+//
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,21 +48,24 @@ namespace RockWeb.Plugins.com_kfs.Crm
     /// <summary>
     /// Block to capture person data from currently logged in user.
     /// </summary>
+
+    #region Block Attributes
+
+    // Block Properties
     [DisplayName( "Person Attribute Forms Advanced" )]
     [Category( "KFS > CRM" )]
     [Description( "Block to capture person data from currently logged in user." )]
 
-    // Block Properties
+    #endregion
 
-    // Settings
+    #region Block Settings
+
     [BooleanField( "Allow Connection Opportunity", "Determines if a url parameter of 'OpportunityId' should be evaluated when complete.  Example: OpportunityId=1 or OpportunityId=1,2,3", false, "Connections", 0 )]
-
     [BooleanField( "Allow Group Membership", "Determines if a url parameter of 'GroupGuid' or 'GroupId' should be evaluated when complete.", false, "Groups", 0 )]
     [BooleanField( "Enable Passing Group Id", "If enabled, allows the ability to pass in a group's Id (GroupId=) instead of the Guid.", true, "Groups", 1 )]
     [GroupTypesField( "Allowed Group Types", "This setting restricts which types of groups a person can be added to, however selecting a specific group via the Group setting will override this restriction.", true, Rock.SystemGuid.GroupType.GROUPTYPE_SMALL_GROUP, "Groups", 2 )]
     [GroupField( "Group", "Optional group to add person to. If omitted, the group's Guid should be passed via the Query string (GroupGuid=).", false, "", "Groups", 3 )]
     [CustomRadioListField( "Group Member Status", "The group member status to use when adding person to group (default: 'Pending'.)", "2^Pending,1^Active,0^Inactive", true, "2", "Groups", 4 )]
-
     [BooleanField( "Display Progress Bar", "Determines if the progress bar should be show if there is more than one form.", true, "CustomSetting" )]
     [CustomDropdownListField( "Save Values", "", "PAGE,END", true, "END", "CustomSetting" )]
     [WorkflowTypeField( "Workflow", "The workflow to be launched when complete.", false, false, "", "CustomSetting" )]
@@ -46,6 +73,8 @@ namespace RockWeb.Plugins.com_kfs.Crm
     [LinkedPage( "Done Page", "The page to redirect to when done.", false, "", "CustomSetting" )]
     [TextField( "Forms", "The forms to show.", false, "", "CustomSetting" )]
     [CodeEditorField( "Confirmation Text", "", CodeEditorMode.Html, CodeEditorTheme.Rock, 200, false, "", "CustomSetting" )]
+
+    #endregion
 
     public partial class PersonAttributeForms : RockBlockCustomSettings
     {
@@ -200,6 +229,9 @@ namespace RockWeb.Plugins.com_kfs.Crm
                                         case "re-order-form":
                                             SortForms( guid, newIndex );
                                             break;
+                                        case "cancel-dlg-field":
+                                            BuildEditControls( true );
+                                            break;
                                     }
                                 }
                             }
@@ -290,7 +322,6 @@ namespace RockWeb.Plugins.com_kfs.Crm
                         var person = new PersonService( rockContext ).Get( CurrentPersonId.Value );
                         if ( person != null )
                         {
-
                             var pagePersonFields = new List<PersonFieldType>();
                             if ( saveEachPage && CurrentPageIndex > 0 && CurrentPageIndex <= FormState.Count )
                             {
@@ -476,7 +507,7 @@ namespace RockWeb.Plugins.com_kfs.Crm
 
                             var pageAttributeIds = new List<int>();
 
-                            if ( saveEachPage && CurrentPageIndex > 0 && CurrentPageIndex <= FormState.Count )
+                            if ( saveEachPage && CurrentPageIndex > 0 && ( CurrentPageIndex - 1 ) <= FormState.Count )
                             {
                                 pageAttributeIds = FormState[CurrentPageIndex - 1].Fields
                                     .Where( f => f.AttributeId.HasValue )
@@ -795,6 +826,11 @@ namespace RockWeb.Plugins.com_kfs.Crm
             upnlContent.Update();
         }
 
+        private void ddlCountry_indexChanged( object sender, EventArgs e )
+        {
+            upnlContent.Update();
+        }
+
         #region Form Control Events
 
         /// <summary>
@@ -933,6 +969,12 @@ namespace RockWeb.Plugins.com_kfs.Crm
             var attributeGuid = hfAttributeGuid.Value.AsGuid();
 
             var form = FormState.FirstOrDefault( f => f.Guid == formGuid );
+
+            if ( form == null && formGuid == Guid.Empty )
+            {
+                form = FormState.FirstOrDefault( f => f.Guid == Guid.Empty );
+            }
+
             if ( form != null )
             {
                 var field = form.Fields.FirstOrDefault( a => a.Guid.Equals( attributeGuid ) );
@@ -941,13 +983,13 @@ namespace RockWeb.Plugins.com_kfs.Crm
                     field = new AttributeFormField();
                     field.Order = form.Fields.Any() ? form.Fields.Max( a => a.Order ) + 1 : 0;
                     field.Guid = attributeGuid;
+                    field.FieldSource = ddlFieldSource.SelectedValueAsEnum<FormFieldSource>();
                     form.Fields.Add( field );
                 }
 
                 field.PreText = ceAttributePreText.Text;
                 field.PostText = ceAttributePostText.Text;
-                field.FieldSource = ddlFieldSource.SelectedValueAsEnum<FormFieldSource>();
-
+                
                 switch ( field.FieldSource )
                 {
                     case FormFieldSource.PersonField:
@@ -1254,6 +1296,22 @@ namespace RockWeb.Plugins.com_kfs.Crm
                             if ( attribute != null )
                             {
                                 attribute.AddControl( phContent.Controls, value, BlockValidationGroup, setValues, true, field.IsRequired, null, string.Empty );
+
+                                if ( attribute.FieldType.Field is AddressFieldType )
+                                {
+                                    foreach ( var ctrl in phContent.Controls )
+                                    {
+                                        if ( ctrl is AddressControl )
+                                        {
+                                            var ac = ( AddressControl ) ctrl;
+                                            var ddlCountry = ac.FindControl( "ddlCountry" ) as RockDropDownList;
+                                            if ( ddlCountry != null )
+                                            {
+                                                ddlCountry.SelectedIndexChanged += ddlCountry_indexChanged;
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
 
@@ -1520,6 +1578,12 @@ namespace RockWeb.Plugins.com_kfs.Crm
                         acAddress.UseCountryAbbreviation = false;
                         acAddress.Required = field.IsRequired;
                         acAddress.ValidationGroup = BlockValidationGroup;
+
+                        var ctrlDDL = acAddress.FindControl( "ddlCountry" ) as RockDropDownList;
+                        if ( ctrlDDL != null )
+                        {
+                            ctrlDDL.SelectedIndexChanged += ddlCountry_indexChanged;
+                        }
 
                         phContent.Controls.Add( acAddress );
 
@@ -1868,6 +1932,12 @@ namespace RockWeb.Plugins.com_kfs.Crm
             BuildEditControls( true );
 
             var form = FormState.FirstOrDefault( f => f.Guid == formGuid );
+
+            if ( form == null && formGuid == Guid.Empty )
+            {
+                form = FormState.FirstOrDefault( f => f.Guid == Guid.Empty );
+            }
+
             if ( form != null )
             {
                 var field = form.Fields.FirstOrDefault( a => a.Guid.Equals( formFieldGuid ) );
@@ -1887,13 +1957,12 @@ namespace RockWeb.Plugins.com_kfs.Crm
                 {
                     lFieldSource.Text = field.FieldSource.ConvertToString();
                     lFieldSource.Visible = true;
+                    ddlFieldSource.SetValue( field.FieldSource.ConvertToInt() );
                     ddlFieldSource.Visible = false;
                 }
 
                 ceAttributePreText.Text = field.PreText;
                 ceAttributePostText.Text = field.PostText;
-
-                ddlFieldSource.SetValue( field.FieldSource.ConvertToInt() );
 
                 ddlPersonAttributes.Items.Clear();
                 var person = new Person();

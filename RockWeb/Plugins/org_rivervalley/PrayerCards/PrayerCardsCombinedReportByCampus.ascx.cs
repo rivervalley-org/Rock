@@ -91,7 +91,8 @@ namespace RockWeb.Plugins.org_rivervalley.PrayerCards
         {
             // Build campus drop down
             ddlList.DataSource = new CampusService(new RockContext()).Queryable()
-                .Where(x => x.Id == 1 || x.Id == 2 || x.Id == 3 || x.Id == 4 || x.Id == 9 || x.Id == 11 || x.Id == 12 || x.Id == 13 || x.Id == 17)
+                .Where( x => x.IsActive == true ) 
+				//.Where(x => x.Id == 1 || x.Id == 2 || x.Id == 3 || x.Id == 4 || x.Id == 9 || x.Id == 11 || x.Id == 12 || x.Id == 13 || x.Id == 14 || x.Id == 17)
                 .OrderBy(a => a.Name).ToList();
             ddlList.DataValueField = "Id";
             ddlList.DataTextField = "Name";

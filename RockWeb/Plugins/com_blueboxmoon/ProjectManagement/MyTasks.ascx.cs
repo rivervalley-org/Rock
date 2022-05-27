@@ -22,10 +22,28 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
     [Category( "Blue Box Moon > Project Management" )]
     [Description( "Lists tasks assigned to or the current person." )]
 
+    #region Block Attributes
+
     [LinkedPage( "Project Page", "The page that allows a person to view and edit projects.", true, "", order: 0 )]
     [IntegerField( "Page Size", "The number of items to display per page.", true, 10, order: 1 )]
+
+    [CodeEditorField( "Task Name Template",
+        description: "The lava template will be used for the task Name. Access the task via the 'Row' variable.",
+        mode: Rock.Web.UI.Controls.CodeEditorMode.Lava,
+        defaultValue: "{{ Row.FormattedName }}",
+        required: true,
+        key: AttributeKeys.TaskNameTemplate,
+        order: 2 )]
+
+    #endregion
+
     public partial class MyTasks : RockBlock
     {
+        public static class AttributeKeys
+        {
+            public const string TaskNameTemplate = "TaskNameTemplate";
+        }
+
         #region Private Fields
 
         bool _canAddEditDelete = false;
@@ -164,6 +182,7 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
                 var lbTaskToggle = e.Item.FindControl( "lbTaskToggle" ) as LinkButton;
                 var iTaskState = e.Item.FindControl( "iTaskState" ) as System.Web.UI.HtmlControls.HtmlGenericControl;
                 var lFollow = e.Item.FindControl( "lFollow" ) as Label;
+                var lTaskName = e.Item.FindControl( "lTaskName" ) as Literal;
                 var lDueDate = e.Item.FindControl( "lDueDate" ) as Literal;
                 var lBlockedBy = e.Item.FindControl( "lBlockedBy" ) as Literal;
                 var lDescription = e.Item.FindControl( "lDescription" ) as Literal;
@@ -182,6 +201,10 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
                 {
                     lFollow.Visible = false;
                 }
+
+                var mergeFields = Rock.Lava.LavaHelper.GetCommonMergeFields( null, null, new Rock.Lava.CommonMergeFieldsOptions { GetLegacyGlobalMergeFields = false } );
+                mergeFields.Add( "Row", task );
+                lTaskName.Text = GetAttributeValue( AttributeKeys.TaskNameTemplate ).ResolveMergeFields( mergeFields );
 
                 //
                 // If the task is not in an active or completed state then mark it with
@@ -208,11 +231,11 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
                     //
                     if ( task.DueDate.HasValue )
                     {
-                        if ( task.DueDate.Value.Date == DateTime.Now.Date )
+                        if ( task.DueDate.Value.Date == RockDateTime.Now.Date )
                         {
                             liTask.AddCssClass( "pm-warning" );
                         }
-                        else if ( task.DueDate.Value.Date < DateTime.Now.Date )
+                        else if ( task.DueDate.Value.Date < RockDateTime.Now.Date )
                         {
                             liTask.AddCssClass( "pm-danger" );
                         }

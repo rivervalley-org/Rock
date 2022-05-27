@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web.UI.WebControls;
 
+using com.shepherdchurch.SurveySystem.Model;
+
 using Newtonsoft.Json;
 
 using Rock;
@@ -12,12 +14,9 @@ using Rock.Constants;
 using Rock.Data;
 using Rock.Model;
 using Rock.Security;
-using Rock.Web;
 using Rock.Web.Cache;
 using Rock.Web.UI;
 using Rock.Web.UI.Controls;
-
-using com.shepherdchurch.SurveySystem.Model;
 
 namespace RockWeb.Plugins.com_shepherdchurch.SurveySystem
 {
@@ -26,6 +25,7 @@ namespace RockWeb.Plugins.com_shepherdchurch.SurveySystem
     [Description( "Displays the details for a survey." )]
 
     [LinkedPage( "Results Page", "The page that is used to list results for this survey.", false, order: 0 )]
+    [BooleanField( "Record Answers Default", "The default value for Record Answers option when a user creates a new survey.", false, order: 1 )]
     public partial class SurveyDetail : RockBlock
     {
         #region Private Fields
@@ -100,7 +100,7 @@ namespace RockWeb.Plugins.com_shepherdchurch.SurveySystem
                 }
             }
 
-            btnSecurity.EntityTypeId = EntityTypeCache.Read( typeof( Survey ) ).Id;
+            btnSecurity.EntityTypeId = EntityTypeCache.Get( typeof( Survey ) ).Id;
 
             // this event gets fired after block settings are updated. it's nice to repaint the screen if these settings would alter it
             this.BlockUpdated += Block_BlockUpdated;
@@ -124,7 +124,12 @@ namespace RockWeb.Plugins.com_shepherdchurch.SurveySystem
                     hfId.Value = PageParameter( "SurveyId" );
                     if ( hfId.Value.AsInteger() == 0 )
                     {
-                        var survey = new Survey { Id = 0, IsActive = true };
+                        var survey = new Survey
+                        {
+                            Id = 0,
+                            IsActive = true,
+                            RecordAnswers = GetAttributeValue( "RecordAnswersDefault" ).AsBoolean( resultIfNullOrEmpty: false )
+                        };
                         survey.CategoryId = PageParameter( "ParentCategoryId" ).AsIntegerOrNull();
 
                         LoadAttributeState( survey );
@@ -245,6 +250,7 @@ namespace RockWeb.Plugins.com_shepherdchurch.SurveySystem
             lbDelete.Visible = canEdit;
             lbEditAnswers.Visible = survey.PassingGrade.HasValue;
             btnSecurity.Visible = survey.IsAuthorized( Authorization.ADMINISTRATE, CurrentPerson );
+            lbRun.Visible = survey.IsActive;
 
             btnSecurity.Title = "Secure " + survey.Name;
             btnSecurity.EntityId = survey.Id;
@@ -287,6 +293,7 @@ namespace RockWeb.Plugins.com_shepherdchurch.SurveySystem
             cbIsActive.Checked = survey.IsActive;
             cbIsLoginRequired.Checked = survey.IsLoginRequired;
             cpCategory.SetValue( survey.CategoryId );
+            wtpWorkflow.SetValue( survey.WorkflowTypeId );
             cbRecordAnswers.Checked = survey.RecordAnswers;
             ddlLastAttemptDateAttribute.SetValue( survey.LastAttemptDateAttributeId );
             ceInstructionTemplate.Text = survey.InstructionTemplate;
@@ -328,7 +335,7 @@ namespace RockWeb.Plugins.com_shepherdchurch.SurveySystem
             var selectedAttributeGuids = attributes.Select( a => a.Guid );
             foreach ( var attr in existingAttributes.Where( a => !selectedAttributeGuids.Contains( a.Guid ) ) )
             {
-                Rock.Web.Cache.AttributeCache.Flush( attr.Id );
+                Rock.Web.Cache.AttributeCache.Remove( attr.Id );
                 attributeService.Delete( attr );
             }
 
@@ -340,7 +347,7 @@ namespace RockWeb.Plugins.com_shepherdchurch.SurveySystem
                 Rock.Attribute.Helper.SaveAttributeEdits( attr, entityTypeId, qualifierColumn, qualifierValue, rockContext );
             }
 
-            AttributeCache.FlushEntityAttributes();
+            AttributeCache.RemoveEntityAttributes();
         }
 
         #endregion
@@ -381,6 +388,7 @@ namespace RockWeb.Plugins.com_shepherdchurch.SurveySystem
             survey.IsActive = cbIsActive.Checked;
             survey.IsLoginRequired = cbIsLoginRequired.Checked;
             survey.CategoryId = cpCategory.SelectedValueAsId();
+            survey.WorkflowTypeId = wtpWorkflow.SelectedValueAsId();
             survey.RecordAnswers = cbRecordAnswers.Checked;
             survey.LastAttemptDateAttributeId = ddlLastAttemptDateAttribute.SelectedValueAsInt();
             survey.InstructionTemplate = ceInstructionTemplate.Text;
@@ -405,7 +413,7 @@ namespace RockWeb.Plugins.com_shepherdchurch.SurveySystem
                 survey = surveyService.Get( survey.Guid );
 
                 // Save the Survey Attributes
-                int entityTypeId = EntityTypeCache.Read( typeof( SurveyResult ) ).Id;
+                int entityTypeId = EntityTypeCache.Get( typeof( SurveyResult ) ).Id;
                 SaveAttributes( survey.Id, entityTypeId, SurveyAttributesState, rockContext );
             } );
 
@@ -584,9 +592,10 @@ namespace RockWeb.Plugins.com_shepherdchurch.SurveySystem
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void lbAnswersSave_Click( object sender, EventArgs e )
         {
-            var surveyResult = new SurveyResult();
-
-            surveyResult.SurveyId = hfId.Value.AsInteger();
+            var surveyResult = new SurveyResult
+            {
+                SurveyId = hfId.Value.AsInteger()
+            };
             surveyResult.LoadAttributes();
 
             Helper.GetEditValues( phAnswerAttributes, surveyResult );
@@ -739,7 +748,7 @@ namespace RockWeb.Plugins.com_shepherdchurch.SurveySystem
             {
                 attribute = new Rock.Model.Attribute
                 {
-                    FieldTypeId = FieldTypeCache.Read( Rock.SystemGuid.FieldType.TEXT ).Id
+                    FieldTypeId = FieldTypeCache.Get( Rock.SystemGuid.FieldType.TEXT ).Id
                 };
                 edtSurveyAttributes.ActionTitle = ActionTitle.Add( tbName.Text + " Survey Question" );
 
@@ -764,7 +773,13 @@ namespace RockWeb.Plugins.com_shepherdchurch.SurveySystem
         /// <param name="e">The <see cref="GridReorderEventArgs"/> instance containing the event data.</param>
         protected void gSurveyAttributes_GridReorder( object sender, GridReorderEventArgs e )
         {
-            var movedAttribute = SurveyAttributesState.Where( a => a.Order == e.OldIndex ).FirstOrDefault();
+            int fixedOrder = 0;
+            foreach (var attr in SurveyAttributesState.OrderBy( a => a.Order ) )
+            {
+                attr.Order = fixedOrder++;
+            }
+
+            var movedAttribute = SurveyAttributesState.OrderBy( a => a.Order ).Where( a => a.Order == e.OldIndex ).FirstOrDefault();
             if ( movedAttribute != null )
             {
                 if ( e.NewIndex < e.OldIndex )

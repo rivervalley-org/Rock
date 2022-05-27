@@ -1436,15 +1436,14 @@ TransactionAccountDetails: [
             }
             else
             {
-                // Enumerate through all active accounts that are public
-                foreach ( var account in new FinancialAccountService( rockContext ).Queryable()
+                // Enumerate through all active accounts that are public (Using get tree to ensure the accounts are in the correct order)
+                foreach ( var account in new FinancialAccountService( rockContext ).GetTree()
                 .Where( f =>
                     f.IsActive &&
                     f.IsPublic.HasValue &&
                     f.IsPublic.Value &&
                     ( f.StartDate == null || f.StartDate <= RockDateTime.Today ) &&
-                    ( f.EndDate == null || f.EndDate >= RockDateTime.Today ) )
-                .OrderBy( f => f.Order ) )
+                    ( f.EndDate == null || f.EndDate >= RockDateTime.Today ) ) )
                 {
                     var accountItem = new AccountItem( account.Id, account.Order, account.Name, account.CampusId, account.PublicName );
 
@@ -2982,19 +2981,19 @@ TransactionAccountDetails: [
                 transaction.TransactionDateTime.Value,
                 financialGateway.GetBatchTimeOffset() );
 
-            var batchChanges = new History.HistoryChangeList();
+            //var batchChanges = new History.HistoryChangeList();
 
-            if ( batch.Id == 0 )
-            {
-                batchChanges.AddChange( History.HistoryVerb.Add, History.HistoryChangeType.Record, "Batch" );
-                History.EvaluateChange( batchChanges, "Batch Name", string.Empty, batch.Name );
-                History.EvaluateChange( batchChanges, "Status", null, batch.Status );
-                History.EvaluateChange( batchChanges, "Start Date/Time", null, batch.BatchStartDateTime );
-                History.EvaluateChange( batchChanges, "End Date/Time", null, batch.BatchEndDateTime );
-            }
+            //if ( batch.Id == 0 )
+            //{
+            //    batchChanges.AddChange( History.HistoryVerb.Add, History.HistoryChangeType.Record, "Batch" );
+            //    History.EvaluateChange( batchChanges, "Batch Name", string.Empty, batch.Name );
+            //    History.EvaluateChange( batchChanges, "Status", null, batch.Status );
+            //    History.EvaluateChange( batchChanges, "Start Date/Time", null, batch.BatchStartDateTime );
+            //    History.EvaluateChange( batchChanges, "End Date/Time", null, batch.BatchEndDateTime );
+            //}
 
             decimal newControlAmount = batch.ControlAmount + transaction.TotalAmount;
-            History.EvaluateChange( batchChanges, "Control Amount", batch.ControlAmount.FormatAsCurrency(), newControlAmount.FormatAsCurrency() );
+            //History.EvaluateChange( batchChanges, "Control Amount", batch.ControlAmount.FormatAsCurrency(), newControlAmount.FormatAsCurrency() );
             batch.ControlAmount = newControlAmount;
 
             transaction.BatchId = batch.Id;
@@ -3015,13 +3014,13 @@ TransactionAccountDetails: [
             rockContext.SaveChanges();
             transaction.SaveAttributeValues();
 
-            HistoryService.SaveChanges(
-                rockContext,
-                typeof( FinancialBatch ),
-                Rock.SystemGuid.Category.HISTORY_FINANCIAL_BATCH.AsGuid(),
-                batch.Id,
-                batchChanges
-            );
+            //HistoryService.SaveChanges(
+            //    rockContext,
+            //    typeof( FinancialBatch ),
+            //    Rock.SystemGuid.Category.HISTORY_FINANCIAL_BATCH.AsGuid(),
+            //    batch.Id,
+            //    batchChanges
+            //);
 
             SendReceipt( transaction.Id );
 

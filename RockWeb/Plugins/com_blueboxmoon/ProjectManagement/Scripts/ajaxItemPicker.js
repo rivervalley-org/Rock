@@ -54,7 +54,7 @@
               promise.fail(function (xhr, status, error) {
                   console.log(status + ' [' + error + ']: ' + xhr.responseText);
                   var errorCode = xhr.status;
-                  if (errorCode == 401) {
+                  if (errorCode === 401) {
                       $('#' + controlId + '_ajaxItemPickerItems').first().html("<li class='text-danger'>Sorry, you're not authorized to search.</li>");
                   }
               });
@@ -72,29 +72,35 @@
           // override jQueryUI autocomplete's _renderItem so that we can do Html for the listitems
           // derived from http://github.com/scottgonzalez/jquery-ui-extensions
 
-          var $div = $('<div/>').attr('class', 'radio'),
+          var $div = $('<div class="radio"></div>');
 
-              $label = $('<label/>')
-                  .html(item.Name + ' <i class="fa fa-refresh fa-spin margin-l-md loading-notification" style="display: none; opacity: .4;"></i>')
-                  .prependTo($div),
+          var $label = $('<label></label>')
+            .prependTo($div);
 
-              $radio = $('<input type="radio" name="item-id" />')
-                  .attr('id', item.Id)
-                  .attr('value', item.Id)
-                  .prependTo($label),
+          $('<span class="label-text"></span>')
+            .text(item.Name)
+            .appendTo($label);
 
-              $li = $('<li/>')
-                  .addClass('picker-select-item')
-                  .attr('data-item-id', item.Id)
-                  .html($div),
+          $('<i class="fa fa-refresh fa-spin margin-l-md loading-notification" style="display: none; opacity: .4;"></i>')
+            .appendTo($label);
 
-              $resultSection = $(this.options.appendTo);
+          $('<input type="radio" name="item-id"></input>')
+            .attr('id', item.Id)
+            .attr('value', item.Id)
+            .prependTo($label);
+
+          var $li = $('<li></li>')
+            .addClass('picker-select-item')
+            .attr('data-item-id', item.Id)
+            .html($div);
+
+          var $resultSection = $(this.options.appendTo);
 
           if (item.PickerItemDetailsHtml) {
             $(item.PickerItemDetailsHtml).appendTo($li);
           }
           else {
-            var $itemDetailsDiv = $('<div/>')
+            var $itemDetailsDiv = $('<div></div>')
                 .addClass('picker-select-item-details clearfix')
                 .attr('data-has-details', false)
                 .hide();
@@ -123,12 +129,13 @@
 
       $('#' + controlId + ' a.picker-label').click(function (e)
       {
-        e.preventDefault();
-        $('#' + controlId).find('.picker-menu').first().slideToggle(function ()
-        {
-          exports.ajaxItemPickers[controlId].updateScrollbar(true);
-          $(this).find('.picker-search').focus();
-        });
+          e.preventDefault();
+          if (!$('#' + controlId).hasClass('aspNetDisabled')) {
+              $('#' + controlId).find('.picker-menu').first().slideToggle(function () {
+                  exports.ajaxItemPickers[controlId].updateScrollbar(true);
+                  $(this).find('.picker-search').focus();
+              });
+          }
       });
 
       $('#' + controlId + ' .picker-select').on('click', '.picker-select-item :input', function (e)
@@ -148,14 +155,12 @@
             var $el = $(this),
                 currentItemId = $el.closest('.picker-select-item').attr('data-item-id');
 
-            if (currentItemId != selectedItemId) {
+            if (currentItemId !== selectedItemId) {
                 $el.slideUp();
             }
         });
 
-        var $itemDetails = $selectedItem.find('.picker-select-item-details');
-
-        if ($itemDetails.attr('data-has-details') == 'false') {
+        if ($itemDetails.attr('data-has-details') === 'false') {
             // add a spinner in case we have to wait on the server for a little bit
             var $spinner = $selectedItem.find('.loading-notification');
             $spinner.fadeIn(800);
@@ -234,7 +239,7 @@
 
       $('#' + controlId + '_btnSelect').click(function ()
       {
-        var radInput = $('#' + controlId).find('input:checked'),
+        var radInput = $('#' + controlId).find('.picker-select input:checked'),
             selectedValue = radInput.val(),
             selectedText = radInput.closest('.picker-select-item').find('label').text();
 

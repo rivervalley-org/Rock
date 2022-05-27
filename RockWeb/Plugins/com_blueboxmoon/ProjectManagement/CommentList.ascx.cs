@@ -31,7 +31,7 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
     {
         #region Private Fields
 
-        private bool _canAddEditDelete;
+        private bool _canAddComment;
 
         #endregion
 
@@ -53,14 +53,14 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
             //
             // Verify that the user is allowed to make edits to the project in question.
             //
-            _canAddEditDelete = IsUserAuthorized( Authorization.EDIT );
-            if ( _canAddEditDelete && ContextEntity<Project>() != null )
+            _canAddComment = IsUserAuthorized( Authorization.EDIT );
+            if ( _canAddComment && ContextEntity<Project>() != null )
             {
                 var project = ContextEntity<Project>();
 
                 if ( project != null )
                 {
-                    _canAddEditDelete = project.IsAuthorized( Authorization.EDIT, CurrentPerson );
+                    _canAddComment = project.IsAuthorized( Authorization.EDIT, CurrentPerson ) || project.IsAuthorized( Project.COMMENT_AUTHORIZATION, CurrentPerson );
                 }
             }
 
@@ -86,8 +86,8 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
                 {
                     var globalAttributesCache = GlobalAttributesCache.Get();
 
-                    lbComment.Visible = _canAddEditDelete;
-                    meNewComment.Visible = _canAddEditDelete;
+                    lbComment.Visible = _canAddComment;
+                    meNewComment.Visible = _canAddComment;
                     meNewComment.PublicApplicationRoot = globalAttributesCache.GetValue( "PublicApplicationRoot" );
                     if ( project.ProjectType.BinaryFileType != null )
                     {

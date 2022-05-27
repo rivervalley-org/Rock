@@ -3,31 +3,31 @@
 <asp:UpdatePanel ID="upnlContent" runat="server">
     <ContentTemplate>
         <asp:HiddenField ID="hfOptionsVisible" runat="server" Value="0" />
+        <asp:HiddenField ID="hfReorderOptions" runat="server" />
+        <asp:LinkButton ID="lbReorder" runat="server" CssClass="hidden" OnClick="lbReorder_Click" />
 
         <asp:Panel ID="pnlTaskList" runat="server" CssClass="panel panel-block" Visible="false">
             <div class="panel-heading">
-                <div class="clearfix">
-                    <h1 class="panel-title pull-left">
-                        <i class="fa fa-check"></i>
-                        <span>Task List</span>
-                    </h1>
+                <h1 class="panel-title">
+                    <i class="fa fa-check"></i>
+                    <span>Task List</span>
+                </h1>
 
-                    <span class="pull-right">
-                        <asp:LinkButton ID="lbPaste" runat="server" CssClass="btn btn-xs pm-btn-xs btn-link" OnClick="lbPaste_Click"><i class="fa fa-paste"></i></asp:LinkButton>
-                        <asp:LinkButton ID="lbAdd" runat="server" CssClass="btn btn-xs pm-btn-xs btn-link" OnClick="lbAdd_Click"><i class="fa fa-plus"></i></asp:LinkButton>
-                        <a class="btn btn-xs pm-btn-xs btn-link" data-toggle="collapse" data-target=".js-project-task-options"><i class="fa fa-gear"></i></a>
-                    </span>
+                <div class="panel-labels">
+                    <asp:LinkButton ID="lbPaste" runat="server" CssClass="btn btn-xs pm-btn-xs btn-link" OnClick="lbPaste_Click"><i class="fa fa-paste"></i></asp:LinkButton>
+                    <asp:LinkButton ID="lbAdd" runat="server" CssClass="btn btn-xs pm-btn-xs btn-link" OnClick="lbAdd_Click"><i class="fa fa-plus"></i></asp:LinkButton>
+                    <a class="btn btn-xs pm-btn-xs btn-link js-project-task-btn-options"><i class="fa fa-gear pm-fa-rotate"></i></a>
                 </div>
-
-                <asp:Panel ID="pnlOptions" runat="server" CssClass="collapse margin-t-sm js-project-task-options">
-                    <asp:CheckBox ID="cbShowInactive" runat="server" Text="Show Inactive" OnCheckedChanged="cbShowInactive_CheckedChanged" AutoPostBack="true" CausesValidation="false" />
-
-                    <Rock:RockRadioButtonList ID="rbOrdering" runat="server" Label="Sort By" RepeatDirection="Horizontal" OnSelectedIndexChanged="rbOrdering_SelectedIndexChanged" AutoPostBack="true" CausesValidation="false">
-                        <asp:ListItem Text="Manual" Value="0" />
-                        <asp:ListItem Text="Due Date" Value="1" />
-                    </Rock:RockRadioButtonList>
-                </asp:Panel>
             </div>
+
+            <asp:Panel ID="pnlOptions" runat="server" CssClass="pm-second-heading collapse js-project-task-options">
+                <asp:CheckBox ID="cbShowInactive" runat="server" Text="Show Inactive" OnCheckedChanged="cbShowInactive_CheckedChanged" AutoPostBack="true" CausesValidation="false" />
+
+                <Rock:RockRadioButtonList ID="rbOrdering" runat="server" Label="Sort By" RepeatDirection="Horizontal" OnSelectedIndexChanged="rbOrdering_SelectedIndexChanged" AutoPostBack="true" CausesValidation="false">
+                    <asp:ListItem Text="Manual" Value="0" />
+                    <asp:ListItem Text="Due Date" Value="1" />
+                </Rock:RockRadioButtonList>
+            </asp:Panel>
 
             <ul class="list-group pm-list-group js-project-task-list">
                 <asp:Repeater ID="rpTask" runat="server" OnItemDataBound="rpTask_ItemDataBound" OnItemCommand="rpTask_ItemCommand">
@@ -151,13 +151,14 @@
                 {
                     $('[data-toggle="tooltip"]').tooltip();
 
-                    $('.js-project-task-options').on('hidden.bs.collapse', function ()
-                    {
-                        $('#<%= hfOptionsVisible.ClientID %>').val('0');
-                    });
-                    $('.js-project-task-options').on('shown.bs.collapse', function ()
-                    {
-                        $('#<%= hfOptionsVisible.ClientID %>').val('1');
+                    $('.js-project-task-btn-options').on('click', function () {
+                        var $target = $('.js-project-task-options')
+                        var makeVisible = !$target.is(':visible');
+
+                        $target.slideToggle(250);
+                        $(this).find('.fa').toggleClass('down');
+
+                        $('#<%= hfOptionsVisible.ClientID %>').val(makeVisible ? '1' : '0');
                     });
 
                     $('.js-project-task-reorder').on('click', function (event) { event.preventDefault(); });
@@ -172,7 +173,8 @@
                         },
                         update: function (event, ui)
                         {
-                            __doPostBack('<%= upnlContent.ClientID %>', 're-order:' + ui.item.attr('data-key') + ';' + $(ui.item).parent().children('li').index($(ui.item)));
+                            $('#<%= hfReorderOptions.ClientID %>').val(ui.item.attr('data-key') + ';' + $(ui.item).parent().children('li').index($(ui.item)));
+                            window.location = $('#<%= lbReorder.ClientID %>').attr('href');
                         }
                     });
 

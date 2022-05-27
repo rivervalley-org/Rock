@@ -5,17 +5,17 @@
     <ContentTemplate>
         <asp:Panel ID="pnlCommentList" runat="server" CssClass="panel panel-block">
             <div class="panel-heading">
-                <asp:Panel ID="pnlNewestComment" runat="server" CssClass="pull-right" Visible="false">
+                <h1 class="panel-title">
+                    <i class="fa fa-comment"></i>
+                    <span>Discussion</span>
+                </h1>
+                <asp:Panel ID="pnlNewestComment" runat="server" CssClass="panel-labels" Visible="false">
                     <asp:HyperLink ID="hlNewestComment" runat="server">
                         <span class="label label-primary">
                             <i class="fa fa-arrow-down"></i> Newest Comment
                         </span>
                     </asp:HyperLink>
                 </asp:Panel>
-                <h1 class="panel-title">
-                    <i class="fa fa-comment"></i>
-                    <span>Discussion</span>
-                </h1>
             </div>
 
             <div class="panel-body">

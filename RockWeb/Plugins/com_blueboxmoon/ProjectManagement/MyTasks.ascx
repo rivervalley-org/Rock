@@ -6,13 +6,12 @@
 
         <asp:Panel ID="pnlTaskList" runat="server" CssClass="panel panel-block">
             <div class="panel-heading pm-nav-tabs">
-                <div class="clearfix">
-                    <h1 class="panel-title pull-left">
-                        <i class="fa fa-check"></i>
-                        <asp:Label ID="lTitle" runat="server">My Tasks</asp:Label>
-                    </h1>
-                </div>
+                <h1 class="panel-title">
+                    <i class="fa fa-check"></i> My Tasks
+                </h1>
+            </div>
 
+            <div class="pm-second-heading pm-nav-tabs">
                 <ul class="nav nav-tabs pm-nav-tabs-sm margin-t-sm">
                     <li id="liAssigned" runat="server" role="presentation"><asp:LinkButton ID="lbAssigned" runat="server" OnClick="lbAssigned_Click">Assigned</asp:LinkButton></li>
                     <li id="liFollowing" runat="server" role="presentation"><asp:LinkButton ID="lbFollowing" runat="server" OnClick="lbFollowing_Click"><i class="fa fa-star-o"></i></asp:LinkButton></li>
@@ -32,7 +31,7 @@
                                     <asp:LinkButton ID="lbTaskToggle" runat="server" CommandName="ToggleTask" CommandArgument='<%# Eval( "Id" ) %>'>
                                         <i id="iTaskState" runat="server" class="fa"></i>
                                     </asp:LinkButton>
-                                    <asp:Label ID="lTaskName" runat="server" CssClass="pm-group-item-name"><%# Eval( "Name" ) %></asp:Label>
+                                    <span class="pm-group-item-name"><asp:Literal ID="lTaskName" runat="server" /></span>
                                 </div>
                             </div>
 

@@ -68,16 +68,65 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <Rock:RockDropDownList ID="ddlTaskAssignedEmail" runat="server" Label="Task Assigned E-mail" Help="The system e-mail that will be sent to the person newly assigned to a task." />
-                        <Rock:RockDropDownList ID="ddlProjectAssignedEmail" runat="server" Label="Project Assigned E-mail" Help="The system e-mail that will be sent to the person newly assigned to a project." />
+                <Rock:PanelWidget ID="pwCommunication" runat="server" Title="Communication">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <Rock:RockDropDownList ID="ddlTaskAssignedCommunication" runat="server" Label="Task Assigned Communication" Help="The system communication that will be sent to the person newly assigned to a task." />
+                            <Rock:RockDropDownList ID="ddlProjectAssignedCommunication" runat="server" Label="Project Assigned Communication" Help="The system communication that will be sent to the person newly assigned to a project." />
+                        </div>
+                        <div class="col-md-6">
+                            <Rock:RockDropDownList ID="ddlProjectCommentCommunication" runat="server" Label="Project Comment Communication" Help="The system communication that will be sent to all persons watching the project when a comment is left." />
+                            <Rock:RockDropDownList ID="ddlProjectCompletedCommunication" runat="server" Label="Project Completed Communication" Help="The system communication that will be sent to the requester, project assignees and all persons watching the project." />
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <Rock:RockDropDownList ID="ddlProjectCommentEmail" runat="server" Label="Project Comment E-mail" Help="The system e-mail that will be sent to all persons watching the project when a comment is left." />
-                        <Rock:RockDropDownList ID="ddlProjectCompletedEmail" runat="server" Label="Project Completed E-mail" Help="The system e-mail that will be sent to the requester, project assignees and all persons watching the project." />
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <Rock:RockCheckBox ID="cbSaveCommunicationHistory" runat="server" Label="Save Communication History" Help="When enabled all notifications sent to the user will be saved to the user's communication history." />
+                        </div>
+                        <div class="col-md-6">
+                        </div>
                     </div>
-                </div>
+                </Rock:PanelWidget>
+
+                <Rock:PanelWidget ID="pwAdvanced" runat="server" Title="Advanced Settings">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <Rock:RockControlWrapper ID="rcAddProjectsToBoard" runat="server" Label="Add Projects to Board" Help="Automatically add new projects to these boards.">
+                                <div class="grid">
+                                    <Rock:Grid ID="gAddProjectsToBoard" runat="server" DisplayType="Light" ShowHeader="false" RowItemText="Board">
+                                        <Columns>
+                                            <Rock:RockBoundField DataField="Name" />
+                                            <Rock:DeleteField OnClick="gAddProjectsToBoard_Delete" />
+                                        </Columns>
+                                    </Rock:Grid>
+                                </div>
+                            </Rock:RockControlWrapper>
+                        </div>
+
+                        <div class="col-md-6">
+                            <Rock:RockControlWrapper ID="rcAddTasksToBoard" runat="server" Label="Add Tasks to Board" Help="Automatically add new tasks to these boards.">
+                                <div class="grid">
+                                    <Rock:Grid ID="gAddTasksToBoard" runat="server" DisplayType="Light" ShowHeader="false" RowItemText="Board">
+                                        <Columns>
+                                            <Rock:RockBoundField DataField="Name" />
+                                            <Rock:DeleteField OnClick="gAddTasksToBoard_Delete" />
+                                        </Columns>
+                                    </Rock:Grid>
+                                </div>
+                            </Rock:RockControlWrapper>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <Rock:CodeEditor ID="ceFormattedProjectNameTemplate" runat="server" Label="Formatted Project Name Template" Help="The lava template to use when generating the FormattedName for pojects." />
+                        </div>
+                        <div class="col-md-6">
+                            <Rock:CodeEditor ID="ceFormattedTaskNameTemplate" runat="server" Label="Formatted Task Name Template" Help="The lava template to use when generating the FormattedName for tasks." />
+                        </div>
+                    </div>
+                </Rock:PanelWidget>
 
                 <Rock:PanelWidget ID="wpProjectAttributes" runat="server" Title="Project Attributes">
                     <div class="grid">
@@ -116,6 +165,18 @@
         <Rock:ModalDialog ID="dlgChildProjectType" runat="server" OnSaveClick="dlgChildProjectType_SaveClick" OnCancelScript="clearActiveDialog();" ValidationGroup="ChildProjectTypes">
             <Content>
                 <Rock:RockDropDownList ID="ddlChildProjectType" runat="server" DataTextField="Name" DataValueField="Id" Label="Child Project Type" ValidationGroup="ChildProjectTypes" />
+            </Content>
+        </Rock:ModalDialog>
+
+        <Rock:ModalDialog ID="dlgAddProjectsToBoard" runat="server" OnSaveClick="dlgAddProjectsToBoard_SaveClick" OnCancelScript="clearActiveDialog();" ValidationGroup="AddProjectsToBoard">
+            <Content>
+                <Rock:RockDropDownList ID="ddlAddProjectsToBoard" runat="server" DataTextField="Name" DataValueField="Id" Label="Project Board" ValidationGroup="AddProjectsToBoard" />
+            </Content>
+        </Rock:ModalDialog>
+
+        <Rock:ModalDialog ID="dlgAddTasksToBoard" runat="server" OnSaveClick="dlgAddTasksToBoard_SaveClick" OnCancelScript="clearActiveDialog();" ValidationGroup="AddTasksToBoard">
+            <Content>
+                <Rock:RockDropDownList ID="ddlAddTasksToBoard" runat="server" DataTextField="Name" DataValueField="Id" Label="Task Board" ValidationGroup="AddTasksToBoard" />
             </Content>
         </Rock:ModalDialog>
 

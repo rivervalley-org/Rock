@@ -4,8 +4,13 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web.UI.WebControls;
 
+using com.blueboxmoon.ProjectManagement;
+using com.blueboxmoon.ProjectManagement.Cache;
+using com.blueboxmoon.ProjectManagement.Model;
+
+using Newtonsoft.Json;
+
 using Rock;
-using Rock.Attribute;
 using Rock.Constants;
 using Rock.Data;
 using Rock.Model;
@@ -14,11 +19,6 @@ using Rock.Web;
 using Rock.Web.Cache;
 using Rock.Web.UI;
 using Rock.Web.UI.Controls;
-
-using com.blueboxmoon.ProjectManagement;
-using com.blueboxmoon.ProjectManagement.Cache;
-using com.blueboxmoon.ProjectManagement.Model;
-using Newtonsoft.Json;
 
 namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
 {
@@ -45,6 +45,22 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
         /// </summary>
         private List<int> ChildProjectTypesList { get; set; }
 
+        /// <summary>
+        /// Gets or sets the state of the add to project board.
+        /// </summary>
+        /// <value>
+        /// The state of the add to project board.
+        /// </value>
+        private List<BoardTargetState> AddToProjectBoardState { get; set; }
+
+        /// <summary>
+        /// Gets or sets the state of the add to task board.
+        /// </summary>
+        /// <value>
+        /// The state of the add to task board.
+        /// </value>
+        private List<BoardTargetState> AddToTaskBoardState { get; set; }
+
         #endregion
 
         #region Base Method Overrides
@@ -59,6 +75,8 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
 
             ChildProjectTypesList = ViewState["ChildProjectTypeList"] as List<int> ?? new List<int>();
             ProjectFormAttributesState = ViewState["ProjectformAttributesState"] as List<string> ?? new List<string>();
+            AddToProjectBoardState = ViewState["AddToProjectBoardState"] as List<BoardTargetState> ?? new List<BoardTargetState>();
+            AddToTaskBoardState = ViewState["AddToTaskBoardState"] as List<BoardTargetState> ?? new List<BoardTargetState>();
 
             string json = ViewState["ProjectAttributesState"] as string;
             if ( string.IsNullOrWhiteSpace( json ) )
@@ -94,6 +112,20 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
             gChildProjectTypes.HideDeleteButtonForIsSystem = false;
             gChildProjectTypes.GridRebind += gChildProjectTypes_GridRebind;
             gChildProjectTypes.EmptyDataText = Server.HtmlEncode( None.Text );
+
+            gAddProjectsToBoard.DataKeyNames = new string[] { "Id" };
+            gAddProjectsToBoard.Actions.ShowAdd = true;
+            gAddProjectsToBoard.Actions.AddClick += gAddProjectsToBoard_Add;
+            gAddProjectsToBoard.HideDeleteButtonForIsSystem = false;
+            gAddProjectsToBoard.GridRebind += gAddProjectsToBoard_GridRebind;
+            gAddProjectsToBoard.EmptyDataText = Server.HtmlEncode( None.Text );
+
+            gAddTasksToBoard.DataKeyNames = new string[] { "Id" };
+            gAddTasksToBoard.Actions.ShowAdd = true;
+            gAddTasksToBoard.Actions.AddClick += gAddTasksToBoard_Add;
+            gAddTasksToBoard.HideDeleteButtonForIsSystem = false;
+            gAddTasksToBoard.GridRebind += gAddTasksToBoard_GridRebind;
+            gAddTasksToBoard.EmptyDataText = Server.HtmlEncode( None.Text );
 
             // this event gets fired after block settings are updated. it's nice to repaint the screen if these settings would alter it
             this.BlockUpdated += Block_BlockUpdated;
@@ -135,6 +167,8 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
             ViewState["ProjectAttributesState"] = JsonConvert.SerializeObject( ProjectAttributesState, Formatting.None, jsonSetting );
             ViewState["ProjectFormAttributesState"] = ProjectFormAttributesState;
             ViewState["ChildProjectTypeList"] = ChildProjectTypesList;
+            ViewState["AddToProjectBoardState"] = AddToProjectBoardState;
+            ViewState["AddToTaskBoardState"] = AddToTaskBoardState;
 
             return base.SaveViewState();
         }
@@ -208,15 +242,15 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
             if ( projectType == null )
             {
                 var binaryFileTypeService = new BinaryFileTypeService( rockContext );
-                var systemEmailService = new SystemEmailService( rockContext );
+                var systemCommunicationService = new SystemCommunicationService( rockContext );
 
                 projectType = new ProjectType { Id = 0 };
                 projectType.IsActive = true;
                 projectType.BinaryFileTypeId = binaryFileTypeService.Get( com.blueboxmoon.ProjectManagement.SystemGuid.BinaryFileType.PROJECT_ATTACHMENT.AsGuid() ).Id;
-                projectType.TaskAssignedEmailId = systemEmailService.Get( com.blueboxmoon.ProjectManagement.SystemGuid.SystemEmail.TASK_ASSIGNED.AsGuid() ).Id;
-                projectType.ProjectCommentEmailId = systemEmailService.Get( com.blueboxmoon.ProjectManagement.SystemGuid.SystemEmail.PROJECT_COMMENT.AsGuid() ).Id;
-                projectType.ProjectAssignedEmailId = systemEmailService.Get( com.blueboxmoon.ProjectManagement.SystemGuid.SystemEmail.PROJECT_ASSIGNED.AsGuid() ).Id;
-                projectType.ProjectCompletedEmailId = systemEmailService.Get( com.blueboxmoon.ProjectManagement.SystemGuid.SystemEmail.PROJECT_COMPLETED.AsGuid() ).Id;
+                projectType.TaskAssignedCommunicationId = systemCommunicationService.Get( com.blueboxmoon.ProjectManagement.SystemGuid.SystemCommunication.TASK_ASSIGNED.AsGuid() ).Id;
+                projectType.ProjectCommentCommunicationId = systemCommunicationService.Get( com.blueboxmoon.ProjectManagement.SystemGuid.SystemCommunication.PROJECT_COMMENT.AsGuid() ).Id;
+                projectType.ProjectAssignedCommunicationId = systemCommunicationService.Get( com.blueboxmoon.ProjectManagement.SystemGuid.SystemCommunication.PROJECT_ASSIGNED.AsGuid() ).Id;
+                projectType.ProjectCompletedCommunicationId = systemCommunicationService.Get( com.blueboxmoon.ProjectManagement.SystemGuid.SystemCommunication.PROJECT_COMPLETED.AsGuid() ).Id;
 
                 // hide the panel drawer that show created and last modified dates
                 pdAuditDetails.Visible = false;
@@ -238,10 +272,11 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
 
                 pAttachmentFileType.Enabled = false;
 
-                ddlTaskAssignedEmail.Enabled = false;
-                ddlProjectCommentEmail.Enabled = false;
-                ddlProjectAssignedEmail.Enabled = false;
-                ddlProjectCompletedEmail.Enabled = false;
+                ddlTaskAssignedCommunication.Enabled = false;
+                ddlProjectCommentCommunication.Enabled = false;
+                ddlProjectAssignedCommunication.Enabled = false;
+                ddlProjectCompletedCommunication.Enabled = false;
+                cbSaveCommunicationHistory.Enabled = false;
 
                 gProjectAttributes.IsDeleteEnabled = false;
                 gProjectAttributes.Actions.ShowAdd = false;
@@ -274,14 +309,57 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
             projectType.ChildProjectTypes.ToList().ForEach( a => ChildProjectTypesList.Add( a.Id ) );
             BindChildProjectTypesGrid();
 
+            var config = projectType.ProjectBoardConfigurationJson
+                .FromJsonOrNull<ProjectType.ProjectBoardConfiguration>();
+
+            if ( config != null )
+            {
+                var boardService = new ProjectBoardService( rockContext );
+                var projectBoardIds = config.Projects != null ? config.Projects.Select( t => t.BoardId ).ToList() : new List<int>();
+                var taskBoardIds = config.Tasks != null ? config.Tasks.Select( t => t.BoardId ).ToList() : new List<int>();
+
+                AddToProjectBoardState = boardService.Queryable()
+                    .Where( b => projectBoardIds.Contains( b.Id ) )
+                    .Select( b => new BoardTargetState
+                    {
+                        Id = b.Id,
+                        Name = b.Name
+                    } )
+                    .ToList();
+
+                AddToTaskBoardState = boardService.Queryable()
+                    .Where( b => taskBoardIds.Contains( b.Id ) )
+                    .Select( b => new BoardTargetState
+                    {
+                        Id = b.Id,
+                        Name = b.Name
+                    } )
+                    .ToList();
+            }
+            else
+            {
+                AddToProjectBoardState = new List<BoardTargetState>();
+                AddToTaskBoardState = new List<BoardTargetState>();
+            }
+
+            BindAddProjectsToBoardGrid();
+            BindAddTasksToBoardGrid();
+
             //
             // Setup the email drop down lists.
             //
             PopulateSystemEmailDropDowns( rockContext );
-            ddlTaskAssignedEmail.SetValue( projectType.TaskAssignedEmailId );
-            ddlProjectAssignedEmail.SetValue( projectType.ProjectAssignedEmailId );
-            ddlProjectCommentEmail.SetValue( projectType.ProjectCommentEmailId );
-            ddlProjectCompletedEmail.SetValue( projectType.ProjectCompletedEmailId );
+            ddlTaskAssignedCommunication.SetValue( projectType.TaskAssignedCommunicationId );
+            ddlProjectAssignedCommunication.SetValue( projectType.ProjectAssignedCommunicationId );
+            ddlProjectCommentCommunication.SetValue( projectType.ProjectCommentCommunicationId );
+            ddlProjectCompletedCommunication.SetValue( projectType.ProjectCompletedCommunicationId );
+            cbSaveCommunicationHistory.Checked = projectType.SaveCommunicationHistory;
+
+            //
+            // Setup the formatted name templates.
+            //
+            ceFormattedProjectNameTemplate.Text = projectType.FormattedProjectNameTemplate;
+            ceFormattedTaskNameTemplate.Text = projectType.FormattedTaskNameTemplate;
 
             //
             // Load attribute data
@@ -360,9 +438,22 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
                         dlgChildProjectType.Show();
                         break;
                     }
+
                 case "PROJECTATTRIBUTES":
                     {
                         dlgProjectAttributes.Show();
+                        break;
+                    }
+
+                case "ADDPROJECTSTOBOARD":
+                    {
+                        dlgAddProjectsToBoard.Show();
+                        break;
+                    }
+
+                case "ADDTASKSTOBOARD":
+                    {
+                        dlgAddTasksToBoard.Show();
                         break;
                     }
             }
@@ -380,9 +471,22 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
                         dlgChildProjectType.Hide();
                         break;
                     }
+
                 case "PROJECTATTRIBUTES":
                     {
                         dlgProjectAttributes.Hide();
+                        break;
+                    }
+
+                case "ADDPROJECTSTOBOARD":
+                    {
+                        dlgAddProjectsToBoard.Hide();
+                        break;
+                    }
+
+                case "ADDTASKSTOBOARD":
+                    {
+                        dlgAddTasksToBoard.Hide();
                         break;
                     }
             }
@@ -396,25 +500,25 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
         /// <param name="rockContext">The context to read the system e-mails from.</param>
         private void PopulateSystemEmailDropDowns( RockContext rockContext )
         {
-            var systemEmails = new SystemEmailService( rockContext ).Queryable()
+            var systemCommunications = new SystemCommunicationService( rockContext ).Queryable()
                 .Where( e => e.Category != null )
                 .OrderBy( e => e.Category.Name )
                 .ThenBy( e => e.Title );
 
-            ddlTaskAssignedEmail.Items.Clear();
-            ddlProjectAssignedEmail.Items.Clear();
-            ddlProjectCommentEmail.Items.Clear();
-            ddlProjectCompletedEmail.Items.Clear();
-            ddlTaskAssignedEmail.Items.Add( new ListItem() );
-            ddlProjectAssignedEmail.Items.Add( new ListItem() );
-            ddlProjectCommentEmail.Items.Add( new ListItem() );
-            ddlProjectCompletedEmail.Items.Add( new ListItem() );
-            systemEmails.ToList().ForEach( e =>
+            ddlTaskAssignedCommunication.Items.Clear();
+            ddlProjectAssignedCommunication.Items.Clear();
+            ddlProjectCommentCommunication.Items.Clear();
+            ddlProjectCompletedCommunication.Items.Clear();
+            ddlTaskAssignedCommunication.Items.Add( new ListItem() );
+            ddlProjectAssignedCommunication.Items.Add( new ListItem() );
+            ddlProjectCommentCommunication.Items.Add( new ListItem() );
+            ddlProjectCompletedCommunication.Items.Add( new ListItem() );
+            systemCommunications.ToList().ForEach( e =>
             {
-                ddlTaskAssignedEmail.Items.Add( new ListItem( string.Format( "{0} > {1}", e.Category.Name, e.Title ), e.Id.ToString() ) );
-                ddlProjectAssignedEmail.Items.Add( new ListItem( string.Format( "{0} > {1}", e.Category.Name, e.Title ), e.Id.ToString() ) );
-                ddlProjectCommentEmail.Items.Add( new ListItem( string.Format( "{0} > {1}", e.Category.Name, e.Title ), e.Id.ToString() ) );
-                ddlProjectCompletedEmail.Items.Add( new ListItem( string.Format( "{0} > {1}", e.Category.Name, e.Title ), e.Id.ToString() ) );
+                ddlTaskAssignedCommunication.Items.Add( new ListItem( string.Format( "{0} > {1}", e.Category.Name, e.Title ), e.Id.ToString() ) );
+                ddlProjectAssignedCommunication.Items.Add( new ListItem( string.Format( "{0} > {1}", e.Category.Name, e.Title ), e.Id.ToString() ) );
+                ddlProjectCommentCommunication.Items.Add( new ListItem( string.Format( "{0} > {1}", e.Category.Name, e.Title ), e.Id.ToString() ) );
+                ddlProjectCompletedCommunication.Items.Add( new ListItem( string.Format( "{0} > {1}", e.Category.Name, e.Title ), e.Id.ToString() ) );
             } );
         }
 
@@ -470,12 +574,34 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
                     }
                 }
 
-                projectType.TaskAssignedEmailId = ddlTaskAssignedEmail.SelectedValueAsId();
-                projectType.ProjectAssignedEmailId = ddlProjectAssignedEmail.SelectedValueAsId();
-                projectType.ProjectCommentEmailId = ddlProjectCommentEmail.SelectedValueAsId();
-                projectType.ProjectCompletedEmailId = ddlProjectCompletedEmail.SelectedValueAsId();
+                projectType.TaskAssignedCommunicationId = ddlTaskAssignedCommunication.SelectedValueAsId();
+                projectType.ProjectAssignedCommunicationId = ddlProjectAssignedCommunication.SelectedValueAsId();
+                projectType.ProjectCommentCommunicationId = ddlProjectCommentCommunication.SelectedValueAsId();
+                projectType.ProjectCompletedCommunicationId = ddlProjectCompletedCommunication.SelectedValueAsId();
+                projectType.SaveCommunicationHistory = cbSaveCommunicationHistory.Checked;
+
+                projectType.FormattedProjectNameTemplate = ceFormattedProjectNameTemplate.Text;
+                projectType.FormattedTaskNameTemplate = ceFormattedTaskNameTemplate.Text;
 
                 projectType.FormAttributes = string.Join( ",", ProjectFormAttributesState );
+
+                var config = projectType.ProjectBoardConfigurationJson.FromJsonOrNull<ProjectType.ProjectBoardConfiguration>() ?? new ProjectType.ProjectBoardConfiguration();
+
+                config.Projects = AddToProjectBoardState
+                    .Select( s => new ProjectType.ProjectBoardTarget
+                    {
+                        BoardId = s.Id
+                    } )
+                    .ToList();
+
+                config.Tasks = AddToTaskBoardState
+                    .Select( s => new ProjectType.ProjectBoardTarget
+                    {
+                        BoardId = s.Id
+                    } )
+                    .ToList();
+
+                projectType.ProjectBoardConfigurationJson = config.ToJson();
 
                 if ( !Page.IsValid || !projectType.IsValid )
                 {
@@ -495,7 +621,7 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
                     SaveAttributes( projectType.Id, entityTypeId, ProjectAttributesState, rockContext );
                 } );
 
-                ProjectTypeCache.Remove( projectType.Id );
+                ProjectTypeCache.Clear();
                 AttributeCache.RemoveEntityAttributes();
 
                 NavigateToParentPage();
@@ -604,6 +730,186 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
         {
             ChildProjectTypesList.Add( ddlChildProjectType.SelectedValueAsId() ?? 0 );
             BindChildProjectTypesGrid();
+            HideDialog();
+        }
+
+        #endregion
+
+        #region Add Projects to Board Grid
+
+        /// <summary>
+        /// Handles the Delete event of the control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RowEventArgs" /> instance containing the event data.</param>
+        protected void gAddProjectsToBoard_Delete( object sender, RowEventArgs e )
+        {
+            AddToProjectBoardState.RemoveAt( e.RowIndex );
+            BindAddProjectsToBoardGrid();
+        }
+
+        /// <summary>
+        /// Handles the GridRebind event of the control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="GridRebindEventArgs" /> instance containing the event data.</param>
+        private void gAddProjectsToBoard_GridRebind( object sender, GridRebindEventArgs e )
+        {
+            BindAddProjectsToBoardGrid();
+        }
+
+        /// <summary>
+        /// Handles the Add event of the control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
+        private void gAddProjectsToBoard_Add( object sender, EventArgs e )
+        {
+            var existingBoardIds = AddToProjectBoardState
+                .Select( s => s.Id )
+                .ToList();
+
+            // populate dropdown with all boards that aren't already listed
+            var boardList = new ProjectBoardService( new RockContext() )
+                .Queryable()
+                .Where( b => !existingBoardIds.Contains( b.Id ) )
+                .OrderBy( b => b.Name )
+                .ToList();
+
+            if ( boardList.Count == 0 )
+            {
+                modalAlert.Show( "There are not any other boards that can be added", ModalAlertType.Warning );
+            }
+            else
+            {
+                ddlAddProjectsToBoard.DataSource = boardList;
+                ddlAddProjectsToBoard.DataBind();
+                ShowDialog( "AddProjectsToBoard" );
+            }
+        }
+
+        /// <summary>
+        /// Binds the add projects to board grid.
+        /// </summary>
+        private void BindAddProjectsToBoardGrid()
+        {
+            gAddProjectsToBoard.DataSource = AddToProjectBoardState;
+            gAddProjectsToBoard.DataBind();
+        }
+
+        /// <summary>
+        /// Handles the SaveClick event of the dlgChildProjectType control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        protected void dlgAddProjectsToBoard_SaveClick( object sender, EventArgs e )
+        {
+            using ( var rockContext = new RockContext() )
+            {
+                var boardId = ddlAddProjectsToBoard.SelectedValueAsId() ?? 0;
+                var board = new ProjectBoardService( rockContext ).Get( boardId );
+
+                if ( board != null )
+                {
+                    AddToProjectBoardState.Add( new BoardTargetState
+                    {
+                        Id = board.Id,
+                        Name = board.Name
+                    } );
+                }
+            }
+
+            BindAddProjectsToBoardGrid();
+            HideDialog();
+        }
+
+        #endregion
+
+        #region Add Tasks to Board Grid
+
+        /// <summary>
+        /// Handles the Delete event of the control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RowEventArgs" /> instance containing the event data.</param>
+        protected void gAddTasksToBoard_Delete( object sender, RowEventArgs e )
+        {
+            AddToTaskBoardState.RemoveAt( e.RowIndex );
+            BindAddTasksToBoardGrid();
+        }
+
+        /// <summary>
+        /// Handles the GridRebind event of the control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="GridRebindEventArgs" /> instance containing the event data.</param>
+        private void gAddTasksToBoard_GridRebind( object sender, GridRebindEventArgs e )
+        {
+            BindAddTasksToBoardGrid();
+        }
+
+        /// <summary>
+        /// Handles the Add event of the control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
+        private void gAddTasksToBoard_Add( object sender, EventArgs e )
+        {
+            var existingBoardIds = AddToTaskBoardState
+                .Select( s => s.Id )
+                .ToList();
+
+            // populate dropdown with all boards that aren't already listed
+            var boardList = new ProjectBoardService( new RockContext() )
+                .Queryable()
+                .Where( b => !existingBoardIds.Contains( b.Id ) )
+                .OrderBy( b => b.Name )
+                .ToList();
+
+            if ( boardList.Count == 0 )
+            {
+                modalAlert.Show( "There are not any other boards that can be added", ModalAlertType.Warning );
+            }
+            else
+            {
+                ddlAddTasksToBoard.DataSource = boardList;
+                ddlAddTasksToBoard.DataBind();
+                ShowDialog( "AddTasksToBoard" );
+            }
+        }
+
+        /// <summary>
+        /// Binds the add projects to board grid.
+        /// </summary>
+        private void BindAddTasksToBoardGrid()
+        {
+            gAddTasksToBoard.DataSource = AddToTaskBoardState;
+            gAddTasksToBoard.DataBind();
+        }
+
+        /// <summary>
+        /// Handles the SaveClick event of the dlgChildProjectType control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        protected void dlgAddTasksToBoard_SaveClick( object sender, EventArgs e )
+        {
+            using ( var rockContext = new RockContext() )
+            {
+                var boardId = ddlAddTasksToBoard.SelectedValueAsId() ?? 0;
+                var board = new ProjectBoardService( rockContext ).Get( boardId );
+
+                if ( board != null )
+                {
+                    AddToTaskBoardState.Add( new BoardTargetState
+                    {
+                        Id = board.Id,
+                        Name = board.Name
+                    } );
+                }
+            }
+
+            BindAddTasksToBoardGrid();
             HideDialog();
         }
 
@@ -804,5 +1110,13 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
         }
 
         #endregion
+
+        [Serializable]
+        private class BoardTargetState
+        {
+            public int Id { get; set; }
+
+            public string Name { get; set; }
+        }
     }
 }

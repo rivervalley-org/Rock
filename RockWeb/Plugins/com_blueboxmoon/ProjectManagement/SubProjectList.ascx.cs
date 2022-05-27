@@ -23,9 +23,26 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
     [Category( "Blue Box Moon > Project Management" )]
     [Description( "Lists sub-projects for a project." )]
 
+    #region Block Attributes
+
+    [CodeEditorField( "Project Name Template",
+        description: "The lava template will be used for the project Name. Access the project via the 'Row' variable.",
+        mode: Rock.Web.UI.Controls.CodeEditorMode.Lava,
+        defaultValue: "{{ Row.FormattedName }} <small>({{ Row.InactiveTasks | Size }}/{{ Row.Tasks | Size }})</small>",
+        required: true,
+        key: AttributeKeys.ProjectNameTemplate,
+        order: 0 )]
+
+    #endregion
+
     [ContextAware( typeof( Project ) )]
     public partial class SubProjectList : RockBlock, ISecondaryBlock
     {
+        public static class AttributeKeys
+        {
+            public const string ProjectNameTemplate = "ProjectNameTemplate";
+        }
+
         #region Private Fields
 
         private bool _canAddEditDelete;
@@ -197,9 +214,9 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
             var lDescription = e.Item.FindControl( "lDescription" ) as Literal;
             var lAssignedTo = e.Item.FindControl( "lAssignedto" ) as Literal;
 
-            int taskCount = project.Tasks.Count;
-            int inactiveTaskCount = project.Tasks.Where( t => !t.IsActive ).Count();
-            lbProjectName.Text = string.Format( "{0} <small>({1}/{2})</small>", project.Name, inactiveTaskCount, taskCount );
+            var mergeFields = Rock.Lava.LavaHelper.GetCommonMergeFields( null, null, new Rock.Lava.CommonMergeFieldsOptions { GetLegacyGlobalMergeFields = false } );
+            mergeFields.Add( "Row", project );
+            lbProjectName.Text = GetAttributeValue( AttributeKeys.ProjectNameTemplate ).ResolveMergeFields( mergeFields );
 
             liProject.Attributes.Add( "data-key", project.Guid.ToString() );
 
@@ -227,11 +244,11 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
                 //
                 if ( project.DueDate.HasValue )
                 {
-                    if ( project.DueDate.Value.Date == DateTime.Now.Date )
+                    if ( project.DueDate.Value.Date == RockDateTime.Now.Date )
                     {
                         liProject.AddCssClass( "pm-warning" );
                     }
-                    else if ( project.DueDate.Value.Date < DateTime.Now.Date )
+                    else if ( project.DueDate.Value.Date < RockDateTime.Now.Date )
                     {
                         liProject.AddCssClass( "pm-danger" );
                     }

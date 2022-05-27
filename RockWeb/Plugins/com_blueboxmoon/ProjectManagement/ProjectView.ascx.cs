@@ -18,9 +18,55 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
     [DisplayName( "Project View" )]
     [Category( "Blue Box Moon > Project Management" )]
     [Description( "View projects grouped by their project type." )]
-    [LinkedPage( "Detail Page", "The page that allows the user to view the details of a project.", true, "", "", 0 )]
-    public partial class ProjectView : RockBlock
+
+    #region Block Attributes
+
+    [LinkedPage( "Detail Page",
+        description: "The page that allows the user to view the details of a project.",
+        required: true,
+        defaultValue: "",
+        key: AttributeKeys.DetailPage,
+        order: 0 )]
+
+    [CodeEditorField( "Project Name Template",
+        description: "If not blank, then this lava template will be used for the project Name column. Access the project via the 'Row' variable.",
+        mode: Rock.Web.UI.Controls.CodeEditorMode.Lava,
+        required: false,
+        key: AttributeKeys.ProjectNameTemplate,
+        order: 1)]
+
+    [CodeEditorField( "Task Name Template",
+        description: "If not blank, then this lava template will be used for the task Name column. Access the task via the 'Row' variable.",
+        mode: Rock.Web.UI.Controls.CodeEditorMode.Lava,
+        required: false,
+        key: AttributeKeys.TaskNameTemplate,
+        order: 2 )]
+
+    [BooleanField( "Show Task Completion Column",
+        description: "If enabled, then a checkbox column will be added to the Task grid that allows users to mark a task as completed.",
+        defaultValue: false,
+        key: AttributeKeys.ShowTaskCompletionColumn,
+        order: 3 )]
+
+    [CustomCheckboxListField( "Project Types",
+        Description = "The project types that will be included on the page. Leave blank to include all.",
+        ListSource = "SELECT [Guid] AS [Value], [Name] AS [Text] FROM [_com_blueboxmoon_ProjectManagement_ProjectType]",
+        Key = AttributeKeys.ProjectTypes,
+        Order = 4 )]
+
+    #endregion
+
+    public partial class ProjectView : RockBlock, ICustomGridColumns
     {
+        public static class AttributeKeys
+        {
+            public const string DetailPage = "DetailPage";
+            public const string ProjectNameTemplate = "ProjectNameTemplate";
+            public const string TaskNameTemplate = "TaskNameTemplate";
+            public const string ShowTaskCompletionColumn = "ShowTaskCompletionColumn";
+            public const string ProjectTypes = "ProjectTypes";
+        }
+
         #region Base Method Overrides
 
         /// <summary>
@@ -31,10 +77,13 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
         {
             base.OnInit( e );
 
+            this.BlockUpdated += ProjectView_BlockUpdated;
+
             Utility.AddCommonCss( RockPage );
 
             plProjects.AdditionalQueryFilter += plProjects_AdditionalQueryFilter;
             tlTasks.AdditionalQueryFilter += tlTasks_AdditionalQueryFilter;
+            tlTasks.ShowCompletionColumn = GetAttributeValue( AttributeKeys.ShowTaskCompletionColumn ).AsBoolean();
         }
 
         /// <summary>
@@ -47,10 +96,14 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
 
             if ( !IsPostBack )
             {
+                plProjects.ProjectNameTemplate = GetAttributeValue( AttributeKeys.ProjectNameTemplate );
+                tlTasks.TaskNameTemplate = GetAttributeValue( AttributeKeys.TaskNameTemplate );
+
                 lbProjectFilter.SelectedValue = GetBlockUserPreference( "ProjectFilter" );
                 lbTaskFilter.SelectedValue = GetBlockUserPreference( "TaskFilter" );
                 lbViewType.SelectedValue = string.IsNullOrWhiteSpace( GetBlockUserPreference( "ViewType" ) ) ? "Projects" : GetBlockUserPreference( "ViewType" );
                 cbHideEmptyTypes.Checked = GetBlockUserPreference( "HideEmptyProjectTypes" ).AsBoolean();
+                cbHideChildProjects.Checked = GetBlockUserPreference( "HideChildProjects" ).AsBoolean();
 
                 BindRepeater();
 
@@ -58,6 +111,10 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
             }
         }
 
+        /// <summary>
+        /// Raises the <see cref="E:System.Web.UI.Control.PreRender" /> event.
+        /// </summary>
+        /// <param name="e">An <see cref="T:System.EventArgs" /> object that contains the event data.</param>
         protected override void OnPreRender( EventArgs e )
         {
             base.OnPreRender( e );
@@ -70,6 +127,28 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
         #region Methods
 
         /// <summary>
+        /// Adds any custom grid columns to the Grid on the block
+        /// </summary>
+        public override void AddCustomGridColumns()
+        {
+            var additionalColumns = this.GetAttributeValue( CustomGridColumnsConfig.AttributeKey ).FromJsonOrNull<CustomGridColumnsConfig>();
+
+            if ( additionalColumns != null && additionalColumns.ColumnsConfig.Any() )
+            {
+                var pGrid = this.ControlsOfTypeRecursive<Rock.Web.UI.Controls.Grid>()
+                    .Where( g => g.ID == "gProject" )
+                    .FirstOrDefault();
+
+                var tGrid = this.ControlsOfTypeRecursive<Rock.Web.UI.Controls.Grid>()
+                    .Where( g => g.ID == "gTask" )
+                    .FirstOrDefault();
+
+                pGrid.CustomColumns = additionalColumns.ColumnsConfig.Where( c => !c.HeaderClass.Contains( "task" ) ).ToList();
+                tGrid.CustomColumns = additionalColumns.ColumnsConfig.Where( c => !c.HeaderClass.Contains( "project" ) ).ToList();
+            }
+        }
+
+        /// <summary>
         /// Binds the repeater to the list of project types.
         /// </summary>
         protected void BindRepeater()
@@ -80,6 +159,7 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
             var taskService = new TaskService( rockContext );
             var projectTypeId = GetBlockUserPreference( "ProjectTypeId" ).AsInteger();
             var now = RockDateTime.Now;
+            var projectTypeGuids = GetAttributeValue( AttributeKeys.ProjectTypes ).SplitDelimitedValues().AsGuidList();
 
             //
             // Get all the project types this user is authorized to view.
@@ -88,6 +168,7 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
                 .Where( t => t.IsActive )
                 .ToList()
                 .Where( t => t.IsAuthorized( Authorization.VIEW, CurrentPerson ) )
+                .Where( t => !projectTypeGuids.Any() || projectTypeGuids.Contains( t.Guid ) )
                 .ToList();
             var projectTypeIds = projectTypes.Select( t => t.Id ).ToList();
 
@@ -195,6 +276,11 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
                 }
             }
 
+            if ( GetBlockUserPreference( "HideChildProjects" ).AsBoolean() )
+            {
+                qry = qry.Where( p => !p.ParentProjectId.HasValue );
+            }
+
             return qry;
         }
 
@@ -266,6 +352,21 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
         #region Event Handlers
 
         /// <summary>
+        /// Handles the BlockUpdated event of the ProjectView control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        /// <exception cref="NotImplementedException"></exception>
+        private void ProjectView_BlockUpdated( object sender, EventArgs e )
+        {
+            plProjects.ProjectNameTemplate = GetAttributeValue( AttributeKeys.ProjectNameTemplate );
+            tlTasks.TaskNameTemplate = GetAttributeValue( AttributeKeys.TaskNameTemplate );
+
+            BindRepeater();
+            UpdateListSettings();
+        }
+
+        /// <summary>
         /// Handles the ItemCommand event of the rptProjectTypes control.
         /// </summary>
         /// <param name="source">The source of the event.</param>
@@ -317,7 +418,7 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
         /// <param name="e">The <see cref="Rock.Web.UI.Controls.RowEventArgs"/> instance containing the event data.</param>
         protected void plProjects_ProjectSelected( object sender, Rock.Web.UI.Controls.RowEventArgs e )
         {
-            NavigateToLinkedPage( "DetailPage", "Id", e.RowKeyId );
+            NavigateToLinkedPage( AttributeKeys.DetailPage, "Id", e.RowKeyId );
         }
 
         /// <summary>
@@ -335,7 +436,7 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
                 parameters.Add( "ProjectTypeId", projectTypeId.Value.ToString() );
             }
 
-            NavigateToLinkedPage( "DetailPage", parameters );
+            NavigateToLinkedPage( AttributeKeys.DetailPage, parameters );
         }
 
         /// <summary>
@@ -369,7 +470,7 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
 
             if ( projectId.HasValue )
             {
-                NavigateToLinkedPage( "DetailPage", "Id", projectId.Value );
+                NavigateToLinkedPage( AttributeKeys.DetailPage, "Id", projectId.Value );
             }
         }
 
@@ -404,6 +505,20 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
         protected void cbHideEmptyTypes_CheckedChanged( object sender, EventArgs e )
         {
             SetBlockUserPreference( "HideEmptyProjectTypes", cbHideEmptyTypes.Checked.ToString() );
+
+            BindRepeater();
+
+            UpdateListSettings();
+        }
+
+        /// <summary>
+        /// Handles the CheckedChanged event of the cbHideChildProjects control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        protected void cbHideChildProjects_CheckedChanged( object sender, EventArgs e )
+        {
+            SetBlockUserPreference( "HideChildProjects", cbHideChildProjects.Checked.ToString() );
 
             BindRepeater();
 

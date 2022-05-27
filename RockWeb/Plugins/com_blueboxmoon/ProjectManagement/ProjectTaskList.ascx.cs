@@ -5,18 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Web.UI.WebControls;
 
+using com.blueboxmoon.ProjectManagement;
+using com.blueboxmoon.ProjectManagement.Model;
+
 using Rock;
-using Rock.Attribute;
 using Rock.Data;
 using Rock.Model;
 using Rock.Security;
 using Rock.Utility;
-using Rock.Web;
 using Rock.Web.Cache;
 using Rock.Web.UI;
-
-using com.blueboxmoon.ProjectManagement;
-using com.blueboxmoon.ProjectManagement.Model;
 
 namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
 {
@@ -101,26 +99,6 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
                 else
                 {
                     pnlOptions.RemoveCssClass( "in" );
-                }
-
-                //
-                // Process custom postback events.
-                //
-                string postbackArgs = Request.Params["__EVENTARGUMENT"];
-                if ( !string.IsNullOrWhiteSpace( postbackArgs ) )
-                {
-                    string[] nameValue = postbackArgs.Split( new char[] { ':' } );
-                    if ( nameValue.Length == 2 )
-                    {
-                        string[] values = nameValue[1].Split( new char[] { ';' } );
-                        if ( values.Length == 2 )
-                        {
-                            Guid guid = values[0].AsGuid();
-                            int newIndex = values[1].AsInteger();
-
-                            SortTasks( guid, newIndex );
-                        }
-                    }
                 }
             }
         }
@@ -694,11 +672,11 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
                 //
                 if ( task.DueDate.HasValue )
                 {
-                    if ( task.DueDate.Value.Date == DateTime.Now.Date )
+                    if ( task.DueDate.Value.Date == RockDateTime.Now.Date )
                     {
                         liTask.AddCssClass( "pm-warning" );
                     }
-                    else if ( task.DueDate.Value.Date < DateTime.Now.Date )
+                    else if ( task.DueDate.Value.Date < RockDateTime.Now.Date )
                     {
                         liTask.AddCssClass( "pm-danger" );
                     }
@@ -1049,6 +1027,18 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
             sbRecurringSchedule.Visible = cbRecurring.Checked;
             nbRecurDaysBefore.Visible = cbRecurring.Checked;
             UpdateScheduleHelpText();
+        }
+
+        protected void lbReorder_Click( object sender, EventArgs e )
+        {
+            string[] values = hfReorderOptions.Value.Split( new char[] { ';' } );
+            if ( values.Length == 2 )
+            {
+                Guid guid = values[0].AsGuid();
+                int newIndex = values[1].AsInteger();
+
+                SortTasks( guid, newIndex );
+            }
         }
     }
 }

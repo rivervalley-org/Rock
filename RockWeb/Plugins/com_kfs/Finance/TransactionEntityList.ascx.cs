@@ -85,21 +85,21 @@ namespace RockWeb.Plugins.com_kfs.Finance
                 var typeName = detail.EntityType.FriendlyName;
                 var name = GetEntityName( detail.EntityTypeId, detail.EntityId, rockContext );
 
-                History.EvaluateChange( changes, "Entity Type Id", detail.EntityTypeId, null );
-                History.EvaluateChange( changes, "Entity Id", detail.EntityId, null );
+                //History.EvaluateChange( changes, "Entity Type Id", detail.EntityTypeId, null );
+                //History.EvaluateChange( changes, "Entity Id", detail.EntityId, null );
 
                 detail.EntityTypeId = null;
                 detail.EntityId = null;
 
                 changes.Add( string.Format( "Removed transaction detail association to {0} {1}.", typeName, name ) );
 
-                HistoryService.SaveChanges(
-                    rockContext,
-                    typeof( FinancialTransaction ),
-                    Rock.SystemGuid.Category.HISTORY_FINANCIAL_TRANSACTION.AsGuid(),
-                    detail.TransactionId,
-                    changes
-                );
+                //HistoryService.SaveChanges(
+                //    rockContext,
+                //    typeof( FinancialTransaction ),
+                //    Rock.SystemGuid.Category.HISTORY_FINANCIAL_TRANSACTION.AsGuid(),
+                //    detail.TransactionId,
+                //    changes
+                //);
 
                 rockContext.SaveChanges();
             }

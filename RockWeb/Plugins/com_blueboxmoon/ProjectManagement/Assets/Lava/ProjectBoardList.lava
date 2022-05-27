@@ -1,0 +1,23 @@
+﻿{% if Boards == empty %}
+  <div class="alert alert-warning">No project boards have been configured.</div>
+{% else %}
+<div class="panel panel-default list-as-blocks clearfix">
+  <div class="panel-body">
+    <ul>
+      {% for board in Boards %}
+      <li>
+        <a href="{{ BoardPageUrl }}?BoardId={{ board.Id }}">
+          {% if board.IconCssClass != '' %}
+          <i class="{{ board.IconCssClass }}"></i>
+          {% else %}
+          <i class="fa fa-columns"></i>
+          {% endif %}
+
+          <h3>{{ board.Name }}</h3>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endif %}

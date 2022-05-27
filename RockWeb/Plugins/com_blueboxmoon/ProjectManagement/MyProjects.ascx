@@ -5,14 +5,13 @@
         <asp:HiddenField ID="hfDisplayCount" runat="server" Value="0" />
 
         <asp:Panel ID="pnlProjectList" runat="server" CssClass="panel panel-block">
-            <div class="panel-heading pm-nav-tabs">
-                <div class="clearfix">
-                    <h1 class="panel-title pull-left">
-                        <i class="fa fa-tasks"></i>
-                        <asp:Label ID="lTitle" runat="server">My Projects</asp:Label>
-                    </h1>
-                </div>
+            <div class="panel-heading">
+                <h1 class="panel-title">
+                    <i class="fa fa-tasks"></i> My Projects
+                </h1>
+            </div>
 
+            <div class="pm-second-heading pm-nav-tabs">
                 <ul class="nav nav-tabs pm-nav-tabs-sm margin-t-sm">
                     <li id="liAssigned" runat="server" role="presentation"><asp:LinkButton ID="lbAssigned" runat="server" OnClick="lbAssigned_Click">Assigned</asp:LinkButton></li>
                     <li id="liRequested" runat="server" role="presentation"><asp:LinkButton ID="lbRequested" runat="server" OnClick="lbRequested_Click">Requested</asp:LinkButton></li>

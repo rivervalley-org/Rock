@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Web.UI.WebControls;
+
+using com.shepherdchurch.SurveySystem.Model;
 
 using Newtonsoft.Json;
 
@@ -13,12 +14,9 @@ using Rock.Constants;
 using Rock.Data;
 using Rock.Model;
 using Rock.Security;
-using Rock.Web;
 using Rock.Web.Cache;
 using Rock.Web.UI;
 using Rock.Web.UI.Controls;
-
-using com.shepherdchurch.SurveySystem.Model;
 
 namespace RockWeb.Plugins.com_shepherdchurch.SurveySystem
 {
@@ -27,7 +25,8 @@ namespace RockWeb.Plugins.com_shepherdchurch.SurveySystem
     [Description( "Lists survey results in the system." )]
 
     [LinkedPage( "Detail Page", "The page that allows the user to view the details of a result.", false, "", "", 0 )]
-    public partial class SurveyResultList : RockBlock
+    [LinkedPage( "Chart Page", "The page that allows the user to view the results with charts.", false, "", "", 1 )]
+    public partial class SurveyResultList : RockBlock, ICustomGridColumns
     {
         #region Private Fields
 
@@ -105,6 +104,12 @@ namespace RockWeb.Plugins.com_shepherdchurch.SurveySystem
                 gList.Columns[2].Visible = survey.PassingGrade.HasValue;
                 gList.Columns[3].Visible = survey.PassingGrade.HasValue;
 
+                aChartLink.HRef = LinkedPageUrl( "ChartPage", new Dictionary<string, string>
+                {
+                    { "SurveyId", PageParameter( "SurveyId" ) }
+                } );
+                aChartLink.Visible = aChartLink.HRef.IsNotNullOrWhiteSpace();
+
                 SetFilter();
                 BindGrid();
             }
@@ -176,16 +181,27 @@ namespace RockWeb.Plugins.com_shepherdchurch.SurveySystem
                     if ( filterControl != null )
                     {
                         var filterValues = attribute.FieldType.Field.GetFilterValues( filterControl, attribute.QualifierValues, Rock.Reporting.FilterMode.SimpleFilter );
+                        var filterIsDefault = attribute.FieldType.Field.IsEqualToValue( filterValues, attribute.DefaultValue );
                         var expression = attribute.FieldType.Field.AttributeFilterExpression( attribute.QualifierValues, filterValues, parameterExpression );
-                        if ( expression != null )
+
+                        if ( expression != null && expression.GetType().Name != "NoAttributeFilterExpression" )
                         {
                             var attributeValues = attributeValueService
                                 .Queryable()
                                 .Where( v => v.Attribute.Id == attribute.Id );
 
-                            attributeValues = attributeValues.Where( parameterExpression, expression, null );
+                            var filteredAttributeValues = attributeValues.Where( parameterExpression, expression, null );
 
-                            qry = qry.Where( w => attributeValues.Select( v => v.EntityId ).Contains( w.Id ) );
+                            if ( filterIsDefault )
+                            {
+                                qry = qry.Where( w =>
+                                    !attributeValues.Any( v => v.EntityId == w.Id ) ||
+                                    filteredAttributeValues.Select( v => v.EntityId ).Contains( w.Id ) );
+                            }
+                            else
+                            {
+                                qry = qry.Where( w => filteredAttributeValues.Select( v => v.EntityId ).Contains( w.Id ) );
+                            }
                         }
                     }
                 }
@@ -207,7 +223,7 @@ namespace RockWeb.Plugins.com_shepherdchurch.SurveySystem
                 gList.DataSource = qryList.OrderByDescending( r => r.Id ).ToList();
             }
 
-            gList.EntityTypeId = EntityTypeCache.Read<SurveyResult>().Id;
+            gList.EntityTypeId = EntityTypeCache.Get<SurveyResult>().Id;
             gList.DataBind();
         }
 
@@ -240,9 +256,11 @@ namespace RockWeb.Plugins.com_shepherdchurch.SurveySystem
                             }
                             else
                             {
-                                var wrapper = new RockControlWrapper();
-                                wrapper.ID = control.ID + "_wrapper";
-                                wrapper.Label = attribute.Name;
+                                var wrapper = new RockControlWrapper
+                                {
+                                    ID = control.ID + "_wrapper",
+                                    Label = attribute.Name
+                                };
                                 wrapper.Controls.Add( control );
                                 phAttributeFilters.Controls.Add( wrapper );
                             }
@@ -264,14 +282,16 @@ namespace RockWeb.Plugins.com_shepherdchurch.SurveySystem
                     bool columnExists = gList.Columns.OfType<AttributeField>().FirstOrDefault( a => a.DataField.Equals( dataFieldExpression ) ) != null;
                     if ( !columnExists )
                     {
-                        AttributeField boundField = new AttributeField();
-                        boundField.DataField = dataFieldExpression;
-                        boundField.AttributeId = attribute.Id;
-                        boundField.HeaderText = attribute.Name;
-                        boundField.Condensed = true;
-                        boundField.Visible = attribute.IsGridColumn;
+                        AttributeField boundField = new AttributeField
+                        {
+                            DataField = dataFieldExpression,
+                            AttributeId = attribute.Id,
+                            HeaderText = attribute.Name,
+                            Condensed = true,
+                            Visible = attribute.IsGridColumn
+                        };
 
-                        var attributeCache = Rock.Web.Cache.AttributeCache.Read( attribute.Id );
+                        var attributeCache = Rock.Web.Cache.AttributeCache.Get( attribute.Id );
                         if ( attributeCache != null )
                         {
                             boundField.ItemStyle.HorizontalAlign = attributeCache.FieldType.Field.AlignValue;
@@ -323,14 +343,13 @@ namespace RockWeb.Plugins.com_shepherdchurch.SurveySystem
             foreach ( var attributeModel in new AttributeService( new RockContext() ).Queryable()
                 .Where( a =>
                     a.EntityTypeId == entityTypeId &&
-                    //a.IsGridColumn &&
                     a.EntityTypeQualifierColumn.Equals( "SurveyId", StringComparison.OrdinalIgnoreCase ) &&
                     a.EntityTypeQualifierValue.Equals( typeQualifier ) )
                 .OrderByDescending( a => a.EntityTypeQualifierColumn )
                 .ThenBy( a => a.Order )
                 .ThenBy( a => a.Name ) )
             {
-                AvailableAttributes.Add( AttributeCache.Read( attributeModel ) );
+                AvailableAttributes.Add( AttributeCache.Get( attributeModel ) );
             }
         }
 

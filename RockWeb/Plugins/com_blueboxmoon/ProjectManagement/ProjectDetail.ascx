@@ -31,19 +31,13 @@
                 <fieldset>
                     <div class="row">
                         <div class="col-md-6">
-                            <asp:PlaceHolder ID="phParentProject" runat="server">
-                                <dl>
-                                    <dt>Parent Project</dt>
-                                    <dd><asp:LinkButton ID="lbParentProject" runat="server" OnClick="lbParentProject_Click" /></dd>
-                                </dl>
-                            </asp:PlaceHolder>
+                            <dl>
+                                <dt>Parent Project</dt>
+                                <dd><asp:LinkButton ID="lbParentProject" runat="server" OnClick="lbParentProject_Click" /></dd>
 
-                            <asp:PlaceHolder ID="phCategory" runat="server">
-                                <dl>
-                                    <dt>Category</dt>
-                                    <dd><asp:Literal ID="lCategory" runat="server" /></dd>
-                                </dl>
-                            </asp:PlaceHolder>
+                                <dt>Category</dt>
+                                <dd><asp:Literal ID="lCategory" runat="server" /></dd>
+                            </dl>
                         </div>
 
                         <div class="col-md-3">
@@ -141,6 +135,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <Rock:RockDropDownList ID="ddlProjectType" runat="server" Label="Project Type" Required="true" OnSelectedIndexChanged="ddlProjectType_SelectedIndexChanged" AutoPostBack="true" CausesValidation="false" />
+                        <PM:ProjectPicker ID="ppParentProject" runat="server" Label="Parent Project" OnSelectItem="ppParentProject_SelectItem" />
                     </div>
 
                     <div class="col-md-6">

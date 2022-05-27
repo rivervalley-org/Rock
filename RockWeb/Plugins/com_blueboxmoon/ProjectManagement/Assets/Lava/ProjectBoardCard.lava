@@ -1,0 +1,69 @@
+﻿{%- assign maxAvatars = 4 -%}
+{%- if Project != null -%}
+<div class="card-content card-{{ Project.State | Downcase }}">
+    <div class="card-title">
+        <a href="/Project/{{ Project.Id }}" class="card-link">
+            {%- if Project.State == "Active" -%}
+                <i class="fa fa-circle-o"></i>
+            {%- elseif Project.State == "Cancelled" -%}
+                <i class="fa fa-times-circle"></i>
+            {%- else -%}
+                <i class="fa fa-check-circle"></i>
+            {%- endif -%}
+            {{ Project.Name | Escape }}
+        </a>
+    </div>
+
+    <div class="action-line">
+        {%- if Project.Assignees != empty -%}
+            <div class="avatar-list">
+                {%- assign avatarCount = Project.Assignees | Size -%}
+                {%- if avatarCount > maxAvatars -%}
+                    {%- assign moreCount = avatarCount | Minus:maxAvatars -%}
+                    <span class="avatar avatar-more">+{{ moreCount }}</span>
+                {%- endif -%}
+
+                {%- for assignee in Project.Assignees -%}
+                    {%- if forloop.index > maxAvatars -%}{% break %}{%- endif -%}
+                    <a href="/Person/{{ assignee.PersonId }}" title="{{ assignee.Person.FullName | Escape }}" class="avatar avatar-photo" style="background-image: url('{{ assignee.Person.PhotoUrl | Replace:'~','' }}');" data-toggle="tooltip"></a>
+                {% endfor %}
+            </div>
+        {%- endif -%}
+
+        {%- if Project.DueDate != null -%}
+            <div class="due-date">
+                <i class="fa fa-calendar"></i> {{ Project.DueDate | Date:'sd' }}
+            </div>
+        {%- endif -%}
+    </div>
+</div>
+{%- else -%}
+<div class="card-content card-{{ Task.State | Downcase }}">
+    <div class="card-title">
+        <a href="/Project/{{ Task.ProjectId }}" class="card-link">
+            {%- if Task.State == "Active" -%}
+                <i class="fa fa-circle-o"></i>
+            {%- elseif Task.State == "Cancelled" -%}
+                <i class="fa fa-times-circle"></i>
+            {%- else -%}
+                <i class="fa fa-check-circle"></i>
+            {%- endif -%}
+            {{ Task.Name | Escape }}
+        </a>
+    </div>
+
+    <div class="action-line">
+        {%- if Task.AssignedToPersonAlias != null -%}
+            <div class="avatar-list">
+                <a href="/Person/{{ Task.AssignedToPersonAlias.PersonId }}" title="{{ Task.AssignedToPersonAlias.Person.FullName | Escape }}" class="avatar avatar-photo" style="background-image: url('{{ Task.AssignedToPersonAlias.Person.PhotoUrl | Replace:'~','' }}');" data-toggle="tooltip"></a>
+            </div>
+        {%- endif -%}
+
+        {%- if Task.DueDate != null -%}
+            <div class="due-date">
+                <i class="fa fa-calendar"></i> {{ Task.DueDate | Date:'sd' }}
+            </div>
+        {%- endif -%}
+    </div>
+</div>
+{%- endif -%}

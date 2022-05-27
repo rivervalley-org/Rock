@@ -4,8 +4,11 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web.UI.WebControls;
 
+using com.blueboxmoon.ProjectManagement;
+using com.blueboxmoon.ProjectManagement.Cache;
+using com.blueboxmoon.ProjectManagement.Model;
+
 using Rock;
-using Rock.Attribute;
 using Rock.Constants;
 using Rock.Data;
 using Rock.Model;
@@ -14,12 +17,6 @@ using Rock.Web;
 using Rock.Web.Cache;
 using Rock.Web.UI;
 using Rock.Web.UI.Controls;
-
-using com.blueboxmoon.ProjectManagement;
-using com.blueboxmoon.ProjectManagement.Cache;
-using com.blueboxmoon.ProjectManagement.Model;
-using com.blueboxmoon.ProjectManagement.UI;
-using Rock.Utility;
 
 namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
 {
@@ -131,34 +128,7 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
                     }
                 }
 
-                ddlProjectType.Items.Clear();
-                ddlProjectType.Items.Add( new ListItem() );
-
-                //
-                // Populate the list project types that are valid for this project.
-                //
-                if ( parentProjectId.HasValue )
-                {
-                    new ProjectService( new RockContext() ).Queryable( "ProjectType" )
-                        .Where( p => p.Id == parentProjectId.Value )
-                        .SelectMany( p => p.ProjectType.ChildProjectTypes )
-                        .Where( p => p.IsActive )
-                        .OrderBy( p => p.Name )
-                        .ToList()
-                        .Where( p => p.IsAuthorized( Authorization.EDIT, CurrentPerson ) )
-                        .ToList()
-                        .ForEach( p => ddlProjectType.Items.Add( new ListItem( p.Name, p.Id.ToString() ) ) );
-                }
-                else
-                {
-                    new ProjectTypeService( new RockContext() ).Queryable()
-                        .Where( p => p.IsActive )
-                        .OrderBy( p => p.Name )
-                        .ToList()
-                        .Where( p => p.IsAuthorized( Authorization.EDIT, CurrentPerson ) )
-                        .ToList()
-                        .ForEach( p => ddlProjectType.Items.Add( new ListItem( p.Name, p.Id.ToString() ) ) );
-                }
+                UpdateProjectTypesForParent( parentProjectId );
 
                 if ( projectTypeId.HasValue )
                 {
@@ -166,12 +136,8 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
                     ddlProjectType.Enabled = false;
                 }
 
-                if ( categoryId.HasValue )
-                {
-                    cpCategory.SetValue( categoryId );
-                }
-
-                cpCategory.Enabled = !categoryId.HasValue && !parentProjectId.HasValue;
+                cpCategory.SetValue( categoryId );
+                cpCategory.Enabled = !categoryId.HasValue;
 
                 if ( PageParameter( "Id" ).AsInteger() == 0 )
                 {
@@ -254,9 +220,39 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
         public override List<BreadCrumb> GetBreadCrumbs( PageReference pageReference )
         {
             var breadCrumbs = new List<BreadCrumb>();
-
+            var rockContext = new RockContext();
             int projectId = PageParameter( pageReference, "Id" ).AsInteger();
-            var project = new ProjectService( new RockContext() ).Get( projectId );
+            var project = new ProjectService( rockContext ).Get( projectId );
+            Project parentProject = null;
+            var projectIds = new List<int>();
+
+            if ( project != null )
+            {
+                projectIds.Add( project.Id );
+                parentProject = project.ParentProject;
+            }
+            else if ( PageParameter( pageReference, "ParentProjectId" ).AsIntegerOrNull().HasValue )
+            {
+                parentProject = new ProjectService( rockContext ).Get( PageParameter( pageReference, "ParentProjectId" ).AsInteger() );
+            }
+
+            while ( parentProject != null )
+            {
+                if ( projectIds.Contains( parentProject.Id ) )
+                {
+                    throw new Exception( string.Format( "Detected recursive loop in project parents: {0}", string.Join( " > ", projectIds ) ) );
+                }
+
+                projectIds.Add( parentProject.Id );
+
+                var pageRef = new PageReference( pageReference.PageId, pageReference.RouteId );
+                pageRef.Parameters.Add( "Id", parentProject.Id.ToString() );
+
+                breadCrumbs.Insert( 0, new BreadCrumb( parentProject.Name, pageRef ) );
+
+                parentProject = parentProject.ParentProject;
+            }
+
             if ( project != null )
             {
                 breadCrumbs.Add( new BreadCrumb( project.Name, pageReference ) );
@@ -324,6 +320,51 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
         }
 
         /// <summary>
+        /// Updates the project types for parent.
+        /// </summary>
+        /// <param name="parentProjectId">The parent project identifier.</param>
+        private void UpdateProjectTypesForParent( int? parentProjectId )
+        {
+            var currentSelection = ddlProjectType.SelectedValue;
+
+            ddlProjectType.Items.Clear();
+            ddlProjectType.Items.Add( new ListItem() );
+
+            //
+            // Populate the list project types that are valid for this project.
+            //
+            if ( parentProjectId.HasValue )
+            {
+                new ProjectService( new RockContext() ).Queryable( "ProjectType" )
+                    .Where( p => p.Id == parentProjectId.Value )
+                    .SelectMany( p => p.ProjectType.ChildProjectTypes )
+                    .Where( p => p.IsActive )
+                    .OrderBy( p => p.Name )
+                    .ToList()
+                    .Where( p => p.IsAuthorized( Authorization.EDIT, CurrentPerson ) )
+                    .ToList()
+                    .ForEach( p => ddlProjectType.Items.Add( new ListItem( p.Name, p.Id.ToString() ) ) );
+            }
+            else
+            {
+                new ProjectTypeService( new RockContext() ).Queryable()
+                    .Where( p => p.IsActive )
+                    .OrderBy( p => p.Name )
+                    .ToList()
+                    .Where( p => p.IsAuthorized( Authorization.EDIT, CurrentPerson ) )
+                    .ToList()
+                    .ForEach( p => ddlProjectType.Items.Add( new ListItem( p.Name, p.Id.ToString() ) ) );
+            }
+
+            ddlProjectType.SetValue( currentSelection );
+
+            if ( currentSelection != ddlProjectType.SelectedValue )
+            {
+                ddlProjectType_SelectedIndexChanged( ddlProjectType, EventArgs.Empty );
+            }
+        }
+
+        /// <summary>
         /// Shows the detail.
         /// </summary>
         /// <param name="projectId">The project identifier.</param>
@@ -366,6 +407,25 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
             lDueDate.Text = project.DueDate.HasValue ? project.DueDate.Value.ToShortDateString() : string.Empty;
 
             //
+            // Update the state tooltip text.
+            //
+            if ( !project.IsActive )
+            {
+                if ( project.CancelledDateTime.HasValue )
+                {
+                    hlState.ToolTip = string.Format( "Cancelled on {0}", project.CancelledDateTime.Value.ToShortDateString() );
+                }
+                else if ( project.CompletedDateTime.HasValue )
+                {
+                    hlState.ToolTip = string.Format( "Completed on {0}", project.CompletedDateTime.Value.ToShortDateString() );
+                }
+            }
+            else
+            {
+                hlState.ToolTip = string.Empty;
+            }
+
+            //
             // Set the "blocked by" icon.
             //
             sBlocked.Visible = project.IsBlocked;
@@ -385,13 +445,11 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
             // Show a link to the parent project if there is one.
             //
             lbParentProject.Text = project.ParentProject != null ? project.ParentProject.Name : string.Empty;
-            phParentProject.Visible = project.ParentProject != null;
 
             //
             // Show the category if we have one.
             //
             lCategory.Text = project.Category != null ? project.Category.Name : string.Empty;
-            phCategory.Visible = project.ParentProject == null;
 
             //
             // Display a list of all people assigned to the project.
@@ -479,7 +537,7 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
                 project = new Project { Id = 0 };
                 project.ProjectTypeId = ddlProjectType.SelectedValue.AsInteger();
                 project.ProjectType = new ProjectTypeService( rockContext ).Get( project.ProjectTypeId );
-                project.RequestDate = DateTime.Now;
+                project.RequestDate = RockDateTime.Now;
 
                 if ( originalTask != null )
                 {
@@ -489,15 +547,14 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
                     project.RequestDate = originalTask.CreatedDateTime ?? project.RequestDate;
                 }
 
-                if ( parentProject == null )
-                {
-                    project.CategoryId = cpCategory.SelectedValueAsId();
-                }
+                project.CategoryId = cpCategory.SelectedValueAsId();
 
                 if ( parentProject != null )
                 {
+                    project.ParentProject = parentProject;
                     project.ParentProjectId = parentProject.Id;
                     project.RequestedByPersonAlias = parentProject.RequestedByPersonAlias;
+                    ppParentProject.Enabled = false;
                 }
                 else if ( CurrentPerson != null )
                 {
@@ -550,23 +607,16 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
             // is only one valid project type then pre-select that one project type.
             //
             ddlProjectType.SetValue( project.ProjectTypeId );
-            if ( string.IsNullOrWhiteSpace( "ProjectTypeId" ) && ddlProjectType.SelectedIndex == 0 && ddlProjectType.Items.Count == 2 )
+            if ( ddlProjectType.SelectedIndex == 0 && ddlProjectType.Items.Count == 2 )
             {
                 ddlProjectType.SelectedIndex = 1;
                 project.ProjectTypeId = ddlProjectType.SelectedValue.AsInteger();
             }
 
-            if ( project != null && project.ParentProjectId.HasValue )
-            {
-                cpCategory.SetValue( null );
-                cpCategory.Visible = false;
-            }
-            else
-            {
-                cpCategory.SetValue( project.CategoryId );
-                cpCategory.Visible = true;
-                cpCategory.Required = project.ProjectType != null ? project.ProjectType.IsCategoryRequired : false;
-            }
+            ppParentProject.SetValue( project.ParentProject );
+
+            cpCategory.SetValue( project.CategoryId );
+            cpCategory.Required = project.ProjectType != null ? project.ProjectType.IsCategoryRequired : false;
 
             //
             // Setup the list of assigned to people.
@@ -664,6 +714,7 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
                 bool stateChanged = false;
 
                 project.ProjectTypeId = ddlProjectType.SelectedValue.AsInteger();
+                project.ParentProjectId = ppParentProject.SelectedValue;
                 project.Name = tbName.Text;
                 project.Description = meDescription.Text;
                 project.RequestedByPersonAliasId = ppRequestedBy.PersonAliasId;
@@ -672,10 +723,11 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
                 project.ModifiedByPersonAliasId = CurrentPersonAliasId;
                 project.ModifiedDateTime = RockDateTime.Now;
 
-                project.CategoryId = project.ParentProjectId.HasValue ? null : cpCategory.SelectedValueAsId();
+                project.CategoryId = cpCategory.SelectedValueAsId();
 
                 if ( ddlState.SelectedValue == "Completed" )
                 {
+                    project.CancelledDateTime = null;
                     if ( !project.CompletedDateTime.HasValue )
                     {
                         var noteService = new NoteService( rockContext );
@@ -860,9 +912,10 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
             {
                 if ( !string.IsNullOrWhiteSpace( PageParameter( "ParentProjectId" ) ) )
                 {
-                    var queryParams = new Dictionary<string, string>();
-
-                    queryParams.Add( "Id", PageParameter( "ParentProjectId" ) );
+                    var queryParams = new Dictionary<string, string>
+                    {
+                        { "Id", PageParameter( "ParentProjectId" ) }
+                    };
 
                     NavigateToCurrentPage( queryParams );
                 }
@@ -973,6 +1026,18 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
             project.LoadAttributes();
             phEditAttributes.Controls.Clear();
             Rock.Attribute.Helper.AddEditControls( project, phEditAttributes, true, BlockValidationGroup );
+        }
+
+        /// <summary>
+        /// Handles the SelectItem event of the ppParentProject control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        protected void ppParentProject_SelectItem( object sender, EventArgs e )
+        {
+            int? parentProjectId = ppParentProject.SelectedValue;
+
+            UpdateProjectTypesForParent( parentProjectId );
         }
 
         /// <summary>

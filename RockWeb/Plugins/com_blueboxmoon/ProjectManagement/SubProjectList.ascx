@@ -6,22 +6,20 @@
 
         <asp:Panel ID="pnlProjectList" runat="server" CssClass="panel panel-block" Visible="false">
             <div class="panel-heading">
-                <div class="clearfix">
-                    <h1 class="panel-title pull-left">
-                        <asp:Literal ID="ltHtmlIcon" runat="server" />
-                        <span>Sub Projects</span>
-                    </h1>
+                <h1 class="panel-title">
+                    <asp:Literal ID="ltHtmlIcon" runat="server" />
+                    <span>Sub Projects</span>
+                </h1>
 
-                    <span class="pull-right">
-                        <asp:LinkButton ID="lbAdd" runat="server" CssClass="btn btn-xs pm-btn-xs btn-link" OnClick="lbAdd_Click"><i class="fa fa-plus"></i></asp:LinkButton>
-                        <a class="btn btn-xs pm-btn-xs btn-link" data-toggle="collapse" data-target=".js-subproject-list-options"><i class="fa fa-gear"></i></a>
-                    </span>
+                <div class="panel-labels">
+                    <asp:LinkButton ID="lbAdd" runat="server" CssClass="btn btn-xs pm-btn-xs btn-link" OnClick="lbAdd_Click"><i class="fa fa-plus"></i></asp:LinkButton>
+                    <a class="btn btn-xs pm-btn-xs btn-link js-subproject-btn-options"><i class="fa fa-gear pm-fa-rotate"></i></a>
                 </div>
-
-                <asp:Panel ID="pnlOptions" runat="server" CssClass="collapse margin-t-sm js-subproject-list-options">
-                    <asp:CheckBox ID="cbShowInactive" runat="server" Text="Show Inactive" OnCheckedChanged="cbShowInactive_CheckedChanged" AutoPostBack="true" CausesValidation="false" />
-                </asp:Panel>
             </div>
+
+            <asp:Panel ID="pnlOptions" runat="server" CssClass="pm-second-heading collapse js-subproject-options">
+                <asp:CheckBox ID="cbShowInactive" runat="server" Text="Show Inactive" OnCheckedChanged="cbShowInactive_CheckedChanged" AutoPostBack="true" CausesValidation="false" />
+            </asp:Panel>
 
             <ul class="list-group pm-list-group">
                 <asp:Repeater ID="rpProject" runat="server" OnItemDataBound="rpProject_ItemDataBound" OnItemCommand="rpProject_ItemCommand">
@@ -50,13 +48,14 @@
                 {
                     $('[data-toggle="tooltip"]').tooltip();
 
-                    $('.js-subproject-list-options').on('hidden.bs.collapse', function ()
-                    {
-                        $('#<%= hfOptionsVisible.ClientID %>').val('0');
-                    });
-                    $('.js-subproject-list-options').on('shown.bs.collapse', function ()
-                    {
-                        $('#<%= hfOptionsVisible.ClientID %>').val('1');
+                    $('.js-subproject-btn-options').on('click', function () {
+                        var $target = $('.js-subproject-options')
+                        var makeVisible = !$target.is(':visible');
+
+                        $target.slideToggle(250);
+                        $(this).find('.fa').toggleClass('down');
+
+                        $('#<%= hfOptionsVisible.ClientID %>').val(makeVisible ? '1' : '0');
                     });
                 })
             })(jQuery);

@@ -135,9 +135,13 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
                 var parameters = new Dictionary<string, string>
                 {
                     { "Title", project.Title },
-                    { "CategoryId", project.CategoryId.ToStringSafe() },
                     { "ProjectTypeId", project.ProjectTypeId.ToString() }
                 };
+
+                if ( project.CategoryId.HasValue )
+                {
+                    parameters.Add( "CategoryId", project.CategoryId.Value.ToString() );
+                }
 
                 if ( project.AssignToPersonAliasId.HasValue )
                 {
@@ -167,7 +171,7 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
             return projectText
                 .Split( new char[] { '^' }, StringSplitOptions.RemoveEmptyEntries )
                 .Select( p => ProjectDescription.FromText( p ) )
-                .Where( p => p != null && p.ProjectType != null && p.Category != null )
+                .Where( p => p != null && p.ProjectType != null )
                 .ToList();
         }
 
@@ -179,7 +183,7 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
         {
             return GetConfiguredProjects( GetAttributeValue( "Projects" ) )
                 .Where( p => p.ProjectType.IsAuthorized( Authorization.VIEW, CurrentPerson ) )
-                .Where( p => p.Category.IsAuthorized( Authorization.VIEW, CurrentPerson ) )
+                .Where( p => p.Category == null || p.Category.IsAuthorized( Authorization.VIEW, CurrentPerson ) )
                 .ToList();
         }
 
@@ -245,8 +249,8 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
 
                 project.Title = tbSettingsTitle.Text;
                 project.IconCssClass = tbSettingsIconCssClass.Text;
-                project.CategoryId = cpSettingsCategory.SelectedValueAsInt().Value;
-                project.Category = CategoryCache.Get( project.CategoryId.Value );
+                project.CategoryId = cpSettingsCategory.SelectedValueAsId();
+                project.Category = CategoryCache.Get( project.CategoryId ?? 0 );
                 project.ProjectTypeId = ptpSettingsProjectType.SelectedValueAsInt().Value;
                 project.ProjectType = ProjectTypeCache.Get( project.ProjectTypeId.Value );
                 project.AssignToPersonAliasId = ppSettingsAssignToPerson.PersonAliasId;

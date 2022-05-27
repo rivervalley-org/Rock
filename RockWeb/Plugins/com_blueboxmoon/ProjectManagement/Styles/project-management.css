@@ -128,12 +128,14 @@
 }
 
 .panel-follow .panel-watch-status {
-    right: 35px;
+    width: 50px;
+    right: 50px;
+    padding-top: 14px;
 }
 
 .panel-watch-status::before {
     font-family: FontAwesome;
-    content: "\f1f7";
+    content: "\f1f6";
 }
 
 .panel-watch-status.watching::before {
@@ -147,15 +149,17 @@
 
 .panel .panel-heading.panel-follow.panel-watch {
     position: relative;
-    padding-right: 80px;
+    padding-right: 110px;
 }
 
 /* Following Styles */
 .pm-task-follow-status::before {
     font-family: FontAwesome;
-    content: "\f006";
+    font-weight: 400;
+    content: "\f005";
 }
 .pm-task-follow-status.following::before {
+    font-weight: 800;
     content: "\f005";
 }
 .pm-task-follow-status {
@@ -166,6 +170,21 @@
 .md-editor {
     height: 200px;
 }
+    .md-editor .ace_strong {
+        font-weight: bold;
+    }
+    .md-editor .ace_emphasis {
+        font-style: italic;
+    }
+    .md-editor .ace_strikethrough {
+        text-decoration: line-through rgba(0, 0, 0, 0.3);
+    }
+textarea.ace_text-input-ios {
+    position: initial !important;
+    top: initial !important;
+    left: initial !important;
+}
+
 .md-container > .md-preview {
     overflow-y: initial;
 }
@@ -176,20 +195,22 @@
 }
 
 .pm-fa-rotate {
-    -moz-transition: all 0.5s linear;
-    -webkit-transition: all 0.5s linear;
-    transition: all 0.5s linear;
+    -moz-transition: all 0.25s linear;
+    -webkit-transition: all 0.25s linear;
+    transition: all 0.25s linear;
 }
     .pm-fa-rotate.down {
-        -ms-transform: rotate(180deg);
-        -moz-transform: rotate(180deg);
-        -webkit-transform: rotate(180deg);
-        transform: rotate(180deg);
+        -ms-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        -webkit-transform: rotate(90deg);
+        transform: rotate(90deg);
     }
 
 /* Standard bootstrap additions */
-.panel-heading.pm-nav-tabs {
+.pm-second-heading.pm-nav-tabs {
+    padding-top: 0px;
     padding-bottom: 0px;
+    overflow-y: hidden;
 }
 .nav.pm-nav-tabs-sm > li > a {
     padding: 4px 6px;
@@ -212,6 +233,11 @@
     min-height: 30px;
 }
 
+.pm-second-heading {
+    background-color: var(--panel-heading-bg);
+    padding: 7.5px 16px;
+}
+
 /* Rock Tag List additions */
 .pm-taglist div.tagsinput > div[id$=addTag] {
     margin-left: 0px;
@@ -220,4 +246,33 @@
 .pm-taglist.taglist .tag {
     margin-left: 10px;
     margin-right: 10px;
+}
+
+/*
+ * Event Calendar additions
+ */
+.calendar-container .project-type-filters .project-type-indicator {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    vertical-align: -4px
+}
+
+.calendar-container .event .pm-event-completed {
+    font-style: italic;
+}
+
+.calendar-container .event .pm-event-cancelled {
+    text-decoration: line-through;
+}
+
+.calendar-container .event .pm-event-completed,
+.calendar-container .event .pm-event-cancelled {
+    opacity: 0.5;
+}
+
+.calendar-container .event:hover .pm-event-completed,
+.calendar-container .event:hover .pm-event-cancelled {
+    opacity: 1;
 }

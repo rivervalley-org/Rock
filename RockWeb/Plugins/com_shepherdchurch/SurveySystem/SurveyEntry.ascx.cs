@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
+using com.shepherdchurch.SurveySystem.Attribute;
+using com.shepherdchurch.SurveySystem.Model;
+
 using Newtonsoft.Json;
+
 using Rock;
 using Rock.Attribute;
 using Rock.Data;
@@ -12,10 +16,6 @@ using Rock.Model;
 using Rock.Security;
 using Rock.Web.Cache;
 using Rock.Web.UI;
-using Rock.Web.UI.Controls;
-
-using com.shepherdchurch.SurveySystem.Attribute;
-using com.shepherdchurch.SurveySystem.Model;
 
 namespace RockWeb.Plugins.com_shepherdchurch.SurveySystem
 {
@@ -112,22 +112,9 @@ namespace RockWeb.Plugins.com_shepherdchurch.SurveySystem
             var survey = new SurveyService( rockContext ).Get( surveyId );
 
             //
-            // Ensure the user is allowed to view this survey.
-            //
-            if ( survey == null || !survey.IsAuthorized( Authorization.VIEW, CurrentPerson ) )
-            {
-                nbUnauthorized.Text = "The survey was not found or has expired.";
-                pnlDetails.Visible = false;
-
-                return;
-            }
-
-            nbUnauthorized.Text = string.Empty;
-
-            //
             // Check if an active login is required for this survey.
             //
-            if ( survey.IsLoginRequired && CurrentUser == null )
+            if ( survey != null && survey.IsLoginRequired && CurrentUser == null )
             {
                 var site = RockPage.Site;
 
@@ -143,6 +130,18 @@ namespace RockWeb.Plugins.com_shepherdchurch.SurveySystem
                 return;
             }
 
+            //
+            // Ensure the user is allowed to view this survey.
+            //
+            if ( survey == null || !survey.IsAuthorized( Authorization.VIEW, CurrentPerson ) || !survey.IsActive )
+            {
+                nbUnauthorized.Text = "The survey was not found or has expired.";
+                pnlDetails.Visible = false;
+
+                return;
+            }
+
+            nbUnauthorized.Text = string.Empty;
             pnlDetails.Visible = true;
 
             //
@@ -216,7 +215,7 @@ namespace RockWeb.Plugins.com_shepherdchurch.SurveySystem
             var rockContext = new RockContext();
             var survey = new SurveyService( rockContext ).Get( GetSurveyId().Value );
             var surveyResultService = new SurveyResultService( rockContext );
-            var surveyResult = new SurveyResult { Id = 0, SurveyId = survey.Id };
+            var surveyResult = new SurveyResult { Id = 0, SurveyId = survey.Id, Survey = survey };
             var mergeFields = LavaHelper.GetCommonMergeFields( RockPage, CurrentPerson );
             var person = CurrentPerson != null ? new PersonService( rockContext ).Get( CurrentPerson.Id ) : null;
             var correctAnswers = new List<string>();
@@ -276,7 +275,7 @@ namespace RockWeb.Plugins.com_shepherdchurch.SurveySystem
                     }
                     else
                     {
-                            incorrectAnswers.Add( value.Key );
+                        incorrectAnswers.Add( value.Key );
                     }
                 }
 
@@ -291,7 +290,7 @@ namespace RockWeb.Plugins.com_shepherdchurch.SurveySystem
                 //
                 if ( surveyResult.DidPass.Value && survey.LastPassedDateAttributeId.HasValue && person != null )
                 {
-                    var attribute = AttributeCache.Read( survey.LastPassedDateAttributeId.Value );
+                    var attribute = AttributeCache.Get( survey.LastPassedDateAttributeId.Value );
 
                     if ( attribute != null )
                     {
@@ -300,14 +299,12 @@ namespace RockWeb.Plugins.com_shepherdchurch.SurveySystem
                 }
             }
 
-            lResults.Text = survey.ResultTemplate.ResolveMergeFields( mergeFields );
-
             //
             // If we supposed to record the last attempt date, do so.
             //
             if ( survey.LastAttemptDateAttributeId.HasValue && person != null )
             {
-                var attribute = AttributeCache.Read( survey.LastAttemptDateAttributeId.Value );
+                var attribute = AttributeCache.Get( survey.LastAttemptDateAttributeId.Value );
 
                 if ( attribute != null )
                 {
@@ -334,6 +331,47 @@ namespace RockWeb.Plugins.com_shepherdchurch.SurveySystem
                     surveyResult.SaveAttributeValues( rockContext );
                 }
             } );
+
+            //
+            // Fire and run the workflow before we merge the results Lava so that
+            // the workflow has a chance to update anything it wants to.
+            //
+            if ( survey.WorkflowTypeId.HasValue )
+            {
+                var workflowType = WorkflowTypeCache.Get( survey.WorkflowTypeId.Value );
+                var workflowService = new WorkflowService( rockContext );
+
+                try
+                {
+                    string workflowName = survey.Name;
+
+                    if ( CurrentPerson != null )
+                    {
+                        workflowName += ": " + CurrentPerson.FullName;
+                    }
+
+                    var workflow = Workflow.Activate( workflowType, workflowName, rockContext );
+                    List<string> errorMessages;
+
+                    workflow.SetAttributeValue( "Survey", survey.Guid );
+                    workflow.SetAttributeValue( "CorrectAnswers", string.Join( ",", correctAnswers ) );
+                    workflow.SetAttributeValue( "IncorrectAnswers", string.Join( ",", incorrectAnswers ) );
+
+                    if ( !workflowService.Process( workflow, surveyResult, out errorMessages ) )
+                    {
+                        throw new Exception( "Failed to process workflow for survey." );
+                    }
+                }
+                catch ( Exception ex )
+                {
+                    ExceptionLogService.LogException( ex );
+                }
+            }
+
+            //
+            // Generate the final results.
+            //
+            lResults.Text = survey.ResultTemplate.ResolveMergeFields( mergeFields );
         }
 
         #endregion

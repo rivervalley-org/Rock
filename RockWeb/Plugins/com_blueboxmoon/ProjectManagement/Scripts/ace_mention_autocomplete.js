@@ -1,7 +1,6 @@
 ﻿define('ace/ext/com.blueboxmoon.mention_autocomplete', function (require, exports, module) {
     "use strict";
 
-    console.log(require);
     var Autocomplete = require('ace/autocomplete').Autocomplete;
     var Config = require('ace/config');
     var Editor = require('ace/editor').Editor;
@@ -17,7 +16,8 @@
         }
         var prefix = line.substring(idx);
 
-        if (prefix != /@[\w ]+/.exec(prefix)) {
+        var match = /@[a-zA-Z0-9À-ÖØ-öø-ÿ_\- ]{5,30}/.exec(prefix);
+        if (match === null || prefix.length === 0 || prefix !== match[0]) {
             return '';
         }
 
@@ -42,6 +42,9 @@
                 if (!err && results)
                     matches = matches.concat(results);
                 // Fetch prefix again, because they may have changed by now
+                for (var xi = 0; xi < matches.length; xi++) {
+                    matches[xi].snippet = "item_" + xi;
+                }
                 callback(null, {
                     prefix: getCompletionPrefix(editor),
                     matches: matches,
@@ -82,7 +85,7 @@
     var mentionAutocomplete = {
         getCompletions: function (editor, session, pos, prefix, callback) {
             prefix = prefix.substring(prefix.lastIndexOf('@') + 1);
-            if (prefix.length < 5 || prefix.length > 30 || prefix.indexOf(' ') == -1) {
+            if (prefix.length < 5 || prefix.length > 30 || prefix.indexOf(' ') === -1) {
                 callback(null, []);
                 return;
             }
@@ -90,7 +93,16 @@
             var url = '/api/BBM_ProjectManagement_Utility/GetPossibleMentions?name=' + encodeURIComponent(prefix);
             $.getJSON(url, function (wordlist) {
                 callback(null, wordlist.map(function (ea) {
-                    return { caption: '@' + ea.FullName, value: '@' + ea.FullName + '[' + ea.Id + ']', meta: ea.Meta };
+                    return {
+                        caption: '@' + ea.FullName,
+                        value: '@' + ea.FullName + '[' + ea.Id + ']',
+                        meta: ea.Meta,
+                        completer: {
+                            insertMatch: function (editor, data) {
+                                editor.completer.insertMatch({ value: data.value });
+                            }
+                        }
+                    };
                 }));
             });
         }
