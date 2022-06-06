@@ -156,6 +156,12 @@ namespace org.rivervalley.JobOffers.Model
         [DataMember]
         public decimal CurrentBaseSalary { get; set; }
 
+        [DataMember]
+        public decimal OtherBenefits2 { get; set; }
+
+        [DataMember]
+        public string OtherDescription2 { get; set; }
+
         #endregion
 
         #region Virtual Properties

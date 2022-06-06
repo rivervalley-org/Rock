@@ -111,7 +111,18 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void btnCancel_Click( object sender, EventArgs e )
         {
-            string link = "~/JobOffersListing";
+            jobOfferId = int.Parse( hfJobOfferId.Value );
+            string link = string.Empty;
+
+            if ( jobOfferId > 0 )
+            {
+                link = "~/JobOfferPrint?id=" + jobOfferId;
+            }
+            else
+            {
+                link = "~/JobOffersListing";
+            }
+            
             Response.Redirect( link );
         }
 
@@ -152,7 +163,6 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             pnlBenefits.Visible = false;
             pnlCopyRecord.Visible = false;
             pnlEmployeeNumber.Visible = false;
-
 
             jobOfferId = int.Parse( hfJobOfferId.Value );
             int employeeId = int.Parse( hfEmployeeRockId.Value );
@@ -582,20 +592,25 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             lComments.Text = currentOffer.Comments;
             lOfferStatus.Text = currentOffer.JobOfferStatusValue.Value;
             lStatus.Text = currentOffer.EmploymentStatusValue.Value;
+
             if ( currentOffer.JobTitleValue.Value != null )
             {
                 lPosition.Text = currentOffer.JobTitleValue.Value;
             }
+
             lDepartment.Text = currentOffer.DepartmentValue.Value;
             lCampus.Text = currentOffer.Campus.Name;
+
             if ( currentOffer.MedicalPlanValueId != null )
             {
                 lMedicalPlan.Text = currentOffer.MedicalPlanValue.Value;
             }
+
             if ( currentOffer.DentalPlanValueId != null )
             {
                 lDentalPlan.Text = currentOffer.DentalPlanValue.Value;
             }
+
             lVacationDays.Text = currentOffer.VacationDaysAnnual.ToString( "0.00" );
             lVacationRate.Text = currentOffer.VacationDaysRate.ToString( "0.000" );
             lWeeklyHours.Text = currentOffer.WeeklyHours.ToString( "0.00" );
@@ -611,6 +626,7 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             lDisability.Text = currentOffer.DisabilityEmployerPremium.ToString( "#,##0.00" );
             lMedicalReimbursement.Text = currentOffer.MedicalReimbursement.ToString( "#,##0.00" );
             lHSAContribution.Text = currentOffer.HSAContribution.ToString( "#,##0.00" );
+
             if ( currentOffer.RetireEmplPercentageValueId != null )
             {
                 if ( currentOffer.RetireEmplPercentageValueId == 5803 )
@@ -623,12 +639,15 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
                 }
 
             }
+
             lRetirementAmount.Text = currentOffer.RetirementEmployerAmount.ToString( "#,##0.00" );
             lMileageReimbursement.Text = currentOffer.MileageReimbursement.ToString( "#,##0.00" );
             lWellness.Text = currentOffer.Wellness.ToString( "#,##0.00" );
             lSickDays.Text = currentOffer.SickDays.ToString( "#,##0.00" );
             lCellPhone.Text = currentOffer.CellPhoneReimbursement.ToString( "#,##0.00" );
             lEducation.Text = currentOffer.ContinuingEducation.ToString( "#,##0.00" );
+
+            // other 1
             if ( currentOffer.OtherDescription != null )
             {
                 lOtherDescription.Text = "Other (" + currentOffer.OtherDescription + ")";
@@ -637,7 +656,20 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             {
                 lOtherDescription.Text = "Other";
             }
+
             lOther.Text = currentOffer.OtherBenefits.ToString( "#,##0.00" );
+
+            // other 2
+            if ( currentOffer.OtherDescription2 != null )
+            {
+                lOtherDescription2.Text = "Other 2 (" + currentOffer.OtherDescription2 + ")";
+            }
+            else
+            {
+                lOtherDescription2.Text = "Other 2";
+            }
+
+            lOther2.Text = currentOffer.OtherBenefits2.ToString( "#,##0.00" );
 
             lWorkersComp.Text = currentOffer.WorkersCompPremium.ToString( "#,##0.00" );
             lPayrollTax.Text = currentOffer.EmployerPayrollTax.ToString( "#,##0.00" );
@@ -652,6 +684,7 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             {
                 lIsPastor.Text = "No";
             }
+
             annualHours = currentOffer.WeeklyHours * annualWeeks;
 
             if ( isHourly )
@@ -669,6 +702,7 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
                 totalSalary = hourlySalary + currentOffer.SocialSecurityGrossUp;
                 taxableSalary = totalSalary - currentOffer.HousingAllowance;
             }
+
             lAnnualHours.Text = annualHours.ToString( "#,##0.00" );
             lTotalSalary.Text = totalSalary.ToString( "#,##0.00" );
             lTaxableSalary.Text = taxableSalary.ToString( "#,##0.00" );
@@ -818,6 +852,8 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             tbEducation.Text = currentOffer.ContinuingEducation.ToString();
             tbOther.Text = currentOffer.OtherBenefits.ToString();
             tbOtherDescription.Text = currentOffer.OtherDescription;
+            tbOther2.Text = currentOffer.OtherBenefits2.ToString();
+            tbOtherDescription2.Text = currentOffer.OtherDescription2;
 
             tbSickDays.Text = currentOffer.SickDays.ToString();
             tbRetirementAmount.Text = currentOffer.RetirementEmployerAmount.ToString();
@@ -1038,6 +1074,8 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             decimal.TryParse( tbSickDays.Text.Trim(), out sickDays );
             decimal other = 0;
             decimal.TryParse( tbOther.Text.Trim(), out other );
+            decimal other2 = 0;
+            decimal.TryParse( tbOther2.Text.Trim(), out other2 );
             decimal retirementAmount = 0;
             decimal.TryParse( tbRetirementAmount.Text.Trim(), out retirementAmount );
 
@@ -1097,6 +1135,7 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             currentOffer.Wellness = wellness;
             currentOffer.ContinuingEducation = education;
             currentOffer.OtherBenefits = other;
+            currentOffer.OtherBenefits2 = other2;
             currentOffer.SickDays = sickDays;
             if ( isFullTime == true )
             {
@@ -1114,6 +1153,7 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             }
 
             currentOffer.OtherDescription = tbOtherDescription.Text;
+            currentOffer.OtherDescription2 = tbOtherDescription2.Text;
         }
 
         /// <summary>
@@ -1639,6 +1679,8 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             copyOffer.ContinuingEducation = currentOffer.ContinuingEducation;
             copyOffer.OtherBenefits = currentOffer.OtherBenefits;
             copyOffer.OtherDescription = currentOffer.OtherDescription;
+            copyOffer.OtherBenefits2 = currentOffer.OtherBenefits2;
+            copyOffer.OtherDescription2 = currentOffer.OtherDescription2;
             copyOffer.EmployerPayrollTax = 0;
             copyOffer.VacationDaysRate = currentOffer.VacationDaysRate;
             copyOffer.VacationDaysAnnual = currentOffer.VacationDaysAnnual;

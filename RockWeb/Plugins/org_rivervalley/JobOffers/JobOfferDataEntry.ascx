@@ -1,13 +1,11 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="JobOfferDataEntry.ascx.cs" Inherits="RockWeb.Plugins.org_rivervalley.JobOffers.JobOfferDataEntry" %>
 <asp:HiddenField ID="hfJobOfferId" runat="server" />
 <asp:UpdatePanel ID="upnlContent" runat="server">
-    <ContentTemplate>        
+    <ContentTemplate>
+        
         <asp:Panel ID="pnlJobOffer" runat="server" CssClass="panel panel-block" Visible="false">
             <div class="panel-heading">
-                <h1 class="panel-title">
-                    <i class="fa fa-edit"></i>
-                    Job Offer Details
-                </h1>
+                <h1 class="panel-title"><i class="fa fa-edit"></i> Job Offer Details</h1>
             </div>
             <div class="panel-body">
 	        <div class="container-fluid" >     
@@ -19,77 +17,77 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <strong>Offer Title</strong><br>
-                        <asp:Literal ID="lOfferTitle" runat="server" />
+                        <asp:Literal ID="lOfferTitle" runat="server" /><br />
                     </div>
                     <div class="col-sm-6">
                         <strong>Offer Date</strong><br>
-                        <asp:Literal ID="lOfferDate" runat="server" />
+                        <asp:Literal ID="lOfferDate" runat="server" /><br />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
                         <strong>Planned Start Date</strong><br>
-                        <asp:Literal ID="lStartDate" runat="server" />
+                        <asp:Literal ID="lStartDate" runat="server" /><br />
                     </div>
                     <div class="col-sm-6">
                         <strong>Offer Status</strong><br>
-                        <asp:Literal ID="lOfferStatus" runat="server" />
+                        <asp:Literal ID="lOfferStatus" runat="server" /><br />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
                         <strong>Name</strong><br>
-                        <asp:Literal ID="lName" runat="server" />
+                        <asp:Literal ID="lName" runat="server" /><br />
                     </div>
                     <div class="col-sm-6">
                         <strong>Email</strong><br>
-				        <asp:Literal ID="lEmail" runat="server" />
+				        <asp:Literal ID="lEmail" runat="server" /><br />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
                         <strong>Address</strong><br>
-                        <asp:Literal ID="lAddress" runat="server" />
+                        <asp:Literal ID="lAddress" runat="server" /><br />
                     </div>
                     <div class="col-sm-6">
                         <strong>Phone</strong><br>
-				        <asp:Literal ID="lPhone" runat="server" />
+				        <asp:Literal ID="lPhone" runat="server" /><br />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
                         <strong>Department</strong><br>
-                        <asp:Literal ID="lDepartment" runat="server" />
+                        <asp:Literal ID="lDepartment" runat="server" /><br />
                     </div>
                     <div class="col-sm-6">
                         <strong>Position</strong>   <br>
-                        <asp:Literal ID="lPosition" runat="server" />
+                        <asp:Literal ID="lPosition" runat="server" /><br />
                     </div>
                 </div>        
                 <div class="row">
                     <div class="col-sm-6">
                         <strong>Status</strong><br>
-                        <asp:Literal ID="lStatus" runat="server" />
+                        <asp:Literal ID="lStatus" runat="server" /><br />
                     </div>
                     <div class="col-sm-6">
                         <strong>Assigned Campus</strong><br>
-                        <asp:Literal ID="lCampus" runat="server" />
+                        <asp:Literal ID="lCampus" runat="server" /><br />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
                         <strong>Tenure Date</strong><br>
-                        <asp:Literal ID="lTenureDate" runat="server" />
+                        <asp:Literal ID="lTenureDate" runat="server" /><br />
                     </div>
                     <div class="col-sm-6">
                         <strong>Is Pastor</strong><br>
-                        <asp:Literal ID="lIsPastor" runat="server" />
+                        <asp:Literal ID="lIsPastor" runat="server" /><br />
                     </div>
                 </div>		
                 <div class="row">
 			        <div class="col-sm-12">
 				        <strong>Comments</strong><br>
-				        <asp:Literal ID="lComments" runat="server" />
+				        <asp:Literal ID="lComments" runat="server" /><br />
 			        </div>
 		        </div>		
 		        <div class="row">
@@ -101,51 +99,51 @@
 		        <div class="row">
 			        <div class="col-sm-6">
 				        <strong>Weekly Hours</strong><br>
-				        <asp:Literal ID="lWeeklyHours" runat="server" />
+				        <asp:Literal ID="lWeeklyHours" runat="server" /><br />
 			        </div>
 			        <div class="col-sm-6">
 				        <strong>Annual Hours</strong><br>
-				        <asp:Literal ID="lAnnualHours" runat="server" />
+				        <asp:Literal ID="lAnnualHours" runat="server" /><br />
 			        </div>        
 		        </div>
                 <div class="row">
 			        <div class="col-sm-6">
 				        <strong>Current Base Salary</strong><br>
-				        $<asp:Literal ID="lCurrentBaseSalary" runat="server" />
+				        $<asp:Literal ID="lCurrentBaseSalary" runat="server" /><br />
 			        </div>
 			        <div class="col-sm-6">
 				        <strong>Current Hourly Rate</strong><br>
-				        $<asp:Literal ID="lCurrentHourlyRate" runat="server" />
+				        $<asp:Literal ID="lCurrentHourlyRate" runat="server" /><br />
 			        </div>        
 		        </div>
 		        <div class="row">
 			        <div class="col-sm-6">
 				        <strong>New Base Salary</strong><br>
-				        $<asp:Literal ID="lBaseSalary" runat="server" />
+				        $<asp:Literal ID="lBaseSalary" runat="server" /><br />
 			        </div>
 			        <div class="col-sm-6">
 				        <strong>Hourly Rate</strong><br>
-				        $<asp:Literal ID="lHourlyRate" runat="server" />
+				        $<asp:Literal ID="lHourlyRate" runat="server" /><br />
 			        </div>        
 		        </div>
 		        <div class="row">
 			        <div class="col-sm-6">
 				        <strong>Housing Allowance</strong><br>
-				        $<asp:Literal ID="lHousing" runat="server" />
+				        $<asp:Literal ID="lHousing" runat="server" /><br />
 			        </div>
 			        <div class="col-sm-6">
 				        <strong>Social Security Gross Up</strong><br>
-				        $<asp:Literal ID="lSSGrossUp" runat="server" />
+				        $<asp:Literal ID="lSSGrossUp" runat="server" /><br />
 			        </div>        
 		        </div>
 		        <div class="row">
 			        <div class="col-sm-6">
 				        <strong>Taxable Salary</strong><br>
-				        $<asp:Literal ID="lTaxableSalary" runat="server" />
+				        $<asp:Literal ID="lTaxableSalary" runat="server" /><br />
 			        </div>
 			        <div class="col-sm-6">
 				        <strong>Total Salary</strong><br>
-				        $<asp:Literal ID="lTotalSalary" runat="server" />
+				        $<asp:Literal ID="lTotalSalary" runat="server" /><br />
 			        </div>        
 		        </div>
 		        <div class="row">
@@ -157,91 +155,92 @@
 		        <div class="row">
 			        <div class="col-sm-6">
 				        <strong>Vacation Days</strong><br>                    
-				        <asp:Literal ID="lVacationDays" runat="server" /> (Accrues <asp:Literal ID="lVacationRate" runat="server" /> days per month)
+				        <asp:Literal ID="lVacationDays" runat="server" /> (Accrues <asp:Literal ID="lVacationRate" runat="server" /> days per month)<br />
 			        </div>
 			        <div class="col-sm-6">
 				        <strong>Sick Days</strong><br>
-				        <asp:Literal ID="lSickDays" runat="server" />
+				        <asp:Literal ID="lSickDays" runat="server" /><br />
 			        </div>        
 		        </div>
 		        <div class="row">
 			        <div class="col-sm-6">
 				        <strong>Medical Insurance</strong><br>
-				        <asp:Literal ID="lMedicalPlan" runat="server" /> - $<asp:Literal ID="lMedicalPremium" runat="server" />
+				        <asp:Literal ID="lMedicalPlan" runat="server" /> - $<asp:Literal ID="lMedicalPremium" runat="server" /><br />
 			        </div>
 			        <div class="col-sm-6">
 				        <strong>Dental Insurance</strong><br>
-				        <asp:Literal ID="lDentalPlan" runat="server" /> - $<asp:Literal ID="lDentalPremium" runat="server" />
+				        <asp:Literal ID="lDentalPlan" runat="server" /> - $<asp:Literal ID="lDentalPremium" runat="server" /><br />
 			        </div>        
 		        </div>
 		        <div class="row">
 			        <div class="col-sm-6">
 				        <strong>Life Insurance</strong><br>
-				        $<asp:Literal ID="lLifeInsurance" runat="server" />
+				        $<asp:Literal ID="lLifeInsurance" runat="server" /><br />
 			        </div>
 			        <div class="col-sm-6">
 				        <strong>Long Term Disability</strong><br>
-				        $<asp:Literal ID="lDisability" runat="server" />
+				        $<asp:Literal ID="lDisability" runat="server" /><br />
 			        </div>        
 		        </div>
 		        <div class="row">
 			        <div class="col-sm-6">
 				        <strong>Medical Reimbursement</strong><br>
-				        $<asp:Literal ID="lMedicalReimbursement" runat="server" />
+				        $<asp:Literal ID="lMedicalReimbursement" runat="server" /><br />
 			        </div>
 			        <div class="col-sm-6">
 				        <strong>HSA Contribution</strong><br>
-				        $<asp:Literal ID="lHSAContribution" runat="server" />
+				        $<asp:Literal ID="lHSAContribution" runat="server" /><br />
 			        </div>        
 		        </div>
 		        <div class="row">
 			        <div class="col-sm-6">
 				        <strong>403b Contribution Percentage</strong><br>
-				        <asp:Literal ID="lRetirementPercentage" runat="server" />
+				        <asp:Literal ID="lRetirementPercentage" runat="server" /><br />
 			        </div>
 			        <div class="col-sm-6">
 				        <strong>403b Contribution Amount</strong><br>
-				        $<asp:Literal ID="lRetirementAmount" runat="server" />
+				        $<asp:Literal ID="lRetirementAmount" runat="server" /><br />
 			        </div>        
 		        </div> 
 		        <div class="row">
 			        <div class="col-sm-6">
 				        <strong>Mileage Reimbursement</strong><br>
-				        $<asp:Literal ID="lMileageReimbursement" runat="server" />
+				        $<asp:Literal ID="lMileageReimbursement" runat="server" /><br />
 			        </div>
 			        <div class="col-sm-6">
 				        <strong>Wellness</strong><br>
-				        $<asp:Literal ID="lWellness" runat="server" />
+				        $<asp:Literal ID="lWellness" runat="server" /><br />
 			        </div>        
 		        </div>
 		        <div class="row">
 			        <div class="col-sm-6">
 				        <strong>Cell Phone Reimbursement</strong><br>
-				        $<asp:Literal ID="lCellPhone" runat="server" />
+				        $<asp:Literal ID="lCellPhone" runat="server" /><br />
 			        </div>
 			        <div class="col-sm-6">
 				        <strong>Continuing Education</strong><br>
-				        $<asp:Literal ID="lEducation" runat="server" />
+				        $<asp:Literal ID="lEducation" runat="server" /><br />
 			        </div>        
 		        </div>
 		        <div class="row">
 			        <div class="col-sm-6">
 				        <strong><asp:Literal ID="lOtherDescription" runat="server" /></strong><br>
-				        $<asp:Literal ID="lOther" runat="server" />
+				        $<asp:Literal ID="lOther" runat="server" /><br />
 			        </div>
-			        <div class="col-sm-6">
-				        <strong>Workers Compensation</strong><br>
-				        $<asp:Literal ID="lWorkersComp" runat="server" />
-			        </div>        
-		        </div>
+                    <div class="col-sm-6">
+				        <strong><asp:Literal ID="lOtherDescription2" runat="server" /></strong><br>
+				        $<asp:Literal ID="lOther2" runat="server" /><br />
+			        </div>
+                </div>
 		        <div class="row">
+                    <div class="col-sm-6">
+				        <strong>Workers Compensation</strong><br>
+				        $<asp:Literal ID="lWorkersComp" runat="server" /><br />
+			        </div>
 			        <div class="col-sm-6">
 				        <strong>Employer Payroll Tax</strong><br>
-				        $<asp:Literal ID="lPayrollTax" runat="server" />
-			        </div>
-			        <div class="col-sm-6">
-				
-			        </div>        
+				        $<asp:Literal ID="lPayrollTax" runat="server" /><br />
+			        </div>      
 		        </div>
                 <div class="row">
                     <div class="col-sm-12">
@@ -437,6 +436,15 @@
                         <Rock:RockTextBox ID="tbOther" runat="server" Label="Other Amount" Required="false" />
                     </div>
                 </div>
+                 <div class="row">
+                    <div class="col-md-6">
+                        <Rock:RockTextBox ID="tbOtherDescription2" runat="server" Label="Other Description 2" Required="false" />
+                        
+                    </div>
+                    <div class="col-md-6">
+                        <Rock:RockTextBox ID="tbOther2" runat="server" Label="Other Amount 2" Required="false" />
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-6">
                         
@@ -448,6 +456,7 @@
                 </div>                            
             </div>
         </asp:Panel>
+
         <asp:Panel ID="pnlEmployeeNumber" runat="server" CssClass="panel panel-block" Visible="false">
             <asp:HiddenField ID="hfEmployeeNumber" runat="server" />
             <asp:HiddenField ID="hfEmployeeRockId" runat="server" />
@@ -470,6 +479,7 @@
                 </div>                            
             </div>
         </asp:Panel>
+
         <asp:Panel ID="pnlCopyRecord" runat="server" CssClass="panel panel-block" Visible="false">
             <div class="panel-heading">
                 <h1 class="panel-title">
