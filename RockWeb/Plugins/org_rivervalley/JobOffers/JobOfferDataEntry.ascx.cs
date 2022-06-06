@@ -16,9 +16,9 @@ using org.rivervalley.JobOffers.Model;
 
 namespace RockWeb.Plugins.org_rivervalley.JobOffers
 {
-    [DisplayName("Job Offers Data Entry")]
-    [Category("org_rivervalley > JobOffers")]
-    [Description("Job Offer Detail Data Entry")]
+    [DisplayName( "Job Offers Data Entry" )]
+    [Category( "org_rivervalley > JobOffers" )]
+    [Description( "Job Offer Detail Data Entry" )]
 
     public partial class JobOfferDataEntry : Rock.Web.UI.RockBlock
     {
@@ -68,23 +68,24 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         /// Raises the <see cref="E:System.Web.UI.Control.Load" /> event.
         /// </summary>
         /// <param name="e">The <see cref="T:System.EventArgs" /> object that contains the event data.</param>
-        protected override void OnLoad(EventArgs e)
+        protected override void OnLoad( EventArgs e )
         {
-            base.OnLoad(e);
+            base.OnLoad( e );
 
-            if (!Page.IsPostBack)
+            if ( !Page.IsPostBack )
             {
                 GetId();
-                if (jobOfferId >= 0)
+
+                if ( jobOfferId >= 0 )
                 {
-                    if(jobOfferId == 0)
+                    if ( jobOfferId == 0 )
                     {
                         NewJobOffer();
                     }
                     else
                     {
                         LoadJobOfferDetails();
-                    }                    
+                    }
                 }
                 else
                 {
@@ -95,7 +96,7 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
                     pnlBenefits.Visible = false;
                     pnlCopyRecord.Visible = false;
                     pnlEmployeeNumber.Visible = false;
-                } 
+                }
             }
         }
 
@@ -108,10 +109,10 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        protected void btnCancel_Click(object sender, EventArgs e)
+        protected void btnCancel_Click( object sender, EventArgs e )
         {
             string link = "~/JobOffersListing";
-            Response.Redirect(link);
+            Response.Redirect( link );
         }
 
         /// <summary>
@@ -119,10 +120,10 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        protected void btnEmployeeNumber_Click(object sender, EventArgs e)
+        protected void btnEmployeeNumber_Click( object sender, EventArgs e )
         {
             string link = "~/JobOffersListing";
-            Response.Redirect(link);
+            Response.Redirect( link );
         }
 
         /// <summary>
@@ -130,11 +131,11 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        protected void btnPrint_Click(object sender, EventArgs e)
+        protected void btnPrint_Click( object sender, EventArgs e )
         {
-            jobOfferId = int.Parse(hfJobOfferId.Value);
+            jobOfferId = int.Parse( hfJobOfferId.Value );
             string link = "~/JobOfferPrint?id=" + jobOfferId + "&ViewDocument=true";
-            Response.Redirect(link);
+            Response.Redirect( link );
         }
 
         /// <summary>
@@ -142,7 +143,7 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        protected void btnEmployeeNumberSave_Click(object sender, EventArgs e)
+        protected void btnEmployeeNumberSave_Click( object sender, EventArgs e )
         {
             pnlError.Visible = false;
             pnlJobOffer.Visible = false;
@@ -153,23 +154,23 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             pnlEmployeeNumber.Visible = false;
 
 
-            jobOfferId = int.Parse(hfJobOfferId.Value);
-            int employeeId = int.Parse(hfEmployeeRockId.Value);
+            jobOfferId = int.Parse( hfJobOfferId.Value );
+            int employeeId = int.Parse( hfEmployeeRockId.Value );
             var dataContext = new RockContext();
-            var service = new JobOfferDetailService(dataContext);
-            currentOffer = service.Get(jobOfferId);
+            var service = new JobOfferDetailService( dataContext );
+            currentOffer = service.Get( jobOfferId );
             currentOffer.JobOfferStatusValueId = 2761;
             dataContext.SaveChanges();
 
-            offerEmployee = new PersonService(dataContext).Get(employeeId);
-            offerEmployee.LoadAttributes(dataContext);
-            offerEmployee.SetAttributeValue("EmployeeNumber", tbEmployeeNo.Text);
-            offerEmployee.SetAttributeValue("Arena-67-289", tbEmployeeNo.Text);
-            
+            offerEmployee = new PersonService( dataContext ).Get( employeeId );
+            offerEmployee.LoadAttributes( dataContext );
+            offerEmployee.SetAttributeValue( "EmployeeNumber", tbEmployeeNo.Text );
+            offerEmployee.SetAttributeValue( "Arena-67-289", tbEmployeeNo.Text );
+
             offerEmployee.SaveAttributeValues();
 
             string link = "~/JobOfferDataDisplay?id=" + jobOfferId.ToString();
-            Response.Redirect(link);
+            Response.Redirect( link );
         }
 
         /// <summary>
@@ -177,7 +178,7 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        protected void btnJOUpdate_Click(object sender, EventArgs e)
+        protected void btnJOUpdate_Click( object sender, EventArgs e )
         {
             pnlJobOffer.Visible = false;
             pnlJobDetails.Visible = false;
@@ -187,71 +188,71 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             pnlCopyRecord.Visible = false;
             pnlEmployeeNumber.Visible = false;
 
-            jobOfferId = int.Parse(hfJobOfferId.Value);
+            jobOfferId = int.Parse( hfJobOfferId.Value );
             hfJobOfferId.Value = jobOfferId.ToString();
 
-            currentOffer = new JobOfferDetailService(new RockContext()).Get(jobOfferId);
+            currentOffer = new JobOfferDetailService( new RockContext() ).Get( jobOfferId );
 
             var rockContext = new RockContext();
-            var personAliasService = new PersonAliasService(rockContext);
-            var personAlias = personAliasService.Get(currentOffer.PersonAliasId);
+            var personAliasService = new PersonAliasService( rockContext );
+            var personAlias = personAliasService.Get( currentOffer.PersonAliasId );
             int employeeId = personAlias.PersonId;
-           
-            offerEmployee = new PersonService(rockContext).Get(employeeId);
-            offerEmployee.LoadAttributes(rockContext);            
 
-            int employmentStatusId = currentOffer.EmploymentStatusValueId ?? default(int);
-            var definedValueService = new DefinedValueService(rockContext);
-            var employmentStatus = definedValueService.Get(employmentStatusId);
-            offerEmployee.SetAttributeValue("EmploymentStatus", employmentStatus.Guid);
-            offerEmployee.SetAttributeValue("TenureDate", currentOffer.TenureDate);
-            offerEmployee.SetAttributeValue("TerminationDate", "");
-            offerEmployee.SetAttributeValue("Arena-67-270", "");
+            offerEmployee = new PersonService( rockContext ).Get( employeeId );
+            offerEmployee.LoadAttributes( rockContext );
 
-            offerEmployee.SetAttributeValue("IsPastor", currentOffer.IsPastor.ToString());
-            if (currentOffer.IsPastor.ToString() == "True")
+            int employmentStatusId = currentOffer.EmploymentStatusValueId ?? default( int );
+            var definedValueService = new DefinedValueService( rockContext );
+            var employmentStatus = definedValueService.Get( employmentStatusId );
+            offerEmployee.SetAttributeValue( "EmploymentStatus", employmentStatus.Guid );
+            offerEmployee.SetAttributeValue( "TenureDate", currentOffer.TenureDate );
+            offerEmployee.SetAttributeValue( "TerminationDate", "" );
+            offerEmployee.SetAttributeValue( "Arena-67-270", "" );
+
+            offerEmployee.SetAttributeValue( "IsPastor", currentOffer.IsPastor.ToString() );
+            if ( currentOffer.IsPastor.ToString() == "True" )
             {
-                offerEmployee.SetAttributeValue("Arena-67-311", "True");
+                offerEmployee.SetAttributeValue( "Arena-67-311", "True" );
             }
 
-            employmentStatus.LoadAttributes(rockContext);
+            employmentStatus.LoadAttributes( rockContext );
 
-            string esCode = employmentStatus.GetAttributeValue("FTorPTCode");
+            string esCode = employmentStatus.GetAttributeValue( "FTorPTCode" );
 
-            if (esCode == "F")
+            if ( esCode == "F" )
             {
-                offerEmployee.SetAttributeValue("FullTimeHireDate", currentOffer.EffectiveDate);
+                offerEmployee.SetAttributeValue( "FullTimeHireDate", currentOffer.EffectiveDate );
             }
-            if (esCode == "P")
+            if ( esCode == "P" )
             {
-                offerEmployee.SetAttributeValue("PartTimeHireDate", currentOffer.EffectiveDate);
+                offerEmployee.SetAttributeValue( "PartTimeHireDate", currentOffer.EffectiveDate );
             }
 
-            offerEmployee.SetAttributeValue("Arena-67-269", currentOffer.EffectiveDate);
+            offerEmployee.SetAttributeValue( "Arena-67-269", currentOffer.EffectiveDate );
 
-            int deptId = currentOffer.DepartmentValueId ?? default(int);
-            definedValueService = new DefinedValueService(rockContext);
-            var workDepartment = definedValueService.Get(deptId);
-            offerEmployee.SetAttributeValue("WorkDepartment", workDepartment.Guid);
-            offerEmployee.SetAttributeValue("AccountingDepartment", workDepartment.Guid);
+            int deptId = currentOffer.DepartmentValueId ?? default( int );
+            definedValueService = new DefinedValueService( rockContext );
+            var workDepartment = definedValueService.Get( deptId );
+            offerEmployee.SetAttributeValue( "WorkDepartment", workDepartment.Guid );
+            offerEmployee.SetAttributeValue( "AccountingDepartment", workDepartment.Guid );
 
-            int positionId = currentOffer.JobTitleValueId ?? default(int);
-            definedValueService = new DefinedValueService(rockContext);
-            var position = definedValueService.Get(positionId);
-            offerEmployee.SetAttributeValue("Arena-68-286", position.Value);
-            offerEmployee.SetAttributeValue("JobTitle", position.Guid);
+            int positionId = currentOffer.JobTitleValueId ?? default( int );
+            definedValueService = new DefinedValueService( rockContext );
+            var position = definedValueService.Get( positionId );
+            offerEmployee.SetAttributeValue( "Arena-68-286", position.Value );
+            offerEmployee.SetAttributeValue( "JobTitle", position.Guid );
 
-            offerEmployee.SetAttributeValue("Arena-67-289", employeeId);
+            offerEmployee.SetAttributeValue( "Arena-67-289", employeeId );
 
-            int campusId = currentOffer.CampusId ?? default(int);
-            ConvertCampusData(campusId);
-            offerEmployee.SetAttributeValue("Arena-68-293", campusGuid);
-            offerEmployee.SetAttributeValue("WorkCampus", campusGuid);
+            int campusId = currentOffer.CampusId ?? default( int );
+            ConvertCampusData( campusId );
+            offerEmployee.SetAttributeValue( "Arena-68-293", campusGuid );
+            offerEmployee.SetAttributeValue( "WorkCampus", campusGuid );
 
             offerEmployee.SaveAttributeValues();
 
             string link = "~/JobOffersListing";
-            Response.Redirect(link);
+            Response.Redirect( link );
         }
 
         /// <summary>
@@ -259,7 +260,7 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        protected void btnJOEdit_Click(object sender, EventArgs e)
+        protected void btnJOEdit_Click( object sender, EventArgs e )
         {
             pnlJobOffer.Visible = false;
             pnlJobDetails.Visible = true;
@@ -268,10 +269,10 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             pnlError.Visible = false;
             pnlCopyRecord.Visible = false;
 
-            jobOfferId = int.Parse(hfJobOfferId.Value);
+            jobOfferId = int.Parse( hfJobOfferId.Value );
             hfJobOfferId.Value = jobOfferId.ToString();
 
-            currentOffer = new JobOfferDetailService(new RockContext()).Get(jobOfferId);
+            currentOffer = new JobOfferDetailService( new RockContext() ).Get( jobOfferId );
             LoadEditDetail();
         }
 
@@ -280,7 +281,7 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        protected void btnJOCompensation_Click(object sender, EventArgs e)
+        protected void btnJOCompensation_Click( object sender, EventArgs e )
         {
             pnlJobOffer.Visible = false;
             pnlJobDetails.Visible = false;
@@ -290,11 +291,11 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             pnlCopyRecord.Visible = false;
             pnlEmployeeNumber.Visible = false;
 
-            jobOfferId = int.Parse(hfJobOfferId.Value);
+            jobOfferId = int.Parse( hfJobOfferId.Value );
             hfJobOfferId.Value = jobOfferId.ToString();
 
-            currentOffer = new JobOfferDetailService(new RockContext()).Get(jobOfferId);
-            GetPayrollStatus(currentOffer.IsPastor, currentOffer.EmploymentStatusValue.Value);
+            currentOffer = new JobOfferDetailService( new RockContext() ).Get( jobOfferId );
+            GetPayrollStatus( currentOffer.IsPastor, currentOffer.EmploymentStatusValue.Value );
             LoadCompensationDetail();
         }
 
@@ -303,7 +304,7 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        protected void btnJOBenefits_Click(object sender, EventArgs e)
+        protected void btnJOBenefits_Click( object sender, EventArgs e )
         {
             pnlJobOffer.Visible = false;
             pnlJobDetails.Visible = false;
@@ -313,11 +314,11 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             pnlCopyRecord.Visible = false;
             pnlEmployeeNumber.Visible = false;
 
-            jobOfferId = int.Parse(hfJobOfferId.Value);
+            jobOfferId = int.Parse( hfJobOfferId.Value );
             hfJobOfferId.Value = jobOfferId.ToString();
 
-            currentOffer = new JobOfferDetailService(new RockContext()).Get(jobOfferId);
-            GetPayrollStatus(currentOffer.IsPastor, currentOffer.EmploymentStatusValue.Value);
+            currentOffer = new JobOfferDetailService( new RockContext() ).Get( jobOfferId );
+            GetPayrollStatus( currentOffer.IsPastor, currentOffer.EmploymentStatusValue.Value );
             LoadBenefitsDetail();
         }
 
@@ -326,7 +327,7 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        protected void btnJOCopy_Click(object sender, EventArgs e)
+        protected void btnJOCopy_Click( object sender, EventArgs e )
         {
             pnlJobOffer.Visible = false;
             pnlJobDetails.Visible = false;
@@ -336,10 +337,10 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             pnlError.Visible = false;
             pnlEmployeeNumber.Visible = false;
 
-            jobOfferId = int.Parse(hfJobOfferId.Value);
+            jobOfferId = int.Parse( hfJobOfferId.Value );
             hfJobOfferId.Value = jobOfferId.ToString();
 
-            currentOffer = new JobOfferDetailService(new RockContext()).Get(jobOfferId);
+            currentOffer = new JobOfferDetailService( new RockContext() ).Get( jobOfferId );
             tbNewTitle.Text = currentOffer.Title;
             dpNewOfferDate.Text = today.ToShortDateString();
         }
@@ -349,33 +350,33 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        protected void btnJobDetailsSave_Click(object sender, EventArgs e)
-        {           
-            jobOfferId = int.Parse(hfJobOfferId.Value);
-                        
-            var dataContext = new RockContext();
-            var service = new JobOfferDetailService(dataContext);
+        protected void btnJobDetailsSave_Click( object sender, EventArgs e )
+        {
+            jobOfferId = int.Parse( hfJobOfferId.Value );
 
-            if (jobOfferId == 0)
+            var dataContext = new RockContext();
+            var service = new JobOfferDetailService( dataContext );
+
+            if ( jobOfferId == 0 )
             {
                 currentOffer = new JobOfferDetail();
-                service.Add(currentOffer);                
+                service.Add( currentOffer );
             }
             else
             {
-                currentOffer = service.Get(jobOfferId);
+                currentOffer = service.Get( jobOfferId );
                 // set IsPastor so if value changed we can refigure the Social Security amounts
                 socialSecurity = currentOffer.EmployerPayrollTax;
                 socialSecurityGrossUp = currentOffer.SocialSecurityGrossUp;
-                if (currentOffer.IsPastor)
+                if ( currentOffer.IsPastor )
                 {
-                    isPastor = true;                    
+                    isPastor = true;
                 }
             }
 
             SetJobDetail();
 
-            if(formError)
+            if ( formError )
             {
                 pnlJobOffer.Visible = false;
                 pnlJobDetails.Visible = true;
@@ -384,34 +385,34 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
                 pnlError.Visible = false;
                 pnlCopyRecord.Visible = false;
                 pnlEmployeeNumber.Visible = false;
-            } 
+            }
             else
             {
                 // ************************************************
                 // setting the offer status here to consider the active status and diverting to the employee number form before accepting the value
 
-                var offerStatus = Int32.Parse(ddOfferStatus.Text);
+                var offerStatus = Int32.Parse( ddOfferStatus.Text );
 
-                if(offerStatus != 2761)
+                if ( offerStatus != 2761 )
                 {
                     currentOffer.JobOfferStatusValueId = offerStatus;
                 }
-                
+
                 // ************************************************
 
                 dataContext.SaveChanges();
                 // Get newly created record id
-                if (jobOfferId == 0)
+                if ( jobOfferId == 0 )
                 {
                     GetNewJobOffer();
                     jobOfferId = newJobOfferId;
                     hfJobOfferId.Value = jobOfferId.ToString();
                     // reload new record
-                    currentOffer = new JobOfferDetailService(new RockContext()).Get(jobOfferId);
+                    currentOffer = new JobOfferDetailService( new RockContext() ).Get( jobOfferId );
                 }
-                                
+
                 hfJobOfferId.Value = jobOfferId.ToString();
-                if (offerStatus == 2761)
+                if ( offerStatus == 2761 )
                 {
                     // status of accepted requires an employee number
                     pnlJobOffer.Visible = false;
@@ -419,18 +420,18 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
                     pnlCompensation.Visible = false;
                     pnlBenefits.Visible = false;
                     pnlError.Visible = false;
-                    pnlCopyRecord.Visible = false;                    
+                    pnlCopyRecord.Visible = false;
                     pnlEmployeeNumber.Visible = true;
 
                     // reload record
-                    currentOffer = new JobOfferDetailService(new RockContext()).Get(jobOfferId);
+                    currentOffer = new JobOfferDetailService( new RockContext() ).Get( jobOfferId );
                     var rockContext = new RockContext();
-                    var personAliasService = new PersonAliasService(rockContext);
-                    var personAlias = personAliasService.Get(currentOffer.PersonAliasId);
+                    var personAliasService = new PersonAliasService( rockContext );
+                    var personAlias = personAliasService.Get( currentOffer.PersonAliasId );
                     int employeeId = personAlias.PersonId;
-                    offerEmployee = new PersonService(rockContext).Get(employeeId);
-                    offerEmployee.LoadAttributes(rockContext);
-                    employeeNumber = offerEmployee.GetAttributeValue("EmployeeNumber");
+                    offerEmployee = new PersonService( rockContext ).Get( employeeId );
+                    offerEmployee.LoadAttributes( rockContext );
+                    employeeNumber = offerEmployee.GetAttributeValue( "EmployeeNumber" );
 
                     tbEmployeeNo.Text = employeeNumber;
                     hfEmployeeNumber.Value = employeeNumber;
@@ -439,9 +440,9 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
                 else
                 {
                     string link = "~/JobOfferDataDisplay?id=" + jobOfferId.ToString();
-                    Response.Redirect(link);
-                }                
-            }           
+                    Response.Redirect( link );
+                }
+            }
         }
 
         /// <summary>
@@ -449,15 +450,15 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        protected void btnCompensationSave_Click(object sender, EventArgs e)
-        {           
-            jobOfferId = int.Parse(hfJobOfferId.Value);
+        protected void btnCompensationSave_Click( object sender, EventArgs e )
+        {
+            jobOfferId = int.Parse( hfJobOfferId.Value );
 
             var dataContext = new RockContext();
-            var service = new JobOfferDetailService(dataContext);
+            var service = new JobOfferDetailService( dataContext );
 
-            currentOffer = service.Get(jobOfferId);
-            GetPayrollStatus(currentOffer.IsPastor, currentOffer.EmploymentStatusValue.Value);
+            currentOffer = service.Get( jobOfferId );
+            GetPayrollStatus( currentOffer.IsPastor, currentOffer.EmploymentStatusValue.Value );
             SetCompensationData();
             dataContext.SaveChanges();
 
@@ -471,15 +472,15 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        protected void btnBenefitsSave_Click(object sender, EventArgs e)
-        {            
-            jobOfferId = int.Parse(hfJobOfferId.Value);
+        protected void btnBenefitsSave_Click( object sender, EventArgs e )
+        {
+            jobOfferId = int.Parse( hfJobOfferId.Value );
 
             var dataContext = new RockContext();
-            var service = new JobOfferDetailService(dataContext);
+            var service = new JobOfferDetailService( dataContext );
 
-            currentOffer = service.Get(jobOfferId);
-            GetPayrollStatus(currentOffer.IsPastor, currentOffer.EmploymentStatusValue.Value);
+            currentOffer = service.Get( jobOfferId );
+            GetPayrollStatus( currentOffer.IsPastor, currentOffer.EmploymentStatusValue.Value );
             SetBenefitsData();
             dataContext.SaveChanges();
 
@@ -492,18 +493,18 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        protected void btnCopyRecordSave_Click(object sender, EventArgs e)
+        protected void btnCopyRecordSave_Click( object sender, EventArgs e )
         {
-            jobOfferId = int.Parse(hfJobOfferId.Value);
-            
+            jobOfferId = int.Parse( hfJobOfferId.Value );
+
             // load current job details
-            currentOffer = new JobOfferDetailService(new RockContext()).Get(jobOfferId);
+            currentOffer = new JobOfferDetailService( new RockContext() ).Get( jobOfferId );
 
             pnlDebug.Visible = true;
             SaveCopyDetails();
-            
+
             string link = "~/JobOffersListing";
-            Response.Redirect(link);
+            Response.Redirect( link );
         }
 
         #endregion
@@ -515,19 +516,19 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         /// </summary>
         protected void GetId()
         {
-            int? id = PageParameter("id").AsIntegerOrNull();
-            if (id.HasValue)
+            int? id = PageParameter( "id" ).AsIntegerOrNull();
+            if ( id.HasValue )
             {
-                if(id.Value == 0)
+                if ( id.Value == 0 )
                 {
                     jobOfferId = 0;
                 }
                 else
                 {
-                    currentOffer = currentOffer ?? new JobOfferDetailService(new RockContext()).Get(id.Value);
-                    if (currentOffer != null)
+                    currentOffer = currentOffer ?? new JobOfferDetailService( new RockContext() ).Get( id.Value );
+                    if ( currentOffer != null )
                     {
-                        jobOfferId = id ?? default(int);
+                        jobOfferId = id ?? default( int );
                         hfJobOfferId.Value = jobOfferId.ToString();
                     }
                     else
@@ -539,7 +540,7 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             else
             {
                 jobOfferId = -1;
-            }            
+            }
         }
 
         /// <summary>
@@ -581,54 +582,54 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             lComments.Text = currentOffer.Comments;
             lOfferStatus.Text = currentOffer.JobOfferStatusValue.Value;
             lStatus.Text = currentOffer.EmploymentStatusValue.Value;
-            if (currentOffer.JobTitleValue.Value != null)
+            if ( currentOffer.JobTitleValue.Value != null )
             {
                 lPosition.Text = currentOffer.JobTitleValue.Value;
-            }            
+            }
             lDepartment.Text = currentOffer.DepartmentValue.Value;
             lCampus.Text = currentOffer.Campus.Name;
-            if(currentOffer.MedicalPlanValueId != null) 
+            if ( currentOffer.MedicalPlanValueId != null )
             {
                 lMedicalPlan.Text = currentOffer.MedicalPlanValue.Value;
             }
-            if (currentOffer.DentalPlanValueId != null)
+            if ( currentOffer.DentalPlanValueId != null )
             {
                 lDentalPlan.Text = currentOffer.DentalPlanValue.Value;
-            }            
-            lVacationDays.Text = currentOffer.VacationDaysAnnual.ToString("0.00");
-            lVacationRate.Text = currentOffer.VacationDaysRate.ToString("0.000");
-            lWeeklyHours.Text = currentOffer.WeeklyHours.ToString("0.00");
-            lBaseSalary.Text = currentOffer.BaseSalary.ToString("#,##0.00");
-            lCurrentBaseSalary.Text = currentOffer.CurrentBaseSalary.ToString("#,##0.00");
-            lHourlyRate.Text = currentOffer.HourlyRate.ToString("#0.00");
-            lCurrentHourlyRate.Text = currentOffer.CurrentHourlyRate.ToString("#0.00");
-            lHousing.Text = currentOffer.HousingAllowance.ToString("#,##0.00");
-            lSSGrossUp.Text = currentOffer.SocialSecurityGrossUp.ToString("#,##0.00");
-            lMedicalPremium.Text = currentOffer.MedicalEmployerPremium.ToString("#,##0.00");
-            lDentalPremium.Text = currentOffer.DentalEmployerPremium.ToString("#,##0.00");
-            lLifeInsurance.Text = currentOffer.LifeInsuranceEmployerPremium.ToString("#,##0.00");
-            lDisability.Text = currentOffer.DisabilityEmployerPremium.ToString("#,##0.00");
-            lMedicalReimbursement.Text = currentOffer.MedicalReimbursement.ToString("#,##0.00");
-            lHSAContribution.Text = currentOffer.HSAContribution.ToString("#,##0.00");
-            if (currentOffer.RetireEmplPercentageValueId != null)
+            }
+            lVacationDays.Text = currentOffer.VacationDaysAnnual.ToString( "0.00" );
+            lVacationRate.Text = currentOffer.VacationDaysRate.ToString( "0.000" );
+            lWeeklyHours.Text = currentOffer.WeeklyHours.ToString( "0.00" );
+            lBaseSalary.Text = currentOffer.BaseSalary.ToString( "#,##0.00" );
+            lCurrentBaseSalary.Text = currentOffer.CurrentBaseSalary.ToString( "#,##0.00" );
+            lHourlyRate.Text = currentOffer.HourlyRate.ToString( "#0.00" );
+            lCurrentHourlyRate.Text = currentOffer.CurrentHourlyRate.ToString( "#0.00" );
+            lHousing.Text = currentOffer.HousingAllowance.ToString( "#,##0.00" );
+            lSSGrossUp.Text = currentOffer.SocialSecurityGrossUp.ToString( "#,##0.00" );
+            lMedicalPremium.Text = currentOffer.MedicalEmployerPremium.ToString( "#,##0.00" );
+            lDentalPremium.Text = currentOffer.DentalEmployerPremium.ToString( "#,##0.00" );
+            lLifeInsurance.Text = currentOffer.LifeInsuranceEmployerPremium.ToString( "#,##0.00" );
+            lDisability.Text = currentOffer.DisabilityEmployerPremium.ToString( "#,##0.00" );
+            lMedicalReimbursement.Text = currentOffer.MedicalReimbursement.ToString( "#,##0.00" );
+            lHSAContribution.Text = currentOffer.HSAContribution.ToString( "#,##0.00" );
+            if ( currentOffer.RetireEmplPercentageValueId != null )
             {
-                if(currentOffer.RetireEmplPercentageValueId == 5803)
+                if ( currentOffer.RetireEmplPercentageValueId == 5803 )
                 {
                     lRetirementPercentage.Text = "Flat Amount";
                 }
                 else
                 {
-                    lRetirementPercentage.Text = currentOffer.RetirementEmployerPercentage.ToString("0% ");
+                    lRetirementPercentage.Text = currentOffer.RetirementEmployerPercentage.ToString( "0% " );
                 }
-                
-            }            
-            lRetirementAmount.Text = currentOffer.RetirementEmployerAmount.ToString("#,##0.00");
-            lMileageReimbursement.Text = currentOffer.MileageReimbursement.ToString("#,##0.00");
-            lWellness.Text = currentOffer.Wellness.ToString("#,##0.00");
-            lSickDays.Text = currentOffer.SickDays.ToString("#,##0.00");
-            lCellPhone.Text = currentOffer.CellPhoneReimbursement.ToString("#,##0.00");
-            lEducation.Text = currentOffer.ContinuingEducation.ToString("#,##0.00");
-            if(currentOffer.OtherDescription != null)
+
+            }
+            lRetirementAmount.Text = currentOffer.RetirementEmployerAmount.ToString( "#,##0.00" );
+            lMileageReimbursement.Text = currentOffer.MileageReimbursement.ToString( "#,##0.00" );
+            lWellness.Text = currentOffer.Wellness.ToString( "#,##0.00" );
+            lSickDays.Text = currentOffer.SickDays.ToString( "#,##0.00" );
+            lCellPhone.Text = currentOffer.CellPhoneReimbursement.ToString( "#,##0.00" );
+            lEducation.Text = currentOffer.ContinuingEducation.ToString( "#,##0.00" );
+            if ( currentOffer.OtherDescription != null )
             {
                 lOtherDescription.Text = "Other (" + currentOffer.OtherDescription + ")";
             }
@@ -636,14 +637,14 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             {
                 lOtherDescription.Text = "Other";
             }
-            lOther.Text = currentOffer.OtherBenefits.ToString("#,##0.00");
+            lOther.Text = currentOffer.OtherBenefits.ToString( "#,##0.00" );
 
-            lWorkersComp.Text = currentOffer.WorkersCompPremium.ToString("#,##0.00");
-            lPayrollTax.Text = currentOffer.EmployerPayrollTax.ToString("#,##0.00");
+            lWorkersComp.Text = currentOffer.WorkersCompPremium.ToString( "#,##0.00" );
+            lPayrollTax.Text = currentOffer.EmployerPayrollTax.ToString( "#,##0.00" );
 
-            GetPayrollStatus(currentOffer.IsPastor, currentOffer.EmploymentStatusValue.Value);
-            
-            if (isPastor)
+            GetPayrollStatus( currentOffer.IsPastor, currentOffer.EmploymentStatusValue.Value );
+
+            if ( isPastor )
             {
                 lIsPastor.Text = "Yes";
             }
@@ -653,12 +654,12 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             }
             annualHours = currentOffer.WeeklyHours * annualWeeks;
 
-            if (isHourly)
+            if ( isHourly )
             {
                 hourlySalary = annualHours * currentOffer.HourlyRate;
             }
 
-            if (isSalary)
+            if ( isSalary )
             {
                 totalSalary = currentOffer.BaseSalary + currentOffer.SocialSecurityGrossUp;
                 taxableSalary = totalSalary - currentOffer.HousingAllowance;
@@ -668,27 +669,27 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
                 totalSalary = hourlySalary + currentOffer.SocialSecurityGrossUp;
                 taxableSalary = totalSalary - currentOffer.HousingAllowance;
             }
-            lAnnualHours.Text = annualHours.ToString("#,##0.00");
-            lTotalSalary.Text = totalSalary.ToString("#,##0.00");
-            lTaxableSalary.Text = taxableSalary.ToString("#,##0.00");
+            lAnnualHours.Text = annualHours.ToString( "#,##0.00" );
+            lTotalSalary.Text = totalSalary.ToString( "#,##0.00" );
+            lTaxableSalary.Text = taxableSalary.ToString( "#,##0.00" );
 
-            if (currentOffer.PersonAliasId > 0)
+            if ( currentOffer.PersonAliasId > 0 )
             {
                 // PersonAliasId is used
                 var rockContext = new RockContext();
-                var personAliasService = new PersonAliasService(rockContext);
-                var personAlias = personAliasService.Get(currentOffer.PersonAliasId);
+                var personAliasService = new PersonAliasService( rockContext );
+                var personAlias = personAliasService.Get( currentOffer.PersonAliasId );
                 lName.Text = personAlias.Person.FullName;
                 lEmail.Text = personAlias.Person.Email;
 
-                if (personAlias.Person.PhoneNumbers.FirstOrDefault(n => n.NumberTypeValueId == 13) != null)
+                if ( personAlias.Person.PhoneNumbers.FirstOrDefault( n => n.NumberTypeValueId == 13 ) != null )
                 {
-                    lPhone.Text = personAlias.Person.PhoneNumbers.FirstOrDefault(n => n.NumberTypeValueId == 13).ToString();
+                    lPhone.Text = personAlias.Person.PhoneNumbers.FirstOrDefault( n => n.NumberTypeValueId == 13 ).ToString();
                 }
-                if (personAlias.Person.GetHomeLocation() != null)
+                if ( personAlias.Person.GetHomeLocation() != null )
                 {
                     lAddress.Text = personAlias.Person.GetHomeLocation().ToString();
-                }                
+                }
             }
             else
             {
@@ -704,7 +705,7 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         /// </summary>
         private void LoadEditDetail()
         {
-            LoadJobDetailDropDownValues();            
+            LoadJobDetailDropDownValues();
 
             DateTime offerDate = new DateTime();
             DateTime effectiveDate = new DateTime();
@@ -724,18 +725,18 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             ddStatus.Text = currentOffer.EmploymentStatusValueId.ToString();
             ddDepartment.Text = currentOffer.DepartmentValueId.ToString();
             ddPosition.Text = currentOffer.JobTitleValueId.ToString();
-            if (currentOffer.IsPastor)
+            if ( currentOffer.IsPastor )
             {
                 cbIsPastor.Checked = true;
             }
-            if (currentOffer.PersonAliasId > 0)
+            if ( currentOffer.PersonAliasId > 0 )
             {
                 // PersonAliasId is used
                 var rockContext = new RockContext();
-                var personAliasService = new PersonAliasService(rockContext);
-                var personAlias = personAliasService.Get(currentOffer.PersonAliasId);                
-                
-                ppPerson.SetValue(personAlias.Person);
+                var personAliasService = new PersonAliasService( rockContext );
+                var personAlias = personAliasService.Get( currentOffer.PersonAliasId );
+
+                ppPerson.SetValue( personAlias.Person );
             }
         }
 
@@ -745,7 +746,7 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         private void LoadCompensationDetail()
         {
             tbWeeklyHours.Text = currentOffer.WeeklyHours.ToString();
-            if(isHourly)
+            if ( isHourly )
             {
                 tbHourlyRate.Visible = true;
                 tbCurrentHourlyRate.Visible = true;
@@ -773,40 +774,40 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         {
             string medical = "Med";
             string dental = "Den";
-            var mpQry = new DefinedValueService(new RockContext()).Queryable().AsNoTracking();
-            mpQry = mpQry.Where(row => row.DefinedTypeId == 142);
-            var mpQrySorted = mpQry.OrderBy(a => a.Value);
-            foreach (var qRow in mpQrySorted)
+            var mpQry = new DefinedValueService( new RockContext() ).Queryable().AsNoTracking();
+            mpQry = mpQry.Where( row => row.DefinedTypeId == 142 );
+            var mpQrySorted = mpQry.OrderBy( a => a.Value );
+            foreach ( var qRow in mpQrySorted )
             {
-                if (qRow.Value.Contains(medical))
+                if ( qRow.Value.Contains( medical ) )
                 {
-                    ddMedicalPlan.Items.Add(new ListItem(qRow.Value, qRow.Id.ToString()));
+                    ddMedicalPlan.Items.Add( new ListItem( qRow.Value, qRow.Id.ToString() ) );
                 }
-                if (qRow.Value.Contains(dental))
+                if ( qRow.Value.Contains( dental ) )
                 {
-                    ddDentalPlan.Items.Add(new ListItem(qRow.Value, qRow.Id.ToString()));
+                    ddDentalPlan.Items.Add( new ListItem( qRow.Value, qRow.Id.ToString() ) );
                 }
             }
-            var rpQry = new DefinedValueService(new RockContext()).Queryable().AsNoTracking();
-            rpQry = rpQry.Where(row => row.DefinedTypeId == 124);
-            var rpQrySorted = rpQry.OrderBy(a => a.Order);
-            ddRetirementPercent.Items.Add(new ListItem("", 0.ToString())); // add a blank value at the top
-            foreach (var qRow in rpQrySorted)
+            var rpQry = new DefinedValueService( new RockContext() ).Queryable().AsNoTracking();
+            rpQry = rpQry.Where( row => row.DefinedTypeId == 124 );
+            var rpQrySorted = rpQry.OrderBy( a => a.Order );
+            ddRetirementPercent.Items.Add( new ListItem( "", 0.ToString() ) ); // add a blank value at the top
+            foreach ( var qRow in rpQrySorted )
             {
-                ddRetirementPercent.Items.Add(new ListItem(qRow.Value, qRow.Id.ToString()));
+                ddRetirementPercent.Items.Add( new ListItem( qRow.Value, qRow.Id.ToString() ) );
             }
 
-            if (currentOffer.MedicalPlanValueId != null)
+            if ( currentOffer.MedicalPlanValueId != null )
             {
                 ddMedicalPlan.Text = currentOffer.MedicalPlanValueId.ToString();
             }
-            if (currentOffer.DentalPlanValueId != null)
+            if ( currentOffer.DentalPlanValueId != null )
             {
                 ddDentalPlan.Text = currentOffer.DentalPlanValueId.ToString();
             }
             tbMedicalReimbursement.Text = currentOffer.MedicalReimbursement.ToString();
             tbHSAContribution.Text = currentOffer.HSAContribution.ToString();
-            if (currentOffer.RetireEmplPercentageValueId != null)
+            if ( currentOffer.RetireEmplPercentageValueId != null )
             {
                 ddRetirementPercent.Text = currentOffer.RetireEmplPercentageValueId.ToString();
             }
@@ -822,7 +823,7 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             tbRetirementAmount.Text = currentOffer.RetirementEmployerAmount.ToString();
 
             GetVacationStatus();
-            if (calculateVacation == "True")
+            if ( calculateVacation == "True" )
             {
                 lVacationDisplayed.Visible = true;
                 tbVacationDays.Visible = false;
@@ -832,7 +833,7 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             {
                 tbVacationDays.Visible = true;
                 lVacationDisplayed.Visible = false;
-                tbVacationDays.Text = currentOffer.VacationDaysAnnual.ToString();                
+                tbVacationDays.Text = currentOffer.VacationDaysAnnual.ToString();
             }
         }
 
@@ -841,9 +842,9 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         /// </summary>
         /// <param name="pastor">if set to <c>true</c> [pastor].</param>
         /// <param name="status">The status.</param>
-        private void GetPayrollStatus(bool pastor, string status)
+        private void GetPayrollStatus( bool pastor, string status )
         {
-            if (pastor)
+            if ( pastor )
             {
                 isPastor = true;
             }
@@ -852,9 +853,9 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
                 isPastor = false;
             }
 
-            isFullTime = status.Contains("Full");
-            isHourly = status.Contains("Hourly");
-            isSalary = status.Contains("Salary");
+            isFullTime = status.Contains( "Full" );
+            isHourly = status.Contains( "Hourly" );
+            isSalary = status.Contains( "Salary" );
         }
 
         /// <summary>
@@ -864,24 +865,24 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         {
             nbWarningMessage.Text = "Please Correct the Following";
             nbWarningMessage.Visible = true;
-            DateTime oDate = new DateTime(1900, 1, 1);
-            DateTime eDate = new DateTime(1900, 1, 1);
-            DateTime tDate = new DateTime(1900, 1, 1);
-            if (dpOfferDate.Text != "")
+            DateTime oDate = new DateTime( 1900, 1, 1 );
+            DateTime eDate = new DateTime( 1900, 1, 1 );
+            DateTime tDate = new DateTime( 1900, 1, 1 );
+            if ( dpOfferDate.Text != "" )
             {
-                oDate = DateTime.Parse(dpOfferDate.Text);
+                oDate = DateTime.Parse( dpOfferDate.Text );
             }
-            if (dpEffectiveDate.Text != "")
+            if ( dpEffectiveDate.Text != "" )
             {
-                eDate = DateTime.Parse(dpEffectiveDate.Text);
+                eDate = DateTime.Parse( dpEffectiveDate.Text );
             }
-            if (dpTenureDate.Text != "")
+            if ( dpTenureDate.Text != "" )
             {
-                tDate = DateTime.Parse(dpTenureDate.Text);
+                tDate = DateTime.Parse( dpTenureDate.Text );
             }
 
-            var position = Int32.Parse(ddPosition.Text);
-            if (position == 0)
+            var position = Int32.Parse( ddPosition.Text );
+            if ( position == 0 )
             {
                 formError = true;
                 nbWarningMessage.Visible = true;
@@ -892,8 +893,8 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
                 currentOffer.JobTitleValueId = position;
             }
 
-            var status = Int32.Parse(ddStatus.Text);
-            if (status == 0)
+            var status = Int32.Parse( ddStatus.Text );
+            if ( status == 0 )
             {
                 formError = true;
                 nbWarningMessage.Visible = true;
@@ -904,8 +905,8 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
                 currentOffer.EmploymentStatusValueId = status;
             }
 
-            var department = Int32.Parse(ddDepartment.Text);
-            if (department == 0)
+            var department = Int32.Parse( ddDepartment.Text );
+            if ( department == 0 )
             {
                 formError = true;
                 nbWarningMessage.Visible = true;
@@ -916,8 +917,8 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
                 currentOffer.DepartmentValueId = department;
             }
 
-            var campus = Int32.Parse(ddCampus.Text);
-            if (campus == 0)
+            var campus = Int32.Parse( ddCampus.Text );
+            if ( campus == 0 )
             {
                 formError = true;
                 nbWarningMessage.Visible = true;
@@ -927,33 +928,33 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             {
                 currentOffer.CampusId = campus;
             }
-            
+
             string selectedPerson = ppPerson.SelectedValue.ToString();
-            if(selectedPerson != "")
+            if ( selectedPerson != "" )
             {
-                int personId = Int32.Parse(selectedPerson);
+                int personId = Int32.Parse( selectedPerson );
                 Person currentPerson;
                 var rockContext = new RockContext();
-                currentPerson = new PersonService(rockContext).Get(personId);
-                int aliasId = currentPerson.PrimaryAliasId ?? default(int);
+                currentPerson = new PersonService( rockContext ).Get( personId );
+                int aliasId = currentPerson.PrimaryAliasId ?? default( int );
                 //currentOffer.PersonId = personId;
                 currentOffer.PersonAliasId = aliasId;
             }
 
             // compare new IsPastor with previous IsPastor
-            if (cbIsPastor.Checked == true )
+            if ( cbIsPastor.Checked == true )
             {
-                if(!isPastor)
+                if ( !isPastor )
                 {
                     currentOffer.IsPastor = true;
                     // was changed and need to flip flop SSGrossUp and Payroll Tax
                     currentOffer.EmployerPayrollTax = socialSecurityGrossUp;
                     currentOffer.SocialSecurityGrossUp = socialSecurity;
-                }                
+                }
             }
             else
             {
-                if (isPastor)
+                if ( isPastor )
                 {
                     currentOffer.IsPastor = false;
                     // was changed and need to flip flop SSGrossUp and Payroll Tax
@@ -961,8 +962,8 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
                     currentOffer.SocialSecurityGrossUp = socialSecurity;
                 }
             }
-            
-            currentOffer.Title = tbTitle.Text;            
+
+            currentOffer.Title = tbTitle.Text;
             currentOffer.OfferDate = oDate;
             currentOffer.EffectiveDate = eDate;
             currentOffer.TenureDate = tDate;
@@ -977,23 +978,23 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         /// </summary>
         private void SetCompensationData()
         {
-            decimal.TryParse(tbWeeklyHours.Text.Trim(), out weeklyHours);
-            decimal.TryParse(tbHourlyRate.Text.Trim(), out hourlyRate);
-            decimal.TryParse(tbCurrentHourlyRate.Text.Trim(), out currentHourlyRate);
-            decimal.TryParse(tbHousing.Text.Trim(), out housing);
-            decimal.TryParse(tbBaseSalary.Text.Trim(), out baseSalary);
-            decimal.TryParse(tbCurrentBaseSalary.Text.Trim(), out currentBaseSalary);
+            decimal.TryParse( tbWeeklyHours.Text.Trim(), out weeklyHours );
+            decimal.TryParse( tbHourlyRate.Text.Trim(), out hourlyRate );
+            decimal.TryParse( tbCurrentHourlyRate.Text.Trim(), out currentHourlyRate );
+            decimal.TryParse( tbHousing.Text.Trim(), out housing );
+            decimal.TryParse( tbBaseSalary.Text.Trim(), out baseSalary );
+            decimal.TryParse( tbCurrentBaseSalary.Text.Trim(), out currentBaseSalary );
 
             annualHours = weeklyHours * annualWeeks;
 
-            if (isHourly)
+            if ( isHourly )
             {
                 hourlySalary = annualHours * hourlyRate;
             }
 
             CalculateSocialSecurityGrossUp();
 
-            if (isSalary)
+            if ( isSalary )
             {
                 totalSalary = baseSalary + socialSecurityGrossUp;
                 taxableSalary = totalSalary - housing;
@@ -1003,7 +1004,7 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
                 totalSalary = hourlySalary + socialSecurityGrossUp;
                 taxableSalary = totalSalary - housing;
             }
-                        
+
             CalculatePayrollTax();
             CalculateWorkersComp();
 
@@ -1020,29 +1021,29 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         /// Sets the benefits data.
         /// </summary>
         private void SetBenefitsData()
-        {            
+        {
             decimal medicalReimbursement = 0;
-            decimal.TryParse(tbMedicalReimbursement.Text.Trim(), out medicalReimbursement);
+            decimal.TryParse( tbMedicalReimbursement.Text.Trim(), out medicalReimbursement );
             decimal hsa = 0;
-            decimal.TryParse(tbHSAContribution.Text.Trim(), out hsa);
+            decimal.TryParse( tbHSAContribution.Text.Trim(), out hsa );
             decimal cell = 0;
-            decimal.TryParse(tbCellPhone.Text.Trim(), out cell);
+            decimal.TryParse( tbCellPhone.Text.Trim(), out cell );
             decimal mileage = 0;
-            decimal.TryParse(tbMileage.Text.Trim(), out mileage);
+            decimal.TryParse( tbMileage.Text.Trim(), out mileage );
             decimal wellness = 0;
-            decimal.TryParse(tbWellness.Text.Trim(), out wellness);
+            decimal.TryParse( tbWellness.Text.Trim(), out wellness );
             decimal education = 0;
-            decimal.TryParse(tbEducation.Text.Trim(), out education);
+            decimal.TryParse( tbEducation.Text.Trim(), out education );
             decimal sickDays = 0;
-            decimal.TryParse(tbSickDays.Text.Trim(), out sickDays);
+            decimal.TryParse( tbSickDays.Text.Trim(), out sickDays );
             decimal other = 0;
-            decimal.TryParse(tbOther.Text.Trim(), out other);
+            decimal.TryParse( tbOther.Text.Trim(), out other );
             decimal retirementAmount = 0;
-            decimal.TryParse(tbRetirementAmount.Text.Trim(), out retirementAmount);
+            decimal.TryParse( tbRetirementAmount.Text.Trim(), out retirementAmount );
 
-            var medicalPlan = Int32.Parse(ddMedicalPlan.Text);
-            var dentalPlan = Int32.Parse(ddDentalPlan.Text);
-            var retirementPercent = Int32.Parse(ddRetirementPercent.Text);
+            var medicalPlan = Int32.Parse( ddMedicalPlan.Text );
+            var dentalPlan = Int32.Parse( ddDentalPlan.Text );
+            var retirementPercent = Int32.Parse( ddRetirementPercent.Text );
 
             annualHours = currentOffer.WeeklyHours * annualWeeks;
             hourlySalary = annualHours * currentOffer.HourlyRate;
@@ -1050,31 +1051,31 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
 
             CalculateLifeInsurance();
             CalculateDisabilityInsurance();
-            CalculateMedicalPremiums(medicalPlan);
-            CalculateDentalPremiums(dentalPlan);
+            CalculateMedicalPremiums( medicalPlan );
+            CalculateDentalPremiums( dentalPlan );
 
-            if(retirementPercent == 5803)
+            if ( retirementPercent == 5803 )
             {
                 // Flat Rate
                 currentOffer.RetirementEmployerAmount = retirementAmount;
             }
             else
             {
-                if (retirementPercent != 0)
+                if ( retirementPercent != 0 )
                 {
-                    CalculateRetirement(retirementPercent);
-                }                  
-            }            
+                    CalculateRetirement( retirementPercent );
+                }
+            }
 
             GetVacationStatus();
 
-            if (calculateVacation == "True")
+            if ( calculateVacation == "True" )
             {
                 CalculateVacationDays();
                 decimal daysEarned;
-                decimal.TryParse(vacationDays, out daysEarned);
+                decimal.TryParse( vacationDays, out daysEarned );
                 decimal rateEarned;
-                decimal.TryParse(vacationRate, out rateEarned);
+                decimal.TryParse( vacationRate, out rateEarned );
 
                 currentOffer.VacationDaysAnnual = daysEarned;
                 currentOffer.VacationDaysRate = rateEarned;
@@ -1082,11 +1083,11 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             else
             {
                 decimal vDays = 0;
-                decimal.TryParse(tbVacationDays.Text.Trim(), out vDays);
+                decimal.TryParse( tbVacationDays.Text.Trim(), out vDays );
                 currentOffer.VacationDaysAnnual = vDays;
                 currentOffer.VacationDaysRate = vDays / 12;
             }
-            
+
             currentOffer.MedicalPlanValueId = medicalPlan;
             currentOffer.DentalPlanValueId = dentalPlan;
             currentOffer.MedicalReimbursement = medicalReimbursement;
@@ -1097,11 +1098,11 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             currentOffer.ContinuingEducation = education;
             currentOffer.OtherBenefits = other;
             currentOffer.SickDays = sickDays;
-            if (isFullTime == true)
+            if ( isFullTime == true )
             {
-                
+
             }
-            if (retirementPercent != 0)
+            if ( retirementPercent != 0 )
             {
                 currentOffer.RetireEmplPercentageValueId = retirementPercent;
             }
@@ -1121,16 +1122,16 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         private void GetNewJobOffer()
         {
             int counter = 0;
-            var qry = new JobOfferDetailService(new RockContext()).Queryable().AsNoTracking();
-            qry = qry.Where(row => row.Id > 0);
-            var qrySorted = qry.OrderByDescending(a => a.Id );
-            foreach (var qRow in qrySorted)
+            var qry = new JobOfferDetailService( new RockContext() ).Queryable().AsNoTracking();
+            qry = qry.Where( row => row.Id > 0 );
+            var qrySorted = qry.OrderByDescending( a => a.Id );
+            foreach ( var qRow in qrySorted )
             {
                 counter++;
-                if (counter == 1)
+                if ( counter == 1 )
                 {
                     newJobOfferId = qRow.Id;
-                }                
+                }
             }
         }
 
@@ -1139,50 +1140,50 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         /// </summary>
         private void LoadJobDetailDropDownValues()
         {
-            var osQry = new DefinedValueService(new RockContext()).Queryable().AsNoTracking();
-            osQry = osQry.Where(row => row.DefinedTypeId == 138);
-            var osQrySorted = osQry.OrderBy(a => a.Value);
-                        
-            foreach (var qRow in osQrySorted)
+            var osQry = new DefinedValueService( new RockContext() ).Queryable().AsNoTracking();
+            osQry = osQry.Where( row => row.DefinedTypeId == 138 );
+            var osQrySorted = osQry.OrderBy( a => a.Value );
+
+            foreach ( var qRow in osQrySorted )
             {
-                ddOfferStatus.Items.Add(new ListItem(qRow.Value, qRow.Id.ToString()));
+                ddOfferStatus.Items.Add( new ListItem( qRow.Value, qRow.Id.ToString() ) );
             }
             ddOfferStatus.SelectedValue = 2759.ToString();
 
-            var cQry = new CampusService(new RockContext()).Queryable().AsNoTracking();
-            cQry = cQry.Where(row => row.Id != 7 && row.Id != 8 && row.Id != 10);
-            var cQrySorted = cQry.OrderBy(a => a.Name);
-            ddCampus.Items.Add(new ListItem("", "0"));
-            foreach (var qRow in cQrySorted)
+            var cQry = new CampusService( new RockContext() ).Queryable().AsNoTracking();
+            cQry = cQry.Where( row => row.Id != 7 && row.Id != 8 && row.Id != 10 );
+            var cQrySorted = cQry.OrderBy( a => a.Name );
+            ddCampus.Items.Add( new ListItem( "", "0" ) );
+            foreach ( var qRow in cQrySorted )
             {
-                ddCampus.Items.Add(new ListItem(qRow.Name, qRow.Id.ToString()));
+                ddCampus.Items.Add( new ListItem( qRow.Name, qRow.Id.ToString() ) );
             }
 
-            var sQry = new DefinedValueService(new RockContext()).Queryable().AsNoTracking();
-            sQry = sQry.Where(row => row.DefinedTypeId == 132);
-            var sQrySorted = sQry.OrderBy(a => a.Value);
-            ddStatus.Items.Add(new ListItem("", "0"));
-            foreach (var qRow in sQrySorted)
+            var sQry = new DefinedValueService( new RockContext() ).Queryable().AsNoTracking();
+            sQry = sQry.Where( row => row.DefinedTypeId == 132 );
+            var sQrySorted = sQry.OrderBy( a => a.Value );
+            ddStatus.Items.Add( new ListItem( "", "0" ) );
+            foreach ( var qRow in sQrySorted )
             {
-                ddStatus.Items.Add(new ListItem(qRow.Value, qRow.Id.ToString()));
+                ddStatus.Items.Add( new ListItem( qRow.Value, qRow.Id.ToString() ) );
             }
 
-            var pQry = new DefinedValueService(new RockContext()).Queryable().AsNoTracking();
-            pQry = pQry.Where(row => row.DefinedTypeId == 139);
-            var pQrySorted = pQry.OrderBy(a => a.Value);
-            ddPosition.Items.Add(new ListItem("", "0"));
-            foreach (var qRow in pQrySorted)
+            var pQry = new DefinedValueService( new RockContext() ).Queryable().AsNoTracking();
+            pQry = pQry.Where( row => row.DefinedTypeId == 139 );
+            var pQrySorted = pQry.OrderBy( a => a.Value );
+            ddPosition.Items.Add( new ListItem( "", "0" ) );
+            foreach ( var qRow in pQrySorted )
             {
-                ddPosition.Items.Add(new ListItem(qRow.Value, qRow.Id.ToString()));
+                ddPosition.Items.Add( new ListItem( qRow.Value, qRow.Id.ToString() ) );
             }
 
-            var dQry = new DefinedValueService(new RockContext()).Queryable().AsNoTracking();
-            dQry = dQry.Where(row => row.DefinedTypeId == 127);
-            var dQrySorted = dQry.OrderBy(a => a.Value);
-            ddDepartment.Items.Add(new ListItem("", "0"));
-            foreach (var qRow in dQrySorted)
+            var dQry = new DefinedValueService( new RockContext() ).Queryable().AsNoTracking();
+            dQry = dQry.Where( row => row.DefinedTypeId == 127 );
+            var dQrySorted = dQry.OrderBy( a => a.Value );
+            ddDepartment.Items.Add( new ListItem( "", "0" ) );
+            foreach ( var qRow in dQrySorted )
             {
-                ddDepartment.Items.Add(new ListItem(qRow.Value, qRow.Id.ToString()));
+                ddDepartment.Items.Add( new ListItem( qRow.Value, qRow.Id.ToString() ) );
             }
         }
 
@@ -1191,25 +1192,25 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         /// </summary>
         private void GetSocialSecurityRates()
         {
-            var ss1Qry = new AttributeService(new RockContext()).Queryable().AsNoTracking();
-            ss1Qry = ss1Qry.Where(row => row.Id == 7715);            
-            foreach (var qRow in ss1Qry)
+            var ss1Qry = new AttributeService( new RockContext() ).Queryable().AsNoTracking();
+            ss1Qry = ss1Qry.Where( row => row.Id == 7715 );
+            foreach ( var qRow in ss1Qry )
             {
-                Int32.TryParse(qRow.DefaultValue, out ssTierOneCap);                
+                Int32.TryParse( qRow.DefaultValue, out ssTierOneCap );
             }
 
-            var ss2Qry = new AttributeService(new RockContext()).Queryable().AsNoTracking();
-            ss2Qry = ss2Qry.Where(row => row.Id == 7716);
-            foreach (var qRow in ss2Qry)
+            var ss2Qry = new AttributeService( new RockContext() ).Queryable().AsNoTracking();
+            ss2Qry = ss2Qry.Where( row => row.Id == 7716 );
+            foreach ( var qRow in ss2Qry )
             {
-                Decimal.TryParse(qRow.DefaultValue, out ssTierOneRate);
+                Decimal.TryParse( qRow.DefaultValue, out ssTierOneRate );
             }
 
-            var ss3Qry = new AttributeService(new RockContext()).Queryable().AsNoTracking();
-            ss3Qry = ss3Qry.Where(row => row.Id == 7717);
-            foreach (var qRow in ss3Qry)
+            var ss3Qry = new AttributeService( new RockContext() ).Queryable().AsNoTracking();
+            ss3Qry = ss3Qry.Where( row => row.Id == 7717 );
+            foreach ( var qRow in ss3Qry )
             {
-                Decimal.TryParse(qRow.DefaultValue, out ssTierTwoRate);
+                Decimal.TryParse( qRow.DefaultValue, out ssTierTwoRate );
             }
         }
 
@@ -1220,39 +1221,39 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         {
             GetSocialSecurityRates();
 
-            if (isPastor)
+            if ( isPastor )
             {
                 currentOffer.EmployerPayrollTax = 0;
-                if(isSalary)
+                if ( isSalary )
                 {
-                    if (baseSalary > ssTierOneCap)
+                    if ( baseSalary > ssTierOneCap )
                     {
-                        decimal tierTwoValue = (baseSalary - ssTierOneCap) * ssTierTwoRate;
-                        socialSecurityGrossUp = (ssTierOneCap * ssTierOneRate) + tierTwoValue;
+                        decimal tierTwoValue = ( baseSalary - ssTierOneCap ) * ssTierTwoRate;
+                        socialSecurityGrossUp = ( ssTierOneCap * ssTierOneRate ) + tierTwoValue;
                     }
                     else
                     {
-                        socialSecurityGrossUp = (baseSalary * ssTierOneRate);
-                    }                    
+                        socialSecurityGrossUp = ( baseSalary * ssTierOneRate );
+                    }
                 }
                 else
-                {                    
+                {
 
-                    if (hourlySalary > ssTierOneCap)
+                    if ( hourlySalary > ssTierOneCap )
                     {
-                        decimal tierTwoValue = (hourlySalary - ssTierOneCap) * ssTierTwoRate;
-                        socialSecurityGrossUp = (ssTierOneCap * ssTierOneRate) + tierTwoValue;
+                        decimal tierTwoValue = ( hourlySalary - ssTierOneCap ) * ssTierTwoRate;
+                        socialSecurityGrossUp = ( ssTierOneCap * ssTierOneRate ) + tierTwoValue;
                     }
                     else
                     {
-                        socialSecurityGrossUp = (hourlySalary * ssTierOneRate);
+                        socialSecurityGrossUp = ( hourlySalary * ssTierOneRate );
                     }
                 }
-                
+
             }
             else
             {
-                socialSecurityGrossUp = 0;                
+                socialSecurityGrossUp = 0;
             }
         }
 
@@ -1261,14 +1262,14 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         /// </summary>
         private void CalculatePayrollTax()
         {
-            var pt1Qry = new AttributeService(new RockContext()).Queryable().AsNoTracking();
-            pt1Qry = pt1Qry.Where(row => row.Id == 7710);
-            foreach (var qRow in pt1Qry)
+            var pt1Qry = new AttributeService( new RockContext() ).Queryable().AsNoTracking();
+            pt1Qry = pt1Qry.Where( row => row.Id == 7710 );
+            foreach ( var qRow in pt1Qry )
             {
-                Decimal.TryParse(qRow.DefaultValue, out payrollTaxRate);
+                Decimal.TryParse( qRow.DefaultValue, out payrollTaxRate );
             }
 
-            if (isPastor)
+            if ( isPastor )
             {
                 currentOffer.EmployerPayrollTax = 0;
             }
@@ -1286,55 +1287,55 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             decimal premiumRate = 0;
             decimal regularRate = 0;
 
-            var wc1Qry = new AttributeService(new RockContext()).Queryable().AsNoTracking();
-            wc1Qry = wc1Qry.Where(row => row.Id == 7713);
-            foreach (var qRow in wc1Qry)
+            var wc1Qry = new AttributeService( new RockContext() ).Queryable().AsNoTracking();
+            wc1Qry = wc1Qry.Where( row => row.Id == 7713 );
+            foreach ( var qRow in wc1Qry )
             {
-                Decimal.TryParse(qRow.DefaultValue, out premiumRate);
+                Decimal.TryParse( qRow.DefaultValue, out premiumRate );
             }
 
-            var wc2Qry = new AttributeService(new RockContext()).Queryable().AsNoTracking();
-            wc2Qry = wc2Qry.Where(row => row.Id == 7714);
-            foreach (var qRow in wc2Qry)
+            var wc2Qry = new AttributeService( new RockContext() ).Queryable().AsNoTracking();
+            wc2Qry = wc2Qry.Where( row => row.Id == 7714 );
+            foreach ( var qRow in wc2Qry )
             {
-                Decimal.TryParse(qRow.DefaultValue, out regularRate);
+                Decimal.TryParse( qRow.DefaultValue, out regularRate );
             }
 
             int counter = 0;
 
-            var wc3Qry = new AttributeValueService(new RockContext()).Queryable().AsNoTracking();
-            wc3Qry = wc3Qry.Where(row => row.AttributeId == 7841 && row.Value == "True");
-            foreach (var qRow in wc3Qry)
+            var wc3Qry = new AttributeValueService( new RockContext() ).Queryable().AsNoTracking();
+            wc3Qry = wc3Qry.Where( row => row.AttributeId == 7841 && row.Value == "True" );
+            foreach ( var qRow in wc3Qry )
             {
-                if(currentOffer.DepartmentValueId == qRow.EntityId)
+                if ( currentOffer.DepartmentValueId == qRow.EntityId )
                 {
-                    counter++;                
+                    counter++;
                 }
-                    
+
             }
 
-            if(counter > 0)
+            if ( counter > 0 )
             {
                 currentOffer.WorkersCompRate = premiumRate;
-                if (isHourly)
+                if ( isHourly )
                 {
-                    currentOffer.WorkersCompPremium = (hourlySalary / 100 ) * premiumRate;
+                    currentOffer.WorkersCompPremium = ( hourlySalary / 100 ) * premiumRate;
                 }
                 else
                 {
-                    currentOffer.WorkersCompPremium = (baseSalary / 100 ) * premiumRate;
+                    currentOffer.WorkersCompPremium = ( baseSalary / 100 ) * premiumRate;
                 }
             }
             else
             {
                 currentOffer.WorkersCompRate = regularRate;
-                if (isHourly)
+                if ( isHourly )
                 {
-                    currentOffer.WorkersCompPremium = (hourlySalary /100 ) * regularRate;
+                    currentOffer.WorkersCompPremium = ( hourlySalary / 100 ) * regularRate;
                 }
                 else
                 {
-                    currentOffer.WorkersCompPremium = (baseSalary / 100 ) * regularRate;
+                    currentOffer.WorkersCompPremium = ( baseSalary / 100 ) * regularRate;
                 }
             }
         }
@@ -1346,9 +1347,9 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         {
             var statusId = currentOffer.EmploymentStatusValueId;
 
-            var rQry = new AttributeValueService(new RockContext()).Queryable().AsNoTracking();
-            rQry = rQry.Where(row => row.AttributeId == 7905 && row.EntityId == statusId);
-            foreach (var qRow in rQry)
+            var rQry = new AttributeValueService( new RockContext() ).Queryable().AsNoTracking();
+            rQry = rQry.Where( row => row.AttributeId == 7905 && row.EntityId == statusId );
+            foreach ( var qRow in rQry )
             {
                 calculateVacation = qRow.Value;
             }
@@ -1362,12 +1363,12 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             double days = 0;
             double years = 0;
             decimal tenure = 0;
-            
+
             DateTime tenureDate = currentOffer.TenureDate;
-			DateTime effectiveDate = currentOffer.EffectiveDate;
-            days = (effectiveDate - tenureDate).TotalDays;
-            years = (days / 365);
-            tenure = System.Convert.ToDecimal(years);
+            DateTime effectiveDate = currentOffer.EffectiveDate;
+            days = ( effectiveDate - tenureDate ).TotalDays;
+            years = ( days / 365 );
+            tenure = System.Convert.ToDecimal( years );
 
             //ldebugString.Text += "<br> Tenure " + tenure;
 
@@ -1383,18 +1384,18 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             qryString = qryString + "AND av3.AttributeId = 2153 "; // Days Per Month
             qryString = qryString + "ORDER BY dv.[Order]";
 
-            SqlConnection conn = new SqlConnection(connString);
+            SqlConnection conn = new SqlConnection( connString );
             conn.Open();
-            SqlCommand cmd = new SqlCommand(qryString, conn);
+            SqlCommand cmd = new SqlCommand( qryString, conn );
             cmd.CommandType = System.Data.CommandType.Text;
             SqlDataReader rdr = cmd.ExecuteReader();
 
-            while (rdr.Read())
+            while ( rdr.Read() )
             {
-                if ((tenure > rdr.GetDecimal(2)) && (tenure < rdr.GetDecimal(3)))
+                if ( ( tenure > rdr.GetDecimal( 2 ) ) && ( tenure < rdr.GetDecimal( 3 ) ) )
                 {
-                    vacationDays = rdr.GetString(1);
-                    vacationRate = rdr.GetString(4);
+                    vacationDays = rdr.GetString( 1 );
+                    vacationRate = rdr.GetString( 4 );
                 }
             }
             conn.Close();
@@ -1404,22 +1405,22 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         /// Calculates the retirement.
         /// </summary>
         /// <param name="valueId">The value identifier.</param>
-        private void CalculateRetirement(int valueId)
+        private void CalculateRetirement( int valueId )
         {
-            if (isFullTime == true)
+            if ( isFullTime == true )
             {
-                
+
             }
 
             decimal rate = 0;
 
-            var rQry = new AttributeValueService(new RockContext()).Queryable().AsNoTracking();
-            rQry = rQry.Where(row => row.AttributeId == 7719 && row.EntityId == valueId);
-            foreach (var qRow in rQry)
+            var rQry = new AttributeValueService( new RockContext() ).Queryable().AsNoTracking();
+            rQry = rQry.Where( row => row.AttributeId == 7719 && row.EntityId == valueId );
+            foreach ( var qRow in rQry )
             {
-                Decimal.TryParse(qRow.Value, out rate);
+                Decimal.TryParse( qRow.Value, out rate );
             }
-            if (isSalary)
+            if ( isSalary )
             {
                 currentOffer.RetirementEmployerAmount = baseSalary * rate;
             }
@@ -1438,22 +1439,22 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         {
             decimal rate = 0;
 
-            var diQry = new AttributeService(new RockContext()).Queryable().AsNoTracking();
-            diQry = diQry.Where(row => row.Id == 7712);
-            foreach (var qRow in diQry)
+            var diQry = new AttributeService( new RockContext() ).Queryable().AsNoTracking();
+            diQry = diQry.Where( row => row.Id == 7712 );
+            foreach ( var qRow in diQry )
             {
-                Decimal.TryParse(qRow.DefaultValue, out rate);
+                Decimal.TryParse( qRow.DefaultValue, out rate );
             }
 
-            if (isFullTime)
+            if ( isFullTime )
             {
-                if (isHourly)
+                if ( isHourly )
                 {
-                    currentOffer.DisabilityEmployerPremium = (hourlySalary / 12) * rate;
+                    currentOffer.DisabilityEmployerPremium = ( hourlySalary / 12 ) * rate;
                 }
                 else
                 {
-                    currentOffer.DisabilityEmployerPremium = (baseSalary / 12) * rate;
+                    currentOffer.DisabilityEmployerPremium = ( baseSalary / 12 ) * rate;
                 }
             }
             else
@@ -1469,22 +1470,22 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         {
             decimal rate = 0;
 
-            var liQry = new AttributeService(new RockContext()).Queryable().AsNoTracking();
-            liQry = liQry.Where(row => row.Id == 7711);
-            foreach (var qRow in liQry)
+            var liQry = new AttributeService( new RockContext() ).Queryable().AsNoTracking();
+            liQry = liQry.Where( row => row.Id == 7711 );
+            foreach ( var qRow in liQry )
             {
-                Decimal.TryParse(qRow.DefaultValue, out rate);
+                Decimal.TryParse( qRow.DefaultValue, out rate );
             }
 
-            if (isFullTime)
+            if ( isFullTime )
             {
-                if (isHourly)
+                if ( isHourly )
                 {
-                    currentOffer.LifeInsuranceEmployerPremium = (hourlySalary * 2) * rate;
+                    currentOffer.LifeInsuranceEmployerPremium = ( hourlySalary * 2 ) * rate;
                 }
                 else
                 {
-                    currentOffer.LifeInsuranceEmployerPremium = (baseSalary * 2) * rate;
+                    currentOffer.LifeInsuranceEmployerPremium = ( baseSalary * 2 ) * rate;
                 }
             }
             else
@@ -1497,24 +1498,24 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         /// Calculates the medical premiums.
         /// </summary>
         /// <param name="valueId">The value identifier.</param>
-        private void CalculateMedicalPremiums(int valueId)
+        private void CalculateMedicalPremiums( int valueId )
         {
             decimal rate = 0;
 
-            var mpQry = new AttributeValueService(new RockContext()).Queryable().AsNoTracking();
-            mpQry = mpQry.Where(row => row.AttributeId == 2145 && row.EntityId == valueId);
-            foreach (var qRow in mpQry)
+            var mpQry = new AttributeValueService( new RockContext() ).Queryable().AsNoTracking();
+            mpQry = mpQry.Where( row => row.AttributeId == 2145 && row.EntityId == valueId );
+            foreach ( var qRow in mpQry )
             {
-                Decimal.TryParse(qRow.Value, out rate);
+                Decimal.TryParse( qRow.Value, out rate );
             }
 
             currentOffer.MedicalEmployerPremium = rate;
 
-            var mp2Qry = new AttributeValueService(new RockContext()).Queryable().AsNoTracking();
-            mp2Qry = mp2Qry.Where(row => row.AttributeId == 2146 && row.EntityId == valueId);
-            foreach (var qRow in mp2Qry)
+            var mp2Qry = new AttributeValueService( new RockContext() ).Queryable().AsNoTracking();
+            mp2Qry = mp2Qry.Where( row => row.AttributeId == 2146 && row.EntityId == valueId );
+            foreach ( var qRow in mp2Qry )
             {
-                Decimal.TryParse(qRow.Value, out rate);
+                Decimal.TryParse( qRow.Value, out rate );
             }
 
             currentOffer.MedicalEmployeePremium = rate;
@@ -1524,24 +1525,24 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         /// Calculates the dental premiums.
         /// </summary>
         /// <param name="valueId">The value identifier.</param>
-        private void CalculateDentalPremiums(int valueId)
+        private void CalculateDentalPremiums( int valueId )
         {
             decimal rate = 0;
 
-            var dpQry = new AttributeValueService(new RockContext()).Queryable().AsNoTracking();
-            dpQry = dpQry.Where(row => row.AttributeId == 2145 && row.EntityId == valueId);
-            foreach (var qRow in dpQry)
+            var dpQry = new AttributeValueService( new RockContext() ).Queryable().AsNoTracking();
+            dpQry = dpQry.Where( row => row.AttributeId == 2145 && row.EntityId == valueId );
+            foreach ( var qRow in dpQry )
             {
-                Decimal.TryParse(qRow.Value, out rate);
+                Decimal.TryParse( qRow.Value, out rate );
             }
 
             currentOffer.DentalEmployerPremium = rate;
 
-            var dp2Qry = new AttributeValueService(new RockContext()).Queryable().AsNoTracking();
-            dp2Qry = dp2Qry.Where(row => row.AttributeId == 2146 && row.EntityId == valueId);
-            foreach (var qRow in dp2Qry)
+            var dp2Qry = new AttributeValueService( new RockContext() ).Queryable().AsNoTracking();
+            dp2Qry = dp2Qry.Where( row => row.AttributeId == 2146 && row.EntityId == valueId );
+            foreach ( var qRow in dp2Qry )
             {
-                Decimal.TryParse(qRow.Value, out rate);
+                Decimal.TryParse( qRow.Value, out rate );
             }
 
             currentOffer.DentalEmployeePremium = rate;
@@ -1551,7 +1552,7 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         /// Converts the campus data.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        private void ConvertCampusData(int id)
+        private void ConvertCampusData( int id )
         {
             string qryString = "";
             qryString = qryString + "SELECT dv.Guid ";
@@ -1561,15 +1562,15 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
             qryString = qryString + "AND av.Value = " + id;
 
 
-            SqlConnection conn = new SqlConnection(connString);
+            SqlConnection conn = new SqlConnection( connString );
             conn.Open();
-            SqlCommand cmd = new SqlCommand(qryString, conn);
+            SqlCommand cmd = new SqlCommand( qryString, conn );
             cmd.CommandType = System.Data.CommandType.Text;
             SqlDataReader rdr = cmd.ExecuteReader();
 
-            while (rdr.Read())
+            while ( rdr.Read() )
             {
-                campusGuid = rdr.GetGuid(0);
+                campusGuid = rdr.GetGuid( 0 );
             }
             conn.Close();
         }
@@ -1580,19 +1581,19 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
         private void SaveCopyDetails()
         {
             var dataContext = new RockContext();
-            var newService = new JobOfferDetailService(dataContext);
+            var newService = new JobOfferDetailService( dataContext );
             copyOffer = new JobOfferDetail();
-            newService.Add(copyOffer);
+            newService.Add( copyOffer );
 
-            DateTime oDate = new DateTime(1900, 1, 1);
-            DateTime eDate = new DateTime(1900, 1, 1);
-            DateTime tDate = new DateTime(1900, 1, 1);
+            DateTime oDate = new DateTime( 1900, 1, 1 );
+            DateTime eDate = new DateTime( 1900, 1, 1 );
+            DateTime tDate = new DateTime( 1900, 1, 1 );
 
-            oDate = DateTime.Parse(dpNewOfferDate.Text);
+            oDate = DateTime.Parse( dpNewOfferDate.Text );
 
-            if (dpNewStartDate.Text != "")
+            if ( dpNewStartDate.Text != "" )
             {
-                eDate = DateTime.Parse(dpNewStartDate.Text);
+                eDate = DateTime.Parse( dpNewStartDate.Text );
             }
 
             tDate = currentOffer.TenureDate;
