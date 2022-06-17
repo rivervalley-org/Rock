@@ -116,7 +116,7 @@ namespace RockWeb.Plugins.org_rivervalley.JobOffers
 
             if ( jobOfferId > 0 )
             {
-                link = "~/JobOfferPrint?id=" + jobOfferId;
+                link = "~/JobOfferDataDisplay?id=" + jobOfferId;
             }
             else
             {
