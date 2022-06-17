@@ -989,7 +989,7 @@ namespace RockWeb.Plugins.com_kfs.Crm
 
                 field.PreText = ceAttributePreText.Text;
                 field.PostText = ceAttributePostText.Text;
-                
+
                 switch ( field.FieldSource )
                 {
                     case FormFieldSource.PersonField:
@@ -1424,7 +1424,7 @@ namespace RockWeb.Plugins.com_kfs.Crm
 
                             case PersonFieldType.MaritalStatus:
                                 {
-                                    Control control = phContent.FindControl( "ddlMaritalStatus" );
+                                    Control control = phContent.FindControl( "dvpMaritalStatus" );
                                     if ( control != null )
                                     {
                                         value = ( ( RockDropDownList ) control ).SelectedValue;
@@ -1472,7 +1472,7 @@ namespace RockWeb.Plugins.com_kfs.Crm
 
                             case PersonFieldType.ConnectionStatus:
                                 {
-                                    Control control = phContent.FindControl( "ddlConnectionStatus" );
+                                    Control control = phContent.FindControl( "dvpConnectionStatus" );
                                     if ( control != null )
                                     {
                                         value = ( ( RockDropDownList ) control ).SelectedValue;
@@ -1681,18 +1681,18 @@ namespace RockWeb.Plugins.com_kfs.Crm
 
                 case PersonFieldType.MaritalStatus:
                     {
-                        var ddlMaritalStatus = new RockDropDownList();
-                        ddlMaritalStatus.ID = "ddlMaritalStatus";
-                        ddlMaritalStatus.Label = "Marital Status";
-                        ddlMaritalStatus.Required = field.IsRequired;
-                        ddlMaritalStatus.ValidationGroup = BlockValidationGroup;
-                        ddlMaritalStatus.BindToDefinedType( DefinedTypeCache.Get( Rock.SystemGuid.DefinedType.PERSON_MARITAL_STATUS.AsGuid() ), true );
-                        phContent.Controls.Add( ddlMaritalStatus );
+                        var dvpMaritalStatus = new DefinedValuePicker();
+                        dvpMaritalStatus.ID = "dvpMaritalStatus";
+                        dvpMaritalStatus.Label = "Marital Status";
+                        dvpMaritalStatus.Required = field.IsRequired;
+                        dvpMaritalStatus.ValidationGroup = BlockValidationGroup;
+                        dvpMaritalStatus.DefinedTypeId = DefinedTypeCache.Get( Rock.SystemGuid.DefinedType.PERSON_MARITAL_STATUS.AsGuid() ).Id;
+                        phContent.Controls.Add( dvpMaritalStatus );
 
                         if ( setValue && fieldValue != null )
                         {
                             var value = fieldValue.ToString().AsInteger();
-                            ddlMaritalStatus.SetValue( value );
+                            dvpMaritalStatus.SetValue( value );
                         }
 
                         break;
@@ -1767,19 +1767,19 @@ namespace RockWeb.Plugins.com_kfs.Crm
                     }
                 case PersonFieldType.ConnectionStatus:
                     {
-                        var ddlConnectionStatus = new RockDropDownList();
-                        ddlConnectionStatus.ID = "ddlConnectionStatus";
-                        ddlConnectionStatus.Label = "Connection Status";
-                        ddlConnectionStatus.Required = field.IsRequired;
-                        ddlConnectionStatus.ValidationGroup = BlockValidationGroup;
-                        ddlConnectionStatus.BindToDefinedType( DefinedTypeCache.Get( new Guid( Rock.SystemGuid.DefinedType.PERSON_CONNECTION_STATUS ) ), true );
+                        var dvpConnectionStatus = new DefinedValuePicker();
+                        dvpConnectionStatus.ID = "dvpConnectionStatus";
+                        dvpConnectionStatus.Label = "Connection Status";
+                        dvpConnectionStatus.Required = field.IsRequired;
+                        dvpConnectionStatus.ValidationGroup = BlockValidationGroup;
+                        dvpConnectionStatus.DefinedTypeId = DefinedTypeCache.Get( new Guid( Rock.SystemGuid.DefinedType.PERSON_CONNECTION_STATUS ) ).Id;
 
-                        phContent.Controls.Add( ddlConnectionStatus );
+                        phContent.Controls.Add( dvpConnectionStatus );
 
                         if ( setValue && fieldValue != null )
                         {
                             var value = fieldValue.ToString().AsInteger();
-                            ddlConnectionStatus.SetValue( value );
+                            dvpConnectionStatus.SetValue( value );
                         }
 
                         break;
