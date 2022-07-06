@@ -40,7 +40,7 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            <Rock:RangeSlider ID="nbScoreWeight" runat="server" Label="Score Weight" Required="true" MaxValue="20" />
+                            <Rock:RangeSlider ID="nbScoreWeight" runat="server" Label="Score Weight" Required="true" MaxValue="30" />
                         </div>
                         <div class="col-md-6">
                             <Rock:RockDropDownList ID="ddlCategory" runat="server" Label="Category" Required="true" />
