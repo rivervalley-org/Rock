@@ -241,7 +241,7 @@ namespace RockWeb.Plugins.org_riverValley.Groups
                     person.ConnectionStatusValueId = _dvcConnectionStatus.Id;
                     person.RecordStatusValueId = _dvcRecordStatus.Id;
                     person.Gender = Gender.Unknown;
-                    person.MaritalStatusValueId = ddlMaritalStatus.SelectedValueAsId();
+                    person.MaritalStatusValueId = dvpMaritalStatus.SelectedValueAsId();
                     person.SetBirthDate( bpBirthdate.SelectedDate );
 
                     family = PersonService.SaveNewPerson( person, rockContext, _group.CampusId, false );
@@ -252,9 +252,9 @@ namespace RockWeb.Plugins.org_riverValley.Groups
                     person.Email = tbEmail.Text;
 
                     // update connection status
-                    if ( ddlMaritalStatus.Visible && ddlMaritalStatus.SelectedValueAsId().HasValue )
+                    if ( dvpMaritalStatus.Visible && dvpMaritalStatus.SelectedValueAsId().HasValue )
                     {
-                        person.MaritalStatusValueId = ddlMaritalStatus.SelectedValueAsId();
+                        person.MaritalStatusValueId = dvpMaritalStatus.SelectedValueAsId();
                     }
 
                     // update birthdate
@@ -529,13 +529,13 @@ namespace RockWeb.Plugins.org_riverValley.Groups
                         {
                             if ( GetAttributeValue( SHOW_MARITAL_STATUS ).AsBoolean() )
                             {
-                                ddlMaritalStatus.Required = true;
-                                ddlMaritalStatus.Visible = true;
-                                ddlMaritalStatus.BindToDefinedType( DefinedTypeCache.Get( Rock.SystemGuid.DefinedType.PERSON_MARITAL_STATUS.AsGuid() ), true, false );
+                                dvpMaritalStatus.Required = true;
+                                dvpMaritalStatus.Visible = true;
+                                dvpMaritalStatus.DefinedTypeId = DefinedTypeCache.Get( Rock.SystemGuid.DefinedType.PERSON_MARITAL_STATUS.AsGuid() ).Id;
 
                                 if ( _autoFill )
                                 {
-                                    ddlMaritalStatus.SetValue( CurrentPerson.MaritalStatusValueId );
+                                    dvpMaritalStatus.SetValue( CurrentPerson.MaritalStatusValueId );
                                 } 
                             }
                         }

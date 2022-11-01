@@ -33,7 +33,7 @@
                         </div>
                     </asp:Panel>
                     <Rock:EmailBox ID="tbEmail" runat="server" Label="Email" ></Rock:EmailBox>
-                    <Rock:RockDropDownList ID="ddlMaritalStatus" runat="server" Label="Marital Status" Visible="false" />
+                    <Rock:DefinedValuePicker ID="dvpMaritalStatus" runat="server" Label="Marital Status" Visible="false" />
                     <Rock:BirthdayPicker ID="bpBirthdate" runat="server" Label="Birthdate" />
                     <Rock:AddressControl ID="acAddress" runat="server" />
                 </asp:Panel>
