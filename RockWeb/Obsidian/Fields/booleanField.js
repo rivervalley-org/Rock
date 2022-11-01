@@ -1,4 +1,4 @@
-System.register(["vue", "../Services/boolean", "./fieldType"], function (exports_1, context_1) {
+System.register(["vue", "../Services/boolean", "./fieldType", "./utils"], function (exports_1, context_1) {
     "use strict";
     var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
         function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -9,7 +9,7 @@ System.register(["vue", "../Services/boolean", "./fieldType"], function (exports
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         });
     };
-    var vue_1, boolean_1, fieldType_1, editComponent, configurationComponent, BooleanFieldType;
+    var vue_1, boolean_1, fieldType_1, utils_1, editComponent, configurationComponent, filterComponent, BooleanFieldType;
     var __moduleName = context_1 && context_1.id;
     return {
         setters: [
@@ -21,6 +21,9 @@ System.register(["vue", "../Services/boolean", "./fieldType"], function (exports
             },
             function (fieldType_1_1) {
                 fieldType_1 = fieldType_1_1;
+            },
+            function (utils_1_1) {
+                utils_1 = utils_1_1;
             }
         ],
         execute: function () {
@@ -30,9 +33,12 @@ System.register(["vue", "../Services/boolean", "./fieldType"], function (exports
             configurationComponent = vue_1.defineAsyncComponent(() => __awaiter(void 0, void 0, void 0, function* () {
                 return (yield context_1.import("./booleanFieldComponents")).ConfigurationComponent;
             }));
+            filterComponent = vue_1.defineAsyncComponent(() => __awaiter(void 0, void 0, void 0, function* () {
+                return (yield context_1.import("./booleanFieldComponents")).FilterComponent;
+            }));
             BooleanFieldType = class BooleanFieldType extends fieldType_1.FieldTypeBase {
-                getCondensedTextValue(value) {
-                    const boolValue = boolean_1.asBooleanOrNull(value.value);
+                getCondensedTextValue(value, _configurationValues) {
+                    const boolValue = boolean_1.asBooleanOrNull(value);
                     if (boolValue === null) {
                         return "";
                     }
@@ -43,7 +49,7 @@ System.register(["vue", "../Services/boolean", "./fieldType"], function (exports
                         return "N";
                     }
                 }
-                getTextValueFromConfiguration(value, configurationValues) {
+                getTextValue(value, configurationValues) {
                     const boolValue = boolean_1.asBooleanOrNull(value);
                     if (boolValue === null) {
                         return "";
@@ -60,6 +66,12 @@ System.register(["vue", "../Services/boolean", "./fieldType"], function (exports
                 }
                 getConfigurationComponent() {
                     return configurationComponent;
+                }
+                getSupportedComparisonTypes() {
+                    return 1 | 2;
+                }
+                getFilterComponent() {
+                    return utils_1.getStandardFilterComponent(this.getSupportedComparisonTypes(), filterComponent);
                 }
             };
             exports_1("BooleanFieldType", BooleanFieldType);

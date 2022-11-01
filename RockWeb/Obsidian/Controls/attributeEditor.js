@@ -93,7 +93,7 @@ System.register(["vue", "../Elements/checkBox", "../Elements/textBox", "./catego
                     const categories = vue_1.ref([...((_11 = (_10 = props.modelValue) === null || _10 === void 0 ? void 0 : _10.categories) !== null && _11 !== void 0 ? _11 : [])]);
                     const fieldTypeValue = vue_1.ref({
                         fieldTypeGuid: (_13 = (_12 = props.modelValue) === null || _12 === void 0 ? void 0 : _12.fieldTypeGuid) !== null && _13 !== void 0 ? _13 : "",
-                        configurationOptions: Object.assign({}, ((_15 = (_14 = props.modelValue) === null || _14 === void 0 ? void 0 : _14.configurationOptions) !== null && _15 !== void 0 ? _15 : {})),
+                        configurationValues: Object.assign({}, ((_15 = (_14 = props.modelValue) === null || _14 === void 0 ? void 0 : _14.configurationValues) !== null && _15 !== void 0 ? _15 : {})),
                         defaultValue: (_17 = (_16 = props.modelValue) === null || _16 === void 0 ? void 0 : _16.defaultValue) !== null && _17 !== void 0 ? _17 : ""
                     });
                     const categoryQualifierValue = vue_1.computed(() => {
@@ -126,7 +126,7 @@ System.register(["vue", "../Elements/checkBox", "../Elements/textBox", "./catego
                         fieldTypeValue
                     ], () => {
                         var _a;
-                        const newModelValue = Object.assign(Object.assign({}, ((_a = props.modelValue) !== null && _a !== void 0 ? _a : {})), { name: attributeName.value, abbreviatedName: abbreviatedName.value, key: attributeKey.value, description: description.value, isActive: isActive.value, isPublic: isPublic.value, isRequired: isRequired.value, isShowOnBulk: isShowOnBulk.value, isShowInGrid: isShowInGrid.value, isAllowSearch: isAllowSearch.value, isAnalytic: isAnalyticsEnabled.value, isAnalyticHistory: isAnalyticsHistoryEnabled.value, isEnableHistory: isHistoryEnabled.value, isIndexEnabled: isIndexingEnabled.value, preHtml: preHtml.value, postHtml: postHtml.value, categories: [...categories.value], fieldTypeGuid: fieldTypeValue.value.fieldTypeGuid, configurationOptions: Object.assign({}, fieldTypeValue.value.configurationOptions), defaultValue: fieldTypeValue.value.defaultValue });
+                        const newModelValue = Object.assign(Object.assign({}, ((_a = props.modelValue) !== null && _a !== void 0 ? _a : {})), { name: attributeName.value, abbreviatedName: abbreviatedName.value, key: attributeKey.value, description: description.value, isActive: isActive.value, isPublic: isPublic.value, isRequired: isRequired.value, isShowOnBulk: isShowOnBulk.value, isShowInGrid: isShowInGrid.value, isAllowSearch: isAllowSearch.value, isAnalytic: isAnalyticsEnabled.value, isAnalyticHistory: isAnalyticsHistoryEnabled.value, isEnableHistory: isHistoryEnabled.value, isIndexEnabled: isIndexingEnabled.value, preHtml: preHtml.value, postHtml: postHtml.value, categories: [...categories.value], fieldTypeGuid: fieldTypeValue.value.fieldTypeGuid, configurationValues: Object.assign({}, fieldTypeValue.value.configurationValues), defaultValue: fieldTypeValue.value.defaultValue });
                         emit("update:modelValue", newModelValue);
                     });
                     return {

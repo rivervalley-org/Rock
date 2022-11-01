@@ -1,6 +1,6 @@
 System.register(["vue", "../../Controls/attributeValuesContainer", "../../Elements/panelWidget", "../../Elements/textBox", "../../Templates/paneledBlockTemplate"], function (exports_1, context_1) {
     "use strict";
-    var vue_1, attributeValuesContainer_1, panelWidget_1, textBox_1, paneledBlockTemplate_1, getAttributeValueData, galleryAndResult, getFieldTypeGalleryComponent, galleryComponents, galleryTemplate;
+    var vue_1, attributeValuesContainer_1, panelWidget_1, textBox_1, paneledBlockTemplate_1, getAttributeData, galleryAndResult, getFieldTypeGalleryComponent, galleryComponents, galleryTemplate;
     var __moduleName = context_1 && context_1.id;
     return {
         setters: [
@@ -21,35 +21,32 @@ System.register(["vue", "../../Controls/attributeValuesContainer", "../../Elemen
             }
         ],
         execute: function () {
-            getAttributeValueData = (name, initialValue, fieldTypeGuid, configValues) => {
+            getAttributeData = (name, fieldTypeGuid, configValues) => {
                 const configurationValues = configValues;
-                return [vue_1.reactive({
+                return {
+                    "value1": vue_1.reactive({
                         fieldTypeGuid: fieldTypeGuid,
                         name: `${name} 1`,
-                        key: name,
+                        key: "value1",
                         description: `This is the description of the ${name} without an initial value`,
                         configurationValues,
                         isRequired: false,
-                        textValue: "",
-                        value: "",
                         attributeGuid: "",
                         order: 0,
                         categories: []
                     }),
-                    vue_1.reactive({
+                    "value2": vue_1.reactive({
                         fieldTypeGuid: fieldTypeGuid,
                         name: `${name} 2`,
-                        key: name,
+                        key: "value2",
                         description: `This is the description of the ${name} with an initial value`,
                         configurationValues,
                         isRequired: false,
-                        textValue: initialValue,
-                        value: initialValue,
                         attributeGuid: "",
                         order: 0,
                         categories: []
                     })
-                ];
+                };
             };
             galleryAndResult = vue_1.defineComponent({
                 name: "GalleryAndResult",
@@ -58,24 +55,28 @@ System.register(["vue", "../../Controls/attributeValuesContainer", "../../Elemen
                     AttributeValuesContainer: attributeValuesContainer_1.default
                 },
                 props: {
+                    values: {
+                        type: Object,
+                        required: true
+                    },
                     title: {
                         type: String,
                         required: true
                     },
-                    attributeValues: {
-                        type: Array,
+                    attributes: {
+                        type: Object,
                         required: true
                     }
                 },
-                computed: {
-                    value1Json() {
-                        var _a;
-                        return (_a = this.attributeValues[0].value) !== null && _a !== void 0 ? _a : "";
-                    },
-                    value2Json() {
-                        var _a;
-                        return (_a = this.attributeValues[1].value) !== null && _a !== void 0 ? _a : "";
-                    }
+                setup(props) {
+                    const values = vue_1.ref(props.values);
+                    const value1Json = vue_1.computed(() => values.value["value1"]);
+                    const value2Json = vue_1.computed(() => values.value["value2"]);
+                    return {
+                        value1Json,
+                        value2Json,
+                        values
+                    };
                 },
                 template: `
 <PanelWidget>
@@ -86,11 +87,11 @@ System.register(["vue", "../../Controls/attributeValuesContainer", "../../Elemen
             <slot />
             <hr />
             <h4>Attribute Values Container (edit)</h4>
-            <AttributeValuesContainer :attributeValues="attributeValues" :isEditMode="true" />
+            <AttributeValuesContainer v-model="values" :attributes="attributes" :isEditMode="true" :showCategoryLabel="false" />
         </div>
         <div class="col-md-6">
             <h4>Attribute Values Container (view)</h4>
-            <AttributeValuesContainer :attributeValues="attributeValues" :isEditMode="false" />
+            <AttributeValuesContainer v-model="values" :attributes="attributes" :isEditMode="false" :showCategoryLabel="false" />
             <hr />
             <h4>Values</h4>
             <p>
@@ -115,15 +116,17 @@ System.register(["vue", "../../Controls/attributeValuesContainer", "../../Elemen
                     data() {
                         return {
                             name,
+                            values: { "value1": "", "value2": initialValue },
                             configValues: Object.assign({}, initialConfigValues),
-                            attributeValues: getAttributeValueData(name, initialValue, fieldTypeGuid, initialConfigValues)
+                            attributes: getAttributeData(name, fieldTypeGuid, initialConfigValues)
                         };
                     },
                     computed: {
                         configKeys() {
                             const keys = [];
-                            for (const attributeValue of this.attributeValues) {
-                                for (const key in attributeValue.configurationValues) {
+                            for (const attributeKey in this.attributes) {
+                                const attribute = this.attributes[attributeKey];
+                                for (const key in attribute.configurationValues) {
                                     if (keys.indexOf(key) === -1) {
                                         keys.push(key);
                                     }
@@ -136,17 +139,18 @@ System.register(["vue", "../../Controls/attributeValuesContainer", "../../Elemen
                         configValues: {
                             deep: true,
                             handler() {
-                                for (const attributeValue of this.attributeValues) {
-                                    for (const key in attributeValue.configurationValues) {
+                                for (const attributeKey in this.attributes) {
+                                    const attribute = this.attributes[attributeKey];
+                                    for (const key in attribute.configurationValues) {
                                         const value = this.configValues[key] || "";
-                                        attributeValue.configurationValues[key] = value;
+                                        attribute.configurationValues[key] = value;
                                     }
                                 }
                             }
                         }
                     },
                     template: `
-<GalleryAndResult :title="name" :attributeValues="attributeValues">
+<GalleryAndResult :title="name" :values="values" :attributes="attributes">
     <TextBox v-for="configKey in configKeys" :key="configKey" :label="configKey" v-model="configValues[configKey]" />
 </GalleryAndResult>`
                 });
@@ -195,7 +199,7 @@ System.register(["vue", "../../Controls/attributeValuesContainer", "../../Elemen
                 DecimalGallery: getFieldTypeGalleryComponent("Decimal", "18.283", "C757A554-3009-4214-B05D-CEA2B2EA6B8F", {}),
                 DecimalRangeGallery: getFieldTypeGalleryComponent("DecimalRange", "18.283,100", "758D9648-573E-4800-B5AF-7CC29F4BE170", {}),
                 DefinedValueGallery: getFieldTypeGalleryComponent("DefinedValue", '{ "value": "F19FC180-FE8F-4B72-A59C-8013E3B0EB0D", "text": "Single", "description": "Used when the individual is single." }', "59D5A94C-94A0-4630-B80A-BB25697D74C7", {
-                    values: JSON.stringify([
+                    selectableValues: JSON.stringify([
                         { value: "5FE5A540-7D9F-433E-B47E-4229D1472248", text: "Married", description: "Used when an individual is married." },
                         { value: "F19FC180-FE8F-4B72-A59C-8013E3B0EB0D", text: "Single", description: "Used when the individual is single." },
                         { value: "3B689240-24C2-434B-A7B9-A4A6CBA7928C", text: "Divorced", description: "Used when the individual is divorced." },
@@ -250,7 +254,7 @@ System.register(["vue", "../../Controls/attributeValuesContainer", "../../Elemen
                     fieldtype: "rb",
                     values: '[{"value": "pizza", "text": "Pizza"}, {"value": "sub", "text": "Sub"}, {"value": "bagel", "text": "Bagel"}]'
                 }),
-                SSNGallery: getFieldTypeGalleryComponent("SSN", "123-45-6789", "4722C99A-C078-464A-968F-13AB5E8E318F", {}),
+                SSNGallery: getFieldTypeGalleryComponent("SSN", "123456789", "4722C99A-C078-464A-968F-13AB5E8E318F", {}),
                 TextGallery: getFieldTypeGalleryComponent("Text", "Hello", "9C204CD0-1233-41C5-818A-C5DA439445AA", {
                     ispassword: "false",
                     maxcharacters: "10",

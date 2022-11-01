@@ -73,7 +73,8 @@ System.register(["vue", "../../Templates/paneledBlockTemplate", "../../Controls/
                 setup() {
                     const configurationValues = block_1.useConfigurationValues();
                     const invokeBlockAction = block_1.useInvokeBlockAction();
-                    const attributeValues = vue_1.ref(sortedAttributeValues(configurationValues.attributes));
+                    const attributes = vue_1.ref(configurationValues.attributes);
+                    const attributeValues = vue_1.ref(configurationValues.values);
                     const personGuid = vue_1.computed(() => { var _a; return ((_a = store.personContext) === null || _a === void 0 ? void 0 : _a.guid) || null; });
                     const isLoading = vue_1.ref(false);
                     const isEditMode = vue_1.ref(false);
@@ -82,31 +83,14 @@ System.register(["vue", "../../Templates/paneledBlockTemplate", "../../Controls/
                         isEditMode.value = false;
                     };
                     const goToEditMode = () => __awaiter(this, void 0, void 0, function* () {
-                        var _a;
                         const result = yield invokeBlockAction("GetAttributeValuesForEdit");
                         if (result.isSuccess) {
-                            attributeValues.value = sortedAttributeValues((_a = result.data) !== null && _a !== void 0 ? _a : []);
                             isEditMode.value = true;
                         }
                     });
                     const doSave = () => __awaiter(this, void 0, void 0, function* () {
-                        var _b;
                         isLoading.value = true;
                         const keyValueMap = {};
-                        for (const a of attributeValues.value) {
-                            keyValueMap[a.key] = a.value || "";
-                        }
-                        const result = yield invokeBlockAction("SaveAttributeValues", {
-                            personGuid: personGuid.value,
-                            keyValueMap
-                        });
-                        if (result.isSuccess) {
-                            attributeValues.value = sortedAttributeValues((_b = result.data) !== null && _b !== void 0 ? _b : []);
-                            goToViewMode();
-                        }
-                        else {
-                            errorMessage.value = "Failed to save values.";
-                        }
                         isLoading.value = false;
                     });
                     return {
@@ -119,6 +103,7 @@ System.register(["vue", "../../Templates/paneledBlockTemplate", "../../Controls/
                         goToEditMode,
                         doSave,
                         useAbbreviatedNames: configurationValues.useAbbreviatedNames,
+                        attributes,
                         attributeValues
                     };
                 },
@@ -141,9 +126,9 @@ System.register(["vue", "../../Templates/paneledBlockTemplate", "../../Controls/
     <template v-slot:default>
         <Loading :isLoading="isLoading">
             <Alert v-if="errorMessage" alertType="warning">{{ errorMessage }}</Alert>
-            <AttributeValuesContainer v-if="!isEditMode" :attributeValues="attributeValues" :showEmptyValues="false" />
+            <AttributeValuesContainer v-if="!isEditMode" :attributeValues="attributeValues" :showEmptyValues="false" :showCategoryLabel="false" />
             <RockForm v-else @submit="doSave">
-                <AttributeValuesContainer :attributeValues="attributeValues" isEditMode :showAbbreviatedName="useAbbreviatedNames" />
+                <AttributeValuesContainer v-model="attributeValues" :attributes="attributes" isEditMode :showAbbreviatedName="useAbbreviatedNames" :showCategoryLabel="false" />
                 <div class="actions">
                     <RockButton btnType="primary" btnSize="xs" type="submit">Save</RockButton>
                     <RockButton btnType="link" btnSize="xs" @click="goToViewMode">Cancel</RockButton>

@@ -63,7 +63,7 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            <Rock:DataTextBox ID="tbIconCssClass" runat="server" SourceTypeName="Rock.Model.ConnectionType, Rock" PropertyName="IconCssClass" ValidateRequestMode="Disabled"/>
+                            <Rock:DataTextBox ID="tbIconCssClass" runat="server" SourceTypeName="Rock.Model.ConnectionType, Rock" PropertyName="IconCssClass" Label="Icon CSS Class" ValidateRequestMode="Disabled"/>
                             <Rock:NumberBox ID="nbDaysUntilRequestIdle" runat="server" SourceTypeName="Rock.Model.ConnectionType, Rock" PropertyName="DaysUntilRequestIdle" Label="Days Until Request Considered Idle" ValidateRequestMode="Disabled" NumberType="Integer" MinimumValue="0"/>
                             <Rock:PagePicker ID="ppConnectionRequestDetail" runat="server" Label="Connection Request Detail Page" Required="false" PromptForPageRoute="true" Help="Choose a page that should be used for viewing connection requests of this type. This is useful if you have different detail pages with different settings. A default page will be used if this is left blank." />
                         </div>
@@ -247,9 +247,9 @@
                             <Rock:Grid ID="gStatusAutomations" runat="server" AllowPaging="false" DisplayType="Light" ShowHeader="true" RowItemText="Status Automation">
                                 <Columns>
                                     <Rock:RockBoundField DataField="AutomationName" HeaderText="Automation Name" />
-                                    <Rock:RockBoundField DataField="DataView.Name" HeaderText="Data View" />
-                                    <Rock:EnumField DataField="GroupRequirementsFilter" HeaderText="GroupRequirementsFilter" />
-                                    <Rock:RockBoundField DataField="DestinationStatus.Name" HeaderText="Move To" />
+                                    <Rock:RockBoundField DataField="DataViewName" HeaderText="Data View" />
+                                    <Rock:EnumField DataField="GroupRequirementsFilter" HeaderText="Group Requirements Filter" />
+                                    <Rock:RockBoundField DataField="DestinationStatusName" HeaderText="Move To" />
                                     <Rock:EditField OnClick="gStatusAutomations_Edit" />
                                     <Rock:DeleteField OnClick="gStatusAutomations_Delete" />
                                 </Columns>

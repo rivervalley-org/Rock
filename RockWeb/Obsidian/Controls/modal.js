@@ -1,11 +1,14 @@
-System.register(["vue", "../Elements/rockButton", "../Util/page"], function (exports_1, context_1) {
+System.register(["vue", "../Controls/rockForm", "../Elements/rockButton", "../Util/page"], function (exports_1, context_1) {
     "use strict";
-    var vue_1, rockButton_1, page_1;
+    var vue_1, rockForm_1, rockButton_1, page_1;
     var __moduleName = context_1 && context_1.id;
     return {
         setters: [
             function (vue_1_1) {
                 vue_1 = vue_1_1;
+            },
+            function (rockForm_1_1) {
+                rockForm_1 = rockForm_1_1;
             },
             function (rockButton_1_1) {
                 rockButton_1 = rockButton_1_1;
@@ -18,7 +21,8 @@ System.register(["vue", "../Elements/rockButton", "../Util/page"], function (exp
             exports_1("default", vue_1.defineComponent({
                 name: "Modal",
                 components: {
-                    RockButton: rockButton_1.default
+                    RockButton: rockButton_1.default,
+                    RockForm: rockForm_1.default
                 },
                 props: {
                     modelValue: {
@@ -32,7 +36,19 @@ System.register(["vue", "../Elements/rockButton", "../Util/page"], function (exp
                     subtitle: {
                         type: String,
                         default: ""
+                    },
+                    cancelText: {
+                        type: String,
+                        default: "Cancel"
+                    },
+                    saveText: {
+                        type: String,
+                        default: ""
                     }
+                },
+                emits: {
+                    "update:modelValue": (_value) => true,
+                    save: () => true
                 },
                 setup(props, { emit }) {
                     const isShaking = vue_1.ref(false);
@@ -45,14 +61,18 @@ System.register(["vue", "../Elements/rockButton", "../Util/page"], function (exp
                             setTimeout(() => isShaking.value = false, 1000);
                         }
                     };
+                    const onSubmit = () => {
+                        emit("save");
+                    };
                     if (props.modelValue) {
                         page_1.trackModalState(true);
                     }
                     vue_1.watch(() => props.modelValue, () => page_1.trackModalState(props.modelValue));
                     return {
                         isShaking,
+                        onClose,
                         onScrollableClick,
-                        onClose
+                        onSubmit
                     };
                 },
                 template: `
@@ -77,14 +97,17 @@ System.register(["vue", "../Elements/rockButton", "../Util/page"], function (exp
                     <slot v-else name="header" />
                 </div>
 
-                <div class="modal-body">
-                    <slot />
-                </div>
+                <RockForm @submit="onSubmit">
+                    <div class="modal-body">
+                        <slot />
+                    </div>
 
-                <div class="modal-footer">
-                    <a @click.prevent="onClose" class="btn btn-link">Cancel</a>
-                    <slot name="customButtons" />
-                </div>
+                    <div class="modal-footer">
+                        <RockButton @click="onClose" btnType="link">{{ cancelText }}</RockButton>
+                        <RockButton v-if="saveText" type="submit" btnType="primary">{{ saveText }}</RockButton>
+                        <slot name="customButtons" />
+                    </div>
+                </RockForm>
             </div>
         </div>
     </div>

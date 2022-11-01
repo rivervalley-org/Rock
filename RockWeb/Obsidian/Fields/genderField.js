@@ -31,10 +31,7 @@ System.register(["vue", "../Services/number", "./fieldType"], function (exports_
                 return (yield context_1.import("./genderFieldComponents")).ConfigurationComponent;
             }));
             GenderFieldType = class GenderFieldType extends fieldType_1.FieldTypeBase {
-                getTextValue(value) {
-                    return value.textValue || "Unknown";
-                }
-                getTextValueFromConfiguration(value, _configurationValues) {
+                getTextValue(value, _configurationValues) {
                     const numberValue = number_1.toNumberOrNull(value);
                     if (numberValue === 0) {
                         return "Unknown";

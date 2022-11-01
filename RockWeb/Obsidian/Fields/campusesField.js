@@ -9,7 +9,7 @@ System.register(["vue", "./fieldType"], function (exports_1, context_1) {
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         });
     };
-    var vue_1, fieldType_1, editComponent, CampusesFieldType;
+    var vue_1, fieldType_1, editComponent, configurationComponent, CampusesFieldType;
     var __moduleName = context_1 && context_1.id;
     return {
         setters: [
@@ -24,8 +24,11 @@ System.register(["vue", "./fieldType"], function (exports_1, context_1) {
             editComponent = vue_1.defineAsyncComponent(() => __awaiter(void 0, void 0, void 0, function* () {
                 return (yield context_1.import("./campusesFieldComponents")).EditComponent;
             }));
+            configurationComponent = vue_1.defineAsyncComponent(() => __awaiter(void 0, void 0, void 0, function* () {
+                return (yield context_1.import("./campusesFieldComponents")).ConfigurationComponent;
+            }));
             CampusesFieldType = class CampusesFieldType extends fieldType_1.FieldTypeBase {
-                getTextValueFromConfiguration(value, configurationValues) {
+                getTextValue(value, configurationValues) {
                     var _a;
                     if (value === undefined || value === null || value === "") {
                         return "";
@@ -42,6 +45,9 @@ System.register(["vue", "./fieldType"], function (exports_1, context_1) {
                 }
                 getEditComponent() {
                     return editComponent;
+                }
+                getConfigurationComponent() {
+                    return configurationComponent;
                 }
             };
             exports_1("CampusesFieldType", CampusesFieldType);

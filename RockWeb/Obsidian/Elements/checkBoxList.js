@@ -1,11 +1,14 @@
-System.register(["vue", "./rockFormField"], function (exports_1, context_1) {
+System.register(["vue", "../Util/util", "./rockFormField"], function (exports_1, context_1) {
     "use strict";
-    var vue_1, rockFormField_1;
+    var vue_1, util_1, rockFormField_1;
     var __moduleName = context_1 && context_1.id;
     return {
         setters: [
             function (vue_1_1) {
                 vue_1 = vue_1_1;
+            },
+            function (util_1_1) {
+                util_1 = util_1_1;
             },
             function (rockFormField_1_1) {
                 rockFormField_1 = rockFormField_1_1;
@@ -37,8 +40,8 @@ System.register(["vue", "./rockFormField"], function (exports_1, context_1) {
                 },
                 setup(props, { emit }) {
                     const internalValue = vue_1.ref([...props.modelValue]);
-                    vue_1.watch(() => props.modelValue, () => internalValue.value = props.modelValue);
-                    vue_1.watchEffect(() => emit("update:modelValue", internalValue.value));
+                    vue_1.watch(() => props.modelValue, () => util_1.updateRefValue(internalValue, props.modelValue));
+                    vue_1.watch(internalValue, () => emit("update:modelValue", internalValue.value));
                     const valueForOption = (option) => option.value;
                     const textForOption = (option) => option.text;
                     const uniqueIdForOption = (uniqueId, option) => `${uniqueId}-${option.value.replace(" ", "-")}`;

@@ -34,7 +34,7 @@ System.register(["vue", "../Reporting/comparisonType", "../Services/number", "./
                 return (yield context_1.import("./currencyFieldComponents")).ConfigurationComponent;
             }));
             CurrencyFieldType = class CurrencyFieldType extends fieldType_1.FieldTypeBase {
-                getTextValueFromConfiguration(value, _configurationValues) {
+                getTextValue(value, _configurationValues) {
                     var _a;
                     return (_a = number_1.toCurrencyOrNull(value)) !== null && _a !== void 0 ? _a : "";
                 }

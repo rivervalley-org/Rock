@@ -22,10 +22,10 @@ System.register(["vue"], function (exports_1, context_1) {
                     const hasCompareLabel = vue_1.computed(() => !!props.compareLabel);
                     const compareColumnClass = vue_1.computed(() => {
                         if (ctx.slots.compare) {
-                            return "col-md-4";
+                            return "col-xs-12 col-md-4";
                         }
                         else if (props.compareLabel) {
-                            return "col-md-2";
+                            return "col-xs-12 col-md-2";
                         }
                         else {
                             return "";
@@ -33,13 +33,13 @@ System.register(["vue"], function (exports_1, context_1) {
                     });
                     const valueColumnClass = vue_1.computed(() => {
                         if (ctx.slots.compare) {
-                            return "col-md-8";
+                            return "col-xs-12 col-md-8";
                         }
                         else if (props.compareLabel) {
-                            return "col-md-10";
+                            return "col-xs-12 col-md-10";
                         }
                         else {
-                            return "col-md-12";
+                            return "col-xs-12 col-md-12";
                         }
                     });
                     return {

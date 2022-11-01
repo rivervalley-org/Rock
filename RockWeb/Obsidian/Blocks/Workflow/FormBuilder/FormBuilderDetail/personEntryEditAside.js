@@ -39,12 +39,13 @@ System.register(["vue", "../../../../Controls/panel", "../../../../Controls/rock
                 },
                 emits: [
                     "update:modelValue",
-                    "close"
+                    "close",
+                    "validationChanged"
                 ],
                 methods: {
                     isSafeToClose() {
                         this.formSubmit = true;
-                        const result = Object.keys(this.validationErrors).length === 0;
+                        const result = this.validationErrors.length === 0;
                         if (!result && this.scrollableElement) {
                             this.scrollableElement.scroll({
                                 behavior: "smooth",
@@ -57,12 +58,13 @@ System.register(["vue", "../../../../Controls/panel", "../../../../Controls/rock
                 setup(props, { emit }) {
                     var _a, _b, _c, _d, _e;
                     const internalValue = component_1.useVModelPassthrough(props, "modelValue", emit);
-                    const validationErrors = vue_1.ref({});
+                    const validationErrors = vue_1.ref([]);
                     const scrollableElement = vue_1.ref(null);
                     const formSubmit = vue_1.ref(false);
                     const onBackClick = () => emit("close");
                     const onValidationChanged = (errors) => {
                         validationErrors.value = errors;
+                        emit("validationChanged", errors);
                     };
                     const options = utils_1.useFormSources();
                     return {
@@ -80,27 +82,29 @@ System.register(["vue", "../../../../Controls/panel", "../../../../Controls/rock
                     };
                 },
                 template: `
-<div class="d-flex flex-column" style="overflow-y: hidden; flex-grow: 1;">
-    <div class="d-flex">
-        <div class="d-flex clickable" style="background-color: #484848; color: #fff; align-items: center; justify-content: center; width: 40px;" @click="onBackClick">
+<div class="form-sidebar">
+    <div class="sidebar-header">
+        <div class="sidebar-back" @click="onBackClick">
             <i class="fa fa-chevron-left"></i>
         </div>
 
-        <div class="p-2 aside-header" style="flex-grow: 1;">
-            <i class="fa fa-user"></i>
-            <span class="title">Person Entry</span>
-        </div>
+        <span class="title">
+            <i class="fa fa-fw fa-user icon"></i>
+            Person Entry
+        </span>
     </div>
 
-    <div ref="scrollableElement" class="aside-body d-flex flex-column" style="flex-grow: 1; overflow-y: auto;">
-        <RockForm v-model:submit="formSubmit" @validationChanged="onValidationChanged" class="d-flex flex-column" style="flex-grow: 1;">
-            <PersonEntrySettings v-model="internalValue"
-                isVertical
-                :recordStatusOptions="recordStatusOptions"
-                :connectionStatusOptions="connectionStatusOptions"
-                :campusTypeOptions="campusTypeOptions"
-                :campusStatusOptions="campusStatusOptions"
-                :addressTypeOptions="addressTypeOptions" />
+    <div ref="scrollableElement" class="sidebar-body">
+        <RockForm v-model:submit="formSubmit" @validationChanged="onValidationChanged" class="sidebar-panels">
+            <div class="panel-body">
+                <PersonEntrySettings v-model="internalValue"
+                    isVertical
+                    :recordStatusOptions="recordStatusOptions"
+                    :connectionStatusOptions="connectionStatusOptions"
+                    :campusTypeOptions="campusTypeOptions"
+                    :campusStatusOptions="campusStatusOptions"
+                    :addressTypeOptions="addressTypeOptions" />
+            </div>
         </RockForm>
     </div>
 </div>

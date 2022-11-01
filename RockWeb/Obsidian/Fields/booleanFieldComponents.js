@@ -1,6 +1,6 @@
 System.register(["vue", "./utils", "../Services/boolean", "../Elements/dropDownList", "../Elements/toggle", "../Elements/checkBox", "../Elements/textBox", "../Services/number"], function (exports_1, context_1) {
     "use strict";
-    var vue_1, utils_1, boolean_1, dropDownList_1, toggle_1, checkBox_1, textBox_1, number_1, BooleanControlType, EditComponent, ConfigurationComponent;
+    var vue_1, utils_1, boolean_1, dropDownList_1, toggle_1, checkBox_1, textBox_1, number_1, BooleanControlType, EditComponent, FilterComponent, ConfigurationComponent;
     var __moduleName = context_1 && context_1.id;
     return {
         setters: [
@@ -108,6 +108,48 @@ System.register(["vue", "./utils", "../Services/boolean", "../Elements/dropDownL
 <Toggle v-if="isToggle" v-model="internalBooleanValue" v-bind="toggleOptions" />
 <CheckBox v-else-if="isCheckBox" v-model="internalBooleanValue" />
 <DropDownList v-else v-model="internalValue" :options="dropDownListOptions" />
+`
+            }));
+            exports_1("FilterComponent", FilterComponent = vue_1.defineComponent({
+                name: "BooleanField.Filter",
+                components: {
+                    DropDownList: dropDownList_1.default
+                },
+                props: utils_1.getFieldEditorProps(),
+                emits: [
+                    "update:modelValue"
+                ],
+                setup(props, { emit }) {
+                    const internalValue = vue_1.ref(boolean_1.asTrueFalseOrNull(props.modelValue) || "");
+                    vue_1.watch(internalValue, () => {
+                        emit("update:modelValue", internalValue.value);
+                    });
+                    vue_1.watch(() => props.modelValue, () => {
+                        internalValue.value = boolean_1.asTrueFalseOrNull(props.modelValue) || "";
+                    });
+                    const trueText = vue_1.computed(() => {
+                        const trueConfig = props.configurationValues["truetext"];
+                        return trueConfig || "Yes";
+                    });
+                    const falseText = vue_1.computed(() => {
+                        const falseConfig = props.configurationValues["falsetext"];
+                        return falseConfig || "No";
+                    });
+                    const dropDownListOptions = vue_1.computed(() => {
+                        const trueVal = boolean_1.asTrueFalseOrNull(true);
+                        const falseVal = boolean_1.asTrueFalseOrNull(false);
+                        return [
+                            { text: falseText.value, value: falseVal },
+                            { text: trueText.value, value: trueVal }
+                        ];
+                    });
+                    return {
+                        internalValue,
+                        dropDownListOptions
+                    };
+                },
+                template: `
+<DropDownList v-model="internalValue" :options="dropDownListOptions" />
 `
             }));
             exports_1("ConfigurationComponent", ConfigurationComponent = vue_1.defineComponent({

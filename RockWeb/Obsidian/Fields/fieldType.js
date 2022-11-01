@@ -42,31 +42,40 @@ System.register(["vue", "../Reporting/comparisonType", "../Services/string", "./
 `
             });
             FieldTypeBase = class FieldTypeBase {
-                getTextValue(value) {
-                    var _a;
-                    return (_a = value.textValue) !== null && _a !== void 0 ? _a : "";
+                getTextValue(value, _configurationValues) {
+                    return value !== null && value !== void 0 ? value : "";
                 }
-                getHtmlValue(value) {
-                    return `<span>${string_1.escapeHtml(this.getTextValue(value))}</span>`;
+                getHtmlValue(value, configurationValues) {
+                    return `${string_1.escapeHtml(this.getTextValue(value, configurationValues))}`;
                 }
-                getTextValueFromConfiguration(value, _configurationValues) {
-                    return value;
+                getCondensedTextValue(value, configurationValues) {
+                    return string_1.truncate(this.getTextValue(value, configurationValues), 100);
                 }
-                getCondensedTextValue(value) {
-                    var _a;
-                    return string_1.truncate((_a = value.textValue) !== null && _a !== void 0 ? _a : "", 100);
+                getCondensedHtmlValue(value, configurationValues) {
+                    return `${string_1.escapeHtml(this.getCondensedTextValue(value, configurationValues))}`;
                 }
-                getCondensedHtmlValue(value) {
-                    return this.getHtmlValue(value);
-                }
-                getFormattedComponent(value) {
-                    return vue_1.defineComponent(() => {
-                        return vue_1.compile(this.getHtmlValue(value));
+                getFormattedComponent() {
+                    return vue_1.defineComponent({
+                        name: "FieldType.Formatted",
+                        props: utils_1.getFieldEditorProps(),
+                        setup: (props) => {
+                            return {
+                                content: vue_1.computed(() => { var _a; return this.getHtmlValue((_a = props.modelValue) !== null && _a !== void 0 ? _a : "", props.configurationValues); })
+                            };
+                        },
+                        template: `<div v-html="content"></div>`
                     });
                 }
-                getCondensedFormattedComponent(value) {
-                    return vue_1.defineComponent(() => {
-                        return vue_1.compile(this.getCondensedHtmlValue(value));
+                getCondensedFormattedComponent() {
+                    return vue_1.defineComponent({
+                        name: "FieldType.CondensedFormatted",
+                        props: utils_1.getFieldEditorProps(),
+                        setup: (props) => {
+                            return {
+                                content: vue_1.computed(() => { var _a; return this.getCondensedHtmlValue((_a = props.modelValue) !== null && _a !== void 0 ? _a : "", props.configurationValues); })
+                            };
+                        },
+                        template: `<span v-html="content"></span>`
                     });
                 }
                 getEditComponent() {
@@ -87,9 +96,9 @@ System.register(["vue", "../Reporting/comparisonType", "../Services/string", "./
                 getFilterComponent() {
                     return utils_1.getStandardFilterComponent(this.getSupportedComparisonTypes(), this.getEditComponent());
                 }
-                getFilterValueDescription(value, attribute) {
-                    const valueText = this.getFilterValueText(value, attribute);
-                    if (value.comparisonType === null || value.comparisonType === undefined) {
+                getFilterValueDescription(value, configurationValues) {
+                    const valueText = this.getFilterValueText(value, configurationValues);
+                    if (!value.comparisonType) {
                         return valueText ? `Is ${valueText}` : "";
                     }
                     if (value.comparisonType === 32 || value.comparisonType === 64) {
@@ -103,9 +112,10 @@ System.register(["vue", "../Reporting/comparisonType", "../Services/string", "./
                     }
                     return `${comparisonType_1.getComparisonName(value.comparisonType)} ${valueText}`;
                 }
-                getFilterValueText(value, attribute) {
-                    var _a, _b;
-                    return (_b = this.getTextValueFromConfiguration(value.value, (_a = attribute.configurationValues) !== null && _a !== void 0 ? _a : {})) !== null && _b !== void 0 ? _b : "";
+                getFilterValueText(value, configurationValues) {
+                    var _a;
+                    const text = (_a = this.getTextValue(value.value, configurationValues !== null && configurationValues !== void 0 ? configurationValues : {})) !== null && _a !== void 0 ? _a : "";
+                    return text ? `'${text}'` : text;
                 }
             };
             exports_1("FieldTypeBase", FieldTypeBase);

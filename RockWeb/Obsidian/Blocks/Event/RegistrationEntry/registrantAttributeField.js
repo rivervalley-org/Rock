@@ -54,7 +54,7 @@ System.register(["vue", "../../../Controls/rockField", "../../../Elements/alert"
                     }
                 },
                 setup(props) {
-                    var _a, _b, _c;
+                    var _a;
                     const isVisible = vue_1.computed(() => {
                         switch (props.field.visibilityRuleType) {
                             case 1:
@@ -68,21 +68,23 @@ System.register(["vue", "../../../Controls/rockField", "../../../Elements/alert"
                         }
                         return true;
                     });
-                    const attribute = vue_1.reactive(Object.assign(Object.assign({}, props.field.attribute), { value: (_c = (_a = props.fieldValues[props.field.guid]) !== null && _a !== void 0 ? _a : (_b = props.field.attribute) === null || _b === void 0 ? void 0 : _b.value) !== null && _c !== void 0 ? _c : "" }));
-                    vue_1.watch(() => props.fieldValues[props.field.guid], (value) => {
-                        attribute.value = value;
+                    const attribute = vue_1.ref(props.field.attribute);
+                    const value = vue_1.ref((_a = props.fieldValues[props.field.guid]) !== null && _a !== void 0 ? _a : "");
+                    vue_1.watch(() => props.fieldValues[props.field.guid], () => {
+                        value.value = props.fieldValues[props.field.guid];
                     });
-                    vue_1.watch(() => attribute.value, (value) => {
-                        props.fieldValues[props.field.guid] = value;
+                    vue_1.watch(value, () => {
+                        props.fieldValues[props.field.guid] = value.value;
                     });
                     return {
                         isVisible,
-                        attribute
+                        attribute,
+                        value
                     };
                 },
                 template: `
 <template v-if="isVisible">
-    <RockField v-if="attribute" isEditMode :attributeValue="attribute" />
+    <RockField v-if="attribute" v-model="value" isEditMode :attribute="attribute" />
     <Alert v-else alertType="danger">Could not resolve attribute field</Alert>
 </template>`
             }));

@@ -10,6 +10,7 @@ System.register(["vue"], function (exports_1, context_1) {
         ],
         execute: function () {
             exports_1("default", vue_1.defineComponent({
+                name: "TransitionVerticalCollapse",
                 setup() {
                     const beforeEnter = (element) => {
                         const state = {

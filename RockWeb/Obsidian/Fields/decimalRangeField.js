@@ -31,7 +31,7 @@ System.register(["vue", "../Services/number", "./fieldType"], function (exports_
                 return (yield context_1.import("./decimalRangeFieldComponents")).ConfigurationComponent;
             }));
             DecimalRangeFieldType = class DecimalRangeFieldType extends fieldType_1.FieldTypeBase {
-                getTextValueFromConfiguration(value, _configurationValues) {
+                getTextValue(value, _configurationValues) {
                     if (value === null || value === undefined || value === "" || value === ",") {
                         return "";
                     }

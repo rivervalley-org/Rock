@@ -135,10 +135,10 @@ System.register(["vue"], function (exports_1, context_1) {
                             }
                         }
                     });
-                    const onFullscreenChange = () => {
+                    const onFullscreenChange = (ev) => {
                         var _a, _b;
                         const fullscreenElement = (_b = (_a = document.fullscreenElement) !== null && _a !== void 0 ? _a : document.mozFullScreenElement) !== null && _b !== void 0 ? _b : document.webkitFullscreenElement;
-                        if (fullscreenMode.value !== 0 && !fullscreenElement) {
+                        if (ev.target === containerElement.value && fullscreenMode.value !== 0 && !fullscreenElement) {
                             exitFullscreen();
                         }
                     };
@@ -183,11 +183,9 @@ System.register(["vue"], function (exports_1, context_1) {
                     };
                 },
                 template: `
-<teleport to="body" :disabled="teleportDisabled">
-    <div ref="containerElement" :style="containerStyle">
-        <slot />
-    </div>
-</teleport>
+<div ref="containerElement" :style="containerStyle">
+    <slot />
+</div>
 `
             }));
         }

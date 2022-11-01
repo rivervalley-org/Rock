@@ -43,26 +43,42 @@ System.register(["vue", "../../../../Controls/rockForm", "../../../../Elements/a
                     },
                     templateOverrides: {
                         type: Object
+                    },
+                    submit: {
+                        type: Boolean,
+                        default: false
                     }
                 },
                 emits: [
                     "update:modelValue",
                     "update:completion",
+                    "validationChanged"
                 ],
                 setup(props, { emit }) {
                     const generalSettings = component_1.useVModelPassthrough(props, "modelValue", emit);
                     const completionSettings = component_1.useVModelPassthrough(props, "completion", emit);
+                    const formSubmit = vue_1.ref(false);
                     const isConfirmationForced = vue_1.computed(() => { var _a, _b; return (_b = (_a = props.templateOverrides) === null || _a === void 0 ? void 0 : _a.isConfirmationEmailConfigured) !== null && _b !== void 0 ? _b : false; });
+                    const onValidationChanged = (errors) => {
+                        emit("validationChanged", errors);
+                    };
+                    vue_1.watch(() => props.submit, () => {
+                        if (props.submit) {
+                            formSubmit.value = true;
+                        }
+                    });
                     return {
                         completionSettings,
+                        formSubmit,
                         generalSettings,
-                        isConfirmationForced
+                        isConfirmationForced,
+                        onValidationChanged
                     };
                 },
                 template: `
-<div class="d-flex flex-column" style="flex-grow: 1; overflow-y: auto;">
+<div class="form-builder-scroll">
     <div class="panel-body">
-        <RockForm>
+        <RockForm v-model:submit="formSubmit" @validationChanged="onValidationChanged">
             <GeneralSettings v-model="generalSettings" :templateOverrides="templateOverrides" />
 
             <CompletionSettings v-if="!isConfirmationForced" v-model="completionSettings" />

@@ -2,9 +2,6 @@ System.register(["../Fields/index", "vue", "../Fields/textField"], function (exp
     "use strict";
     var index_1, vue_1, textField_1, textField;
     var __moduleName = context_1 && context_1.id;
-    function instanceOfEditable(value) {
-        return value.key !== undefined;
-    }
     return {
         setters: [
             function (index_1_1) {
@@ -22,7 +19,11 @@ System.register(["../Fields/index", "vue", "../Fields/textField"], function (exp
             exports_1("default", vue_1.defineComponent({
                 name: "RockField",
                 props: {
-                    attributeValue: {
+                    modelValue: {
+                        type: String,
+                        required: false
+                    },
+                    attribute: {
                         type: Object,
                         required: true
                     },
@@ -33,43 +34,42 @@ System.register(["../Fields/index", "vue", "../Fields/textField"], function (exp
                     isEditMode: {
                         type: Boolean,
                         default: false
+                    },
+                    showLabel: {
+                        type: Boolean,
+                        default: true
+                    },
+                    isCondensed: {
+                        type: Boolean,
+                        default: false
                     }
                 },
                 setup(props, { emit }) {
                     const field = vue_1.computed(() => {
-                        const fieldType = index_1.getFieldType(props.attributeValue.fieldTypeGuid);
+                        const fieldType = index_1.getFieldType(props.attribute.fieldTypeGuid);
                         return fieldType !== null && fieldType !== void 0 ? fieldType : textField;
                     });
-                    const showValue = vue_1.computed(() => props.showEmptyValue || field.value.getTextValue(props.attributeValue) !== "");
-                    const isRequired = vue_1.computed(() => instanceOfEditable(props.attributeValue) && props.attributeValue.isRequired);
+                    const showValue = vue_1.computed(() => { var _a, _b; return props.showEmptyValue || field.value.getTextValue((_a = props.modelValue) !== null && _a !== void 0 ? _a : "", (_b = props.attribute.configurationValues) !== null && _b !== void 0 ? _b : {}) !== ""; });
+                    const isRequired = vue_1.computed(() => props.attribute.isRequired);
                     const rules = vue_1.computed(() => isRequired.value ? "required" : "");
-                    const isEditMode = vue_1.computed(() => props.isEditMode && instanceOfEditable(props.attributeValue));
-                    const label = vue_1.computed(() => props.attributeValue.name);
-                    const helpText = vue_1.computed(() => instanceOfEditable(props.attributeValue) ? props.attributeValue.description : "");
+                    const isEditMode = vue_1.computed(() => props.isEditMode);
+                    const label = vue_1.computed(() => props.attribute.name);
+                    const helpText = vue_1.computed(() => props.attribute.description);
                     const valueComponent = vue_1.computed(() => {
-                        const _ignored = props.attributeValue.value;
-                        const _ignored2 = props.attributeValue.textValue;
-                        return field.value.getFormattedComponent(props.attributeValue);
+                        return props.isCondensed
+                            ? field.value.getCondensedFormattedComponent()
+                            : field.value.getFormattedComponent();
                     });
                     const editComponent = vue_1.computed(() => field.value.getEditComponent());
                     const value = vue_1.computed({
-                        get: () => props.attributeValue.value || "",
+                        get: () => props.modelValue || "",
                         set(newValue) {
-                            var _a;
-                            props.attributeValue.value = newValue;
-                            if (instanceOfEditable(props.attributeValue)) {
-                                props.attributeValue.textValue = field.value.getTextValueFromConfiguration(props.attributeValue.value, (_a = props.attributeValue.configurationValues) !== null && _a !== void 0 ? _a : {});
-                            }
-                            emit("update:attributeValue", props.attributeValue);
+                            emit("update:modelValue", newValue);
                         }
                     });
                     const configurationValues = vue_1.computed(() => {
-                        if (instanceOfEditable(props.attributeValue)) {
-                            return props.attributeValue.configurationValues;
-                        }
-                        else {
-                            return {};
-                        }
+                        var _a;
+                        return (_a = props.attribute.configurationValues) !== null && _a !== void 0 ? _a : {};
                     });
                     vue_1.provide("isRequired", isRequired);
                     return {
@@ -85,26 +85,29 @@ System.register(["../Fields/index", "vue", "../Fields/textField"], function (exp
                     };
                 },
                 template: `
-<template v-if="!isEditMode">
-    <div v-if="showValue" class="form-group static-control">
-        <label class="control-label">
-            {{ label }}
-        </label>
-        <div class="control-wrapper">
-            <div class="form-control-static">
-                <component :is="valueComponent" />
+<div v-if="!isEditMode">
+    <template v-if="showLabel">
+        <div v-if="showValue" class="form-group static-control">
+            <label class="control-label">
+                {{ label }}
+            </label>
+            <div class="control-wrapper">
+                <div class="form-control-static">
+                    <component :is="valueComponent" :modelValue="value" :configurationValues="configurationValues" />
+                </div>
             </div>
         </div>
-    </div>
-</template>
-<template v-else>
+    </template>
+    <component v-else :is="valueComponent" :modelValue="value" :configurationValues="configurationValues" />
+</div>
+<div v-else>
     <component :is="editComponent"
         v-model="value"
         :label="label"
         :help="helpText"
         :configurationValues="configurationValues"
         :rules="rules" />
-</template>`
+</div>`
             }));
         }
     };

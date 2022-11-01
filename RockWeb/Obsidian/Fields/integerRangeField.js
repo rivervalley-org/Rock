@@ -31,7 +31,7 @@ System.register(["vue", "../Services/number", "./fieldType"], function (exports_
                 return (yield context_1.import("./integerRangeFieldComponents")).ConfigurationComponent;
             }));
             IntegerRangeFieldType = class IntegerRangeFieldType extends fieldType_1.FieldTypeBase {
-                getTextValueFromConfiguration(value, _configurationValues) {
+                getTextValue(value, _configurationValues) {
                     if (value === "" || value === ",") {
                         return "";
                     }

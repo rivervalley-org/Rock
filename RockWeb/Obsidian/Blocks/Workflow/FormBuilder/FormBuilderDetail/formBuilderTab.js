@@ -11,7 +11,7 @@ System.register(["vue", "../../../../Elements/dropDownList", "../../../../Contro
     };
     var vue_1, dropDownList_1, modal_1, panel_1, rockButton_1, rockLabel_1, rockForm_1, switch_1, textBox_1, configurableZone_1, fieldEditAside_1, formContentModal_1, formContentZone_1, generalAside_1, personEntryEditAside_1, sectionEditAside_1, sectionZone_1, dragDrop_1, guid_1, linq_1, utils_1, dialogs_1, formHeaderZoneGuid, formFooterZoneGuid, personEntryZoneGuid;
     var __moduleName = context_1 && context_1.id;
-    function getSectionDragSourceOptions(sections) {
+    function getSectionDragSourceOptions(sections, defaultSectionType) {
         return {
             id: guid_1.newGuid(),
             copyElement: true,
@@ -23,8 +23,13 @@ System.register(["vue", "../../../../Elements/dropDownList", "../../../../Contro
                         title: "",
                         description: "",
                         showHeadingSeparator: false,
-                        type: null,
-                        fields: []
+                        type: defaultSectionType,
+                        fields: [],
+                        visibilityRule: {
+                            guid: guid_1.newGuid(),
+                            expressionType: 1,
+                            rules: []
+                        }
                     });
                 }
             }
@@ -85,7 +90,12 @@ System.register(["vue", "../../../../Elements/dropDownList", "../../../../Contro
                         key: key,
                         size: 12,
                         configurationValues: {},
-                        defaultValue: ""
+                        defaultValue: "",
+                        visibilityRule: {
+                            guid: guid_1.newGuid(),
+                            expressionType: 1,
+                            rules: []
+                        }
                     });
                 }
             }
@@ -95,7 +105,7 @@ System.register(["vue", "../../../../Elements/dropDownList", "../../../../Contro
         return {
             id: guid_1.newGuid(),
             copyElement: false,
-            handleSelector: ".zone-actions > .zone-action-move",
+            handleSelector: ".zone-actions > .zone-action-move > .fa",
             dragOver(operation) {
                 var _a;
                 if (operation.targetContainer && operation.targetContainer instanceof HTMLElement) {
@@ -126,7 +136,7 @@ System.register(["vue", "../../../../Elements/dropDownList", "../../../../Contro
         return {
             id: guid_1.newGuid(),
             copyElement: false,
-            handleSelector: ".zone-section > .zone-actions > .zone-action-move",
+            handleSelector: ".zone-section > .zone-actions > .zone-action-move > .fa",
             dragDrop(operation) {
                 if (operation.targetIndex !== undefined) {
                     const section = sections[operation.sourceIndex];
@@ -240,13 +250,18 @@ System.register(["vue", "../../../../Elements/dropDownList", "../../../../Contro
                     },
                     templateOverrides: {
                         type: Object
+                    },
+                    submit: {
+                        type: Boolean,
+                        default: false
                     }
                 },
                 emits: [
-                    "update:modelValue"
+                    "update:modelValue",
+                    "validationChanged"
                 ],
                 setup(props, { emit }) {
-                    var _a, _b, _c, _d, _e, _f;
+                    var _a, _b, _c, _d, _e, _f, _g;
                     const sources = utils_1.useFormSources();
                     const sectionTypeOptions = (_a = sources.sectionTypeOptions) !== null && _a !== void 0 ? _a : [];
                     const sections = vue_1.reactive((_b = props.modelValue.sections) !== null && _b !== void 0 ? _b : []);
@@ -261,7 +276,7 @@ System.register(["vue", "../../../../Elements/dropDownList", "../../../../Contro
                     });
                     const sectionAsideSettings = vue_1.ref(null);
                     const personEntryAsideSettings = vue_1.ref((_f = props.modelValue.personEntry) !== null && _f !== void 0 ? _f : {});
-                    const sectionDragSourceOptions = getSectionDragSourceOptions(sections);
+                    const sectionDragSourceOptions = getSectionDragSourceOptions(sections, (_g = sources.defaultSectionType) !== null && _g !== void 0 ? _g : null);
                     const sectionReorderDragSourceOptions = getSectionReorderDragSourceOptions(sections);
                     const fieldDragSourceOptions = getFieldDragSourceOptions(sections, availableFieldTypes);
                     const fieldReorderDragSourceOptions = getFieldReorderDragSourceOptions(sections);
@@ -340,19 +355,16 @@ System.register(["vue", "../../../../Elements/dropDownList", "../../../../Contro
                     });
                     const templateFormHeaderContent = vue_1.computed(() => { var _a, _b; return (_b = (_a = props.templateOverrides) === null || _a === void 0 ? void 0 : _a.formHeader) !== null && _b !== void 0 ? _b : ""; });
                     const templateFormFooterContent = vue_1.computed(() => { var _a, _b; return (_b = (_a = props.templateOverrides) === null || _a === void 0 ? void 0 : _a.formFooter) !== null && _b !== void 0 ? _b : ""; });
-                    const existingKeys = vue_1.computed(() => {
-                        const existingKeys = [];
+                    const existingFields = vue_1.computed(() => {
+                        const fields = [];
                         for (const sect of sections) {
                             if (sect.fields) {
                                 for (const field of sect.fields) {
-                                    existingKeys.push({
-                                        value: field.guid,
-                                        text: field.key
-                                    });
+                                    fields.push(field);
                                 }
                             }
                         }
-                        return existingKeys;
+                        return fields;
                     });
                     const canCloseAside = () => {
                         if (activeAside.value) {
@@ -365,6 +377,8 @@ System.register(["vue", "../../../../Elements/dropDownList", "../../../../Contro
                     const closeAside = () => {
                         editField.value = null;
                         activeZone.value = "";
+                        sectionAsideSettings.value = null;
+                        emit("validationChanged", []);
                     };
                     const onConfigureFormHeader = () => {
                         if (!canCloseAside()) {
@@ -401,7 +415,8 @@ System.register(["vue", "../../../../Elements/dropDownList", "../../../../Contro
                             title: (_a = section.title) !== null && _a !== void 0 ? _a : "",
                             description: (_b = section.description) !== null && _b !== void 0 ? _b : "",
                             showHeadingSeparator: (_c = section.showHeadingSeparator) !== null && _c !== void 0 ? _c : false,
-                            type: (_d = section.type) !== null && _d !== void 0 ? _d : null
+                            type: (_d = section.type) !== null && _d !== void 0 ? _d : null,
+                            visibilityRule: section.visibilityRule
                         };
                     };
                     const onConfigureField = (field) => {
@@ -428,7 +443,7 @@ System.register(["vue", "../../../../Elements/dropDownList", "../../../../Contro
                         editField.value = null;
                         sectionAsideSettings.value = null;
                     };
-                    const onEditFieldUpdate = (value) => {
+                    const onFieldEditUpdate = (value) => {
                         editField.value = value;
                         for (const section of sections) {
                             if (section.fields) {
@@ -441,24 +456,34 @@ System.register(["vue", "../../../../Elements/dropDownList", "../../../../Contro
                         }
                     };
                     const onFieldDelete = (guid) => __awaiter(this, void 0, void 0, function* () {
-                        var _g, _h;
                         if (!(yield dialogs_1.confirmDelete("field"))) {
                             return;
                         }
+                        deleteField(guid);
+                    });
+                    const deleteField = (guid) => {
+                        var _a, _b, _c, _d, _e, _f;
                         for (const section of sections) {
                             if (section.fields) {
                                 const existingFieldIndex = section.fields.findIndex(f => guid_1.areEqual(f.guid, guid));
                                 if (existingFieldIndex !== -1) {
                                     section.fields.splice(existingFieldIndex, 1);
-                                    break;
+                                }
+                                for (const field of section.fields) {
+                                    if ((_b = (_a = field.visibilityRule) === null || _a === void 0 ? void 0 : _a.rules) === null || _b === void 0 ? void 0 : _b.length) {
+                                        field.visibilityRule.rules = field.visibilityRule.rules.filter(rule => rule.attributeGuid !== guid);
+                                    }
                                 }
                             }
+                            if ((_d = (_c = section.visibilityRule) === null || _c === void 0 ? void 0 : _c.rules) === null || _d === void 0 ? void 0 : _d.length) {
+                                section.visibilityRule.rules = section.visibilityRule.rules.filter(rule => rule.attributeGuid !== guid);
+                            }
                         }
-                        if (guid_1.areEqual(guid, (_h = (_g = editField.value) === null || _g === void 0 ? void 0 : _g.guid) !== null && _h !== void 0 ? _h : null)) {
+                        if (guid_1.areEqual(guid, (_f = (_e = editField.value) === null || _e === void 0 ? void 0 : _e.guid) !== null && _f !== void 0 ? _f : null)) {
                             closeAside();
                         }
-                    });
-                    const onEditSectionUpdate = (value) => {
+                    };
+                    const onSectionEditUpdate = (value) => {
                         sectionAsideSettings.value = value;
                         for (const section of sections) {
                             if (guid_1.areEqual(section.guid, value.guid)) {
@@ -466,20 +491,28 @@ System.register(["vue", "../../../../Elements/dropDownList", "../../../../Contro
                                 section.description = value.description;
                                 section.showHeadingSeparator = value.showHeadingSeparator;
                                 section.type = value.type;
+                                section.visibilityRule = value.visibilityRule;
                                 return;
                             }
                         }
                     };
                     const onSectionDelete = (guid) => __awaiter(this, void 0, void 0, function* () {
-                        var _j, _k;
+                        var _h, _j;
                         if (!(yield dialogs_1.confirmDelete("section"))) {
                             return;
                         }
                         const existingSectionIndex = sections.findIndex(s => guid_1.areEqual(s.guid, guid));
                         if (existingSectionIndex !== -1) {
+                            const section = sections[existingSectionIndex];
+                            if (section.fields) {
+                                const guids = section.fields.map(field => field.guid);
+                                for (const guid of guids) {
+                                    deleteField(guid);
+                                }
+                            }
                             sections.splice(existingSectionIndex, 1);
                         }
-                        if (guid_1.areEqual(guid, (_k = (_j = sectionAsideSettings.value) === null || _j === void 0 ? void 0 : _j.guid) !== null && _k !== void 0 ? _k : null)) {
+                        if (guid_1.areEqual(guid, (_j = (_h = sectionAsideSettings.value) === null || _h === void 0 ? void 0 : _h.guid) !== null && _j !== void 0 ? _j : null)) {
                             closeAside();
                         }
                     });
@@ -493,6 +526,21 @@ System.register(["vue", "../../../../Elements/dropDownList", "../../../../Contro
                     const onFormFooterSave = () => {
                         formFooterContent.value = formFooterEditContent.value;
                         closeAside();
+                    };
+                    const onFieldEditValidationChanged = (errors) => {
+                        if (showFieldAside.value) {
+                            emit("validationChanged", errors);
+                        }
+                    };
+                    const onSectionValidationChanged = (errors) => {
+                        if (showSectionAside.value) {
+                            emit("validationChanged", errors);
+                        }
+                    };
+                    const onPersonEntryValidationChanged = (errors) => {
+                        if (showPersonEntryAside.value) {
+                            emit("validationChanged", errors);
+                        }
                     };
                     vue_1.watch(bodyElement, () => {
                         var _a, _b, _c, _d;
@@ -520,12 +568,17 @@ System.register(["vue", "../../../../Elements/dropDownList", "../../../../Contro
                         };
                         emit("update:modelValue", newValue);
                     });
+                    vue_1.watch(() => props.submit, () => {
+                        if (props.submit) {
+                            canCloseAside();
+                        }
+                    });
                     return {
                         activeZone,
                         availableFieldTypes,
                         bodyElement,
                         editField,
-                        existingKeys,
+                        existingFields,
                         fieldDragSourceOptions,
                         fieldDragTargetId: fieldDragSourceOptions.id,
                         fieldEditAsideComponentInstance,
@@ -547,13 +600,16 @@ System.register(["vue", "../../../../Elements/dropDownList", "../../../../Contro
                         onConfigureFormFooter,
                         onConfigurePersonEntry,
                         onConfigureSection,
-                        onEditFieldUpdate,
+                        onFieldEditUpdate,
                         onEditPersonEntryUpdate,
-                        onEditSectionUpdate,
+                        onSectionEditUpdate,
                         onFieldDelete,
+                        onFieldEditValidationChanged,
                         onFormFooterSave,
                         onFormHeaderSave,
+                        onPersonEntryValidationChanged,
                         onSectionDelete,
+                        onSectionValidationChanged,
                         personEntryAsideSettings,
                         personEntryEditAsideComponentInstance,
                         personEntryZoneIconClass,
@@ -572,38 +628,42 @@ System.register(["vue", "../../../../Elements/dropDownList", "../../../../Contro
                     };
                 },
                 template: `
-<div ref="bodyElement" class="d-flex" style="flex-grow: 1; overflow-y: hidden;">
-    <div class="d-flex flex-column" style="background-color: #f8f9fa; min-width: 320px; max-width: 480px; flex: 1 0; overflow-y: hidden;">
-        <GeneralAside v-if="showGeneralAside"
-            v-model="generalAsideSettings"
-            ref="generalAsideComponentInstance"
-            :isPersonEntryForced="isPersonEntryForced"
-            :fieldTypes="availableFieldTypes"
-            :sectionDragOptions="sectionDragSourceOptions"
-            :fieldDragOptions="fieldDragSourceOptions" />
+<div ref="bodyElement" class="form-builder-grow">
 
-        <FieldEditAside v-else-if="showFieldAside"
-            :modelValue="editField"
-            ref="fieldEditAsideComponentInstance"
-            :fieldTypes="availableFieldTypes"
-            :existingKeys="existingKeys"
-            @update:modelValue="onEditFieldUpdate"
-            @close="onAsideClose" />
+    <GeneralAside v-if="showGeneralAside"
+        v-model="generalAsideSettings"
+        ref="generalAsideComponentInstance"
+        :isPersonEntryForced="isPersonEntryForced"
+        :fieldTypes="availableFieldTypes"
+        :sectionDragOptions="sectionDragSourceOptions"
+        :fieldDragOptions="fieldDragSourceOptions" />
 
-        <SectionEditAside v-else-if="showSectionAside"
-            :modelValue="sectionAsideSettings"
-            ref="sectionEditAsideComponentInstance"
-            @update:modelValue="onEditSectionUpdate"
-            @close="onAsideClose" />
+    <FieldEditAside v-else-if="showFieldAside"
+        :modelValue="editField"
+        ref="fieldEditAsideComponentInstance"
+        :fieldTypes="availableFieldTypes"
+        :formFields="existingFields"
+        @update:modelValue="onFieldEditUpdate"
+        @close="onAsideClose"
+        @validationChanged="onFieldEditValidationChanged" />
 
-        <PersonEntryEditAside v-else-if="showPersonEntryAside"
-            :modelValue="personEntryAsideSettings"
-            ref="personEntryEditAsideComponentInstance"
-            @update:modelValue="onEditPersonEntryUpdate"
-            @close="onAsideClose" />
-    </div>
+    <SectionEditAside v-else-if="showSectionAside"
+        :modelValue="sectionAsideSettings"
+        ref="sectionEditAsideComponentInstance"
+        :formFields="existingFields"
+        @update:modelValue="onSectionEditUpdate"
+        @close="onAsideClose"
+        @validationChanged="onSectionValidationChanged" />
 
-    <div class="p-3 d-flex flex-column" style="flex: 3 1; overflow-y: auto;">
+    <PersonEntryEditAside v-else-if="showPersonEntryAside"
+        :modelValue="personEntryAsideSettings"
+        ref="personEntryEditAsideComponentInstance"
+        @update:modelValue="onEditPersonEntryUpdate"
+        @close="onAsideClose"
+        @validationChanged="onPersonEntryValidationChanged" />
+
+
+    <div class="form-layout">
         <FormContentZone v-if="templateFormHeaderContent" :modelValue="templateFormHeaderContent" placeholder="" iconCssClass="" />
 
         <FormContentZone :modelValue="formHeaderContent" :isActive="isFormHeaderActive" @configure="onConfigureFormHeader" placeholder="Form Header" />
@@ -614,7 +674,7 @@ System.register(["vue", "../../../../Elements/dropDownList", "../../../../Contro
             </div>
         </ConfigurableZone>
 
-        <div style="flex-grow: 1; display: flex; flex-direction: column;" v-drag-target="sectionDragTargetId" v-drag-source="sectionReorderDragSourceOptions" v-drag-target:2="sectionReorderDragSourceOptions.id">
+        <div class="form-layout-body" v-drag-target="sectionDragTargetId" v-drag-source="sectionReorderDragSourceOptions" v-drag-target:2="sectionReorderDragSourceOptions.id">
             <SectionZone v-for="section in sections"
                 :key="section.guid"
                 v-model="section"

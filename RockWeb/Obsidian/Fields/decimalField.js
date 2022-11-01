@@ -34,7 +34,7 @@ System.register(["vue", "../Reporting/comparisonType", "../Services/number", "./
                 return (yield context_1.import("./decimalFieldComponents")).ConfigurationComponent;
             }));
             DecimalFieldType = class DecimalFieldType extends fieldType_1.FieldTypeBase {
-                getTextValueFromConfiguration(value, _configurationValues) {
+                getTextValue(value, _configurationValues) {
                     var _a, _b;
                     return (_b = (_a = number_1.toNumberOrNull(value)) === null || _a === void 0 ? void 0 : _a.toString()) !== null && _b !== void 0 ? _b : "";
                 }

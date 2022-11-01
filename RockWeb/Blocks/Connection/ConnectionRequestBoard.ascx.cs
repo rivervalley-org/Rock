@@ -23,7 +23,7 @@ using System.Text.RegularExpressions;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Newtonsoft.Json;
-using NuGet;
+//using NuGet;
 using Rock;
 using Rock.Attribute;
 using Rock.Data;
@@ -228,6 +228,7 @@ namespace RockWeb.Blocks.Connection
             public const string ConnectionRequestId = "ConnectionRequestId";
             public const string ConnectionRequestGuid = "ConnectionRequestGuid";
             public const string ConnectionOpportunityId = "ConnectionOpportunityId";
+            public const string CampusId = "CampusId";
         }
 
         /// <summary>
@@ -807,7 +808,7 @@ namespace RockWeb.Blocks.Connection
             }
             else
             {
-                mergeFields.Add( "ConnectionRequestStatusIcons", connectionRequestStatusIcons );
+                mergeFields.Add( "ConnectionRequestStatusIcons", LavaDataObject.FromAnonymousObject( connectionRequestStatusIcons ) );
             }
 
             mergeFields.Add( "IdleTooltip", string.Format( "Idle (no activity in {0} days)", daysUntilRequestIdle ) );
@@ -829,6 +830,12 @@ namespace RockWeb.Blocks.Connection
                 return;
             }
 
+            var title = connectionRequest.ToString();
+            string quickReturnLava = "{{ Title | AddQuickReturn:'ConnectionRequests', 60 }}";
+            var quickReturnMergeFields = Rock.Lava.LavaHelper.GetCommonMergeFields( this.RockPage, this.CurrentPerson, new Rock.Lava.CommonMergeFieldsOptions { GetLegacyGlobalMergeFields = false } );
+            quickReturnMergeFields.Add( "Title", title );
+            quickReturnLava.ResolveMergeFields( quickReturnMergeFields );
+
             // Add the lava header
             // Resolve the text field merge fields
             var mergeFields = Rock.Lava.LavaHelper.GetCommonMergeFields( RockPage, CurrentPerson );
@@ -847,7 +854,19 @@ namespace RockWeb.Blocks.Connection
             lRequestModalViewModeEmail.Text = GetEmailLinkMarkup( viewModel.PersonId, viewModel.PersonEmail );
             aRequestModalViewModeProfileLink.Attributes["href"] = string.Format( "/person/{0}", viewModel.PersonId );
             btnRequestModalViewModeTransfer.Visible = DoShowTransferButton();
-            btnRequestModalViewModeConnect.Visible = viewModel.CanConnect && CanUserEditConnectionRequest();
+
+            /* 
+                08/09/2022 - SK
+                This is special case where we are not using viewModel.CanConnect in order to make this align with older ConnectionRequestDetail block.
+                CanConnect() method use RequiresPlacementGroupToConnect and AssignedGroupId are also being used in calculation
+                which ultimately controlling btnRequestModalViewModeConnect Visibility.
+            */
+            //btnRequestModalViewModeConnect.Visible = viewModel.CanConnect && CanUserEditConnectionRequest();
+            btnRequestModalViewModeConnect.Visible =
+                viewModel.ConnectionState != ConnectionState.Inactive &&
+                viewModel.ConnectionState != ConnectionState.Connected &&
+                connectionRequest.ConnectionOpportunity.ShowConnectButton &&
+                CanUserEditConnectionRequest();
             btnRequestModalViewModeEdit.Visible = CanUserEditConnectionRequest();
             lbRequestModalViewModeAddActivity.Visible = CanUserEditConnectionRequest();
             rRequestModalViewModeConnectorSelect.Visible = CanUserEditConnectionRequest();
@@ -2451,11 +2470,12 @@ namespace RockWeb.Blocks.Connection
                     .Queryable()
                     .AsNoTracking()
                     .Where( a => a.ConnectionOpportunityId == connectionOpportunity.Id );
+                var campuses = CampusCache.All().Where( c => c.IsActive ?? true ).ToList();
 
                 // Grant edit access to any of those in a non campus-specific connector group
                 userCanEditConnectionRequest = qryConnectionOpportunityConnectorGroups
                     .Any( g =>
-                        !g.CampusId.HasValue &&
+                        ( campuses.Count == 1 || !g.CampusId.HasValue ) &&
                         g.ConnectorGroup != null &&
                         g.ConnectorGroup.Members.Any( m => m.PersonId == CurrentPersonId && m.GroupMemberStatus == GroupMemberStatus.Active ) );
 
@@ -4207,7 +4227,15 @@ namespace RockWeb.Blocks.Connection
                     .AsNoTracking()
                     .Where( o => o.Id == opportunity.Id )
                     .SelectMany( o => o.ConnectionOpportunityGroups )
-                    .Select( cog => cog.Group );
+                    .Select( cog => cog.Group )
+                    .Where( g => g.IsActive && !g.IsArchived ) //Filter early
+                    .Select( g => new GroupViewModel           //Strip out unnecessary data
+                    {
+                        Id = g.Id,
+                        Name = g.Name,
+                        CampusId = g.CampusId,
+                        CampusName = g.Campus.Name
+                    } );
 
                 // Then get any groups that are configured with 'all groups of type'
                 var allGroupsOfTypeQuery = service.Queryable()
@@ -4216,17 +4244,17 @@ namespace RockWeb.Blocks.Connection
                     .SelectMany( o => o.ConnectionOpportunityGroupConfigs )
                     .Where( gc => gc.UseAllGroupsOfType )
                     .Select( gc => gc.GroupType )
-                    .SelectMany( gt => gt.Groups );
-
-                _availablePlacementGroups = specificConfigQuery.Union( allGroupsOfTypeQuery )
-                    .Where( g => g.IsActive && !g.IsArchived )
-                    .Select( g => new GroupViewModel
+                    .SelectMany( gt => gt.Groups )
+                    .Where( g => g.IsActive && !g.IsArchived ) //Filter early
+                    .Select( g => new GroupViewModel           //Strip out unnecessary data
                     {
                         Id = g.Id,
                         Name = g.Name,
                         CampusId = g.CampusId,
                         CampusName = g.Campus.Name
-                    } )
+                    } );
+
+                _availablePlacementGroups = specificConfigQuery.Union( allGroupsOfTypeQuery )
                     .ToList();
             }
 
@@ -4459,6 +4487,7 @@ namespace RockWeb.Blocks.Connection
             // Check for a connection request or opportunity id param. The request takes priority since it is more specific
             var connectionRequestIdParam = PageParameter( PageParameterKey.ConnectionRequestId ).AsIntegerOrNull();
             var connectionOpportunityIdParam = PageParameter( PageParameterKey.ConnectionOpportunityId ).AsIntegerOrNull();
+            var campusIdParam = PageParameter( PageParameterKey.CampusId ).AsIntegerOrNull();
 
             if ( !ConnectionOpportunityId.HasValue && connectionRequestIdParam.HasValue )
             {
@@ -4495,6 +4524,10 @@ namespace RockWeb.Blocks.Connection
                 ViewAllActivities = false;
                 IsRequestModalAddEditMode = false;
                 RequestModalViewModeSubMode = RequestModalViewModeSubMode_View;
+                if ( campusIdParam.HasValue )
+                {
+                    SaveSettingByConnectionType( UserPreferenceKey.CampusFilter, campusIdParam.ToString() );
+                }
             }
 
             // If the opportunity is not yet set by the request or opportunity id params, then set it from preference
@@ -5271,7 +5304,8 @@ namespace RockWeb.Blocks.Connection
     campusId: {10},
     lastActivityTypeIds: {11},
     controlClientId: {12},
-    pastDueOnly: {13}
+    pastDueOnly: {13},
+    connectionRequestId: {14}
 }});",
                 ToJavaScript( ConnectionOpportunityId ), // 0
                 ToJavaScript( GetMaxCardsPerColumn() ), // 1
@@ -5286,7 +5320,8 @@ namespace RockWeb.Blocks.Connection
                 ToJavaScript( CampusId ), // 10
                 ToJavaScript( cblLastActivityFilter.SelectedValuesAsInt ), // 11
                 ToJavaScript( lbJavaScriptCommand.ClientID ), // 12
-                ToJavaScript( rcbPastDueOnly.Checked ) /* 13 */ );
+                ToJavaScript( rcbPastDueOnly.Checked ), //13
+                ToJavaScript( ConnectionRequestId ) /* 14 */ );
 
             ScriptManager.RegisterStartupScript(
                 upnlJavaScript,

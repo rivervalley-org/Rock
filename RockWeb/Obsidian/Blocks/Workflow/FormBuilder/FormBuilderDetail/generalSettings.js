@@ -1,6 +1,6 @@
-System.register(["vue", "../../../../Controls/categoryPicker", "../../../../Elements/alert", "../../../../Elements/checkBox", "../../../../Elements/dateTimePicker", "../../../../Elements/dropDownList", "../../../../Elements/inlineSwitch", "../../../../Elements/textBox", "../../../../Elements/transitionVerticalCollapse", "../../../../Util/util", "../Shared/emailSource", "../Shared/settingsWell", "./utils"], function (exports_1, context_1) {
+System.register(["vue", "../../../../Controls/categoryPicker", "../../../../Elements/alert", "../../../../Elements/checkBox", "../../../../Elements/dateTimePicker", "../../../../Elements/dropDownList", "../../../../Elements/inlineSwitch", "../../../../Elements/textBox", "../../../../Elements/transitionVerticalCollapse", "../../../../Util/util", "../Shared/emailSource", "../../../../Controls/sectionContainer", "./utils"], function (exports_1, context_1) {
     "use strict";
-    var vue_1, categoryPicker_1, alert_1, checkBox_1, dateTimePicker_1, dropDownList_1, inlineSwitch_1, textBox_1, transitionVerticalCollapse_1, util_1, emailSource_1, settingsWell_1, utils_1;
+    var vue_1, categoryPicker_1, alert_1, checkBox_1, dateTimePicker_1, dropDownList_1, inlineSwitch_1, textBox_1, transitionVerticalCollapse_1, util_1, emailSource_1, sectionContainer_1, utils_1;
     var __moduleName = context_1 && context_1.id;
     return {
         setters: [
@@ -37,8 +37,8 @@ System.register(["vue", "../../../../Controls/categoryPicker", "../../../../Elem
             function (emailSource_1_1) {
                 emailSource_1 = emailSource_1_1;
             },
-            function (settingsWell_1_1) {
-                settingsWell_1 = settingsWell_1_1;
+            function (sectionContainer_1_1) {
+                sectionContainer_1 = sectionContainer_1_1;
             },
             function (utils_1_1) {
                 utils_1 = utils_1_1;
@@ -55,7 +55,7 @@ System.register(["vue", "../../../../Controls/categoryPicker", "../../../../Elem
                     DropDownList: dropDownList_1.default,
                     EmailSource: emailSource_1.default,
                     InlineSwitch: inlineSwitch_1.default,
-                    SettingsWell: settingsWell_1.default,
+                    SectionContainer: sectionContainer_1.default,
                     TextBox: textBox_1.default,
                     TransitionVerticalCollapse: transitionVerticalCollapse_1.default
                 },
@@ -109,7 +109,7 @@ System.register(["vue", "../../../../Controls/categoryPicker", "../../../../Elem
                     };
                 },
                 template: `
-<SettingsWell title="General Settings"
+<SectionContainer title="General Settings"
     description="Update the general settings for the form below.">
     <div class="row">
         <div class="col-md-6">
@@ -154,7 +154,7 @@ System.register(["vue", "../../../../Controls/categoryPicker", "../../../../Elem
                 label="Form Entry Ends" />
         </div>
     </div>
-</Settingswell>
+</SectionContainer>
 `
             }));
         }

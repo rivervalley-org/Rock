@@ -37,8 +37,8 @@ System.register(["vue", "../Reporting/comparisonType", "./fieldType", "./utils"]
                 return (yield context_1.import("./emailFieldComponents")).ConfigurationComponent;
             }));
             EmailFieldType = class EmailFieldType extends fieldType_1.FieldTypeBase {
-                getHtmlValue(value) {
-                    const textValue = this.getTextValue(value);
+                getHtmlValue(value, configurationValues) {
+                    const textValue = this.getTextValue(value, configurationValues);
                     return textValue ? `<a href="mailto:${textValue}">${textValue}</a>` : "";
                 }
                 getEditComponent() {

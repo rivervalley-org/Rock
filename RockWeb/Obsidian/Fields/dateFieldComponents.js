@@ -1,4 +1,4 @@
-System.register(["vue", "./utils", "../Services/boolean", "../Services/number", "../Util/rockDateTime", "../Elements/datePicker", "../Elements/datePartsPicker", "../Elements/dropDownList", "../Elements/textBox", "../Elements/numberBox", "../Elements/checkBox"], function (exports_1, context_1) {
+System.register(["vue", "./utils", "../Services/boolean", "../Services/number", "../Util/rockDateTime", "../Controls/slidingDateRangePicker", "../Elements/datePicker", "../Elements/datePartsPicker", "../Elements/dropDownList", "../Elements/textBox", "../Elements/numberBox", "../Elements/checkBox", "../Services/slidingDateRange", "../Util/util"], function (exports_1, context_1) {
     "use strict";
     var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
         function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -9,7 +9,7 @@ System.register(["vue", "./utils", "../Services/boolean", "../Services/number", 
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         });
     };
-    var vue_1, utils_1, boolean_1, number_1, number_2, rockDateTime_1, datePicker_1, datePartsPicker_1, dropDownList_1, textBox_1, numberBox_1, checkBox_1, EditComponent, defaults, ConfigurationComponent;
+    var vue_1, utils_1, boolean_1, number_1, number_2, rockDateTime_1, slidingDateRangePicker_1, datePicker_1, datePartsPicker_1, dropDownList_1, textBox_1, numberBox_1, checkBox_1, slidingDateRange_1, util_1, EditComponent, FilterComponent, defaults, ConfigurationComponent;
     var __moduleName = context_1 && context_1.id;
     return {
         setters: [
@@ -29,6 +29,9 @@ System.register(["vue", "./utils", "../Services/boolean", "../Services/number", 
             function (rockDateTime_1_1) {
                 rockDateTime_1 = rockDateTime_1_1;
             },
+            function (slidingDateRangePicker_1_1) {
+                slidingDateRangePicker_1 = slidingDateRangePicker_1_1;
+            },
             function (datePicker_1_1) {
                 datePicker_1 = datePicker_1_1;
             },
@@ -46,6 +49,12 @@ System.register(["vue", "./utils", "../Services/boolean", "../Services/number", 
             },
             function (checkBox_1_1) {
                 checkBox_1 = checkBox_1_1;
+            },
+            function (slidingDateRange_1_1) {
+                slidingDateRange_1 = slidingDateRange_1_1;
+            },
+            function (util_1_1) {
+                util_1 = util_1_1;
             }
         ],
         execute: function () {
@@ -142,6 +151,62 @@ System.register(["vue", "./utils", "../Services/boolean", "../Services/number", 
                 template: `
 <DatePartsPicker v-if="isDatePartsPicker" v-model="internalDateParts" v-bind="configAttributes" />
 <DatePicker v-else v-model="internalValue" v-bind="configAttributes" />
+`
+            }));
+            exports_1("FilterComponent", FilterComponent = vue_1.defineComponent({
+                name: "DateField.Filter",
+                components: {
+                    EditComponent,
+                    SlidingDateRangePicker: slidingDateRangePicker_1.default
+                },
+                props: Object.assign(Object.assign({}, utils_1.getFieldEditorProps()), { comparisonType: {
+                        type: Number,
+                        required: true
+                    } }),
+                emits: [
+                    "update:modelValue"
+                ],
+                setup(props, { emit }) {
+                    const internalValue = vue_1.ref(props.modelValue);
+                    const internalValueSegments = internalValue.value.split("\t");
+                    const dateValue = vue_1.ref(internalValueSegments[0]);
+                    const rangeValue = vue_1.ref(slidingDateRange_1.parseSlidingDateRangeString(internalValueSegments.length > 1 ? internalValueSegments[1] : ""));
+                    const configurationValues = vue_1.ref(Object.assign({}, props.configurationValues));
+                    configurationValues.value["displayCurrentOption"] = "True";
+                    const isComparisonTypeBetween = vue_1.computed(() => props.comparisonType === 4096);
+                    vue_1.watch(() => props.configurationValues, () => {
+                        configurationValues.value = Object.assign({}, props.configurationValues);
+                        configurationValues.value["displayCurrentOption"] = "True";
+                    });
+                    vue_1.watch(dateValue, () => {
+                        if (props.comparisonType !== 4096) {
+                            internalValue.value = `${dateValue.value}\t`;
+                        }
+                    });
+                    vue_1.watch(rangeValue, () => {
+                        if (props.comparisonType === 4096) {
+                            internalValue.value = `\t${rangeValue.value ? slidingDateRange_1.slidingDateRangeToString(rangeValue.value) : ""}`;
+                        }
+                    });
+                    vue_1.watch(() => props.modelValue, () => {
+                        internalValue.value = props.modelValue;
+                        const segments = internalValue.value.split("\t");
+                        dateValue.value = segments[0];
+                        util_1.updateRefValue(rangeValue, slidingDateRange_1.parseSlidingDateRangeString(segments.length > 1 ? segments[1] : ""));
+                    });
+                    vue_1.watch(internalValue, () => {
+                        emit("update:modelValue", internalValue.value);
+                    });
+                    return {
+                        configurationValues,
+                        dateValue,
+                        isComparisonTypeBetween,
+                        rangeValue
+                    };
+                },
+                template: `
+<SlidingDateRangePicker v-if="isComparisonTypeBetween" v-model="rangeValue" />
+<EditComponent v-else v-model="dateValue" :configurationValues="configurationValues" />
 `
             }));
             defaults = {

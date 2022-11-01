@@ -31,7 +31,7 @@ System.register(["vue", "../Services/string", "./fieldType"], function (exports_
                 return (yield context_1.import("./phoneNumberFieldComponents")).ConfigurationComponent;
             }));
             PhoneNumberFieldType = class PhoneNumberFieldType extends fieldType_1.FieldTypeBase {
-                getTextValueFromConfiguration(value, _configurationValues) {
+                getTextValue(value, _configurationValues) {
                     return string_1.formatPhoneNumber(value || "");
                 }
                 getEditComponent() {

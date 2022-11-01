@@ -1,6 +1,6 @@
-System.register(["vue", "../Util/form", "./rockValidation"], function (exports_1, context_1) {
+System.register(["vue", "../Util/form", "../Util/util", "./rockValidation"], function (exports_1, context_1) {
     "use strict";
-    var vue_1, form_1, rockValidation_1;
+    var vue_1, form_1, util_1, rockValidation_1;
     var __moduleName = context_1 && context_1.id;
     return {
         setters: [
@@ -9,6 +9,9 @@ System.register(["vue", "../Util/form", "./rockValidation"], function (exports_1
             },
             function (form_1_1) {
                 form_1 = form_1_1;
+            },
+            function (util_1_1) {
+                util_1 = util_1_1;
             },
             function (rockValidation_1_1) {
                 rockValidation_1 = rockValidation_1_1;
@@ -50,7 +53,7 @@ System.register(["vue", "../Util/form", "./rockValidation"], function (exports_1
                             else {
                                 delete newErrors[id];
                             }
-                            errors.value = newErrors;
+                            util_1.updateRefValue(errors, newErrors);
                         }
                     });
                     const submitCount = vue_1.computed(() => formState.submitCount);
@@ -71,7 +74,11 @@ System.register(["vue", "../Util/form", "./rockValidation"], function (exports_1
                         emit("update:submit", submit.value);
                     });
                     vue_1.watch(errors, () => {
-                        emit("validationChanged", errors.value);
+                        const errorValues = [];
+                        for (const key in errors.value) {
+                            errorValues.push(errors.value[key]);
+                        }
+                        emit("validationChanged", errorValues);
                     });
                     return {
                         onInternalSubmit,

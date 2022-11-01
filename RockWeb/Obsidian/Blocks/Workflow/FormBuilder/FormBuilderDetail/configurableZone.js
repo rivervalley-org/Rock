@@ -21,6 +21,10 @@ System.register(["vue"], function (exports_1, context_1) {
                     iconCssClass: {
                         type: String,
                         default: "fa fa-gear"
+                    },
+                    clickBodyToConfigure: {
+                        type: Boolean,
+                        default: false
                     }
                 },
                 emits: [
@@ -37,14 +41,20 @@ System.register(["vue"], function (exports_1, context_1) {
                     const onActionClick = () => {
                         emit("configure");
                     };
+                    const onBodyActionClick = () => {
+                        if (props.clickBodyToConfigure) {
+                            emit("configure");
+                        }
+                    };
                     return {
                         onActionClick,
+                        onBodyActionClick,
                         zoneClasses
                     };
                 },
                 template: `
-<div class="configurable-zone" :class="zoneClasses">
-    <div class="zone-content-container">
+<div :class="zoneClasses">
+    <div class="zone-content-container" @click.stop="onBodyActionClick">
         <div class="zone-content">
             <slot />
         </div>
@@ -52,7 +62,7 @@ System.register(["vue"], function (exports_1, context_1) {
 
     <div class="zone-actions">
         <slot name="preActions" />
-        <i v-if="iconCssClass" :class="iconCssClass + ' fa-fw zone-action'" @click.stop="onActionClick"></i>
+        <div v-if="iconCssClass" class="zone-action" @click.stop="onActionClick"><i :class="iconCssClass + ' fa-fw'"></i></div>
         <slot name="postActions" />
     </div>
 </div>

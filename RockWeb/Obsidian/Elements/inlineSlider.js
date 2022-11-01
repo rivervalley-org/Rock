@@ -146,21 +146,21 @@ System.register(["vue", "../Util/component"], function (exports_1, context_1) {
                 },
                 template: `
 <div style="margin-left: calc(var(--slider-handle-height) / 2); margin-right: calc(var(--slider-handle-height) / 2);">
-    <div v-if="showValueBar" class="d-flex" style="position: relative; margin-bottom: 3px;">
+    <div v-if="showValueBar" class="d-flex align-items-center position-relative justify-content-between mb-1">
         <span v-if="showMinValue" class="text-muted">{{ min }}</span>
-        <span style="flex-grow: 1"></span>
+        <span></span>
         <span v-if="showMaxValue" class="text-muted">{{ max }}</span>
 
-        <span :style="thumbStyle" style="position: absolute;">
-            <span style="background: var(--slider-progress-bg); border-radius: 3px; padding: 1px 5px; color: #fff; font-size: 14px; margin-left: -50%; display: block; margin-right: 50%;">
+        <span class="position-absolute top-0" :style="thumbStyle">
+            <span class="d-block position-absolute" style="background: var(--slider-progress-bg); border-radius: 3px; padding: 1px 5px; color: #fff; font-size: 14px; transform: translateX(-50%);">
                 {{ internalValue }}
             </span>
         </span>
     </div>
 
     <div ref="sliderElement" class="d-flex" style="height: var(--slider-handle-height); align-items: center; position: relative;" @mousedown="onMouseDown" @touchdown="onTouchDown">
-        <span :style="leftSliderStyle" style="background-color: var(--slider-progress-bg); height: var(--slider-height); border-top-left-radius: calc(var(--slider-height) / 2); border-bottom-left-radius: calc(var(--slider-height) / 2); flex-grow: 1;"></span>
-        <span :style="rightSliderStyle" style="background-color: var(--slider-bg); height: var(--slider-height); border-top-right-radius: calc(var(--slider-height) / 2); border-bottom-right-radius: calc(var(--slider-height) / 2); flex-grow: 1;"></span>
+        <span class="flex-grow-1" :style="leftSliderStyle" style="background-color: var(--slider-progress-bg); height: var(--slider-height); border-top-left-radius: calc(var(--slider-height) / 2); border-bottom-left-radius: calc(var(--slider-height) / 2);"></span>
+        <span class="flex-grow-1" :style="rightSliderStyle" style="background-color: var(--slider-bg); height: var(--slider-height); border-top-right-radius: calc(var(--slider-height) / 2); border-bottom-right-radius: calc(var(--slider-height) / 2);"></span>
 
         <span :style="thumbStyle" style="position: absolute; width: var(--slider-handle-height); height: var(--slider-handle-height); margin-left: calc(0px - calc(var(--slider-handle-height) / 2)); cursor: pointer; background: var(--slider-handle-bg); border: 1px solid var(--slider-handle-border-color); border-radius: var(--slider-handle-height);" @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onMouseUp"></span>
     </div>

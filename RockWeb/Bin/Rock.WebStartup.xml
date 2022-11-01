@@ -41,9 +41,41 @@
             Global Quartz scheduler for jobs 
             </summary>
         </member>
+        <member name="T:Rock.WebStartup.RockApplicationStartupHelper.UnobservedTaskException">
+            <summary>
+            Class UnobservedTaskException.
+            Implements the <see cref="T:System.Exception" />
+            </summary>
+            <seealso cref="T:System.Exception" />
+        </member>
+        <member name="M:Rock.WebStartup.RockApplicationStartupHelper.UnobservedTaskException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.WebStartup.RockApplicationStartupHelper.UnobservedTaskException"/> class.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="exception">The exception.</param>
+        </member>
+        <member name="M:Rock.WebStartup.RockApplicationStartupHelper.TaskScheduler_UnobservedTaskException(System.Object,System.Threading.Tasks.UnobservedTaskExceptionEventArgs)">
+            <summary>
+            If there are Task.Runs that don't handle their exceptions, this will catch those
+            so that we can log it.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.Threading.Tasks.UnobservedTaskExceptionEventArgs"/> instance containing the event data.</param>
+        </member>
         <member name="M:Rock.WebStartup.RockApplicationStartupHelper.RunApplicationStartup">
             <summary>
             Runs various startup operations that need to run prior to RockWeb startup
+            </summary>
+        </member>
+        <member name="M:Rock.WebStartup.RockApplicationStartupHelper.InitializeRockOrgTimeZone">
+            <summary>
+            Initializes the Rock organization time zone.
+            </summary>
+        </member>
+        <member name="M:Rock.WebStartup.RockApplicationStartupHelper.InitializeRockGraduationDate">
+            <summary>
+            Initializes the rock graduation date.
             </summary>
         </member>
         <member name="M:Rock.WebStartup.RockApplicationStartupHelper.RegisterHttpModules">
@@ -83,6 +115,12 @@
             </summary>
             <returns>True if at least one migration was run</returns>
         </member>
+        <member name="M:Rock.WebStartup.RockApplicationStartupHelper.ConfigureEntitySaveHooks">
+            <summary>
+            Searches all assemblies for <see cref="T:Rock.Data.IEntitySaveHook"/> subclasses
+            that need to be registered in the default save hook provider.
+            </summary>
+        </member>
         <member name="M:Rock.WebStartup.RockApplicationStartupHelper.MigratePlugins">
             <summary>
             Migrates the plugins.
@@ -110,6 +148,14 @@
             so that the standard filters are loaded prior to the custom RockFilter.
             This is to allow the custom 'Date' filter to replace the standard Date filter.
             </summary>
+        </member>
+        <member name="M:Rock.WebStartup.RockApplicationStartupHelper.InitializeLavaSafeTypes(Rock.Lava.ILavaEngine)">
+            <summary>
+            Initializes the lava safe types on the engine. This takes care
+            of special types that we don't have direct access to so we can't
+            add the proper interfaces to them.
+            </summary>
+            <param name="engine">The engine.</param>
         </member>
         <member name="M:Rock.WebStartup.RockApplicationStartupHelper.StartJobScheduler">
             <summary>

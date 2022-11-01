@@ -28,7 +28,7 @@ System.register(["vue", "./fieldType"], function (exports_1, context_1) {
                 return (yield context_1.import("./ssnFieldComponents")).ConfigurationComponent;
             }));
             SSNFieldType = class SSNFieldType extends fieldType_1.FieldTypeBase {
-                getTextValueFromConfiguration(value, _configurationValues) {
+                getTextValue(value, _configurationValues) {
                     const strippedValue = value.replace(/[^0-9]/g, "");
                     if (strippedValue.length !== 9) {
                         return "";

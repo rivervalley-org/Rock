@@ -35,6 +35,7 @@ System.register(["vue", "../../../../Util/util"], function (exports_1, context_1
                     return {
                         description,
                         name,
+                        usedByWorkflowTypes
                     };
                 },
                 template: `

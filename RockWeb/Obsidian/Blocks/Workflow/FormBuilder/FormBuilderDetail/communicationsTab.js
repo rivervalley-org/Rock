@@ -44,19 +44,28 @@ System.register(["vue", "../../../../Controls/rockForm", "../../../../Elements/a
                     },
                     templateOverrides: {
                         type: Object
+                    },
+                    submit: {
+                        type: Boolean,
+                        default: false
                     }
                 },
                 emits: [
-                    "update:modelValue"
+                    "update:modelValue",
+                    "validationChanged"
                 ],
                 setup(props, { emit }) {
                     var _a, _b, _c, _d;
                     const confirmationEmail = vue_2.ref((_a = props.modelValue.confirmationEmail) !== null && _a !== void 0 ? _a : {});
                     const notificationEmail = vue_2.ref((_b = props.modelValue.notificationEmail) !== null && _b !== void 0 ? _b : {});
+                    const formSubmit = vue_2.ref(false);
                     const sources = utils_1.useFormSources();
                     const sourceTemplateOptions = (_c = sources.emailTemplateOptions) !== null && _c !== void 0 ? _c : [];
                     const campusTopicOptions = (_d = sources.campusTopicOptions) !== null && _d !== void 0 ? _d : [];
                     const isConfirmationEmailForced = vue_1.computed(() => { var _a, _b; return (_b = (_a = props.templateOverrides) === null || _a === void 0 ? void 0 : _a.isConfirmationEmailConfigured) !== null && _b !== void 0 ? _b : false; });
+                    const onValidationChanged = (errors) => {
+                        emit("validationChanged", errors);
+                    };
                     vue_2.watch(() => props.modelValue, () => {
                         var _a, _b;
                         confirmationEmail.value = (_a = props.modelValue.confirmationEmail) !== null && _a !== void 0 ? _a : {};
@@ -66,18 +75,25 @@ System.register(["vue", "../../../../Controls/rockForm", "../../../../Elements/a
                         const newValue = Object.assign(Object.assign({}, props.modelValue), { confirmationEmail: confirmationEmail.value, notificationEmail: notificationEmail.value });
                         emit("update:modelValue", newValue);
                     });
+                    vue_2.watch(() => props.submit, () => {
+                        if (props.submit) {
+                            formSubmit.value = true;
+                        }
+                    });
                     return {
                         campusTopicOptions,
                         confirmationEmail,
+                        formSubmit,
                         isConfirmationEmailForced,
                         notificationEmail,
+                        onValidationChanged,
                         sourceTemplateOptions,
                     };
                 },
                 template: `
-<div class="d-flex flex-column" style="flex-grow: 1; overflow-y: auto;">
+<div class="form-builder-scroll">
     <div class="panel-body">
-        <RockForm>
+        <RockForm v-model:submit="formSubmit" @validationChanged="onValidationChanged">
             <ConfirmationEmail v-if="!isConfirmationEmailForced" v-model="confirmationEmail" :sourceTemplateOptions="sourceTemplateOptions" :recipientOptions="recipientOptions" />
             <Alert v-else alertType="info">
                 <h4 class="alert-heading">Confirmation Email</h4>

@@ -247,7 +247,6 @@ namespace RockWeb.Blocks.Finance
             {
                 business = new Person();
                 personService.Add( business );
-                tbBusinessName.Text = tbBusinessName.Text.FixCase();
             }
 
             // Business Name
@@ -382,34 +381,40 @@ namespace RockWeb.Blocks.Finance
                     workLocation.IsMailingLocation = true;
                 }
 
-                var personSearchKeyService = new PersonSearchKeyService( rockContext );
-
-                var validSearchTypes = GetValidSearchKeyTypes();
-                var databaseSearchKeys = personSearchKeyService
-                    .Queryable()
-                    .Where( a => validSearchTypes.Contains( a.SearchTypeValue.Guid ) && a.PersonAlias.PersonId == business.Id )
-                    .ToList();
-
-                foreach ( var deletedSearchKey in databaseSearchKeys.Where( a => !PersonSearchKeysState.Any( p => p.Guid == a.Guid ) ) )
-                {
-                    personSearchKeyService.Delete( deletedSearchKey );
-                }
-
-                foreach ( var personSearchKey in PersonSearchKeysState.Where( a => !databaseSearchKeys.Any( d => d.Guid == a.Guid ) ) )
-                {
-                    personSearchKey.PersonAliasId = business.PrimaryAliasId.Value;
-                    personSearchKeyService.Add( personSearchKey );
-                }
-
                 rockContext.SaveChanges();
-
+                
                 hfBusinessId.Value = business.Id.ToString();
             } );
 
+            /* Ethan Drotning 2022-01-11
+             * Need save the PersonSearchKeys outside of the transaction since the DB might not have READ_COMMITTED_SNAPSHOT enabled.
+             */
+
+            // PersonSearchKey
+            var personSearchKeyService = new PersonSearchKeyService( rockContext );
+            var validSearchTypes = GetValidSearchKeyTypes();
+            var databaseSearchKeys = personSearchKeyService.Queryable().Where( a => a.PersonAlias.PersonId == business.Id && validSearchTypes.Contains( a.SearchTypeValue.Guid ) ).ToList();
+
+            foreach ( var deletedSearchKey in databaseSearchKeys.Where( a => !PersonSearchKeysState.Any( p => p.Guid == a.Guid ) ) )
+            {
+                personSearchKeyService.Delete( deletedSearchKey );
+            }
+
+            foreach ( var personSearchKey in PersonSearchKeysState.Where( a => !databaseSearchKeys.Any( d => d.Guid == a.Guid ) ) )
+            {
+                personSearchKey.PersonAliasId = business.PrimaryAliasId.Value;
+                personSearchKeyService.Add( personSearchKey );
+            }
+
+            rockContext.SaveChanges();
+
             business.SaveAttributeValues();
 
-            var queryParams = new Dictionary<string, string>();
-            queryParams.Add( "BusinessId", hfBusinessId.Value );
+            var queryParams = new Dictionary<string, string>
+            {
+                { "BusinessId", hfBusinessId.Value }
+            };
+
             NavigateToCurrentPage( queryParams );
         }
 
@@ -869,6 +874,19 @@ namespace RockWeb.Blocks.Finance
             if ( groupMember.Id == 0)
             {
                 groupMemberService.Add( groupMember );
+
+                /*
+                     6/20/2022 - SMC
+
+                     We need to save the new Group to the database so that an Id is assigned.  This
+                     Id is necessary to calculate the correct GivingId for the business, otherwise
+                     all new businesses are given a GivingId of "G0" until the Rock Cleanup Job runs,
+                     which causes the transactions to appear on any new records (because they all
+                     have the same GivingId).
+
+                     Reason: Transactions showing up on records they don't belong to.
+                */
+                rockContext.SaveChanges();
             }
 
             return groupMember;

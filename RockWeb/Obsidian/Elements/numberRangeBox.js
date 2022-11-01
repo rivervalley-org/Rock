@@ -46,16 +46,15 @@ System.register(["vue", "../Rules/index", "../Services/number", "./rockFormField
                         internalValue: {
                             lower: "",
                             upper: ""
-                        },
-                        validationValue: ""
+                        }
                     };
                 },
                 methods: {
                     onChange() {
                         var _a, _b;
                         this.internalValue = {
-                            lower: number_1.asFormattedString(this.modelValue.lower, (_a = this.internalDecimalCount) !== null && _a !== void 0 ? _a : undefined),
-                            upper: number_1.asFormattedString(this.modelValue.upper, (_b = this.internalDecimalCount) !== null && _b !== void 0 ? _b : undefined)
+                            lower: number_1.asFormattedString(this.modelValue.lower, (_a = this.internalDecimalCount) !== null && _a !== void 0 ? _a : undefined, { useGrouping: false }),
+                            upper: number_1.asFormattedString(this.modelValue.upper, (_b = this.internalDecimalCount) !== null && _b !== void 0 ? _b : undefined, { useGrouping: false })
                         };
                     }
                 },
@@ -76,20 +75,14 @@ System.register(["vue", "../Rules/index", "../Services/number", "./rockFormField
                         const rules = index_1.normalizeRules(this.rules);
                         return rules;
                     },
+                    validationValue() {
+                        var _a, _b;
+                        return `${(_a = this.internalValue.lower) !== null && _a !== void 0 ? _a : ""},${(_b = this.internalValue.upper) !== null && _b !== void 0 ? _b : ""}`;
+                    }
                 },
                 watch: {
                     computedValue() {
                         this.$emit("update:modelValue", this.computedValue);
-                    },
-                    internalValue() {
-                        var _a, _b;
-                        const value = `${(_a = this.internalValue.lower) !== null && _a !== void 0 ? _a : ""},${(_b = this.internalValue.upper) !== null && _b !== void 0 ? _b : ""}`;
-                        this.validationValue = value;
-                        const emitValue = {
-                            lower: number_1.toNumberOrNull(this.internalValue.lower),
-                            upper: number_1.toNumberOrNull(this.internalValue.upper)
-                        };
-                        this.$emit("update:modelValue", emitValue);
                     },
                     internalStep() {
                         return this.decimalCount === null ? "any" : (1 / Math.pow(10, this.decimalCount)).toString();
@@ -97,12 +90,10 @@ System.register(["vue", "../Rules/index", "../Services/number", "./rockFormField
                     modelValue: {
                         immediate: true,
                         handler() {
-                            const lower = this.modelValue.lower !== null ? this.modelValue.lower.toString() : "";
-                            const upper = this.modelValue.upper !== null ? this.modelValue.upper.toString() : "";
-                            if (this.internalValue.lower !== lower || this.internalValue.upper !== upper) {
+                            if (this.modelValue.lower !== number_1.toNumberOrNull(this.internalValue.lower) || this.modelValue.upper !== number_1.toNumberOrNull(this.internalValue.upper)) {
                                 this.internalValue = {
-                                    lower: lower,
-                                    upper: upper
+                                    lower: this.modelValue.lower != null ? this.modelValue.lower.toString() : "",
+                                    upper: this.modelValue.upper != null ? this.modelValue.upper.toString() : ""
                                 };
                             }
                         }

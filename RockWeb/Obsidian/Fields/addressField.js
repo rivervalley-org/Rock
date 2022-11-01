@@ -28,7 +28,7 @@ System.register(["vue", "./fieldType"], function (exports_1, context_1) {
                 return (yield context_1.import("./addressFieldComponents")).ConfigurationComponent;
             }));
             AddressFieldType = class AddressFieldType extends fieldType_1.FieldTypeBase {
-                getTextValueFromConfiguration(value, _configurationValues) {
+                getTextValue(value, _configurationValues) {
                     var _a, _b, _c, _d, _e;
                     try {
                         const addressValue = JSON.parse(value || "{}");

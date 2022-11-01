@@ -152,11 +152,13 @@ System.register(["vue", "../../Elements/alert", "../../Elements/countdownTimer",
                     const notFound = vue_1.ref(false);
                     const viewModel = block_1.useConfigurationValues();
                     const invokeBlockAction = block_1.useInvokeBlockAction();
-                    if (viewModel === null) {
+                    const notFoundMessage = (viewModel === null || viewModel === void 0 ? void 0 : viewModel.registrationInstanceNotFoundMessage) || "The selected registration could not be found or is no longer active.";
+                    if (viewModel === null || viewModel.registrationInstanceNotFoundMessage) {
                         notFound.value = true;
                         return {
                             viewModel,
-                            notFound
+                            notFound,
+                            notFoundMessage
                         };
                     }
                     if (!viewModel.registrationAttributesStart) {
@@ -236,6 +238,7 @@ System.register(["vue", "../../Elements/alert", "../../Elements/countdownTimer",
                         steps,
                         registrationEntryState,
                         notFound,
+                        notFoundMessage,
                         persistSession,
                         invokeBlockAction,
                         getRegistrationEntryBlockArgs
@@ -416,6 +419,12 @@ System.register(["vue", "../../Elements/alert", "../../Elements/countdownTimer",
                         }
                         return this.viewModel.spotsRemaining < 1 && !this.viewModel.waitListEnabled;
                     },
+                    preventNewRegistration() {
+                        if (!this.viewModel) {
+                            return this.isFull;
+                        }
+                        return this.isFull && !this.viewModel.isExistingRegistration;
+                    },
                     registrationTerm() {
                         var _a;
                         return (((_a = this.viewModel) === null || _a === void 0 ? void 0 : _a.registrationTerm) || "registration").toLowerCase();
@@ -575,7 +584,7 @@ System.register(["vue", "../../Elements/alert", "../../Elements/countdownTimer",
 <div>
     <Alert v-if="notFound" alertType="warning">
         <strong>Sorry</strong>
-        <p>The selected registration could not be found or is no longer active.</p>
+        <p>{{notFoundMessage}}</p>
     </Alert>
     <Alert v-else-if="mustLogin" alertType="warning">
         <strong>Please log in</strong>
@@ -589,7 +598,7 @@ System.register(["vue", "../../Elements/alert", "../../Elements/countdownTimer",
         <strong>Incorrect Configuration</strong>
         <p>This registration has costs/fees associated with it but the configured payment gateway is not supported.</p>
     </Alert>
-    <Alert v-else-if="isFull" class="text-left" alertType="warning">
+    <Alert v-else-if="preventNewRegistration" class="text-left" alertType="warning">
         <strong>{{registrationTermTitleCase}} Full</strong>
         <p>
             There are not any more {{registrationTermPlural}} available for {{viewModel.instanceName}}.

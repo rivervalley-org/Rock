@@ -32,7 +32,7 @@ System.register(["vue", "./rockFormField"], function (exports_1, context_1) {
                     const hoverValue = vue_1.ref(null);
                     const showClear = vue_1.computed(() => internalValue.value > 0);
                     vue_1.watch(() => props.modelValue, () => internalValue.value = props.modelValue);
-                    vue_1.watchEffect(() => emit("update:modelValue", internalValue.value));
+                    vue_1.watch(internalValue, () => emit("update:modelValue", internalValue.value));
                     const setRating = (value) => {
                         internalValue.value = value;
                     };

@@ -49,7 +49,7 @@ System.register(["vue", "../../../Controls/panel", "../../../Controls/rockForm",
         ],
         execute: function () {
             exports_1("default", vue_1.defineComponent({
-                name: "Workflow.FormTemplateDetail",
+                name: "WorkFlow.FormTemplateDetail",
                 components: {
                     Alert: alert_1.default,
                     AuditDetail: auditDetail_1.default,
@@ -105,9 +105,14 @@ System.register(["vue", "../../../Controls/panel", "../../../Controls/rockForm",
                             template: templateEditDetail.value
                         });
                         if (result.isSuccess && result.data) {
-                            templateDetail.value = result.data;
-                            templateEditDetail.value = {};
-                            isEditMode.value = false;
+                            if (result.statusCode === 200 && typeof result.data === "object") {
+                                templateDetail.value = result.data;
+                                templateEditDetail.value = {};
+                                isEditMode.value = false;
+                            }
+                            else if (result.statusCode === 201 && typeof result.data === "string") {
+                                window.location.href = result.data;
+                            }
                         }
                     });
                     utils_1.provideSources((_b = config.sources) !== null && _b !== void 0 ? _b : {});

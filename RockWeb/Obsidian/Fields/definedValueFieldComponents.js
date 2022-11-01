@@ -1,6 +1,6 @@
-System.register(["vue", "../Elements/checkBox", "../Elements/checkBoxList", "../Elements/dropDownList", "../Elements/numberBox", "../Services/boolean", "../Services/number", "./utils"], function (exports_1, context_1) {
+System.register(["vue", "../Elements/checkBox", "../Elements/checkBoxList", "../Elements/dropDownList", "../Elements/numberBox", "../Services/boolean", "../Services/number", "../Util/component", "./utils"], function (exports_1, context_1) {
     "use strict";
-    var vue_1, checkBox_1, checkBoxList_1, dropDownList_1, numberBox_1, boolean_1, number_1, utils_1, EditComponent, ConfigurationComponent;
+    var vue_1, checkBox_1, checkBoxList_1, dropDownList_1, numberBox_1, boolean_1, number_1, component_1, utils_1, EditComponent, FilterComponent, ConfigurationComponent;
     var __moduleName = context_1 && context_1.id;
     function parseModelValue(modelValue) {
         try {
@@ -52,6 +52,9 @@ System.register(["vue", "../Elements/checkBox", "../Elements/checkBoxList", "../
             function (number_1_1) {
                 number_1 = number_1_1;
             },
+            function (component_1_1) {
+                component_1 = component_1_1;
+            },
             function (utils_1_1) {
                 utils_1 = utils_1_1;
             }
@@ -70,7 +73,7 @@ System.register(["vue", "../Elements/checkBox", "../Elements/checkBoxList", "../
                     const valueOptions = vue_1.computed(() => {
                         var _a;
                         try {
-                            return JSON.parse((_a = props.configurationValues["selectableValues"]) !== null && _a !== void 0 ? _a : "[]");
+                            return JSON.parse((_a = props.configurationValues["values"]) !== null && _a !== void 0 ? _a : "[]");
                         }
                         catch (_b) {
                             return [];
@@ -136,6 +139,29 @@ System.register(["vue", "../Elements/checkBox", "../Elements/checkBoxList", "../
 <CheckBoxList v-else v-model="internalValues" :options="optionsMultiple" horizontal :repeatColumns="repeatColumns" />
 `
             }));
+            exports_1("FilterComponent", FilterComponent = vue_1.defineComponent({
+                name: "DefinedValueField.Filter",
+                components: {
+                    EditComponent
+                },
+                props: utils_1.getFieldEditorProps(),
+                setup(props, { emit }) {
+                    const internalValue = component_1.useVModelPassthrough(props, "modelValue", emit);
+                    const configurationValues = vue_1.ref(Object.assign({}, props.configurationValues));
+                    configurationValues.value["allowmultiple"] = "True";
+                    vue_1.watch(() => props.configurationValues, () => {
+                        configurationValues.value = Object.assign({}, props.configurationValues);
+                        configurationValues.value["allowmultiple"] = "True";
+                    });
+                    return {
+                        internalValue,
+                        configurationValues
+                    };
+                },
+                template: `
+<EditComponent v-model="internalValue" :configurationValues="configurationValues" />
+`
+            }));
             exports_1("ConfigurationComponent", ConfigurationComponent = vue_1.defineComponent({
                 name: "DefinedValueField.Configuration",
                 components: {
@@ -175,14 +201,14 @@ System.register(["vue", "../Elements/checkBox", "../Elements/checkBoxList", "../
                         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
                         const newValue = {};
                         newValue["definedtype"] = definedTypeValue.value;
-                        newValue["selectableValues"] = selectableValues.value.join(",");
+                        newValue["values"] = selectableValues.value.join(",");
                         newValue["allowmultiple"] = (_a = boolean_1.asTrueFalseOrNull(allowMultipleValues.value)) !== null && _a !== void 0 ? _a : "False";
                         newValue["displaydescription"] = (_b = boolean_1.asTrueFalseOrNull(displayDescriptions.value)) !== null && _b !== void 0 ? _b : "False";
                         newValue["enhancedselection"] = (_c = boolean_1.asTrueFalseOrNull(enhanceForLongLists.value)) !== null && _c !== void 0 ? _c : "False";
                         newValue["includeInactive"] = (_d = boolean_1.asTrueFalseOrNull(includeInactive.value)) !== null && _d !== void 0 ? _d : "False";
                         newValue["RepeatColumns"] = (_f = (_e = repeatColumns.value) === null || _e === void 0 ? void 0 : _e.toString()) !== null && _f !== void 0 ? _f : "";
                         const anyValueChanged = newValue["definedtype"] !== props.modelValue["definedtype"]
-                            || newValue["selectableValues"] !== ((_g = props.modelValue["selectableValues"]) !== null && _g !== void 0 ? _g : "")
+                            || newValue["values"] !== ((_g = props.modelValue["values"]) !== null && _g !== void 0 ? _g : "")
                             || newValue["allowmultiple"] !== ((_h = props.modelValue["allowmultiple"]) !== null && _h !== void 0 ? _h : "False")
                             || newValue["displaydescription"] !== ((_j = props.modelValue["displaydescription"]) !== null && _j !== void 0 ? _j : "False")
                             || newValue["enhancedselection"] !== ((_k = props.modelValue["enhancedselection"]) !== null && _k !== void 0 ? _k : "False")

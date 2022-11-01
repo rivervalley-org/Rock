@@ -34,7 +34,7 @@ System.register(["vue", "../Reporting/comparisonType", "../Services/number", "./
                 return (yield context_1.import("./daysOfWeekFieldComponents")).ConfigurationComponent;
             }));
             DaysOfWeekFieldType = class DaysOfWeekFieldType extends fieldType_1.FieldTypeBase {
-                getTextValueFromConfiguration(value, _configurationValues) {
+                getTextValue(value, _configurationValues) {
                     if (value === null || value === undefined || value === "") {
                         return "";
                     }

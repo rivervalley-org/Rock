@@ -31,7 +31,7 @@ System.register(["vue", "../Services/number", "./fieldType"], function (exports_
                 return (yield context_1.import("./monthDayFieldComponents")).ConfigurationComponent;
             }));
             MonthDayFieldType = class MonthDayFieldType extends fieldType_1.FieldTypeBase {
-                getTextValueFromConfiguration(value, _configurationValues) {
+                getTextValue(value, _configurationValues) {
                     const components = (value).split("/");
                     if (components.length !== 2) {
                         return "";

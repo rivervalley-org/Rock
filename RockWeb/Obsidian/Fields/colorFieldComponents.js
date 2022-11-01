@@ -72,17 +72,13 @@ System.register(["vue", "../Elements/dropDownList", "../Elements/colorPicker", "
                     const dropDownListOptions = namedColors.map(v => {
                         return { text: v, value: v };
                     });
-                    const isColorPicker = vue_1.computed(() => {
-                        return props.configurationValues[ConfigurationValueKey.ColorControlType] === ConfigurationValueKey.ColorPicker;
-                    });
                     const isNamedPicker = vue_1.computed(() => {
-                        return props.configurationValues[ConfigurationValueKey.ColorControlType] !== ConfigurationValueKey.ColorPicker;
+                        return props.configurationValues[ConfigurationValueKey.ColorControlType] === ConfigurationValueKey.NamedColor;
                     });
                     return {
                         internalValue,
                         dropDownListOptions,
-                        isNamedPicker,
-                        isColorPicker
+                        isNamedPicker
                     };
                 },
                 template: `
@@ -100,14 +96,14 @@ System.register(["vue", "../Elements/dropDownList", "../Elements/colorPicker", "
                 setup(props, { emit }) {
                     const colorControlType = vue_1.ref("");
                     const typeList = [
-                        { text: ConfigurationValueKey.NamedColor, value: ConfigurationValueKey.NamedColor },
-                        { text: ConfigurationValueKey.ColorPicker, value: ConfigurationValueKey.ColorPicker }
+                        { text: ConfigurationValueKey.ColorPicker, value: ConfigurationValueKey.ColorPicker },
+                        { text: ConfigurationValueKey.NamedColor, value: ConfigurationValueKey.NamedColor }
                     ];
                     const maybeUpdateModelValue = () => {
                         var _a, _b;
                         const newValue = {};
-                        newValue[ConfigurationValueKey.ColorControlType] = (_a = colorControlType.value) !== null && _a !== void 0 ? _a : ConfigurationValueKey.NamedColor;
-                        const anyValueChanged = newValue[ConfigurationValueKey.ColorControlType] !== ((_b = props.modelValue[ConfigurationValueKey.ColorControlType]) !== null && _b !== void 0 ? _b : "False");
+                        newValue[ConfigurationValueKey.ColorControlType] = (_a = colorControlType.value) !== null && _a !== void 0 ? _a : ConfigurationValueKey.ColorPicker;
+                        const anyValueChanged = newValue[ConfigurationValueKey.ColorControlType] !== ((_b = props.modelValue[ConfigurationValueKey.ColorControlType]) !== null && _b !== void 0 ? _b : ConfigurationValueKey.ColorPicker);
                         if (anyValueChanged) {
                             emit("update:modelValue", newValue);
                             return true;
@@ -123,7 +119,7 @@ System.register(["vue", "../Elements/dropDownList", "../Elements/colorPicker", "
                     };
                     vue_1.watch(() => [props.modelValue, props.configurationProperties], () => {
                         var _a;
-                        colorControlType.value = (_a = props.modelValue[ConfigurationValueKey.ColorControlType]) !== null && _a !== void 0 ? _a : ConfigurationValueKey.NamedColor;
+                        colorControlType.value = (_a = props.modelValue[ConfigurationValueKey.ColorControlType]) !== null && _a !== void 0 ? _a : ConfigurationValueKey.ColorPicker;
                     }, {
                         immediate: true
                     });
@@ -132,8 +128,11 @@ System.register(["vue", "../Elements/dropDownList", "../Elements/colorPicker", "
                             emit("updateConfiguration");
                         }
                     });
-                    vue_1.watch(colorControlType, () => maybeUpdateConfiguration(ConfigurationValueKey.ColorControlType, colorControlType.value || ConfigurationValueKey.NamedColor));
-                    return { colorControlType, typeList };
+                    vue_1.watch(colorControlType, () => maybeUpdateConfiguration(ConfigurationValueKey.ColorControlType, colorControlType.value || ConfigurationValueKey.ColorPicker));
+                    return {
+                        colorControlType,
+                        typeList
+                    };
                 },
                 template: `
 <div>

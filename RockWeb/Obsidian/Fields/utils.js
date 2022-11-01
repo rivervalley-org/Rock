@@ -51,10 +51,19 @@ System.register(["vue", "../Reporting/comparisonType", "../Reporting/comparisonT
         return null;
     }
     exports_1("getFieldType", getFieldType);
-    function getStandardFilterComponent(comparisonLabelOrTypes, valueComponent) {
+    function getStandardFilterComponent(comparisonLabelOrTypes, valueComponent, options) {
         const comparisonTypes = typeof comparisonLabelOrTypes === "number" ? comparisonLabelOrTypes : null;
         const compareLabel = typeof comparisonLabelOrTypes === "string" ? comparisonLabelOrTypes : "";
-        const comparisonTypeOptions = comparisonTypes !== null ? comparisonTypeOptions_1.getFilteredComparisonTypeOptions(comparisonTypes) : [];
+        let comparisonTypeOptions = comparisonTypes !== null ? comparisonTypeOptions_1.getFilteredComparisonTypeOptions(comparisonTypes) : [];
+        if (options === null || options === void 0 ? void 0 : options.updateComparisonTypeNames) {
+            comparisonTypeOptions = comparisonTypeOptions.map(o => {
+                return {
+                    value: o.value,
+                    text: o.text
+                };
+            });
+            options.updateComparisonTypeNames(comparisonTypeOptions);
+        }
         return vue_1.defineComponent({
             name: "StandardFilterComponent",
             components: {
@@ -67,8 +76,9 @@ System.register(["vue", "../Reporting/comparisonType", "../Reporting/comparisonT
                 "update:modelValue"
             ],
             setup(props, { emit }) {
-                var _a, _b;
+                var _a, _b, _c;
                 const internalComparisonType = vue_1.ref((_b = (_a = props.modelValue.comparisonType) === null || _a === void 0 ? void 0 : _a.toString()) !== null && _b !== void 0 ? _b : "");
+                const comparisonType = vue_1.ref((_c = props.modelValue.comparisonType) !== null && _c !== void 0 ? _c : null);
                 const internalComparisonValue = vue_1.ref(props.modelValue.value);
                 const hasCompareComponent = vue_1.computed(() => {
                     return comparisonTypes !== null
@@ -105,6 +115,7 @@ System.register(["vue", "../Reporting/comparisonType", "../Reporting/comparisonT
                             type = number_1.toNumberOrNull(internalComparisonType.value);
                         }
                     }
+                    comparisonType.value = type;
                     const newValue = {
                         comparisonType: type,
                         value: internalComparisonValue.value
@@ -114,8 +125,9 @@ System.register(["vue", "../Reporting/comparisonType", "../Reporting/comparisonT
                     }
                 };
                 vue_1.watch(() => props.modelValue, () => {
-                    var _a, _b;
+                    var _a, _b, _c;
                     internalComparisonType.value = (_b = (_a = props.modelValue.comparisonType) === null || _a === void 0 ? void 0 : _a.toString()) !== null && _b !== void 0 ? _b : "";
+                    comparisonType.value = (_c = props.modelValue.comparisonType) !== null && _c !== void 0 ? _c : null;
                     internalComparisonValue.value = props.modelValue.value;
                 });
                 vue_1.watch([internalComparisonType, internalComparisonValue], () => {
@@ -124,6 +136,7 @@ System.register(["vue", "../Reporting/comparisonType", "../Reporting/comparisonT
                 emitValueIfChanged();
                 return {
                     compareLabel,
+                    comparisonType,
                     comparisonTypeOptions,
                     hasCompareComponent,
                     hasValueComponent,
@@ -138,7 +151,7 @@ System.register(["vue", "../Reporting/comparisonType", "../Reporting/comparisonT
         <DropDownList v-model="internalComparisonType" :options="comparisonTypeOptions" :showBlankItem="isTypeOptional" />
     </template>
 
-    <ValueComponent v-if="hasValueComponent" v-model="internalComparisonValue" :configurationValues="configurationValues" />
+    <ValueComponent v-if="hasValueComponent" v-model="internalComparisonValue" :configurationValues="configurationValues" :comparisonType="comparisonType" />
 </FieldFilterContainer>
 `
         });

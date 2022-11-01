@@ -1,6 +1,6 @@
-System.register(["vue", "../../../../Controls/panel", "../../../../Controls/rockForm", "../../../../Elements/auditDetail", "../../../../Elements/checkBox", "../../../../Elements/rockButton", "../../../../Elements/textBox", "../../../../Util/util", "../Shared/completionSettings", "../Shared/confirmationEmail", "../Shared/personEntrySettings", "../Shared/settingsWell", "./utils"], function (exports_1, context_1) {
+System.register(["vue", "../../../../Controls/panel", "../../../../Controls/rockForm", "../../../../Elements/auditDetail", "../../../../Elements/checkBox", "../../../../Elements/rockButton", "../../../../Elements/textBox", "../../../../Util/util", "../Shared/completionSettings", "../Shared/confirmationEmail", "../Shared/personEntrySettings", "../../../../Controls/sectionContainer", "./utils"], function (exports_1, context_1) {
     "use strict";
-    var vue_1, panel_1, rockForm_1, auditDetail_1, checkBox_1, rockButton_1, textBox_1, util_1, completionSettings_1, confirmationEmail_1, personEntrySettings_1, settingsWell_1, utils_1, recipientOptions;
+    var vue_1, panel_1, rockForm_1, auditDetail_1, checkBox_1, rockButton_1, textBox_1, util_1, completionSettings_1, confirmationEmail_1, personEntrySettings_1, sectionContainer_1, utils_1, recipientOptions;
     var __moduleName = context_1 && context_1.id;
     return {
         setters: [
@@ -37,8 +37,8 @@ System.register(["vue", "../../../../Controls/panel", "../../../../Controls/rock
             function (personEntrySettings_1_1) {
                 personEntrySettings_1 = personEntrySettings_1_1;
             },
-            function (settingsWell_1_1) {
-                settingsWell_1 = settingsWell_1_1;
+            function (sectionContainer_1_1) {
+                sectionContainer_1 = sectionContainer_1_1;
             },
             function (utils_1_1) {
                 utils_1 = utils_1_1;
@@ -66,7 +66,7 @@ System.register(["vue", "../../../../Controls/panel", "../../../../Controls/rock
                     PersonEntrySettings: personEntrySettings_1.default,
                     RockButton: rockButton_1.default,
                     RockForm: rockForm_1.default,
-                    SettingsWell: settingsWell_1.default,
+                    SectionContainer: sectionContainer_1.default,
                     TextBox: textBox_1.default
                 },
                 props: {
@@ -171,7 +171,7 @@ System.register(["vue", "../../../../Controls/panel", "../../../../Controls/rock
         label="Is Login Required"
         help="Determines if a person needs to be logged in to complete this form." />
 
-    <SettingsWell title="Form Headers and Footers"
+    <SectionContainer title="Form Headers and Footers"
         description="The headers and footers below will be displayed on all pages of the forms that use this template.">
         <TextBox v-model="formHeader"
             label="Form Header"
@@ -180,10 +180,10 @@ System.register(["vue", "../../../../Controls/panel", "../../../../Controls/rock
         <TextBox v-model="formFooter"
             label="Form Footer"
             textMode="multiline" />
-    </SettingsWell>
+    </SectionContainer>
 
-    <SettingsWell v-model="allowPersonEntry"
-        hasEnable
+    <SectionContainer v-model="allowPersonEntry"
+        toggleText="Enable"
         title="Person Entry Settings"
         description="These settings will lock the forms person entry settings.">
         <PersonEntrySettings v-model="personEntry"
@@ -192,7 +192,7 @@ System.register(["vue", "../../../../Controls/panel", "../../../../Controls/rock
             :campusTypeOptions="campusTypeOptions"
             :campusStatusOptions="campusStatusOptions"
             :addressTypeOptions="addressTypeOptions" />
-    </SettingsWell>
+    </SectionContainer>
 
     <ConfirmationEmail v-model="confirmationEmail"
         :recipientOptions="recipientOptions"

@@ -236,7 +236,7 @@ System.register(["vue", "../Elements/rockFormField", "./panel", "../Elements/tex
                     <i class="fa fa-times"></i>
                 </a>
 
-                <Panel v-if="showPopup" isFullscreen title="Person Search">
+                <Panel v-if="showPopup" isFullscreen isFullscreenPageOnly title="Person Search">
                     <template #actionAside>
                         <span class="panel-action" @click.prevent.stop="onCancel">
                             <i class="fa fa-times"></i>
@@ -249,7 +249,7 @@ System.register(["vue", "../Elements/rockFormField", "./panel", "../Elements/tex
                         </div>
 
                         <div style="display: flex;">
-                            <div v-for="result in searchResults" :key="result.guid" class="well clickable" :style="getCardStyle(result)" tabindex="0" @click="onCardClick(result)" @focus="onCardFocus(result)" @blur="onCardBlur(result)" @keypress="onCardKeyPress(result, $event)">
+                            <div v-for="result in searchResults" :key="result.guid" class="well cursor-pointer" :style="getCardStyle(result)" tabindex="0" @click="onCardClick(result)" @focus="onCardFocus(result)" @blur="onCardBlur(result)" @keypress="onCardKeyPress(result, $event)">
                                 <div style="display: flex; min-width: 250px;">
                                     <div class="person-image" :style="getPersonImageStyle(result)"></div>
                                     <div>

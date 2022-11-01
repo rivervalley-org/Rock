@@ -2,7 +2,7 @@ System.register(["vue", "../../../../Controls/rockField", "../../../../Directive
     "use strict";
     var vue_1, rockField_1, dragDrop_1, guid_1, configurableZone_1, fieldWrapper;
     var __moduleName = context_1 && context_1.id;
-    function getAttributeValueFromField(field) {
+    function getAttributeFromField(field) {
         var _a, _b, _c;
         return {
             attributeGuid: guid_1.newGuid(),
@@ -10,7 +10,6 @@ System.register(["vue", "../../../../Controls/rockField", "../../../../Directive
             name: !((_a = field.isHideLabel) !== null && _a !== void 0 ? _a : false) ? field.name : "",
             key: field.key,
             configurationValues: field.configurationValues,
-            value: field.defaultValue,
             isRequired: (_b = field.isRequired) !== null && _b !== void 0 ? _b : false,
             description: (_c = field.description) !== null && _c !== void 0 ? _c : "",
             order: 0,
@@ -48,18 +47,23 @@ System.register(["vue", "../../../../Controls/rockField", "../../../../Directive
                     }
                 },
                 setup(props) {
-                    const attributeValue = vue_1.ref(getAttributeValueFromField(props.modelValue));
+                    var _a;
+                    const attribute = vue_1.ref(getAttributeFromField(props.modelValue));
+                    const defaultValue = vue_1.ref((_a = props.modelValue.defaultValue) !== null && _a !== void 0 ? _a : "");
                     vue_1.watch(() => props.modelValue, () => {
-                        attributeValue.value = getAttributeValueFromField(props.modelValue);
+                        var _a;
+                        attribute.value = getAttributeFromField(props.modelValue);
+                        defaultValue.value = (_a = props.modelValue.defaultValue) !== null && _a !== void 0 ? _a : "";
                     }, {
                         deep: true
                     });
                     return {
-                        attributeValue
+                        attribute,
+                        defaultValue
                     };
                 },
                 template: `
-<RockField :attributeValue="attributeValue" isEditMode />
+<RockField :modelValue="defaultValue" :attribute="attribute" isEditMode />
 `
             });
             exports_1("default", vue_1.defineComponent({
@@ -158,7 +162,7 @@ System.register(["vue", "../../../../Controls/rockField", "../../../../Directive
                 },
                 template: `
 <ConfigurableZone class="zone-section" :modelValue="isSectionActive">
-    <div class="zone-body d-flex flex-column" style="min-height: 100%;">
+    <div class="zone-body">
         <div class="d-flex flex-column" :class="sectionTypeClass" style="flex-grow: 1;">
             <div>
                 <h1 v-if="title">{{ title }}</h1>
@@ -167,28 +171,32 @@ System.register(["vue", "../../../../Controls/rockField", "../../../../Directive
             </div>
 
             <div class="form-section" v-drag-source="reorderDragOptions" v-drag-target="reorderDragOptions.id" v-drag-target:2="dragTargetId" :data-section-id="sectionGuid">
-                <ConfigurableZone v-for="field in fields" :key="field.guid" :modelValue="isFieldActive(field)" :class="getFieldColumnSize(field)" :data-field-id="field.guid" @configure="onConfigureField(field)">
+                <ConfigurableZone v-for="field in fields"
+                    :key="field.guid"
+                    :modelValue="isFieldActive(field)"
+                    :class="getFieldColumnSize(field)"
+                    :data-field-id="field.guid"
+                    clickBodyToConfigure
+                    @configure="onConfigureField(field)">
                     <div class="zone-body">
                         <FieldWrapper :modelValue="field" />
                     </div>
 
                     <template #preActions>
-                        <i class="fa fa-bars fa-fw zone-action zone-action-move"></i>
-                        <span class="zone-action-pad"></span>
+                        <div class="zone-action zone-action-move"><i class="fa fa-bars fa-fw"></i></div>
                     </template>
                     <template #postActions>
-                        <i class="fa fa-times fa-fw zone-action" @click.stop="onDeleteField(field)"></i>
+                        <i class="fa fa-times fa-fw zone-action zone-action-delete" @click.stop="onDeleteField(field)"></i>
                     </template>
                 </ConfigurableZone>
             </div>
         </div>
     </div>
     <template #preActions>
-        <i class="fa fa-bars fa-fw zone-action zone-action-move"></i>
-        <span class="zone-action-pad"></span>
+        <div class="zone-action zone-action-move"><i class="fa fa-bars fa-fw "></i></div>
     </template>
     <template #postActions>
-        <i class="fa fa-times fa-fw zone-action" @click.stop="onDelete"></i>
+        <div class="zone-action zone-action-delete" @click.stop="onDelete"><i class="fa fa-times fa-fw"></i></div>
     </template>
 </ConfigurableZone>
 `

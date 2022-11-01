@@ -37,7 +37,7 @@ System.register(["vue", "../Reporting/comparisonType", "../Services/number", "..
                 return (yield context_1.import("./timeFieldComponents")).ConfigurationComponent;
             }));
             TimeFieldType = class TimeFieldType extends fieldType_1.FieldTypeBase {
-                getTextValueFromConfiguration(value, _configurationValues) {
+                getTextValue(value, _configurationValues) {
                     const values = /^(\d+):(\d+)/.exec(value !== null && value !== void 0 ? value : "");
                     if (values === null || values.length < 3) {
                         return "";

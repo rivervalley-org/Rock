@@ -1,6 +1,6 @@
 System.register(["../Elements/alert", "vue", "../Util/rockDateTime"], function (exports_1, context_1) {
     "use strict";
-    var alert_1, vue_1, rockDateTime_1;
+    var alert_1, vue_1, rockDateTime_1, vue_2;
     var __moduleName = context_1 && context_1.id;
     return {
         setters: [
@@ -9,6 +9,7 @@ System.register(["../Elements/alert", "vue", "../Util/rockDateTime"], function (
             },
             function (vue_1_1) {
                 vue_1 = vue_1_1;
+                vue_2 = vue_1_1;
             },
             function (rockDateTime_1_1) {
                 rockDateTime_1 = rockDateTime_1_1;
@@ -30,43 +31,40 @@ System.register(["../Elements/alert", "vue", "../Util/rockDateTime"], function (
                         default: -1
                     }
                 },
-                data() {
-                    return {
-                        errorsToShow: {},
-                        lastSubmitCount: 0,
-                        lastErrorChangeMs: 0
-                    };
-                },
-                computed: {
-                    hasErrors() {
-                        return Object.keys(this.errorsToShow).length > 0;
-                    }
-                },
-                watch: {
-                    submitCount() {
-                        const wasSubmitted = this.lastSubmitCount < this.submitCount;
+                setup(props) {
+                    const errorsToShow = vue_1.ref({});
+                    const lastSubmitCount = vue_1.ref(0);
+                    const lastErrorChangeMs = vue_1.ref(0);
+                    const hasErrors = vue_2.computed(() => Object.keys(errorsToShow.value).length > 0);
+                    vue_1.watch(() => props.submitCount, () => {
+                        const wasSubmitted = lastSubmitCount.value < props.submitCount;
                         if (wasSubmitted) {
                             const now = rockDateTime_1.RockDateTime.now().toMilliseconds();
-                            this.errorsToShow = Object.assign({}, this.errors);
-                            this.lastErrorChangeMs = now;
-                            this.lastSubmitCount = this.submitCount;
+                            errorsToShow.value = Object.assign({}, props.errors);
+                            lastErrorChangeMs.value = now;
+                            lastSubmitCount.value = props.submitCount;
                         }
-                    },
-                    errors: {
-                        immediate: true,
-                        handler() {
-                            if (this.submitCount === -1) {
-                                this.errorsToShow = Object.assign({}, this.errors);
-                                return;
-                            }
-                            const now = rockDateTime_1.RockDateTime.now().toMilliseconds();
-                            const msSinceLastChange = now - this.lastErrorChangeMs;
-                            if (msSinceLastChange < 500) {
-                                this.errorsToShow = Object.assign({}, this.errors);
-                                this.lastErrorChangeMs = now;
-                            }
+                    });
+                    vue_1.watch(() => props.errors, () => {
+                        if (props.submitCount === -1) {
+                            errorsToShow.value = Object.assign({}, props.errors);
+                            return;
                         }
-                    }
+                        const now = rockDateTime_1.RockDateTime.now().toMilliseconds();
+                        const msSinceLastChange = now - lastErrorChangeMs.value;
+                        if (msSinceLastChange < 500) {
+                            errorsToShow.value = Object.assign({}, props.errors);
+                            lastErrorChangeMs.value = now;
+                        }
+                    }, {
+                        immediate: true
+                    });
+                    return {
+                        errorsToShow,
+                        hasErrors,
+                        lastSubmitCount,
+                        lastErrorChangeMs
+                    };
                 },
                 template: `
 <Alert v-show="hasErrors" alertType="validation">
@@ -77,7 +75,8 @@ System.register(["../Elements/alert", "vue", "../Util/rockDateTime"], function (
             {{error.text}}
         </li>
     </ul>
-</Alert>`
+</Alert>
+`
             }));
         }
     };

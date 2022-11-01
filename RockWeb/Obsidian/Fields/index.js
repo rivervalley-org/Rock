@@ -1,6 +1,6 @@
-System.register(["./utils", "./addressField", "./booleanField", "./campusField", "./campusesField", "./colorField", "./currencyField", "./dateField", "./dateRangeField", "./dateTimeField", "./dayOfWeekField", "./daysOfWeekField", "./decimalField", "./decimalRangeField", "./definedValueField", "./definedValueRangeField", "./emailField", "./genderField", "./integerField", "./integerRangeField", "./keyValueListField", "./memoField", "./monthDayField", "./multiSelectField", "./phoneNumberField", "./ratingField", "./singleSelectField", "./ssnField", "./textField", "./timeField", "./urlLinkField"], function (exports_1, context_1) {
+System.register(["./utils", "./addressField", "./booleanField", "./campusField", "./campusesField", "./colorField", "./currencyField", "./dateField", "./dateRangeField", "./dateTimeField", "./dayOfWeekField", "./daysOfWeekField", "./decimalField", "./decimalRangeField", "./definedValueField", "./definedValueRangeField", "./emailField", "./fileField", "./genderField", "./imageField", "./integerField", "./integerRangeField", "./keyValueListField", "./memoField", "./monthDayField", "./multiSelectField", "./phoneNumberField", "./ratingField", "./singleSelectField", "./ssnField", "./textField", "./timeField", "./urlLinkField"], function (exports_1, context_1) {
     "use strict";
-    var utils_1, addressField_1, booleanField_1, campusField_1, campusesField_1, colorField_1, currencyField_1, dateField_1, dateRangeField_1, dateTimeField_1, dayOfWeekField_1, daysOfWeekField_1, decimalField_1, decimalRangeField_1, definedValueField_1, definedValueRangeField_1, emailField_1, genderField_1, integerField_1, integerRangeField_1, keyValueListField_1, memoField_1, monthDayField_1, multiSelectField_1, phoneNumberField_1, ratingField_1, singleSelectField_1, ssnField_1, textField_1, timeField_1, urlLinkField_1;
+    var utils_1, addressField_1, booleanField_1, campusField_1, campusesField_1, colorField_1, currencyField_1, dateField_1, dateRangeField_1, dateTimeField_1, dayOfWeekField_1, daysOfWeekField_1, decimalField_1, decimalRangeField_1, definedValueField_1, definedValueRangeField_1, emailField_1, fileField_1, genderField_1, imageField_1, integerField_1, integerRangeField_1, keyValueListField_1, memoField_1, monthDayField_1, multiSelectField_1, phoneNumberField_1, ratingField_1, singleSelectField_1, ssnField_1, textField_1, timeField_1, urlLinkField_1;
     var __moduleName = context_1 && context_1.id;
     return {
         setters: [
@@ -60,8 +60,14 @@ System.register(["./utils", "./addressField", "./booleanField", "./campusField",
             function (emailField_1_1) {
                 emailField_1 = emailField_1_1;
             },
+            function (fileField_1_1) {
+                fileField_1 = fileField_1_1;
+            },
             function (genderField_1_1) {
                 genderField_1 = genderField_1_1;
+            },
+            function (imageField_1_1) {
+                imageField_1 = imageField_1_1;
             },
             function (integerField_1_1) {
                 integerField_1 = integerField_1_1;
@@ -120,7 +126,9 @@ System.register(["./utils", "./addressField", "./booleanField", "./campusField",
             utils_1.registerFieldType("59D5A94C-94A0-4630-B80A-BB25697D74C7", new definedValueField_1.DefinedValueFieldType());
             utils_1.registerFieldType("B5C07B16-844D-4620-82E3-4CCA8F5FC350", new definedValueRangeField_1.DefinedValueRangeFieldType());
             utils_1.registerFieldType("3D045CAE-EA72-4A04-B7BE-7FD1D6214217", new emailField_1.EmailFieldType());
+            utils_1.registerFieldType("6F9E2DD0-E39E-4602-ADF9-EB710A75304A", new fileField_1.FileFieldType());
             utils_1.registerFieldType("2E28779B-4C76-4142-AE8D-49EA31DDB503", new genderField_1.GenderFieldType());
+            utils_1.registerFieldType("97F8157D-A8C8-4AB3-96A2-9CB2A9049E6D", new imageField_1.ImageFieldType());
             utils_1.registerFieldType("A75DFC58-7A1B-4799-BF31-451B2BBE38FF", new integerField_1.IntegerFieldType());
             utils_1.registerFieldType("9D5F21E0-DEA0-4E8E-BA42-71151F6A8ED4", new integerRangeField_1.IntegerRangeFieldType());
             utils_1.registerFieldType("73B02051-0D38-4AD9-BF81-A2D477DE4F70", new keyValueListField_1.KeyValueListFieldType());

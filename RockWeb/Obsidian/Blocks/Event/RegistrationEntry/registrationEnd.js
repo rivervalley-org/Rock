@@ -25,56 +25,57 @@ System.register(["vue", "../../../Controls/attributeValuesContainer", "../../../
                     AttributeValuesContainer: attributeValuesContainer_1.default,
                     RockForm: rockForm_1.default
                 },
-                setup() {
-                    return {
-                        registrationEntryState: vue_1.inject("registrationEntryState")
-                    };
-                },
-                data() {
-                    return {
-                        attributeValues: []
-                    };
-                },
-                methods: {
-                    onPrevious() {
-                        this.$emit("previous");
-                    },
-                    onNext() {
-                        this.$emit("next");
+                setup(props, { emit }) {
+                    const registrationEntryState = vue_1.inject("registrationEntryState");
+                    const attributeValues = vue_1.ref({});
+                    for (const a of registrationEntryState.viewModel.registrationAttributesEnd) {
+                        attributeValues.value[a.key] = registrationEntryState.registrationFieldValues[a.attributeGuid] || "";
                     }
-                },
-                watch: {
-                    viewModel: {
-                        immediate: true,
-                        handler() {
-                            this.attributeValues = this.registrationEntryState.viewModel.registrationAttributesEnd.map(a => {
-                                const currentValue = this.registrationEntryState.registrationFieldValues[a.attributeGuid] || "";
-                                return Object.assign(Object.assign({}, a), { value: currentValue });
-                            });
+                    const showPrevious = vue_1.computed(() => {
+                        return registrationEntryState.firstStep === registrationEntryState.steps.intro;
+                    });
+                    const attributes = vue_1.computed(() => {
+                        const attrs = {};
+                        for (const a of registrationEntryState.viewModel.registrationAttributesEnd) {
+                            attrs[a.key] = a;
                         }
-                    },
-                    attributeValues: {
-                        immediate: true,
-                        deep: true,
-                        handler() {
-                            for (const attributeValue of this.attributeValues) {
-                                this.registrationEntryState.registrationFieldValues[attributeValue.attributeGuid] = attributeValue.value;
-                            }
+                        return attrs;
+                    });
+                    const onPrevious = () => {
+                        emit("previous");
+                    };
+                    const onNext = () => {
+                        emit("next");
+                    };
+                    vue_1.watch(attributeValues, () => {
+                        for (const a of registrationEntryState.viewModel.registrationAttributesEnd) {
+                            registrationEntryState.registrationFieldValues[a.attributeGuid] = attributeValues.value[a.key];
                         }
-                    }
+                    });
+                    return {
+                        attributes,
+                        attributeValues,
+                        onNext,
+                        onPrevious,
+                        showPrevious
+                    };
                 },
                 template: `
 <div class="registrationentry-registration-attributes">
     <RockForm @submit="onNext">
-        <AttributeValuesContainer :attributeValues="attributeValues" isEditMode />
+        <AttributeValuesContainer v-model="attributeValues" :attributes="attributes" isEditMode :showCategoryLabel="false" />
 
-        <div class="actions">
-            <RockButton btnType="default" @click="onPrevious">
-                Previous
-            </RockButton>
-            <RockButton btnType="primary" class="pull-right" type="submit">
-                Next
-            </RockButton>
+        <div class="actions row">
+            <div class="col-xs-6">
+                <RockButton v-if="showPrevious" btnType="default" @click="onPrevious">
+                    Previous
+                </RockButton>
+            </div>
+            <div class="col-xs-6 text-right">
+                <RockButton btnType="primary" type="submit">
+                    Next
+                </RockButton>
+            </div>
         </div>
     </RockForm>
 </div>`

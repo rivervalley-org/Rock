@@ -46,14 +46,14 @@
                     </h3>
                     <div class="row">
                         <div class="col-sm-12 col-md-6 col-lg-7">
-                            <asp:Literal ID="lStepProgramDescription" runat="server" />
+                            <div class="description"><asp:Literal ID="lStepProgramDescription" runat="server" /></div>
                         </div>
                         <div class="col-sm-12 col-md-6 col-lg-5">
                             <div class="flex-grow-1 d-flex justify-content-end">
                                 <Rock:SlidingDateRangePicker ID="drpSlidingDateRange"
                                     runat="server"
                                     EnabledSlidingDateRangeTypes="Previous, Last, Current, DateRange"
-                                    EnabledSlidingDateRangeUnits="Week, Month, Year"
+                                    EnabledSlidingDateRangeUnits="Week, Month, Year, Day, Hour"
                                     SlidingDateRangeMode="Current"
                                     TimeUnit="Year"
                                     Label=""

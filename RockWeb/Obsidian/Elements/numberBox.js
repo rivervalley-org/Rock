@@ -63,7 +63,7 @@ System.register(["vue", "../Rules/index", "../Services/number", "./rockFormField
                 methods: {
                     onChange() {
                         var _a;
-                        this.internalValue = number_1.asFormattedString(this.modelValue, (_a = this.internalDecimalCount) !== null && _a !== void 0 ? _a : undefined);
+                        this.internalValue = number_1.asFormattedString(this.modelValue, (_a = this.internalDecimalCount) !== null && _a !== void 0 ? _a : undefined, { useGrouping: false });
                     }
                 },
                 computed: {
@@ -99,7 +99,7 @@ System.register(["vue", "../Rules/index", "../Services/number", "./rockFormField
                         handler() {
                             var _a;
                             if (this.modelValue !== this.internalNumberValue) {
-                                this.internalValue = number_1.asFormattedString(this.modelValue, (_a = this.internalDecimalCount) !== null && _a !== void 0 ? _a : undefined);
+                                this.internalValue = number_1.asFormattedString(this.modelValue, (_a = this.internalDecimalCount) !== null && _a !== void 0 ? _a : undefined, { useGrouping: false });
                             }
                         }
                     }

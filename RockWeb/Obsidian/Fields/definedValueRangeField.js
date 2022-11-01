@@ -31,27 +31,7 @@ System.register(["vue", "../Services/boolean", "../Util/linq", "./fieldType"], f
                 return (yield context_1.import("./definedValueRangeFieldComponents")).EditComponent;
             }));
             DefinedValueRangeFieldType = class DefinedValueRangeFieldType extends fieldType_1.FieldTypeBase {
-                getTextValue(value) {
-                    var _a, _b;
-                    try {
-                        const clientValue = JSON.parse((_a = value.value) !== null && _a !== void 0 ? _a : "");
-                        return (_b = (clientValue.description || clientValue.text)) !== null && _b !== void 0 ? _b : "";
-                    }
-                    catch (_c) {
-                        return super.getTextValue(value);
-                    }
-                }
-                getCondensedTextValue(value) {
-                    var _a, _b, _c;
-                    try {
-                        const clientValue = JSON.parse((_a = value.value) !== null && _a !== void 0 ? _a : "");
-                        return (_b = clientValue.text) !== null && _b !== void 0 ? _b : "";
-                    }
-                    catch (_d) {
-                        return (_c = value.value) !== null && _c !== void 0 ? _c : "";
-                    }
-                }
-                getTextValueFromConfiguration(value, configurationValues) {
+                getTextValue(value, configurationValues) {
                     var _a, _b, _c, _d, _e, _f, _g;
                     try {
                         const clientValue = JSON.parse(value);
@@ -79,6 +59,16 @@ System.register(["vue", "../Services/boolean", "../Util/linq", "./fieldType"], f
                         }
                     }
                     catch (_j) {
+                        return value;
+                    }
+                }
+                getCondensedTextValue(value, _configurationValues) {
+                    var _a;
+                    try {
+                        const clientValue = JSON.parse(value !== null && value !== void 0 ? value : "");
+                        return (_a = clientValue.text) !== null && _a !== void 0 ? _a : "";
+                    }
+                    catch (_b) {
                         return value;
                     }
                 }

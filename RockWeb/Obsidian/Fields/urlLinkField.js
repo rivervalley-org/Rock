@@ -28,8 +28,8 @@ System.register(["vue", "../Reporting/comparisonType", "./fieldType"], function 
                 return (yield context_1.import("./urlLinkFieldComponents")).EditComponent;
             }));
             UrlLinkFieldType = class UrlLinkFieldType extends fieldType_1.FieldTypeBase {
-                getHtmlValue(value) {
-                    const textValue = this.getTextValue(value);
+                getHtmlValue(value, configurationValues) {
+                    const textValue = this.getTextValue(value, configurationValues);
                     return textValue ? `<a href="${textValue}">${textValue}</a>` : "";
                 }
                 getEditComponent() {

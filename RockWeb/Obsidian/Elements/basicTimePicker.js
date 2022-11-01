@@ -49,11 +49,13 @@ System.register(["vue", "../Services/number", "../Services/string"], function (e
                         return true;
                     }
                     function updateValue() {
-                        const values = /(\d+):(\d+)/.exec(internalValue.value);
+                        const values = /(\d+)(?::(\d+))?/.exec(internalValue.value);
                         const value = {};
                         if (values !== null) {
                             value.hour = number_1.toNumber(values[1]) + (internalMeridiem.value === "PM" ? 12 : 0);
-                            value.minute = number_1.toNumber(values[2]);
+                            value.minute = values.length > 2 ? number_1.toNumber(values[2]) : 0;
+                            value.hour = Math.max(0, Math.min(23, value.hour));
+                            value.minute = Math.max(0, Math.min(59, value.minute));
                         }
                         emit("update:modelValue", value);
                     }
@@ -105,14 +107,13 @@ System.register(["vue", "../Services/number", "../Services/string"], function (e
                         internalValue,
                         keyPress,
                         updateValue,
-                        maybeUpdateValue,
                         toggleMeridiem
                     };
                 },
                 template: `
 <div class="input-group input-width-md">
-    <input class="form-control" type="text" v-model="internalValue" v-on:change="updateValue" v-on:keypress="keyPress" :disabled="disabled" />
-    <span class="input-group-btn"><button class="btn btn-default" v-on:click="toggleMeridiem" :disabled="disabled">{{ internalMeridiem }}</button></span>
+    <input class="form-control" type="text" v-model="internalValue" @change="updateValue" @keypress="keyPress" :disabled="disabled" />
+    <span class="input-group-btn"><button class="btn btn-default" @click="toggleMeridiem" :disabled="disabled">{{ internalMeridiem }}</button></span>
 </div>
 `
             }));

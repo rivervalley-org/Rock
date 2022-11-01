@@ -9,7 +9,7 @@ System.register(["vue", "../Util/linq", "./fieldType"], function (exports_1, con
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         });
     };
-    var vue_1, linq_1, fieldType_1, editComponent, KeyValueListFieldType;
+    var vue_1, linq_1, fieldType_1, editComponent, configurationComponent, KeyValueListFieldType;
     var __moduleName = context_1 && context_1.id;
     return {
         setters: [
@@ -27,8 +27,11 @@ System.register(["vue", "../Util/linq", "./fieldType"], function (exports_1, con
             editComponent = vue_1.defineAsyncComponent(() => __awaiter(void 0, void 0, void 0, function* () {
                 return (yield context_1.import("./keyValueListFieldComponents")).EditComponent;
             }));
+            configurationComponent = vue_1.defineAsyncComponent(() => __awaiter(void 0, void 0, void 0, function* () {
+                return (yield context_1.import("./keyValueListFieldComponents")).ConfigurationComponent;
+            }));
             KeyValueListFieldType = class KeyValueListFieldType extends fieldType_1.FieldTypeBase {
-                getTextValueFromConfiguration(value, configurationValues) {
+                getTextValue(value, configurationValues) {
                     var _a;
                     try {
                         const clientValues = JSON.parse(value !== null && value !== void 0 ? value : "[]");
@@ -51,6 +54,12 @@ System.register(["vue", "../Util/linq", "./fieldType"], function (exports_1, con
                 }
                 getEditComponent() {
                     return editComponent;
+                }
+                getConfigurationComponent() {
+                    return configurationComponent;
+                }
+                isFilterable() {
+                    return false;
                 }
             };
             exports_1("KeyValueListFieldType", KeyValueListFieldType);

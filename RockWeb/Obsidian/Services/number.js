@@ -1,14 +1,11 @@
 System.register([], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    function asFormattedString(num, digits) {
+    function asFormattedString(num, digits, options = {}) {
         if (num === null) {
             return "";
         }
-        return num.toLocaleString("en-US", {
-            minimumFractionDigits: digits,
-            maximumFractionDigits: digits !== null && digits !== void 0 ? digits : 9
-        });
+        return num.toLocaleString("en-US", Object.assign({ minimumFractionDigits: digits, maximumFractionDigits: digits !== null && digits !== void 0 ? digits : 9 }, options));
     }
     exports_1("asFormattedString", asFormattedString);
     function toNumber(str) {
@@ -98,6 +95,11 @@ System.register([], function (exports_1, context_1) {
         return str;
     }
     exports_1("zeroPad", zeroPad);
+    function toDecimalPlaces(num, decimalPlaces) {
+        decimalPlaces = Math.floor(decimalPlaces);
+        return Math.round(num * 10 ** decimalPlaces) / 10 ** decimalPlaces;
+    }
+    exports_1("toDecimalPlaces", toDecimalPlaces);
     return {
         setters: [],
         execute: function () {

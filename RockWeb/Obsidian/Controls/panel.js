@@ -52,7 +52,7 @@ System.register(["vue", "../Util/component", "../Elements/rockButton", "../Eleme
                     },
                     isFullscreenPageOnly: {
                         type: Boolean,
-                        default: true
+                        default: false
                     },
                     type: {
                         type: String,
@@ -89,7 +89,7 @@ System.register(["vue", "../Util/component", "../Elements/rockButton", "../Eleme
                     const panelHeadingClass = vue_1.computed(() => {
                         const classes = ["panel-heading"];
                         if (props.hasCollapse) {
-                            classes.push("clickable");
+                            classes.push("cursor-pointer");
                         }
                         return classes;
                     });
@@ -137,81 +137,6 @@ System.register(["vue", "../Util/component", "../Elements/rockButton", "../Eleme
                 template: `
 <Fullscreen v-model="isFullscreen" :isPageOnly="isFullscreenPageOnly">
     <div :class="panelClass" ref="panelElement" v-bind="$attrs" :tabIndex="panelTabIndex" @keydown="onPanelKeyDown">
-        <v-style>
-            .panel.panel-flex {
-                display: flex;
-                flex-direction: column;
-            }
-
-            .panel.panel-flex > .panel-heading {
-                display: flex;
-                align-items: center;
-                padding: 0;
-                line-height: 1em;
-                min-height: 48px;
-            }
-
-            .panel.panel-flex > .panel-heading > .panel-title {
-                padding: 0px 24px;
-                flex-grow: 1;
-            }
-
-            .panel.panel-flex > .panel-heading > .panel-aside {
-                padding: 0px 24px 0px 0px;
-            }
-
-            .panel.panel-flex > .panel-heading > .panel-action {
-                display: flex;
-                border-left: 1px solid #ccc;
-                align-self: stretch;
-                align-items: center;
-                width: 48px;
-                justify-content: center;
-                cursor: pointer;
-            }
-
-            .panel.panel-fullscreen {
-                margin: 0px;
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100vw;
-                height: 100vh;
-            }
-
-            .panel.panel-fullscreen,
-            .panel.panel-fullscreen > .panel-heading {
-                border-radius: 0px;
-            }
-
-            .panel.panel-flex .panel-flex-fill-body {
-                margin: -24px;
-            }
-
-            .panel.panel-flex.panel-fullscreen > .panel-body {
-                flex-grow: 1;
-                position: relative;
-                overflow-y: auto;
-            }
-
-            .page-fullscreen-capable .panel.panel-block.panel-flex {
-                overflow-y: hidden;
-            }
-
-            .page-fullscreen-capable .panel.panel-flex.panel-block > .panel-body {
-                position: relative;
-            }
-
-            .page-fullscreen-capable .panel.panel-flex.panel-block .panel-flex-fill-body,
-            body.is-fullscreen .panel.panel-flex.panel-block .panel-flex-fill-body {
-                position: absolute;
-                left: 0px;
-                top: 0px;
-                right: 0px;
-                bottom: 0px;
-                margin: 0px;
-            }
-        </v-style>
 
         <div :class="panelHeadingClass" @click="onPanelHeadingClick">
             <h1 class="panel-title">
@@ -234,7 +159,7 @@ System.register(["vue", "../Util/component", "../Elements/rockButton", "../Eleme
             <slot name="actionAside" />
 
             <span v-if="hasFullscreen" class="panel-action" @click.prevent.stop="onFullscreenClick">
-                <i class="fa fa-expand"></i>
+                <div class="rock-fullscreen-toggle"></div>
             </span>
         </div>
 

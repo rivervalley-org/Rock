@@ -1,6 +1,6 @@
-System.register(["vue", "../../../../Controls/personPicker", "../../../../Elements/dropDownList", "../../../../Elements/emailBox", "../../../../Elements/textBox", "../../../../Services/number", "../Shared/emailSource", "../Shared/segmentedPicker", "../Shared/settingsWell"], function (exports_1, context_1) {
+System.register(["vue", "../../../../Controls/personPicker", "../../../../Elements/dropDownList", "../../../../Elements/emailBox", "../../../../Elements/textBox", "../../../../Services/number", "../Shared/emailSource", "../Shared/segmentedPicker", "../../../../Controls/sectionContainer"], function (exports_1, context_1) {
     "use strict";
-    var vue_1, personPicker_1, dropDownList_1, emailBox_1, textBox_1, number_1, emailSource_1, segmentedPicker_1, settingsWell_1, notificationDestinationOptions;
+    var vue_1, personPicker_1, dropDownList_1, emailBox_1, textBox_1, number_1, emailSource_1, segmentedPicker_1, sectionContainer_1, notificationDestinationOptions;
     var __moduleName = context_1 && context_1.id;
     return {
         setters: [
@@ -28,8 +28,8 @@ System.register(["vue", "../../../../Controls/personPicker", "../../../../Elemen
             function (segmentedPicker_1_1) {
                 segmentedPicker_1 = segmentedPicker_1_1;
             },
-            function (settingsWell_1_1) {
-                settingsWell_1 = settingsWell_1_1;
+            function (sectionContainer_1_1) {
+                sectionContainer_1 = sectionContainer_1_1;
             }
         ],
         execute: function () {
@@ -55,7 +55,7 @@ System.register(["vue", "../../../../Controls/personPicker", "../../../../Elemen
                     EmailSource: emailSource_1.default,
                     PersonPicker: personPicker_1.default,
                     SegmentedPicker: segmentedPicker_1.default,
-                    SettingsWell: settingsWell_1.default,
+                    SectionContainer: sectionContainer_1.default,
                     TextBox: textBox_1.default,
                 },
                 props: {
@@ -114,8 +114,8 @@ System.register(["vue", "../../../../Controls/personPicker", "../../../../Elemen
                     };
                 },
                 template: `
-<SettingsWell v-model="enabled"
-    hasEnable
+<SectionContainer v-model="enabled"
+    toggleText="Enable"
     title="Notification Email"
     description="Notification emails can be sent to specified individuals when each form is completed.">
     <SegmentedPicker v-model="destination" :options="destinationOptions" />
@@ -155,7 +155,7 @@ System.register(["vue", "../../../../Controls/personPicker", "../../../../Elemen
     <div class="mt-3">
         <EmailSource v-model="source" :templateOptions="sourceTemplateOptions" />
     </div>
-</SettingsWell>
+</SectionContainer>
 `
             }));
         }

@@ -8,3 +8,6 @@ RockModelViews.xml
 /Communication Images
 /Communication Attachments
 /RockBackup
+/LuceneSearchIndex/
+/ChromeEngine/
+Run.Migration.bat

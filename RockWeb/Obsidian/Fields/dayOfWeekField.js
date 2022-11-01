@@ -37,7 +37,7 @@ System.register(["vue", "../Services/number", "./fieldType", "./utils"], functio
                 return (yield context_1.import("./dayOfWeekFieldComponents")).ConfigurationComponent;
             }));
             DayOfWeekFieldType = class DayOfWeekFieldType extends fieldType_1.FieldTypeBase {
-                getTextValueFromConfiguration(value, _configurationValues) {
+                getTextValue(value, _configurationValues) {
                     const dayValue = number_1.toNumberOrNull(value);
                     if (dayValue === null) {
                         return "";

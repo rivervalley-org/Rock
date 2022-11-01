@@ -34,7 +34,7 @@ System.register(["vue", "../Services/number", "../Util/rockDateTime", "./fieldTy
                 return (yield context_1.import("./dateRangeFieldComponents")).ConfigurationComponent;
             }));
             DateRangeFieldType = class DateRangeFieldType extends fieldType_1.FieldTypeBase {
-                getTextValueFromConfiguration(value, _configurationValues) {
+                getTextValue(value, _configurationValues) {
                     const dateParts = (value !== null && value !== void 0 ? value : "").split(",");
                     if (dateParts.length !== 2) {
                         return "";

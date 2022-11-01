@@ -1,6 +1,6 @@
-System.register(["vue", "../Controls/rockField", "../Elements/alert", "../Elements/dropDownList", "../Elements/staticFormControl", "../Fields/index", "../Util/http", "../Util/guid"], function (exports_1, context_1) {
+System.register(["vue", "../Controls/rockField", "../Elements/alert", "../Elements/dropDownList", "../Elements/staticFormControl", "../Fields/index", "../Util/http", "../Util/guid", "../Util/util"], function (exports_1, context_1) {
     "use strict";
-    var vue_1, rockField_1, alert_1, dropDownList_1, staticFormControl_1, index_1, http_1, guid_1;
+    var vue_1, rockField_1, alert_1, dropDownList_1, staticFormControl_1, index_1, http_1, guid_1, util_1;
     var __moduleName = context_1 && context_1.id;
     return {
         setters: [
@@ -27,6 +27,9 @@ System.register(["vue", "../Controls/rockField", "../Elements/alert", "../Elemen
             },
             function (guid_1_1) {
                 guid_1 = guid_1_1;
+            },
+            function (util_1_1) {
+                util_1 = util_1_1;
             }
         ],
         execute: function () {
@@ -53,11 +56,12 @@ System.register(["vue", "../Controls/rockField", "../Elements/alert", "../Elemen
                 ],
                 setup(props, { emit }) {
                     var _a, _b, _c, _d;
+                    const internalValue = vue_1.ref(props.modelValue);
                     const fieldTypeValue = vue_1.ref((_b = (_a = props.modelValue) === null || _a === void 0 ? void 0 : _a.fieldTypeGuid) !== null && _b !== void 0 ? _b : "");
                     let resetToDefaultsTimer = null;
-                    const defaultValue = vue_1.ref(null);
+                    const defaultValue = vue_1.ref("");
                     const configurationProperties = vue_1.ref({});
-                    const configurationOptions = vue_1.ref((_d = (_c = props.modelValue) === null || _c === void 0 ? void 0 : _c.configurationOptions) !== null && _d !== void 0 ? _d : {});
+                    const configurationValues = vue_1.ref((_d = (_c = props.modelValue) === null || _c === void 0 ? void 0 : _c.configurationValues) !== null && _d !== void 0 ? _d : {});
                     const hasDefaultValue = vue_1.computed(() => {
                         var _a;
                         if (!showConfigurationComponent.value || defaultValue.value === null) {
@@ -85,18 +89,31 @@ System.register(["vue", "../Controls/rockField", "../Elements/alert", "../Elemen
                         const matches = fieldTypeOptions.value.filter(v => guid_1.areEqual(v.value, fieldTypeValue.value));
                         return matches.length >= 1 ? matches[0].text : "";
                     });
+                    const defaultValueAttribute = vue_1.computed(() => {
+                        return {
+                            fieldTypeGuid: fieldTypeValue.value,
+                            attributeGuid: guid_1.newGuid(),
+                            configurationValues: configurationValues.value,
+                            name: "Default Value",
+                            key: "DefaultValue",
+                            description: "",
+                            isRequired: false,
+                            order: 0,
+                            categories: []
+                        };
+                    });
                     let isInternalUpdate = false;
                     const updateModelValue = () => {
-                        var _a, _b;
+                        var _a;
                         if (isInternalUpdate) {
                             return;
                         }
                         const newValue = {
                             fieldTypeGuid: fieldTypeValue.value,
-                            configurationOptions: configurationOptions.value,
-                            defaultValue: (_b = (_a = defaultValue.value) === null || _a === void 0 ? void 0 : _a.value) !== null && _b !== void 0 ? _b : ""
+                            configurationValues: configurationValues.value,
+                            defaultValue: (_a = defaultValue.value) !== null && _a !== void 0 ? _a : ""
                         };
-                        emit("update:modelValue", newValue);
+                        util_1.updateRefValue(internalValue, newValue);
                     };
                     const resetToDefaults = () => {
                         if (resetToDefaultsTimer !== null) {
@@ -106,8 +123,8 @@ System.register(["vue", "../Controls/rockField", "../Elements/alert", "../Elemen
                         isConfigurationReady.value = false;
                         isInternalUpdate = true;
                         configurationProperties.value = {};
-                        configurationOptions.value = {};
-                        defaultValue.value = null;
+                        configurationValues.value = {};
+                        defaultValue.value = "";
                         isInternalUpdate = false;
                         updateModelValue();
                     };
@@ -118,7 +135,7 @@ System.register(["vue", "../Controls/rockField", "../Elements/alert", "../Elemen
                         }
                         const update = {
                             fieldTypeGuid: fieldTypeValue.value,
-                            configurationOptions: configurationOptions.value,
+                            configurationValues: configurationValues.value,
                             defaultValue: currentDefaultValue
                         };
                         http_1.post("/api/v2/Controls/FieldTypeEditor/fieldTypeConfiguration", null, update)
@@ -126,12 +143,12 @@ System.register(["vue", "../Controls/rockField", "../Elements/alert", "../Elemen
                             var _a;
                             resetToDefaults();
                             console.debug("got configuration", result.data);
-                            if (result.isSuccess && result.data && result.data.configurationProperties && result.data.configurationOptions && result.data.defaultValue) {
+                            if (result.isSuccess && result.data && result.data.configurationProperties && result.data.configurationValues) {
                                 fieldErrorMessage.value = "";
                                 isConfigurationReady.value = true;
                                 isInternalUpdate = true;
                                 configurationProperties.value = result.data.configurationProperties;
-                                configurationOptions.value = result.data.configurationOptions;
+                                configurationValues.value = result.data.configurationValues;
                                 defaultValue.value = result.data.defaultValue;
                                 isInternalUpdate = false;
                                 updateModelValue();
@@ -141,29 +158,30 @@ System.register(["vue", "../Controls/rockField", "../Elements/alert", "../Elemen
                             }
                         });
                     };
+                    const onDefaultValueUpdate = (value) => {
+                        console.debug("default value updated");
+                        defaultValue.value = value;
+                        updateModelValue();
+                    };
+                    const onUpdateConfiguration = () => {
+                        var _a;
+                        console.debug("onUpdateConfiguration");
+                        updateFieldConfiguration((_a = defaultValue.value) !== null && _a !== void 0 ? _a : "");
+                    };
+                    const onUpdateConfigurationValue = (_key, _value) => {
+                        updateModelValue();
+                    };
                     vue_1.watch(fieldTypeValue, () => {
                         if (resetToDefaultsTimer === null) {
                             resetToDefaultsTimer = window.setTimeout(resetToDefaults, 250);
                         }
                         updateFieldConfiguration("");
                     });
-                    const onDefaultValueUpdate = () => {
-                        console.debug("default value updated");
-                        updateModelValue();
-                    };
-                    const onUpdateConfiguration = () => {
-                        var _a, _b;
-                        console.debug("onUpdateConfiguration");
-                        updateFieldConfiguration((_b = (_a = defaultValue.value) === null || _a === void 0 ? void 0 : _a.value) !== null && _b !== void 0 ? _b : "");
-                    };
-                    const onUpdateConfigurationValue = (key, value) => {
-                        var _a;
-                        if ((_a = defaultValue.value) === null || _a === void 0 ? void 0 : _a.configurationValues) {
-                            console.debug("update configuration value", key, value);
-                            defaultValue.value.configurationValues[key] = value;
-                            updateModelValue();
+                    vue_1.watch(internalValue, () => {
+                        if (!util_1.deepEqual(internalValue.value, props.modelValue, true)) {
+                            emit("update:modelValue", internalValue.value);
                         }
-                    };
+                    });
                     http_1.get("/api/v2/Controls/FieldTypeEditor/availableFieldTypes")
                         .then(result => {
                         var _a, _b;
@@ -177,9 +195,10 @@ System.register(["vue", "../Controls/rockField", "../Elements/alert", "../Elemen
                     });
                     return {
                         configurationComponent,
-                        configurationOptions,
+                        configurationValues,
                         configurationProperties,
                         defaultValue,
+                        defaultValueAttribute,
                         hasDefaultValue,
                         fieldErrorMessage,
                         fieldTypeName,
@@ -201,8 +220,8 @@ System.register(["vue", "../Controls/rockField", "../Elements/alert", "../Elemen
     <Alert v-if="fieldErrorMessage" alertType="warning">
         {{ fieldErrorMessage }}
     </Alert>
-    <component v-if="showConfigurationComponent" :is="configurationComponent" v-model="configurationOptions" :configurationProperties="configurationProperties" @updateConfiguration="onUpdateConfiguration" @updateConfigurationValue="onUpdateConfigurationValue" />
-    <RockField v-if="hasDefaultValue" :attributeValue="defaultValue" @update:attributeValue="onDefaultValueUpdate" isEditMode />
+    <component v-if="showConfigurationComponent" :is="configurationComponent" v-model="configurationValues" :configurationProperties="configurationProperties" @updateConfiguration="onUpdateConfiguration" @updateConfigurationValue="onUpdateConfigurationValue" />
+    <RockField v-if="hasDefaultValue" :modelValue="defaultValue" :attribute="defaultValueAttribute" @update:modelValue="onDefaultValueUpdate" isEditMode />
 </div>
 `
             }));

@@ -67,6 +67,64 @@ System.register(["axios"], function (exports_1, context_1) {
         });
     }
     exports_1("post", post);
+    function uploadFile(url, data, progress) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield axios_1.default.post(url, data, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                },
+                onUploadProgress: (event) => {
+                    if (progress) {
+                        progress(event.loaded, event.total, Math.floor(event.loaded * 100 / event.total));
+                    }
+                }
+            });
+            if (result.status === 200 && typeof result.data === "object") {
+                return result.data;
+            }
+            if (result.status === 406) {
+                throw "File type is not allowed.";
+            }
+            if (typeof result.data === "string") {
+                throw result.data;
+            }
+            throw "Upload failed.";
+        });
+    }
+    function uploadContentFile(file, encryptedRootFolder, folderPath, options) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            const url = `${(_a = options === null || options === void 0 ? void 0 : options.baseUrl) !== null && _a !== void 0 ? _a : "/FileUploader.ashx"}?rootFolder=${encryptedRootFolder}`;
+            const formData = new FormData();
+            formData.append("file", file);
+            if (folderPath) {
+                formData.append("folderPath", folderPath);
+            }
+            const result = yield uploadFile(url, formData, options === null || options === void 0 ? void 0 : options.progress);
+            return {
+                value: "",
+                text: result.FileName
+            };
+        });
+    }
+    exports_1("uploadContentFile", uploadContentFile);
+    function uploadBinaryFile(file, binaryFileTypeGuid, options) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            let url = `${(_a = options === null || options === void 0 ? void 0 : options.baseUrl) !== null && _a !== void 0 ? _a : "/FileUploader.ashx"}?isBinaryFile=True&fileTypeGuid=${binaryFileTypeGuid}`;
+            if (options === null || options === void 0 ? void 0 : options.isTemporary) {
+                url += "&isTemporary=False";
+            }
+            const formData = new FormData();
+            formData.append("file", file);
+            const result = yield uploadFile(url, formData, options === null || options === void 0 ? void 0 : options.progress);
+            return {
+                value: result.Guid,
+                text: result.FileName
+            };
+        });
+    }
+    exports_1("uploadBinaryFile", uploadBinaryFile);
     return {
         setters: [
             function (axios_1_1) {

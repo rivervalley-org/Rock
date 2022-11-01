@@ -11,6 +11,21 @@ System.register(["../../Elements/textBox", "../../Elements/inlineCheckBox", "../
     };
     var textBox_1, inlineCheckBox_1, rockButton_1, vue_1, alert_1, rockDateTime_1;
     var __moduleName = context_1 && context_1.id;
+    function makeUrlRedirectSafe(url) {
+        try {
+            const u = new URL(url);
+            if (u.protocol !== "http:" && u.protocol !== "https:") {
+                return "/";
+            }
+            return makeUrlRedirectSafe(`${u.pathname}${u.search}`);
+        }
+        catch (_a) {
+            if (url.indexOf(":") !== -1) {
+                return "/";
+            }
+            return url;
+        }
+    }
     return {
         setters: [
             function (textBox_1_1) {
@@ -76,7 +91,7 @@ System.register(["../../Elements/textBox", "../../Elements/inlineCheckBox", "../
                         const urlParams = new URLSearchParams(window.location.search);
                         const returnUrl = urlParams.get("returnurl");
                         if (returnUrl) {
-                            window.location.href = decodeURIComponent(returnUrl);
+                            window.location.href = makeUrlRedirectSafe(decodeURIComponent(returnUrl));
                         }
                     },
                     onHelpClick() {
@@ -89,7 +104,7 @@ System.register(["../../Elements/textBox", "../../Elements/inlineCheckBox", "../
                                     this.errorMessage = result.errorMessage || "An unknown error occurred communicating with the server";
                                 }
                                 else if (result.data) {
-                                    window.location.href = result.data;
+                                    window.location.href = makeUrlRedirectSafe(result.data);
                                 }
                             }
                             catch (e) {

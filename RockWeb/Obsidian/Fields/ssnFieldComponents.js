@@ -24,7 +24,7 @@ System.register(["vue", "./utils", "../Elements/socialSecurityNumberBox"], funct
                 setup(props, { emit }) {
                     const internalValue = vue_1.ref(props.modelValue);
                     vue_1.watch(() => props.modelValue, () => { var _a; return internalValue.value = (_a = props.modelValue) !== null && _a !== void 0 ? _a : ""; });
-                    vue_1.watchEffect(() => emit("update:modelValue", internalValue.value));
+                    vue_1.watch(internalValue, () => emit("update:modelValue", internalValue.value));
                     return {
                         internalValue
                     };

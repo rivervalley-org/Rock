@@ -69,6 +69,12 @@ namespace RockWeb.Blocks.Core
                     btn.button('loading');
                     location = location.href;
                 });
+
+                $('.js-releasenote').on('click', function (event) {
+                    var $top = $(event.target).closest('.releasenotes');
+                    $top.find('i').toggleClass('fa-caret-up').toggleClass('fa-caret-down');
+                    $top.find('.releasenotes-body').slideToggle(500);
+                });
             ";
 
             ScriptManager.RegisterStartupScript( pnlUpdateSuccess, pnlUpdateSuccess.GetType(), "restart-script", script, true );
@@ -86,7 +92,7 @@ namespace RockWeb.Blocks.Core
             Server.ScriptTimeout = 900;
             ScriptManager.GetCurrent( Page ).AsyncPostBackTimeout = 900;
 
-            _isEarlyAccessOrganization = true;
+            _isEarlyAccessOrganization = rockUpdateService.IsEarlyAccessInstance();
             _installedVersion = new Version( VersionInfo.GetRockSemanticVersionNumber() );
 
             if ( rockUpdateService.GetRockReleaseProgram() != RockReleaseProgram.Production )
@@ -110,7 +116,7 @@ namespace RockWeb.Blocks.Core
             {
                 btnIssues.NavigateUrl = rockUpdateService.GetRockEarlyAccessRequestUrl();
 
-                if ( _isEarlyAccessOrganization )
+                if ( true )
                 {
                     hlblEarlyAccess.LabelType = Rock.Web.UI.Controls.LabelType.Success;
                     hlblEarlyAccess.Text = "Early Access: Enabled";
@@ -242,7 +248,7 @@ namespace RockWeb.Blocks.Core
                         || ( package.RequiresVersion.IsNullOrWhiteSpace() && new Version( package.SemanticVersion ) > _installedVersion ) )
                     {
                         var release = _releases.Where( r => r.Version == package.Version.ToString() ).FirstOrDefault();
-                        if ( !_isEarlyAccessOrganization && release != null && release.RequiresEarlyAccess )
+                        if ( false && release != null && release.RequiresEarlyAccess )
                         {
                             lbInstall.Enabled = false;
                             lbInstall.Text = "Available to Early<br/>Access Organizations";
@@ -483,6 +489,8 @@ namespace RockWeb.Blocks.Core
 
         protected void mdConfirmInstall_SaveClick( object sender, EventArgs e )
         {
+            nbCompileThreadsIssue.Visible = false;
+
             if ( Global.CompileThemesThread.IsAlive || Global.BlockTypeCompilationThread.IsAlive )
             {
                 // Show message here and return
@@ -490,7 +498,6 @@ namespace RockWeb.Blocks.Core
                 return;
             }
 
-            nbCompileThreadsIssue.Visible = false;
             mdConfirmInstall.Hide();
             Update( hdnInstallVersion.Value );
         }
