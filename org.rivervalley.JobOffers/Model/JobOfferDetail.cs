@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 
 using Rock.Data;
+using Rock.Lava;
 using Rock.Model;
 
 namespace org.rivervalley.JobOffers.Model
@@ -168,25 +169,25 @@ namespace org.rivervalley.JobOffers.Model
 
         public virtual Campus Campus { get; set; }
 
-        [LavaInclude]
+        [LavaVisible]
         public virtual DefinedValue JobTitleValue { get; set; }
 
-        [LavaInclude]
+        [LavaVisible]
         public virtual DefinedValue EmploymentStatusValue { get; set; }
 
-        [LavaInclude]
+        [LavaVisible]
         public virtual DefinedValue DepartmentValue { get; set; }
 
-        [LavaInclude]
+        [LavaVisible]
         public virtual DefinedValue MedicalPlanValue { get; set; }
 
-        [LavaInclude]
+        [LavaVisible]
         public virtual DefinedValue DentalPlanValue { get; set; }
 
-        [LavaInclude]
+        [LavaVisible]
         public virtual DefinedValue JobOfferStatusValue { get; set; }
 
-        [LavaInclude]
+        [LavaVisible]
         public virtual DefinedValue RetireEmplPercentageValue { get; set; }
 
         #endregion

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 
 using Rock.Data;
+using Rock.Lava;
 using Rock.Model;
 
 namespace org.rivervalley.SampleProject_DefinedValue.Model
@@ -28,7 +29,7 @@ namespace org.rivervalley.SampleProject_DefinedValue.Model
 
         #region Virtual Properties
 
-        [LavaInclude]
+        [LavaVisible]
         public virtual DefinedValue HRCodeValue { get; set; }
 
         #endregion

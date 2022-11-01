@@ -467,7 +467,7 @@ namespace com.paysley.Paysley.Jobs
                         person.PhoneNumbers.Add( number ); 
                     }
 
-                    var defaultConnectionStatus = DefinedValueCache.Get( Rock.SystemGuid.DefinedValue.PERSON_CONNECTION_STATUS_WEB_PROSPECT.AsGuid() );
+                    var defaultConnectionStatus = DefinedValueCache.Get( Rock.SystemGuid.DefinedValue.PERSON_CONNECTION_STATUS_PROSPECT.AsGuid() );
                     if ( defaultConnectionStatus != null )
                     {
                         person.ConnectionStatusValueId = defaultConnectionStatus.Id;

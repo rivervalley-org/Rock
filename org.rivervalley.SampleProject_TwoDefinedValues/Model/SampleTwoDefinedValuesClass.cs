@@ -8,7 +8,9 @@ using System.Linq;
 using System.Runtime.Serialization;
 
 using Rock.Data;
+using Rock.Lava;
 using Rock.Model;
+
 namespace org.rivervalley.SampleProject_TwoDefinedValues.Model
 {
     [Table("_org_rivervalley_SampleProject_DBFour")]
@@ -33,13 +35,13 @@ namespace org.rivervalley.SampleProject_TwoDefinedValues.Model
 
         #region Virtual Properties
 
-        [LavaInclude]
+        [LavaVisible]
         public virtual DefinedValue HRJobTitleValue { get; set; }
 
-        [LavaInclude]
+        [LavaVisible]
         public virtual DefinedValue HRMedicalPlanValue { get; set; }
 
-        [LavaInclude]
+        [LavaVisible]
         public virtual DefinedValue HRDentalPlanValue { get; set; }
         #endregion
 

@@ -129,14 +129,8 @@ namespace org.rivervalley.Engagement.Model
                 {
                     try
                     {
-                        var errorMessages = new List<string>();
-                        var dataViewResults = DataView .GetQuery( null, 120, out errorMessages ).Select( d => d.Id ).ToList();
-
-                        if ( errorMessage.Any() )
-                        {
-                            errorMessage = errorMessages.AsDelimited( ";" );
-                            return null;
-                        }
+                        DataViewGetQueryArgs args = new DataViewGetQueryArgs();
+                        var dataViewResults = DataView .GetQuery( args ).Select( d => d.Id ).ToList();
 
                         results = dataViewResults
                             .Select( d => new IndexResult

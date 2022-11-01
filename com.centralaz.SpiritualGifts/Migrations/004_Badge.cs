@@ -24,23 +24,23 @@ namespace com.centralaz.SpiritualGifts.Migrations
             RockMigrationHelper.UpdateEntityType( "com.centralaz.SpiritualGifts.PersonProfile.Badge.SpiritualGift", "SpiritualGift", "com.centralaz.SpiritualGifts.PersonProfile.Badge.SpiritualGift, Rock, Version=1.1.2.0, Culture=neutral, PublicKeyToken=null", false, true, "A8B149BC-8E16-459C-8B93-BEC15089FBC4" );
 
             // Ensure the PersonBadge for Rock.PersonProfile.Badge.SpiritualGift is added
-            RockMigrationHelper.UpdatePersonBadge( "Spiritual Gift Personality Assessment Result", "Shows a small chart of a person's Spiritual Gift personality assessment results and links to the details of their assessment.",
-                "com.centralaz.SpiritualGifts.PersonProfile.Badge.SpiritualGift", 0, SPIRITUAL_GIFT_BADGE );
+            RockMigrationHelper.AddOrUpdateBadge( "Spiritual Gift Personality Assessment Result", "Shows a small chart of a person's Spiritual Gift personality assessment results and links to the details of their assessment.",
+                "com.centralaz.SpiritualGifts.PersonProfile.Badge.SpiritualGift", "", 0, SPIRITUAL_GIFT_BADGE );
 
             // Add/Update the Active Attribute
-            RockMigrationHelper.AddPersonBadgeAttribute( SPIRITUAL_GIFT_BADGE, Rock.SystemGuid.FieldType.BOOLEAN,
+            RockMigrationHelper.AddBadgeAttribute( SPIRITUAL_GIFT_BADGE, Rock.SystemGuid.FieldType.BOOLEAN,
                 "Active", "Active", "Should Service be used?", 0, string.Empty, "C38ACE08-6DC7-4153-A497-BFFFB30FAF19" );
 
             // Add/Update the Order Attribute
-            RockMigrationHelper.AddPersonBadgeAttribute( SPIRITUAL_GIFT_BADGE, Rock.SystemGuid.FieldType.INTEGER,
+            RockMigrationHelper.AddBadgeAttribute( SPIRITUAL_GIFT_BADGE, Rock.SystemGuid.FieldType.INTEGER,
                 "Order", "Order", "The order that this service should be used (priority)", 1, string.Empty, "DFC70633-D06D-44D8-87D5-DD6C5832F0A8" );
 
             // Add/Update the SpiritualGift Result Detail Attribute
-            RockMigrationHelper.AddPersonBadgeAttribute( SPIRITUAL_GIFT_BADGE, Rock.SystemGuid.FieldType.PAGE_REFERENCE,
+            RockMigrationHelper.AddBadgeAttribute( SPIRITUAL_GIFT_BADGE, Rock.SystemGuid.FieldType.PAGE_REFERENCE,
                 "Spiritual Gift Result Detail", "SpiritualGiftResultDetail", "Page to show the details of the Spiritual Gift assessment results. If blank no link is created.", 2, string.Empty, "56D4946D-DD70-4C06-A382-3CF34B56A8BE" );
 
             // add the badge to PersonBadge SpiritualGift Result Detail page guid
-            RockMigrationHelper.AddPersonBadgeAttributeValue( SPIRITUAL_GIFT_BADGE, "56D4946D-DD70-4C06-A382-3CF34B56A8BE", "039F770B-5734-4735-ABF1-B39B77C84AD0" );
+            RockMigrationHelper.AddBadgeAttributeValue( SPIRITUAL_GIFT_BADGE, "56D4946D-DD70-4C06-A382-3CF34B56A8BE", "039F770B-5734-4735-ABF1-B39B77C84AD0" );
 
             // add the new badge to the person profile's Badge 3 block
             RockMigrationHelper.AddBlockAttributeValue( "F3E6CC14-C540-4FFC-A5A9-48AD9CC0A61B", "F5AB231E-3836-4D52-BD03-BF79773C237A", SPIRITUAL_GIFT_BADGE, appendToExisting: true );

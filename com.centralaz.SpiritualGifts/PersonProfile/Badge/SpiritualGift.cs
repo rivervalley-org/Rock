@@ -20,18 +20,18 @@ namespace com.centralaz.SpiritualGifts.PersonProfile.Badge
     /// Spiritual Gift Badge as implemented from http://positivepublications.com/ assessment template.
     /// </summary>
     [Description( "Bade that displays a person's spiritual gift results" )]
-    [Export( typeof( Rock.PersonProfile.BadgeComponent ) )]
+    [Export( typeof( Rock.Badge.BadgeComponent ) )]
     [ExportMetadata( "ComponentName", "SpiritualGift" )]
 
     [LinkedPage( "Spiritual Gift Result Detail", "Page to show the details of the Spiritual Gift assessment results. If blank no link is created.", false )]
-    public class SpiritualGift : Rock.PersonProfile.BadgeComponent
+    public class SpiritualGift : Rock.Badge.BadgeComponent
     {
         /// <summary>
         /// Renders the specified writer.
         /// </summary>
         /// <param name="badge">The badge.</param>
         /// <param name="writer">The writer.</param>
-        public override void Render( PersonBadgeCache badge, System.Web.UI.HtmlTextWriter writer )
+        public override void Render( BadgeCache badge, System.Web.UI.HtmlTextWriter writer )
         {
 
             // Find the Spiritual Gift Personality Type / Strength

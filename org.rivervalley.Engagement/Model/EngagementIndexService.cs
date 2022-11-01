@@ -1,5 +1,6 @@
 ﻿using Rock;
 using Rock.Data;
+using Rock.Lava;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -145,7 +146,7 @@ namespace org.rivervalley.Engagement.Model
             /// <value>
             /// The available keys.
             /// </value>
-            [Rock.Data.LavaIgnore]
+            [LavaHidden]
             public List<string> AvailableKeys
             {
                 get
@@ -163,7 +164,7 @@ namespace org.rivervalley.Engagement.Model
             /// </value>
             /// <param name="key">The key.</param>
             /// <returns></returns>
-            [Rock.Data.LavaIgnore]
+            [LavaHidden]
             public object this[object key]
             {
                 get
@@ -243,7 +244,7 @@ namespace org.rivervalley.Engagement.Model
             /// <value>
             /// The available keys.
             /// </value>
-            [Rock.Data.LavaIgnore]
+            [LavaHidden]
             public List<string> AvailableKeys
             {
                 get
@@ -261,7 +262,7 @@ namespace org.rivervalley.Engagement.Model
             /// </value>
             /// <param name="key">The key.</param>
             /// <returns></returns>
-            [Rock.Data.LavaIgnore]
+            [LavaHidden]
             public object this[object key]
             {
                 get
@@ -334,7 +335,7 @@ namespace org.rivervalley.Engagement.Model
             /// <value>
             /// The available keys.
             /// </value>
-            [Rock.Data.LavaIgnore]
+            [LavaHidden]
             public List<string> AvailableKeys
             {
                 get
@@ -352,7 +353,7 @@ namespace org.rivervalley.Engagement.Model
             /// </value>
             /// <param name="key">The key.</param>
             /// <returns></returns>
-            [Rock.Data.LavaIgnore]
+            [LavaHidden]
             public object this[object key]
             {
                 get

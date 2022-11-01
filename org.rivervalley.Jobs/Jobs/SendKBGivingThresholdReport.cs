@@ -118,6 +118,8 @@ namespace org.rivervalley.Jobs
                     throw new Exception( "System Communication is not configured." );
                 }
 
+                DataViewGetQueryArgs args = new DataViewGetQueryArgs();
+
                 var rockContext = new RockContext();
                 var personService = new PersonService( rockContext );
                 var dataViewService = new DataViewService( rockContext );
@@ -155,10 +157,8 @@ namespace org.rivervalley.Jobs
                     throw new Exception( "System communication not found." );
                 }
 
-                var errorMessages = new List<string>();
-
                 // $5,000 Threshold Met
-                var qry = dataView5000.GetQuery( null, rockContext, null, out errorMessages );
+                var qry = dataView5000.GetQuery( args );
                 var personIds = qry.Select( e => e.Id ).ToList();
 
                 var alreadyMet5000ThresholdPersonIds = attributeValueService.Queryable().AsNoTracking()
@@ -249,7 +249,7 @@ namespace org.rivervalley.Jobs
                 }
 
                 // $10,000 Threshold Met
-                qry = dataView10000.GetQuery( null, rockContext, null, out errorMessages );
+                qry = dataView10000.GetQuery( args );
                 personIds = qry.Select( e => e.Id ).ToList();
 
                 var alreadyMet10000ThresholdPersonIds = attributeValueService.Queryable().AsNoTracking()

@@ -74,10 +74,12 @@ namespace org.rivervalley.Engagement.Jobs
                     return;
                 }
 
-                List<string> errorMessages = new List<string>();
-                personIds = dataView.GetQuery( null, 120, out errorMessages ).Select( d => d.Id ).ToList();
-
-                if ( errorMessages.Any() )
+                try
+                {
+                    DataViewGetQueryArgs args = new DataViewGetQueryArgs();
+                    personIds = dataView.GetQuery( args ).Select( d => d.Id ).ToList();
+                }
+                catch ( Exception )
                 {
                     context.Result = "Error processing data view.";
                     return;
