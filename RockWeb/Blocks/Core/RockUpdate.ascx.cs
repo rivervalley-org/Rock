@@ -116,7 +116,7 @@ namespace RockWeb.Blocks.Core
             {
                 btnIssues.NavigateUrl = rockUpdateService.GetRockEarlyAccessRequestUrl();
 
-                if ( true )
+                if ( _isEarlyAccessOrganization )
                 {
                     hlblEarlyAccess.LabelType = Rock.Web.UI.Controls.LabelType.Success;
                     hlblEarlyAccess.Text = "Early Access: Enabled";
@@ -248,7 +248,7 @@ namespace RockWeb.Blocks.Core
                         || ( package.RequiresVersion.IsNullOrWhiteSpace() && new Version( package.SemanticVersion ) > _installedVersion ) )
                     {
                         var release = _releases.Where( r => r.Version == package.Version.ToString() ).FirstOrDefault();
-                        if ( false && release != null && release.RequiresEarlyAccess )
+                        if ( !_isEarlyAccessOrganization && release != null && release.RequiresEarlyAccess )
                         {
                             lbInstall.Enabled = false;
                             lbInstall.Text = "Available to Early<br/>Access Organizations";
