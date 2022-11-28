@@ -1,4 +1,20 @@
-﻿
+﻿// <copyright>
+// Copyright by the Spark Development Network
+//
+// Licensed under the Rock Community License (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.rockrms.com/license
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// </copyright>
+//
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,8 +25,11 @@ using System.Web.UI.WebControls;
 
 using Rock;
 using Rock.Attribute;
+using Rock.Constants;
 using Rock.Data;
 using Rock.Model;
+using Rock.Security;
+using Rock.Web;
 using Rock.Web.Cache;
 using Rock.Web.UI;
 using Rock.Web.UI.Controls;
@@ -33,7 +52,7 @@ namespace RockWeb.Plugins.org_riverValley.Groups
     [BooleanField( "Enable Passing Group Id", "If enabled, allows the ability to pass in a group's Id (GroupId=) instead of the Guid.", true, "", 0 )]
     [CustomRadioListField( "Mode", "The mode to use when displaying registration details.", "Simple^Simple,Full^Full,FullSpouse^Full With Spouse", true, "Simple", "", 1 )]
     [CustomRadioListField( "Group Member Status", "The group member status to use when adding person to group (default: 'Pending'.)", "2^Pending,1^Active,0^Inactive", true, "2", "", 2 )]
-    [DefinedValueField( "2E6540EA-63F0-40FE-BE50-F2A84735E600", "Connection Status", "The connection status to use for new individuals (default: 'Web Prospect'.)", true, false, "368DD475-242C-49C4-A42C-7278BE690CC2", "", 3 )]
+    [DefinedValueField( "2E6540EA-63F0-40FE-BE50-F2A84735E600", "Connection Status", "The connection status to use for new individuals (default: 'Prospect'.)", true, false, "368DD475-242C-49C4-A42C-7278BE690CC2", "", 3 )]
     [DefinedValueField( "8522BADD-2871-45A5-81DD-C76DA07E2E7E", "Record Status", "The record status to use for new individuals (default: 'Pending'.)", true, false, "283999EC-7346-42E3-B807-BCE9B2BABB49", "", 4 )]
     [WorkflowTypeField( "Workflow", "An optional workflow to start when registration is created. The GroupMember will set as the workflow 'Entity' when processing is started.", false, false, "", "", 5 )]
     [CodeEditorField( "Lava Template", "The lava template to use to format the group details.", CodeEditorMode.Lava, CodeEditorTheme.Rock, 400, true, @"
@@ -45,10 +64,10 @@ namespace RockWeb.Plugins.org_riverValley.Groups
     [TextField( "Register Button Alt Text", "Alternate text to use for the Register button (default is 'Register').", false, "", "", 11 )]
     [BooleanField( "Prevent Overcapacity Registrations", "When set to true, user cannot register for groups that are at capacity or whose default GroupTypeRole are at capacity. If only one spot is available, no spouses can be registered.", true, "", 12 )]
     [BooleanField( "Require Email", "Should email be required for registration?", true, key: REQUIRE_EMAIL_KEY )]
-    [BooleanField( "Require Mobile Phone", "Should mobile phone numbers be required for registration?", false, key: REQUIRE_MOBILE_KEY )]
+    [BooleanField( "Require Mobile Phone", "Should mobile phone numbers be required (when visible) for registration?  NOTE: Certain fields such as phone numbers and address are not shown when the block is configured for 'Simple' mode.", false, key: REQUIRE_MOBILE_KEY )]
 
     // custom
-    [BooleanField( "Require Birthdate", "Should birthdates be required for registration?", false, key: REQUIRE_BIRTHDATE_KEY  )]
+    [BooleanField( "Require Birthdate", "Should birthdates be required for registration?", false, key: REQUIRE_BIRTHDATE_KEY )]
     [BooleanField( "Show Marital Status", "Should the marital status field be shown?", false, key: SHOW_MARITAL_STATUS )]
     [BooleanField( "Show Attributes", "Should attributes be displayed for registration?", false, key: REQUIRE_ATTRIBUTES_KEY )]
     [AttributeCategoryField( "Limit Attributes by Category", "An optional setting that can be used to limit Group Member attributes by Category.", true, "Rock.Model.GroupMember", false, "", "" )]
@@ -164,7 +183,7 @@ namespace RockWeb.Plugins.org_riverValley.Groups
                             var approvedAttributeKeys = AttributeCache.All().Where( a => a.Categories.Any( c => categoryGuidList.Contains( c.Guid ) ) ).Select( a => a.Key ).ToList();
                             excludeForEdit = groupMember.Attributes.Where( a => !approvedAttributeKeys.Contains( a.Key ) ).Select( a => a.Key ).ToList();
                         }
-                        
+
                         Rock.Attribute.Helper.AddEditControls( groupMember, phAttributes, false, BlockValidationGroup, excludeForEdit );
                     }
                 }
@@ -315,6 +334,8 @@ namespace RockWeb.Plugins.org_riverValley.Groups
                             {
                                 homeLocation = new GroupLocation();
                                 homeLocation.GroupLocationTypeValueId = _homeAddressType.Id;
+                                // If there are not any addresses with a Map Location, set the first home location to be a mapped location
+                                homeLocation.IsMappedLocation = true;
                                 family.GroupLocations.Add( homeLocation );
                             }
                             else
@@ -416,7 +437,7 @@ namespace RockWeb.Plugins.org_riverValley.Groups
                 string template = GetAttributeValue( "ResultLavaTemplate" );
                 lResult.Text = template.ResolveMergeFields( mergeFields );
 
-                // Will only redirect if a value is specifed
+                // Will only redirect if a value is specified
                 NavigateToLinkedPage( "ResultPage" );
             }
         }
@@ -536,7 +557,7 @@ namespace RockWeb.Plugins.org_riverValley.Groups
                                 if ( _autoFill )
                                 {
                                     dvpMaritalStatus.SetValue( CurrentPerson.MaritalStatusValueId );
-                                } 
+                                }
                             }
                         }
                     }
