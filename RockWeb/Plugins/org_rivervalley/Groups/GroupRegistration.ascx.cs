@@ -69,8 +69,7 @@ namespace RockWeb.Plugins.org_riverValley.Groups
     // custom
     [BooleanField( "Require Birthdate", "Should birthdates be required for registration?", false, key: REQUIRE_BIRTHDATE_KEY )]
     [BooleanField( "Show Marital Status", "Should the marital status field be shown?", false, key: SHOW_MARITAL_STATUS )]
-    [BooleanField( "Show Attributes", "Should attributes be displayed for registration?", false, key: REQUIRE_ATTRIBUTES_KEY )]
-    [AttributeCategoryField( "Limit Attributes by Category", "An optional setting that can be used to limit Group Member attributes by Category.", true, "Rock.Model.GroupMember", false, "", "" )]
+    [BooleanField( "Show Childcare Attribute", "Should the childcare question be displayed? (Note: this will only display if the group attribute 'KidsWelcome' is set to yes.)", false, key: SHOW_CHILDCARE_ATTRIBUTE )]
 
     public partial class GroupRegistration : RockBlock
     {
@@ -78,7 +77,7 @@ namespace RockWeb.Plugins.org_riverValley.Groups
         private const string REQUIRE_EMAIL_KEY = "IsRequireEmail";
         private const string REQUIRE_MOBILE_KEY = "IsRequiredMobile";
         private const string REQUIRE_BIRTHDATE_KEY = "IsRequiredBirthdate";
-        private const string REQUIRE_ATTRIBUTES_KEY = "IsRequiredAttributes";
+        private const string SHOW_CHILDCARE_ATTRIBUTE = "ShowChildCareAttribute";
         private const string SHOW_MARITAL_STATUS = "ShowMaritalStauts";
 
         RockContext _rockContext = null;
@@ -93,6 +92,7 @@ namespace RockWeb.Plugins.org_riverValley.Groups
         GroupTypeRoleCache _adultRole = null;
         bool _autoFill = true;
         bool _isValidSettings = true;
+        bool _isKidsWelcome = false;
 
         #endregion
 
@@ -167,7 +167,7 @@ namespace RockWeb.Plugins.org_riverValley.Groups
                     ShowDetails();
                 }
 
-                if ( GetAttributeValue( REQUIRE_ATTRIBUTES_KEY ).AsBoolean() )
+                if ( GetAttributeValue( SHOW_CHILDCARE_ATTRIBUTE ).AsBoolean() && _isKidsWelcome )
                 {
                     var groupMember = new GroupMember { GroupId = _group.Id };
                     if ( groupMember != null )
@@ -175,14 +175,10 @@ namespace RockWeb.Plugins.org_riverValley.Groups
                         groupMember.LoadAttributes();
                         phAttributes.Controls.Clear();
 
+                        // we only want the group member attribute for childcare, so ignore all others.
                         List<string> excludeForEdit = new List<string>();
-                        var categoryGuidList = GetAttributeValues( "LimitAttributesbyCategory" ).AsGuidList();
-                        if ( categoryGuidList.Any() )
-                        {
-                            // exclude attributes that are not in our selected categories
-                            var approvedAttributeKeys = AttributeCache.All().Where( a => a.Categories.Any( c => categoryGuidList.Contains( c.Guid ) ) ).Select( a => a.Key ).ToList();
-                            excludeForEdit = groupMember.Attributes.Where( a => !approvedAttributeKeys.Contains( a.Key ) ).Select( a => a.Key ).ToList();
-                        }
+                        var approvedAttributeKeys = AttributeCache.All().Where( a => a.Key == "Childcare" ).Select( a => a.Key ).ToList();
+                        excludeForEdit = groupMember.Attributes.Where( a => !approvedAttributeKeys.Contains( a.Key ) ).Select( a => a.Key ).ToList();
 
                         Rock.Attribute.Helper.AddEditControls( groupMember, phAttributes, false, BlockValidationGroup, excludeForEdit );
                     }
@@ -654,7 +650,7 @@ namespace RockWeb.Plugins.org_riverValley.Groups
 
                 }
 
-                if ( GetAttributeValue( REQUIRE_ATTRIBUTES_KEY ).AsBoolean() )
+                if ( GetAttributeValue( SHOW_CHILDCARE_ATTRIBUTE ).AsBoolean() )
                 {
                     if ( groupMember != null )
                     {
@@ -749,6 +745,9 @@ namespace RockWeb.Plugins.org_riverValley.Groups
                 {
                     _defaultGroupRole = _group.GroupType.DefaultGroupRole;
                 }
+
+                _group.LoadAttributes();
+                _isKidsWelcome = _group.GetAttributeValue( "KidsWelcome" ).AsBoolean();
             }
 
             _dvcConnectionStatus = DefinedValueCache.Get( GetAttributeValue( "ConnectionStatus" ).AsGuid() );
