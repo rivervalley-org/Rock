@@ -181,6 +181,11 @@ namespace RockWeb.Plugins.org_riverValley.Groups
                         excludeForEdit = groupMember.Attributes.Where( a => !approvedAttributeKeys.Contains( a.Key ) ).Select( a => a.Key ).ToList();
 
                         Rock.Attribute.Helper.AddEditControls( groupMember, phAttributes, false, BlockValidationGroup, excludeForEdit );
+
+                        if ( approvedAttributeKeys.Any() )
+                        {
+                            nbAttributeContainer.Visible = true;
+                        }
                     }
                 }
             }

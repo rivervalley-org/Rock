@@ -54,7 +54,9 @@
                 </asp:Panel>
 
                 <div class="col-md-12">
-                    <asp:PlaceHolder ID="phAttributes" runat="server" />
+					<div class="alert alert-default" runat="server" ID="nbAttributeContainer" Visible="False">
+						<asp:PlaceHolder ID="phAttributes" runat="server" />
+					</div>
                 </div>
             </div>
 
