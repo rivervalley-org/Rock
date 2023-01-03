@@ -924,7 +924,7 @@ namespace RockWeb.Plugins.org_riverValley.Finance
             Map( m => m.RegularAttender ).Name( "Regular Attender" );
             Map( m => m.ConfirmationCode ).Name( "Confirmation Code" );
             Map( m => m.Note ).Name( "Note" );
-            Map( m => m.IncomeAccountNumber ).Name( "Income Account Number" );
+            Map( m => m.IncomeAccountNumber ).Name( "Income Account Number", " Income Account Number" );
             Map( m => m.PurposeCode ).Name( "Purpose Code" );
             Map( m => m.Recurring ).Name( "Recurring" );
         }
