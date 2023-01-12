@@ -4,12 +4,14 @@
 <script type="text/javascript">
 
     var prm = Sys.WebForms.PageRequestManager.getInstance();
-    prm.add_initializeRequest(InitializeRequest);
+    prm.add_initializeRequest( InitializeRequest );
 
-    function InitializeRequest(sender, args) {
-        var updateProgress = $get('updateProgress');
+    function InitializeRequest ( sender, args )
+    {
+        var updateProgress = $get( 'updateProgress' );
         var postBackElement = args.get_postBackElement();
-        if (postBackElement.id == '<%= btnConfirm.ClientID %>') {
+        if ( postBackElement.id == '<%= btnConfirm.ClientID %>' )
+        {
             updateProgress.control._associatedUpdatePanelId = 'dummyId';
             $('#<%= btnCancelConfirm.ClientID %>').hide();
         }
@@ -23,20 +25,22 @@
         var proxy = $.connection.rockMessageHub;
 
         proxy.client.receiveNotification = function (name, message) {
-            if (name == '<%=signalREventName %>') {
-                $("div.progress").show();
+            if (name == '<%=signalREventName %>' )
+            {
+                $( "div.progress" ).show();
                 var percentage = message + '%'
-                var $progress = $("div.progress-bar");
-                $progress.attr("aria-valuenow", message);
-                $progress.css("width", percentage);
-                $progress.html(percentage);
+                var $progress = $( "div.progress-bar" );
+                $progress.attr( "aria-valuenow", message );
+                $progress.css( "width", percentage );
+                $progress.html( percentage );
             }
         }
 
-        $.connection.hub.start().done(function () {
+        $.connection.hub.start().done( function ()
+        {
             // hub started... 
-        });
-    })
+        } );
+    } )
 
 </script>
 
@@ -64,7 +68,7 @@
                         <div class="col-md-6">
                             <Rock:RockDropDownList ID="ddlBatch" runat="server" Label="Batch" AutoPostBack="true" OnSelectedIndexChanged="ddlBatch_SelectedIndexChanged"
                                 Help="The batch to add transactions to."  />
-                            <Rock:RockDropDownList ID="ddlBatchName" runat="server" Label="New Batch Name" Required="false" Visible="false" /> 
+                            <Rock:DefinedValuePicker ID="dvpBatchName" runat="server" Label="New Batch Name" Required="false" Visible="false" /> 
                         </div>
                     </div>
 

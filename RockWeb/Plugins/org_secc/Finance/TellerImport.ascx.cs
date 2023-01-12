@@ -29,7 +29,7 @@ namespace RockWeb.Plugins.Finance
     [Category( "Finance > Custom" )]
     [Description( "Block for importing teller files to a batch." )]
 
-    [CustomDropdownListField("Account Match Type", "The Rock Account field that should be used when matching the 'PurposeId' field from Teller file to an existing Rock account.", "ID^Id,FOREIGNID^Foreign Id", true, "ID", "", 0)]
+    [CustomDropdownListField( "Account Match Type", "The Rock Account field that should be used when matching the 'PurposeId' field from Teller file to an existing Rock account.", "ID^Id,FOREIGNID^Foreign Id", true, "ID", "", 0 )]
     [LinkedPage( "Batch Detail Page", "The page used to display details of a batch.", false, "", "", 1 )]
     [DefinedTypeField( "Batch Names", "The Defined Type to use for selecting new name for a new batch. If not specified, the imported file's name will be used.", false, "", "", 2 )]
     public partial class TellerImport : Rock.Web.UI.RockBlock
@@ -123,8 +123,8 @@ namespace RockWeb.Plugins.Finance
                         var dt = DefinedTypeCache.Get( _batchNameDtGuid.Value );
                         if ( dt != null )
                         {
-                            ddlBatchName.BindToDefinedType( dt, true );
-                            ddlBatchName.Visible = true;
+                            dvpBatchName.DefinedTypeId = dt.Id;
+                            dvpBatchName.Visible = true;
                         }
                     }
                 }
@@ -179,7 +179,7 @@ namespace RockWeb.Plugins.Finance
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void ddlBatch_SelectedIndexChanged( object sender, EventArgs e )
         {
-            ddlBatchName.Visible = _batchNameDtGuid.HasValue && !ddlBatch.SelectedValueAsInt().HasValue;
+            dvpBatchName.Visible = _batchNameDtGuid.HasValue && !ddlBatch.SelectedValueAsInt().HasValue;
         }
 
         /// <summary>
@@ -250,7 +250,7 @@ namespace RockWeb.Plugins.Finance
                         batchName = Path.GetFileNameWithoutExtension( binaryFile.FileName );
                         if ( _batchNameDtGuid.HasValue )
                         {
-                            var dvId = ddlBatchName.SelectedValueAsInt();
+                            var dvId = dvpBatchName.SelectedValueAsInt();
                             if ( dvId.HasValue )
                             {
                                 var dv = DefinedValueCache.Get( dvId.Value );
@@ -316,9 +316,15 @@ namespace RockWeb.Plugins.Finance
 
                 switch ( status )
                 {
-                    case ProcessStatus.Matched: matchCount++; break;
-                    case ProcessStatus.Unmatched: unmatchCount++; break;
-                    case ProcessStatus.Error: errorCount++; break;
+                    case ProcessStatus.Matched:
+                        matchCount++;
+                        break;
+                    case ProcessStatus.Unmatched:
+                        unmatchCount++;
+                        break;
+                    case ProcessStatus.Error:
+                        errorCount++;
+                        break;
                 }
 
                 allErrorMessages.AddRange( errorMessages );
@@ -463,7 +469,7 @@ namespace RockWeb.Plugins.Finance
                 {
                     if ( _batchNameDtGuid.HasValue )
                     {
-                        var dvId = ddlBatchName.SelectedValueAsInt();
+                        var dvId = dvpBatchName.SelectedValueAsId();
                         if ( dvId.HasValue )
                         {
                             var dv = DefinedValueCache.Get( dvId.Value );
@@ -663,7 +669,7 @@ namespace RockWeb.Plugins.Finance
         /// <param name="giftElement">The gift element.</param>
         /// <param name="propertyName">Name of the property.</param>
         /// <returns></returns>
-        private string GetChildElementValue( XElement giftElement, string propertyName)
+        private string GetChildElementValue( XElement giftElement, string propertyName )
         {
             var propElement = giftElement.Element( propertyName );
             if ( propElement != null )
@@ -732,7 +738,7 @@ namespace RockWeb.Plugins.Finance
             };
             MemoryStream memoryStream = new MemoryStream( Convert.FromBase64String( value ) );
             ICryptoTransform cryptoTransform = rijndaelManaged.CreateDecryptor( num, numArray );
-            memoryStream.Position = (long)0;
+            memoryStream.Position = ( long ) 0;
             return ( new StreamReader( new CryptoStream( memoryStream, cryptoTransform, CryptoStreamMode.Read ) ) ).ReadToEnd();
         }
 
