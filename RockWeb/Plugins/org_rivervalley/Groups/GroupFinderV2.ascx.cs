@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using Rock;
 using Rock.Attribute;
 using Rock.Data;
+using Rock.Lava;
 using Rock.Model;
 using Rock.Web.Cache;
 using Rock.Web.UI;
@@ -628,8 +629,8 @@ namespace RockWeb.Plugins.org_riverValley.Groups
 
     #region Helper Classes
 
-    [DotLiquid.LiquidType( "Id", "Name", "Description", "GroupType", "CampusId", "CampusName", "DayOfWeek", "TimeOfDay", "Leader", "Capacity", "SpotsFilled", "Demographic", "KidsWelcome", "Group", "LifeGroupTypeValue", "DemographicValue", "MeetingTypeValue" )]
-    public class GroupItem
+    [LavaType( "Id", "Name", "Description", "GroupType", "CampusId", "CampusName", "DayOfWeek", "TimeOfDay", "Leader", "Capacity", "SpotsFilled", "Demographic", "KidsWelcome", "Group", "LifeGroupTypeValue", "DemographicValue", "MeetingTypeValue" )]
+    public class GroupItem : LavaDataObject
     {
         public int Id { get; set; }
 
