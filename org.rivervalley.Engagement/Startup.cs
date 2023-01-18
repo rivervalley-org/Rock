@@ -1,5 +1,5 @@
 ﻿using DotLiquid;
-
+using Rock.Lava;
 using Rock.Utility;
 using Rock.Web.UI.Controls;
 
@@ -18,7 +18,7 @@ namespace org.rivervalley.Engagement
         /// <exception cref="System.NotImplementedException"></exception>
         public void OnStartup()
         {
-            Template.RegisterFilter( typeof( Lava.RockFilters ) );
+            LavaService.RegisterFilters( typeof( Lava.RockFilters ) );
         }
     }
 }
