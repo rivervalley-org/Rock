@@ -1965,7 +1965,15 @@ namespace RockWeb.Plugins.com_kfs.rvc.Finance
                     f.IsPublic.Value &&
                     ( f.StartDate == null || f.StartDate <= RockDateTime.Today ) &&
                     ( f.EndDate == null || f.EndDate >= RockDateTime.Today ) )
-                .OrderBy( f => f.Order ) )
+                // Custom ordering is applied here because RVC needs these accounts in this specific order for 2023.
+                // We could not order the accounts this way in Rock because these accounts are nested several levels 
+                // deep. The plan is to restructure the accounts in 2024 and to remove this custom ordering.
+                .OrderBy( f => f.PublicName.Contains( "Tithe" ) ? 1 : 99 )
+                .ThenBy( f => f.PublicName.Contains( "Kingdom" ) ? 2 : 99 )
+                .ThenBy( f => f.PublicName.Contains( "YTH" ) ? 3 : 99 )
+                .ThenBy( f => f.PublicName.Contains( "Kids" ) ? 4 : 99 )
+                .ThenBy( f => f.PublicName.Contains( "Global" ) ? 5 : 99 )
+                )
                 {
                     var accountItem = new AccountItem( account.Id, account.Order, account.Name, account.CampusId, account.PublicName );
 
