@@ -21,6 +21,8 @@ using com.paysley.Paysley;
 using Rock.Search.Person;
 using Rock.Utility.EntityCoding;
 using System.Data.Entity.Migrations.Model;
+using Rock.Communication;
+using System.Runtime.Remoting.Messaging;
 
 namespace com.paysley.Paysley.Jobs
 {
@@ -89,6 +91,15 @@ namespace com.paysley.Paysley.Jobs
         IsRequired = true,
         Order = 6
         )]
+
+    [BooleanField(
+        "Verbose Logging",
+        Key = AttributeKey.VerboseLogging,
+        Description = "Enable this setting to see additional logging.",
+        IsRequired = true,
+        DefaultBooleanValue = false,
+        Order = 7
+        )]
     #endregion
     public class PaysleyDownloadPayments : IJob
     {
@@ -99,45 +110,28 @@ namespace com.paysley.Paysley.Jobs
         /// </summary>
         private static class AttributeKey
         {
-            /// <summary>
-            /// The api url.
-            /// </summary>
             public const string ApiUrl = "ApiUrl";
 
-            /// <summary>
-            /// The authorization token.
-            /// </summary>
             public const string AuthorizationToken = "AuthorizationToken";
 
-            /// <summary>
-            /// The days back
-            /// </summary>
             public const string DaysBack = "DaysBack";
 
-            /// <summary>
-            /// The batch name prefix
-            /// </summary>
             public const string BatchNamePrefix = "BatchNamePrefix";
 
-            /// <summary>
-            /// The transaction source type.
-            /// </summary>
             public const string TransactionSourceType = "TransactionSourceType";
 
-            /// <summary>
-            /// The currencytype.
-            /// </summary>
             public const string CurrencyType = "CurrencyType";
 
-            /// <summary>
-            /// The default financial account.
-            /// </summary>
             public const string DefaultFinancialAccount = "DefaultFinancialAccount";
+
+            public const string VerboseLogging = "VerboseLogging";
         }
 
         #endregion Attribute Keys
 
         #region Private Variables
+
+        List<string> _messages;
 
         private const int BATCH_SIZE = 20;
         private const string DEFINEDTYPE_PAYSLEYMAPPINGS = "8CCFCA3F-E307-4A4D-931E-5A6D81579B5D";
@@ -153,6 +147,7 @@ namespace com.paysley.Paysley.Jobs
         /// </summary>
         public PaysleyDownloadPayments()
         {
+            _messages = new List<string>();
         }
 
         /// <summary>
@@ -165,6 +160,7 @@ namespace com.paysley.Paysley.Jobs
             int transactionCount = 0;
 
             JobDataMap dataMap = context.JobDetail.JobDataMap;
+            bool verboseLoggingEnabled = dataMap.GetBoolean( AttributeKey.VerboseLogging );
             string url = dataMap.GetString( AttributeKey.ApiUrl );
             string authToken = dataMap.GetString( AttributeKey.AuthorizationToken );
             int daysBack = dataMap.GetString( AttributeKey.DaysBack ).AsIntegerOrNull() ?? 1;
@@ -340,7 +336,22 @@ namespace com.paysley.Paysley.Jobs
                 throw new Exception( "One or more exceptions occurred while downloading transactions..." + Environment.NewLine + exceptionMsgs.AsDelimited( Environment.NewLine ) );
             }
 
-            context.Result = string.Format( "{0} transactions were imported.", transactionCount.ToString() );
+            if ( verboseLoggingEnabled )
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine( string.Format( "{0} transactions were imported.", transactionCount.ToString() ) );
+                sb.AppendLine();
+                foreach ( var message in _messages )
+                {
+                    sb.AppendLine( message.ToString() );
+                }
+
+                context.Result = sb.ToString();
+            }
+            else
+            {
+                context.Result = string.Format( "{0} transactions were imported.", transactionCount.ToString() ); 
+            }
         }
 
         /// <summary>
@@ -425,11 +436,24 @@ namespace com.paysley.Paysley.Jobs
                         // It's possible that the email address is not valid because Paysley
                         // is not enforcing valid email addresses.
                         email = textField.Value.RemoveSpaces();
+
+                        var result = EmailAddressFieldValidator.Validate( email, allowMultipleAddresses: false, allowLava: false );
+
+                        if ( result != EmailFieldValidationResultSpecifier.Valid )
+                        {
+                            _messages.Add( string.Format( "Email is invalid: {0}", email) );
+                            email = "";
+                        }
+
+                        // Using the EmailAddressFieldValidator instead of the string extension because the
+                        // string extension is not using the same regex expression as the Person -> Email field.
+
+                        /* email = textField.Value.RemoveSpaces();
                         if ( !email.IsValidEmail() )
                         {
                             email = "";
                         }
-
+                        */
                     }
                 }
             }
@@ -840,7 +864,7 @@ namespace com.paysley.Paysley.Jobs
             public const string PAYMENT_TYPE_CCRV = "CC.RV";
 
             /// <summary>
-            /// Chargeback (cc.cb): Cardhodler initiated chargeback transaction.
+            /// Chargeback (cc.cb): Cardholder initiated chargeback transaction.
             /// </summary>
             public const string PAYMENT_TYPE_CCCB = "CC.CB";
         }
