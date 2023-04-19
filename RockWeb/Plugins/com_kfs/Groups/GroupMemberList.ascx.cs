@@ -416,7 +416,7 @@ namespace RockWeb.Plugins.com_kfs.Groups
         {
             if ( AvailableAttributes != null )
             {
-                var attribute = AvailableAttributes.FirstOrDefault( a => MakeKeyUniqueToGroup( a.Key ) == e.Key );
+                var attribute = AvailableAttributes.FirstOrDefault( a => MakeKeyUniqueToGroup( a.Id.ToString() + a.Key ) == e.Key );
                 if ( attribute != null )
                 {
                     try
@@ -1250,7 +1250,6 @@ namespace RockWeb.Plugins.com_kfs.Groups
 
                     List<int> groupMemberPersonIds = qry.Select( m => m.PersonId ).ToList();
                     
-
                     if ( AvailableAttributes != null && AvailableAttributes.Any() )
                     {
                         //Group Member Attribute
