@@ -1439,6 +1439,7 @@ namespace RockWeb.Plugins.com_kfs.Groups
                         m.Person.BirthDate,
                         m.Person.Age,
                         m.Person.ConnectionStatusValueId,
+                        Campus = m.Person.PrimaryCampus != null ? m.Person.PrimaryCampus.Name : string.Empty,
                         m.DateTimeAdded,
                         m.Note,
                         FirstAttended = attendanceFirstLast.Where( a => a.Key == m.PersonId ).Select( a => a.Value.Start ).FirstOrDefault(),
