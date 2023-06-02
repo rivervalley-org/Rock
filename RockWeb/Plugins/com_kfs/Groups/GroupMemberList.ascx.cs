@@ -1335,7 +1335,10 @@ namespace RockWeb.Plugins.com_kfs.Groups
                     {
                         foreach ( var m in groupMembersList )
                         {
-                            homeLocations.Add( m.Id, m.Person.GetHomeLocation( rockContext ) );
+                            if (m.Person.PrimaryFamily != null) // temp fix.  Will be fixed in v14.3
+                            {
+                                homeLocations.Add( m.Id, m.Person.GetHomeLocation( rockContext ) );
+                            }
                         }
                     }
 
