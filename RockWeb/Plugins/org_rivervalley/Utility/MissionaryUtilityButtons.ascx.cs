@@ -40,7 +40,6 @@ namespace RockWeb.Plugins.org_rivervalley.Utility
         //private GroupMember gmGroup;
         private FinancialAccount fAccount;
         private bool isMember;
-        private int avId;
         private DateTime startDate = new DateTime(1900, 1, 1);
         private DateTime endDate = new DateTime(1900, 1, 1);
 
@@ -186,36 +185,32 @@ namespace RockWeb.Plugins.org_rivervalley.Utility
             }
         }
 
-        protected void btnFeatured_Click(object sender, EventArgs e)
+        protected void btnFeatured_Click( object sender, EventArgs e )
         {
-            string personId = PageParameter("PersonId");
-            if (!string.IsNullOrWhiteSpace(personId))
+            int? personId = PageParameter( "PersonId" ).AsIntegerOrNull();
+            if ( personId.HasValue )
             {
-                var id = Int32.Parse(personId);
-                int pAliasId;
                 var rockContext = new RockContext();
-                cPerson = new PersonService(rockContext).Get(id);
-                pAliasId = cPerson.PrimaryAliasId ?? default(int);
-                pAlias = new PersonAliasService(rockContext).Get(pAliasId);
-                Guid guid;
-                guid = pAlias.Guid;
-                string paGuid = guid.ToString();
-                avId = 0;
-                EntityAttributes(3671, paGuid);
-                if(avId > 0)
+                int? accountId = new AttributeValueService( rockContext )
+                    .Queryable().AsNoTracking()
+                    .Where( av => av.EntityId.HasValue && av.AttributeId == 3671 && av.ValueAsPersonId == personId )
+                    .Select( av => av.EntityId.Value )
+                    .FirstOrDefault();
+                    
+                if ( accountId.HasValue )
                 {
-                    hfFinancialAccountId.Value = avId.ToString();
-                    fAccount = new FinancialAccountService(rockContext).Get(avId);
-                    fAccount.LoadAttributes(rockContext);
+                    hfFinancialAccountId.Value = accountId.ToString();
+                    fAccount = new FinancialAccountService( rockContext ).Get( accountId.Value );
+                    fAccount.LoadAttributes( rockContext );
 
-                    if (fAccount.GetAttributeValue("FeatureStartDate") != "")
+                    if ( fAccount.GetAttributeValue( "FeatureStartDate" ) != "" )
                     {
-                        startDate = Convert.ToDateTime(fAccount.GetAttributeValue("FeatureStartDate"));
+                        startDate = Convert.ToDateTime( fAccount.GetAttributeValue( "FeatureStartDate" ) );
                         dpStartDate.Text = startDate.ToShortDateString();
                     }
-                    if (fAccount.GetAttributeValue("FeatureStopDate") != "")
+                    if ( fAccount.GetAttributeValue( "FeatureStopDate" ) != "" )
                     {
-                        endDate = Convert.ToDateTime(fAccount.GetAttributeValue("FeatureStopDate"));
+                        endDate = Convert.ToDateTime( fAccount.GetAttributeValue( "FeatureStopDate" ) );
                         dpEndDate.Text = endDate.ToShortDateString();
                     }
 
@@ -239,14 +234,15 @@ namespace RockWeb.Plugins.org_rivervalley.Utility
                 lOutputStringFeatured.Visible = true;
             }
         }
-        protected void btnFeaturedSave_Click(object sender, EventArgs e)
+
+        protected void btnFeaturedSave_Click( object sender, EventArgs e )
         {
             Boolean formError = false;
-            avId = int.Parse(hfFinancialAccountId.Value);
+            int accountId = int.Parse( hfFinancialAccountId.Value );
 
-            if (dpStartDate.SelectedDate.HasValue)
+            if ( dpStartDate.SelectedDate.HasValue )
             {
-                startDate = DateTime.Parse(dpStartDate.SelectedDate.ToString());
+                startDate = DateTime.Parse( dpStartDate.SelectedDate.ToString() );
             }
             else
             {
@@ -254,16 +250,16 @@ namespace RockWeb.Plugins.org_rivervalley.Utility
                 lOutputStringFeatured.Text = "Start date is blank";
             }
 
-            if (dpEndDate.SelectedDate.HasValue)
+            if ( dpEndDate.SelectedDate.HasValue )
             {
-                endDate = DateTime.Parse(dpEndDate.SelectedDate.ToString());
+                endDate = DateTime.Parse( dpEndDate.SelectedDate.ToString() );
             }
             else
             {
                 formError = true;
                 lOutputStringFeatured.Text += "<br>End date is blank";
             }
-            if (formError)
+            if ( formError )
             {
                 pnlFeatured.Visible = true;
                 pnlButtons.Visible = false;
@@ -271,17 +267,16 @@ namespace RockWeb.Plugins.org_rivervalley.Utility
             }
             else
             {
-                string personId = PageParameter("PersonId");
-                if (!string.IsNullOrWhiteSpace(personId))
+                string personId = PageParameter( "PersonId" );
+                if ( !string.IsNullOrWhiteSpace( personId ) )
                 {
-                    var id = Int32.Parse(personId);
+                    var id = Int32.Parse( personId );
                     var rockContext = new RockContext();
-                    cPerson = new PersonService(rockContext).Get(id);
-                    fAccount = new FinancialAccountService(rockContext).Get(avId);
-                    fAccount.LoadAttributes(rockContext);
+                    fAccount = new FinancialAccountService( rockContext ).Get( accountId );
+                    fAccount.LoadAttributes( rockContext );
 
-                    fAccount.SetAttributeValue("FeatureStartDate", startDate);
-                    fAccount.SetAttributeValue("FeatureStopDate", endDate);
+                    fAccount.SetAttributeValue( "FeatureStartDate", startDate );
+                    fAccount.SetAttributeValue( "FeatureStopDate", endDate );
                     fAccount.SaveAttributeValues();
 
                     pnlButtons.Visible = true;
@@ -386,27 +381,6 @@ namespace RockWeb.Plugins.org_rivervalley.Utility
                 isMember = true;
             }
         }
-
-        protected void EntityAttributes(int attr, string pGuid)
-        {
-            string qryString = "";
-            qryString = qryString += "SELECT EntityId ";
-            qryString = qryString += "FROM AttributeValue ";  
-            qryString = qryString += "WHERE AttributeId = 3671 ";
-            qryString = qryString += "AND Value LIKE '" + pGuid + "'";
-            SqlConnection conn = new SqlConnection(connString);
-            conn.Open();
-            SqlCommand cmd = new SqlCommand(qryString, conn);
-            cmd.CommandType = System.Data.CommandType.Text;
-            SqlDataReader rdr = cmd.ExecuteReader();
-
-            while (rdr.Read())
-            {
-                avId = rdr.GetInt32(0);
-            }
-            conn.Close();
-        }
-
 
         #endregion
     }
