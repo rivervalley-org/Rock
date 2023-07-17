@@ -29,6 +29,7 @@ using Rock.Constants;
 using Rock.Data;
 using Rock.Model;
 using Rock.Security;
+using Rock.Tasks;
 using Rock.Web;
 using Rock.Web.Cache;
 using Rock.Web.UI;
@@ -62,6 +63,7 @@ namespace RockWeb.Blocks.Event
         Order = 2,
         Key = AttributeKey.GroupDetailPage )]
 
+    [Rock.SystemGuid.BlockTypeGuid( "C18CB1DC-B2BC-4D3F-918A-A047183E4024" )]
     public partial class EventItemOccurrenceDetail : RockBlock
     {
         #region Properties
@@ -853,8 +855,27 @@ namespace RockWeb.Blocks.Event
                     return;
                 }
 
+                /*
+                     9/23/2022 - NA
+
+                     Force the eventItemOccurrence.ModifiedDateTime to be set here so that
+                     the EventItemOccurrence PreSaveChanges event is fired in order to set
+                     the NextStartDateTime which may have changed if/when the schedule is
+                     changed.
+
+                     Reason: NextStartDateTime is not updated unless PreSaveChanges is called.
+                */
+                eventItemOccurrence.ModifiedDateTime = RockDateTime.Now;
+
                 rockContext.SaveChanges();
                 eventItemOccurrence.SaveAttributeValues( rockContext );
+
+                // Update the content collection index.
+                new ProcessContentCollectionDocument.Message
+                {
+                    EntityTypeId = EntityTypeCache.GetId<EventItem>().Value,
+                    EntityId = eventItemOccurrence.EventItemId
+                }.Send();
 
                 var qryParams = new Dictionary<string, string>();
                 qryParams.Add( "EventCalendarId", PageParameter( "EventCalendarId" ) );

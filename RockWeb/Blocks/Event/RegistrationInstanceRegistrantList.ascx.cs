@@ -70,8 +70,16 @@ namespace RockWeb.Blocks.Event
 
     #endregion
 
+    [Rock.SystemGuid.BlockTypeGuid( "4D4FBC7B-068C-499A-8BA4-C9209CA9BB6E" )]
     public partial class RegistrationInstanceRegistrantList : RegistrationInstanceBlock, ISecondaryBlock, ICustomGridOptions
     {
+        #region Properties
+
+        private const string SIGNATURE_LINK_TEMPLATE = @"<a href='{0}?id={1}' target='_blank' style='color: black;'><i class='fa fa-file-signature'></i></a>";
+        private const string SIGNATURE_NOT_SIGNED_INDICATOR = @"<i class='fa fa-edit text-danger' data-toggle='tooltip' data-original-title='{0}'></i>";
+
+        #endregion
+
         #region Attribute Keys
 
         /// <summary>
@@ -115,6 +123,7 @@ namespace RockWeb.Blocks.Event
         private Dictionary<int, PhoneNumber> _mobilePhoneNumbers = new Dictionary<int, PhoneNumber>();
         private Dictionary<int, PhoneNumber> _homePhoneNumbers = new Dictionary<int, PhoneNumber>();
         private Dictionary<int, PhoneNumber> _workPhoneNumbers = new Dictionary<int, PhoneNumber>();
+        private Dictionary<int, SignatureDocument> _signatureDocuments = new Dictionary<int, SignatureDocument>();
         private List<RegistrationTemplatePlacement> _registrationTemplatePlacements = null;
         private List<PlacementGroupInfo> _placementGroupInfoList = null;
         private RockLiteralField _placementsField = null;
@@ -197,6 +206,7 @@ namespace RockWeb.Blocks.Event
 
             gRegistrants.EmptyDataText = "No Registrants Found";
             gRegistrants.DataKeyNames = new string[] { "Id" };
+            gRegistrants.PersonIdField = "PersonAlias.PersonId";
             gRegistrants.Actions.ShowAdd = true;
             gRegistrants.Actions.AddClick += gRegistrants_AddClick;
             gRegistrants.RowDataBound += gRegistrants_RowDataBound;
@@ -675,8 +685,7 @@ namespace RockWeb.Blocks.Event
             {
                 if ( registrant.PersonAlias != null && registrant.PersonAlias.Person != null )
                 {
-                    lRegistrant.Text = registrant.PersonAlias.Person.FullNameReversed +
-                        ( SignersPersonAliasIds != null && !SignersPersonAliasIds.Contains( registrant.PersonAlias.PersonId ) ? " <i class='fa fa-edit text-danger'></i>" : string.Empty );
+                    lRegistrant.Text = registrant.PersonAlias.Person.FullNameReversed;
                 }
                 else
                 {
@@ -753,6 +762,38 @@ namespace RockWeb.Blocks.Event
             if ( lPlacements != null )
             {
                 SetPlacementFieldHtml( registrant, lPlacements );
+            }
+
+            if ( registrant.Registration.RegistrationInstance.RegistrationTemplate.RequiredSignatureDocumentTemplateId.HasValue )
+            {
+                var lSignedDocument = e.Row.FindControl( "rlSignedDocument" ) as Literal;
+
+                if ( _signatureDocuments.ContainsKey( registrant.PersonId.Value ) )
+                {
+                    var document = _signatureDocuments[registrant.PersonId.Value];
+                    if ( document.Status == SignatureDocumentStatus.Signed )
+                    {
+                        lSignedDocument.Text = string.Format( SIGNATURE_LINK_TEMPLATE, ResolveRockUrl( "~/GetFile.ashx" ), document.BinaryFileId );
+                    }
+                    else
+                    {
+                        string message;
+                        if ( document.LastInviteDate.HasValue )
+                        {
+                            message = $"A signed {registrant.Registration.RegistrationInstance.RegistrationTemplate.Name} document has not yet been received for {registrant.NickName}. The last request was sent {document.LastInviteDate.Value.ToElapsedString()}.";
+                        }
+                        else
+                        {
+                            message = $"The required {registrant.Registration.RegistrationInstance.RegistrationTemplate.Name} document has not yet been sent to {registrant.NickName} for signing.";
+                        }
+
+                        lSignedDocument.Text = string.Format( SIGNATURE_NOT_SIGNED_INDICATOR, message );
+                    }
+                }
+                else
+                {
+                    lSignedDocument.Text = string.Format( SIGNATURE_NOT_SIGNED_INDICATOR, "Document not signed" );
+                }
             }
 
             if ( _homeAddresses.Any() && _homeAddresses.ContainsKey( registrant.PersonId.Value ) )
@@ -1216,6 +1257,8 @@ namespace RockWeb.Blocks.Event
 
                 if ( requiredSignatureDocumentTemplateId.HasValue )
                 {
+                    rlSignedDocument.Visible = true;
+
                     SignersPersonAliasIds = new SignatureDocumentService( rockContext )
                         .Queryable().AsNoTracking()
                         .Where( d =>
@@ -1362,6 +1405,7 @@ namespace RockWeb.Blocks.Event
                     _mobilePhoneNumbers = GetPersonMobilePhoneLookup( rockContext, this.RegistrantFields, personIds );
                     _homePhoneNumbers = GetPersonHomePhoneLookup( rockContext, this.RegistrantFields, personIds );
                     _workPhoneNumbers = GetPersonWorkPhoneLookup( rockContext, this.RegistrantFields, personIds );
+                    _signatureDocuments = GetPersonSignatureDocumentLookup( rockContext, personIds, registrationInstance );
 
                     // Filter by any selected
                     foreach ( var personFieldType in RegistrantFields
@@ -1784,6 +1828,36 @@ namespace RockWeb.Blocks.Event
 
                 gRegistrants.DataBind();
             }
+        }
+
+        /// <summary>
+        /// Gets the person signature document lookup.
+        /// </summary>
+        /// <param name="rockContext">The rock context.</param>
+        /// <param name="personIds">The person ids.</param>
+        /// <param name="registrationInstance">The registration instance.</param>
+        /// <returns></returns>
+        private Dictionary<int, SignatureDocument> GetPersonSignatureDocumentLookup( RockContext rockContext, List<int> personIds, RegistrationInstance registrationInstance )
+        {
+            var signatureDocuments = new Dictionary<int, SignatureDocument>();
+            var documents = new SignatureDocumentService( rockContext )
+                    .Queryable().AsNoTracking()
+                    .Where( d =>
+                        d.SignatureDocumentTemplateId == registrationInstance.RegistrationTemplate.RequiredSignatureDocumentTemplateId.Value &&
+                        d.AppliesToPersonAlias != null && personIds.Contains( d.AppliesToPersonAlias.PersonId ) )
+                    .OrderByDescending( d => d.LastStatusDate )
+                    .ToList();
+
+            foreach ( var personId in personIds )
+            {
+                var document = documents.Find( d => d.AppliesToPersonAlias.PersonId == personId );
+                if ( document != null )
+                {
+                    signatureDocuments[personId] = document;
+                }
+            }
+
+            return signatureDocuments;
         }
 
         /// <summary>

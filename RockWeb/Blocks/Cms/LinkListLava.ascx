@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="LinkListLava.ascx.cs" Inherits="RockWeb.Blocks.Cms.LinkListLava" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="LinkListLava.ascx.cs" Inherits="RockWeb.Blocks.Cms.LinkListLava" %>
 
 <script type="text/javascript">
     function clearActiveDialog() {
@@ -30,7 +30,7 @@
                             </ItemTemplate>
                         </Rock:RockTemplateField>
                         <Rock:DeleteField OnClick="gLinks_Delete" ButtonCssClass="btn btn-danger btn-xs grid-delete-button" />
-                        <Rock:SecurityField ButtonCssClass="btn btn-security btn-xs"  />
+                        <Rock:SecurityField TitleField="Value" ButtonCssClass="btn btn-security btn-xs"  />
                     </Columns>
                 </Rock:Grid>
             </div>

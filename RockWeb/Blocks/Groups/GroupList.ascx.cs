@@ -79,6 +79,7 @@ namespace RockWeb.Blocks.Groups
         Order = 17,
         Key = AttributeKey.RootGroup )]
     [ContextAware]
+    [Rock.SystemGuid.BlockTypeGuid( "3D7FB6BE-6BBD-49F7-96B4-96310AF3048A" )]
     public partial class GroupList : RockBlock, ICustomGridColumns
     {
         private int _groupTypesCount = 0;
@@ -894,6 +895,9 @@ namespace RockWeb.Blocks.Groups
                 // load with groups that have Group History
                 _groupsWithGroupHistory = new HashSet<int>( new GroupHistoricalService( rockContext ).Queryable().Where( a => qryGroups.Any( g => g.Id == a.GroupId ) ).Select( a => a.GroupId ).ToList() );
 
+                var groupMemberService = new GroupMemberService( rockContext );
+                var groupSyncService = new GroupSyncService( rockContext );
+
                 groupList = qryGroups
                     .AsEnumerable()
                     .Where( g => g.IsAuthorized( Rock.Security.Authorization.VIEW, CurrentPerson ) )
@@ -913,8 +917,8 @@ namespace RockWeb.Blocks.Groups
                         ElevatedSecurityLevel = g.ElevatedSecurityLevel,
                         IsSecurityRole = g.IsSecurityRole,
                         DateAdded = DateTime.MinValue,
-                        IsSynced = g.GroupSyncs.Any(),
-                        MemberCount = g.Members.Count()
+                        IsSynced = groupSyncService.Queryable().Any( gs => gs.GroupId == g.Id ),
+                        MemberCount = groupMemberService.Queryable().Count( gm => gm.GroupId == g.Id )
                     } )
                     .AsQueryable()
                     .Sort( sortProperty )

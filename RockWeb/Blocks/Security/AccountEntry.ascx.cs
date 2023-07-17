@@ -113,7 +113,7 @@ namespace RockWeb.Blocks.Security
     [LinkedPage(
         "Login Page",
         Key = AttributeKey.LoginPage,
-        Description = "Page to navigate to when user elects to login (if blank will use 'Login' page route)",
+        Description = "Page to navigate to when a user elects to log in (if blank will use 'Login' page route)",
         IsRequired = false,
         Category = "Pages",
         Order = 9 )]
@@ -252,6 +252,7 @@ namespace RockWeb.Blocks.Security
 
     #endregion
 
+    [Rock.SystemGuid.BlockTypeGuid( "99362B60-71A5-44C6-BCFE-DDA9B00CC7F3" )]
     public partial class AccountEntry : Rock.Web.UI.RockBlock
     {
         private static class AttributeKey
@@ -351,6 +352,7 @@ usernameTextbox.blur(function () {{
             usernameUnavailable.html(usernameFieldLabel + ' is not valid. ' + usernameValidCaption);
             usernameUnavailable.addClass('alert-warning');
             usernameUnavailable.removeClass('alert-success');
+            availabilityMessageRow.show();
         }} else {{
             $.ajax({{
                 type: 'GET',
@@ -369,9 +371,12 @@ usernameTextbox.blur(function () {{
                         usernameUnavailable.addClass('alert-warning');
                         usernameUnavailable.removeClass('alert-success');
                     }}
+                    availabilityMessageRow.show();
                 }},
                 error: function (xhr, status, error) {{
-                    alert(status + ' [' + error + ']: ' + xhr.responseText);
+                    if(xhr.status != 401) {{
+                        alert(status + ' [' + error + ']: ' + xhr.responseText);
+                    }}
                 }}
             }});
         }}
@@ -379,9 +384,8 @@ usernameTextbox.blur(function () {{
         usernameUnavailable.html(usernameFieldLabel + ' is required.');
         usernameUnavailable.addClass('alert-warning');
         usernameUnavailable.removeClass('alert-success');
+        availabilityMessageRow.show();
     }}
-
-    availabilityMessageRow.show();
     }});
 }});
 ",

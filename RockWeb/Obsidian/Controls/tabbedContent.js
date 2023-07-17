@@ -1,15 +1,15 @@
-System.register(["vue"], function (exports_1, context_1) {
-    "use strict";
-    var vue_1;
-    var __moduleName = context_1 && context_1.id;
+System.register(['vue'], (function (exports) {
+    'use strict';
+    var defineComponent, ref, watch;
     return {
-        setters: [
-            function (vue_1_1) {
-                vue_1 = vue_1_1;
-            }
-        ],
-        execute: function () {
-            exports_1("default", vue_1.defineComponent({
+        setters: [function (module) {
+            defineComponent = module.defineComponent;
+            ref = module.ref;
+            watch = module.watch;
+        }],
+        execute: (function () {
+
+            var TabbedContent = exports('default', defineComponent({
                 name: "TabbedContent",
                 props: {
                     tabList: {
@@ -18,10 +18,10 @@ System.register(["vue"], function (exports_1, context_1) {
                     }
                 },
                 setup(props) {
-                    const active = vue_1.ref(0);
-                    const classes = vue_1.ref([]);
+                    const active = ref(0);
+                    const classes = ref([]);
                     let timeout;
-                    vue_1.watch(() => props.tabList, () => {
+                    watch(() => props.tabList, () => {
                         active.value = 0;
                         classes.value = props.tabList.map((item, i) => {
                             let list = "tab-pane fade";
@@ -31,7 +31,7 @@ System.register(["vue"], function (exports_1, context_1) {
                             return list;
                         });
                     }, { immediate: true });
-                    vue_1.watch(active, (current, previous) => {
+                    watch(active, (current, previous) => {
                         classes.value[previous] = "tab-pane fade active";
                         clearTimeout(timeout);
                         timeout = setTimeout(() => {
@@ -62,7 +62,7 @@ System.register(["vue"], function (exports_1, context_1) {
 </div>
 `
             }));
-        }
+
+        })
     };
-});
-//# sourceMappingURL=tabbedContent.js.map
+}));

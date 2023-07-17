@@ -53,7 +53,7 @@
                             <Rock:DatePicker ID="dpEditRequestDate" runat="server" Label="Request Date" SourceTypeName="Rock.Model.BenevolenceRequest, Rock" PropertyName="RequestDateTime" />
                         </div>
                         <div class="col-md-3">
-                            <Rock:RockDropDownList ID="ddlEditRequestType" runat="server" AutoPostBack="true" Label="Request Type" SourceTypeName="Rock.Model.BenevolenceType, Rock" PropertyName="Name" Required="true" />
+                            <Rock:RockDropDownList ID="ddlEditRequestType" runat="server" AutoPostBack="true" Label="Request Type" SourceTypeName="Rock.Model.BenevolenceType, Rock" PropertyName="Name" Required="true" OnSelectedIndexChanged="ddlEditRequestType_SelectedIndexChanged" />
                         </div>
                         <div class="col-md-3">
                             <Rock:DefinedValuePicker ID="dvpEditRequestStatus" runat="server" Label="Request Status" SourceTypeName="Rock.Model.BenevolenceRequest, Rock" PropertyName="RequestStatusValueId" Required="true" />
@@ -123,8 +123,7 @@
 
                 <Rock:PanelWidget ID="pwEditRequest" runat="server" Title="Request Details" Expanded="true">
                     <Rock:DataTextBox ID="dtbEditRequestText" runat="server" Label="Description of Request" TextMode="MultiLine" Rows="4" SourceTypeName="Rock.Model.BenevolenceRequest, Rock" PropertyName="RequestText" />
-
-                    <Rock:DynamicPlaceholder ID="phEditAttributes" runat="server" />
+                    <Rock:AttributeValuesContainer ID="avcAttributes" runat="server" NumberOfColumns="2" />
 
                     <Rock:RockControlWrapper ID="rcwEditDocuments" runat="server" Label="Related Documents">
                         <asp:DataList ID="dlEditDocuments" runat="server" CellPadding="4" RepeatDirection="Horizontal" RepeatColumns="4">

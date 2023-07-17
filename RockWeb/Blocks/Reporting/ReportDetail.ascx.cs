@@ -14,14 +14,6 @@
 // limitations under the License.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-
 using Rock;
 using Rock.Attribute;
 using Rock.Constants;
@@ -29,9 +21,17 @@ using Rock.Data;
 using Rock.Model;
 using Rock.Reporting;
 using Rock.Security;
+using Rock.Web;
 using Rock.Web.Cache;
 using Rock.Web.UI;
 using Rock.Web.UI.Controls;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace RockWeb.Blocks.Reporting
 {
@@ -47,7 +47,7 @@ namespace RockWeb.Blocks.Reporting
         Key = AttributeKey.AddAdministrateSecurityToItemCreator,
         Description = "If enabled, the person who creates a new item will be granted 'Administrate' and 'Edit' security rights to the item.  This was the behavior in previous versions of Rock.  If disabled, the item creator will not be able to edit the report, its security settings, or possibly perform other functions without the Rock administrator settings up a role that is allowed to perform such functions.",
         DefaultBooleanValue = false,
-        Order = 0)]
+        Order = 0 )]
 
     [IntegerField( "Database Timeout",
         Key = AttributeKey.DatabaseTimeout,
@@ -68,6 +68,7 @@ namespace RockWeb.Blocks.Reporting
         IsRequired = false,
         Order = 3 )]
 
+    [Rock.SystemGuid.BlockTypeGuid( "E431DBDF-5C65-45DC-ADC5-157A02045CCD" )]
     public partial class ReportDetail : RockBlock
     {
         #region Attribute Keys
@@ -153,16 +154,16 @@ namespace RockWeb.Blocks.Reporting
                 }
 
                 // Run the Report and show the results.
-                var reportService = new ReportService( new RockContext() );
+                var reportServiceReadOnly = new ReportService( new RockContextReadOnly() );
 
-                var report = reportService.Get( hfReportId.Value.AsInteger() );
+                var reportReadOnly = reportServiceReadOnly.Get( hfReportId.Value.AsInteger() );
 
-                if ( report == null )
+                if ( reportReadOnly == null )
                 {
                     return;
                 }
 
-                BindGrid( report, false );
+                BindGrid( reportReadOnly, false );
             }
         }
 
@@ -357,8 +358,8 @@ namespace RockWeb.Blocks.Reporting
         /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
         protected void gReport_GridRebind( object sender, GridRebindEventArgs e )
         {
-            var report = new ReportService( new RockContext() ).Get( hfReportId.ValueAsInt() );
-            BindGrid( report, e.IsCommunication );
+            var reportReadOnly = new ReportService( new RockContextReadOnly() ).Get( hfReportId.ValueAsInt() );
+            BindGrid( reportReadOnly, e.IsCommunication );
         }
 
         /// <summary>
@@ -385,12 +386,36 @@ namespace RockWeb.Blocks.Reporting
 
             try
             {
-                if ( report.EntityTypeId.HasValue )
+                /*
+
+                    11/30/2022 - CWR
+                    If there is a dataview for the report, use its DbContext.  This null check is necessary because a report does not require a dataview.
+                    
+                 */
+                if ( report.DataView != null )
                 {
-                    var entityType = EntityTypeCache.Get( report.EntityTypeId.Value );
-                    if ( entityType != null )
+                    bindGridOptions.ReportDbContext = report.DataView.GetDbContext();
+                }
+                else
+                {
+                    if ( report.EntityTypeId.HasValue )
                     {
-                        bindGridOptions.ReportDbContext = Reflection.GetDbContextForEntityType( entityType.GetEntityType() );
+                        var entityType = EntityTypeCache.Get( report.EntityTypeId.Value );
+                        if ( entityType != null )
+                        {
+                            var contextForEntityType = Reflection.GetDbContextForEntityType( entityType.GetEntityType() );
+
+                            // If the DbContext for the entity type returns a standard RockContext, proceed with the ReadOnly context here.
+                            // If it returns other than a RockContext, use that DbContext for the bindGridOptions.
+                            if ( contextForEntityType.GetType() == typeof( Rock.Data.RockContext ) )
+                            {
+                                bindGridOptions.ReportDbContext = new RockContextReadOnly();
+                            }
+                            else
+                            {
+                                bindGridOptions.ReportDbContext = contextForEntityType;
+                            }
+                        }
                     }
                 }
 
@@ -699,7 +724,7 @@ namespace RockWeb.Blocks.Reporting
 
             rockContext.SaveChanges();
 
-            if ( adding && GetAttributeValue( AttributeKey.AddAdministrateSecurityToItemCreator ).AsBoolean())
+            if ( adding && GetAttributeValue( AttributeKey.AddAdministrateSecurityToItemCreator ).AsBoolean() )
             {
                 Rock.Security.Authorization.AllowPerson( report, Authorization.EDIT, this.CurrentPerson, rockContext );
                 Rock.Security.Authorization.AllowPerson( report, Authorization.ADMINISTRATE, this.CurrentPerson, rockContext );
@@ -791,9 +816,9 @@ namespace RockWeb.Blocks.Reporting
             else
             {
                 // Cancelling on Edit.  Return to Details
-                ReportService service = new ReportService( new RockContext() );
-                Report item = service.Get( reportId );
-                ShowReadonlyDetails( item );
+                ReportService serviceReadOnly = new ReportService( new RockContextReadOnly() );
+                Report itemReadOnly = serviceReadOnly.Get( reportId );
+                ShowReadonlyDetails( itemReadOnly );
             }
         }
 
@@ -813,10 +838,10 @@ namespace RockWeb.Blocks.Reporting
 
             if ( reportGuid.HasValue )
             {
-                var report = new ReportService( new RockContext() ).Get( reportGuid.Value );
-                if ( report != null )
+                var reportReadOnly = new ReportService( new RockContextReadOnly() ).Get( reportGuid.Value );
+                if ( reportReadOnly != null )
                 {
-                    reportId = report.Id;
+                    reportId = reportReadOnly.Id;
                 }
             }
 
@@ -866,7 +891,7 @@ namespace RockWeb.Blocks.Reporting
         }
 
         /// <summary>
-        /// Updates UI controls based on the selected entitytype
+        /// Updates UI controls based on the selected EntityType
         /// </summary>
         /// <param name="entityTypeId">The entity type identifier.</param>
         private void UpdateControlsForEntityType( int? entityTypeId )
@@ -1287,18 +1312,23 @@ namespace RockWeb.Blocks.Reporting
             SetupNumberOfRuns( report );
             SetupLastRun( report );
 
+            if ( report.Category != null )
+            {
+                lCategory.Text = new DescriptionList()
+                    .Add( "Category", report.Category.Name )
+                    .Html;
+            }
+
             if ( report.DataView != null )
             {
-                hlDataView.Visible = UserCanEdit;
+                lDataView.Visible = UserCanEdit;
 
                 var queryParams = new Dictionary<string, string>();
                 queryParams.Add( "DataViewId", report.DataViewId.ToString() );
-                hlDataView.Text = $"<a href='{LinkedPageUrl( AttributeKey.DataViewPage, queryParams )}'>Data View: {report.DataView.Name.Truncate(30, true)}</a>";
-                hlDataView.ToolTip = (report.DataView.Name.Length > 30) ? report.DataView.Name : null;
-            }
-            else
-            {
-                hlDataView.Visible = false;
+
+                lDataView.Text = new DescriptionList()
+                    .Add( "Data View", $"<a href='{LinkedPageUrl( AttributeKey.DataViewPage, queryParams )}'>{report.DataView.Name}</a>" )
+                    .Html;
             }
 
             BindGrid( report, false );

@@ -942,5 +942,8 @@
             Represents a position in a text buffer.
             </summary>
         </member>
+        <member name="P:HexConverter.CharToHexLookup">
+            <summary>Map from an ASCII char to its hex value, e.g. arr['b'] == 11. 0xFF means it's not a hex digit.</summary>
+        </member>
     </members>
 </doc>

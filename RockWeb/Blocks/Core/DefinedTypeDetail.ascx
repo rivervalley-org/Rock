@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="DefinedTypeDetail.ascx.cs" Inherits="RockWeb.Blocks.Core.DefinedTypeDetail" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="DefinedTypeDetail.ascx.cs" Inherits="RockWeb.Blocks.Core.DefinedTypeDetail" %>
 
 <asp:UpdatePanel ID="upnlSettings" runat="server">
     <ContentTemplate>
@@ -43,7 +43,12 @@
                         </div>
                     </div>
 
-
+                    <div class="row">
+                        <div class="col-md-6">
+                            <Rock:RockCheckBox ID="cbEnableCategorizedValues" runat="server" Label="Enable Categorized Values"
+                                Help="Enables adding categories to the defined values of this type. This allows for categorical selection of the defined values." />
+                        </div>
+                    </div>
 
                 </fieldset>
 
@@ -71,7 +76,6 @@
                     </div>
                 </div>
                 
-
                 <div class="row">
                     <div class="col-md-6">
                         <asp:Literal ID="lblMainDetails" runat="server" />

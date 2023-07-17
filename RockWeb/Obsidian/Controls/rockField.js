@@ -1,22 +1,18 @@
-System.register(["../Fields/index", "vue", "../Fields/textField"], function (exports_1, context_1) {
-    "use strict";
-    var index_1, vue_1, textField_1, textField;
-    var __moduleName = context_1 && context_1.id;
+System.register(['@Obsidian/Utility/fieldTypes', 'vue'], (function (exports) {
+    'use strict';
+    var getFieldType, defineComponent, computed, provide;
     return {
-        setters: [
-            function (index_1_1) {
-                index_1 = index_1_1;
-            },
-            function (vue_1_1) {
-                vue_1 = vue_1_1;
-            },
-            function (textField_1_1) {
-                textField_1 = textField_1_1;
-            }
-        ],
-        execute: function () {
-            textField = new textField_1.TextFieldType();
-            exports_1("default", vue_1.defineComponent({
+        setters: [function (module) {
+            getFieldType = module.getFieldType;
+        }, function (module) {
+            defineComponent = module.defineComponent;
+            computed = module.computed;
+            provide = module.provide;
+        }],
+        execute: (function () {
+
+            const textField = getFieldType("9C204CD0-1233-41C5-818A-C5DA439445AA");
+            var RockField = exports('default', defineComponent({
                 name: "RockField",
                 props: {
                     modelValue: {
@@ -45,33 +41,35 @@ System.register(["../Fields/index", "vue", "../Fields/textField"], function (exp
                     }
                 },
                 setup(props, { emit }) {
-                    const field = vue_1.computed(() => {
-                        const fieldType = index_1.getFieldType(props.attribute.fieldTypeGuid);
+                    const field = computed(() => {
+                        var _a;
+                        const fieldType = getFieldType((_a = props.attribute.fieldTypeGuid) !== null && _a !== void 0 ? _a : "");
                         return fieldType !== null && fieldType !== void 0 ? fieldType : textField;
                     });
-                    const showValue = vue_1.computed(() => { var _a, _b; return props.showEmptyValue || field.value.getTextValue((_a = props.modelValue) !== null && _a !== void 0 ? _a : "", (_b = props.attribute.configurationValues) !== null && _b !== void 0 ? _b : {}) !== ""; });
-                    const isRequired = vue_1.computed(() => props.attribute.isRequired);
-                    const rules = vue_1.computed(() => isRequired.value ? "required" : "");
-                    const isEditMode = vue_1.computed(() => props.isEditMode);
-                    const label = vue_1.computed(() => props.attribute.name);
-                    const helpText = vue_1.computed(() => props.attribute.description);
-                    const valueComponent = vue_1.computed(() => {
+                    const showValue = computed(() => { var _a, _b, _c; return props.showEmptyValue || ((_a = field.value) === null || _a === void 0 ? void 0 : _a.getTextValue((_b = props.modelValue) !== null && _b !== void 0 ? _b : "", (_c = props.attribute.configurationValues) !== null && _c !== void 0 ? _c : {})) !== ""; });
+                    const isRequired = computed(() => props.attribute.isRequired);
+                    const rules = computed(() => isRequired.value ? "required" : "");
+                    const isEditMode = computed(() => props.isEditMode);
+                    const label = computed(() => props.attribute.name);
+                    const helpText = computed(() => props.attribute.description);
+                    const valueComponent = computed(() => {
+                        var _a, _b;
                         return props.isCondensed
-                            ? field.value.getCondensedFormattedComponent()
-                            : field.value.getFormattedComponent();
+                            ? (_a = field.value) === null || _a === void 0 ? void 0 : _a.getCondensedFormattedComponent()
+                            : (_b = field.value) === null || _b === void 0 ? void 0 : _b.getFormattedComponent();
                     });
-                    const editComponent = vue_1.computed(() => field.value.getEditComponent());
-                    const value = vue_1.computed({
+                    const editComponent = computed(() => { var _a; return (_a = field.value) === null || _a === void 0 ? void 0 : _a.getEditComponent(); });
+                    const value = computed({
                         get: () => props.modelValue || "",
                         set(newValue) {
                             emit("update:modelValue", newValue);
                         }
                     });
-                    const configurationValues = vue_1.computed(() => {
+                    const configurationValues = computed(() => {
                         var _a;
                         return (_a = props.attribute.configurationValues) !== null && _a !== void 0 ? _a : {};
                     });
-                    vue_1.provide("isRequired", isRequired);
+                    provide("isRequired", isRequired);
                     return {
                         label,
                         showValue,
@@ -109,7 +107,7 @@ System.register(["../Fields/index", "vue", "../Fields/textField"], function (exp
         :rules="rules" />
 </div>`
             }));
-        }
+
+        })
     };
-});
-//# sourceMappingURL=rockField.js.map
+}));

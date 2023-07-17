@@ -1,64 +1,39 @@
-System.register(["../../Elements/textBox", "../../Elements/inlineCheckBox", "../../Elements/rockButton", "vue", "../../Elements/alert", "../../Util/rockDateTime"], function (exports_1, context_1) {
-    "use strict";
-    var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-        function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-        return new (P || (P = Promise))(function (resolve, reject) {
-            function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-            function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-            function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-            step((generator = generator.apply(thisArg, _arguments || [])).next());
-        });
-    };
-    var textBox_1, inlineCheckBox_1, rockButton_1, vue_1, alert_1, rockDateTime_1;
-    var __moduleName = context_1 && context_1.id;
-    function makeUrlRedirectSafe(url) {
-        try {
-            const u = new URL(url);
-            if (u.protocol !== "http:" && u.protocol !== "https:") {
-                return "/";
-            }
-            return makeUrlRedirectSafe(`${u.pathname}${u.search}`);
-        }
-        catch (_a) {
-            if (url.indexOf(":") !== -1) {
-                return "/";
-            }
-            return url;
-        }
-    }
+System.register(['tslib', '@Obsidian/Controls/textBox', '@Obsidian/Controls/inlineCheckBox', '@Obsidian/Controls/rockButton', 'vue', '@Obsidian/Utility/block', '@Obsidian/Controls/alert.vue', '@Obsidian/Utility/rockDateTime', '@Obsidian/Utility/url'], (function (exports) {
+    'use strict';
+    var __awaiter, TextBox, InlineCheckBox, RockButton, defineComponent, useInvokeBlockAction, Alert, RockDateTime, makeUrlRedirectSafe;
     return {
-        setters: [
-            function (textBox_1_1) {
-                textBox_1 = textBox_1_1;
-            },
-            function (inlineCheckBox_1_1) {
-                inlineCheckBox_1 = inlineCheckBox_1_1;
-            },
-            function (rockButton_1_1) {
-                rockButton_1 = rockButton_1_1;
-            },
-            function (vue_1_1) {
-                vue_1 = vue_1_1;
-            },
-            function (alert_1_1) {
-                alert_1 = alert_1_1;
-            },
-            function (rockDateTime_1_1) {
-                rockDateTime_1 = rockDateTime_1_1;
-            }
-        ],
-        execute: function () {
-            exports_1("default", vue_1.defineComponent({
+        setters: [function (module) {
+            __awaiter = module.__awaiter;
+        }, function (module) {
+            TextBox = module["default"];
+        }, function (module) {
+            InlineCheckBox = module["default"];
+        }, function (module) {
+            RockButton = module["default"];
+        }, function (module) {
+            defineComponent = module.defineComponent;
+        }, function (module) {
+            useInvokeBlockAction = module.useInvokeBlockAction;
+        }, function (module) {
+            Alert = module["default"];
+        }, function (module) {
+            RockDateTime = module.RockDateTime;
+        }, function (module) {
+            makeUrlRedirectSafe = module.makeUrlRedirectSafe;
+        }],
+        execute: (function () {
+
+            var login = exports('default', defineComponent({
                 name: "Security.Login",
                 components: {
-                    TextBox: textBox_1.default,
-                    InlineCheckBox: inlineCheckBox_1.default,
-                    RockButton: rockButton_1.default,
-                    Alert: alert_1.default
+                    TextBox,
+                    InlineCheckBox,
+                    RockButton,
+                    Alert
                 },
                 setup() {
                     return {
-                        invokeBlockAction: vue_1.inject("invokeBlockAction")
+                        invokeBlockAction: useInvokeBlockAction()
                     };
                 },
                 data() {
@@ -74,8 +49,8 @@ System.register(["../../Elements/textBox", "../../Elements/inlineCheckBox", "../
                     setCookie(cookie) {
                         let expires = "";
                         if (cookie.expires) {
-                            const date = rockDateTime_1.RockDateTime.parseHTTP(cookie.expires);
-                            if (date === null || date < rockDateTime_1.RockDateTime.now()) {
+                            const date = RockDateTime.parseHTTP(cookie.expires);
+                            if (date === null || date < RockDateTime.now()) {
                                 expires = "";
                             }
                             else {
@@ -136,7 +111,6 @@ System.register(["../../Elements/textBox", "../../Elements/inlineCheckBox", "../
                                 this.errorMessage = result.errorMessage || "An unknown error occurred communicating with the server";
                             }
                             catch (e) {
-                                console.log(JSON.stringify(e.response, null, 2));
                                 if (typeof e === "string") {
                                     this.errorMessage = e;
                                 }
@@ -173,7 +147,7 @@ System.register(["../../Elements/textBox", "../../Elements/inlineCheckBox", "../
     </fieldset>
 </div>`
             }));
-        }
+
+        })
     };
-});
-//# sourceMappingURL=login.js.map
+}));

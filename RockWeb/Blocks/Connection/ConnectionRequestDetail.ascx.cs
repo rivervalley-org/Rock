@@ -101,6 +101,7 @@ namespace RockWeb.Blocks.Connection
 
     #endregion Block Attributes
 
+    [Rock.SystemGuid.BlockTypeGuid( "A7961C9C-2EF5-44DF-BEA5-C334B42A90E2" )]
     public partial class ConnectionRequestDetail : PersonBlock
     {
         #region Attribute Keys
@@ -149,7 +150,7 @@ namespace RockWeb.Blocks.Connection
         private static class Lava
         {
             public const string ConnectionRequestDetails = @"
-{% comment %}
+/-
    This is the default lava template for the ConnectionRequestDetail block's Activity List.
 
    Available Lava Fields:
@@ -158,90 +159,52 @@ namespace RockWeb.Blocks.Connection
        Context
        PageParameter
        Campuses
-{% endcomment %}
-<style>
-    .card:hover {
-      transform: scale(1.01);
-      box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
-    }
+-/
 
-    .person-image-small {
-        position: relative;
-        box-sizing: border-box;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 40px;
-        height: 40px;
-        vertical-align: top;
-        background: center/cover #cbd4db;
-        border-radius: 50%;
-        box-shadow: inset 0 0 0 1px rgba(0,0,0,0.07)
-    }
+<h2 class=""mt-0"">Activity</h2>
 
-  .delete-button {
-        color: black !important;
-   }
-
-  .delete-button:hover {
-        color: red !important;
-    }
-</style>
-
-    <div class='row>
-       <div class='col-xs-12>
-           <h2>Activity</h2>
-       </div>
-    </div>
-
-{% for connectionRequestActivity in ConnectionRequest.ConnectionRequestActivities %}
-   {% if connectionRequestActivity.CreatedByPersonAliasId == CurrentPerson.PrimaryAliasId or connectionRequestActivity.ConnectorPersonAliasId == CurrentPerson.PrimaryAliasId %}
-      {%if connectionRequestActivity.ConnectionActivityType.ConnectionTypeId %}
-          {% assign canEdit = true %}
-      {% else %}
-          {% assign canEdit = false %}
-      {% endif %}
-   {% endif %}
-
-    <a href='javascript:void(0);' stretched-link>
-        <div class='card mb-2'>
-            <div class='card-body'>
-                <div class='row pt-2' style='height:60px;'>
-                    <div class='col-xs-2 col-md-1 mx-auto'>
-                        <img class='person-image-small' src='{{ connectionRequestActivity.ConnectorPersonAlias.Person.PhotoUrl | Default: '/Assets/Images/person-no-photo-unknown.svg'  }}' alt=''>
-                    </div>     
-                    <div class='col-xs-6 col-md-9 pl-md-0 mx-auto'>
-                       <strong class='text-color'>{{ connectionRequestActivity.ConnectorPersonAlias.Person.FullName | Default: 'Unassigned' }}</strong>
-                       <br/>
-                       {% if connectionRequestActivity.Note | StripNewlines | Trim | Size > 0 %}
-                          <span class='text-muted'><small><strong>{{ connectionRequestActivity.ConnectionActivityType.Name }}</strong>: {{ connectionRequestActivity.Note }}</small></span>
-                       {% else %}
-                          <span class='text-muted'><small><strong>{{ connectionRequestActivity.ConnectionActivityType.Name }}</strong></small></span>         
-                       {% endif %}
+{% for connectionRequestActivity in ConnectionRequest.ConnectionRequestActivities reversed %}
+    {% if connectionRequestActivity.CreatedByPersonAliasId == CurrentPerson.PrimaryAliasId or connectionRequestActivity.ConnectorPersonAliasId == CurrentPerson.PrimaryAliasId %}
+        {% if connectionRequestActivity.ConnectionActivityType.ConnectionTypeId %}
+            {% assign canEdit = true | AsBoolean %}
+        {% else %}
+            {% assign canEdit = false | AsBoolean %}
+        {% endif %}
+    {% endif %}
+    {% assign noteSize = connectionRequestActivity.Note | StripNewlines | Trim | Size %}
+    <div class=""card card-sm mb-2"">
+        <div class=""card-body"">
+            <div class=""d-flex"">
+                <img class=""avatar avatar-lg flex-shrink-0"" src=""{{ connectionRequestActivity.ConnectorPersonAlias.Person.PhotoUrl }}"" alt="""">
+                <div class=""d-flex flex-fill flex-column flex-wrap"">
+                    <div class=""d-flex flex-fill flex-wrap align-items-center"">
+                        <div class=""flex-grow-1 px-3"">
+                            <span class=""d-block text-color""><strong>{{ connectionRequestActivity.ConnectorPersonAlias.Person.FullName | Default:'Unassigned' }}</strong></span>
+                            <span class=""text-muted""><strong>{{ connectionRequestActivity.ConnectionActivityType.Name }}</strong></span>
+                        </div>
                     </div>
-                    <div class='col-xs-4 col-md-2 mx-auto text-right'>
-                        <small class='text-muted'>{{ connectionRequestActivity.CreatedDateTime | Date:'M/d/yy' }}</small>
+                        </div>
+
+                                <small class=""text-muted mr-2 "" title=""{{ connectionRequestActivity.CreatedDateTime }}"">{{ connectionRequestActivity.CreatedDateTime | Date:'sd' }}</small>
+                                {% if canEdit %}
+                                    <a title=""Delete"" class=""btn btn-danger btn-sm btn-square grid-delete-button"" href=""#"" onclick=""{{ connectionRequestActivity.Id | Postback:'DeleteActivity' }}"">
+                                        <i class=""fa fa-times""></i>
+                                    </a>
+                                {% else %}
+                                    <a title=""Delete"" class=""btn btn-danger btn-sm btn-square grid-delete-button aspNetDisabled"" href=""#"">
+                                        <i class=""fa fa-times""></i>
+                                    </a>
+                                {% endif %}
                     </div>
-                </div>
-                <div class='row grid-actions text-right'>
-                    <div class='col-xs-12'>
-                         {% if canEdit == true %}
-                             <a title='Delete' class='btn btn-grid-action btn-sm grid-delete-button delete-button' href='javascript:void(0);' onclick=""{{ connectionRequestActivity.Id | Postback : 'DeleteActivity' }}"">
-                             <i class='fa fa-times' style='font-size:22px;'></i>
-                         </a>
-                         {% else %}
-                             <a title='Delete' class='btn btn-grid-action btn-sm grid-delete-button aspNetDisabled' href='javascript:void(0);'>
-                                 <i class='fa fa-times' style='font-size:22px;'></i>
-                            </a>
-                         {% endif %}
-                    </div>
+
+                    {% if noteSize > 0 %}
+                        <div class=""px-3 pt-2 text-sm"">{{ connectionRequestActivity.Note }}</div>
+                    {% endif %}
                 </div>
             </div>
         </div>
-    </a>
-{% endfor %}
-
-{% comment %} {{ 'Lava' | Debug }} {% endcomment %}";
+    </div>
+{% endfor %}";
         }
 
         #endregion Lava
@@ -249,6 +212,7 @@ namespace RockWeb.Blocks.Connection
         #region Fields
 
         private const string CAMPUS_SETTING = "ConnectionRequestDetail_Campus";
+        
         #endregion
 
         #region Properties
@@ -260,6 +224,14 @@ namespace RockWeb.Blocks.Connection
         /// The search attributes.
         /// </value>
         public List<AttributeCache> SearchAttributes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the flag indicating whether or not the edit is allowed.
+        /// </summary>
+        /// <value>
+        /// A <see cref="System.Boolean"/> value that is <c>true</c> if the edit is allowed; otherwise <c>false</c>.
+        /// </value>
+        public bool? IsEditAllowed { get; set; }
 
         #endregion
 
@@ -284,6 +256,8 @@ namespace RockWeb.Blocks.Connection
                 ViewState["PlacementGroupRoleId"] as int?,
                 ViewState["PlacementGroupStatus"] as GroupMemberStatus?,
                 false );
+
+            IsEditAllowed = ViewState["IsEditAllowed"] as bool?;
         }
 
         /// <summary>
@@ -363,6 +337,11 @@ namespace RockWeb.Blocks.Connection
             {
                 ShowDetail( PageParameter( PageParameterKey.ConnectionRequestId ).AsInteger(), PageParameter( PageParameterKey.ConnectionOpportunityId ).AsIntegerOrNull() );
             }
+            else if ( IsEditAllowed.HasValue && IsEditAllowed.Value )
+            {
+                gConnectionRequestActivities.IsDeleteEnabled = true;
+                gConnectionRequestActivities.Actions.ShowAdd = true;
+            }
 
             var connectionRequest = GetConnectionRequest();
             if ( connectionRequest != null )
@@ -394,6 +373,8 @@ namespace RockWeb.Blocks.Connection
                 ViewState["PlacementGroupRoleId"] = ( int? ) null;
                 ViewState["PlacementGroupStatus"] = ( GroupMemberStatus? ) null;
             }
+
+            ViewState["IsEditAllowed"] = IsEditAllowed;
 
             return base.SaveViewState();
         }
@@ -575,6 +556,12 @@ namespace RockWeb.Blocks.Connection
             int connectionRequestId = hfConnectionRequestId.ValueAsInt();
             if ( connectionRequestId > 0 )
             {
+                /*
+                 SK - 09/04/2022
+                 Technically Show Add as well as IsDeleteEnabled will always be true here as User with Edit access can only reach to Edit Panel and invoke the current event.
+                 */
+                gConnectionRequestActivities.Actions.ShowAdd = true;
+                gConnectionRequestActivities.IsDeleteEnabled = true;
                 ShowReadonlyDetails( new ConnectionRequestService( new RockContext() ).Get( connectionRequestId ) );
                 pnlReadDetails.Visible = true;
                 pnlConnectionRequestActivities.Visible = true;
@@ -977,7 +964,7 @@ namespace RockWeb.Blocks.Connection
         /// <summary>
         /// Synchronizes the request's edit mode for Future Follow-Up date picker.
         /// </summary>
-        private void SyncRequestEditModeFutureFollowUp()
+        private void SyncRequestEditModeFutureFollowUp( DateTime? followupDate = null )
         {
             var isFutureFollowUp = !rblState.SelectedValue.IsNullOrWhiteSpace() &&
                 rblState.SelectedValueAsEnum<ConnectionState>() == ConnectionState.FutureFollowUp;
@@ -986,6 +973,10 @@ namespace RockWeb.Blocks.Connection
             {
                 dpFollowUp.Visible = true;
                 dpFollowUp.Required = true;
+                if ( followupDate.HasValue )
+                {
+                    dpFollowUp.SelectedDate = followupDate.Value;
+                }
             }
             else
             {
@@ -2033,7 +2024,7 @@ namespace RockWeb.Blocks.Connection
                 rConnectorSelect.Visible = editAllowed;
                 gConnectionRequestActivities.IsDeleteEnabled = editAllowed;
                 gConnectionRequestActivities.Actions.ShowAdd = editAllowed;
-
+                IsEditAllowed = editAllowed;
                 // Only show transfer if there are other Opportunities
                 if ( connectionOpportunity.ConnectionType.ConnectionOpportunities.Count > 1 )
                 {
@@ -2335,21 +2326,26 @@ namespace RockWeb.Blocks.Connection
             }
 
             // Set the Connection State options.
-            ConnectionState[] ignoredConnectionTypes = { };
+            List<ConnectionState> ignoredConnectionTypes = new List<ConnectionState>();
 
             // If this Connection Type does not allow Future Follow-Up, ignore it from the ConnectionState types.
             if ( !connectionRequest.ConnectionOpportunity.ConnectionType.EnableFutureFollowup )
             {
-                ignoredConnectionTypes = new ConnectionState[] { ConnectionState.FutureFollowUp };
+                ignoredConnectionTypes.Add( ConnectionState.FutureFollowUp );
+            }
+
+            if ( connectionRequest == null || connectionRequest.ConnectionState != ConnectionState.Connected )
+            {
+                ignoredConnectionTypes.Add( ConnectionState.Connected );
             }
 
             // Ignore binding the Connection Types that are in the provided array.
-            rblState.BindToEnum( ignoreTypes: ignoredConnectionTypes );
+            rblState.BindToEnum( ignoreTypes: ignoredConnectionTypes.ToArray() );
 
             rblState.SetValue( connectionRequest.ConnectionState.ConvertToInt().ToString() );
 
             // Controls whether the date picker for Future Follow-Up is displayed.
-            SyncRequestEditModeFutureFollowUp();
+            SyncRequestEditModeFutureFollowUp( connectionRequest.FollowupDate );
 
             tbComments.Text = connectionRequest.Comments;
 
@@ -3141,50 +3137,96 @@ namespace RockWeb.Blocks.Connection
                         var workflowService = new Rock.Model.WorkflowService( rockContext );
 
                         List<string> workflowErrors;
-                        if ( workflowService.Process( workflow, connectionRequest, out workflowErrors ) )
+                        if ( !workflowService.Process( workflow, connectionRequest, out workflowErrors ) )
                         {
-                            if ( workflow.Id != 0 )
-                            {
-                                ConnectionRequestWorkflow connectionRequestWorkflow = new ConnectionRequestWorkflow();
-                                connectionRequestWorkflow.ConnectionRequestId = connectionRequest.Id;
-                                connectionRequestWorkflow.WorkflowId = workflow.Id;
-                                connectionRequestWorkflow.ConnectionWorkflowId = connectionWorkflow.Id;
-                                connectionRequestWorkflow.TriggerType = connectionWorkflow.TriggerType;
-                                connectionRequestWorkflow.TriggerQualifier = connectionWorkflow.QualifierValue;
-                                new ConnectionRequestWorkflowService( rockContext ).Add( connectionRequestWorkflow );
+                            mdWorkflowLaunched.Show( "Workflow Processing Error(s):<ul><li>" + workflowErrors.AsDelimited( "</li><li>" ) + "</li></ul>", ModalAlertType.Information );
+                            return;
+                        }
 
-                                rockContext.SaveChanges();
+                        // If the workflow is persisted, create a link between the workflow and this connection request.
+                        if ( workflow.Id != 0 )
+                        {
+                            ConnectionRequestWorkflow connectionRequestWorkflow = new ConnectionRequestWorkflow();
+                            connectionRequestWorkflow.ConnectionRequestId = connectionRequest.Id;
+                            connectionRequestWorkflow.WorkflowId = workflow.Id;
+                            connectionRequestWorkflow.ConnectionWorkflowId = connectionWorkflow.Id;
+                            connectionRequestWorkflow.TriggerType = connectionWorkflow.TriggerType;
+                            connectionRequestWorkflow.TriggerQualifier = connectionWorkflow.QualifierValue;
+                            new ConnectionRequestWorkflowService( rockContext ).Add( connectionRequestWorkflow );
 
-                                if ( workflow.HasActiveEntryForm( CurrentPerson ) )
-                                {
-                                    var qryParam = new Dictionary<string, string>();
-                                    qryParam.Add( "WorkflowTypeId", workflowType.Id.ToString() );
-                                    qryParam.Add( "WorkflowGuid", workflow.Guid.ToString() );
-                                    NavigateToLinkedPage( AttributeKeys.WorkflowEntryPage, qryParam );
-                                }
-                                else
-                                {
-                                    mdWorkflowLaunched.Show(
-                                        string.Format( "A '{0}' workflow has been started.", workflowType.Name ),
-                                        ModalAlertType.Information );
-                                }
+                            rockContext.SaveChanges();
+                        }
 
-                                ShowDetail( PageParameter( PageParameterKey.ConnectionRequestId ).AsInteger(), PageParameter( PageParameterKey.ConnectionOpportunityId ).AsIntegerOrNull() );
-                            }
-                            else
-                            {
-                                mdWorkflowLaunched.Show(
-                                    string.Format( "A '{0}' workflow was processed.", workflowType.Name ),
-                                    ModalAlertType.Information );
-                            }
+                        // Notify the user that the workflow has been processed.
+                        // If the workflow has an active entry form, load the form in a separate browser window or tab.
+                        if ( workflow.HasActiveEntryForm( CurrentPerson ) )
+                        {
+                            var message = $"A '{workflowType.Name}' workflow has been started.<br><br>The new workflow has an active form that is ready for input.";
+
+                            RegisterWorkflowDetailPageScript( workflowType.Id, workflow.Guid, message );
                         }
                         else
                         {
-                            mdWorkflowLaunched.Show( "Workflow Processing Error(s):<ul><li>" + workflowErrors.AsDelimited( "</li><li>" ) + "</li></ul>", ModalAlertType.Information );
+                            mdWorkflowLaunched.Show( $"A '{ workflowType.Name }' workflow was started.",
+                                ModalAlertType.Information );
                         }
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Add a script to the client load event for the current page that will also open a new page for the workflow entry form.
+        /// </summary>
+        /// <param name="workflowTypeId"></param>
+        /// <param name="workflowGuid"></param>
+        private void RegisterWorkflowDetailPageScript( int workflowTypeId, Guid workflowGuid, string message = null )
+        {
+            var qryParam = new Dictionary<string, string>
+                {
+                    { "WorkflowTypeId", workflowTypeId.ToString() },
+                    { "WorkflowGuid", workflowGuid.ToString() }
+                };
+
+            var url = LinkedPageUrl( AttributeKeys.WorkflowEntryPage, qryParam );
+
+            // When the script is executed, it is also removed from the client load event to ensure that it is only run once.
+            string script;
+
+            if ( string.IsNullOrEmpty( message ) )
+            {
+                // Open the workflow detail page.
+                script = $@"
+<script language='javascript' type='text/javascript'>
+    Sys.Application.add_load(openWorkflowEntryPage);
+    function openWorkflowEntryPage() {{
+        Sys.Application.remove_load( openWorkflowEntryPage );
+        window.open('{url}');
+    }}
+</script>";
+            }
+            else
+            {
+                // Show a modal message dialog, and open the workflow detail page when the dialog is closed.
+                message = message.SanitizeHtml( false ).Replace( "'", "&#39;" );
+                script = $@"
+<script language='javascript' type='text/javascript'>
+    Sys.Application.add_load(openWorkflowEntryPage);
+    function openWorkflowEntryPage() {{
+        Sys.Application.remove_load( openWorkflowEntryPage );
+        bootbox.alert({{ message:'{message}',
+            callback: function() {{ window.open('{url}'); }}
+        }});
+    }}
+</script>
+";
+            }
+
+            ScriptManager.RegisterStartupScript( gConnectionRequestWorkflows,
+                gConnectionRequestWorkflows.GetType(),
+                "openWorkflowScript",
+                script,
+                false );
         }
 
         /// <summary>

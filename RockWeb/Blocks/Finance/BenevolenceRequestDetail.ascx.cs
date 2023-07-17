@@ -85,6 +85,7 @@ namespace RockWeb.Blocks.Finance
         DefaultValue = Rock.SystemGuid.Page.WORKFLOW_ENTRY )]
     #endregion
 
+    [Rock.SystemGuid.BlockTypeGuid( "34275D0E-BC7E-4A9C-913E-623D086159A1" )]
     public partial class BenevolenceRequestDetailView : RockBlock
     {
         #region ViewState Keys
@@ -305,8 +306,8 @@ namespace RockWeb.Blocks.Finance
 
 
                     // load the attributes of the BenevolenceRequestType
-                    benevolenceRequest.LoadAttributes();
-                    Rock.Attribute.Helper.GetEditValues( phEditAttributes, benevolenceRequest );
+                    benevolenceRequest.LoadAttributes( rockContext );
+                    avcAttributes.GetEditValues( benevolenceRequest );
 
                     rockContext.WrapTransaction( () =>
                     {
@@ -579,7 +580,7 @@ namespace RockWeb.Blocks.Finance
             if ( fuEditDoc.BinaryFileId.HasValue )
             {
                 _documentsState.Add( fuEditDoc.BinaryFileId.Value );
-                BindUploadDocuments( true );
+                BindUploadDocuments(  );
             }
         }
 
@@ -592,7 +593,7 @@ namespace RockWeb.Blocks.Finance
             if ( e.BinaryFileId.HasValue )
             {
                 _documentsState.Remove( e.BinaryFileId.Value );
-                BindUploadDocuments( true );
+                BindUploadDocuments(  );
             }
         }
 
@@ -850,7 +851,8 @@ namespace RockWeb.Blocks.Finance
         }
         #endregion View Events
 
-        #region Edit Methods        
+        #region Edit Methods
+        
         /// <summary>
         /// Sets the edit mode.
         /// </summary>
@@ -994,23 +996,17 @@ namespace RockWeb.Blocks.Finance
                 }
 
                 _documentsState = benevolenceRequest.Documents.OrderBy( s => s.Order ).Select( s => s.BinaryFileId ).ToList();
-                BindUploadDocuments( true );
+                BindUploadDocuments(  );
 
-                benevolenceRequest.LoadAttributes();
-                Rock.Attribute.Helper.AddEditControls( benevolenceRequest, phEditAttributes, true, BlockValidationGroup, 2 );
+                avcAttributes.AddEditControls( benevolenceRequest, Rock.Security.Authorization.EDIT, CurrentPerson );
 
                 // call the OnSelectPerson of the person picker which will update the UI based on the selected person
                 ppPerson_SelectPerson( null, null );
             }
             else
             {
-
                 var benevolenceRequest = GetBenevolenceRequest();
                 benevolenceRequest.BenevolenceTypeId = ddlEditRequestType.SelectedValue.ToIntSafe();
-                benevolenceRequest.LoadAttributes();
-                phEditAttributes.Controls.Clear();
-                Rock.Attribute.Helper.AddEditControls( benevolenceRequest, phEditAttributes, false, BlockValidationGroup, 2 );
-
                 confirmEditExit.Enabled = true;
             }
         }
@@ -1018,12 +1014,19 @@ namespace RockWeb.Blocks.Finance
         /// <summary>
         /// Binds the upload documents.
         /// </summary>
-        /// <param name="canEdit">if set to <c>true</c> [can edit].</param>
-        private void BindUploadDocuments( bool canEdit )
+        private void BindUploadDocuments()
         {
-            var ds = _documentsState.ToList();
+            var benevolenceTypeId = ddlEditRequestType.SelectedValue.ToIntSafe();
+            if ( benevolenceTypeId == 0 )
+            {
+                return;
+            }
 
-            if ( ds.Count() < 6 )
+            var benevolenceType = new BenevolenceTypeService( new RockContext() ).Get( benevolenceTypeId );
+            var maxDocuments = benevolenceType.AdditionalSettingsJson?.FromJsonOrNull<BenevolenceType.AdditionalSettings>().MaximumNumberOfDocuments ?? 6;
+
+            var ds = _documentsState.ToList();
+            if ( ds.Count() < maxDocuments )
             {
                 ds.Add( 0 );
             }
@@ -1238,9 +1241,11 @@ namespace RockWeb.Blocks.Finance
                 rockContext.SaveChanges();
             }
         }
+
         #endregion Edit Methods
 
-        #region View Methods      
+        #region View Methods
+
         /// <summary>
         /// Formats the phone number.
         /// </summary>
@@ -1430,17 +1435,10 @@ namespace RockWeb.Blocks.Finance
             hlViewBenevolenceType.Text = $"{benevolenceRequest?.BenevolenceType?.Name}";
             hlViewBenevolenceType.LabelType = LabelType.Type;
 
-            var campus = _requester?.GetCampus();
+            var campus = benevolenceRequest?.Campus;
 
             hlViewCampus.LabelType = LabelType.Campus;
-            if ( campus != null )
-            {
-                hlViewCampus.Text = $"{campus?.Name}";
-            }
-            else
-            {
-                hlViewCampus.Text = $"{CampusCache.All()?.FirstOrDefault()?.Name}";
-            }
+            hlViewCampus.Text = ( campus != null ? campus.Name : string.Empty );
 
             switch ( benevolenceRequest?.RequestStatusValue?.Value.ToUpper() )
             {
@@ -1454,7 +1452,7 @@ namespace RockWeb.Blocks.Finance
                     hlViewStatus.LabelType = LabelType.Danger;
                     break;
             }
-            
+
             hlViewStatus.Text = $"{benevolenceRequest?.RequestStatusValue?.Value}";
 
             DisplayPersonName();
@@ -1603,7 +1601,7 @@ namespace RockWeb.Blocks.Finance
 
             lViewBenevolenceTypeDescription.Text = $"{benevolenceRequest?.RequestText}";
 
-            avcViewBenevolenceTypeAttributes.AddDisplayControls( benevolenceRequest );
+            avcViewBenevolenceTypeAttributes.AddDisplayControls( benevolenceRequest, Rock.Security.Authorization.VIEW, CurrentPerson );
 
             var documentList = benevolenceRequest?.Documents.ToList();
 
@@ -1754,9 +1752,11 @@ namespace RockWeb.Blocks.Finance
             ShowRequestDetails();
             ShowRequestSummary();
         }
+
         #endregion View Methods
 
         #region Shared Methods        
+
         /// <summary>
         /// Sets the page parameters.
         /// </summary>
@@ -1766,6 +1766,28 @@ namespace RockWeb.Blocks.Finance
             _isNewRecord = _benevolenceRequestId == 0;
             _isExistingRecord = _benevolenceRequestId > 0;
         }
+
         #endregion
+
+        #region Helper Classes
+
+        /// <summary>
+        /// Class AdditionalSettings.
+        /// </summary>
+        public class AdditionalSettings
+        {
+            /// <summary>
+            /// Gets or sets the maximum number of documents.
+            /// </summary>
+            /// <value>The maximum number of documents.</value>
+            public int MaximumNumberOfDocuments { get; set; }
+        }
+
+        #endregion
+
+        protected void ddlEditRequestType_SelectedIndexChanged( object sender, EventArgs e )
+        {
+            BindUploadDocuments();
+        }
     }
 }

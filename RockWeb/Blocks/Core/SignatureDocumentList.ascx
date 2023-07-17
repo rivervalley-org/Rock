@@ -6,18 +6,19 @@
         <asp:Panel ID="pnlContent" CssClass="panel panel-block" runat="server">
 
             <div class="panel-heading">
-                <h1 class="panel-title"><i class="fa fa-file-signature"></i> Documents</h1>
+                <h1 class="panel-title"><i class="fa fa-file-signature"></i> Electronic Signature Documents</h1>
             </div>
             <div class="panel-body">
 
                     <Rock:ModalAlert ID="mdGridWarningValues" runat="server" />
 
                     <div class="grid grid-panel">
-                        <Rock:Grid ID="gSignatureDocuments" runat="server" AllowPaging="true" OnRowSelected="gSignatureDocuments_Edit"  RowItemText="Document">
+                        <Rock:Grid ID="gSignatureDocuments" runat="server" AllowPaging="true" OnRowSelected="gSignatureDocuments_Edit"  RowItemText="Document" AllowSorting="true">
                             <Columns>
                                 <Rock:RockBoundField DataField="Name" HeaderText="Name" SortExpression="Name" />
                                 <Rock:RockBoundField DataField="SignatureDocumentTemplate.Name" HeaderText="Document Type" SortExpression="SignatureDocumentTemplate.Name" />
                                 <Rock:DateTimeField DataField="LastInviteDate" HeaderText="Last Invite Date" SortExpression="LastInviteDate" />
+                                <Rock:DateTimeField DataField="SignedDateTime" HeaderText="Signed Date" SortExpression="SignedDateTime" />
                                 <Rock:PersonField DataField="AppliesToPersonAlias.Person" HeaderText="Applies To" />
                                 <Rock:PersonField DataField="AssignedToPersonAlias.Person" HeaderText="Assigned To" />
                                 <Rock:PersonField DataField="SignedByPersonAlias.Person" HeaderText="Signed By" />

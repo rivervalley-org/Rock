@@ -1,35 +1,34 @@
-System.register(["vue", "./tabbedContent", "./rockField", "../Elements/loadingIndicator", "../Util/linq", "../Util/guid"], function (exports_1, context_1) {
-    "use strict";
-    var vue_1, tabbedContent_1, rockField_1, loadingIndicator_1, linq_1, guid_1;
-    var __moduleName = context_1 && context_1.id;
+System.register(['vue', './rockSuspense.js', './loadingIndicator.js', '@Obsidian/Utility/linq', './tabbedContent.js', './rockField.js', '@Obsidian/Utility/guid', '@Obsidian/Utility/suspense', '@Obsidian/Utility/fieldTypes'], (function (exports) {
+    'use strict';
+    var defineComponent, computed, ref, watch, RockSuspense, LoadingIndicator, List, TabbedContent, RockField, emptyGuid;
     return {
-        setters: [
-            function (vue_1_1) {
-                vue_1 = vue_1_1;
-            },
-            function (tabbedContent_1_1) {
-                tabbedContent_1 = tabbedContent_1_1;
-            },
-            function (rockField_1_1) {
-                rockField_1 = rockField_1_1;
-            },
-            function (loadingIndicator_1_1) {
-                loadingIndicator_1 = loadingIndicator_1_1;
-            },
-            function (linq_1_1) {
-                linq_1 = linq_1_1;
-            },
-            function (guid_1_1) {
-                guid_1 = guid_1_1;
-            }
-        ],
-        execute: function () {
-            exports_1("default", vue_1.defineComponent({
+        setters: [function (module) {
+            defineComponent = module.defineComponent;
+            computed = module.computed;
+            ref = module.ref;
+            watch = module.watch;
+        }, function (module) {
+            RockSuspense = module["default"];
+        }, function (module) {
+            LoadingIndicator = module["default"];
+        }, function (module) {
+            List = module.List;
+        }, function (module) {
+            TabbedContent = module["default"];
+        }, function (module) {
+            RockField = module["default"];
+        }, function (module) {
+            emptyGuid = module.emptyGuid;
+        }, function () {}, function () {}],
+        execute: (function () {
+
+            var attributeValuesContainer = exports('default', defineComponent({
                 name: "AttributeValuesContainer",
                 components: {
-                    RockField: rockField_1.default,
-                    LoadingIndicator: loadingIndicator_1.default,
-                    TabbedContent: tabbedContent_1.default,
+                    RockField,
+                    LoadingIndicator,
+                    RockSuspense,
+                    TabbedContent,
                 },
                 props: {
                     modelValue: {
@@ -70,22 +69,22 @@ System.register(["vue", "./tabbedContent", "./rockField", "../Elements/loadingIn
                     }
                 },
                 setup(props, { emit }) {
-                    const validAttributes = vue_1.computed(() => {
-                        return new linq_1.List(Object.values(props.attributes))
+                    const validAttributes = computed(() => {
+                        return new List(Object.values(props.attributes))
                             .orderBy(a => a.order)
                             .toArray();
                     });
-                    const values = vue_1.ref(Object.assign({}, props.modelValue));
-                    const attributeCategories = vue_1.computed(() => {
+                    const values = ref(Object.assign({}, props.modelValue));
+                    const attributeCategories = computed(() => {
                         const categoryList = [{
-                                guid: guid_1.emptyGuid,
+                                guid: emptyGuid,
                                 name: "Attributes",
                                 order: 0,
                                 attributes: []
                             }];
                         validAttributes.value.forEach(attr => {
                             var _a;
-                            if (!props.showEmptyValues && !props.isEditMode && ((_a = props.modelValue[attr.key]) !== null && _a !== void 0 ? _a : "") == "") {
+                            if (!props.showEmptyValues && !props.isEditMode && attr.key && ((_a = props.modelValue[attr.key]) !== null && _a !== void 0 ? _a : "") == "") {
                                 return;
                             }
                             if (attr.categories && attr.categories.length > 0) {
@@ -107,20 +106,20 @@ System.register(["vue", "./tabbedContent", "./rockField", "../Elements/loadingIn
                         });
                         return categoryList.filter(cat => cat.attributes.length > 0).sort((a, b) => a.order - b.order);
                     });
-                    const actuallyDisplayAsTabs = vue_1.computed(() => {
+                    const actuallyDisplayAsTabs = computed(() => {
                         if (attributeCategories.value.length === 0) {
                             return false;
                         }
-                        const hasCategories = attributeCategories.value.length > 1 || attributeCategories.value[0].guid !== guid_1.emptyGuid;
+                        const hasCategories = attributeCategories.value.length > 1 || attributeCategories.value[0].guid !== emptyGuid;
                         return hasCategories && props.displayAsTabs && !props.isEditMode;
                     });
-                    const defaultCategoryHeading = vue_1.computed(() => {
+                    const defaultCategoryHeading = computed(() => {
                         if (actuallyDisplayAsTabs.value || !props.entityTypeName) {
                             return "Attributes";
                         }
                         return `${props.entityTypeName} Attributes`;
                     });
-                    const columnClass = vue_1.computed(() => {
+                    const columnClass = computed(() => {
                         let numColumns = props.numberOfColumns;
                         if (numColumns < 1) {
                             numColumns = 1;
@@ -140,7 +139,7 @@ System.register(["vue", "./tabbedContent", "./rockField", "../Elements/loadingIn
                         values.value[key] = value;
                         emit("update:modelValue", values.value);
                     };
-                    vue_1.watch(() => props.modelValue, () => {
+                    watch(() => props.modelValue, () => {
                         values.value = Object.assign({}, props.modelValue);
                     });
                     return {
@@ -154,7 +153,7 @@ System.register(["vue", "./tabbedContent", "./rockField", "../Elements/loadingIn
                     };
                 },
                 template: `
-<Suspense>
+<RockSuspense>
     <template #default>
         <TabbedContent v-if="actuallyDisplayAsTabs" :tabList="attributeCategories">
             <template #tab="{item}">
@@ -194,13 +193,13 @@ System.register(["vue", "./tabbedContent", "./rockField", "../Elements/loadingIn
             </div>
         </template>
     </template>
-    <template #fallback>
+    <template #loading>
         <LoadingIndicator />
     </template>
-</Suspense>
+</RockSuspense>
 `
             }));
-        }
+
+        })
     };
-});
-//# sourceMappingURL=attributeValuesContainer.js.map
+}));

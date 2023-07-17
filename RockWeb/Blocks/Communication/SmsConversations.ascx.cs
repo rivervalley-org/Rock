@@ -109,6 +109,7 @@ namespace RockWeb.Blocks.Communication
         DefaultIntegerValue = 180,
         Order = 8 )]
 
+    [Rock.SystemGuid.BlockTypeGuid( "3497603B-3BE6-4262-B7E9-EC01FC7140EB" )]
     public partial class SmsConversations : RockBlock
     {
         #region Attribute Keys
@@ -696,6 +697,12 @@ namespace RockWeb.Blocks.Communication
         protected void ppRecipient_SelectPerson( object sender, EventArgs e )
         {
             nbNoSms.Visible = false;
+            var senderClearButton = ( HtmlAnchor ) sender;
+            if (senderClearButton != null && senderClearButton.ID == "btnSelectNone" )
+            {
+                // The PersonPicker clear button was clicked so no need to check for SMS numbers
+                return;
+            }
 
             int toPersonAliasId = ppRecipient.PersonAliasId.Value;
             var personAliasService = new PersonAliasService( new RockContext() );

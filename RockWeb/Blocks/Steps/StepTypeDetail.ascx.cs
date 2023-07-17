@@ -94,6 +94,7 @@ namespace RockWeb.Blocks.Steps
 
     #endregion Block Attributes
 
+    [Rock.SystemGuid.BlockTypeGuid( "84DEAB14-70B3-4DA4-9CC2-0E0A301EE0FD" )]
     public partial class StepTypeDetail : ContextEntityBlock
     {
         #region Attribute Keys
@@ -433,12 +434,13 @@ namespace RockWeb.Blocks.Steps
             var stepWorkflowTriggerService = new StepWorkflowTriggerService( rockContext );
 
             int stepTypeId = int.Parse( hfStepTypeId.Value );
-
+            bool isNew = false;
             if ( stepTypeId == 0 )
             {
                 stepType = new StepType();
                 stepType.StepProgramId = _stepProgramId;
                 stepTypeService.Add( stepType );
+                isNew = true;
             }
             else
             {
@@ -446,6 +448,7 @@ namespace RockWeb.Blocks.Steps
                                           .Include( x => x.StepWorkflowTriggers )
                                           .Where( c => c.Id == stepTypeId )
                                           .FirstOrDefault();
+                _stepProgramId = stepType.StepProgramId;
             }
 
             // Workflow Triggers: Remove deleted triggers.
@@ -542,10 +545,14 @@ namespace RockWeb.Blocks.Steps
                 }
             }
 
-            // If there are any other step types, either:
-            // Find out the maximum Order value for the steps, and set this new Step's Order value one higher than that.
-            // If there are NOT any other step Types, set Order as 0.
-            stepType.Order = stepTypes.Any() ? stepTypes.Max( st => st.Order ) + 1 : 0;
+            if ( isNew )
+            {
+                // If there are any other step types, either:
+                // Find out the maximum Order value for the steps, and set this new Step's Order value one higher than that.
+                // If there are NOT any other step Types, set Order as 0.
+                stepType.Order = stepTypes.Any() ? stepTypes.Max( st => st.Order ) + 1 : 0;
+
+            }
 
             // Update Advanced Settings
             stepType.AutoCompleteDataViewId = dvpAutocomplete.SelectedValueAsId();

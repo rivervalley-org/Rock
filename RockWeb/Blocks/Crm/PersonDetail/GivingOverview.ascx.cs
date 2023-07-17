@@ -41,7 +41,7 @@ namespace RockWeb.Blocks.Crm.PersonDetail
     [Description( "Block used to view the giving." )]
 
     [IntegerField(
-        "Inactive Giver Cutoff (Days)",
+        "Inactive Giver Cutoff (days)",
         Key = AttributeKey.InactiveGiverCutoff,
         Description = "The number of days after which a person is considered an inactive giver.",
         IsRequired = true,
@@ -55,6 +55,7 @@ namespace RockWeb.Blocks.Crm.PersonDetail
         Key = AttributeKey.AlertListPage,
         DefaultValue = Rock.SystemGuid.Page.GIVING_ALERTS )]
 
+    [Rock.SystemGuid.BlockTypeGuid( "896D807D-2110-4007-AFD1-4D953B83375B" )]
     public partial class GivingOverview : Rock.Web.UI.PersonBlock
     {
         #region Constants
@@ -726,7 +727,9 @@ $@"<span title=""{growthPercentText}"" class=""small text-{ ( isGrowthPositive ?
 
         private string FormatAsCurrency( decimal value )
         {
-            return value.FormatAsCurrencyWithDecimalPlaces( 0 );
+            // wrap the first value returned with a span for styling
+            string val = value.FormatAsCurrencyWithDecimalPlaces( 0 );
+            return String.Format( "<span>{0}</span>{1}", val.Substring( 0, 1 ), val.Substring( 1 ) );
         }
 
         #endregion Methods

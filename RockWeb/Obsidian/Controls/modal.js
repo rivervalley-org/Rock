@@ -1,28 +1,29 @@
-System.register(["vue", "../Controls/rockForm", "../Elements/rockButton", "../Util/page"], function (exports_1, context_1) {
-    "use strict";
-    var vue_1, rockForm_1, rockButton_1, page_1;
-    var __moduleName = context_1 && context_1.id;
+System.register(['vue', './rockForm.js', './rockButton.js', './rockValidation.js', '@Obsidian/Utility/page', '@Obsidian/Utility/form', '@Obsidian/Utility/component', './alert.vue.js', 'tslib', '@Obsidian/Utility/promiseUtils'], (function (exports) {
+    'use strict';
+    var defineComponent, ref, watch, onBeforeUnmount, RockForm, RockButton, RockValidation, trackModalState;
     return {
-        setters: [
-            function (vue_1_1) {
-                vue_1 = vue_1_1;
-            },
-            function (rockForm_1_1) {
-                rockForm_1 = rockForm_1_1;
-            },
-            function (rockButton_1_1) {
-                rockButton_1 = rockButton_1_1;
-            },
-            function (page_1_1) {
-                page_1 = page_1_1;
-            }
-        ],
-        execute: function () {
-            exports_1("default", vue_1.defineComponent({
+        setters: [function (module) {
+            defineComponent = module.defineComponent;
+            ref = module.ref;
+            watch = module.watch;
+            onBeforeUnmount = module.onBeforeUnmount;
+        }, function (module) {
+            RockForm = module["default"];
+        }, function (module) {
+            RockButton = module["default"];
+        }, function (module) {
+            RockValidation = module["default"];
+        }, function (module) {
+            trackModalState = module.trackModalState;
+        }, function () {}, function () {}, function () {}, function () {}, function () {}],
+        execute: (function () {
+
+            var Modal = exports('default', defineComponent({
                 name: "Modal",
                 components: {
-                    RockButton: rockButton_1.default,
-                    RockForm: rockForm_1.default
+                    RockButton,
+                    RockForm,
+                    RockValidation
                 },
                 props: {
                     modelValue: {
@@ -51,9 +52,42 @@ System.register(["vue", "../Controls/rockForm", "../Elements/rockButton", "../Ut
                     save: () => true
                 },
                 setup(props, { emit }) {
-                    const isShaking = vue_1.ref(false);
+                    var _a;
+                    const internalModalVisible = ref(props.modelValue);
+                    const container = ref((_a = document.fullscreenElement) !== null && _a !== void 0 ? _a : document.body);
+                    const validationErrors = ref([]);
+                    const isShaking = ref(false);
+                    const modalBodyElement = ref(null);
+                    const modalBodyPaddingElement = ref(null);
+                    let legacyOverflowTimer;
+                    const overflowMutationObserver = MutationObserver ? new MutationObserver(onOverflowMutation) : undefined;
+                    const overflowResizeObserver = ResizeObserver ? new ResizeObserver(onOverflowResize) : undefined;
+                    function adjustOverflowPadding() {
+                        if (modalBodyElement.value && modalBodyPaddingElement.value) {
+                            if (modalBodyElement.value.scrollHeight !== modalBodyElement.value.clientHeight) {
+                                let existingPadding = 0;
+                                try {
+                                    existingPadding = parseFloat(window.getComputedStyle(modalBodyPaddingElement.value, null).getPropertyValue("padding-bottom"));
+                                }
+                                catch (_a) {
+                                    existingPadding = 0;
+                                }
+                                const totalPadding = modalBodyElement.value.scrollHeight - modalBodyElement.value.clientHeight;
+                                if (existingPadding !== totalPadding) {
+                                    modalBodyPaddingElement.value.style.paddingBottom = `${totalPadding}px`;
+                                }
+                            }
+                            else if (modalBodyPaddingElement.value.style.paddingBottom !== "") {
+                                modalBodyPaddingElement.value.style.paddingBottom = "";
+                            }
+                        }
+                    }
+                    function detectLegacyOverflow() {
+                        adjustOverflowPadding();
+                        legacyOverflowTimer = setTimeout(detectLegacyOverflow, 250);
+                    }
                     const onClose = () => {
-                        emit("update:modelValue", false);
+                        internalModalVisible.value = false;
                     };
                     const onScrollableClick = () => {
                         if (!isShaking.value) {
@@ -64,23 +98,100 @@ System.register(["vue", "../Controls/rockForm", "../Elements/rockButton", "../Ut
                     const onSubmit = () => {
                         emit("save");
                     };
-                    if (props.modelValue) {
-                        page_1.trackModalState(true);
+                    const onVisibleValidationChanged = (errors) => {
+                        validationErrors.value = errors;
+                    };
+                    function onOverflowMutation(mutations) {
+                        for (const mutation of mutations) {
+                            mutation.addedNodes.forEach(node => {
+                                if (node instanceof Element) {
+                                    overflowResizeObserver === null || overflowResizeObserver === void 0 ? void 0 : overflowResizeObserver.observe(node);
+                                }
+                            });
+                            mutation.removedNodes.forEach(node => {
+                                if (node instanceof Element) {
+                                    overflowResizeObserver === null || overflowResizeObserver === void 0 ? void 0 : overflowResizeObserver.unobserve(node);
+                                }
+                            });
+                        }
                     }
-                    vue_1.watch(() => props.modelValue, () => page_1.trackModalState(props.modelValue));
+                    function onOverflowResize() {
+                        adjustOverflowPadding();
+                    }
+                    watch(() => props.modelValue, () => {
+                        if (props.modelValue) {
+                            container.value = document.fullscreenElement || document.body;
+                            validationErrors.value = [];
+                        }
+                        internalModalVisible.value = props.modelValue;
+                    });
+                    watch(internalModalVisible, () => {
+                        trackModalState(internalModalVisible.value);
+                        emit("update:modelValue", internalModalVisible.value);
+                    });
+                    watch(modalBodyElement, () => {
+                        if (overflowMutationObserver && overflowResizeObserver) {
+                            if (modalBodyElement.value) {
+                                overflowMutationObserver.observe(modalBodyElement.value, {
+                                    subtree: true,
+                                    childList: true
+                                });
+                                modalBodyElement.value.querySelectorAll("*").forEach(node => {
+                                    if (node instanceof Element) {
+                                        overflowResizeObserver.observe(node);
+                                    }
+                                });
+                            }
+                            else {
+                                overflowMutationObserver === null || overflowMutationObserver === void 0 ? void 0 : overflowMutationObserver.disconnect();
+                                overflowResizeObserver === null || overflowResizeObserver === void 0 ? void 0 : overflowResizeObserver.disconnect();
+                            }
+                        }
+                        else {
+                            if (modalBodyElement.value) {
+                                legacyOverflowTimer = setTimeout(detectLegacyOverflow, 250);
+                            }
+                            else if (legacyOverflowTimer) {
+                                clearTimeout(legacyOverflowTimer);
+                                legacyOverflowTimer = undefined;
+                            }
+                        }
+                    });
+                    onBeforeUnmount(() => {
+                        if (internalModalVisible.value) {
+                            trackModalState(false);
+                        }
+                        if (overflowMutationObserver && overflowResizeObserver) {
+                            overflowMutationObserver.disconnect();
+                            overflowResizeObserver.disconnect();
+                        }
+                        if (legacyOverflowTimer) {
+                            clearTimeout(legacyOverflowTimer);
+                            legacyOverflowTimer = undefined;
+                        }
+                    });
+                    if (internalModalVisible.value) {
+                        trackModalState(true);
+                    }
                     return {
+                        container,
+                        internalModalVisible,
                         isShaking,
+                        modalBodyElement,
+                        modalBodyPaddingElement,
                         onClose,
                         onScrollableClick,
-                        onSubmit
+                        onSubmit,
+                        onVisibleValidationChanged,
+                        validationErrors
                     };
                 },
                 template: `
-<teleport to="body" v-if="modelValue">
+<teleport :to="container" v-if="modelValue">
     <div>
-        <div class="modal-backdrop" style="z-index: 1060;"></div>
+        <div class="modal-backdrop" style="z-index: 1050;"></div>
 
-        <div @click.stop="onScrollableClick" class="modal-scrollable" style="z-index: 1060;">
+        <div @click.stop="onScrollableClick" class="modal-scrollable" style="z-index: 1050;">
             <div @click.stop
                 class="modal container modal-content rock-modal rock-modal-frame modal-overflow"
                 :class="{'animated shake': isShaking}"
@@ -97,9 +208,15 @@ System.register(["vue", "../Controls/rockForm", "../Elements/rockButton", "../Ut
                     <slot v-else name="header" />
                 </div>
 
-                <RockForm @submit="onSubmit">
+                <RockForm @submit="onSubmit" hideErrors @visibleValidationChanged="onVisibleValidationChanged">
                     <div class="modal-body">
+                        <RockValidation :errors="validationErrors" />
+
+                        <div ref="modalBodyElement">
                         <slot />
+                        </div>
+
+                        <div ref="modalBodyPaddingElement" style="transition: 0.15s padding-bottom"></div>
                     </div>
 
                     <div class="modal-footer">
@@ -114,7 +231,7 @@ System.register(["vue", "../Controls/rockForm", "../Elements/rockButton", "../Ut
 </teleport>
 `
             }));
-        }
+
+        })
     };
-});
-//# sourceMappingURL=modal.js.map
+}));

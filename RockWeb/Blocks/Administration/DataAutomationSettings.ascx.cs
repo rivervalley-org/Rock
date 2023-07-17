@@ -38,6 +38,7 @@ namespace RockWeb.Blocks.Administration
     [DisplayName( "Data Automation Settings" )]
     [Category( "Administration" )]
     [Description( "Block used to set values specific to data automation (updating person status, family campus, etc.)." )]
+    [Rock.SystemGuid.BlockTypeGuid( "E34C45E9-97CA-4902-803B-1EFAC9174083" )]
     public partial class DataAutomationSettings : RockBlock
     {
         #region private variables
@@ -452,6 +453,12 @@ namespace RockWeb.Blocks.Administration
 
             rptIgnoreCampusChanges.DataSource = _ignoreCampusChangeRows;
             rptIgnoreCampusChanges.DataBind();
+
+            if ( _campusSettings.ExcludeSchedules != null && _campusSettings.ExcludeSchedules.Count > 0 )
+            {
+                var excludedSchedules = new ScheduleService( _rockContext ).Queryable().Where( s => _campusSettings.ExcludeSchedules.Contains( s.Id ) ).ToList();
+                spExcludeSchedules.SetValues( excludedSchedules );
+            }
 
             // Adult Children
             cbAdultChildren.Checked = _adultChildrenSettings.IsEnabled;

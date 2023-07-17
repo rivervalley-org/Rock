@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="GroupRequirementTypeList.ascx.cs" Inherits="RockWeb.Blocks.Groups.GroupRequirementTypeList" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="GroupRequirementTypeList.ascx.cs" Inherits="RockWeb.Blocks.Groups.GroupRequirementTypeList" %>
 
 <asp:UpdatePanel ID="upnlContent" runat="server">
     <ContentTemplate>
@@ -16,6 +16,7 @@
                             <Rock:RockBoundField DataField="Name" HeaderText="Name" SortExpression="Name" />
                             <Rock:BoolField DataField="CanExpire" HeaderText="Can Expire" SortExpression="CanExpire" />
                             <Rock:EnumField DataField="RequirementCheckType" HeaderText="Type" SortExpression="RequirementCheckType" />
+                            <Rock:SecurityField TitleField="Name" />
                             <Rock:DeleteField OnClick="gList_Delete" />
                         </Columns>
                     </Rock:Grid>

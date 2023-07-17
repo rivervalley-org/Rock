@@ -56,6 +56,8 @@ namespace RockWeb
             public const string RootFolder = "rootFolder";
             public const string FileTypeGuid = "fileTypeGuid";
             public const string IsTemporary = "IsTemporary";
+            public const string ParentEntityTypeId = "ParentEntityTypeId";
+            public const string ParentEntityId = "ParentEntityId";
         }
 
         #endregion Constants
@@ -317,12 +319,24 @@ namespace RockWeb
             {
                 throw new Rock.Web.FileUploadException( "Binary file type must be specified.", System.Net.HttpStatusCode.Forbidden );
             }
-            else
+            
+            if ( !binaryFileType.IsAuthorized( Authorization.EDIT, currentPerson ) )
             {
-                if ( !binaryFileType.IsAuthorized( Authorization.EDIT, currentPerson ) )
-                {
-                    throw new Rock.Web.FileUploadException( "Not authorized to upload this type of file.", System.Net.HttpStatusCode.Forbidden );
-                }
+                throw new Rock.Web.FileUploadException( "Not authorized to upload this type of file.", System.Net.HttpStatusCode.Forbidden );
+            }
+
+            if ( binaryFileType.MaxFileSizeBytes != null && uploadedFile.ContentLength > binaryFileType.MaxFileSizeBytes )
+            {
+                throw new Rock.Web.FileUploadException(
+                    $"The maximum file size for file type \"{binaryFileType.Name}\" is {Rock.Utility.FileUtilities.FileSizeSuffixFormatter( binaryFileType.MaxFileSizeBytes.Value )}",
+                    System.Net.HttpStatusCode.Forbidden );
+            }
+
+            char[] illegalCharacters = new char[] { '<', '>', ':', '"', '/', '\\', '|', '?', '*' };
+
+            if ( uploadedFile.FileName.IndexOfAny( illegalCharacters ) >= 0 || uploadedFile.FileName.EndsWith( "." ) )
+            {
+                throw new Rock.Web.FileUploadException( "Invalid Filename.  Please remove any special characters (" + string.Join( " ", illegalCharacters ) + ").", System.Net.HttpStatusCode.UnsupportedMediaType );
             }
 
             // always create a new BinaryFile record of IsTemporary when a file is uploaded
@@ -332,6 +346,8 @@ namespace RockWeb
 
             // assume file is temporary unless specified otherwise so that files that don't end up getting used will get cleaned up
             binaryFile.IsTemporary = context.Request.QueryString[ParameterKey.IsTemporary].AsBooleanOrNull() ?? true;
+            binaryFile.ParentEntityTypeId = context.Request.QueryString[ParameterKey.ParentEntityTypeId].AsIntegerOrNull();
+            binaryFile.ParentEntityId = context.Request.QueryString[ParameterKey.ParentEntityId].AsIntegerOrNull();
             binaryFile.BinaryFileTypeId = binaryFileType.Id;
             binaryFile.MimeType = uploadedFile.ContentType;
             binaryFile.FileSize = uploadedFile.ContentLength;
@@ -443,7 +459,6 @@ namespace RockWeb
 
 	            Specific Use Case: Theme Editor was having issues when using uploaded files from the Image Upload control
              */
-            scrubbedFileName = scrubbedFileName.Replace( "(", "" ).Replace( ")", "" );
 
             // Scrub characters identified by .NET as invalid for file names.
             scrubbedFileName = Regex.Replace( scrubbedFileName, "[" + Regex.Escape( string.Concat( Path.GetInvalidFileNameChars() ) ) + "]", string.Empty, RegexOptions.CultureInvariant );
@@ -460,6 +475,10 @@ namespace RockWeb
                 Moved to ScrubFileName() for consistent naming of all uploaded files.
             */
             scrubbedFileName = scrubbedFileName.Replace(" ", "_");
+
+             // Remove Illegal Filename Characters
+            char[] illegalChars = { '#', '(', ')' };
+            scrubbedFileName = string.Concat( scrubbedFileName.Split( illegalChars ) );
 
             return scrubbedFileName;
         }

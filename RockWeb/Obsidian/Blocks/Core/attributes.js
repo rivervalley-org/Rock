@@ -1,87 +1,71 @@
-System.register(["vue", "../../Controls/attributeEditor", "../../Controls/modal", "../../Controls/rockField", "../../Controls/rockForm", "../../Elements/alert", "../../Elements/dropDownList", "../../Elements/rockButton", "../../Elements/textBox", "../../Templates/paneledBlockTemplate", "../../Util/block", "../../Util/dialogs", "../../Util/guid"], function (exports_1, context_1) {
-    "use strict";
-    var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-        function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-        return new (P || (P = Promise))(function (resolve, reject) {
-            function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-            function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-            function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-            step((generator = generator.apply(thisArg, _arguments || [])).next());
-        });
-    };
-    var vue_1, attributeEditor_1, modal_1, rockField_1, rockForm_1, alert_1, dropDownList_1, rockButton_1, textBox_1, paneledBlockTemplate_1, block_1, dialogs_1, guid_1;
-    var __moduleName = context_1 && context_1.id;
+System.register(['tslib', 'vue', '@Obsidian/Controls/attributeEditor', '@Obsidian/Controls/modal', '@Obsidian/Controls/rockField', '@Obsidian/Controls/rockForm', '@Obsidian/Controls/alert.vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Templates/block', '@Obsidian/Controls/rockButton', '@Obsidian/Controls/textBox', '@Obsidian/Utility/block', '@Obsidian/Utility/dialogs', '@Obsidian/Utility/guid'], (function (exports) {
+    'use strict';
+    var __awaiter, defineComponent, computed, ref, watch, AttributeEditor, Modal, RockField, RockForm, Alert, DropDownList, Block, RockButton, TextBox, useConfigurationValues, useInvokeBlockAction, alert, confirmDelete, normalize;
     return {
-        setters: [
-            function (vue_1_1) {
-                vue_1 = vue_1_1;
-            },
-            function (attributeEditor_1_1) {
-                attributeEditor_1 = attributeEditor_1_1;
-            },
-            function (modal_1_1) {
-                modal_1 = modal_1_1;
-            },
-            function (rockField_1_1) {
-                rockField_1 = rockField_1_1;
-            },
-            function (rockForm_1_1) {
-                rockForm_1 = rockForm_1_1;
-            },
-            function (alert_1_1) {
-                alert_1 = alert_1_1;
-            },
-            function (dropDownList_1_1) {
-                dropDownList_1 = dropDownList_1_1;
-            },
-            function (rockButton_1_1) {
-                rockButton_1 = rockButton_1_1;
-            },
-            function (textBox_1_1) {
-                textBox_1 = textBox_1_1;
-            },
-            function (paneledBlockTemplate_1_1) {
-                paneledBlockTemplate_1 = paneledBlockTemplate_1_1;
-            },
-            function (block_1_1) {
-                block_1 = block_1_1;
-            },
-            function (dialogs_1_1) {
-                dialogs_1 = dialogs_1_1;
-            },
-            function (guid_1_1) {
-                guid_1 = guid_1_1;
-            }
-        ],
-        execute: function () {
-            exports_1("default", vue_1.defineComponent({
+        setters: [function (module) {
+            __awaiter = module.__awaiter;
+        }, function (module) {
+            defineComponent = module.defineComponent;
+            computed = module.computed;
+            ref = module.ref;
+            watch = module.watch;
+        }, function (module) {
+            AttributeEditor = module["default"];
+        }, function (module) {
+            Modal = module["default"];
+        }, function (module) {
+            RockField = module["default"];
+        }, function (module) {
+            RockForm = module["default"];
+        }, function (module) {
+            Alert = module["default"];
+        }, function (module) {
+            DropDownList = module["default"];
+        }, function (module) {
+            Block = module["default"];
+        }, function (module) {
+            RockButton = module["default"];
+        }, function (module) {
+            TextBox = module["default"];
+        }, function (module) {
+            useConfigurationValues = module.useConfigurationValues;
+            useInvokeBlockAction = module.useInvokeBlockAction;
+        }, function (module) {
+            alert = module.alert;
+            confirmDelete = module.confirmDelete;
+        }, function (module) {
+            normalize = module.normalize;
+        }],
+        execute: (function () {
+
+            var attributes = exports('default', defineComponent({
                 name: "Core.Attributes",
                 components: {
-                    Alert: alert_1.default,
-                    AttributeEditor: attributeEditor_1.default,
-                    DropDownList: dropDownList_1.default,
-                    Modal: modal_1.default,
-                    PaneledBlockTemplate: paneledBlockTemplate_1.default,
-                    RockButton: rockButton_1.default,
-                    RockField: rockField_1.default,
-                    RockForm: rockForm_1.default,
-                    TextBox: textBox_1.default
+                    Alert,
+                    AttributeEditor,
+                    Block,
+                    DropDownList,
+                    Modal,
+                    RockButton,
+                    RockField,
+                    RockForm,
+                    TextBox
                 },
                 setup() {
-                    const config = block_1.useConfigurationValues();
-                    const invokeBlockAction = block_1.useInvokeBlockAction();
-                    const showEntityTypePicker = vue_1.computed(() => !config.entityTypeGuid);
-                    const entityTypeGuid = vue_1.ref("");
-                    const entityTypeOptions = vue_1.computed(() => { var _a; return (_a = config.entityTypes) !== null && _a !== void 0 ? _a : []; });
-                    const entityTypeSelectionIsValid = vue_1.computed(() => !!config.entityTypeGuid || entityTypeGuid.value !== "");
-                    const showEntityTypeQualifier = vue_1.computed(() => !config.entityTypeGuid);
-                    const entityTypeQualifierColumn = vue_1.ref("");
-                    const entityTypeQualifierValue = vue_1.ref("");
-                    const attributes = vue_1.ref(config.attributes);
-                    const editableAttribute = vue_1.ref(null);
-                    const showEditAttributeModal = vue_1.ref(false);
-                    const submitEditAttribute = vue_1.ref(false);
-                    const editAttributeModalTitle = vue_1.computed(() => {
+                    const config = useConfigurationValues();
+                    const invokeBlockAction = useInvokeBlockAction();
+                    const showEntityTypePicker = computed(() => !config.entityTypeGuid);
+                    const entityTypeGuid = ref("");
+                    const entityTypeOptions = computed(() => { var _a; return (_a = config.entityTypes) !== null && _a !== void 0 ? _a : []; });
+                    const entityTypeSelectionIsValid = computed(() => !!config.entityTypeGuid || entityTypeGuid.value !== "");
+                    const showEntityTypeQualifier = computed(() => !config.entityTypeGuid);
+                    const entityTypeQualifierColumn = ref("");
+                    const entityTypeQualifierValue = ref("");
+                    const attributes = ref(config.attributes);
+                    const editableAttribute = ref(null);
+                    const showEditAttributeModal = ref(false);
+                    const submitEditAttribute = ref(false);
+                    const editAttributeModalTitle = computed(() => {
                         if (editableAttribute.value) {
                             return `Edit ${editableAttribute.value.name}`;
                         }
@@ -93,7 +77,7 @@ System.register(["vue", "../../Controls/attributeEditor", "../../Controls/modal"
                             attributeGuid: row.guid
                         });
                         if (!result.isSuccess || !result.data) {
-                            return dialogs_1.alert((_a = result.errorMessage) !== null && _a !== void 0 ? _a : "Unable to edit attribute.");
+                            return alert((_a = result.errorMessage) !== null && _a !== void 0 ? _a : "Unable to edit attribute.");
                         }
                         entityTypeQualifierColumn.value = (_b = result.data.entityTypeQualifierColumn) !== null && _b !== void 0 ? _b : "";
                         entityTypeQualifierValue.value = (_c = result.data.entityTypeQualifierValue) !== null && _c !== void 0 ? _c : "";
@@ -112,7 +96,7 @@ System.register(["vue", "../../Controls/attributeEditor", "../../Controls/modal"
                             attribute: editableAttribute.value
                         });
                         if (!result.isSuccess || !result.data) {
-                            return dialogs_1.alert((_d = result.errorMessage) !== null && _d !== void 0 ? _d : "Unable to save attribute.");
+                            return alert((_d = result.errorMessage) !== null && _d !== void 0 ? _d : "Unable to save attribute.");
                         }
                         const index = attributes.value.findIndex(a => { var _a; return a.guid === ((_a = result.data) === null || _a === void 0 ? void 0 : _a.guid); });
                         if (index !== -1) {
@@ -127,14 +111,24 @@ System.register(["vue", "../../Controls/attributeEditor", "../../Controls/modal"
                     const onAddAttribute = () => {
                         editableAttribute.value = {
                             isActive: true,
-                            fieldTypeGuid: guid_1.normalize("9C204CD0-1233-41C5-818A-C5DA439445AA")
+                            fieldTypeGuid: normalize("9C204CD0-1233-41C5-818A-C5DA439445AA"),
+                            isPublic: false,
+                            isSystem: false,
+                            isRequired: false,
+                            isShowInGrid: false,
+                            isShowOnBulk: false,
+                            isAnalytic: false,
+                            isAllowSearch: false,
+                            isAnalyticHistory: false,
+                            isEnableHistory: false,
+                            isIndexEnabled: false
                         };
                         showEditAttributeModal.value = true;
                         entityTypeQualifierColumn.value = "";
                         entityTypeQualifierValue.value = "";
                     };
                     const onDeleteAttribute = (row) => __awaiter(this, void 0, void 0, function* () {
-                        const status = yield dialogs_1.confirmDelete("Attribute");
+                        const status = yield confirmDelete("Attribute");
                         if (!status) {
                             return;
                         }
@@ -142,18 +136,18 @@ System.register(["vue", "../../Controls/attributeEditor", "../../Controls/modal"
                             attributeGuid: row.guid
                         });
                         if (!result.isSuccess) {
-                            return dialogs_1.alert(result.errorMessage || "Unable to delete attribute.");
+                            return alert(result.errorMessage || "Unable to delete attribute.");
                         }
                         const index = attributes.value.findIndex(a => a.guid === row.guid);
                         if (index !== -1) {
                             attributes.value.splice(index, 1);
                         }
                     });
-                    const editAttributeValue = vue_1.ref("");
-                    const editAttribute = vue_1.ref(null);
-                    const showEditAttributeValueModal = vue_1.ref(false);
-                    const submitEditAttributeValue = vue_1.ref(false);
-                    const editAttributeValueModalTitle = vue_1.computed(() => {
+                    const editAttributeValue = ref("");
+                    const editAttribute = ref(null);
+                    const showEditAttributeValueModal = ref(false);
+                    const submitEditAttributeValue = ref(false);
+                    const editAttributeValueModalTitle = computed(() => {
                         if (editAttribute.value) {
                             return `${editAttribute.value.name} Value`;
                         }
@@ -168,7 +162,7 @@ System.register(["vue", "../../Controls/attributeEditor", "../../Controls/modal"
                             attributeGuid: row.guid
                         });
                         if (!result.isSuccess || !result.data) {
-                            return dialogs_1.alert((_e = result.errorMessage) !== null && _e !== void 0 ? _e : "Unable to edit attribute value.");
+                            return alert((_e = result.errorMessage) !== null && _e !== void 0 ? _e : "Unable to edit attribute value.");
                         }
                         editAttribute.value = result.data.attribute;
                         editAttributeValue.value = result.data.value;
@@ -184,7 +178,7 @@ System.register(["vue", "../../Controls/attributeEditor", "../../Controls/modal"
                             value: editAttributeValue.value
                         });
                         if (!result.isSuccess || !result.data) {
-                            return dialogs_1.alert((_g = result.errorMessage) !== null && _g !== void 0 ? _g : "Unable to save attribute value.");
+                            return alert((_g = result.errorMessage) !== null && _g !== void 0 ? _g : "Unable to save attribute value.");
                         }
                         const index = attributes.value.findIndex(a => { var _a; return a.guid === ((_a = result.data) === null || _a === void 0 ? void 0 : _a.guid); });
                         if (index !== -1) {
@@ -209,7 +203,7 @@ System.register(["vue", "../../Controls/attributeEditor", "../../Controls/modal"
                             return ["grid-cell"];
                         }
                     };
-                    vue_1.watch(entityTypeGuid, () => __awaiter(this, void 0, void 0, function* () {
+                    watch(entityTypeGuid, () => __awaiter(this, void 0, void 0, function* () {
                         if (entityTypeGuid.value === "") {
                             attributes.value = [];
                             return;
@@ -258,22 +252,21 @@ System.register(["vue", "../../Controls/attributeEditor", "../../Controls/modal"
     This is an experimental block and should not be used in production.
 </Alert>
 
-<PaneledBlockTemplate>
-    <template v-slot:title>Attribute List</template>
-    <template v-slot:titleAside>
+<Block title="Attribute List">
+    <template #headerActions>
         <div v-if="showEntityTypePicker" class="form-inline panel-labels">
             <DropDownList v-model="entityTypeGuid"
                 label="Entity Type"
                 grouped
                 :enhanceForLongLists="false"
-                :options="entityTypeOptions" />
+                :items="entityTypeOptions" />
         </div>
     </template>
 
-    <template v-slot:default>
+    <template #default>
         <div v-if="entityTypeSelectionIsValid" class="grid grid-panel">
             <div class="grid-actions border-bottom border-panel">
-                <RockButton class="btn-add btn-grid-action" btnType="default" btnSize="sm" @click="onAddAttribute"><i class="fa fa-plus-circle fa-fw"></i></RockButton>
+                <RockButton class="btn-add btn-grid-action" btnType="link" @click="onAddAttribute"><i class="fa fa-plus-circle fa-fw"></i></RockButton>
             </div>
 
             <div class="table-responsive">
@@ -318,8 +311,7 @@ System.register(["vue", "../../Controls/attributeEditor", "../../Controls/modal"
             Please select an entity to display attributes for.
         </Alert>
     </template>
-
-</PaneledBlockTemplate>
+</Block>
 
 <Modal v-model="showEditAttributeValueModal" :title="editAttributeValueModalTitle">
     <RockForm v-model:submit="submitEditAttributeValue" @submit="saveEditAttributeValue">
@@ -354,7 +346,7 @@ System.register(["vue", "../../Controls/attributeEditor", "../../Controls/modal"
 </Modal>
 `
             }));
-        }
+
+        })
     };
-});
-//# sourceMappingURL=attributes.js.map
+}));

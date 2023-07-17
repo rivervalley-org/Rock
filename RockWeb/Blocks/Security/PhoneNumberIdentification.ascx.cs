@@ -38,7 +38,7 @@ namespace RockWeb.Blocks.Security
     /// </summary>
     [DisplayName( "Phone Number Lookup" )]
     [Category( "Security" )]
-    [Description( "Login via phone number" )]
+    [Description( "Log in via phone number" )]
 
     [CustomDropdownListField( "Authentication Level",
         Description = "This determines what level of authentication that the lookup would do.",
@@ -138,6 +138,7 @@ namespace RockWeb.Blocks.Security
         DefaultIntegerValue = IdentityVerification.DefaultMaxFailedMatchAttemptCount,
         Order = 11,
         Key = AttributeKey.ValidationCodeAttempts )]
+    [Rock.SystemGuid.BlockTypeGuid( Rock.SystemGuid.BlockType.PHONE_NUMBER_LOOKUP )]
     public partial class PhoneNumberIdentification : Rock.Web.UI.RockBlock
     {
         private int IdentityVerificationId
@@ -341,7 +342,36 @@ namespace RockWeb.Blocks.Security
 
         private void RegisterVerificationCodeScript()
         {
-            var script = @"
+            var androidScript = @"
+                $(function () {
+                    const inputElements = [...document.querySelectorAll('input.js-verification-code')];
+                    inputElements.forEach((ele, index) => {
+                        ele.addEventListener('keydown', (e) => {
+                            // if the keycode is backspace & the current field is empty
+                            // focus the input before the current. Then the event happens
+                            // which will clear the 'before' input box.
+                            if (e.keyCode === 8 && e.target.value === '') inputElements[Math.max(0, index - 1)].focus()
+                        });
+                        ele.addEventListener('input', (e) => {
+                            // take the first character of the input
+                            const [first, ...rest] = e.target.value
+                            e.target.value = first ?? '' // first will be undefined when backspace was entered, so set the input to ""
+                            const lastInputBox = index === inputElements.length - 1
+                            const didInsertContent = first !== undefined
+                            if (didInsertContent && !lastInputBox) {
+                                // continue to input the rest of the string
+                                inputElements[index + 1].focus()
+                                inputElements[index + 1].value = rest.join('') // set the rest of the values as the value for the next input and trigger the input event so the cycle is repeated
+                                inputElements[index + 1].dispatchEvent(new Event('input'))
+                            }
+                            if(lastInputBox){
+                                $('.js-verify-button').focus();
+                            }
+                        });
+                    });
+                });";
+
+            var nonAndroidScript = @"
                 $(function () {
                     $('.js-code-1').focus();
 
@@ -417,6 +447,8 @@ namespace RockWeb.Blocks.Security
                     });
                 }
             ";
+
+            var script = Request.UserAgent.IndexOf( "android", StringComparison.OrdinalIgnoreCase ) >= 0 ? androidScript : nonAndroidScript;
             ScriptManager.RegisterStartupScript( pnlVerificationCodeEntry, pnlVerificationCodeEntry.GetType(), "verificationCode", script, true );
         }
 

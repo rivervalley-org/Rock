@@ -50,6 +50,7 @@ namespace RockWeb.Blocks.Event
     [LinkedPage( "Audit Page", "Page used to display the history of changes to a registration.", true, "", "", 5 )]
     [DefinedValueField( Rock.SystemGuid.DefinedType.FINANCIAL_SOURCE_TYPE, "Source", "The Financial Source Type to use when creating transactions", false, false, Rock.SystemGuid.DefinedValue.FINANCIAL_SOURCE_TYPE_ONSITE_COLLECTION, "", 6 )]
     [TextField( "Batch Name Prefix", "The batch prefix name to use when creating a new batch", false, "Event Registration", "", 7 )]
+    [Rock.SystemGuid.BlockTypeGuid( "A1C967B2-EEDA-416F-A53C-7BE46D6DA4E1" )]
     public partial class RegistrationDetail : RockBlock
     {
         #region Fields
@@ -466,6 +467,13 @@ namespace RockWeb.Blocks.Event
                     History.EvaluateChange( changes, "Discount Amount", registration.DiscountAmount, cbDiscountAmount.Value );
                     registration.DiscountAmount = cbDiscountAmount.Value == null ? 0 : cbDiscountAmount.Value.Value;
 
+                    bool campusChanged = !registration.CampusId.Equals( cpRegistrationCampus.SelectedValueAsInt() );
+                    if ( campusChanged )
+                    {
+                        History.EvaluateChange( changes, "Campus", registration.CampusId, cpRegistrationCampus.SelectedValueAsInt() );
+                        registration.CampusId = cpRegistrationCampus.SelectedValueAsInt();
+                    }
+
                     if ( !Page.IsValid )
                     {
                         return;
@@ -678,8 +686,36 @@ namespace RockWeb.Blocks.Event
                 var groupMemberService = new GroupMemberService( rockContext );
 
                 var registration = registrationService.Get( Registration.Id );
-                registration.RegistrationInstanceId = ddlNewRegistrationInstance.SelectedValue.AsInteger();
 
+                var oldRegistrationInstanceId = registration.RegistrationInstanceId;
+                var oldRegistrationInstanceName = registration.RegistrationInstance.Name;
+                var newRegistrationInstanceId = ddlNewRegistrationInstance.SelectedValue.AsInteger();
+
+                registration.RegistrationInstanceId = newRegistrationInstanceId;
+
+                // Get new registration instance so we have it's properties for history
+                var newRegistrationInstance = new RegistrationInstanceService( rockContext ).Get( newRegistrationInstanceId );
+
+                //
+                // Add History record
+                var historyService = new HistoryService( rockContext );
+                var historyRecord = new History();
+                historyService.Add( historyRecord );
+
+                historyRecord.EntityTypeId = EntityTypeCache.Get<Registration>().Id;
+                historyRecord.EntityId = registration.Id;
+
+                historyRecord.Verb = "MOVED";
+                historyRecord.ValueName = "Registration Instance";
+                historyRecord.ChangeType = "Moved";
+                historyRecord.OldValue = oldRegistrationInstanceName;
+                historyRecord.OldRawValue = oldRegistrationInstanceId.ToStringSafe();
+                historyRecord.NewValue = newRegistrationInstance.Name;
+                historyRecord.NewRawValue = newRegistrationInstance.Id.ToString();
+                historyRecord.Caption = tbComment.Text;
+                historyRecord.CategoryId = CategoryCache.Get( Rock.SystemGuid.Category.HISTORY_EVENT_REGISTRATION ).Id;
+
+                //
                 // Move registrants to new group
                 int? groupId = ddlMoveGroup.SelectedValueAsInt();
                 if ( groupId.HasValue )
@@ -1229,7 +1265,7 @@ namespace RockWeb.Blocks.Event
                             }
 
                             var sendErrorMessages = new List<string>();
-                            if ( new SignatureDocumentTemplateService( rockContext ).SendDocument(
+                            if ( new SignatureDocumentTemplateService( rockContext ).SendLegacyProviderDocument(
                                 signatureDocumentTemplateService.Get( Registration.RegistrationInstance.RegistrationTemplate.RequiredSignatureDocumentTemplateId.Value ),
                                 appliesTo,
                                 assignedTo,
@@ -1556,16 +1592,27 @@ namespace RockWeb.Blocks.Event
                 registration.RegistrationInstance.Linkages != null &&
                 registration.RegistrationInstance.Linkages.Any() )
             {
-                foreach ( var group in registration.RegistrationInstance.Linkages
+                var linkageGroups = registration.RegistrationInstance.Linkages
                     .Where( l => l.Group != null )
                     .OrderBy( l => l.Group.Name )
-                    .Select( l => l.Group ) )
+                    .Select( l => l.Group );
+                if ( linkageGroups.Any() )
                 {
-                    ddlGroup.Items.Add( new ListItem( group.Name, group.Id.ToString() ) );
+                    foreach ( var group in linkageGroups )
+                    {
+                        ddlGroup.Items.Add( new ListItem( group.Name, group.Id.ToString() ) );
+                    }
+
+                    ddlGroup.Visible = true;
                 }
             }
 
             ddlGroup.SetValue( registration.Group );
+
+            if ( registration.CampusId.HasValue )
+            {
+                cpRegistrationCampus.SelectedCampusId = registration.CampusId;
+            }
 
             registration.LoadAttributes();
 
@@ -1665,6 +1712,8 @@ namespace RockWeb.Blocks.Event
                     var document = documents.Where( d => d.AppliesToPersonAlias.PersonId == registrantInfo.PersonId ).FirstOrDefault();
                     registrantInfo.SignatureDocumentId = document != null ? document.BinaryFileId : ( int? ) null;
                     registrantInfo.SignatureDocumentLastSent = document != null ? document.LastInviteDate : ( DateTime? ) null;
+                    registrantInfo.SignatureDocumentSignedDateTime = document != null ? document.SignedDateTime : ( DateTime? ) null;
+                    registrantInfo.SignatureDocumentSignedName = document != null ? document.SignedName : null;
                 }
             }
 
@@ -2672,15 +2721,49 @@ namespace RockWeb.Blocks.Event
                 }
             }
 
-            if ( documentTemplate != null && registrant.SignatureDocumentId.HasValue )
+            if ( documentTemplate != null )
             {
                 var rlDocumentLink = new RockLiteral();
                 rlDocumentLink.ID = string.Format( "rlDocumentLink_{0}", registrant.Id );
                 rlDocumentLink.Label = documentTemplate.Name;
+
+                const string htmlFormat = @"
+    <div class='icon-property'>
+        <div class='icon' style='background: {1}; color: {0};'>
+            <i class='fa fa-signature'></i>
+        </div>
+        <div class='property'>
+            {2}
+        </div>
+    </div>";
+                string borderColor = string.Empty;
+                string backgroundColor = string.Empty;
+                string links = string.Empty;
+
+                if ( registrant.SignatureDocumentId.HasValue )
+                {
+                    links = string.Format(
+                        @"<a href='{0}' target='_blank'>Signed on {1}</a>
+                        <small>Signed by {2}</small>",
+                        ResolveRockUrl( string.Format( "~/GetFile.ashx?id={0}", registrant.SignatureDocumentId ?? 0 ) ),
+                        registrant.SignatureDocumentSignedDateTime?.ToString( "dddd, MMMM dd, yyyy" ),
+                        registrant.SignatureDocumentSignedName );
+
+                    borderColor = "#16C98D";
+                    backgroundColor = "#D6FFF1";
+                }
+                else
+                {
+                    links = "<span>Not yet Signed</span>";
+                    borderColor = "#737475";
+                    backgroundColor = "#DFE0E1";
+                }
+
                 rlDocumentLink.Text = string.Format(
-                    "<a href='{0}?id={1}' target='_blank'>View Document</a>",
-                    ResolveRockUrl( "~/GetFile.ashx" ),
-                    registrant.SignatureDocumentId.Value );
+                        htmlFormat,
+                        borderColor,
+                        backgroundColor,
+                        links );
                 divRightColumn.Controls.Add( rlDocumentLink );
             }
 

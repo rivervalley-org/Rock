@@ -69,6 +69,7 @@ namespace RockWeb.Blocks.GroupScheduling
         Order = 2 )]
 
     #endregion Block Attributes
+    [Rock.SystemGuid.BlockTypeGuid( "730F5D9E-A411-48F2-BBDF-51146C510817" )]
     public partial class GroupScheduleRoster : RockBlock
     {
         private static class AttributeDefault
@@ -236,6 +237,17 @@ namespace RockWeb.Blocks.GroupScheduling
                 rosterConfiguration.ScheduleIds = this.PageParameter( PageParameterKey.ScheduleIds ).Split( ',' ).AsIntegerList().ToArray();
             }
 
+            if ( this.PageParameter( PageParameterKey.OccurrenceDate ).IsNotNullOrWhiteSpace() )
+            {
+                var occurrenceDate = this.PageParameter( PageParameterKey.OccurrenceDate ).AsDateTime();
+                dpOccurrenceDate.Enabled = !occurrenceDate.HasValue;
+                if ( occurrenceDate.HasValue )
+                {
+                    // if ScheduleIds is a page parameter, use that as the ScheduleIds
+                    rosterConfiguration.OccurrenceDate = occurrenceDate;
+                }
+            }
+
             // just in case URL updated any configuration, save it back to user preferences
             this.SetBlockUserPreference( UserPreferenceKey.RosterConfigurationJSON, rosterConfiguration.ToJson() );
         }
@@ -310,7 +322,7 @@ namespace RockWeb.Blocks.GroupScheduling
             var attendanceOccurrenceService = new AttendanceOccurrenceService( rockContext );
 
             // An OccurrenceDate probably won't be included in the URL, but just in case
-            DateTime? occurrenceDate = this.PageParameter( PageParameterKey.OccurrenceDate ).AsDateTime();
+            DateTime? occurrenceDate = rosterConfiguration.OccurrenceDate;
             if ( !occurrenceDate.HasValue )
             {
                 occurrenceDate = RockDateTime.Today;
@@ -453,7 +465,7 @@ namespace RockWeb.Blocks.GroupScheduling
 
             UpdateLocationListFromSelectedSchedules();
             cblLocations.SetValues( rosterConfiguration.LocationIds ?? new int[0] );
-
+            dpOccurrenceDate.SelectedDate = rosterConfiguration.OccurrenceDate;
             cbDisplayRole.Checked = rosterConfiguration.DisplayRole;
 
             mdRosterConfiguration.Show();
@@ -641,6 +653,7 @@ namespace RockWeb.Blocks.GroupScheduling
             rosterConfiguration.LocationIds = cblLocations.SelectedValuesAsInt.ToArray();
             rosterConfiguration.ScheduleIds = lbSchedules.SelectedValuesAsInt.ToArray();
             rosterConfiguration.DisplayRole = cbDisplayRole.Checked;
+            rosterConfiguration.OccurrenceDate = dpOccurrenceDate.SelectedDate;
 
             this.SetBlockUserPreference( UserPreferenceKey.RosterConfigurationJSON, rosterConfiguration.ToJson() );
             mdRosterConfiguration.Hide();
@@ -695,6 +708,8 @@ namespace RockWeb.Blocks.GroupScheduling
             public int[] ScheduleIds { get; set; }
 
             public bool DisplayRole { get; set; }
+
+            public DateTime? OccurrenceDate { get; set; }
 
             public bool IsConfigured()
             {

@@ -1,30 +1,27 @@
-System.register(["vue", "../../Controls/attributeValuesContainer", "../../Elements/panelWidget", "../../Elements/textBox", "../../Templates/paneledBlockTemplate"], function (exports_1, context_1) {
-    "use strict";
-    var vue_1, attributeValuesContainer_1, panelWidget_1, textBox_1, paneledBlockTemplate_1, getAttributeData, galleryAndResult, getFieldTypeGalleryComponent, galleryComponents, galleryTemplate;
-    var __moduleName = context_1 && context_1.id;
+System.register(['vue', '@Obsidian/Controls/attributeValuesContainer', '@Obsidian/Controls/panelWidget', '@Obsidian/Controls/textBox', '@Obsidian/Templates/block'], (function (exports) {
+    'use strict';
+    var defineComponent, ref, computed, reactive, AttributeValuesContainer, PanelWidget, TextBox, Block;
     return {
-        setters: [
-            function (vue_1_1) {
-                vue_1 = vue_1_1;
-            },
-            function (attributeValuesContainer_1_1) {
-                attributeValuesContainer_1 = attributeValuesContainer_1_1;
-            },
-            function (panelWidget_1_1) {
-                panelWidget_1 = panelWidget_1_1;
-            },
-            function (textBox_1_1) {
-                textBox_1 = textBox_1_1;
-            },
-            function (paneledBlockTemplate_1_1) {
-                paneledBlockTemplate_1 = paneledBlockTemplate_1_1;
-            }
-        ],
-        execute: function () {
-            getAttributeData = (name, fieldTypeGuid, configValues) => {
+        setters: [function (module) {
+            defineComponent = module.defineComponent;
+            ref = module.ref;
+            computed = module.computed;
+            reactive = module.reactive;
+        }, function (module) {
+            AttributeValuesContainer = module["default"];
+        }, function (module) {
+            PanelWidget = module["default"];
+        }, function (module) {
+            TextBox = module["default"];
+        }, function (module) {
+            Block = module["default"];
+        }],
+        execute: (function () {
+
+            const getAttributeData = (name, fieldTypeGuid, configValues) => {
                 const configurationValues = configValues;
                 return {
-                    "value1": vue_1.reactive({
+                    "value1": reactive({
                         fieldTypeGuid: fieldTypeGuid,
                         name: `${name} 1`,
                         key: "value1",
@@ -35,7 +32,7 @@ System.register(["vue", "../../Controls/attributeValuesContainer", "../../Elemen
                         order: 0,
                         categories: []
                     }),
-                    "value2": vue_1.reactive({
+                    "value2": reactive({
                         fieldTypeGuid: fieldTypeGuid,
                         name: `${name} 2`,
                         key: "value2",
@@ -48,11 +45,11 @@ System.register(["vue", "../../Controls/attributeValuesContainer", "../../Elemen
                     })
                 };
             };
-            galleryAndResult = vue_1.defineComponent({
+            const galleryAndResult = defineComponent({
                 name: "GalleryAndResult",
                 components: {
-                    PanelWidget: panelWidget_1.default,
-                    AttributeValuesContainer: attributeValuesContainer_1.default
+                    PanelWidget,
+                    AttributeValuesContainer
                 },
                 props: {
                     values: {
@@ -69,9 +66,9 @@ System.register(["vue", "../../Controls/attributeValuesContainer", "../../Elemen
                     }
                 },
                 setup(props) {
-                    const values = vue_1.ref(props.values);
-                    const value1Json = vue_1.computed(() => values.value["value1"]);
-                    const value2Json = vue_1.computed(() => values.value["value2"]);
+                    const values = ref(props.values);
+                    const value1Json = computed(() => values.value["value1"]);
+                    const value2Json = computed(() => values.value["value2"]);
                     return {
                         value1Json,
                         value2Json,
@@ -106,12 +103,12 @@ System.register(["vue", "../../Controls/attributeValuesContainer", "../../Elemen
     </div>
 </PanelWidget>`
             });
-            getFieldTypeGalleryComponent = (name, initialValue, fieldTypeGuid, initialConfigValues) => {
-                return vue_1.defineComponent({
+            const getFieldTypeGalleryComponent = (name, initialValue, fieldTypeGuid, initialConfigValues) => {
+                return defineComponent({
                     name: `${name}Gallery`,
                     components: {
                         GalleryAndResult: galleryAndResult,
-                        TextBox: textBox_1.default
+                        TextBox
                     },
                     data() {
                         return {
@@ -155,7 +152,7 @@ System.register(["vue", "../../Controls/attributeValuesContainer", "../../Elemen
 </GalleryAndResult>`
                 });
             };
-            galleryComponents = {
+            const galleryComponents = {
                 AddressGallery: getFieldTypeGalleryComponent("Address", '{"street1": "3120 W Cholla St", "city": "Phoenix", "state": "AZ", "postalCode": "85029-4113", "country": "US"}', "0A495222-23B7-41D3-82C8-D484CDB75D17", {}),
                 BooleanGallery: getFieldTypeGalleryComponent("Boolean", "t", "1EDAFDED-DFE6-4334-B019-6EECBA89E05A", {
                     truetext: "This is true",
@@ -261,27 +258,27 @@ System.register(["vue", "../../Controls/attributeValuesContainer", "../../Elemen
                     showcountdown: "true"
                 }),
                 TimeGallery: getFieldTypeGalleryComponent("Time", "13:15:00", "2F8F5EC4-57FA-4F6C-AB15-9D6616994580", {}),
+                UrlLinkGallery: getFieldTypeGalleryComponent("URL Link", "https://rockrms.com", "C0D0D7E2-C3B0-4004-ABEA-4BBFAD10D5D2", {
+                    ShouldRequireTrailingForwardSlash: "false",
+                    ShouldAlwaysShowCondensed: "false"
+                }),
             };
-            galleryTemplate = Object.keys(galleryComponents).sort().map(g => `<${g} />`).join("");
-            exports_1("default", vue_1.defineComponent({
+            const galleryTemplate = Object.keys(galleryComponents).sort().map(g => `<${g} />`).join("");
+            var fieldTypeGallery = exports('default', defineComponent({
                 name: "Example.FieldTypeGallery",
-                components: Object.assign({ PaneledBlockTemplate: paneledBlockTemplate_1.default }, galleryComponents),
+                components: Object.assign({ Block }, galleryComponents),
                 setup() {
                     return {};
                 },
                 template: `
-<PaneledBlockTemplate>
-    <template v-slot:title>
-        <i class="fa fa-flask"></i>
-        Obsidian Field Type Gallery
-    </template>
-    <template v-slot:default>
+<Block title="Obsidian Field Type Gallery">
+    <template #default>
         ${galleryTemplate}
     </template>
-</PaneledBlockTemplate>
+</Block>
 `
             }));
-        }
+
+        })
     };
-});
-//# sourceMappingURL=fieldTypeGallery.js.map
+}));

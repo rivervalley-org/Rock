@@ -26,6 +26,7 @@
                                 <Rock:DataTextBox ID="tbName" runat="server" SourceTypeName="Rock.Model.DataView, Rock" PropertyName="Name" CssClass="" />
                                 <Rock:DataTextBox ID="tbDescription" runat="server" SourceTypeName="Rock.Model.DataView, Rock" PropertyName="Description" TextMode="MultiLine" Rows="4" />
                                 <Rock:EntityTypePicker ID="etpEntityType" runat="server" Label="Applies To" OnSelectedIndexChanged="etpEntityType_SelectedIndexChanged" AutoPostBack="true" EnhanceForLongLists="true" Required="true" />
+                                <Rock:RockCheckBox ID="cbDisableUseOfReadOnlyContext" runat="server" Visible="false" Label="Disable Use Of Read Only Context" Help="Enabling this option will cause the data view to run with a normal database context instead of using a read-only context. This may be needed if the results of the data view will be used for updating data, or for specific plugin filters that update data during the query process." />
                             </div>
                             <div class="col-md-6">
                                 <Rock:RockDropDownList ID="ddlTransform" runat="server" Label="Post-filter Transformation" />
@@ -73,6 +74,7 @@
                         <div class="panel-labels">
                              <Rock:HighlightLabel ID="hlblDataViewId" runat="server" />
                              <Rock:HighlightLabel ID="hlblPersisted" LabelType="Info" Text="Persisted" Visible="false" runat="server" />
+                             <Rock:HighlightLabel ID="hlblReadOnlyContext" LabelType="Warning" runat="server" Text="Read Only Context Disabled" Visible="false" />
                             <div class="label label-primary"><asp:LinkButton ID="lbViewCreateReport" runat="server" OnClick="lbCreateReport_Click" ><i class="fa fa-plus"></i> Create Report</asp:LinkButton></div>
                         </div>
                     </div>
@@ -83,10 +85,9 @@
                             <div class="clearfix">
                                 <div class="pull-right ml-1 mb-1">
                                     <Rock:HighlightLabel runat="server" ID="hlTimeToRun" />
+                                    <Rock:HighlightLabel runat="server" ID="hlRunSince" CustomClass="" />
 
-                                    <span class="label-group">
-                                        <Rock:HighlightLabel runat="server" ID="hlRunSince" CustomClass="rounded-right-0" /><Rock:BootstrapButton CssClass="label btn-label rounded-left-0" ID="lbResetRunCount" runat="server" OnClick="lbResetRunCount_Click" ToolTip="Reset Counter" ><i class="fa fa-undo"></i></Rock:BootstrapButton>
-                                    </span>
+                                    <Rock:BootstrapButton CssClass="btn btn-default btn-label" ID="lbResetRunCount" runat="server" OnClick="lbResetRunCount_Click" ToolTip="Reset Counter" ><i class="fa fa-undo"></i></Rock:BootstrapButton>
 
                                     <Rock:HighlightLabel runat="server" ID="hlLastRun" />
                                 </div>

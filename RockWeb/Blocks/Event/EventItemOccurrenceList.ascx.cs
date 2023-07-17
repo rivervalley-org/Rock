@@ -1,4 +1,4 @@
-// <copyright>
+﻿// <copyright>
 // Copyright by the Spark Development Network
 //
 // Licensed under the Rock Community License (the "License");
@@ -48,6 +48,7 @@ namespace RockWeb.Blocks.Event
     [LinkedPage( "Registration Instance Page", "The page to view registration details", true, "", "", 1 )]
     [LinkedPage( "Group Detail Page", "The page for viewing details about a group", true, "", "", 2 )]
     [LinkedPage( "Content Item Detail Page", "The page for viewing details about a content item", true, "", "", 3 )]
+    [Rock.SystemGuid.BlockTypeGuid( "94230E7A-8EB7-4407-9B8E-888B54C71E39" )]
     public partial class EventItemOccurrenceList : RockBlock, ISecondaryBlock, ICustomGridColumns
     {
         #region Properties
@@ -408,6 +409,19 @@ namespace RockWeb.Blocks.Event
                 }
                 else
                 {
+                    // If a date range was not specified display all of the event items but still calculate the next date if possible.
+                    lowerDateRange = RockDateTime.Today;
+                    upperDateRange = lowerDateRange.Value.AddYears( 1 ).AddDays( -1 );
+
+                    foreach ( var eventItemOccurrenceWithDates in eventItemOccurrencesWithDates )
+                    {
+                        eventItemOccurrenceWithDates.StartDateTimes = eventItemOccurrenceWithDates.EventItemOccurrence.GetStartTimes( lowerDateRange.Value, upperDateRange.Value.AddDays( 1 ) );
+                        if ( eventItemOccurrenceWithDates.StartDateTimes != null && eventItemOccurrenceWithDates.StartDateTimes.Any() )
+                        {
+                            eventItemOccurrenceWithDates.NextStartDateTime = eventItemOccurrenceWithDates.StartDateTimes.Min();
+                        }
+                    }
+
                     dateCol.HeaderText = "Next Start Date";
                 }
 
@@ -481,6 +495,8 @@ namespace RockWeb.Blocks.Event
             foreach ( var attribute in new AttributeService( new RockContext() ).Queryable()
                 .Where( a =>
                     a.EntityTypeId == entityTypeId &&
+                    (  a.EntityTypeQualifierColumn == null || a.EntityTypeQualifierColumn == string.Empty  || a.EntityTypeQualifierColumn.Equals( "EventItemId", StringComparison.OrdinalIgnoreCase ) ) &&
+                    ( a.EntityTypeQualifierValue == null || a.EntityTypeQualifierValue == string.Empty || a.EntityTypeQualifierValue == _eventItem.Id.ToString() ) &&
                     a.IsGridColumn
                    )
                 .OrderBy( a => a.Order )
