@@ -1,0 +1,1 @@
+System.register([],(function(e){"use strict";return{execute:function(){e("FinancialAccount",{EventRegistration:"2A6F9E5F-6859-44F1-AB0E-CE9CF6B08EE5",GeneralFund:"4410306F-3FB5-4A57-9A80-09A3F9D40D0C"})}}}));

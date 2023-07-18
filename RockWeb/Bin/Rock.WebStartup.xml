@@ -41,20 +41,6 @@
             Global Quartz scheduler for jobs 
             </summary>
         </member>
-        <member name="T:Rock.WebStartup.RockApplicationStartupHelper.UnobservedTaskException">
-            <summary>
-            Class UnobservedTaskException.
-            Implements the <see cref="T:System.Exception" />
-            </summary>
-            <seealso cref="T:System.Exception" />
-        </member>
-        <member name="M:Rock.WebStartup.RockApplicationStartupHelper.UnobservedTaskException.#ctor(System.String,System.Exception)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Rock.WebStartup.RockApplicationStartupHelper.UnobservedTaskException"/> class.
-            </summary>
-            <param name="message">The message.</param>
-            <param name="exception">The exception.</param>
-        </member>
         <member name="M:Rock.WebStartup.RockApplicationStartupHelper.TaskScheduler_UnobservedTaskException(System.Object,System.Threading.Tasks.UnobservedTaskExceptionEventArgs)">
             <summary>
             If there are Task.Runs that don't handle their exceptions, this will catch those
@@ -84,9 +70,11 @@
             see http://blog.davidebbo.com/2011/02/register-your-http-modules-at-runtime.html
             </summary>
         </member>
-        <member name="M:Rock.WebStartup.RockApplicationStartupHelper.LoadCacheObjects(Rock.Data.RockContext)">
+        <member name="M:Rock.WebStartup.RockApplicationStartupHelper.LoadEarlyCacheObjects(Rock.Data.RockContext)">
             <summary>
-            Loads the cache objects.
+            Loads the cache objects that are most likely required for basic
+            functionality. The rest of the cache will be hydrated on a
+            background task.
             </summary>
         </member>
         <member name="M:Rock.WebStartup.RockApplicationStartupHelper.UpdateAttributesFromRockConfig(Rock.Data.RockContext)">
@@ -157,9 +145,9 @@
             </summary>
             <param name="engine">The engine.</param>
         </member>
-        <member name="M:Rock.WebStartup.RockApplicationStartupHelper.StartJobScheduler">
+        <member name="M:Rock.WebStartup.RockApplicationStartupHelper.InitializeJobScheduler">
             <summary>
-            Starts the job scheduler.
+            Initialize the job scheduler.
             </summary>
         </member>
         <member name="M:Rock.WebStartup.RockApplicationStartupHelper.LogError(System.Exception,System.Web.HttpContext)">
@@ -180,6 +168,13 @@
             Shows the debug timing message if running in a development environment
             </summary>
             <param name="message">The message.</param>
+        </member>
+        <member name="M:Rock.WebStartup.RockApplicationStartupHelper.ShowDebugTimingMessage(System.String,System.Double)">
+            <summary>
+            Shows the debug timing message if running in a development environment
+            </summary>
+            <param name="message">The message describing the operation.</param>
+            <param name="duration">The duration of the operation in milliseconds.</param>
         </member>
         <member name="M:Rock.WebStartup.RockApplicationStartupHelper.LogStartupMessage(System.String)">
             <summary>
@@ -221,6 +216,20 @@
             <summary>
             Gets a string representation of the immediate frames on the call stack.
             </summary>
+        </member>
+        <member name="T:Rock.WebStartup.UnobservedTaskException">
+            <summary>
+            Class UnobservedTaskException.
+            Implements the <see cref="T:System.Exception" />
+            </summary>
+            <seealso cref="T:System.Exception" />
+        </member>
+        <member name="M:Rock.WebStartup.UnobservedTaskException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.WebStartup.UnobservedTaskException"/> class.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="exception">The exception.</param>
         </member>
     </members>
 </doc>

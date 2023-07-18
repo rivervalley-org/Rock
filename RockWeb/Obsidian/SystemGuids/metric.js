@@ -1,0 +1,1 @@
+System.register([],(function(e){"use strict";return{execute:function(){e("Metric",{HostingHardConnectsPerSecond:"64D538D0-EE05-4646-91F5-EBE06460BDAB",HostingNumberOfActiveConnections:"68C54F46-A99E-4DD1-91CA-FC5941E6CFBE",HostingNumberOfFreeConnections:"8A1F73DD-4275-47C0-AF2A-6EABDA06E3C7",HostingSoftConnectsPerSecond:"F90F9446-8754-4001-887C-1AB920968C6D"})}}}));
