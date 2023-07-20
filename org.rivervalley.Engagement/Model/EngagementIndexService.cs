@@ -113,7 +113,7 @@ namespace org.rivervalley.Engagement.Model
 
         #region Helper Classes
 
-        public class EngagementResult : Rock.Lava.ILiquidizable
+        public class EngagementResult : Rock.Lava.LavaDataObject
         {
             public DateTime RunDate { get; set; }
 
@@ -132,79 +132,9 @@ namespace org.rivervalley.Engagement.Model
                 RunDate = runDate;
                 CategoryResults = new List<CategoryResult>();
             }
-
-            #region ILiquidizable Implementation
-
-            public object ToLiquid()
-            {
-                return this;
-            }
-
-            /// <summary>
-            /// Gets the available keys (for debugging info).
-            /// </summary>
-            /// <value>
-            /// The available keys.
-            /// </value>
-            [LavaHidden]
-            public List<string> AvailableKeys
-            {
-                get
-                {
-                    var availableKeys = new List<string> { "RunDate", "TotalEngagementIndex", "CategoryResults" };
-                    return availableKeys;
-                }
-            }
-
-            /// <summary>
-            /// Gets the <see cref="System.Object"/> with the specified key.
-            /// </summary>
-            /// <value>
-            /// The <see cref="System.Object"/>.
-            /// </value>
-            /// <param name="key">The key.</param>
-            /// <returns></returns>
-            [LavaHidden]
-            public object this[object key]
-            {
-                get
-                {
-                    switch ( key.ToStringSafe() )
-                    {
-                        case "RunDate":
-                            return RunDate;
-                        case "TotalEngagementIndex":
-                            return TotalEngagementIndex;
-                        case "CategoryResults":
-                            return CategoryResults;
-                        default:
-                            return null;
-                    }
-                }
-            }
-
-            /// <summary>
-            /// Determines whether the specified key contains key.
-            /// </summary>
-            /// <param name="key">The key.</param>
-            /// <returns></returns>
-            public bool ContainsKey( object key )
-            {
-                var additionalKeys = new List<string> { "RunDate", "TotalEngagementIndex", "CategoryResults" };
-                if ( additionalKeys.Contains( key.ToStringSafe() ) )
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
-            #endregion
         }
 
-        public class CategoryResult : Rock.Lava.ILiquidizable
+        public class CategoryResult : Rock.Lava.LavaDataObject
         {
             public int Id { get; set; }
 
@@ -230,87 +160,9 @@ namespace org.rivervalley.Engagement.Model
             {
                 Results = new List<ResultDetail>();
             }
-
-            #region ILiquidizable Implementation
-
-            public object ToLiquid()
-            {
-                return this;
-            }
-
-            /// <summary>
-            /// Gets the available keys (for debugging info).
-            /// </summary>
-            /// <value>
-            /// The available keys.
-            /// </value>
-            [LavaHidden]
-            public List<string> AvailableKeys
-            {
-                get
-                {
-                    var availableKeys = new List<string> { "Id", "Name", "Description", "Weight", "HtmlColor", "Total", "Results" };
-                    return availableKeys;
-                }
-            }
-
-            /// <summary>
-            /// Gets the <see cref="System.Object"/> with the specified key.
-            /// </summary>
-            /// <value>
-            /// The <see cref="System.Object"/>.
-            /// </value>
-            /// <param name="key">The key.</param>
-            /// <returns></returns>
-            [LavaHidden]
-            public object this[object key]
-            {
-                get
-                {
-                    switch ( key.ToStringSafe() )
-                    {
-                        case "Id":
-                            return Id;
-                        case "Name":
-                            return Name;
-                        case "Description":
-                            return Description;
-                        case "Weight":
-                            return Weight;
-                        case "HtmlColor":
-                            return HtmlColor;
-                        case "Total":
-                            return Total;
-                        case "Results":
-                            return Results;
-                        default:
-                            return null;
-                    }
-                }
-            }
-
-            /// <summary>
-            /// Determines whether the specified key contains key.
-            /// </summary>
-            /// <param name="key">The key.</param>
-            /// <returns></returns>
-            public bool ContainsKey( object key )
-            {
-                var additionalKeys = new List<string> { "Id", "Name", "Description", "Weight", "HtmlColor", "Total", "Results" };
-                if ( additionalKeys.Contains( key.ToStringSafe() ) )
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
-            #endregion
         }
 
-        public class ResultDetail : Rock.Lava.ILiquidizable
+        public class ResultDetail : Rock.Lava.LavaDataObject
         {
             public string Name { get; set; }
 
@@ -321,80 +173,6 @@ namespace org.rivervalley.Engagement.Model
             public int ScoreWeight { get; set; }
 
             public int Completions { get; set; }
-
-            #region ILiquidizable Implementation
-
-            public object ToLiquid()
-            {
-                return this;
-            }
-
-            /// <summary>
-            /// Gets the available keys (for debugging info).
-            /// </summary>
-            /// <value>
-            /// The available keys.
-            /// </value>
-            [LavaHidden]
-            public List<string> AvailableKeys
-            {
-                get
-                {
-                    var availableKeys = new List<string> { "Name", "Description", "Score", "ScoreWeight", "Completions" };
-                    return availableKeys;
-                }
-            }
-
-            /// <summary>
-            /// Gets the <see cref="System.Object"/> with the specified key.
-            /// </summary>
-            /// <value>
-            /// The <see cref="System.Object"/>.
-            /// </value>
-            /// <param name="key">The key.</param>
-            /// <returns></returns>
-            [LavaHidden]
-            public object this[object key]
-            {
-                get
-                {
-                    switch ( key.ToStringSafe() )
-                    {
-                        case "Name":
-                            return Name;
-                        case "Description":
-                            return Description;
-                        case "Score":
-                            return Score;
-                        case "ScoreWeight":
-                            return ScoreWeight;
-                        case "Completions":
-                            return Completions;
-                        default:
-                            return null;
-                    }
-                }
-            }
-
-            /// <summary>
-            /// Determines whether the specified key contains key.
-            /// </summary>
-            /// <param name="key">The key.</param>
-            /// <returns></returns>
-            public bool ContainsKey( object key )
-            {
-                var additionalKeys = new List<string> { "Name", "Description", "Score", "ScoreWeight", "Completions" };
-                if ( additionalKeys.Contains( key.ToStringSafe() ) )
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
-            #endregion
         }
 
         #endregion
