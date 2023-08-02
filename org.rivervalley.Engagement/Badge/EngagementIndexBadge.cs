@@ -295,7 +295,7 @@ namespace org.rivervalley.Engagement.Model.Badge
 
     $('.engagement-badge').popover({
         html: true,
-        placement: 'top',
+        placement: 'right',
         trigger: 'manual'
     });
     
