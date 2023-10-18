@@ -9,28 +9,29 @@ System.register(['vue', '@Obsidian/PageState'], (function (exports) {
         }],
         execute: (function () {
 
-            const store = useStore();
+            var store = useStore();
             var primaryBlock = exports('default', defineComponent({
-                name: "PrimaryBlock",
-                props: {
-                    hideSecondaryBlocks: {
-                        type: Boolean,
-                        default: false
-                    }
-                },
-                methods: {
-                    setAreSecondaryBlocksShown(isVisible) {
-                        store.setAreSecondaryBlocksShown(isVisible);
-                    }
-                },
-                watch: {
-                    hideSecondaryBlocks() {
-                        this.setAreSecondaryBlocksShown(!this.hideSecondaryBlocks);
-                    }
-                },
-                template: `<slot />`
+              name: "PrimaryBlock",
+              props: {
+                hideSecondaryBlocks: {
+                  type: Boolean,
+                  default: false
+                }
+              },
+              methods: {
+                setAreSecondaryBlocksShown(isVisible) {
+                  store.setAreSecondaryBlocksShown(isVisible);
+                }
+              },
+              watch: {
+                hideSecondaryBlocks() {
+                  this.setAreSecondaryBlocksShown(!this.hideSecondaryBlocks);
+                }
+              },
+              template: "<slot />"
             }));
 
         })
     };
 }));
+//# sourceMappingURL=primaryBlock.js.map

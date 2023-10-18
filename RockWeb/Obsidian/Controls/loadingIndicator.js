@@ -8,29 +8,31 @@ System.register(['vue'], (function (exports) {
         }],
         execute: (function () {
 
-            var LoadingIndicator = exports('default', defineComponent({
-                name: "LoadingIndicator",
-                props: {
-                    delay: {
-                        type: Number,
-                        default: 0
-                    }
+            var loadingIndicator = exports('default', defineComponent({
+              name: "LoadingIndicator",
+              props: {
+                delay: {
+                  type: Number,
+                  default: 0
                 },
-                setup(props) {
-                    const isShown = ref(!props.delay);
-                    if (props.delay) {
-                        setTimeout(() => isShown.value = true, props.delay);
-                    }
-                    return {
-                        isShown
-                    };
-                },
-                template: `
-<div v-if="isShown" class="text-center fa-2x">
-    <i class="fas fa-spinner fa-pulse"></i>
-</div>`
+                isSmall: {
+                  type: Boolean,
+                  default: false
+                }
+              },
+              setup(props) {
+                var isShown = ref(!props.delay);
+                if (props.delay) {
+                  setTimeout(() => isShown.value = true, props.delay);
+                }
+                return {
+                  isShown
+                };
+              },
+              template: "\n<div v-if=\"isShown\" :class=\"['text-center', isSmall ? '' : 'fa-2x']\">\n    <i class=\"fas fa-spinner fa-pulse\"></i>\n</div>"
             }));
 
         })
     };
 }));
+//# sourceMappingURL=loadingIndicator.js.map

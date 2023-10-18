@@ -11,39 +11,32 @@ System.register(['vue'], (function (exports) {
         execute: (function () {
 
             var valueDetailList = exports('default', defineComponent({
-                name: "ValueDetailList",
-                props: {
-                    modelValue: {
-                        type: Array,
-                        required: false
-                    }
-                },
-                setup(props) {
-                    var _a;
-                    const values = ref((_a = props.modelValue) !== null && _a !== void 0 ? _a : []);
-                    const hasValues = computed(() => {
-                        return values.value.length > 0;
-                    });
-                    watch(() => props.modelValue, () => {
-                        var _a;
-                        values.value = (_a = props.modelValue) !== null && _a !== void 0 ? _a : [];
-                    });
-                    return {
-                        hasValues,
-                        values
-                    };
-                },
-                template: `
-<dl v-if="hasValues">
-    <template v-for="value in values">
-        <dt>{{ value.title }}</dt>
-        <dd v-if="value.htmlValue" v-html="value.htmlValue"></dd>
-        <dd v-else>{{ value.textValue }}</dd>
-    </template>
-</dl>
-`
+              name: "ValueDetailList",
+              props: {
+                modelValue: {
+                  type: Array,
+                  required: false
+                }
+              },
+              setup(props) {
+                var _props$modelValue;
+                var values = ref((_props$modelValue = props.modelValue) !== null && _props$modelValue !== void 0 ? _props$modelValue : []);
+                var hasValues = computed(() => {
+                  return values.value.length > 0;
+                });
+                watch(() => props.modelValue, () => {
+                  var _props$modelValue2;
+                  values.value = (_props$modelValue2 = props.modelValue) !== null && _props$modelValue2 !== void 0 ? _props$modelValue2 : [];
+                });
+                return {
+                  hasValues,
+                  values
+                };
+              },
+              template: "\n<dl v-if=\"hasValues\">\n    <template v-for=\"value in values\">\n        <dt>{{ value.title }}</dt>\n        <dd v-if=\"value.htmlValue\" v-html=\"value.htmlValue\"></dd>\n        <dd v-else>{{ value.textValue }}</dd>\n    </template>\n</dl>\n"
             }));
 
         })
     };
 }));
+//# sourceMappingURL=valueDetailList.js.map

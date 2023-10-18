@@ -1,4 +1,4 @@
-System.register(['vue', './rockFormField.js', '@Obsidian/Utility/component', '@Obsidian/Utility/form', '@Obsidian/Utility/guid', '@Obsidian/ValidationRules', './rockLabel.js', './helpBlock.js', './javaScriptAnchor.js'], (function (exports) {
+System.register(['vue', './rockFormField'], (function (exports) {
     'use strict';
     var defineComponent, RockFormField;
     return {
@@ -6,34 +6,23 @@ System.register(['vue', './rockFormField.js', '@Obsidian/Utility/component', '@O
             defineComponent = module.defineComponent;
         }, function (module) {
             RockFormField = module["default"];
-        }, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}],
+        }],
         execute: (function () {
 
-            var StaticFormControl = exports('default', defineComponent({
-                name: "StaticFormControl",
-                components: {
-                    RockFormField
-                },
-                props: {
-                    modelValue: {
-                        required: true
-                    }
-                },
-                template: `
-<RockFormField
-    :modelValue="modelValue"
-    formGroupClasses="static-control"
-    name="static-form-control">
-    <template #default="{uniqueId, field}">
-        <div class="control-wrapper">
-            <div class="form-control-static">
-                {{ modelValue }}
-            </div>
-        </div>
-    </template>
-</RockFormField>`
+            var staticFormControl = exports('default', defineComponent({
+              name: "StaticFormControl",
+              components: {
+                RockFormField
+              },
+              props: {
+                modelValue: {
+                  required: true
+                }
+              },
+              template: "\n<RockFormField\n    :modelValue=\"modelValue\"\n    formGroupClasses=\"static-control\"\n    name=\"static-form-control\">\n    <template #default=\"{uniqueId, field}\">\n        <div class=\"control-wrapper\">\n            <div class=\"form-control-static\">\n                {{ modelValue }}\n            </div>\n        </div>\n    </template>\n</RockFormField>"
             }));
 
         })
     };
 }));
+//# sourceMappingURL=staticFormControl.js.map

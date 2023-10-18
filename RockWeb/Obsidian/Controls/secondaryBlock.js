@@ -9,20 +9,18 @@ System.register(['vue', '@Obsidian/PageState'], (function (exports) {
         }],
         execute: (function () {
 
-            const store = useStore();
+            var store = useStore();
             var secondaryBlock = exports('default', defineComponent({
-                name: "SecondaryBlock",
-                computed: {
-                    isVisible() {
-                        return store.state.areSecondaryBlocksShown;
-                    }
-                },
-                template: `
-<div class="secondary-block">
-    <slot v-if="isVisible" />
-</div>`
+              name: "SecondaryBlock",
+              computed: {
+                isVisible() {
+                  return store.state.areSecondaryBlocksShown;
+                }
+              },
+              template: "\n<div class=\"secondary-block\">\n    <slot v-if=\"isVisible\" />\n</div>"
             }));
 
         })
     };
 }));
+//# sourceMappingURL=secondaryBlock.js.map

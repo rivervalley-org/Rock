@@ -142,3 +142,5 @@
 
     </ContentTemplate>
 </asp:UpdatePanel>
+
+<Rock:Captcha ID="cpCaptcha" runat="server" />

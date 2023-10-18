@@ -36,7 +36,7 @@ using Rock.Web.UI.Controls;
 namespace RockWeb.Blocks.Groups
 {
     #region Block Attributes
-    [DisplayName( "Group Attendance Detail" )]
+    [DisplayName( "Group Attendance Detail (Legacy)" )]
     [Category( "Groups" )]
     [Description( "Lists the group members for a specific occurrence date time and allows selecting if they attended or not." )]
 
@@ -446,11 +446,6 @@ namespace RockWeb.Blocks.Groups
             var mergeObjectList = mergeObjectsDictionary.Select( a => a.Value ).ToList();
 
             outputBinaryFileDoc = mergeTemplateType.CreateDocument( mergeTemplate, mergeObjectList, mergeFields );
-
-            // Set the name of the output doc
-            outputBinaryFileDoc = new BinaryFileService( rockContext ).Get( outputBinaryFileDoc.Id );
-            outputBinaryFileDoc.FileName = _group.Name + " Attendance Roster" + Path.GetExtension( outputBinaryFileDoc.FileName ?? string.Empty ) ?? ".docx";
-            rockContext.SaveChanges();
 
             if ( mergeTemplateType.Exceptions != null && mergeTemplateType.Exceptions.Any() )
             {

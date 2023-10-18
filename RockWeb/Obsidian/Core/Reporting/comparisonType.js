@@ -1,6 +1,12 @@
-System.register([], (function (exports) {
+System.register(['./filterMode', '@Obsidian/Enums/Reporting/comparisonType'], (function (exports) {
     'use strict';
+    var FilterMode, ComparisonType;
     return {
+        setters: [function (module) {
+            FilterMode = module.FilterMode;
+        }, function (module) {
+            ComparisonType = module.ComparisonType;
+        }],
         execute: (function () {
 
             exports({
@@ -9,95 +15,57 @@ System.register([], (function (exports) {
                 isSingleComparisonType: isSingleComparisonType
             });
 
-            const binaryComparisonTypes = exports('binaryComparisonTypes', 1
-                | 2);
-            const stringComparisonTypes = exports('stringComparisonTypes', 8
-                | 16
-                | 1
-                | 2
-                | 32
-                | 64
-                | 4
-                | 2048);
-            const containsComparisonTypes = exports('containsComparisonTypes', 8
-                | 16
-                | 32);
-            const numericComparisonTypes = exports('numericComparisonTypes', 1
-                | 32
-                | 64
-                | 2
-                | 128
-                | 256
-                | 512
-                | 1024);
-            const dateComparisonTypes = exports('dateComparisonTypes', 1
-                | 32
-                | 64
-                | 128
-                | 256
-                | 512
-                | 1024
-                | 4096);
+            var binaryComparisonTypes = exports('binaryComparisonTypes', ComparisonType.EqualTo | ComparisonType.NotEqualTo);
+            var stringComparisonTypes = exports('stringComparisonTypes', ComparisonType.Contains | ComparisonType.DoesNotContain | ComparisonType.EqualTo | ComparisonType.NotEqualTo | ComparisonType.IsBlank | ComparisonType.IsNotBlank | ComparisonType.StartsWith | ComparisonType.EndsWith);
+            var containsComparisonTypes = exports('containsComparisonTypes', ComparisonType.Contains | ComparisonType.DoesNotContain | ComparisonType.IsBlank);
+            var numericComparisonTypes = exports('numericComparisonTypes', ComparisonType.EqualTo | ComparisonType.IsBlank | ComparisonType.IsNotBlank | ComparisonType.NotEqualTo | ComparisonType.GreaterThan | ComparisonType.GreaterThanOrEqualTo | ComparisonType.LessThan | ComparisonType.LessThanOrEqualTo);
+            var dateComparisonTypes = exports('dateComparisonTypes', ComparisonType.EqualTo | ComparisonType.IsBlank | ComparisonType.IsNotBlank | ComparisonType.GreaterThan | ComparisonType.GreaterThanOrEqualTo | ComparisonType.LessThan | ComparisonType.LessThanOrEqualTo | ComparisonType.Between);
             function getComparisonName(type) {
-                switch (type) {
-                    case 1:
-                        return "Equal To";
-                    case 2:
-                        return "Not Equal To";
-                    case 4:
-                        return "Starts With";
-                    case 8:
-                        return "Contains";
-                    case 16:
-                        return "Does Not Contain";
-                    case 32:
-                        return "Is Blank";
-                    case 64:
-                        return "Is Not Blank";
-                    case 128:
-                        return "Greater Than";
-                    case 256:
-                        return "Greater Than Or Equal To";
-                    case 512:
-                        return "Less Than";
-                    case 1024:
-                        return "Less Than Or Equal To";
-                    case 2048:
-                        return "Ends With";
-                    case 4096:
-                        return "Between";
-                    case 8192:
-                        return "Regular Expression";
-                    default:
-                        return "";
-                }
+              switch (type) {
+                case ComparisonType.EqualTo:
+                  return "Equal To";
+                case ComparisonType.NotEqualTo:
+                  return "Not Equal To";
+                case ComparisonType.StartsWith:
+                  return "Starts With";
+                case ComparisonType.Contains:
+                  return "Contains";
+                case ComparisonType.DoesNotContain:
+                  return "Does Not Contain";
+                case ComparisonType.IsBlank:
+                  return "Is Blank";
+                case ComparisonType.IsNotBlank:
+                  return "Is Not Blank";
+                case ComparisonType.GreaterThan:
+                  return "Greater Than";
+                case ComparisonType.GreaterThanOrEqualTo:
+                  return "Greater Than Or Equal To";
+                case ComparisonType.LessThan:
+                  return "Less Than";
+                case ComparisonType.LessThanOrEqualTo:
+                  return "Less Than Or Equal To";
+                case ComparisonType.EndsWith:
+                  return "Ends With";
+                case ComparisonType.Between:
+                  return "Between";
+                case ComparisonType.RegularExpression:
+                  return "Regular Expression";
+                default:
+                  return "";
+              }
             }
             function isCompareVisibleForComparisonFilter(comparisonType, filterMode) {
-                if (filterMode !== 0) {
-                    return true;
-                }
-                const isHideable = comparisonType === binaryComparisonTypes
-                    || comparisonType === stringComparisonTypes
-                    || comparisonType === containsComparisonTypes;
-                return !isHideable;
+              if (filterMode !== FilterMode.Simple) {
+                return true;
+              }
+              var isHideable = comparisonType === binaryComparisonTypes || comparisonType === stringComparisonTypes || comparisonType === containsComparisonTypes;
+              return !isHideable;
             }
             function isSingleComparisonType(comparisionType) {
-                return comparisionType === 1
-                    || comparisionType === 2
-                    || comparisionType === 4
-                    || comparisionType === 8
-                    || comparisionType === 16
-                    || comparisionType === 32
-                    || comparisionType === 64
-                    || comparisionType === 128
-                    || comparisionType === 256
-                    || comparisionType === 512
-                    || comparisionType === 1024
-                    || comparisionType === 2048
-                    || comparisionType === 4096
-                    || comparisionType === 8192;
+              return comparisionType === ComparisonType.EqualTo || comparisionType === ComparisonType.NotEqualTo || comparisionType === ComparisonType.StartsWith || comparisionType === ComparisonType.Contains || comparisionType === ComparisonType.DoesNotContain || comparisionType === ComparisonType.IsBlank || comparisionType === ComparisonType.IsNotBlank || comparisionType === ComparisonType.GreaterThan || comparisionType === ComparisonType.GreaterThanOrEqualTo || comparisionType === ComparisonType.LessThan || comparisionType === ComparisonType.LessThanOrEqualTo || comparisionType === ComparisonType.EndsWith || comparisionType === ComparisonType.Between || comparisionType === ComparisonType.RegularExpression;
             }
 
         })
     };
 }));
+//# sourceMappingURL=comparisonType.js.map

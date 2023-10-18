@@ -1,4 +1,4 @@
-System.register(['vue', './javaScriptAnchor.js'], (function (exports) {
+System.register(['vue', './javaScriptAnchor'], (function (exports) {
     'use strict';
     var defineComponent, JavaScriptAnchor;
     return {
@@ -9,27 +9,25 @@ System.register(['vue', './javaScriptAnchor.js'], (function (exports) {
         }],
         execute: (function () {
 
-            const HelpBlock = exports('default', defineComponent({
-                name: "HelpBlock",
-                components: {
-                    JavaScriptAnchor
-                },
-                props: {
-                    text: {
-                        type: String,
-                        required: true
-                    }
-                },
-                mounted() {
-                    const jquery = window["$"];
-                    jquery(this.$el).tooltip();
-                },
-                template: `
-<JavaScriptAnchor class="help" tabindex="-1" data-toggle="tooltip" data-placement="auto" data-container="body" data-html="true" title="" :data-original-title="text">
-    <i class="fa fa-info-circle"></i>
-</JavaScriptAnchor>`
+            var HelpBlock = exports('default', defineComponent({
+              name: "HelpBlock",
+              components: {
+                JavaScriptAnchor
+              },
+              props: {
+                text: {
+                  type: String,
+                  required: true
+                }
+              },
+              mounted() {
+                var jquery = window["$"];
+                jquery(this.$el).tooltip();
+              },
+              template: "\n<JavaScriptAnchor class=\"help\" tabindex=\"-1\" data-toggle=\"tooltip\" data-placement=\"auto\" data-container=\"body\" data-html=\"true\" title=\"\" :data-original-title=\"text\">\n    <i class=\"fa fa-info-circle\"></i>\n</JavaScriptAnchor>"
             }));
 
         })
     };
 }));
+//# sourceMappingURL=helpBlock.js.map

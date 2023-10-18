@@ -125,6 +125,8 @@ namespace RockWeb.Blocks.Administration
             BindExperimentalSettings();
 
             BindSystemDiagnosticsSettings();
+
+            BindUiSettings();
         }
 
         #endregion
@@ -185,6 +187,8 @@ namespace RockWeb.Blocks.Administration
             Configuration rockWebConfig = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration( "~" );
             rockWebConfig.AppSettings.Settings["OrgTimeZone"].Value = ddTimeZone.SelectedValue;
             rockWebConfig.AppSettings.Settings["RunJobsInIISContext"].Value = cbRunJobsInIISContext.Checked.ToString();
+            rockWebConfig.AppSettings.Settings["AzureSignalREndpoint"].Value = rtbAzureSignalREndpoint.Text;
+            rockWebConfig.AppSettings.Settings["AzureSignalRAccessKey"].Value = rtbAzureSignalRAccessKey.Text;
 
             var section = ( System.Web.Configuration.SystemWebSectionGroup ) rockWebConfig.GetSectionGroup( "system.web" );
             section.HttpRuntime.MaxRequestLength = int.Parse( numbMaxSize.Text ) * 1024;
@@ -218,6 +222,36 @@ namespace RockWeb.Blocks.Administration
                 nbMessage.Text = "You will need to reload this page to continue.";
             }
         }
+
+        /// <summary>
+        /// Handles saving the UI settings configuration
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnUiSettingSave_Click( object sender, EventArgs e )
+        {
+            if ( !Page.IsValid )
+            {
+                return;
+            }
+
+            nbUiSettings.Visible = true;
+
+            // Save Race and Ethnicity label values
+            Rock.Web.SystemSettings.SetValue( SystemSetting.PERSON_RACE_LABEL, rtbPersonRaceLabel.Text );
+            Rock.Web.SystemSettings.SetValue( SystemSetting.PERSON_ETHNICITY_LABEL, rtbPersonEthnicityLabel.Text );
+
+            // Save Captcha keys
+            Rock.Web.SystemSettings.SetValue( SystemSetting.CAPTCHA_SITE_KEY, rtbCaptchaSiteKey.Text );
+            Rock.Web.SystemSettings.SetValue( SystemSetting.CAPTCHA_SECRET_KEY, rtbCaptchaSecretKey.Text );
+
+            Rock.Web.SystemSettings.SetValue( Rock.SystemKey.SystemSetting.SMS_OPT_IN_MESSAGE_LABEL, rtbSmsOptInMessage.Text );
+
+            nbUiSettings.NotificationBoxType = NotificationBoxType.Success;
+            nbUiSettings.Title = string.Empty;
+            nbUiSettings.Text = "Settings saved successfully.";
+        }
+
         #endregion
 
         #region Methods
@@ -259,6 +293,8 @@ namespace RockWeb.Blocks.Administration
             {
                 cbRunJobsInIISContext.Checked = bool.Parse( runJobsInIISContext );
             }
+            rtbAzureSignalREndpoint.Text = ConfigurationManager.AppSettings["AzureSignalREndpoint"];
+            rtbAzureSignalRAccessKey.Text = ConfigurationManager.AppSettings["AzureSignalRAccessKey"];
         }
 
         /// <summary>
@@ -405,6 +441,20 @@ namespace RockWeb.Blocks.Administration
             dowpStartingDayOfWeek.SelectedDayOfWeek = RockDateTime.FirstDayOfWeek;
 
             nbSecurityGrantTokenDuration.IntegerValue = Math.Max( Rock.Web.SystemSettings.GetValue( Rock.SystemKey.SystemSetting.DEFAULT_SECURITY_GRANT_TOKEN_DURATION )?.AsIntegerOrNull() ?? 4320, 60 );
+        }
+
+        /// <summary>
+        /// Binds the UI settings
+        /// </summary>
+        private void BindUiSettings()
+        {
+            rtbPersonRaceLabel.Text = Rock.Web.SystemSettings.GetValue( SystemSetting.PERSON_RACE_LABEL );
+            rtbPersonEthnicityLabel.Text = Rock.Web.SystemSettings.GetValue( SystemSetting.PERSON_ETHNICITY_LABEL );
+
+            rtbCaptchaSiteKey.Text = Rock.Web.SystemSettings.GetValue( SystemSetting.CAPTCHA_SITE_KEY );
+            rtbCaptchaSecretKey.Text = Rock.Web.SystemSettings.GetValue( SystemSetting.CAPTCHA_SECRET_KEY );
+
+            rtbSmsOptInMessage.Text = Rock.Web.SystemSettings.GetValue( Rock.SystemKey.SystemSetting.SMS_OPT_IN_MESSAGE_LABEL );
         }
 
         #endregion

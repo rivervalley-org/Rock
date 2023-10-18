@@ -119,6 +119,15 @@
                             <Rock:PhoneNumberBox ID="pnbEditWorkPhone" runat="server" Label="Work Phone" SourceTypeName="Rock.Model.BenevolenceRequest, Rock" PropertyName="WorkPhone" />
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <Rock:RacePicker ID="rpRace" runat="server" />
+                        </div>
+                        <div class="col-md-4">
+                            <Rock:EthnicityPicker ID="epEthnicity" runat="server" />
+                        </div>
+                    </div>
                 </Rock:PanelWidget>
 
                 <Rock:PanelWidget ID="pwEditRequest" runat="server" Title="Request Details" Expanded="true">
@@ -273,7 +282,7 @@
                         <asp:Repeater ID="rptViewBenevolenceDocuments" runat="server">
                             <ItemTemplate>
                                 <div class="col-md-2">
-                                    <asp:HyperLink ID="lnkViewUploadedFile" runat="server" Target="_blank" CssClass="btn-link"></asp:HyperLink>
+                                    <asp:HyperLink ID="lnkViewUploadedFile" runat="server" Target="_blank" rel="noopener noreferrer" CssClass="btn-link"></asp:HyperLink>
                                 </div>
                             </ItemTemplate>
                         </asp:Repeater>

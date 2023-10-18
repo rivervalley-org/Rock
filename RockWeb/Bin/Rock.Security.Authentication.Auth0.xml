@@ -131,6 +131,15 @@
             <param name="password">The password.</param>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
+        <member name="M:Rock.Security.Authentication.Auth0.Auth0Authentication.Authenticate(Rock.Security.Authentication.ExternalRedirectAuthentication.ExternalRedirectAuthenticationOptions)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Rock.Security.Authentication.Auth0.Auth0Authentication.GenerateExternalLoginUrl(System.String,System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Rock.Security.Authentication.Auth0.Auth0Authentication.IsReturningFromExternalAuthentication(System.Collections.Generic.IDictionary{System.String,System.String})">
+            <inheritdoc/>
+        </member>
         <member name="T:Rock.Security.Authentication.Auth0.Auth0TokenResponse">
             <summary>
             

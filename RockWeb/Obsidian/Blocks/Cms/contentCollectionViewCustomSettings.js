@@ -1,500 +1,436 @@
-System.register(['tslib', 'vue', '@Obsidian/Controls/alert.vue', '@Obsidian/Controls/checkBox', '@Obsidian/Controls/checkBoxList', '@Obsidian/Controls/codeEditor', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/inlineCheckBox', '@Obsidian/Controls/loadingIndicator', '@Obsidian/Controls/modal', '@Obsidian/Controls/numberBox', '@Obsidian/Controls/rockButton', '@Obsidian/Controls/rockFormFieldError', '@Obsidian/Controls/sectionHeader', '@Obsidian/Controls/textBox', '@Obsidian/Utility/block', '@Obsidian/Directives/dragDrop', '@Obsidian/Utility/component', '@Obsidian/Utility/dialogs', '@Obsidian/Utility/guid'], (function (exports) {
-    'use strict';
-    var __awaiter, defineComponent, ref, computed, watch, Alert, CheckBox, CheckBoxList, CodeEditor, DropDownList, InlineCheckBox, LoadingIndicator, Modal, NumberBox, RockButton, RockFormFieldError, SectionHeader, TextBox, useInvokeBlockAction, getSecurityGrant, useReloadBlock, provideSecurityGrant, setCustomSettingsBoxValue, DragReorder, useDragReorder, useVModelPassthrough, alert, areEqual;
-    return {
-        setters: [function (module) {
-            __awaiter = module.__awaiter;
-        }, function (module) {
-            defineComponent = module.defineComponent;
-            ref = module.ref;
-            computed = module.computed;
-            watch = module.watch;
-        }, function (module) {
-            Alert = module["default"];
-        }, function (module) {
-            CheckBox = module["default"];
-        }, function (module) {
-            CheckBoxList = module["default"];
-        }, function (module) {
-            CodeEditor = module["default"];
-        }, function (module) {
-            DropDownList = module["default"];
-        }, function (module) {
-            InlineCheckBox = module["default"];
-        }, function (module) {
-            LoadingIndicator = module["default"];
-        }, function (module) {
-            Modal = module["default"];
-        }, function (module) {
-            NumberBox = module["default"];
-        }, function (module) {
-            RockButton = module["default"];
-        }, function (module) {
-            RockFormFieldError = module["default"];
-        }, function (module) {
-            SectionHeader = module["default"];
-        }, function (module) {
-            TextBox = module["default"];
-        }, function (module) {
-            useInvokeBlockAction = module.useInvokeBlockAction;
-            getSecurityGrant = module.getSecurityGrant;
-            useReloadBlock = module.useReloadBlock;
-            provideSecurityGrant = module.provideSecurityGrant;
-            setCustomSettingsBoxValue = module.setCustomSettingsBoxValue;
-        }, function (module) {
-            DragReorder = module.DragReorder;
-            useDragReorder = module.useDragReorder;
-        }, function (module) {
-            useVModelPassthrough = module.useVModelPassthrough;
-        }, function (module) {
-            alert = module.alert;
-        }, function (module) {
-            areEqual = module.areEqual;
-        }],
-        execute: (function () {
+System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Controls/checkBox', '@Obsidian/Controls/checkBoxList', '@Obsidian/Controls/codeEditor', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/inlineCheckBox', '@Obsidian/Controls/loadingIndicator', '@Obsidian/Controls/modal', '@Obsidian/Controls/numberBox', '@Obsidian/Controls/rockButton', '@Obsidian/Controls/rockFormFieldError', '@Obsidian/Controls/sectionHeader', '@Obsidian/Controls/textBox', '@Obsidian/Utility/block', '@Obsidian/Directives/dragDrop', '@Obsidian/Utility/component', '@Obsidian/Utility/dialogs', '@Obsidian/Utility/guid'], (function (exports) {
+  'use strict';
+  var defineComponent, ref, computed, watch, NotificationBox, CheckBox, CheckBoxList, CodeEditor, DropDownList, InlineCheckBox, LoadingIndicator, Modal, NumberBox, RockButton, RockFormFieldError, SectionHeader, TextBox, useInvokeBlockAction, getSecurityGrant, useReloadBlock, provideSecurityGrant, setCustomSettingsBoxValue, DragReorder, useDragReorder, useVModelPassthrough, alert, areEqual;
+  return {
+    setters: [function (module) {
+      defineComponent = module.defineComponent;
+      ref = module.ref;
+      computed = module.computed;
+      watch = module.watch;
+    }, function (module) {
+      NotificationBox = module["default"];
+    }, function (module) {
+      CheckBox = module["default"];
+    }, function (module) {
+      CheckBoxList = module["default"];
+    }, function (module) {
+      CodeEditor = module["default"];
+    }, function (module) {
+      DropDownList = module["default"];
+    }, function (module) {
+      InlineCheckBox = module["default"];
+    }, function (module) {
+      LoadingIndicator = module["default"];
+    }, function (module) {
+      Modal = module["default"];
+    }, function (module) {
+      NumberBox = module["default"];
+    }, function (module) {
+      RockButton = module["default"];
+    }, function (module) {
+      RockFormFieldError = module["default"];
+    }, function (module) {
+      SectionHeader = module["default"];
+    }, function (module) {
+      TextBox = module["default"];
+    }, function (module) {
+      useInvokeBlockAction = module.useInvokeBlockAction;
+      getSecurityGrant = module.getSecurityGrant;
+      useReloadBlock = module.useReloadBlock;
+      provideSecurityGrant = module.provideSecurityGrant;
+      setCustomSettingsBoxValue = module.setCustomSettingsBoxValue;
+    }, function (module) {
+      DragReorder = module.DragReorder;
+      useDragReorder = module.useDragReorder;
+    }, function (module) {
+      useVModelPassthrough = module.useVModelPassthrough;
+    }, function (module) {
+      alert = module.alert;
+    }, function (module) {
+      areEqual = module.areEqual;
+    }],
+    execute: (function () {
 
-            var FilterGrid = defineComponent({
-                name: "Cms.ContentCollectionView.CustomSettings.FilterGrid",
-                components: {
-                    InlineCheckBox
-                },
-                directives: {
-                    DragReorder
-                },
-                props: {
-                    modelValue: {
-                        type: Array,
-                        required: true
-                    }
-                },
-                emits: {
-                    "update:modelValue": (_value) => true,
-                    "edit": (_value) => true
-                },
-                setup(props, { emit }) {
-                    const filters = useVModelPassthrough(props, "modelValue", emit);
-                    const reorderDragOptions = useDragReorder(filters);
-                    const onEditClick = (rowName) => {
-                        emit("edit", rowName);
-                    };
-                    return {
-                        filters,
-                        onEditClick,
-                        reorderDragOptions
-                    };
-                },
-                template: `
-<div class="grid">
-    <div class="table-no-border">
-        <table class="grid-table table table-condensed table-light">
-            <thead>
-                <tr align="left">
-                    <th class="grid-columncommand"></th>
-                    <th>Show</th>
-                    <th>Filter</th>
-                    <th>Filter Header Markup</th>
-                    <th class="grid-columncommand"></th>
-                </tr>
-            </thead>
+      function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+        try {
+          var info = gen[key](arg);
+          var value = info.value;
+        } catch (error) {
+          reject(error);
+          return;
+        }
+        if (info.done) {
+          resolve(value);
+        } else {
+          Promise.resolve(value).then(_next, _throw);
+        }
+      }
+      function _asyncToGenerator(fn) {
+        return function () {
+          var self = this,
+            args = arguments;
+          return new Promise(function (resolve, reject) {
+            var gen = fn.apply(self, args);
+            function _next(value) {
+              asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+            }
+            function _throw(err) {
+              asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+            }
+            _next(undefined);
+          });
+        };
+      }
+      function _unsupportedIterableToArray(o, minLen) {
+        if (!o) return;
+        if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+        var n = Object.prototype.toString.call(o).slice(8, -1);
+        if (n === "Object" && o.constructor) n = o.constructor.name;
+        if (n === "Map" || n === "Set") return Array.from(o);
+        if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+      }
+      function _arrayLikeToArray(arr, len) {
+        if (len == null || len > arr.length) len = arr.length;
+        for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+        return arr2;
+      }
+      function _createForOfIteratorHelper(o, allowArrayLike) {
+        var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
+        if (!it) {
+          if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
+            if (it) o = it;
+            var i = 0;
+            var F = function () {};
+            return {
+              s: F,
+              n: function () {
+                if (i >= o.length) return {
+                  done: true
+                };
+                return {
+                  done: false,
+                  value: o[i++]
+                };
+              },
+              e: function (e) {
+                throw e;
+              },
+              f: F
+            };
+          }
+          throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+        }
+        var normalCompletion = true,
+          didErr = false,
+          err;
+        return {
+          s: function () {
+            it = it.call(o);
+          },
+          n: function () {
+            var step = it.next();
+            normalCompletion = step.done;
+            return step;
+          },
+          e: function (e) {
+            didErr = true;
+            err = e;
+          },
+          f: function () {
+            try {
+              if (!normalCompletion && it.return != null) it.return();
+            } finally {
+              if (didErr) throw err;
+            }
+          }
+        };
+      }
 
-            <tbody v-drag-reorder="reorderDragOptions">
-                <tr v-for="row in filters" :key="row.name" align="left">
-                    <td class="grid-columnreorder" align="center">
-                        <a class="minimal reorder-handle" href="#">
-                            <i class="fa fa-bars"></i>
-                        </a>
-                    </td>
-                    
-                    <td class="grid-select-field" align="center">
-                        <InlineCheckBox v-model="row.show" />
-                    </td>
-                    <td>{{ row.name }}</td>
-                    
-                    <td class="grid-bool-field" align="center">
-                        <i v-if="row.headerMarkup" class="fa fa-check"></i>
-                    </td>
-                    
-                    <td class="grid-columncommand" align="center">
-                        <a class="btn btn-default btn-sm" href="#" @click.prevent="onEditClick(row.name)">
-                            <i class="fa fa-pencil"></i>
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-`
+      var FilterGrid = defineComponent({
+        name: "Cms.ContentCollectionView.CustomSettings.FilterGrid",
+        components: {
+          InlineCheckBox
+        },
+        directives: {
+          DragReorder
+        },
+        props: {
+          modelValue: {
+            type: Array,
+            required: true
+          }
+        },
+        emits: {
+          "update:modelValue": _value => true,
+          "edit": _value => true
+        },
+        setup(props, _ref) {
+          var emit = _ref.emit;
+          var filters = useVModelPassthrough(props, "modelValue", emit);
+          var reorderDragOptions = useDragReorder(filters);
+          var onEditClick = rowName => {
+            emit("edit", rowName);
+          };
+          return {
+            filters,
+            onEditClick,
+            reorderDragOptions
+          };
+        },
+        template: "\n<div class=\"grid\">\n    <div class=\"table-no-border\">\n        <table class=\"grid-table table table-condensed table-light\">\n            <thead>\n                <tr align=\"left\">\n                    <th class=\"grid-columncommand\"></th>\n                    <th>Show</th>\n                    <th>Filter</th>\n                    <th>Filter Header Markup</th>\n                    <th class=\"grid-columncommand\"></th>\n                </tr>\n            </thead>\n\n            <tbody v-drag-reorder=\"reorderDragOptions\">\n                <tr v-for=\"row in filters\" :key=\"row.name\" align=\"left\">\n                    <td class=\"grid-columnreorder\" align=\"center\">\n                        <a class=\"minimal reorder-handle\" href=\"#\">\n                            <i class=\"fa fa-bars\"></i>\n                        </a>\n                    </td>\n                    \n                    <td class=\"grid-select-field\" align=\"center\">\n                        <InlineCheckBox v-model=\"row.show\" />\n                    </td>\n                    <td>{{ row.name }}</td>\n                    \n                    <td class=\"grid-bool-field\" align=\"center\">\n                        <i v-if=\"row.headerMarkup\" class=\"fa fa-check\"></i>\n                    </td>\n                    \n                    <td class=\"grid-columncommand\" align=\"center\">\n                        <a class=\"btn btn-default btn-sm\" href=\"#\" @click.prevent=\"onEditClick(row.name)\">\n                            <i class=\"fa fa-pencil\"></i>\n                        </a>\n                    </td>\n                </tr>\n            </tbody>\n        </table>\n    </div>\n</div>\n"
+      });
+
+      var SortOrdersKey = function (SortOrdersKey) {
+        SortOrdersKey["Relevance"] = "relevance";
+        SortOrdersKey["Newest"] = "newest";
+        SortOrdersKey["Oldest"] = "oldest";
+        SortOrdersKey["Trending"] = "trending";
+        SortOrdersKey["Alphabetical"] = "alphabetical";
+        return SortOrdersKey;
+      }({});
+
+      var enabledSortOrdersItems = [{
+        value: SortOrdersKey.Relevance,
+        text: "Relevance"
+      }, {
+        value: SortOrdersKey.Newest,
+        text: "Newest"
+      }, {
+        value: SortOrdersKey.Oldest,
+        text: "Oldest"
+      }, {
+        value: SortOrdersKey.Trending,
+        text: "Trending"
+      }, {
+        value: SortOrdersKey.Alphabetical,
+        text: "Alphabetical"
+      }];
+      var contentCollectionViewCustomSettings = exports('default', defineComponent({
+        name: "Cms.ContentCollectionView.CustomSettings",
+        components: {
+          NotificationBox,
+          CheckBox,
+          CheckBoxList,
+          CodeEditor,
+          DropDownList,
+          FilterGrid,
+          InlineCheckBox,
+          LoadingIndicator,
+          Modal,
+          NumberBox,
+          RockButton,
+          RockFormFieldError,
+          SectionHeader,
+          TextBox
+        },
+        emits: {
+          "close": () => true
+        },
+        setup(props, _ref) {
+          var emit = _ref.emit;
+          var invokeBlockAction = useInvokeBlockAction();
+          var securityGrant = getSecurityGrant(null);
+          var reloadBlock = useReloadBlock();
+          var errorMessage = ref("");
+          var isLoading = ref(true);
+          var isModalOpen = ref(true);
+          var contentCollection = ref("");
+          var contentCollectionItems = ref([]);
+          var groupResultsBySource = ref(false);
+          var searchOnLoad = ref(false);
+          var numberOfResults = ref(null);
+          var showFiltersPanel = ref(false);
+          var showFullTextSearch = ref(false);
+          var showSort = ref(false);
+          var enabledSortOrders = ref([]);
+          var trendingTerm = ref("");
+          var filters = ref([]);
+          var resultsTemplate = ref("");
+          var itemTemplate = ref("");
+          var preSearchTemplate = ref("");
+          var boostMatchingSegments = ref(false);
+          var boostMatchingRequestFilters = ref(false);
+          var segmentBoostAmount = ref(null);
+          var requestFilterBoostAmount = ref(null);
+          var editingFilter = ref(null);
+          var editingFilterHeaderMarkup = ref("");
+          var saveButtonText = computed(() => {
+            return errorMessage.value || !isLoading.value ? "Save" : "";
+          });
+          var isTrendingSortEnabled = computed(() => {
+            return enabledSortOrders.value.includes(SortOrdersKey.Trending);
+          });
+          var startLoading = function () {
+            var _ref2 = _asyncToGenerator(function* () {
+              var result = yield invokeBlockAction("GetCustomSettings");
+              if (result.isSuccess && result.data && result.data.settings && result.data.options) {
+                var _result$data$settings, _result$data$settings2, _result$data$settings3, _result$data$settings4, _result$data$settings5, _result$data$settings6, _result$data$settings7, _result$data$settings8, _result$data$settings9, _result$data$settings10, _result$data$options$;
+                contentCollection.value = (_result$data$settings = result.data.settings.contentCollection) !== null && _result$data$settings !== void 0 ? _result$data$settings : "";
+                showFiltersPanel.value = result.data.settings.showFiltersPanel;
+                showFullTextSearch.value = result.data.settings.showFullTextSearch;
+                showSort.value = result.data.settings.showSort;
+                numberOfResults.value = (_result$data$settings2 = result.data.settings.numberOfResults) !== null && _result$data$settings2 !== void 0 ? _result$data$settings2 : null;
+                searchOnLoad.value = result.data.settings.searchOnLoad;
+                groupResultsBySource.value = result.data.settings.groupResultsBySource;
+                enabledSortOrders.value = (_result$data$settings3 = result.data.settings.enabledSortOrders) !== null && _result$data$settings3 !== void 0 ? _result$data$settings3 : [];
+                trendingTerm.value = (_result$data$settings4 = result.data.settings.trendingTerm) !== null && _result$data$settings4 !== void 0 ? _result$data$settings4 : "";
+                filters.value = (_result$data$settings5 = result.data.settings.filters) !== null && _result$data$settings5 !== void 0 ? _result$data$settings5 : [];
+                resultsTemplate.value = (_result$data$settings6 = result.data.settings.resultsTemplate) !== null && _result$data$settings6 !== void 0 ? _result$data$settings6 : "";
+                itemTemplate.value = (_result$data$settings7 = result.data.settings.itemTemplate) !== null && _result$data$settings7 !== void 0 ? _result$data$settings7 : "";
+                preSearchTemplate.value = (_result$data$settings8 = result.data.settings.preSearchTemplate) !== null && _result$data$settings8 !== void 0 ? _result$data$settings8 : "";
+                boostMatchingSegments.value = result.data.settings.boostMatchingSegments;
+                boostMatchingRequestFilters.value = result.data.settings.boostMatchingRequestFilters;
+                segmentBoostAmount.value = (_result$data$settings9 = result.data.settings.segmentBoostAmount) !== null && _result$data$settings9 !== void 0 ? _result$data$settings9 : null;
+                requestFilterBoostAmount.value = (_result$data$settings10 = result.data.settings.requestFilterBoostAmount) !== null && _result$data$settings10 !== void 0 ? _result$data$settings10 : null;
+                securityGrant.updateToken(result.data.securityGrantToken);
+                contentCollectionItems.value = (_result$data$options$ = result.data.options.contentCollectionItems) !== null && _result$data$options$ !== void 0 ? _result$data$options$ : [];
+              } else {
+                errorMessage.value = result.errorMessage || "Unknown error while loading custom settings.";
+              }
+              isLoading.value = false;
             });
-
-            const enabledSortOrdersItems = [
-                {
-                    value: "relevance",
-                    text: "Relevance"
-                },
-                {
-                    value: "newest",
-                    text: "Newest"
-                },
-                {
-                    value: "oldest",
-                    text: "Oldest"
-                },
-                {
-                    value: "trending",
-                    text: "Trending"
-                },
-                {
-                    value: "alphabetical",
-                    text: "Alphabetical"
+            return function startLoading() {
+              return _ref2.apply(this, arguments);
+            };
+          }();
+          var onEditFilter = filterName => {
+            var _filters$value$find, _editingFilter$value$, _editingFilter$value;
+            editingFilter.value = (_filters$value$find = filters.value.find(f => f.name === filterName)) !== null && _filters$value$find !== void 0 ? _filters$value$find : null;
+            editingFilterHeaderMarkup.value = (_editingFilter$value$ = (_editingFilter$value = editingFilter.value) === null || _editingFilter$value === void 0 ? void 0 : _editingFilter$value.headerMarkup) !== null && _editingFilter$value$ !== void 0 ? _editingFilter$value$ : "";
+          };
+          var onEditFilterCancel = () => {
+            editingFilter.value = null;
+            editingFilterHeaderMarkup.value = "";
+          };
+          var onEditFilterSave = () => {
+            if (editingFilter.value) {
+              editingFilter.value.headerMarkup = editingFilterHeaderMarkup.value;
+              editingFilter.value = null;
+            }
+          };
+          var onSave = function () {
+            var _ref3 = _asyncToGenerator(function* () {
+              var box = {};
+              setCustomSettingsBoxValue(box, "contentCollection", contentCollection.value);
+              setCustomSettingsBoxValue(box, "showFiltersPanel", showFiltersPanel.value);
+              setCustomSettingsBoxValue(box, "showFullTextSearch", showFullTextSearch.value);
+              setCustomSettingsBoxValue(box, "showSort", showSort.value);
+              setCustomSettingsBoxValue(box, "numberOfResults", numberOfResults.value);
+              setCustomSettingsBoxValue(box, "searchOnLoad", searchOnLoad.value);
+              setCustomSettingsBoxValue(box, "groupResultsBySource", groupResultsBySource.value);
+              setCustomSettingsBoxValue(box, "enabledSortOrders", enabledSortOrders.value);
+              setCustomSettingsBoxValue(box, "trendingTerm", trendingTerm.value);
+              setCustomSettingsBoxValue(box, "filters", filters.value);
+              setCustomSettingsBoxValue(box, "resultsTemplate", resultsTemplate.value);
+              setCustomSettingsBoxValue(box, "itemTemplate", itemTemplate.value);
+              setCustomSettingsBoxValue(box, "preSearchTemplate", preSearchTemplate.value);
+              setCustomSettingsBoxValue(box, "boostMatchingSegments", boostMatchingSegments.value);
+              setCustomSettingsBoxValue(box, "boostMatchingRequestFilters", boostMatchingRequestFilters.value);
+              setCustomSettingsBoxValue(box, "segmentBoostAmount", segmentBoostAmount.value);
+              setCustomSettingsBoxValue(box, "requestFilterBoostAmount", requestFilterBoostAmount.value);
+              var data = {
+                box
+              };
+              var result = yield invokeBlockAction("SaveCustomSettings", data);
+              if (result.isSuccess) {
+                isModalOpen.value = false;
+                reloadBlock();
+              } else {
+                alert(result.errorMessage || "Unable to save block settings.");
+              }
+            });
+            return function onSave() {
+              return _ref3.apply(this, arguments);
+            };
+          }();
+          provideSecurityGrant(securityGrant);
+          watch(isModalOpen, () => {
+            if (!isModalOpen.value) {
+              emit("close");
+            }
+          });
+          watch(contentCollection, () => {
+            var _collection$filters;
+            var collection = contentCollectionItems.value.find(l => areEqual(l.value, contentCollection.value));
+            var newFilters = [...filters.value];
+            if (!collection) {
+              console.log("no selection");
+              return;
+            }
+            var collectionFilters = (_collection$filters = collection.filters) !== null && _collection$filters !== void 0 ? _collection$filters : [];
+            var _iterator = _createForOfIteratorHelper(collectionFilters),
+              _step;
+            try {
+              var _loop2 = function _loop2() {
+                var f = _step.value;
+                if (!newFilters.some(a => a.sourceKey === f.value)) {
+                  newFilters.push({
+                    show: false,
+                    sourceKey: f.value,
+                    name: f.text,
+                    headerMarkup: ""
+                  });
                 }
-            ];
-            var contentCollectionViewCustomSettings = exports('default', defineComponent({
-                name: "Cms.ContentCollectionView.CustomSettings",
-                components: {
-                    Alert,
-                    CheckBox,
-                    CheckBoxList,
-                    CodeEditor,
-                    DropDownList,
-                    FilterGrid,
-                    InlineCheckBox,
-                    LoadingIndicator,
-                    Modal,
-                    NumberBox,
-                    RockButton,
-                    RockFormFieldError,
-                    SectionHeader,
-                    TextBox
-                },
-                emits: {
-                    "close": () => true
-                },
-                setup(props, { emit }) {
-                    const invokeBlockAction = useInvokeBlockAction();
-                    const securityGrant = getSecurityGrant(null);
-                    const reloadBlock = useReloadBlock();
-                    const errorMessage = ref("");
-                    const isLoading = ref(true);
-                    const isModalOpen = ref(true);
-                    const contentCollection = ref("");
-                    const contentCollectionItems = ref([]);
-                    const groupResultsBySource = ref(false);
-                    const searchOnLoad = ref(false);
-                    const numberOfResults = ref(null);
-                    const showFiltersPanel = ref(false);
-                    const showFullTextSearch = ref(false);
-                    const showSort = ref(false);
-                    const enabledSortOrders = ref([]);
-                    const trendingTerm = ref("");
-                    const filters = ref([]);
-                    const resultsTemplate = ref("");
-                    const itemTemplate = ref("");
-                    const preSearchTemplate = ref("");
-                    const boostMatchingSegments = ref(false);
-                    const boostMatchingRequestFilters = ref(false);
-                    const segmentBoostAmount = ref(null);
-                    const requestFilterBoostAmount = ref(null);
-                    const editingFilter = ref(null);
-                    const editingFilterHeaderMarkup = ref("");
-                    const saveButtonText = computed(() => {
-                        return errorMessage.value || !isLoading.value ? "Save" : "";
-                    });
-                    const isTrendingSortEnabled = computed(() => {
-                        return enabledSortOrders.value.includes("trending");
-                    });
-                    const startLoading = () => __awaiter(this, void 0, void 0, function* () {
-                        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
-                        const result = yield invokeBlockAction("GetCustomSettings");
-                        if (result.isSuccess && result.data && result.data.settings && result.data.options) {
-                            contentCollection.value = (_a = result.data.settings.contentCollection) !== null && _a !== void 0 ? _a : "";
-                            showFiltersPanel.value = result.data.settings.showFiltersPanel;
-                            showFullTextSearch.value = result.data.settings.showFullTextSearch;
-                            showSort.value = result.data.settings.showSort;
-                            numberOfResults.value = (_b = result.data.settings.numberOfResults) !== null && _b !== void 0 ? _b : null;
-                            searchOnLoad.value = result.data.settings.searchOnLoad;
-                            groupResultsBySource.value = result.data.settings.groupResultsBySource;
-                            enabledSortOrders.value = (_c = result.data.settings.enabledSortOrders) !== null && _c !== void 0 ? _c : [];
-                            trendingTerm.value = (_d = result.data.settings.trendingTerm) !== null && _d !== void 0 ? _d : "";
-                            filters.value = (_e = result.data.settings.filters) !== null && _e !== void 0 ? _e : [];
-                            resultsTemplate.value = (_f = result.data.settings.resultsTemplate) !== null && _f !== void 0 ? _f : "";
-                            itemTemplate.value = (_g = result.data.settings.itemTemplate) !== null && _g !== void 0 ? _g : "";
-                            preSearchTemplate.value = (_h = result.data.settings.preSearchTemplate) !== null && _h !== void 0 ? _h : "";
-                            boostMatchingSegments.value = result.data.settings.boostMatchingSegments;
-                            boostMatchingRequestFilters.value = result.data.settings.boostMatchingRequestFilters;
-                            segmentBoostAmount.value = (_j = result.data.settings.segmentBoostAmount) !== null && _j !== void 0 ? _j : null;
-                            requestFilterBoostAmount.value = (_k = result.data.settings.requestFilterBoostAmount) !== null && _k !== void 0 ? _k : null;
-                            securityGrant.updateToken(result.data.securityGrantToken);
-                            contentCollectionItems.value = (_l = result.data.options.contentCollectionItems) !== null && _l !== void 0 ? _l : [];
-                        }
-                        else {
-                            errorMessage.value = result.errorMessage || "Unknown error while loading custom settings.";
-                        }
-                        isLoading.value = false;
-                    });
-                    const onEditFilter = (filterName) => {
-                        var _a, _b, _c;
-                        editingFilter.value = (_a = filters.value.find(f => f.name === filterName)) !== null && _a !== void 0 ? _a : null;
-                        editingFilterHeaderMarkup.value = (_c = (_b = editingFilter.value) === null || _b === void 0 ? void 0 : _b.headerMarkup) !== null && _c !== void 0 ? _c : "";
-                    };
-                    const onEditFilterCancel = () => {
-                        editingFilter.value = null;
-                        editingFilterHeaderMarkup.value = "";
-                    };
-                    const onEditFilterSave = () => {
-                        if (editingFilter.value) {
-                            editingFilter.value.headerMarkup = editingFilterHeaderMarkup.value;
-                            editingFilter.value = null;
-                        }
-                    };
-                    const onSave = () => __awaiter(this, void 0, void 0, function* () {
-                        const box = {};
-                        setCustomSettingsBoxValue(box, "contentCollection", contentCollection.value);
-                        setCustomSettingsBoxValue(box, "showFiltersPanel", showFiltersPanel.value);
-                        setCustomSettingsBoxValue(box, "showFullTextSearch", showFullTextSearch.value);
-                        setCustomSettingsBoxValue(box, "showSort", showSort.value);
-                        setCustomSettingsBoxValue(box, "numberOfResults", numberOfResults.value);
-                        setCustomSettingsBoxValue(box, "searchOnLoad", searchOnLoad.value);
-                        setCustomSettingsBoxValue(box, "groupResultsBySource", groupResultsBySource.value);
-                        setCustomSettingsBoxValue(box, "enabledSortOrders", enabledSortOrders.value);
-                        setCustomSettingsBoxValue(box, "trendingTerm", trendingTerm.value);
-                        setCustomSettingsBoxValue(box, "filters", filters.value);
-                        setCustomSettingsBoxValue(box, "resultsTemplate", resultsTemplate.value);
-                        setCustomSettingsBoxValue(box, "itemTemplate", itemTemplate.value);
-                        setCustomSettingsBoxValue(box, "preSearchTemplate", preSearchTemplate.value);
-                        setCustomSettingsBoxValue(box, "boostMatchingSegments", boostMatchingSegments.value);
-                        setCustomSettingsBoxValue(box, "boostMatchingRequestFilters", boostMatchingRequestFilters.value);
-                        setCustomSettingsBoxValue(box, "segmentBoostAmount", segmentBoostAmount.value);
-                        setCustomSettingsBoxValue(box, "requestFilterBoostAmount", requestFilterBoostAmount.value);
-                        const data = {
-                            box
-                        };
-                        const result = yield invokeBlockAction("SaveCustomSettings", data);
-                        if (result.isSuccess) {
-                            isModalOpen.value = false;
-                            reloadBlock();
-                        }
-                        else {
-                            alert(result.errorMessage || "Unable to save block settings.");
-                        }
-                    });
-                    provideSecurityGrant(securityGrant);
-                    watch(isModalOpen, () => {
-                        if (!isModalOpen.value) {
-                            emit("close");
-                        }
-                    });
-                    watch(contentCollection, () => {
-                        var _a;
-                        const collection = contentCollectionItems.value.find(l => areEqual(l.value, contentCollection.value));
-                        const newFilters = [...filters.value];
-                        if (!collection) {
-                            console.log("no selection");
-                            return;
-                        }
-                        const collectionFilters = (_a = collection.filters) !== null && _a !== void 0 ? _a : [];
-                        for (const f of collectionFilters) {
-                            if (!newFilters.some(a => a.sourceKey === f.value)) {
-                                console.log("filters missing", f, newFilters);
-                                newFilters.push({
-                                    show: false,
-                                    sourceKey: f.value,
-                                    name: f.text,
-                                    headerMarkup: ""
-                                });
-                            }
-                        }
-                        for (let filterIndex = 0; filterIndex < newFilters.length;) {
-                            if (!collectionFilters.some(f => f.value === newFilters[filterIndex].sourceKey)) {
-                                newFilters.splice(filterIndex, 1);
-                            }
-                            else {
-                                filterIndex++;
-                            }
-                        }
-                        filters.value = newFilters;
-                    });
-                    startLoading();
-                    return {
-                        boostMatchingRequestFilters,
-                        boostMatchingSegments,
-                        contentCollection,
-                        contentCollectionItems,
-                        editingFilter,
-                        editingFilterHeaderMarkup,
-                        enabledSortOrders,
-                        enabledSortOrdersItems,
-                        errorMessage,
-                        filters,
-                        groupResultsBySource,
-                        isLoading,
-                        isModalOpen,
-                        isTrendingSortEnabled,
-                        itemTemplate,
-                        numberOfResults,
-                        onEditFilter,
-                        onEditFilterCancel,
-                        onEditFilterSave,
-                        onSave,
-                        preSearchTemplate,
-                        requestFilterBoostAmount,
-                        saveButtonText,
-                        searchOnLoad,
-                        segmentBoostAmount,
-                        showFiltersPanel,
-                        showFullTextSearch,
-                        showSort,
-                        resultsTemplate,
-                        trendingTerm
-                    };
-                },
-                template: `
-<Modal v-model="isModalOpen"
-    title="Content Collection View Settings"
-    :saveText="saveButtonText"
-    @save="onSave">
+              };
+              for (_iterator.s(); !(_step = _iterator.n()).done;) {
+                _loop2();
+              }
+            } catch (err) {
+              _iterator.e(err);
+            } finally {
+              _iterator.f();
+            }
+            var _loop = function _loop(_filterIndex) {
+              if (!collectionFilters.some(f => f.value === newFilters[_filterIndex].sourceKey)) {
+                newFilters.splice(_filterIndex, 1);
+              } else {
+                _filterIndex++;
+              }
+              filterIndex = _filterIndex;
+            };
+            for (var filterIndex = 0; filterIndex < newFilters.length;) {
+              _loop(filterIndex);
+            }
+            filters.value = newFilters;
+          });
+          startLoading();
+          return {
+            boostMatchingRequestFilters,
+            boostMatchingSegments,
+            contentCollection,
+            contentCollectionItems,
+            editingFilter,
+            editingFilterHeaderMarkup,
+            enabledSortOrders,
+            enabledSortOrdersItems,
+            errorMessage,
+            filters,
+            groupResultsBySource,
+            isLoading,
+            isModalOpen,
+            isTrendingSortEnabled,
+            itemTemplate,
+            numberOfResults,
+            onEditFilter,
+            onEditFilterCancel,
+            onEditFilterSave,
+            onSave,
+            preSearchTemplate,
+            requestFilterBoostAmount,
+            saveButtonText,
+            searchOnLoad,
+            segmentBoostAmount,
+            showFiltersPanel,
+            showFullTextSearch,
+            showSort,
+            resultsTemplate,
+            trendingTerm
+          };
+        },
+        template: "\n<Modal v-model=\"isModalOpen\"\n    title=\"Content Collection View Settings\"\n    :saveText=\"saveButtonText\"\n    @save=\"onSave\">\n\n    <NotificationBox v-if=\"errorMessage\"\n        v-text=\"errorMessage\"\n        alertType=\"warning\" />\n\n    <LoadingIndicator v-else-if=\"isLoading\" :delay=\"500\" />\n\n    <div v-else>\n\n        <div class=\"row\">\n            <div class=\"col-md-6\">\n                <DropDownList v-model=\"contentCollection\"\n                    label=\"Content Collection\"\n                    :items=\"contentCollectionItems\"\n                    rules=\"required\" />\n            </div>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <CheckBox v-model=\"showFiltersPanel\"\n                    label=\"Show Filters Panel\" />\n            </div>\n\n            <div class=\"col-md-4\">\n                <CheckBox v-model=\"showFullTextSearch\"\n                    label=\"Show Full-Text Search\" />\n            </div>\n\n            <div class=\"col-md-4\">\n                <CheckBox v-model=\"showSort\"\n                    label=\"Show Sort\" />\n            </div>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <NumberBox v-model=\"numberOfResults\"\n                    rules=\"gte:0\"\n                    label=\"Number of Results\" />\n            </div>\n\n            <div class=\"col-md-4\">\n                <CheckBox v-model=\"searchOnLoad\"\n                    label=\"Search On Load\"\n                    help=\"Determines if initial content should be shown when the block is loaded.\" />\n            </div>\n\n            <div class=\"col-md-4\">\n                <CheckBox v-model=\"groupResultsBySource\"\n                    label=\"Group Results By Source\"\n                    help=\"This will group the results by the source. When enabled the number of results will be used for each source type.\" />\n            </div>\n        </div>\n\n        <CheckBoxList v-if=\"showSort\"\n            v-model=\"enabledSortOrders\"\n            label=\"Enabled Sort Orders\"\n            help=\"Determines the sort options that should be made available.\"\n            horizontal\n            :repeatColumns=\"5\"\n            :items=\"enabledSortOrdersItems\" />\n\n        <div class=\"row\">\n            <div class=\"col-md-6\">\n                <TextBox v-if=\"isTrendingSortEnabled\"\n                    v-model=\"trendingTerm\"\n                    label=\"Trending Term\"\n                    rules=\"required\"\n                    help=\"The term that should be used in the sort dropdown to describe popular/trending items.\" />\n            </div>\n        </div>\n\n        <CodeEditor v-model=\"resultsTemplate\"\n            label=\"Results Template\"\n            mode=\"lava\"\n            rules=\"required\" />\n\n        <CodeEditor v-model=\"itemTemplate\"\n            label=\"Item Template\"\n            mode=\"lava\"\n            rules=\"required\" />\n\n        <CodeEditor v-model=\"preSearchTemplate\"\n            label=\"Pre-Search Template\"\n            mode=\"lava\" />\n\n        <div v-if=\"showFiltersPanel\">\n            <SectionHeader title=\"Filters\"\n                description=\"Determine which filters you would like to show in what order.\" />\n\n            <div v-if=\"editingFilter\" class=\"margin-b-md\">\n                <h3 class=\"title\">{{ editingFilter.name }} Filter</h3>\n\n                <CodeEditor v-model=\"editingFilterHeaderMarkup\"\n                    label=\"Filter Header Markup\"\n                    mode=\"lava\" />\n\n                <RockFormFieldError label=\"Filter\" error=\"You must finish editing the filter before proceeding.\" />\n\n                <div class=\"actions\">\n                    <RockButton btnType=\"primary\" btnSize=\"xs\" @click=\"onEditFilterSave\">Save</RockButton>\n                    <RockButton btnType=\"link\" btnSize=\"xs\" @click=\"onEditFilterCancel\">Cancel</RockButton>\n                </div>\n            </div>\n\n            <FilterGrid v-else v-model=\"filters\" @edit=\"onEditFilter\" />\n        </div>\n\n        <SectionHeader title=\"Personalization\"\n            description=\"The settings below allow you to boost items based on personalization settings in Rock.\" />\n\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <CheckBox v-model=\"boostMatchingSegments\"\n                    label=\"Boost Matching Segments\"\n                    help=\"Determines if the search should boost shared segments between the individual and the content results.\" />\n\n                <NumberBox v-if=\"boostMatchingSegments\"\n                    v-model=\"segmentBoostAmount\"\n                    label=\"Segment Boost Amount\"\n                    help=\"The amount of boost to apply to each shared segment. A value of 1 = no boost, a value of > 1 will increase the match score while a value of < 1 will reduce the match score.\" />\n            </div>\n\n            <div class=\"col-md-4\">\n                <CheckBox v-model=\"boostMatchingRequestFilters\"\n                    label=\"Boost Matching Request Filters\"\n                    help=\"Determines if the search should boost shared segments current request and the content results.\" />\n\n                <NumberBox v-if=\"boostMatchingRequestFilters\"\n                    v-model=\"requestFilterBoostAmount\"\n                    label=\"Request Filter Boost Amount\"\n                    help=\"The amount of boost to apply to each shared request filter. A value of 1 = no boost, a value of > 1 will increase the match score while a value of < 1 will reduce the match score.\" />\n            </div>\n        </div>\n\n    </div>\n\n</Modal>\n"
+      }));
 
-    <Alert v-if="errorMessage"
-        v-text="errorMessage"
-        alertType="warning" />
-
-    <LoadingIndicator v-else-if="isLoading" :delay="500" />
-
-    <div v-else>
-
-        <div class="row">
-            <div class="col-md-6">
-                <DropDownList v-model="contentCollection"
-                    label="Content Collection"
-                    :items="contentCollectionItems"
-                    rules="required" />
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-4">
-                <CheckBox v-model="showFiltersPanel"
-                    label="Show Filters Panel" />
-            </div>
-
-            <div class="col-md-4">
-                <CheckBox v-model="showFullTextSearch"
-                    label="Show Full-Text Search" />
-            </div>
-
-            <div class="col-md-4">
-                <CheckBox v-model="showSort"
-                    label="Show Sort" />
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-4">
-                <NumberBox v-model="numberOfResults"
-                    rules="gte:0"
-                    label="Number of Results" />
-            </div>
-
-            <div class="col-md-4">
-                <CheckBox v-model="searchOnLoad"
-                    label="Search On Load"
-                    help="Determines if initial content should be shown when the block is loaded." />
-            </div>
-
-            <div class="col-md-4">
-                <CheckBox v-model="groupResultsBySource"
-                    label="Group Results By Source"
-                    help="This will group the results by the source. When enabled the number of results will be used for each source type." />
-            </div>
-        </div>
-
-        <CheckBoxList v-if="showSort"
-            v-model="enabledSortOrders"
-            label="Enabled Sort Orders"
-            help="Determines the sort options that should be made available."
-            horizontal
-            :repeatColumns="5"
-            :items="enabledSortOrdersItems" />
-
-        <div class="row">
-            <div class="col-md-6">
-                <TextBox v-if="isTrendingSortEnabled"
-                    v-model="trendingTerm"
-                    label="Trending Term"
-                    rules="required"
-                    help="The term that should be used in the sort dropdown to describe popular/trending items." />
-            </div>
-        </div>
-
-        <CodeEditor v-model="resultsTemplate"
-            label="Results Template"
-            mode="lava"
-            rules="required" />
-
-        <CodeEditor v-model="itemTemplate"
-            label="Item Template"
-            mode="lava"
-            rules="required" />
-
-        <CodeEditor v-model="preSearchTemplate"
-            label="Pre-Search Template"
-            mode="lava" />
-
-        <div v-if="showFiltersPanel">
-            <SectionHeader title="Filters"
-                description="Determine which filters you would like to show in what order." />
-
-            <div v-if="editingFilter" class="margin-b-md">
-                <h3 class="title">{{ editingFilter.name }} Filter</h3>
-
-                <CodeEditor v-model="editingFilterHeaderMarkup"
-                    label="Filter Header Markup"
-                    mode="lava" />
-
-                <RockFormFieldError label="Filter" error="You must finish editing the filter before proceeding." />
-
-                <div class="actions">
-                    <RockButton btnType="primary" btnSize="xs" @click="onEditFilterSave">Save</RockButton>
-                    <RockButton btnType="link" btnSize="xs" @click="onEditFilterCancel">Cancel</RockButton>
-                </div>
-            </div>
-
-            <FilterGrid v-else v-model="filters" @edit="onEditFilter" />
-        </div>
-
-        <SectionHeader title="Personalization"
-            description="The settings below allow you to boost items based on personalization settings in Rock." />
-        
-        <div class="row">
-            <div class="col-md-4">
-                <CheckBox v-model="boostMatchingSegments"
-                    label="Boost Matching Segments"
-                    help="Determines if the search should boost shared segments between the individual and the content results." />
-
-                <NumberBox v-if="boostMatchingSegments"
-                    v-model="segmentBoostAmount"
-                    label="Segment Boost Amount"
-                    help="The amount of boost to apply to each shared segment. A value of 1 = no boost, a value of > 1 will increase the match score while a value of < 1 will reduce the match score." />
-            </div>
-
-            <div class="col-md-4">
-                <CheckBox v-model="boostMatchingRequestFilters"
-                    label="Boost Matching Request Filters"
-                    help="Determines if the search should boost shared segments current request and the content results." />
-
-                <NumberBox v-if="boostMatchingRequestFilters"
-                    v-model="requestFilterBoostAmount"
-                    label="Request Filter Boost Amount"
-                    help="The amount of boost to apply to each shared request filter. A value of 1 = no boost, a value of > 1 will increase the match score while a value of < 1 will reduce the match score." />
-            </div>
-        </div>
-
-    </div>
-
-</Modal>
-`
-            }));
-
-        })
-    };
+    })
+  };
 }));
+//# sourceMappingURL=contentCollectionViewCustomSettings.js.map

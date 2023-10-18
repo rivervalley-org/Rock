@@ -1,4 +1,4 @@
-System.register(['vue', './helpBlock.js', './javaScriptAnchor.js'], (function (exports) {
+System.register(['vue', './helpBlock'], (function (exports) {
     'use strict';
     var defineComponent, HelpBlock;
     return {
@@ -6,27 +6,24 @@ System.register(['vue', './helpBlock.js', './javaScriptAnchor.js'], (function (e
             defineComponent = module.defineComponent;
         }, function (module) {
             HelpBlock = module["default"];
-        }, function () {}],
+        }],
         execute: (function () {
 
-            var RockLabel = exports('default', defineComponent({
-                name: "RockLabel",
-                components: {
-                    HelpBlock
-                },
-                props: {
-                    help: {
-                        type: String,
-                        default: ""
-                    }
-                },
-                template: `
-<label class="control-label">
-    <slot />
-    <HelpBlock v-if="help" :text="help" />
-</label>`
+            var rockLabel = exports('default', defineComponent({
+              name: "RockLabel",
+              components: {
+                HelpBlock
+              },
+              props: {
+                help: {
+                  type: String,
+                  default: ""
+                }
+              },
+              template: "\n<label class=\"control-label\">\n    <slot />\n    <HelpBlock v-if=\"help\" :text=\"help\" />\n</label>"
             }));
 
         })
     };
 }));
+//# sourceMappingURL=rockLabel.js.map

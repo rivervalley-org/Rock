@@ -7,45 +7,30 @@ System.register(['vue'], (function (exports) {
         }],
         execute: (function () {
 
-            var SectionHeader = exports('default', defineComponent({
-                name: "Header",
-                props: {
-                    title: {
-                        type: String,
-                        default: ""
-                    },
-                    description: {
-                        type: String,
-                        default: ""
-                    },
-                    isSeparatorHidden: {
-                        type: Boolean,
-                        default: false
-                    }
+            var sectionHeader = exports('default', defineComponent({
+              name: "Header",
+              props: {
+                title: {
+                  type: String,
+                  default: ""
                 },
-                emits: [
-                    "update:modelValue"
-                ],
-                setup() {
-                    return {};
+                description: {
+                  type: String,
+                  default: ""
                 },
-                template: `
-<div class="rock-header">
-    <div class="d-flex flex-wrap justify-content-between">
-        <div>
-            <h3 v-if="title" class="title">{{ title }}</h3>
-            <p v-if="description" class="description">{{ description }}</p>
-        </div>
-        <div v-if="$slots.actions" class="section-header-actions align-self-end">
-            <slot name="actions" />
-        </div>
-    </div>
-
-    <hr v-if="!isSeparatorHidden" class="section-header-hr">
-</div>
-`
+                isSeparatorHidden: {
+                  type: Boolean,
+                  default: false
+                }
+              },
+              emits: ["update:modelValue"],
+              setup() {
+                return {};
+              },
+              template: "\n<div class=\"rock-header\">\n    <div class=\"d-flex flex-wrap justify-content-between\">\n        <div>\n            <h3 v-if=\"title\" class=\"title\">{{ title }}</h3>\n            <p v-if=\"description\" class=\"description\">{{ description }}</p>\n        </div>\n        <div v-if=\"$slots.actions\" class=\"section-header-actions align-self-end\">\n            <slot name=\"actions\" />\n        </div>\n    </div>\n\n    <hr v-if=\"!isSeparatorHidden\" class=\"section-header-hr\">\n</div>\n"
             }));
 
         })
     };
 }));
+//# sourceMappingURL=sectionHeader.js.map

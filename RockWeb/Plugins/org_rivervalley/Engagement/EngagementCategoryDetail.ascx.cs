@@ -22,7 +22,7 @@ namespace RockWeb.Plugins.org_rivervalley.Engagement
     [Category( "RVC > Engagement" )]
     [Description( "Shows the engagement category detail." )]
 
-    public partial class EngagementCategoryDetail : Rock.Web.UI.RockBlock, IDetailBlock
+    public partial class EngagementCategoryDetail : Rock.Web.UI.RockBlock
     {
         #region Base Control Methods
 

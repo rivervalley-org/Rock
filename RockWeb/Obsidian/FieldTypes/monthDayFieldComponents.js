@@ -1,70 +1,62 @@
-System.register(['vue', './utils.js', '@Obsidian/Utility/numberUtils', '@Obsidian/Controls/datePartsPicker', '@Obsidian/Core/Reporting/comparisonType', '@Obsidian/Core/Reporting/comparisonTypeOptions', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/fieldFilterContainer'], (function (exports) {
+System.register(['vue', './utils', '@Obsidian/Utility/numberUtils', '@Obsidian/Controls/monthDayPicker.obs'], (function (exports) {
     'use strict';
-    var defineComponent, getFieldEditorProps, toNumber, DatePartsPicker;
+    var defineComponent, computed, getFieldEditorProps, toNumber, MonthDayPicker;
     return {
         setters: [function (module) {
             defineComponent = module.defineComponent;
+            computed = module.computed;
         }, function (module) {
             getFieldEditorProps = module.getFieldEditorProps;
         }, function (module) {
             toNumber = module.toNumber;
         }, function (module) {
-            DatePartsPicker = module["default"];
-        }, function () {}, function () {}, function () {}, function () {}],
+            MonthDayPicker = module["default"];
+        }],
         execute: (function () {
 
-            const EditComponent = exports('EditComponent', defineComponent({
-                name: "MonthDayField.Edit",
-                components: {
-                    DatePartsPicker
-                },
-                props: getFieldEditorProps(),
-                data() {
-                    return {
-                        internalValue: {
-                            year: 0,
-                            month: 0,
-                            day: 0
-                        }
-                    };
-                },
-                watch: {
-                    internalValue() {
-                        const value = this.internalValue.month !== 0 && this.internalValue.day !== 0
-                            ? `${this.internalValue.month}/${this.internalValue.day}`
-                            : "";
-                        this.$emit("update:modelValue", value);
-                    },
-                    modelValue: {
-                        immediate: true,
-                        handler() {
-                            const components = (this.modelValue || "").split("/");
-                            if (components.length == 2) {
-                                this.internalValue = {
-                                    year: 0,
-                                    month: toNumber(components[0]),
-                                    day: toNumber(components[1])
-                                };
-                            }
-                            else {
-                                this.internalValue = {
-                                    year: 0,
-                                    month: 0,
-                                    day: 0
-                                };
-                            }
-                        }
+            var EditComponent = exports('EditComponent', defineComponent({
+              name: "MonthDayField.Edit",
+              components: {
+                MonthDayPicker
+              },
+              props: getFieldEditorProps(),
+              emit: {
+                "update:modelValue": _value => true
+              },
+              setup(props, _ref) {
+                var emit = _ref.emit;
+                var internalValue = computed({
+                  get() {
+                    var components = (props.modelValue || "").split("/");
+                    if (components.length == 2) {
+                      return {
+                        month: toNumber(components[0]),
+                        day: toNumber(components[1])
+                      };
+                    } else {
+                      return {
+                        month: 0,
+                        day: 0
+                      };
                     }
-                },
-                template: `
-<DatePartsPicker v-model="internalValue" :showYear="false" />
-`
+                  },
+                  set(newVal) {
+                    var value = newVal.month !== 0 && newVal.day !== 0 ? "".concat(newVal.month, "/").concat(newVal.day) : "";
+                    emit("update:modelValue", value);
+                  }
+                });
+                return {
+                  internalValue
+                };
+              },
+              template: "\n<MonthDayPicker v-model=\"internalValue\" :showYear=\"false\" />\n"
             }));
-            const ConfigurationComponent = exports('ConfigurationComponent', defineComponent({
-                name: "MonthDayField.Configuration",
-                template: ``
+            var ConfigurationComponent = exports('ConfigurationComponent', defineComponent({
+              name: "MonthDayField.Configuration",
+              template: ""
             }));
 
         })
     };
 }));
+//# sourceMappingURL=monthDayFieldComponents.js.map

@@ -1,6 +1,6 @@
-System.register(['vue', '@Obsidian/Utility/fieldTypes', '@Obsidian/Utility/component'], (function (exports) {
+System.register(['vue', '@Obsidian/Utility/fieldTypes', '@Obsidian/Core/Reporting/filterMode', '@Obsidian/Utility/component'], (function (exports) {
     'use strict';
-    var defineComponent, computed, getFieldType, useVModelPassthrough;
+    var defineComponent, computed, getFieldType, FilterMode, useVModelPassthrough;
     return {
         setters: [function (module) {
             defineComponent = module.defineComponent;
@@ -8,56 +8,60 @@ System.register(['vue', '@Obsidian/Utility/fieldTypes', '@Obsidian/Utility/compo
         }, function (module) {
             getFieldType = module.getFieldType;
         }, function (module) {
+            FilterMode = module.FilterMode;
+        }, function (module) {
             useVModelPassthrough = module.useVModelPassthrough;
         }],
         execute: (function () {
 
-            var RockAttributeFilter = exports('default', defineComponent({
-                name: "RockAttributeFilter",
-                props: {
-                    modelValue: {
-                        type: Object,
-                        default: { value: "" }
-                    },
-                    attribute: {
-                        type: Object,
-                        required: true
-                    },
-                    required: {
-                        type: Boolean,
-                        default: false
-                    },
-                    filterMode: {
-                        type: Number,
-                        default: 0
-                    }
+            var rockAttributeFilter = exports('default', defineComponent({
+              name: "RockAttributeFilter",
+              props: {
+                modelValue: {
+                  type: Object,
+                  default: {
+                    value: ""
+                  }
                 },
-                emits: [
-                    "update:modelValue"
-                ],
-                setup(props, { emit }) {
-                    const internalValue = useVModelPassthrough(props, "modelValue", emit);
-                    const field = computed(() => {
-                        var _a;
-                        return getFieldType((_a = props.attribute.fieldTypeGuid) !== null && _a !== void 0 ? _a : "");
-                    });
-                    const filterComponent = computed(() => { var _a; return (_a = field.value) === null || _a === void 0 ? void 0 : _a.getFilterComponent(); });
-                    const configurationValues = computed(() => { var _a; return (_a = props.attribute.configurationValues) !== null && _a !== void 0 ? _a : {}; });
-                    return {
-                        configurationValues,
-                        filterComponent,
-                        internalValue
-                    };
+                attribute: {
+                  type: Object,
+                  required: true
                 },
-                template: `
-<component :is="filterComponent"
-    v-model="internalValue"
-    :configurationValues="configurationValues"
-    :required="required"
-    :filterMode="filterMode" />
-`
+                required: {
+                  type: Boolean,
+                  default: false
+                },
+                filterMode: {
+                  type: Number,
+                  default: FilterMode.Simple
+                }
+              },
+              emits: ["update:modelValue"],
+              setup(props, _ref) {
+                var emit = _ref.emit;
+                var internalValue = useVModelPassthrough(props, "modelValue", emit);
+                var field = computed(() => {
+                  var _props$attribute$fiel;
+                  return getFieldType((_props$attribute$fiel = props.attribute.fieldTypeGuid) !== null && _props$attribute$fiel !== void 0 ? _props$attribute$fiel : "");
+                });
+                var filterComponent = computed(() => {
+                  var _field$value;
+                  return (_field$value = field.value) === null || _field$value === void 0 ? void 0 : _field$value.getFilterComponent();
+                });
+                var configurationValues = computed(() => {
+                  var _props$attribute$conf;
+                  return (_props$attribute$conf = props.attribute.configurationValues) !== null && _props$attribute$conf !== void 0 ? _props$attribute$conf : {};
+                });
+                return {
+                  configurationValues,
+                  filterComponent,
+                  internalValue
+                };
+              },
+              template: "\n<component :is=\"filterComponent\"\n    v-model=\"internalValue\"\n    :configurationValues=\"configurationValues\"\n    :required=\"required\"\n    :filterMode=\"filterMode\" />\n"
             }));
 
         })
     };
 }));
+//# sourceMappingURL=rockAttributeFilter.js.map

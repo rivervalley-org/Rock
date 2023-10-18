@@ -3,19 +3,19 @@ System.register([], (function (exports) {
     return {
         execute: (function () {
 
-            const AttendanceGraphBy = {
-                Total: 0,
-                Group: 1,
-                Campus: 2,
-                Schedule: 3,
-                Location: 4
+            var AttendanceGraphBy = {
+              Total: 0,
+              Group: 1,
+              Campus: 2,
+              Schedule: 3,
+              Location: 4
             };
-            const AttendanceGraphByDescription = {
-                0: "Total",
-                1: "Group",
-                2: "Campus",
-                3: "Schedule",
-                4: "Location"
+            var AttendanceGraphByDescription = {
+              0: "Total",
+              1: "Group",
+              2: "Campus",
+              3: "Schedule",
+              4: "Location"
             };
 
             var attendanceGraphBy = /*#__PURE__*/Object.freeze({
@@ -25,15 +25,15 @@ System.register([], (function (exports) {
             });
             exports('attendanceGraphBy', attendanceGraphBy);
 
-            const AttendanceStatus = {
-                DidNotAttend: 0,
-                DidAttend: 1,
-                IsPresent: 2
+            var AttendanceStatus = {
+              DidNotAttend: 0,
+              DidAttend: 1,
+              IsPresent: 2
             };
-            const AttendanceStatusDescription = {
-                0: "Did Not Attend",
-                1: "Did Attend",
-                2: "Is Present"
+            var AttendanceStatusDescription = {
+              0: "Did Not Attend",
+              1: "Did Attend",
+              2: "Is Present"
             };
 
             var attendanceStatus = /*#__PURE__*/Object.freeze({
@@ -43,15 +43,15 @@ System.register([], (function (exports) {
             });
             exports('attendanceStatus', attendanceStatus);
 
-            const InteractiveExperienceApprovalStatus = {
-                Pending: 0,
-                Approved: 1,
-                Rejected: 2
+            var InteractiveExperienceApprovalStatus = {
+              Pending: 0,
+              Approved: 1,
+              Rejected: 2
             };
-            const InteractiveExperienceApprovalStatusDescription = {
-                0: "Pending",
-                1: "Approved",
-                2: "Rejected"
+            var InteractiveExperienceApprovalStatusDescription = {
+              0: "Pending",
+              1: "Approved",
+              2: "Rejected"
             };
 
             var interactiveExperienceApprovalStatus = /*#__PURE__*/Object.freeze({
@@ -61,15 +61,15 @@ System.register([], (function (exports) {
             });
             exports('interactiveExperienceApprovalStatus', interactiveExperienceApprovalStatus);
 
-            const InteractiveExperienceCampusBehavior = {
-                FilterSchedulesByCampusGeofences: 0,
-                DetermineCampusFromGeofence: 1,
-                UseIndividualsCampus: 2
+            var InteractiveExperienceCampusBehavior = {
+              FilterSchedulesByCampusGeofences: 0,
+              DetermineCampusFromGeofence: 1,
+              UseIndividualsCampus: 2
             };
-            const InteractiveExperienceCampusBehaviorDescription = {
-                0: "Filter Schedules By Campus Geofences",
-                1: "Determine Campus From Geofence",
-                2: "Use Individuals Campus"
+            var InteractiveExperienceCampusBehaviorDescription = {
+              0: "Filter Schedules By Campus Geofences",
+              1: "Determine Campus From Geofence",
+              2: "Use Individuals Campus"
             };
 
             var interactiveExperienceCampusBehavior = /*#__PURE__*/Object.freeze({
@@ -79,15 +79,15 @@ System.register([], (function (exports) {
             });
             exports('interactiveExperienceCampusBehavior', interactiveExperienceCampusBehavior);
 
-            const InteractiveExperiencePushNotificationType = {
-                Never: 0,
-                EveryAction: 1,
-                SpecificActions: 2
+            var InteractiveExperiencePushNotificationType = {
+              Never: 0,
+              EveryAction: 1,
+              SpecificActions: 2
             };
-            const InteractiveExperiencePushNotificationTypeDescription = {
-                0: "Never",
-                1: "Every Action",
-                2: "Specific Actions"
+            var InteractiveExperiencePushNotificationTypeDescription = {
+              0: "Never",
+              1: "Every Action",
+              2: "Specific Actions"
             };
 
             var interactiveExperiencePushNotificationType = /*#__PURE__*/Object.freeze({
@@ -97,15 +97,15 @@ System.register([], (function (exports) {
             });
             exports('interactiveExperiencePushNotificationType', interactiveExperiencePushNotificationType);
 
-            const RegistrantsSameFamily = {
-                No: 0,
-                Yes: 1,
-                Ask: 2
+            var RegistrantsSameFamily = {
+              No: 0,
+              Yes: 1,
+              Ask: 2
             };
-            const RegistrantsSameFamilyDescription = {
-                0: "No",
-                1: "Yes",
-                2: "Ask"
+            var RegistrantsSameFamilyDescription = {
+              0: "No",
+              1: "Yes",
+              2: "Ask"
             };
 
             var registrantsSameFamily = /*#__PURE__*/Object.freeze({
@@ -115,17 +115,17 @@ System.register([], (function (exports) {
             });
             exports('registrantsSameFamily', registrantsSameFamily);
 
-            const RegistrarOption = {
-                PromptForRegistrar: 0,
-                PrefillFirstRegistrant: 1,
-                UseFirstRegistrant: 2,
-                UseLoggedInPerson: 3
+            var RegistrarOption = {
+              PromptForRegistrar: 0,
+              PrefillFirstRegistrant: 1,
+              UseFirstRegistrant: 2,
+              UseLoggedInPerson: 3
             };
-            const RegistrarOptionDescription = {
-                0: "Prompt For Registrar",
-                1: "Prefill First Registrant",
-                2: "Use First Registrant",
-                3: "Use Logged In Person"
+            var RegistrarOptionDescription = {
+              0: "Prompt For Registrar",
+              1: "Prefill First Registrant",
+              2: "Use First Registrant",
+              3: "Use Logged In Person"
             };
 
             var registrarOption = /*#__PURE__*/Object.freeze({
@@ -135,17 +135,17 @@ System.register([], (function (exports) {
             });
             exports('registrarOption', registrarOption);
 
-            const RegistrationCostSummaryType = {
-                Cost: 0,
-                Fee: 1,
-                Discount: 2,
-                Total: 3
+            var RegistrationCostSummaryType = {
+              Cost: 0,
+              Fee: 1,
+              Discount: 2,
+              Total: 3
             };
-            const RegistrationCostSummaryTypeDescription = {
-                0: "Cost",
-                1: "Fee",
-                2: "Discount",
-                3: "Total"
+            var RegistrationCostSummaryTypeDescription = {
+              0: "Cost",
+              1: "Fee",
+              2: "Discount",
+              3: "Total"
             };
 
             var registrationCostSummaryType = /*#__PURE__*/Object.freeze({
@@ -155,13 +155,13 @@ System.register([], (function (exports) {
             });
             exports('registrationCostSummaryType', registrationCostSummaryType);
 
-            const RegistrationFeeType = {
-                Single: 0,
-                Multiple: 1
+            var RegistrationFeeType = {
+              Single: 0,
+              Multiple: 1
             };
-            const RegistrationFeeTypeDescription = {
-                0: "Single",
-                1: "Multiple"
+            var RegistrationFeeTypeDescription = {
+              0: "Single",
+              1: "Multiple"
             };
 
             var registrationFeeType = /*#__PURE__*/Object.freeze({
@@ -171,17 +171,17 @@ System.register([], (function (exports) {
             });
             exports('registrationFeeType', registrationFeeType);
 
-            const RegistrationFieldSource = {
-                PersonField: 0,
-                PersonAttribute: 1,
-                GroupMemberAttribute: 2,
-                RegistrantAttribute: 4
+            var RegistrationFieldSource = {
+              PersonField: 0,
+              PersonAttribute: 1,
+              GroupMemberAttribute: 2,
+              RegistrantAttribute: 4
             };
-            const RegistrationFieldSourceDescription = {
-                0: "Person Field",
-                1: "Person Attribute",
-                2: "Group Member Attribute",
-                4: "Registrant Attribute"
+            var RegistrationFieldSourceDescription = {
+              0: "Person Field",
+              1: "Person Attribute",
+              2: "Group Member Attribute",
+              4: "Registrant Attribute"
             };
 
             var registrationFieldSource = /*#__PURE__*/Object.freeze({
@@ -191,43 +191,43 @@ System.register([], (function (exports) {
             });
             exports('registrationFieldSource', registrationFieldSource);
 
-            const RegistrationPersonFieldType = {
-                FirstName: 0,
-                LastName: 1,
-                Campus: 2,
-                Address: 3,
-                Email: 4,
-                Birthdate: 5,
-                Gender: 6,
-                MaritalStatus: 7,
-                MobilePhone: 8,
-                HomePhone: 9,
-                WorkPhone: 10,
-                Grade: 11,
-                ConnectionStatus: 12,
-                MiddleName: 13,
-                AnniversaryDate: 14,
-                Race: 15,
-                Ethnicity: 16
+            var RegistrationPersonFieldType = {
+              FirstName: 0,
+              LastName: 1,
+              Campus: 2,
+              Address: 3,
+              Email: 4,
+              Birthdate: 5,
+              Gender: 6,
+              MaritalStatus: 7,
+              MobilePhone: 8,
+              HomePhone: 9,
+              WorkPhone: 10,
+              Grade: 11,
+              ConnectionStatus: 12,
+              MiddleName: 13,
+              AnniversaryDate: 14,
+              Race: 15,
+              Ethnicity: 16
             };
-            const RegistrationPersonFieldTypeDescription = {
-                0: "First Name",
-                1: "Last Name",
-                2: "Campus",
-                3: "Address",
-                4: "Email",
-                5: "Birthdate",
-                6: "Gender",
-                7: "Marital Status",
-                8: "Mobile Phone",
-                9: "Home Phone",
-                10: "Work Phone",
-                11: "Grade",
-                12: "Connection Status",
-                13: "Middle Name",
-                14: "Anniversary Date",
-                15: "Race",
-                16: "Ethnicity"
+            var RegistrationPersonFieldTypeDescription = {
+              0: "First Name",
+              1: "Last Name",
+              2: "Campus",
+              3: "Address",
+              4: "Email",
+              5: "Birthdate",
+              6: "Gender",
+              7: "Marital Status",
+              8: "Mobile Phone",
+              9: "Home Phone",
+              10: "Work Phone",
+              11: "Grade",
+              12: "Connection Status",
+              13: "Middle Name",
+              14: "Anniversary Date",
+              15: "Race",
+              16: "Ethnicity"
             };
 
             var registrationPersonFieldType = /*#__PURE__*/Object.freeze({
@@ -237,17 +237,17 @@ System.register([], (function (exports) {
             });
             exports('registrationPersonFieldType', registrationPersonFieldType);
 
-            const RSVP = {
-                No: 0,
-                Yes: 1,
-                Maybe: 2,
-                Unknown: 3
+            var RSVP = {
+              No: 0,
+              Yes: 1,
+              Maybe: 2,
+              Unknown: 3
             };
-            const RSVPDescription = {
-                0: "No",
-                1: "Yes",
-                2: "Maybe",
-                3: "Unknown"
+            var RSVPDescription = {
+              0: "No",
+              1: "Yes",
+              2: "Maybe",
+              3: "Unknown"
             };
 
             var rsvp = /*#__PURE__*/Object.freeze({
@@ -257,15 +257,69 @@ System.register([], (function (exports) {
             });
             exports('rsvp', rsvp);
 
-            const SessionStatus = {
-                Transient: 0,
-                PaymentPending: 1,
-                Completed: 2
+            var ScheduledAttendanceItemMatchesPreference = {
+              MatchesPreference: 0,
+              NotMatchesPreference: 1,
+              NoPreference: 2
             };
-            const SessionStatusDescription = {
-                0: "Transient",
-                1: "Payment Pending",
-                2: "Completed"
+            var ScheduledAttendanceItemMatchesPreferenceDescription = {
+              0: "Matches Preference",
+              1: "Not Matches Preference",
+              2: "No Preference"
+            };
+
+            var scheduledAttendanceItemMatchesPreference = /*#__PURE__*/Object.freeze({
+                __proto__: null,
+                ScheduledAttendanceItemMatchesPreference: ScheduledAttendanceItemMatchesPreference,
+                ScheduledAttendanceItemMatchesPreferenceDescription: ScheduledAttendanceItemMatchesPreferenceDescription
+            });
+            exports('scheduledAttendanceItemMatchesPreference', scheduledAttendanceItemMatchesPreference);
+
+            var ScheduledAttendanceItemStatus = {
+              Pending: 0,
+              Confirmed: 1,
+              Declined: 2,
+              Unscheduled: 3
+            };
+            var ScheduledAttendanceItemStatusDescription = {
+              0: "Pending",
+              1: "Confirmed",
+              2: "Declined",
+              3: "Unscheduled"
+            };
+
+            var scheduledAttendanceItemStatus = /*#__PURE__*/Object.freeze({
+                __proto__: null,
+                ScheduledAttendanceItemStatus: ScheduledAttendanceItemStatus,
+                ScheduledAttendanceItemStatusDescription: ScheduledAttendanceItemStatusDescription
+            });
+            exports('scheduledAttendanceItemStatus', scheduledAttendanceItemStatus);
+
+            var SchedulerResourceGroupMemberFilterType = {
+              ShowMatchingPreference: 0,
+              ShowAllGroupMembers: 1
+            };
+            var SchedulerResourceGroupMemberFilterTypeDescription = {
+              0: "Show Matching Preference",
+              1: "Show All Group Members"
+            };
+
+            var schedulerResourceGroupMemberFilterType = /*#__PURE__*/Object.freeze({
+                __proto__: null,
+                SchedulerResourceGroupMemberFilterType: SchedulerResourceGroupMemberFilterType,
+                SchedulerResourceGroupMemberFilterTypeDescription: SchedulerResourceGroupMemberFilterTypeDescription
+            });
+            exports('schedulerResourceGroupMemberFilterType', schedulerResourceGroupMemberFilterType);
+
+            var SessionStatus = {
+              Transient: 0,
+              PaymentPending: 1,
+              Completed: 2
+            };
+            var SessionStatusDescription = {
+              0: "Transient",
+              1: "Payment Pending",
+              2: "Completed"
             };
 
             var sessionStatus = /*#__PURE__*/Object.freeze({
@@ -275,13 +329,13 @@ System.register([], (function (exports) {
             });
             exports('sessionStatus', sessionStatus);
 
-            const SignatureDocumentAction = {
-                Email: 0,
-                Embed: 1
+            var SignatureDocumentAction = {
+              Email: 0,
+              Embed: 1
             };
-            const SignatureDocumentActionDescription = {
-                0: "Email",
-                1: "Embed"
+            var SignatureDocumentActionDescription = {
+              0: "Email",
+              1: "Embed"
             };
 
             var signatureDocumentAction = /*#__PURE__*/Object.freeze({
@@ -294,3 +348,4 @@ System.register([], (function (exports) {
         })
     };
 }));
+//# sourceMappingURL=Event.js.map

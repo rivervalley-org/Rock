@@ -75,7 +75,7 @@ namespace RockWeb.Blocks.Event
     {
         #region Properties
 
-        private const string SIGNATURE_LINK_TEMPLATE = @"<a href='{0}?id={1}' target='_blank' style='color: black;'><i class='fa fa-file-signature'></i></a>";
+        private const string SIGNATURE_LINK_TEMPLATE = @"<a href='{0}?id={1}' target='_blank' rel='noopener noreferrer' style='color: black;'><i class='fa fa-file-signature'></i></a>";
         private const string SIGNATURE_NOT_SIGNED_INDICATOR = @"<i class='fa fa-edit text-danger' data-toggle='tooltip' data-original-title='{0}'></i>";
 
         #endregion
@@ -370,6 +370,24 @@ namespace RockWeb.Blocks.Event
                                 if ( tbHomePhoneFilter != null )
                                 {
                                     fRegistrants.SaveUserPreference( UserPreferenceKeyBase.GridFilter_HomePhone, tbHomePhoneFilter.Text );
+                                }
+
+                                break;
+
+                            case RegistrationPersonFieldType.Race:
+                                var rpRaceFilter = phRegistrantsRegistrantFormFieldFilters.FindControl( FILTER_RACE_ID ) as RacePicker;
+                                if ( rpRaceFilter != null )
+                                {
+                                    fRegistrants.SaveUserPreference( UserPreferenceKeyBase.GridFilter_Race, rpRaceFilter.SelectedValue );
+                                }
+
+                                break;
+
+                            case RegistrationPersonFieldType.Ethnicity:
+                                var epEthnicityFilter = phRegistrantsRegistrantFormFieldFilters.FindControl( FILTER_ETHNICITY_ID ) as EthnicityPicker;
+                                if ( epEthnicityFilter != null )
+                                {
+                                    fRegistrants.SaveUserPreference( UserPreferenceKeyBase.GridFilter_Ethnicity, epEthnicityFilter.SelectedValue );
                                 }
 
                                 break;
@@ -880,6 +898,34 @@ namespace RockWeb.Blocks.Event
                     }
                 }
             }
+
+            // Set the registrant race
+            var lRace = e.Row.FindControl( "lRace" ) as Literal;
+            if ( lRace != null )
+            {
+                if ( registrant.PersonAlias != null && registrant.PersonAlias.Person != null )
+                {
+                    lRace.Text = registrant.PersonAlias.Person.RaceValue?.Value;
+                }
+                else
+                {
+                    lRace.Text = string.Empty;
+                }
+            }
+
+            // Set the registrant ethnicity
+            var lEthnicity = e.Row.FindControl( "lEthnicity" ) as Literal;
+            if ( lEthnicity != null )
+            {
+                if ( registrant.PersonAlias != null && registrant.PersonAlias.Person != null )
+                {
+                    lEthnicity.Text = registrant.PersonAlias.Person.EthnicityValue?.Value;
+                }
+                else
+                {
+                    lEthnicity.Text = string.Empty;
+                }
+            }
         }
 
         /// <summary>
@@ -1360,24 +1406,31 @@ namespace RockWeb.Blocks.Event
                 if ( _registrationTemplatePlacements.Any() )
                 {
                     var registrationTemplatePlacementService = new RegistrationTemplatePlacementService( rockContext );
-                    var instancePlacementGroupsQry = registrationInstanceService.GetRegistrationInstancePlacementGroups( registrationInstance );
-                    _placementGroupInfoList = instancePlacementGroupsQry.AsNoTracking().Select( s => new
+
+                    _placementGroupInfoList = new List<PlacementGroupInfo>();
+                    foreach ( var placementTemplate in _registrationTemplatePlacements )
                     {
-                        Group = s,
-                        PersonIds = s.Members.Select( m => m.PersonId ).ToList()
-                    } )
-                        .ToList()
-                        .Select( a => new PlacementGroupInfo
+                        // Template Placement Id is needed as a parameter to properly collect placements by their group.
+                        var instancePlacementGroupsByTemplateQry = registrationInstanceService.GetRegistrationInstancePlacementGroupsByPlacement( registrationInstance, placementTemplate.Id );
+                        var _instancePlacementGroupInfoList = instancePlacementGroupsByTemplateQry.AsNoTracking().Select( s => new
                         {
-                            Group = a.Group,
-                            RegistrationTemplatePlacementId = null,
-                            PersonIds = a.PersonIds.ToArray(),
-                        } ).ToList();
+                            Group = s,
+                            PersonIds = s.Members.Select( m => m.PersonId ).ToList()
+                        } )
+                            .ToList()
+                            .Select( a => new PlacementGroupInfo
+                            {
+                                Group = a.Group,
+                                RegistrationTemplatePlacementId = placementTemplate.Id,
+                                PersonIds = a.PersonIds.ToArray(),
+                            } ).ToList();
 
-                    foreach ( var placementTemplate in registrationInstance.RegistrationTemplate.Placements )
-                    {
+                        if ( _instancePlacementGroupInfoList.Any() )
+                        {
+                            _placementGroupInfoList.AddRange( _instancePlacementGroupInfoList );
+                        }
+
                         var registrationTemplatePlacementPlacementGroupsQuery = registrationTemplatePlacementService.GetRegistrationTemplatePlacementPlacementGroups( placementTemplate );
-
                         var templatePlacementGroupInfoList = registrationTemplatePlacementPlacementGroupsQuery.AsNoTracking()
                             .Select( s => new
                             {
@@ -1587,6 +1640,36 @@ namespace RockWeb.Blocks.Event
                                             .Select( a => a.PersonId );
 
                                         qry = qry.Where( r => phoneNumberPersonIdQry.Contains( r.PersonAlias.PersonId ) );
+                                    }
+                                }
+
+                                break;
+
+                            case RegistrationPersonFieldType.Race:
+                                var rpRaceFilter = phRegistrantsRegistrantFormFieldFilters.FindControl( FILTER_RACE_ID ) as RacePicker;
+                                if ( rpRaceFilter != null )
+                                {
+                                    var raceValueId = rpRaceFilter.SelectedValue.AsIntegerOrNull();
+                                    if ( raceValueId.HasValue )
+                                    {
+                                        qry = qry.Where( r =>
+                                           r.PersonAlias.Person.RaceValueId.HasValue &&
+                                           r.PersonAlias.Person.RaceValueId.Value == raceValueId.Value );
+                                    }
+                                }
+
+                                break;
+
+                            case RegistrationPersonFieldType.Ethnicity:
+                                var epEthnicityPicker = phRegistrantsRegistrantFormFieldFilters.FindControl( FILTER_ETHNICITY_ID ) as EthnicityPicker;
+                                if ( epEthnicityPicker != null )
+                                {
+                                    var ethnicityValueId = epEthnicityPicker.SelectedValue.AsIntegerOrNull();
+                                    if ( ethnicityValueId.HasValue )
+                                    {
+                                        qry = qry.Where( r =>
+                                           r.PersonAlias.Person.EthnicityValueId.HasValue &&
+                                           r.PersonAlias.Person.EthnicityValueId.Value == ethnicityValueId.Value );
                                     }
                                 }
 

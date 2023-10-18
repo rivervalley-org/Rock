@@ -46,6 +46,12 @@
             then the two values will both be used together.
             </summary>
         </member>
+        <member name="P:Google.Api.Gax.Rest.ClientBuilderBase`1.QuotaProject">
+            <summary>
+            The GCP project ID that should be used for quota and billing purposes.
+            May be null.
+            </summary>
+        </member>
         <member name="M:Google.Api.Gax.Rest.ClientBuilderBase`1.#ctor">
             <summary>
             Creates a new instance with no settings.
@@ -108,6 +114,12 @@
         <member name="M:Google.Api.Gax.Rest.ClientBuilderBase`1.BuildAsync(System.Threading.CancellationToken)">
             <summary>
             Builds the resulting client asynchronously.
+            </summary>
+        </member>
+        <member name="T:Google.Api.Gax.Rest.ClientBuilderBase`1.ExtraHeadersInitializer">
+            <summary>
+            Class to be used to set the quota project on request headers when
+            an ApiKey is being used for authentication instead of a credential.
             </summary>
         </member>
         <member name="T:Google.Api.Gax.Rest.PageManagerExtensions">
@@ -173,8 +185,14 @@
         <member name="M:Google.Api.Gax.Rest.RestPagedAsyncEnumerable`3.ReadPageAsync(System.Int32,System.Threading.CancellationToken)">
             <inheritdoc/>
         </member>
-        <member name="M:Google.Api.Gax.Rest.RestPagedAsyncEnumerable`3.GetEnumerator">
+        <member name="M:Google.Api.Gax.Rest.RestPagedAsyncEnumerable`3.GetAsyncEnumerator(System.Threading.CancellationToken)">
             <inheritdoc/>
+        </member>
+        <member name="T:Google.Api.Gax.Rest.ResourceEnumerator`3">
+            <summary>
+            Class to effectively perform SelectMany on the pages, extracting resources.
+            This allows us to avoid taking a dependency on System.Linq.Async.
+            </summary>
         </member>
         <member name="T:Google.Api.Gax.Rest.ResponseAsyncEnumerable`3">
             <summary>
@@ -184,10 +202,7 @@
             <typeparam name="TResponse">The API response type.</typeparam>
             <typeparam name="TResource">The resource type contained within the response.</typeparam>
         </member>
-        <member name="M:Google.Api.Gax.Rest.ResponseAsyncEnumerable`3.GetEnumerator">
-            <inheritdoc />
-        </member>
-        <member name="M:Google.Api.Gax.Rest.ResponseAsyncEnumerable`3.System#Collections#Generic#IAsyncEnumerable{TResponse}#GetEnumerator">
+        <member name="M:Google.Api.Gax.Rest.ResponseAsyncEnumerable`3.GetAsyncEnumerator(System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="T:Google.Api.Gax.Rest.RestPagedEnumerable`3">
@@ -244,14 +259,21 @@
             <returns>A task representing the asynchronous operation. The result of the task
             is the scoped credentials.</returns>
         </member>
-        <member name="M:Google.Api.Gax.Rest.ScopedCredentialProvider.GetCredentialsAsync(Google.Apis.Auth.OAuth2.GoogleCredential)">
+        <member name="M:Google.Api.Gax.Rest.ScopedCredentialProvider.GetCredentialsAsync(Google.Apis.Auth.OAuth2.GoogleCredential,System.Threading.CancellationToken)">
             <summary>
             Asynchronously returns credentials with the scopes applied if required.
             </summary>
             <param name="credentials">Existing credentials, if any. This may be null,
             in which case the default application credentials will be used.</param>
+            <param name="cancellationToken">A cancellation token for the operation.</param>
             <returns>A task representing the asynchronous operation. The result of the task
             is the scoped credentials.</returns>
+        </member>
+        <member name="M:Google.Api.Gax.Rest.ScopedCredentialProvider.WithCancellationToken``1(System.Threading.Tasks.Task{``0},System.Threading.CancellationToken)">
+            <summary>
+            Returns a task which can be cancelled by the given cancellation token, but otherwise observes the original
+            task's state. This does *not* cancel any work that the original task was doing, and should be used carefully.
+            </summary>
         </member>
         <member name="T:Google.Api.Gax.Rest.UserAgentHelper">
             <summary>
@@ -264,13 +286,6 @@
             </summary>
             <param name="type">The type to extract the version number from.</param>
             <returns>A user agent value.</returns>
-        </member>
-        <member name="M:Google.Api.Gax.Rest.UserAgentHelper.CreateRequestModifier(System.Type)">
-            <summary>
-            Creates a request modifier which sets the Google-specific version header in HTTP requests.
-            </summary>
-            <param name="type">The type to extract the version number from.</param>
-            <returns>A request modifier.</returns>
         </member>
     </members>
 </doc>

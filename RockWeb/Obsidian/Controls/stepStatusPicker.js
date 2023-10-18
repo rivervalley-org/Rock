@@ -1,80 +1,163 @@
-System.register(['tslib', '@Obsidian/Utility/component', '@Obsidian/Utility/http', 'vue', './baseAsyncPicker.js', '@Obsidian/Utility/promiseUtils', '@Obsidian/Utility/suspense', './checkBoxList.js', './rockFormField.js', '@Obsidian/Utility/form', '@Obsidian/Utility/guid', '@Obsidian/ValidationRules', './rockLabel.js', './helpBlock.js', './javaScriptAnchor.js', '@Obsidian/Utility/stringUtils', './dropDownList.js', 'ant-design-vue', '@Obsidian/Utility/util', './radioButtonList.js'], (function (exports) {
-    'use strict';
-    var __awaiter, standardAsyncPickerProps, useVModelPassthrough, useStandardAsyncPickerProps, useHttp, defineComponent, ref, computed, watch, BaseAsyncPicker;
-    return {
-        setters: [function (module) {
-            __awaiter = module.__awaiter;
-        }, function (module) {
-            standardAsyncPickerProps = module.standardAsyncPickerProps;
-            useVModelPassthrough = module.useVModelPassthrough;
-            useStandardAsyncPickerProps = module.useStandardAsyncPickerProps;
-        }, function (module) {
-            useHttp = module.useHttp;
-        }, function (module) {
-            defineComponent = module.defineComponent;
-            ref = module.ref;
-            computed = module.computed;
-            watch = module.watch;
-        }, function (module) {
-            BaseAsyncPicker = module["default"];
-        }, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}],
-        execute: (function () {
+System.register(['@Obsidian/Utility/component', '@Obsidian/Utility/http', 'vue', './baseAsyncPicker'], (function (exports) {
+  'use strict';
+  var useVModelPassthrough, useStandardAsyncPickerProps, standardAsyncPickerProps, useHttp, defineComponent, ref, computed, watch, BaseAsyncPicker;
+  return {
+    setters: [function (module) {
+      useVModelPassthrough = module.useVModelPassthrough;
+      useStandardAsyncPickerProps = module.useStandardAsyncPickerProps;
+      standardAsyncPickerProps = module.standardAsyncPickerProps;
+    }, function (module) {
+      useHttp = module.useHttp;
+    }, function (module) {
+      defineComponent = module.defineComponent;
+      ref = module.ref;
+      computed = module.computed;
+      watch = module.watch;
+    }, function (module) {
+      BaseAsyncPicker = module["default"];
+    }],
+    execute: (function () {
 
-            var stepStatusPicker = exports('default', defineComponent({
-                name: "StepStatusPicker",
-                components: {
-                    BaseAsyncPicker
-                },
-                props: Object.assign({ modelValue: {
-                        type: Object,
-                        required: false
-                    }, stepProgramGuid: {
-                        type: String,
-                        default: null
-                    } }, standardAsyncPickerProps),
-                emits: {
-                    "update:modelValue": (_value) => true
-                },
-                setup(props, { emit }) {
-                    const internalValue = useVModelPassthrough(props, "modelValue", emit);
-                    const standardProps = useStandardAsyncPickerProps(props);
-                    const http = useHttp();
-                    const loadedItems = ref(null);
-                    const actualItems = computed(() => {
-                        return loadedItems.value || loadOptions;
-                    });
-                    const loadOptions = () => __awaiter(this, void 0, void 0, function* () {
-                        var _a;
-                        const options = {
-                            stepProgramGuid: props.stepProgramGuid
-                        };
-                        const result = yield http.post("/api/v2/Controls/StepStatusPickerGetStepStatuses", undefined, options);
-                        if (result.isSuccess && result.data) {
-                            loadedItems.value = result.data;
-                            return result.data;
-                        }
-                        else {
-                            console.error((_a = result.errorMessage) !== null && _a !== void 0 ? _a : "Unknown error while loading data.");
-                            loadedItems.value = [];
-                            return [];
-                        }
-                    });
-                    watch(() => props.stepProgramGuid, () => {
-                        loadedItems.value = null;
-                    });
-                    return {
-                        actualItems,
-                        internalValue,
-                        standardProps
-                    };
-                },
-                template: `
-<BaseAsyncPicker v-model="internalValue"
-    v-bind="standardProps"
-    :items="actualItems" />
-`
-            }));
+      function ownKeys(object, enumerableOnly) {
+        var keys = Object.keys(object);
+        if (Object.getOwnPropertySymbols) {
+          var symbols = Object.getOwnPropertySymbols(object);
+          enumerableOnly && (symbols = symbols.filter(function (sym) {
+            return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+          })), keys.push.apply(keys, symbols);
+        }
+        return keys;
+      }
+      function _objectSpread2(target) {
+        for (var i = 1; i < arguments.length; i++) {
+          var source = null != arguments[i] ? arguments[i] : {};
+          i % 2 ? ownKeys(Object(source), !0).forEach(function (key) {
+            _defineProperty(target, key, source[key]);
+          }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) {
+            Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+          });
+        }
+        return target;
+      }
+      function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+        try {
+          var info = gen[key](arg);
+          var value = info.value;
+        } catch (error) {
+          reject(error);
+          return;
+        }
+        if (info.done) {
+          resolve(value);
+        } else {
+          Promise.resolve(value).then(_next, _throw);
+        }
+      }
+      function _asyncToGenerator(fn) {
+        return function () {
+          var self = this,
+            args = arguments;
+          return new Promise(function (resolve, reject) {
+            var gen = fn.apply(self, args);
+            function _next(value) {
+              asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+            }
+            function _throw(err) {
+              asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+            }
+            _next(undefined);
+          });
+        };
+      }
+      function _defineProperty(obj, key, value) {
+        key = _toPropertyKey(key);
+        if (key in obj) {
+          Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+          });
+        } else {
+          obj[key] = value;
+        }
+        return obj;
+      }
+      function _toPrimitive(input, hint) {
+        if (typeof input !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+          var res = prim.call(input, hint || "default");
+          if (typeof res !== "object") return res;
+          throw new TypeError("@@toPrimitive must return a primitive value.");
+        }
+        return (hint === "string" ? String : Number)(input);
+      }
+      function _toPropertyKey(arg) {
+        var key = _toPrimitive(arg, "string");
+        return typeof key === "symbol" ? key : String(key);
+      }
 
-        })
-    };
+      var stepStatusPicker = exports('default', defineComponent({
+        name: "StepStatusPicker",
+        components: {
+          BaseAsyncPicker
+        },
+        props: _objectSpread2({
+          modelValue: {
+            type: Object,
+            required: false
+          },
+          stepProgramGuid: {
+            type: String,
+            default: null
+          }
+        }, standardAsyncPickerProps),
+        emits: {
+          "update:modelValue": _value => true
+        },
+        setup(props, _ref) {
+          var emit = _ref.emit;
+          var internalValue = useVModelPassthrough(props, "modelValue", emit);
+          var standardProps = useStandardAsyncPickerProps(props);
+          var http = useHttp();
+          var loadedItems = ref(null);
+          var actualItems = computed(() => {
+            return loadedItems.value || loadOptions;
+          });
+          var loadOptions = function () {
+            var _ref2 = _asyncToGenerator(function* () {
+              var options = {
+                stepProgramGuid: props.stepProgramGuid
+              };
+              var result = yield http.post("/api/v2/Controls/StepStatusPickerGetStepStatuses", undefined, options);
+              if (result.isSuccess && result.data) {
+                loadedItems.value = result.data;
+                return result.data;
+              } else {
+                var _result$errorMessage;
+                console.error((_result$errorMessage = result.errorMessage) !== null && _result$errorMessage !== void 0 ? _result$errorMessage : "Unknown error while loading data.");
+                loadedItems.value = [];
+                return [];
+              }
+            });
+            return function loadOptions() {
+              return _ref2.apply(this, arguments);
+            };
+          }();
+          watch(() => props.stepProgramGuid, () => {
+            loadedItems.value = null;
+          });
+          return {
+            actualItems,
+            internalValue,
+            standardProps
+          };
+        },
+        template: "\n<BaseAsyncPicker v-model=\"internalValue\"\n    v-bind=\"standardProps\"\n    :items=\"actualItems\" />\n"
+      }));
+
+    })
+  };
 }));
+//# sourceMappingURL=stepStatusPicker.js.map

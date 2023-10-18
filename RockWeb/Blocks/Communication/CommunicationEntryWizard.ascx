@@ -140,7 +140,7 @@
                             <Rock:NotificationBox ID="nbListWarning" runat="server" NotificationBoxType="Info" />
                             <Rock:Grid ID="gRecipientList" runat="server" OnRowDataBound="gRecipientList_RowDataBound">
                                 <Columns>
-                                    <asp:BoundField DataField="NickName" HeaderText="First Name" SortExpression="NickName"  />
+                                    <asp:BoundField DataField="NickName" HeaderText="First Name" SortExpression="NickName" />
                                     <asp:BoundField DataField="LastName" HeaderText="Last Name" SortExpression="LastName" />
                                     <Rock:RockLiteralField ID="lRecipientListAlert" HeaderText="Notes" />
                                     <Rock:RockLiteralField ID="lRecipientListAlertEmail" HeaderText="Email" />
@@ -194,15 +194,15 @@
                                     <Rock:Grid
                                         ID="gIndividualRecipients"
                                         runat="server"
-                                        DisplayType="Light"
                                         OnRowDataBound="gIndividualRecipients_RowDataBound"
+                                        AllowSorting="true"
                                         HideDeleteButtonForIsSystem="false"
                                         ShowConfirmDeleteDialog="false">
                                         <Columns>
                                             <Rock:SelectField></Rock:SelectField>
                                             <asp:BoundField DataField="FullName" HeaderText="Name" SortExpression="FullName" />
-                                            <Rock:RockLiteralField ID="lRecipientAlertEmail" HeaderText="Email" />
-                                            <Rock:RockLiteralField ID="lRecipientAlertSMS" HeaderText="SMS" />
+                                            <Rock:RockLiteralField ID="lRecipientAlertEmail" HeaderText="Email" SortExpression="Email" />
+                                            <Rock:RockLiteralField ID="lRecipientAlertSMS" HeaderText="SMS" SortExpression="SmsPhoneNumber" />
                                             <Rock:RockLiteralField ID="lRecipientAlert" HeaderText="Notes" />
                                             <Rock:DeleteField OnClick="gIndividualRecipients_DeleteClick" />
                                         </Columns>
@@ -1147,12 +1147,12 @@
                                         <br />
                                         HTML
                                     </div>
-                                    <div class="component component-button v2" data-content="<table class='button-outerwrap' border='0' cellpadding='0' cellspacing='0' width='100%' style='min-width:100%;'><tbody><tr><td valign='top' align='center' class='button-innerwrap'><table border='0' cellpadding='0' cellspacing='0' class='button-shell'><tbody><tr><td align='center' valign='middle' class='button-content' style='border-radius: 3px;background-color:#2baadf' ><a class='button-link' title='Push Me' href='http://' target='_blank' style='display: inline-block; font-weight: bold; letter-spacing: normal; line-height: 100%; text-align: center; text-decoration: none; color: #ffffff;background-color: #2baadf; padding: 15px; border: 1px solid #2baadf; border-radius: 3px;'>Push Me</a></td></tr></tbody></table></td></tr></tbody></table>" data-state="template">
+                                    <div class="component component-button v2" data-content="<table class='button-outerwrap' border='0' cellpadding='0' cellspacing='0' width='100%' style='min-width:100%;'><tbody><tr><td valign='top' align='center' class='button-innerwrap'><table border='0' cellpadding='0' cellspacing='0' class='button-shell'><tbody><tr><td align='center' valign='middle' class='button-content' style='border-radius: 3px;background-color:#2baadf' ><a class='button-link' title='Push Me' href='http://' target='_blank' rel='noopener noreferrer' style='display: inline-block; font-weight: bold; letter-spacing: normal; line-height: 100%; text-align: center; text-decoration: none; color: #ffffff;background-color: #2baadf; padding: 15px; border: 1px solid #2baadf; border-radius: 3px;'>Push Me</a></td></tr></tbody></table></td></tr></tbody></table>" data-state="template">
                                         <i class="fa fa-square-o"></i>
                                         <br />
                                         Button
                                     </div>
-                                    <div class="component component-rsvp" data-content="<table class='rsvp-outerwrap' border='0' cellpadding='0' width='100%' style='min-width:100%;'><tbody><tr><td style='padding-top:0; padding-right:0; padding-bottom:0; padding-left:0;' valign='top' align='center' class='rsvp-innerwrap'><table border='0' cellpadding='0' cellspacing='0'><tr><td><table border='0' cellpadding='0' cellspacing='0' class='accept-button-shell' style='display: inline-table; border-collapse: separate !important; border-radius: 3px; background-color: #16C98D;'><tbody><tr><td align='center' valign='middle' class='rsvp-accept-content' style='font-family: Arial; font-size: 16px; padding: 15px;'><a class='rsvp-accept-link' title='Accept' href='http://' target='_blank' style='font-weight: bold; letter-spacing: normal; line-height: 100%; text-align: center; text-decoration: none; color: #FFFFFF;'>Accept</a></td></tr></tbody></table></td><td style='padding-left: 10px;'><table border='0' cellpadding='0' cellspacing='0' class='decline-button-shell' style='display: inline-table; border-collapse: separate !important; border-radius: 3px; background-color: #D4442E;'><tbody><tr><td align='center' valign='middle' class='rsvp-decline-content' style='font-family: Arial; font-size: 16px; padding: 15px;'><a class='rsvp-decline-link' title='Decline' href='http://' target='_blank' style='font-weight: bold; letter-spacing: normal; line-height: 100%; text-align: center; text-decoration: none; color: #FFFFFF;'>Decline</a></td></tr></tbody></table></td></tr></table></td></tr></tbody></table><input type='hidden' class='rsvp-group-id' /><input type='hidden' class='rsvp-occurrence-value' />" data-state="template">
+                                    <div class="component component-rsvp" data-content="<table class='rsvp-outerwrap' border='0' cellpadding='0' width='100%' style='min-width:100%;'><tbody><tr><td style='padding-top:0; padding-right:0; padding-bottom:0; padding-left:0;' valign='top' align='center' class='rsvp-innerwrap'><table border='0' cellpadding='0' cellspacing='0'><tr><td><table border='0' cellpadding='0' cellspacing='0' class='accept-button-shell' style='display: inline-table; border-collapse: separate !important; border-radius: 3px; background-color: #16C98D;'><tbody><tr><td align='center' valign='middle' class='rsvp-accept-content' style='font-family: Arial; font-size: 16px; padding: 15px;'><a class='rsvp-accept-link' title='Accept' href='http://' target='_blank' rel='noopener noreferrer' style='font-weight: bold; letter-spacing: normal; line-height: 100%; text-align: center; text-decoration: none; color: #FFFFFF;'>Accept</a></td></tr></tbody></table></td><td style='padding-left: 10px;'><table border='0' cellpadding='0' cellspacing='0' class='decline-button-shell' style='display: inline-table; border-collapse: separate !important; border-radius: 3px; background-color: #D4442E;'><tbody><tr><td align='center' valign='middle' class='rsvp-decline-content' style='font-family: Arial; font-size: 16px; padding: 15px;'><a class='rsvp-decline-link' title='Decline' href='http://' target='_blank' style='font-weight: bold; letter-spacing: normal; line-height: 100%; text-align: center; text-decoration: none; color: #FFFFFF;'>Decline</a></td></tr></tbody></table></td></tr></table></td></tr></tbody></table><input type='hidden' class='rsvp-group-id' /><input type='hidden' class='rsvp-occurrence-value' />" data-state="template">
                                         <i class="fa fa-user-check"></i>
                                         <br />
                                         RSVP

@@ -1,83 +1,78 @@
-System.register(['vue', '@Obsidian/Utility/block', '@Obsidian/Utility/component', '@Obsidian/Utility/treeItemProviders', './treeItemPicker.obs.js', './treeList.js', 'tslib', '@Obsidian/Utility/promiseUtils', './contentDropDownPicker.obs.js', './rockButton.js', '@Obsidian/Enums/Controls/btnType', '@Obsidian/Enums/Controls/btnSize', './rockFormField.js', '@Obsidian/Utility/form', '@Obsidian/Utility/guid', '@Obsidian/ValidationRules', './rockLabel.js', './helpBlock.js', './javaScriptAnchor.js', '@Obsidian/Controls/fullscreen'], (function (exports) {
-    'use strict';
-    var defineComponent, ref, watch, openBlock, createBlock, useSecurityGrantToken, updateRefValue, WorkflowActionTypeTreeItemProvider, exportHelper$1;
-    return {
-        setters: [function (module) {
-            defineComponent = module.defineComponent;
-            ref = module.ref;
-            watch = module.watch;
-            openBlock = module.openBlock;
-            createBlock = module.createBlock;
-        }, function (module) {
-            useSecurityGrantToken = module.useSecurityGrantToken;
-        }, function (module) {
-            updateRefValue = module.updateRefValue;
-        }, function (module) {
-            WorkflowActionTypeTreeItemProvider = module.WorkflowActionTypeTreeItemProvider;
-        }, function (module) {
-            exportHelper$1 = module["default"];
-        }, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}],
-        execute: (function () {
+System.register(['vue', '@Obsidian/Utility/block', '@Obsidian/Utility/component', '@Obsidian/Utility/treeItemProviders', './treeItemPicker.obs'], (function (exports) {
+  'use strict';
+  var defineComponent, ref, watch, openBlock, createBlock, unref, useSecurityGrantToken, updateRefValue, WorkflowActionTypeTreeItemProvider, TreeItemPicker;
+  return {
+    setters: [function (module) {
+      defineComponent = module.defineComponent;
+      ref = module.ref;
+      watch = module.watch;
+      openBlock = module.openBlock;
+      createBlock = module.createBlock;
+      unref = module.unref;
+    }, function (module) {
+      useSecurityGrantToken = module.useSecurityGrantToken;
+    }, function (module) {
+      updateRefValue = module.updateRefValue;
+    }, function (module) {
+      WorkflowActionTypeTreeItemProvider = module.WorkflowActionTypeTreeItemProvider;
+    }, function (module) {
+      TreeItemPicker = module["default"];
+    }],
+    execute: (function () {
 
-            exports('render', render);
-
-            const _sfc_main = defineComponent({
-                name: 'workflowActionTypePicker',
-                props: {
-                    modelValue: {
-                        type: Object,
-                        required: false
-                    },
-                },
-                emits: ["update:modelValue"],
-                setup(__props, { expose, emit }) {
-                    var _a;
-                    expose();
-                    const props = __props;
-                    const internalValue = ref((_a = props.modelValue) !== null && _a !== void 0 ? _a : null);
-                    const includeInactive = ref(false);
-                    const securityGrantToken = useSecurityGrantToken();
-                    const itemProvider = ref();
-                    function refreshItemProvider() {
-                        const provider = new WorkflowActionTypeTreeItemProvider();
-                        provider.includeInactive = includeInactive.value;
-                        provider.securityGrantToken = securityGrantToken.value;
-                        itemProvider.value = provider;
-                    }
-                    refreshItemProvider();
-                    watch(includeInactive, refreshItemProvider);
-                    watch(securityGrantToken, () => {
-                        if (itemProvider.value) {
-                            itemProvider.value.securityGrantToken = securityGrantToken.value;
-                        }
-                    });
-                    watch(internalValue, () => {
-                        emit("update:modelValue", internalValue.value);
-                    });
-                    watch(() => props.modelValue, () => {
-                        var _a;
-                        updateRefValue(internalValue, (_a = props.modelValue) !== null && _a !== void 0 ? _a : null);
-                    });
-                    const __returned__ = { props, emit, internalValue, includeInactive, securityGrantToken, itemProvider, refreshItemProvider, TreeItemPicker: exportHelper$1 };
-                    Object.defineProperty(__returned__, '__isScriptSetup', { enumerable: false, value: true });
-                    return __returned__;
-                }
-            });
-            function render(_ctx, _cache, $props, $setup, $data, $options) {
-                return (openBlock(), createBlock($setup["TreeItemPicker"], {
-                    modelValue: $setup.internalValue,
-                    "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => (($setup.internalValue) = $event)),
-                    formGroupClasses: "workflow-action-type-picker",
-                    iconCssClass: "fa fa-folder",
-                    provider: $setup.itemProvider,
-                    disableFolderSelection: ""
-                }, null, 8, ["modelValue", "provider"]));
+      var script = exports('default', defineComponent({
+        name: 'workflowActionTypePicker',
+        props: {
+          modelValue: {
+            type: Object,
+            required: false
+          }
+        },
+        emits: ["update:modelValue"],
+        setup(__props, _ref) {
+          var _props$modelValue;
+          var emit = _ref.emit;
+          var props = __props;
+          var internalValue = ref((_props$modelValue = props.modelValue) !== null && _props$modelValue !== void 0 ? _props$modelValue : null);
+          var includeInactive = ref(false);
+          var securityGrantToken = useSecurityGrantToken();
+          var itemProvider = ref();
+          function refreshItemProvider() {
+            var provider = new WorkflowActionTypeTreeItemProvider();
+            provider.includeInactive = includeInactive.value;
+            provider.securityGrantToken = securityGrantToken.value;
+            itemProvider.value = provider;
+          }
+          refreshItemProvider();
+          watch(includeInactive, refreshItemProvider);
+          watch(securityGrantToken, () => {
+            if (itemProvider.value) {
+              itemProvider.value.securityGrantToken = securityGrantToken.value;
             }
-            const exportHelper = exports('default', _sfc_main);
-            for (const [key, val] of [["render", render]]) {
-                exportHelper[key] = val;
-            }
+          });
+          watch(internalValue, () => {
+            emit("update:modelValue", internalValue.value);
+          });
+          watch(() => props.modelValue, () => {
+            var _props$modelValue2;
+            updateRefValue(internalValue, (_props$modelValue2 = props.modelValue) !== null && _props$modelValue2 !== void 0 ? _props$modelValue2 : null);
+          });
+          return (_ctx, _cache) => {
+            return openBlock(), createBlock(unref(TreeItemPicker), {
+              modelValue: internalValue.value,
+              "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => internalValue.value = $event),
+              formGroupClasses: "workflow-action-type-picker",
+              iconCssClass: "fa fa-folder",
+              provider: itemProvider.value,
+              disableFolderSelection: ""
+            }, null, 8, ["modelValue", "provider"]);
+          };
+        }
+      }));
 
-        })
-    };
+      script.__file = "Framework/Controls/workflowActionTypePicker.obs";
+
+    })
+  };
 }));
+//# sourceMappingURL=workflowActionTypePicker.obs.js.map

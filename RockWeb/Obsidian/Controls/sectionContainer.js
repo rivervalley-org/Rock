@@ -1,4 +1,4 @@
-System.register(['vue', './inlineSwitch.js', './transitionVerticalCollapse.js', '@Obsidian/Utility/component', './sectionHeader.js', '@Obsidian/Utility/guid'], (function (exports) {
+System.register(['vue', './inlineSwitch', './transitionVerticalCollapse', '@Obsidian/Utility/component', './sectionHeader'], (function (exports) {
     'use strict';
     var defineComponent, computed, InlineSwitch, TransitionVerticalCollapse, useVModelPassthrough, SectionHeader;
     return {
@@ -13,69 +13,48 @@ System.register(['vue', './inlineSwitch.js', './transitionVerticalCollapse.js', 
             useVModelPassthrough = module.useVModelPassthrough;
         }, function (module) {
             SectionHeader = module["default"];
-        }, function () {}],
+        }],
         execute: (function () {
 
             var sectionContainer = exports('default', defineComponent({
-                name: "SectionContainer",
-                components: {
-                    SectionHeader,
-                    InlineSwitch,
-                    TransitionVerticalCollapse
+              name: "SectionContainer",
+              components: {
+                SectionHeader,
+                InlineSwitch,
+                TransitionVerticalCollapse
+              },
+              props: {
+                modelValue: {
+                  type: Boolean,
+                  default: false
                 },
-                props: {
-                    modelValue: {
-                        type: Boolean,
-                        default: false
-                    },
-                    toggleText: {
-                        type: String,
-                        default: ""
-                    },
-                    title: {
-                        type: String,
-                        default: ""
-                    },
-                    description: {
-                        type: String,
-                        default: ""
-                    }
+                toggleText: {
+                  type: String,
+                  default: ""
                 },
-                emits: [
-                    "update:modelValue"
-                ],
-                setup(props, { emit }) {
-                    const enabled = useVModelPassthrough(props, "modelValue", emit);
-                    const showContent = computed(() => enabled.value || !props.toggleText);
-                    return {
-                        enabled,
-                        showContent
-                    };
+                title: {
+                  type: String,
+                  default: ""
                 },
-                template: `
-<div class="section-container well">
-    <div class="section-header">
-        <div class="section-header-content">
-            <SectionHeader :title="title" :description="description" :isSeparatorHidden="true">
-                <template #actions><slot name="actions" /></template>
-            </SectionHeader>
-        </div>
-
-        <div v-if="toggleText" class="section-header-toggle align-self-end">
-            <InlineSwitch v-model="enabled" :label="toggleText" />
-        </div>
-    </div>
-
-    <TransitionVerticalCollapse>
-        <div v-if="showContent">
-            <hr class="section-header-hr">
-            <slot />
-        </div>
-    </TransitionVerticalCollapse>
-</div>
-`
+                description: {
+                  type: String,
+                  default: ""
+                }
+              },
+              emits: ["update:modelValue"],
+              setup(props, _ref) {
+                var emit = _ref.emit;
+                var enabled = useVModelPassthrough(props, "modelValue", emit);
+                var showContent = computed(() => enabled.value || !props.toggleText);
+                return {
+                  enabled,
+                  showContent
+                };
+              },
+              template: "\n<div class=\"section-container well\">\n    <div class=\"section-header\">\n        <div class=\"section-header-content\">\n            <SectionHeader :title=\"title\" :description=\"description\" :isSeparatorHidden=\"true\">\n                <template #actions><slot name=\"actions\" /></template>\n            </SectionHeader>\n        </div>\n\n        <div v-if=\"toggleText\" class=\"section-header-toggle align-self-end\">\n            <InlineSwitch v-model=\"enabled\" :label=\"toggleText\" />\n        </div>\n    </div>\n\n    <TransitionVerticalCollapse>\n        <div v-if=\"showContent\">\n            <hr class=\"section-header-hr\">\n            <slot />\n        </div>\n    </TransitionVerticalCollapse>\n</div>\n"
             }));
 
         })
     };
 }));
+//# sourceMappingURL=sectionContainer.js.map

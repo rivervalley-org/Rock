@@ -1,45 +1,36 @@
-System.register(['./alert.vue.js', 'vue'], (function (exports) {
+System.register(['./notificationBox.obs', 'vue'], (function (exports) {
     'use strict';
-    var exportHelper, defineComponent, computed;
+    var NotificationBox, defineComponent, computed;
     return {
         setters: [function (module) {
-            exportHelper = module["default"];
+            NotificationBox = module["default"];
         }, function (module) {
             defineComponent = module.defineComponent;
             computed = module.computed;
         }],
         execute: (function () {
 
-            var RockValidation = exports('default', defineComponent({
-                name: "RockValidation",
-                components: {
-                    Alert: exportHelper
-                },
-                props: {
-                    errors: {
-                        type: Array,
-                        required: true
-                    }
-                },
-                setup(props) {
-                    const hasErrors = computed(() => props.errors.length > 0);
-                    return {
-                        hasErrors
-                    };
-                },
-                template: `
-<Alert v-show="hasErrors" alertType="validation">
-    Please correct the following:
-    <ul>
-        <li v-for="error of errors">
-            <strong>{{error.name}}</strong>
-            {{error.text}}
-        </li>
-    </ul>
-</Alert>
-`
+            var rockValidation = exports('default', defineComponent({
+              name: "RockValidation",
+              components: {
+                NotificationBox
+              },
+              props: {
+                errors: {
+                  type: Array,
+                  required: true
+                }
+              },
+              setup(props) {
+                var hasErrors = computed(() => props.errors.length > 0);
+                return {
+                  hasErrors
+                };
+              },
+              template: "\n<NotificationBox v-show=\"hasErrors\" alertType=\"validation\">\n    Please correct the following:\n    <ul>\n        <li v-for=\"error of errors\">\n            <strong>{{error.name}}</strong>\n            {{error.text}}\n        </li>\n    </ul>\n</NotificationBox>\n"
             }));
 
         })
     };
 }));
+//# sourceMappingURL=rockValidation.js.map

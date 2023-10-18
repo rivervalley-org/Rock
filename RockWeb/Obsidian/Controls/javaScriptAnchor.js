@@ -7,12 +7,12 @@ System.register(['vue'], (function (exports) {
         }],
         execute: (function () {
 
-            var JavaScriptAnchor = exports('default', defineComponent({
-                name: "JavaScriptAnchor",
-                template: `
-<a href="javascript:void(0);"><slot /></a>`
+            var javaScriptAnchor = exports('default', defineComponent({
+              name: "JavaScriptAnchor",
+              template: "\n<a href=\"javascript:void(0);\"><slot /></a>"
             }));
 
         })
     };
 }));
+//# sourceMappingURL=javaScriptAnchor.js.map

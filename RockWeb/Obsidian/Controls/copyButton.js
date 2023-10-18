@@ -1,4 +1,4 @@
-System.register(['vue', './rockButton.js', 'tslib', '@Obsidian/Utility/promiseUtils'], (function (exports) {
+System.register(['vue', './rockButton'], (function (exports) {
     'use strict';
     var defineComponent, ref, onMounted, RockButton;
     return {
@@ -8,64 +8,53 @@ System.register(['vue', './rockButton.js', 'tslib', '@Obsidian/Utility/promiseUt
             onMounted = module.onMounted;
         }, function (module) {
             RockButton = module["default"];
-        }, function () {}, function () {}],
+        }],
         execute: (function () {
 
             var copyButton = exports('default', defineComponent({
-                name: "CopyButton",
-                components: {
-                    RockButton
+              name: "CopyButton",
+              components: {
+                RockButton
+              },
+              props: {
+                value: {
+                  type: String,
+                  required: true
                 },
-                props: {
-                    value: {
-                        type: String,
-                        required: true
-                    },
-                    tooltip: {
-                        type: String,
-                        default: "Copy"
-                    },
-                    tooltipPlacement: {
-                        type: String,
-                        default: "auto"
-                    }
+                tooltip: {
+                  type: String,
+                  default: "Copy"
                 },
-                setup(props) {
-                    const el = ref(null);
-                    let jEl;
-                    function copy(e) {
-                        e.preventDefault();
-                        navigator.clipboard.writeText(props.value);
-                        jEl.attr("data-original-title", "Copied")
-                            .tooltip("show")
-                            .attr("data-original-title", props.tooltip);
-                    }
-                    onMounted(() => {
-                        var _a;
-                        if (!el.value) {
-                            return;
-                        }
-                        const jquery = window["$"];
-                        jEl = jquery((_a = el.value) === null || _a === void 0 ? void 0 : _a.$el).tooltip();
-                    });
-                    return {
-                        el,
-                        copy
-                    };
-                },
-                template: `
-<RockButton
-    class="btn-copy-to-clipboard"
-    :onClick="copy"
-    data-toggle="tooltip"
-    :data-placement="tooltipPlacement"
-    data-container="body"
-    :data-original-title="tooltip"
-    ref="el"
-><i class="fa fa-clipboard"></i></RockButton>
-`
+                tooltipPlacement: {
+                  type: String,
+                  default: "auto"
+                }
+              },
+              setup(props) {
+                var el = ref(null);
+                var jEl;
+                function copy(e) {
+                  e.preventDefault();
+                  navigator.clipboard.writeText(props.value);
+                  jEl.attr("data-original-title", "Copied").tooltip("show").attr("data-original-title", props.tooltip);
+                }
+                onMounted(() => {
+                  var _el$value;
+                  if (!el.value) {
+                    return;
+                  }
+                  var jquery = window["$"];
+                  jEl = jquery((_el$value = el.value) === null || _el$value === void 0 ? void 0 : _el$value.$el).tooltip();
+                });
+                return {
+                  el,
+                  copy
+                };
+              },
+              template: "\n<RockButton\n    class=\"btn-copy-to-clipboard\"\n    :onClick=\"copy\"\n    data-toggle=\"tooltip\"\n    :data-placement=\"tooltipPlacement\"\n    data-container=\"body\"\n    :data-original-title=\"tooltip\"\n    ref=\"el\"\n><i class=\"fa fa-clipboard\"></i></RockButton>\n"
             }));
 
         })
     };
 }));
+//# sourceMappingURL=copyButton.js.map

@@ -1,116 +1,143 @@
-System.register(['tslib', 'vue', '@Obsidian/Controls/alert.obs', '@Obsidian/Utility/block', '@Obsidian/Utility/promiseUtils'], (function (exports) {
-    'use strict';
-    var __awaiter, defineComponent, ref, computed, openBlock, createElementBlock, Fragment, createBlock, withCtx, createTextVNode, toDisplayString, createCommentVNode, createElementVNode, Alert, useConfigurationValues, useInvokeBlockAction, onConfigurationValuesChanged, useReloadBlock, PromiseCompletionSource;
-    return {
-        setters: [function (module) {
-            __awaiter = module.__awaiter;
-        }, function (module) {
-            defineComponent = module.defineComponent;
-            ref = module.ref;
-            computed = module.computed;
-            openBlock = module.openBlock;
-            createElementBlock = module.createElementBlock;
-            Fragment = module.Fragment;
-            createBlock = module.createBlock;
-            withCtx = module.withCtx;
-            createTextVNode = module.createTextVNode;
-            toDisplayString = module.toDisplayString;
-            createCommentVNode = module.createCommentVNode;
-            createElementVNode = module.createElementVNode;
-        }, function (module) {
-            Alert = module["default"];
-        }, function (module) {
-            useConfigurationValues = module.useConfigurationValues;
-            useInvokeBlockAction = module.useInvokeBlockAction;
-            onConfigurationValuesChanged = module.onConfigurationValuesChanged;
-            useReloadBlock = module.useReloadBlock;
-        }, function (module) {
-            PromiseCompletionSource = module.PromiseCompletionSource;
-        }],
-        execute: (function () {
+System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Utility/block', '@Obsidian/Utility/promiseUtils'], (function (exports) {
+  'use strict';
+  var defineComponent, ref, computed, openBlock, createElementBlock, Fragment, unref, createBlock, withCtx, createTextVNode, toDisplayString, createCommentVNode, createElementVNode, NotificationBox, useConfigurationValues, useInvokeBlockAction, onConfigurationValuesChanged, useReloadBlock, PromiseCompletionSource;
+  return {
+    setters: [function (module) {
+      defineComponent = module.defineComponent;
+      ref = module.ref;
+      computed = module.computed;
+      openBlock = module.openBlock;
+      createElementBlock = module.createElementBlock;
+      Fragment = module.Fragment;
+      unref = module.unref;
+      createBlock = module.createBlock;
+      withCtx = module.withCtx;
+      createTextVNode = module.createTextVNode;
+      toDisplayString = module.toDisplayString;
+      createCommentVNode = module.createCommentVNode;
+      createElementVNode = module.createElementVNode;
+    }, function (module) {
+      NotificationBox = module["default"];
+    }, function (module) {
+      useConfigurationValues = module.useConfigurationValues;
+      useInvokeBlockAction = module.useInvokeBlockAction;
+      onConfigurationValuesChanged = module.onConfigurationValuesChanged;
+      useReloadBlock = module.useReloadBlock;
+    }, function (module) {
+      PromiseCompletionSource = module.PromiseCompletionSource;
+    }],
+    execute: (function () {
 
-            exports('render', render);
+      function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+        try {
+          var info = gen[key](arg);
+          var value = info.value;
+        } catch (error) {
+          reject(error);
+          return;
+        }
+        if (info.done) {
+          resolve(value);
+        } else {
+          Promise.resolve(value).then(_next, _throw);
+        }
+      }
+      function _asyncToGenerator(fn) {
+        return function () {
+          var self = this,
+            args = arguments;
+          return new Promise(function (resolve, reject) {
+            var gen = fn.apply(self, args);
+            function _next(value) {
+              asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+            }
+            function _throw(err) {
+              asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+            }
+            _next(undefined);
+          });
+        };
+      }
 
-            const _sfc_main = defineComponent({
-                name: 'liveExperienceOccurrences',
-                setup(__props, { expose }) {
-                    expose();
-                    const config = useConfigurationValues();
-                    const invokeBlockAction = useInvokeBlockAction();
-                    const contentElement = ref(null);
-                    const blockErrorMessage = computed(() => {
-                        return config.errorMessage;
-                    });
-                    function getDeviceLocation(alwaysRequest) {
-                        return __awaiter(this, void 0, void 0, function* () {
-                            if (!alwaysRequest) {
-                                if (navigator.permissions) {
-                                    const status = yield navigator.permissions.query({ name: "geolocation" });
-                                    if (status.state !== "granted") {
-                                        return null;
-                                    }
-                                }
-                            }
-                            const completionSource = new PromiseCompletionSource();
-                            navigator.geolocation.getCurrentPosition(position => {
-                                completionSource.resolve(position.coords);
-                            }, () => {
-                                completionSource.reject(new Error("Unable to get device location."));
-                            });
-                            try {
-                                return yield completionSource.promise;
-                            }
-                            catch (error) {
-                                console.error(error);
-                                return null;
-                            }
-                        });
-                    }
-                    function updateContent(alwaysRequestLocation) {
-                        var _a, _b, _c;
-                        return __awaiter(this, void 0, void 0, function* () {
-                            const location = yield getDeviceLocation(alwaysRequestLocation);
-                            const result = yield invokeBlockAction("GetContent", {
-                                latitude: (_a = location === null || location === void 0 ? void 0 : location.latitude) !== null && _a !== void 0 ? _a : null,
-                                longitude: (_b = location === null || location === void 0 ? void 0 : location.longitude) !== null && _b !== void 0 ? _b : null
-                            });
-                            if (contentElement.value && ((_c = result.data) === null || _c === void 0 ? void 0 : _c.content)) {
-                                contentElement.value.innerHTML = result.data.content;
-                            }
-                        });
-                    }
-                    onConfigurationValuesChanged(useReloadBlock());
-                    if (config.provideLocationKey) {
-                        window[config.provideLocationKey] = () => updateContent(true);
-                    }
-                    updateContent(config.alwaysRequestLocation);
-                    const __returned__ = { config, invokeBlockAction, contentElement, blockErrorMessage, getDeviceLocation, updateContent, Alert };
-                    Object.defineProperty(__returned__, '__isScriptSetup', { enumerable: false, value: true });
-                    return __returned__;
+      var script = exports('default', defineComponent({
+        name: 'liveExperienceOccurrences',
+        setup(__props) {
+          var config = useConfigurationValues();
+          var invokeBlockAction = useInvokeBlockAction();
+          var contentElement = ref(null);
+          var blockErrorMessage = computed(() => {
+            return config.errorMessage;
+          });
+          function getDeviceLocation(_x) {
+            return _getDeviceLocation.apply(this, arguments);
+          }
+          function _getDeviceLocation() {
+            _getDeviceLocation = _asyncToGenerator(function* (alwaysRequest) {
+              if (!alwaysRequest) {
+                if (navigator.permissions) {
+                  var status = yield navigator.permissions.query({
+                    name: "geolocation"
+                  });
+                  if (status.state !== "granted") {
+                    return null;
+                  }
                 }
+              }
+              var completionSource = new PromiseCompletionSource();
+              navigator.geolocation.getCurrentPosition(position => {
+                completionSource.resolve(position.coords);
+              }, () => {
+                completionSource.reject(new Error("Unable to get device location."));
+              });
+              try {
+                return yield completionSource.promise;
+              } catch (error) {
+                console.error(error);
+                return null;
+              }
             });
-            const _hoisted_1 = { ref: "contentElement" };
-            function render(_ctx, _cache, $props, $setup, $data, $options) {
-                return (openBlock(), createElementBlock(Fragment, null, [
-                    ($setup.blockErrorMessage)
-                        ? (openBlock(), createBlock($setup["Alert"], {
-                            key: 0,
-                            alertType: "warning"
-                        }, {
-                            default: withCtx(() => [
-                                createTextVNode(toDisplayString($setup.blockErrorMessage), 1)
-                            ]),
-                            _: 1
-                        }))
-                        : createCommentVNode("v-if", true),
-                    createElementVNode("div", _hoisted_1, null, 512)
-                ], 64));
-            }
-            const exportHelper = exports('default', _sfc_main);
-            for (const [key, val] of [["render", render]]) {
-                exportHelper[key] = val;
-            }
+            return _getDeviceLocation.apply(this, arguments);
+          }
+          function updateContent(_x2) {
+            return _updateContent.apply(this, arguments);
+          }
+          function _updateContent() {
+            _updateContent = _asyncToGenerator(function* (alwaysRequestLocation) {
+              var _location$latitude, _location$longitude, _result$data;
+              var location = yield getDeviceLocation(alwaysRequestLocation);
+              var result = yield invokeBlockAction("GetContent", {
+                latitude: (_location$latitude = location === null || location === void 0 ? void 0 : location.latitude) !== null && _location$latitude !== void 0 ? _location$latitude : null,
+                longitude: (_location$longitude = location === null || location === void 0 ? void 0 : location.longitude) !== null && _location$longitude !== void 0 ? _location$longitude : null
+              });
+              if (contentElement.value && (_result$data = result.data) !== null && _result$data !== void 0 && _result$data.content) {
+                contentElement.value.innerHTML = result.data.content;
+              }
+            });
+            return _updateContent.apply(this, arguments);
+          }
+          onConfigurationValuesChanged(useReloadBlock());
+          if (config.provideLocationKey) {
+            window[config.provideLocationKey] = () => updateContent(true);
+          }
+          updateContent(config.alwaysRequestLocation);
+          return (_ctx, _cache) => {
+            return openBlock(), createElementBlock(Fragment, null, [unref(blockErrorMessage) ? (openBlock(), createBlock(unref(NotificationBox), {
+              key: 0,
+              alertType: "warning"
+            }, {
+              default: withCtx(() => [createTextVNode(toDisplayString(unref(blockErrorMessage)), 1)]),
+              _: 1
+            })) : createCommentVNode("v-if", true), createElementVNode("div", {
+              ref_key: "contentElement",
+              ref: contentElement
+            }, null, 512)], 64);
+          };
+        }
+      }));
 
-        })
-    };
+      script.__file = "src/Event/InteractiveExperiences/liveExperienceOccurrences.obs";
+
+    })
+  };
 }));
+//# sourceMappingURL=liveExperienceOccurrences.obs.js.map

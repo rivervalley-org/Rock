@@ -1,4 +1,4 @@
-System.register(['vue', '@Obsidian/Utility/treeItemProviders', '@Obsidian/Utility/component', './treeItemPicker.js', './rockButton.js', 'tslib', '@Obsidian/Utility/promiseUtils', './rockFormField.js', '@Obsidian/Utility/form', '@Obsidian/Utility/guid', '@Obsidian/ValidationRules', './rockLabel.js', './helpBlock.js', './javaScriptAnchor.js', './treeList.js'], (function (exports) {
+System.register(['vue', '@Obsidian/Utility/treeItemProviders', '@Obsidian/Utility/component', './treeItemPicker.obs'], (function (exports) {
     'use strict';
     var defineComponent, ref, watch, CategoryTreeItemProvider, updateRefValue, TreeItemPicker;
     return {
@@ -12,87 +12,82 @@ System.register(['vue', '@Obsidian/Utility/treeItemProviders', '@Obsidian/Utilit
             updateRefValue = module.updateRefValue;
         }, function (module) {
             TreeItemPicker = module["default"];
-        }, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}],
+        }],
         execute: (function () {
 
-            var CategoryPicker = exports('default', defineComponent({
-                name: "CategoryPicker",
-                components: {
-                    TreeItemPicker
+            var categoryPicker = exports('default', defineComponent({
+              name: "CategoryPicker",
+              components: {
+                TreeItemPicker
+              },
+              props: {
+                modelValue: {
+                  type: Object,
+                  required: false
                 },
-                props: {
-                    modelValue: {
-                        type: Object,
-                        required: false
-                    },
-                    rootCategoryGuid: {
-                        type: String
-                    },
-                    entityTypeGuid: {
-                        type: String
-                    },
-                    entityTypeQualifierColumn: {
-                        type: String
-                    },
-                    entityTypeQualifierValue: {
-                        type: String
-                    },
-                    securityGrantToken: {
-                        type: String,
-                        required: false
-                    },
-                    multiple: {
-                        type: Boolean,
-                        default: false
-                    }
+                rootCategoryGuid: {
+                  type: String
                 },
-                emits: {
-                    "update:modelValue": (_value) => true
+                entityTypeGuid: {
+                  type: String
                 },
-                setup(props, { emit }) {
-                    var _a;
-                    const internalValue = ref((_a = props.modelValue) !== null && _a !== void 0 ? _a : null);
-                    const itemProvider = ref(new CategoryTreeItemProvider());
-                    itemProvider.value.rootCategoryGuid = props.rootCategoryGuid;
-                    itemProvider.value.entityTypeGuid = props.entityTypeGuid;
-                    itemProvider.value.entityTypeQualifierColumn = props.entityTypeQualifierColumn;
-                    itemProvider.value.entityTypeQualifierValue = props.entityTypeQualifierValue;
-                    itemProvider.value.securityGrantToken = props.securityGrantToken;
-                    watch(() => props.securityGrantToken, () => {
-                        itemProvider.value.securityGrantToken = props.securityGrantToken;
-                    });
-                    watch(() => props.entityTypeGuid, () => {
-                        const oldProvider = itemProvider.value;
-                        const newProvider = new CategoryTreeItemProvider();
-                        newProvider.rootCategoryGuid = oldProvider.rootCategoryGuid;
-                        newProvider.entityTypeQualifierColumn = oldProvider.entityTypeQualifierColumn;
-                        newProvider.entityTypeQualifierValue = oldProvider.entityTypeQualifierValue;
-                        newProvider.securityGrantToken = oldProvider.securityGrantToken;
-                        newProvider.entityTypeGuid = props.entityTypeGuid;
-                        itemProvider.value = newProvider;
-                    });
-                    watch(internalValue, () => {
-                        emit("update:modelValue", internalValue.value);
-                    });
-                    watch(() => props.modelValue, () => {
-                        var _a;
-                        updateRefValue(internalValue, (_a = props.modelValue) !== null && _a !== void 0 ? _a : null);
-                    });
-                    return {
-                        internalValue,
-                        itemProvider
-                    };
+                entityTypeQualifierColumn: {
+                  type: String
                 },
-                template: `
-<TreeItemPicker v-model="internalValue"
-    formGroupClasses="category-picker"
-    iconCssClass="fa fa-folder-open"
-    :provider="itemProvider"
-    :multiple="multiple"
-/>
-`
+                entityTypeQualifierValue: {
+                  type: String
+                },
+                securityGrantToken: {
+                  type: String,
+                  required: false
+                },
+                multiple: {
+                  type: Boolean,
+                  default: false
+                }
+              },
+              emits: {
+                "update:modelValue": _value => true
+              },
+              setup(props, _ref) {
+                var _props$modelValue;
+                var emit = _ref.emit;
+                var internalValue = ref((_props$modelValue = props.modelValue) !== null && _props$modelValue !== void 0 ? _props$modelValue : null);
+                var itemProvider = ref(new CategoryTreeItemProvider());
+                itemProvider.value.rootCategoryGuid = props.rootCategoryGuid;
+                itemProvider.value.entityTypeGuid = props.entityTypeGuid;
+                itemProvider.value.entityTypeQualifierColumn = props.entityTypeQualifierColumn;
+                itemProvider.value.entityTypeQualifierValue = props.entityTypeQualifierValue;
+                itemProvider.value.securityGrantToken = props.securityGrantToken;
+                watch(() => props.securityGrantToken, () => {
+                  itemProvider.value.securityGrantToken = props.securityGrantToken;
+                });
+                watch(() => props.entityTypeGuid, () => {
+                  var oldProvider = itemProvider.value;
+                  var newProvider = new CategoryTreeItemProvider();
+                  newProvider.rootCategoryGuid = oldProvider.rootCategoryGuid;
+                  newProvider.entityTypeQualifierColumn = oldProvider.entityTypeQualifierColumn;
+                  newProvider.entityTypeQualifierValue = oldProvider.entityTypeQualifierValue;
+                  newProvider.securityGrantToken = oldProvider.securityGrantToken;
+                  newProvider.entityTypeGuid = props.entityTypeGuid;
+                  itemProvider.value = newProvider;
+                });
+                watch(internalValue, () => {
+                  emit("update:modelValue", internalValue.value);
+                });
+                watch(() => props.modelValue, () => {
+                  var _props$modelValue2;
+                  updateRefValue(internalValue, (_props$modelValue2 = props.modelValue) !== null && _props$modelValue2 !== void 0 ? _props$modelValue2 : null);
+                });
+                return {
+                  internalValue,
+                  itemProvider
+                };
+              },
+              template: "\n<TreeItemPicker v-model=\"internalValue\"\n    formGroupClasses=\"category-picker\"\n    iconCssClass=\"fa fa-folder-open\"\n    :provider=\"itemProvider\"\n    :multiple=\"multiple\"\n/>\n"
             }));
 
         })
     };
 }));
+//# sourceMappingURL=categoryPicker.js.map

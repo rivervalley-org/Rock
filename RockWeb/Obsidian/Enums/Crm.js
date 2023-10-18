@@ -3,15 +3,45 @@ System.register([], (function (exports) {
     return {
         execute: (function () {
 
-            const AgeClassification = {
-                Unknown: 0,
-                Adult: 1,
-                Child: 2
+            var AgeBracket = {
+              Unknown: 0,
+              ZeroToTwelve: 1,
+              ThirteenToSeventeen: 2,
+              EighteenToTwentyFour: 3,
+              TwentyFiveToThirtyFour: 4,
+              ThirtyFiveToFortyFour: 5,
+              FortyFiveToFiftyFour: 6,
+              FiftyFiveToSixtyFour: 7,
+              SixtyFiveOrOlder: 8
             };
-            const AgeClassificationDescription = {
-                0: "Unknown",
-                1: "Adult",
-                2: "Child"
+            var AgeBracketDescription = {
+              0: "Unknown",
+              1: "Zero To Twelve",
+              2: "Thirteen To Seventeen",
+              3: "Eighteen To Twenty Four",
+              4: "Twenty Five To Thirty Four",
+              5: "Thirty Five To Forty Four",
+              6: "Forty Five To Fifty Four",
+              7: "Fifty Five To Sixty Four",
+              8: "Sixty Five Or Older"
+            };
+
+            var ageBracket = /*#__PURE__*/Object.freeze({
+                __proto__: null,
+                AgeBracket: AgeBracket,
+                AgeBracketDescription: AgeBracketDescription
+            });
+            exports('ageBracket', ageBracket);
+
+            var AgeClassification = {
+              Unknown: 0,
+              Adult: 1,
+              Child: 2
+            };
+            var AgeClassificationDescription = {
+              0: "Unknown",
+              1: "Adult",
+              2: "Child"
             };
 
             var ageClassification = /*#__PURE__*/Object.freeze({
@@ -21,13 +51,13 @@ System.register([], (function (exports) {
             });
             exports('ageClassification', ageClassification);
 
-            const AssessmentRequestStatus = {
-                Pending: 0,
-                Complete: 1
+            var AssessmentRequestStatus = {
+              Pending: 0,
+              Complete: 1
             };
-            const AssessmentRequestStatusDescription = {
-                0: "Pending",
-                1: "Complete"
+            var AssessmentRequestStatusDescription = {
+              0: "Pending",
+              1: "Complete"
             };
 
             var assessmentRequestStatus = /*#__PURE__*/Object.freeze({
@@ -37,13 +67,13 @@ System.register([], (function (exports) {
             });
             exports('assessmentRequestStatus', assessmentRequestStatus);
 
-            const AuthenticationServiceType = {
-                Internal: 0,
-                External: 1
+            var AuthenticationServiceType = {
+              Internal: 0,
+              External: 1
             };
-            const AuthenticationServiceTypeDescription = {
-                0: "Internal",
-                1: "External"
+            var AuthenticationServiceTypeDescription = {
+              0: "Internal",
+              1: "External"
             };
 
             var authenticationServiceType = /*#__PURE__*/Object.freeze({
@@ -53,15 +83,15 @@ System.register([], (function (exports) {
             });
             exports('authenticationServiceType', authenticationServiceType);
 
-            const EmailPreference = {
-                EmailAllowed: 0,
-                NoMassEmails: 1,
-                DoNotEmail: 2
+            var EmailPreference = {
+              EmailAllowed: 0,
+              NoMassEmails: 1,
+              DoNotEmail: 2
             };
-            const EmailPreferenceDescription = {
-                0: "Email Allowed",
-                1: "No Mass Emails",
-                2: "Do Not Email"
+            var EmailPreferenceDescription = {
+              0: "Email Allowed",
+              1: "No Mass Emails",
+              2: "Do Not Email"
             };
 
             var emailPreference = /*#__PURE__*/Object.freeze({
@@ -71,15 +101,15 @@ System.register([], (function (exports) {
             });
             exports('emailPreference', emailPreference);
 
-            const Gender = {
-                Unknown: 0,
-                Male: 1,
-                Female: 2
+            var Gender = {
+              Unknown: 0,
+              Male: 1,
+              Female: 2
             };
-            const GenderDescription = {
-                0: "Unknown",
-                1: "Male",
-                2: "Female"
+            var GenderDescription = {
+              0: "Unknown",
+              1: "Male",
+              2: "Female"
             };
 
             var gender = /*#__PURE__*/Object.freeze({
@@ -89,13 +119,13 @@ System.register([], (function (exports) {
             });
             exports('gender', gender);
 
-            const PersonalizationType = {
-                Segment: 0,
-                RequestFilter: 1
+            var PersonalizationType = {
+              Segment: 0,
+              RequestFilter: 1
             };
-            const PersonalizationTypeDescription = {
-                0: "Segment",
-                1: "Request Filter"
+            var PersonalizationTypeDescription = {
+              0: "Segment",
+              1: "Request Filter"
             };
 
             var personalizationType = /*#__PURE__*/Object.freeze({
@@ -108,3 +138,4 @@ System.register([], (function (exports) {
         })
     };
 }));
+//# sourceMappingURL=Crm.js.map

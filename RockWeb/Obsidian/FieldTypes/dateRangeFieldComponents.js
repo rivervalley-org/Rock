@@ -1,4 +1,4 @@
-System.register(['vue', './utils.js', '@Obsidian/Controls/dateRangePicker', '@Obsidian/Core/Reporting/comparisonType', '@Obsidian/Core/Reporting/comparisonTypeOptions', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/fieldFilterContainer', '@Obsidian/Utility/numberUtils'], (function (exports) {
+System.register(['vue', './utils', '@Obsidian/Controls/dateRangePicker'], (function (exports) {
     'use strict';
     var defineComponent, getFieldEditorProps, DateRangePicker;
     return {
@@ -8,59 +8,56 @@ System.register(['vue', './utils.js', '@Obsidian/Controls/dateRangePicker', '@Ob
             getFieldEditorProps = module.getFieldEditorProps;
         }, function (module) {
             DateRangePicker = module["default"];
-        }, function () {}, function () {}, function () {}, function () {}, function () {}],
+        }],
         execute: (function () {
 
-            const EditComponent = exports('EditComponent', defineComponent({
-                name: "DateRangeField.Edit",
-                components: {
-                    DateRangePicker
+            var EditComponent = exports('EditComponent', defineComponent({
+              name: "DateRangeField.Edit",
+              components: {
+                DateRangePicker
+              },
+              props: getFieldEditorProps(),
+              data() {
+                return {
+                  internalValue: {}
+                };
+              },
+              setup() {
+                return {};
+              },
+              watch: {
+                internalValue() {
+                  if (!this.internalValue.lowerValue && !this.internalValue.upperValue) {
+                    this.$emit("update:modelValue", "");
+                  } else {
+                    var _this$internalValue$l, _this$internalValue$u;
+                    this.$emit("update:modelValue", "".concat((_this$internalValue$l = this.internalValue.lowerValue) !== null && _this$internalValue$l !== void 0 ? _this$internalValue$l : "", ",").concat((_this$internalValue$u = this.internalValue.upperValue) !== null && _this$internalValue$u !== void 0 ? _this$internalValue$u : ""));
+                  }
                 },
-                props: getFieldEditorProps(),
-                data() {
-                    return {
-                        internalValue: {}
-                    };
-                },
-                setup() {
-                    return {};
-                },
-                watch: {
-                    internalValue() {
-                        var _a, _b;
-                        if (!this.internalValue.lowerValue && !this.internalValue.upperValue) {
-                            this.$emit("update:modelValue", "");
-                        }
-                        else {
-                            this.$emit("update:modelValue", `${(_a = this.internalValue.lowerValue) !== null && _a !== void 0 ? _a : ""},${(_b = this.internalValue.upperValue) !== null && _b !== void 0 ? _b : ""}`);
-                        }
-                    },
-                    modelValue: {
-                        immediate: true,
-                        handler() {
-                            var _a;
-                            const components = ((_a = this.modelValue) !== null && _a !== void 0 ? _a : "").split(",");
-                            if (components.length === 2) {
-                                this.internalValue = {
-                                    lowerValue: components[0],
-                                    upperValue: components[1]
-                                };
-                            }
-                            else {
-                                this.internalValue = {};
-                            }
-                        }
+                modelValue: {
+                  immediate: true,
+                  handler() {
+                    var _this$modelValue;
+                    var components = ((_this$modelValue = this.modelValue) !== null && _this$modelValue !== void 0 ? _this$modelValue : "").split(",");
+                    if (components.length === 2) {
+                      this.internalValue = {
+                        lowerValue: components[0],
+                        upperValue: components[1]
+                      };
+                    } else {
+                      this.internalValue = {};
                     }
-                },
-                template: `
-<DateRangePicker v-model="internalValue" />
-`
+                  }
+                }
+              },
+              template: "\n<DateRangePicker v-model=\"internalValue\" />\n"
             }));
-            const ConfigurationComponent = exports('ConfigurationComponent', defineComponent({
-                name: "DateRangeField.Configuration",
-                template: ``
+            var ConfigurationComponent = exports('ConfigurationComponent', defineComponent({
+              name: "DateRangeField.Configuration",
+              template: ""
             }));
 
         })
     };
 }));
+//# sourceMappingURL=dateRangeFieldComponents.js.map

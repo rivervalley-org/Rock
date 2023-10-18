@@ -1,4 +1,4 @@
-System.register(['@Obsidian/ValidationRules', '@Obsidian/Utility/component', 'vue', './rockFormField.js', '@Obsidian/Utility/form', '@Obsidian/Utility/guid', './rockLabel.js', './helpBlock.js', './javaScriptAnchor.js'], (function (exports) {
+System.register(['@Obsidian/ValidationRules', '@Obsidian/Utility/component', 'vue', './rockFormField'], (function (exports) {
     'use strict';
     var rulesPropType, normalizeRules, useVModelPassthrough, defineComponent, computed, RockFormField;
     return {
@@ -12,67 +12,51 @@ System.register(['@Obsidian/ValidationRules', '@Obsidian/Utility/component', 'vu
             computed = module.computed;
         }, function (module) {
             RockFormField = module["default"];
-        }, function () {}, function () {}, function () {}, function () {}, function () {}],
+        }],
         execute: (function () {
 
             var urlLinkBox = exports('default', defineComponent({
-                name: "UrlLinkBox",
-                components: {
-                    RockFormField
+              name: "UrlLinkBox",
+              components: {
+                RockFormField
+              },
+              props: {
+                modelValue: {
+                  type: String,
+                  required: true
                 },
-                props: {
-                    modelValue: {
-                        type: String,
-                        required: true
-                    },
-                    rules: rulesPropType,
-                    requiresTrailingSlash: {
-                        type: Boolean,
-                        default: false
-                    }
-                },
-                emits: [
-                    "update:modelValue"
-                ],
-                setup(props, { emit }) {
-                    const value = useVModelPassthrough(props, "modelValue", emit);
-                    const computedRules = computed(() => {
-                        const rules = normalizeRules(props.rules);
-                        if (rules.indexOf("url") === -1) {
-                            rules.push("url");
-                        }
-                        if (props.requiresTrailingSlash) {
-                            rules.push({
-                                name: "endswith",
-                                params: ["/"]
-                            });
-                        }
-                        return rules;
+                rules: rulesPropType,
+                requiresTrailingSlash: {
+                  type: Boolean,
+                  default: false
+                }
+              },
+              emits: ["update:modelValue"],
+              setup(props, _ref) {
+                var emit = _ref.emit;
+                var value = useVModelPassthrough(props, "modelValue", emit);
+                var computedRules = computed(() => {
+                  var rules = normalizeRules(props.rules);
+                  if (rules.indexOf("url") === -1) {
+                    rules.push("url");
+                  }
+                  if (props.requiresTrailingSlash) {
+                    rules.push({
+                      name: "endswith",
+                      params: ["/"]
                     });
-                    return {
-                        computedRules,
-                        value
-                    };
-                },
-                template: `
-<RockFormField
-    :modelValue="value"
-    formGroupClasses="url-link-box"
-    name="urlbox"
-    :rules="computedRules">
-    <template #default="{uniqueId, field}">
-        <div class="control-wrapper">
-            <div class="input-group">
-                <span class="input-group-addon">
-                    <i class="fa fa-link"></i>
-                </span>
-                <input v-model="value" :id="uniqueId" class="form-control" v-bind="field" type="url" />
-            </div>
-        </div>
-    </template>
-</RockFormField>`
+                  }
+                  return rules;
+                });
+                return {
+                  computedRules,
+                  value
+                };
+              },
+              template: "\n<RockFormField\n    :modelValue=\"value\"\n    formGroupClasses=\"url-link-box\"\n    name=\"urlbox\"\n    :rules=\"computedRules\">\n    <template #default=\"{uniqueId, field}\">\n        <div class=\"control-wrapper\">\n            <div class=\"input-group\">\n                <span class=\"input-group-addon\">\n                    <i class=\"fa fa-link\"></i>\n                </span>\n                <input v-model=\"value\" :id=\"uniqueId\" class=\"form-control\" v-bind=\"field\" type=\"url\" />\n            </div>\n        </div>\n    </template>\n</RockFormField>"
             }));
 
         })
     };
 }));
+//# sourceMappingURL=urlLinkBox.js.map

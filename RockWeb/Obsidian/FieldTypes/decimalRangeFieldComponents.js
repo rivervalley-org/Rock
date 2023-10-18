@@ -1,4 +1,4 @@
-System.register(['vue', './utils.js', '@Obsidian/Utility/numberUtils', '@Obsidian/Controls/numberRangeBox', '@Obsidian/Core/Reporting/comparisonType', '@Obsidian/Core/Reporting/comparisonTypeOptions', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/fieldFilterContainer'], (function (exports) {
+System.register(['vue', './utils', '@Obsidian/Utility/numberUtils', '@Obsidian/Controls/numberRangeBox'], (function (exports) {
     'use strict';
     var defineComponent, getFieldEditorProps, toNumberOrNull, NumberRangeBox;
     return {
@@ -10,51 +10,50 @@ System.register(['vue', './utils.js', '@Obsidian/Utility/numberUtils', '@Obsidia
             toNumberOrNull = module.toNumberOrNull;
         }, function (module) {
             NumberRangeBox = module["default"];
-        }, function () {}, function () {}, function () {}, function () {}],
+        }],
         execute: (function () {
 
-            const EditComponent = exports('EditComponent', defineComponent({
-                name: "DecimalRangeField.Edit",
-                components: {
-                    NumberRangeBox
+            var EditComponent = exports('EditComponent', defineComponent({
+              name: "DecimalRangeField.Edit",
+              components: {
+                NumberRangeBox
+              },
+              props: getFieldEditorProps(),
+              data() {
+                return {
+                  internalValue: {}
+                };
+              },
+              watch: {
+                internalValue() {
+                  var _this$internalValue$l, _this$internalValue$u;
+                  var value = "".concat((_this$internalValue$l = this.internalValue.lower) !== null && _this$internalValue$l !== void 0 ? _this$internalValue$l : "", ",").concat((_this$internalValue$u = this.internalValue.upper) !== null && _this$internalValue$u !== void 0 ? _this$internalValue$u : "");
+                  this.$emit("update:modelValue", value !== "," ? value : "");
                 },
-                props: getFieldEditorProps(),
-                data() {
-                    return {
-                        internalValue: {}
-                    };
-                },
-                watch: {
-                    internalValue() {
-                        var _a, _b;
-                        const value = `${(_a = this.internalValue.lower) !== null && _a !== void 0 ? _a : ""},${(_b = this.internalValue.upper) !== null && _b !== void 0 ? _b : ""}`;
-                        this.$emit("update:modelValue", value !== "," ? value : "");
-                    },
-                    modelValue: {
-                        immediate: true,
-                        handler() {
-                            var _a;
-                            const values = ((_a = this.modelValue) !== null && _a !== void 0 ? _a : "").split(",");
-                            const lower = toNumberOrNull(values[0]);
-                            const upper = values.length >= 2 ? toNumberOrNull(values[1]) : null;
-                            if (lower !== this.internalValue.lower || upper !== this.internalValue.upper) {
-                                this.internalValue = {
-                                    lower: lower,
-                                    upper: upper
-                                };
-                            }
-                        }
+                modelValue: {
+                  immediate: true,
+                  handler() {
+                    var _this$modelValue;
+                    var values = ((_this$modelValue = this.modelValue) !== null && _this$modelValue !== void 0 ? _this$modelValue : "").split(",");
+                    var lower = toNumberOrNull(values[0]);
+                    var upper = values.length >= 2 ? toNumberOrNull(values[1]) : null;
+                    if (lower !== this.internalValue.lower || upper !== this.internalValue.upper) {
+                      this.internalValue = {
+                        lower: lower,
+                        upper: upper
+                      };
                     }
-                },
-                template: `
-<NumberRangeBox v-model="internalValue" />
-`
+                  }
+                }
+              },
+              template: "\n<NumberRangeBox v-model=\"internalValue\" />\n"
             }));
-            const ConfigurationComponent = exports('ConfigurationComponent', defineComponent({
-                name: "DecimalRangeField.Configuration",
-                template: ``
+            var ConfigurationComponent = exports('ConfigurationComponent', defineComponent({
+              name: "DecimalRangeField.Configuration",
+              template: ""
             }));
 
         })
     };
 }));
+//# sourceMappingURL=decimalRangeFieldComponents.js.map

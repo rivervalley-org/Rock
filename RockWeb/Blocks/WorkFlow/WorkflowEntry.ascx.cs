@@ -106,6 +106,13 @@ namespace RockWeb.Blocks.WorkFlow
         DefaultBooleanValue = true,
         Order = 7 )]
 
+    [BooleanField(
+        "Disable Captcha Support",
+        Description = "If set to 'Yes' the CAPTCHA verification step will not be performed.",
+        Key = AttributeKey.DisableCaptchaSupport,
+        DefaultBooleanValue = false,
+        Order = 8
+        )]
     #endregion Block Attributes
 
     [Rock.SystemGuid.BlockTypeGuid( Rock.SystemGuid.BlockType.WORKFLOW_ENTRY )]
@@ -126,6 +133,7 @@ namespace RockWeb.Blocks.WorkFlow
             public const string DisablePassingWorkflowTypeId = "DisablePassingWorkflowTypeId";
             public const string LogInteractionOnView = "LogInteractionOnView";
             public const string LogInteractionOnCompletion = "LogInteractionOnCompletion";
+            public const string DisableCaptchaSupport = "DisableCaptchaSupport";
         }
 
         #endregion Attribute Keys
@@ -363,6 +371,13 @@ namespace RockWeb.Blocks.WorkFlow
                 return;
             }
 
+            var disableCaptchaSupport = GetAttributeValue( AttributeKey.DisableCaptchaSupport ).AsBoolean();
+            if ( !disableCaptchaSupport && !cpCaptcha.IsResponseValid() )
+            {
+                ShowMessage( NotificationBoxType.Validation, string.Empty, "There was an issue processing your request. Please try again. If the issue persists please contact us." );
+                return;
+            }
+
             /* 
                 01/20/2023 ETD
                 Update to Mike's comment on 5/18/2022
@@ -421,6 +436,9 @@ namespace RockWeb.Blocks.WorkFlow
 
             // Get the block setting to disable passing WorkflowTypeID set.
             bool allowPassingWorkflowTypeId = !this.GetAttributeValue( AttributeKey.DisablePassingWorkflowTypeId ).AsBoolean();
+
+            var disableCaptchaSupport = GetAttributeValue( AttributeKey.DisableCaptchaSupport ).AsBoolean();
+            cpCaptcha.Visible = !disableCaptchaSupport;
 
             if ( workflowType == null )
             {
@@ -689,7 +707,10 @@ namespace RockWeb.Blocks.WorkFlow
                             if ( action.ActionTypeCache.WorkflowForm != null && action.IsCriteriaValid )
                             {
                                 _activity = activity;
-                                _activity.LoadAttributes();
+                                if ( _activity.Id != 0 || _activity.AttributeValues == null )
+                                {
+                                    _activity.LoadAttributes();
+                                }
 
                                 _action = action;
                                 _actionType = _action.ActionTypeCache;
@@ -700,7 +721,10 @@ namespace RockWeb.Blocks.WorkFlow
                             if ( action.ActionTypeCache.WorkflowAction is Rock.Workflow.Action.ElectronicSignature && action.IsCriteriaValid )
                             {
                                 _activity = activity;
-                                _activity.LoadAttributes();
+                                if ( _activity.Id != 0 || _activity.AttributeValues == null )
+                                {
+                                    _activity.LoadAttributes();
+                                }
 
                                 _action = action;
                                 _actionType = _action.ActionTypeCache;
@@ -1084,7 +1108,7 @@ namespace RockWeb.Blocks.WorkFlow
                         {
                             string url = ( ( Rock.Field.ILinkableFieldType ) field ).UrlLink( value, attribute.QualifierValues );
                             url = ResolveRockUrl( "~" ).EnsureTrailingForwardslash() + url;
-                            lAttribute.Text = string.Format( "<a href='{0}' target='_blank'>{1}</a>", url, formattedValue );
+                            lAttribute.Text = string.Format( "<a href='{0}' target='_blank' rel='noopener noreferrer'>{1}</a>", url, formattedValue );
                         }
                         else
                         {
@@ -1448,6 +1472,12 @@ namespace RockWeb.Blocks.WorkFlow
 
             // we have a another MaritalStatus picker that will apply to both Person and Person's Spouse
             personBasicEditor.ShowMaritalStatus = false;
+
+            personBasicEditor.ShowRace = formPersonEntrySettings.RaceEntry != WorkflowActionFormPersonEntryOption.Hidden;
+            personBasicEditor.RequireRace = formPersonEntrySettings.RaceEntry == WorkflowActionFormPersonEntryOption.Required;
+
+            personBasicEditor.ShowEthnicity = formPersonEntrySettings.EthnicityEntry != WorkflowActionFormPersonEntryOption.Hidden;
+            personBasicEditor.RequireEthnicity = formPersonEntrySettings.EthnicityEntry == WorkflowActionFormPersonEntryOption.Required;
         }
 
         /// <summary>
@@ -1536,6 +1566,8 @@ namespace RockWeb.Blocks.WorkFlow
             {
                 personEntryPerson.ConnectionStatusValueId = formPersonEntrySettings.ConnectionStatusValueId;
                 personEntryPerson.RecordStatusValueId = formPersonEntrySettings.RecordStatusValueId;
+                personEntryPerson.RaceValueId = formPersonEntrySettings.RaceValueId;
+                personEntryPerson.EthnicityValueId = formPersonEntrySettings.EthnicityValueId;
                 PersonService.SaveNewPerson( personEntryPerson, personEntryRockContext, cpPersonEntryCampus.SelectedCampusId );
             }
 
@@ -1570,6 +1602,8 @@ namespace RockWeb.Blocks.WorkFlow
                 {
                     personEntryPersonSpouse.ConnectionStatusValueId = formPersonEntrySettings.ConnectionStatusValueId;
                     personEntryPersonSpouse.RecordStatusValueId = formPersonEntrySettings.RecordStatusValueId;
+                    personEntryPersonSpouse.RaceValueId = formPersonEntrySettings.RaceValueId;
+                    personEntryPersonSpouse.EthnicityValueId = formPersonEntrySettings.EthnicityValueId;
 
                     // if adding/editing the 2nd Person (should normally be the spouse), set both people to selected Marital Status
 
@@ -2211,24 +2245,20 @@ namespace RockWeb.Blocks.WorkFlow
 
                 // Confirmation email can come FormBuilderSettings or FormBuilderTemplate
                 FormConfirmationEmailSettings confirmationEmailSettings;
-                FormCompletionActionSettings completionActionSettings;
-                if ( _workflowType?.FormBuilderTemplate != null )
+                if ( _workflowType?.FormBuilderTemplate?.ConfirmationEmailSettings?.Enabled == true )
                 {
                     // Use FormBuilderTemplate
                     confirmationEmailSettings = _workflowType?.FormBuilderTemplate.ConfirmationEmailSettings;
-                    completionActionSettings = _workflowType?.FormBuilderTemplate.CompletionActionSettings;
                 }
                 else if ( _workflowType?.FormBuilderSettings?.ConfirmationEmail != null )
                 {
-                    // User FormBuilderSettings
+                    // Use FormBuilderSettings
                     confirmationEmailSettings = _workflowType.FormBuilderSettings.ConfirmationEmail;
-                    completionActionSettings = _workflowType.FormBuilderSettings.CompletionAction;
                 }
                 else
                 {
                     // Not a FormBuilder
                     confirmationEmailSettings = null;
-                    completionActionSettings = null;
                 }
 
                 if ( confirmationEmailSettings != null )
@@ -2237,6 +2267,24 @@ namespace RockWeb.Blocks.WorkFlow
                     {
                         SendFormBuilderConfirmationEmail( confirmationEmailSettings );
                     }
+                }
+
+                // Completion Action can come FormBuilderSettings or FormBuilderTemplate
+                FormCompletionActionSettings completionActionSettings;
+                if ( _workflowType?.FormBuilderTemplate?.CompletionActionSettings != null )
+                {
+                    // Use FormBuilderTemplate
+                    completionActionSettings = _workflowType?.FormBuilderTemplate.CompletionActionSettings;
+                }
+                else if ( _workflowType?.FormBuilderSettings?.CompletionAction != null )
+                {
+                    // Use FormBuilderSettings
+                    completionActionSettings = _workflowType.FormBuilderSettings.CompletionAction;
+                }
+                else
+                {
+                    // Not a FormBuilder
+                    completionActionSettings = null;
                 }
 
                 // Notification Email is only defined on FormBuilder. FormBuilderTemplate doesn't have NotificationEmailSettings

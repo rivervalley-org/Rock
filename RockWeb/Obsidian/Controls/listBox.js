@@ -1,4 +1,4 @@
-System.register(['vue', '@Obsidian/Utility/guid', './rockFormField.js', '@Obsidian/Utility/component', '@Obsidian/Utility/form', '@Obsidian/ValidationRules', './rockLabel.js', './helpBlock.js', './javaScriptAnchor.js'], (function (exports) {
+System.register(['vue', '@Obsidian/Utility/guid', './rockFormField'], (function (exports) {
     'use strict';
     var defineComponent, newGuid, RockFormField;
     return {
@@ -8,130 +8,114 @@ System.register(['vue', '@Obsidian/Utility/guid', './rockFormField.js', '@Obsidi
             newGuid = module.newGuid;
         }, function (module) {
             RockFormField = module["default"];
-        }, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}],
+        }],
         execute: (function () {
 
             var listBox = exports('default', defineComponent({
-                name: "ListBox",
-                components: {
-                    RockFormField
+              name: "ListBox",
+              components: {
+                RockFormField
+              },
+              props: {
+                modelValue: {
+                  type: Array,
+                  default: []
                 },
-                props: {
-                    modelValue: {
-                        type: Array,
-                        default: []
-                    },
-                    items: {
-                        type: Array,
-                        default: []
-                    },
-                    formControlClasses: {
-                        type: String,
-                        default: ""
-                    },
-                    enhanceForLongLists: {
-                        type: Boolean,
-                        default: false
-                    }
+                items: {
+                  type: Array,
+                  default: []
                 },
-                data: function () {
-                    return {
-                        uniqueId: `rock-listbox-${newGuid()}`,
-                        internalValue: [],
-                        isMounted: false
-                    };
+                formControlClasses: {
+                  type: String,
+                  default: ""
                 },
-                computed: {
-                    compiledFormControlClasses() {
-                        if (this.enhanceForLongLists) {
-                            return this.formControlClasses + " chosen-select";
-                        }
-                        return this.formControlClasses;
-                    }
+                enhanceForLongLists: {
+                  type: Boolean,
+                  default: false
+                }
+              },
+              data: function data() {
+                return {
+                  uniqueId: "rock-listbox-".concat(newGuid()),
+                  internalValue: [],
+                  isMounted: false
+                };
+              },
+              computed: {
+                compiledFormControlClasses() {
+                  if (this.enhanceForLongLists) {
+                    return this.formControlClasses + " chosen-select";
+                  }
+                  return this.formControlClasses;
+                }
+              },
+              methods: {
+                getChosenJqueryEl() {
+                  var jquery = window["$"];
+                  var $chosenDropDown = jquery(this.$refs["theSelect"]);
+                  if (!$chosenDropDown || !$chosenDropDown.length) {
+                    $chosenDropDown = jquery("#".concat(this.uniqueId));
+                  }
+                  return $chosenDropDown;
                 },
-                methods: {
-                    getChosenJqueryEl() {
-                        const jquery = window["$"];
-                        let $chosenDropDown = jquery(this.$refs["theSelect"]);
-                        if (!$chosenDropDown || !$chosenDropDown.length) {
-                            $chosenDropDown = jquery(`#${this.uniqueId}`);
-                        }
-                        return $chosenDropDown;
-                    },
-                    createOrDestroyChosen() {
-                        if (!this.isMounted) {
-                            return;
-                        }
-                        const $chosenDropDown = this.getChosenJqueryEl();
-                        if (this.enhanceForLongLists) {
-                            $chosenDropDown
-                                .chosen({
-                                width: "100%",
-                                placeholder_text_multiple: " ",
-                                placeholder_text_single: " "
-                            })
-                                .change(() => {
-                                this.internalValue = $chosenDropDown.val();
-                            });
-                        }
-                        else {
-                            $chosenDropDown.chosen("destroy");
-                        }
-                    },
-                    syncValue() {
-                        if (this.internalValue.length === this.modelValue.length && this.internalValue.every((v, i) => v === this.modelValue[i])) {
-                            return;
-                        }
-                        this.internalValue = this.modelValue;
-                        if (this.enhanceForLongLists) {
-                            this.$nextTick(() => {
-                                const $chosenDropDown = this.getChosenJqueryEl();
-                                $chosenDropDown.trigger("chosen:updated");
-                            });
-                        }
-                    }
+                createOrDestroyChosen() {
+                  if (!this.isMounted) {
+                    return;
+                  }
+                  var $chosenDropDown = this.getChosenJqueryEl();
+                  if (this.enhanceForLongLists) {
+                    $chosenDropDown.chosen({
+                      width: "100%",
+                      placeholder_text_multiple: " ",
+                      placeholder_text_single: " "
+                    }).change(() => {
+                      this.internalValue = $chosenDropDown.val();
+                    });
+                  } else {
+                    $chosenDropDown.chosen("destroy");
+                  }
                 },
-                watch: {
-                    modelValue: {
-                        immediate: true,
-                        handler() {
-                            this.syncValue();
-                        }
-                    },
-                    items: {
-                        immediate: true,
-                        handler() {
-                            this.syncValue();
-                        }
-                    },
-                    internalValue() {
-                        this.$emit("update:modelValue", this.internalValue);
-                    },
-                    enhanceForLongLists() {
-                        this.createOrDestroyChosen();
-                    }
+                syncValue() {
+                  if (this.internalValue.length === this.modelValue.length && this.internalValue.every((v, i) => v === this.modelValue[i])) {
+                    return;
+                  }
+                  this.internalValue = this.modelValue;
+                  if (this.enhanceForLongLists) {
+                    this.$nextTick(() => {
+                      var $chosenDropDown = this.getChosenJqueryEl();
+                      $chosenDropDown.trigger("chosen:updated");
+                    });
+                  }
+                }
+              },
+              watch: {
+                modelValue: {
+                  immediate: true,
+                  handler() {
+                    this.syncValue();
+                  }
                 },
-                mounted() {
-                    this.isMounted = true;
-                    this.createOrDestroyChosen();
+                items: {
+                  immediate: true,
+                  handler() {
+                    this.syncValue();
+                  }
                 },
-                template: `
-<RockFormField
-    :modelValue="internalValue"
-    formGroupClasses="rock-drop-down-list"
-    name="dropdownlist">
-    <template #default="{uniqueId, field}">
-        <div class="control-wrapper">
-            <select :id="uniqueId" class="form-control" :class="compiledFormControlClasses" v-bind="field" v-model="internalValue" ref="theSelect" multiple>
-                <option v-if="showBlankItem" :value="blankValue"></option>
-                <option v-for="item in items" :key="item.value" :value="item.value">{{item.text}}</option>
-            </select>
-        </div>
-    </template>
-</RockFormField>
-`
+                internalValue() {
+                  this.$emit("update:modelValue", this.internalValue);
+                },
+                enhanceForLongLists() {
+                  this.createOrDestroyChosen();
+                }
+              },
+              mounted() {
+                this.isMounted = true;
+                this.createOrDestroyChosen();
+              },
+              template: "\n<RockFormField\n    :modelValue=\"internalValue\"\n    formGroupClasses=\"rock-drop-down-list\"\n    name=\"dropdownlist\">\n    <template #default=\"{uniqueId, field}\">\n        <div class=\"control-wrapper\">\n            <select :id=\"uniqueId\" class=\"form-control\" :class=\"compiledFormControlClasses\" v-bind=\"field\" v-model=\"internalValue\" ref=\"theSelect\" multiple>\n                <option v-if=\"showBlankItem\" :value=\"blankValue\"></option>\n                <option v-for=\"item in items\" :key=\"item.value\" :value=\"item.value\">{{item.text}}</option>\n            </select>\n        </div>\n    </template>\n</RockFormField>\n"
             }));
 
         })
     };
 }));
+//# sourceMappingURL=listBox.js.map

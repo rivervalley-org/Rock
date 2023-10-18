@@ -12,58 +12,50 @@ System.register(['vue', '@Obsidian/Utility/component', '@Obsidian/Utility/guid']
         }],
         execute: (function () {
 
-            var InlineSwitch = exports('default', defineComponent({
-                name: "InlineSwitch",
-                components: {},
-                props: {
-                    modelValue: {
-                        type: Boolean,
-                        required: true
-                    },
-                    label: {
-                        type: String,
-                        required: true
-                    },
-                    isBold: {
-                        type: Boolean,
-                        default: false
-                    },
-                    uniqueId: {
-                        type: String,
-                        default: ""
-                    }
+            var inlineSwitch = exports('default', defineComponent({
+              name: "InlineSwitch",
+              components: {},
+              props: {
+                modelValue: {
+                  type: Boolean,
+                  required: true
                 },
-                emits: [
-                    "update:modelValue"
-                ],
-                setup(props, { emit }) {
-                    const internalValue = useVModelPassthrough(props, "modelValue", emit);
-                    const internalUniqueId = `inline-switch-${newGuid()}`;
-                    const uniqueId = computed(() => props.uniqueId || internalUniqueId);
-                    const labelClass = computed(() => {
-                        const classes = ["custom-control-label"];
-                        if (props.isBold) {
-                            classes.push("custom-control-label-bold");
-                        }
-                        return classes;
-                    });
-                    return {
-                        labelClass,
-                        internalValue,
-                        uniqueId
-                    };
+                label: {
+                  type: String,
+                  required: true
                 },
-                template: `
-<div class="custom-control custom-switch">
-    <input v-model="internalValue" :id="uniqueId" class="custom-control-input" type="checkbox" />
-    <label :class="labelClass" :for="uniqueId">
-        <template v-if="label">{{ label }}</template>
-        <template v-else>&nbsp;</template>
-    </label>
-</div>
-`
+                isBold: {
+                  type: Boolean,
+                  default: false
+                },
+                uniqueId: {
+                  type: String,
+                  default: ""
+                }
+              },
+              emits: ["update:modelValue"],
+              setup(props, _ref) {
+                var emit = _ref.emit;
+                var internalValue = useVModelPassthrough(props, "modelValue", emit);
+                var internalUniqueId = "inline-switch-".concat(newGuid());
+                var uniqueId = computed(() => props.uniqueId || internalUniqueId);
+                var labelClass = computed(() => {
+                  var classes = ["custom-control-label"];
+                  if (props.isBold) {
+                    classes.push("custom-control-label-bold");
+                  }
+                  return classes;
+                });
+                return {
+                  labelClass,
+                  internalValue,
+                  uniqueId
+                };
+              },
+              template: "\n<div class=\"custom-control custom-switch\">\n    <input v-model=\"internalValue\" :id=\"uniqueId\" class=\"custom-control-input\" type=\"checkbox\" />\n    <label :class=\"labelClass\" :for=\"uniqueId\">\n        <template v-if=\"label\">{{ label }}</template>\n        <template v-else>&nbsp;</template>\n    </label>\n</div>\n"
             }));
 
         })
     };
 }));
+//# sourceMappingURL=inlineSwitch.js.map

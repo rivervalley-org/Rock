@@ -1,4 +1,4 @@
-System.register(['vue', '@Obsidian/Utility/component', './rockFormField.js', '@Obsidian/Utility/stringUtils', '@Obsidian/Utility/form', '@Obsidian/Utility/guid', '@Obsidian/ValidationRules', './rockLabel.js', './helpBlock.js', './javaScriptAnchor.js'], (function (exports) {
+System.register(['vue', '@Obsidian/Utility/component', './rockFormField', '@Obsidian/Utility/stringUtils'], (function (exports) {
     'use strict';
     var defineComponent, ref, computed, watch, updateRefValue, RockFormField, defaultControlCompareValue;
     return {
@@ -13,108 +13,101 @@ System.register(['vue', '@Obsidian/Utility/component', './rockFormField.js', '@O
             RockFormField = module["default"];
         }, function (module) {
             defaultControlCompareValue = module.defaultControlCompareValue;
-        }, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}],
+        }],
         execute: (function () {
 
-            var CheckBoxList = exports('default', defineComponent({
-                name: "CheckBoxList",
-                components: {
-                    RockFormField
+            var checkBoxList = exports('default', defineComponent({
+              name: "CheckBoxList",
+              components: {
+                RockFormField
+              },
+              props: {
+                modelValue: {
+                  type: Array,
+                  default: []
                 },
-                props: {
-                    modelValue: {
-                        type: Array,
-                        default: []
-                    },
-                    items: {
-                        type: Array,
-                        required: true
-                    },
-                    repeatColumns: {
-                        type: Number,
-                        default: 0
-                    },
-                    horizontal: {
-                        type: Boolean,
-                        default: false
-                    },
-                    compareValue: {
-                        type: Function,
-                        default: defaultControlCompareValue
+                disabled: {
+                  type: Boolean,
+                  required: false,
+                  default: false
+                },
+                items: {
+                  type: Array,
+                  required: true
+                },
+                repeatColumns: {
+                  type: Number,
+                  default: 0
+                },
+                horizontal: {
+                  type: Boolean,
+                  default: false
+                },
+                compareValue: {
+                  type: Function,
+                  default: defaultControlCompareValue
+                }
+              },
+              emits: {
+                "update:modelValue": _value => true
+              },
+              setup(props, _ref) {
+                var emit = _ref.emit;
+                var internalValue = ref([...props.modelValue]);
+                var valueForItem = item => {
+                  var _item$value;
+                  return (_item$value = item.value) !== null && _item$value !== void 0 ? _item$value : "";
+                };
+                var textForItem = item => {
+                  var _item$text;
+                  return (_item$text = item.text) !== null && _item$text !== void 0 ? _item$text : "";
+                };
+                var uniqueIdForItem = (uniqueId, item) => {
+                  var _item$value2;
+                  return "".concat(uniqueId, "-").concat(((_item$value2 = item.value) !== null && _item$value2 !== void 0 ? _item$value2 : "").replace(" ", "-"));
+                };
+                var containerClasses = computed(() => {
+                  var classes = [];
+                  if (props.horizontal) {
+                    classes.push("rockcheckboxlist-horizontal");
+                    if (props.repeatColumns > 0) {
+                      classes.push("in-columns in-columns-".concat(props.repeatColumns));
                     }
-                },
-                emits: {
-                    "update:modelValue": (_value) => true
-                },
-                setup(props, { emit }) {
-                    const internalValue = ref([...props.modelValue]);
-                    const valueForItem = (item) => { var _a; return (_a = item.value) !== null && _a !== void 0 ? _a : ""; };
-                    const textForItem = (item) => { var _a; return (_a = item.text) !== null && _a !== void 0 ? _a : ""; };
-                    const uniqueIdForItem = (uniqueId, item) => { var _a; return `${uniqueId}-${((_a = item.value) !== null && _a !== void 0 ? _a : "").replace(" ", "-")}`; };
-                    const containerClasses = computed(() => {
-                        const classes = [];
-                        if (props.horizontal) {
-                            classes.push("rockcheckboxlist-horizontal");
-                            if (props.repeatColumns > 0) {
-                                classes.push(`in-columns in-columns-${props.repeatColumns}`);
-                            }
-                        }
-                        else {
-                            classes.push("rockcheckboxlist-vertical");
-                        }
-                        return classes.join(" ");
-                    });
-                    const syncInternalValue = () => {
-                        let value = [...props.modelValue];
-                        value = props.items
-                            .filter(o => value.some(v => { var _a; return props.compareValue(v, (_a = o.value) !== null && _a !== void 0 ? _a : ""); }))
-                            .map(o => { var _a; return (_a = o.value) !== null && _a !== void 0 ? _a : ""; });
-                        updateRefValue(internalValue, value);
-                    };
-                    watch([() => props.modelValue, () => props.items], () => {
-                        syncInternalValue();
-                    });
-                    watch(internalValue, () => {
-                        emit("update:modelValue", internalValue.value);
-                    });
-                    syncInternalValue();
-                    return {
-                        containerClasses,
-                        internalValue,
-                        textForItem,
-                        uniqueIdForItem,
-                        valueForItem
-                    };
-                },
-                template: `
-<RockFormField
-    :modelValue="internalValue"
-    formGroupClasses="check-box-list"
-    name="check-box-list">
-    <template #default="{uniqueId}">
-        <div class="control-wrapper">
-            <div class="controls rockcheckboxlist" :class="containerClasses">
-                <template v-if="horizontal">
-                    <label v-for="item in items" class="checkbox-inline" :for="uniqueIdForItem(uniqueId, item)">
-                        <input :id="uniqueIdForItem(uniqueId, item)" :name="uniqueId" type="checkbox" :value="valueForItem(item)" v-model="internalValue" />
-                        <span class="label-text">{{textForItem(item)}}</span>
-                    </label>
-                </template>
-                <template v-else>
-                    <div v-for="item in items" class="checkbox">
-                        <label :for="uniqueIdForItem(uniqueId, item)">
-                            <input :id="uniqueIdForItem(uniqueId, item)" :name="uniqueId" type="checkbox" :value="valueForItem(item)" v-model="internalValue" />
-                            <span class="label-text">{{textForItem(item)}}</span>
-                        </label>
-                    </div>
-                </template>
-            </div>
-        </div>
-    </template>
-</RockFormField>
-`
+                  } else {
+                    classes.push("rockcheckboxlist-vertical input-group");
+                  }
+                  return classes.join(" ");
+                });
+                var syncInternalValue = () => {
+                  var value = [...props.modelValue];
+                  value = props.items.filter(o => value.some(v => {
+                    var _o$value;
+                    return props.compareValue(v, (_o$value = o.value) !== null && _o$value !== void 0 ? _o$value : "");
+                  })).map(o => {
+                    var _o$value2;
+                    return (_o$value2 = o.value) !== null && _o$value2 !== void 0 ? _o$value2 : "";
+                  });
+                  updateRefValue(internalValue, value);
+                };
+                watch([() => props.modelValue, () => props.items], () => {
+                  syncInternalValue();
+                });
+                watch(internalValue, () => {
+                  emit("update:modelValue", internalValue.value);
+                });
+                syncInternalValue();
+                return {
+                  containerClasses,
+                  internalValue,
+                  textForItem,
+                  uniqueIdForItem,
+                  valueForItem
+                };
+              },
+              template: "\n<RockFormField\n    :modelValue=\"internalValue\"\n    formGroupClasses=\"check-box-list\"\n    name=\"check-box-list\">\n    <template #default=\"{uniqueId}\">\n        <div class=\"control-wrapper\">\n            <slot name=\"prepend\" :isInputGroupSupported=\"false\" />\n            <div class=\"controls rockcheckboxlist\" :class=\"containerClasses\">\n                <template v-if=\"horizontal\">\n                    <label v-for=\"item in items\" class=\"checkbox-inline\" :for=\"uniqueIdForItem(uniqueId, item)\">\n                        <input :disabled=\"disabled\" :id=\"uniqueIdForItem(uniqueId, item)\" :name=\"uniqueId\" type=\"checkbox\" :value=\"valueForItem(item)\" v-model=\"internalValue\" />\n                        <span class=\"label-text\">{{textForItem(item)}}</span>\n                    </label>\n                </template>\n                <template v-else>\n                    <div v-for=\"item in items\" class=\"checkbox\">\n                        <label :for=\"uniqueIdForItem(uniqueId, item)\">\n                            <input :disabled=\"disabled\" :id=\"uniqueIdForItem(uniqueId, item)\" :name=\"uniqueId\" type=\"checkbox\" :value=\"valueForItem(item)\" v-model=\"internalValue\" />\n                            <span class=\"label-text\">{{textForItem(item)}}</span>\n                        </label>\n                    </div>\n                </template>\n            </div>\n            <slot name=\"append\" :isInputGroupSupported=\"false\" />\n        </div>\n    </template>\n</RockFormField>\n"
             }));
 
         })
     };
 }));
+//# sourceMappingURL=checkBoxList.js.map

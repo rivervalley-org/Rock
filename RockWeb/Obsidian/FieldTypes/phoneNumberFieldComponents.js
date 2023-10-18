@@ -1,4 +1,4 @@
-System.register(['vue', './utils.js', '@Obsidian/Controls/phoneNumberBox', '@Obsidian/Core/Reporting/comparisonType', '@Obsidian/Core/Reporting/comparisonTypeOptions', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/fieldFilterContainer', '@Obsidian/Utility/numberUtils'], (function (exports) {
+System.register(['vue', './utils', '@Obsidian/Controls/phoneNumberBox.obs'], (function (exports) {
     'use strict';
     var defineComponent, getFieldEditorProps, PhoneNumberBox;
     return {
@@ -8,46 +8,45 @@ System.register(['vue', './utils.js', '@Obsidian/Controls/phoneNumberBox', '@Obs
             getFieldEditorProps = module.getFieldEditorProps;
         }, function (module) {
             PhoneNumberBox = module["default"];
-        }, function () {}, function () {}, function () {}, function () {}, function () {}],
+        }],
         execute: (function () {
 
-            const EditComponent = exports('EditComponent', defineComponent({
-                name: "PhoneNumberField.Edit",
-                components: {
-                    PhoneNumberBox
+            var EditComponent = exports('EditComponent', defineComponent({
+              name: "PhoneNumberField.Edit",
+              components: {
+                PhoneNumberBox
+              },
+              props: getFieldEditorProps(),
+              data() {
+                return {
+                  internalValue: ""
+                };
+              },
+              computed: {
+                configAttributes() {
+                  var attributes = {};
+                  return attributes;
+                }
+              },
+              watch: {
+                internalValue() {
+                  this.$emit("update:modelValue", this.internalValue);
                 },
-                props: getFieldEditorProps(),
-                data() {
-                    return {
-                        internalValue: ""
-                    };
-                },
-                computed: {
-                    configAttributes() {
-                        const attributes = {};
-                        return attributes;
-                    }
-                },
-                watch: {
-                    internalValue() {
-                        this.$emit("update:modelValue", this.internalValue);
-                    },
-                    modelValue: {
-                        immediate: true,
-                        handler() {
-                            this.internalValue = this.modelValue || "";
-                        }
-                    }
-                },
-                template: `
-<PhoneNumberBox v-model="internalValue" v-bind="configAttributes" />
-`
+                modelValue: {
+                  immediate: true,
+                  handler() {
+                    this.internalValue = this.modelValue || "";
+                  }
+                }
+              },
+              template: "\n<PhoneNumberBox v-model=\"internalValue\" v-bind=\"configAttributes\" />\n"
             }));
-            const ConfigurationComponent = exports('ConfigurationComponent', defineComponent({
-                name: "PhoneNumberField.Configuration",
-                template: ``
+            var ConfigurationComponent = exports('ConfigurationComponent', defineComponent({
+              name: "PhoneNumberField.Configuration",
+              template: ""
             }));
 
         })
     };
 }));
+//# sourceMappingURL=phoneNumberFieldComponents.js.map

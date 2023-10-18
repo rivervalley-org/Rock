@@ -1,102 +1,71 @@
-System.register(['vue', './javaScriptAnchor.js', './componentFromUrl.js', 'tslib', './alert.vue.js', './loadingIndicator.js'], (function (exports) {
+System.register(['vue', './javaScriptAnchor', './componentFromUrl', '@Obsidian/Enums/Controls/gatewayEmitStrings'], (function (exports) {
     'use strict';
-    var defineComponent, computed, provide, inject, JavaScriptAnchor, ComponentFromUrl;
+    var defineComponent, computed, JavaScriptAnchor, ComponentFromUrl, GatewayEmitStrings;
     return {
         setters: [function (module) {
             defineComponent = module.defineComponent;
             computed = module.computed;
-            provide = module.provide;
-            inject = module.inject;
         }, function (module) {
             JavaScriptAnchor = module["default"];
         }, function (module) {
             ComponentFromUrl = module["default"];
-        }, function () {}, function () {}, function () {}],
+        }, function (module) {
+            GatewayEmitStrings = module.GatewayEmitStrings;
+        }],
         execute: (function () {
 
-            const submitPaymentCallbackSymbol = Symbol("gateway-submit-payment-callback");
-            const prepareSubmitPayment = exports('prepareSubmitPayment', () => {
-                const container = {};
-                provide(submitPaymentCallbackSymbol, container);
-                return () => {
-                    if (container.callback) {
-                        container.callback();
-                    }
-                    else {
-                        throw "Submit payment callback has not been defined.";
-                    }
-                };
-            });
-            const onSubmitPayment = exports('onSubmitPayment', (callback) => {
-                const container = inject(submitPaymentCallbackSymbol);
-                if (!container) {
-                    throw "Gateway control has not been properly initialized.";
-                }
-                container.callback = callback;
-            });
-            var ValidationField; exports('ValidationField', ValidationField);
-            (function (ValidationField) {
-                ValidationField[ValidationField["CardNumber"] = 0] = "CardNumber";
-                ValidationField[ValidationField["Expiry"] = 1] = "Expiry";
-                ValidationField[ValidationField["SecurityCode"] = 2] = "SecurityCode";
-            })(ValidationField || (exports('ValidationField', ValidationField = {})));
             var gatewayControl = exports('default', defineComponent({
-                name: "GatewayControl",
-                components: {
-                    ComponentFromUrl,
-                    JavaScriptAnchor
+              name: "GatewayControl",
+              components: {
+                ComponentFromUrl,
+                JavaScriptAnchor
+              },
+              props: {
+                gatewayControlModel: {
+                  type: Object,
+                  required: true
                 },
-                props: {
-                    gatewayControlModel: {
-                        type: Object,
-                        required: true
-                    },
-                    amountToPay: {
-                        type: Number,
-                        required: true
-                    },
-                    returnUrl: {
-                        type: String,
-                        required: false
-                    }
+                amountToPay: {
+                  type: Number,
+                  required: true
                 },
-                setup(props, { emit }) {
-                    const url = computed(() => props.gatewayControlModel.fileUrl);
-                    const settings = computed(() => props.gatewayControlModel.settings);
-                    const amountToPay = computed(() => props.amountToPay);
-                    const onSuccess = (token) => {
-                        emit("success", token);
-                    };
-                    const onValidation = (validationErrors) => {
-                        emit("validation", validationErrors);
-                    };
-                    const onError = (message) => {
-                        emit("error", message);
-                    };
-                    return {
-                        url,
-                        settings,
-                        amountToPay,
-                        returnUrl: props.returnUrl,
-                        onSuccess,
-                        onValidation,
-                        onError
-                    };
-                },
-                methods: {},
-                template: `
-<div>
-    <ComponentFromUrl :url="url"
-        :settings="settings"
-        :amount="amountToPay"
-        :returnUrl="returnUrl"
-        @validation="onValidation"
-        @success="onSuccess"
-        @error="onError" />
-</div>
-`
+                returnUrl: {
+                  type: String,
+                  required: false
+                }
+              },
+              setup(props, _ref) {
+                var emit = _ref.emit;
+                var url = computed(() => {
+                  var _props$gatewayControl;
+                  return (_props$gatewayControl = props.gatewayControlModel.fileUrl) !== null && _props$gatewayControl !== void 0 ? _props$gatewayControl : "";
+                });
+                var settings = computed(() => props.gatewayControlModel.settings);
+                var amountToPay = computed(() => props.amountToPay);
+                var onSuccess = token => {
+                  emit(GatewayEmitStrings.Success, token);
+                };
+                var onValidation = validationErrors => {
+                  emit(GatewayEmitStrings.Validation, validationErrors);
+                };
+                var onError = message => {
+                  emit(GatewayEmitStrings.Error, message);
+                };
+                return {
+                  url,
+                  settings,
+                  amountToPay,
+                  returnUrl: props.returnUrl,
+                  onSuccess,
+                  onValidation,
+                  onError
+                };
+              },
+              methods: {},
+              template: "\n<div>\n    <ComponentFromUrl :url=\"url\"\n        :settings=\"settings\"\n        :amount=\"amountToPay\"\n        :returnUrl=\"returnUrl\"\n        @validation=\"onValidation\"\n        @success=\"onSuccess\"\n        @error=\"onError\" />\n</div>\n"
             }));
 
         })
     };
 }));
+//# sourceMappingURL=gatewayControl.js.map

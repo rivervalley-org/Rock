@@ -1,4 +1,4 @@
-System.register(['vue', './utils.js', '@Obsidian/Controls/timePicker', '@Obsidian/Utility/numberUtils', '@Obsidian/Utility/stringUtils', '@Obsidian/Core/Reporting/comparisonType', '@Obsidian/Core/Reporting/comparisonTypeOptions', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/fieldFilterContainer'], (function (exports) {
+System.register(['vue', './utils', '@Obsidian/Controls/timePicker', '@Obsidian/Utility/numberUtils', '@Obsidian/Utility/stringUtils'], (function (exports) {
     'use strict';
     var defineComponent, getFieldEditorProps, TimePicker, toNumber, padLeft;
     return {
@@ -12,73 +12,70 @@ System.register(['vue', './utils.js', '@Obsidian/Controls/timePicker', '@Obsidia
             toNumber = module.toNumber;
         }, function (module) {
             padLeft = module.padLeft;
-        }, function () {}, function () {}, function () {}, function () {}],
+        }],
         execute: (function () {
 
-            const EditComponent = exports('EditComponent', defineComponent({
-                name: "TimeField.Edit",
-                components: {
-                    TimePicker
+            var EditComponent = exports('EditComponent', defineComponent({
+              name: "TimeField.Edit",
+              components: {
+                TimePicker
+              },
+              props: getFieldEditorProps(),
+              data() {
+                return {
+                  internalTimeValue: {},
+                  internalValue: ""
+                };
+              },
+              computed: {
+                displayValue() {
+                  if (this.internalTimeValue.hour === undefined || this.internalTimeValue.minute === undefined) {
+                    return "";
+                  }
+                  var hour = this.internalTimeValue.hour;
+                  var minute = this.internalTimeValue.minute;
+                  var meridiem = hour >= 12 ? "PM" : "AM";
+                  if (hour > 12) {
+                    hour -= 12;
+                  }
+                  return "".concat(hour, ":").concat(padLeft(minute.toString(), 2, "0"), " ").concat(meridiem);
+                }
+              },
+              watch: {
+                internalValue() {
+                  this.$emit("update:modelValue", this.internalValue);
                 },
-                props: getFieldEditorProps(),
-                data() {
-                    return {
-                        internalTimeValue: {},
-                        internalValue: ""
-                    };
+                internalTimeValue() {
+                  if (this.internalTimeValue.hour === undefined || this.internalTimeValue.minute === undefined) {
+                    this.internalValue = "";
+                  } else {
+                    this.internalValue = "".concat(this.internalTimeValue.hour, ":").concat(padLeft(this.internalTimeValue.minute.toString(), 2, "0"), ":00");
+                  }
                 },
-                computed: {
-                    displayValue() {
-                        if (this.internalTimeValue.hour === undefined || this.internalTimeValue.minute === undefined) {
-                            return "";
-                        }
-                        let hour = this.internalTimeValue.hour;
-                        const minute = this.internalTimeValue.minute;
-                        const meridiem = hour >= 12 ? "PM" : "AM";
-                        if (hour > 12) {
-                            hour -= 12;
-                        }
-                        return `${hour}:${padLeft(minute.toString(), 2, "0")} ${meridiem}`;
-                    },
-                },
-                watch: {
-                    internalValue() {
-                        this.$emit("update:modelValue", this.internalValue);
-                    },
-                    internalTimeValue() {
-                        if (this.internalTimeValue.hour === undefined || this.internalTimeValue.minute === undefined) {
-                            this.internalValue = "";
-                        }
-                        else {
-                            this.internalValue = `${this.internalTimeValue.hour}:${padLeft(this.internalTimeValue.minute.toString(), 2, "0")}:00`;
-                        }
-                    },
-                    modelValue: {
-                        immediate: true,
-                        handler() {
-                            var _a;
-                            const values = /^(\d+):(\d+)/.exec((_a = this.modelValue) !== null && _a !== void 0 ? _a : "");
-                            if (values !== null) {
-                                this.internalTimeValue = {
-                                    hour: toNumber(values[1]),
-                                    minute: toNumber(values[2])
-                                };
-                            }
-                            else {
-                                this.internalTimeValue = {};
-                            }
-                        }
+                modelValue: {
+                  immediate: true,
+                  handler() {
+                    var _this$modelValue;
+                    var values = /^(\d+):(\d+)/.exec((_this$modelValue = this.modelValue) !== null && _this$modelValue !== void 0 ? _this$modelValue : "");
+                    if (values !== null) {
+                      this.internalTimeValue = {
+                        hour: toNumber(values[1]),
+                        minute: toNumber(values[2])
+                      };
+                    } else {
+                      this.internalTimeValue = {};
                     }
-                },
-                template: `
-<TimePicker v-model="internalTimeValue" />
-`
+                  }
+                }
+              },
+              template: "\n<TimePicker v-model=\"internalTimeValue\" />\n"
             }));
-            const ConfigurationComponent = exports('ConfigurationComponent', defineComponent({
-                name: "TimeField.Configuration",
-                template: ``
+            var ConfigurationComponent = exports('ConfigurationComponent', defineComponent({
+              name: "TimeField.Configuration",
+              template: ""
             }));
 
         })
     };
 }));
+//# sourceMappingURL=timeFieldComponents.js.map

@@ -1,6 +1,6 @@
-System.register(['vue', '@Obsidian/Core/Reporting/comparisonType', '@Obsidian/Utility/stringUtils', './textFieldComponents.js', './utils.js', '@Obsidian/Controls/textBox', '@Obsidian/Controls/checkBox', '@Obsidian/Controls/numberBox', '@Obsidian/Utility/booleanUtils', '@Obsidian/Utility/numberUtils', '@Obsidian/Core/Reporting/comparisonTypeOptions', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/fieldFilterContainer'], (function (exports) {
+System.register(['vue', '@Obsidian/Core/Reporting/comparisonType', '@Obsidian/Utility/stringUtils', './textFieldComponents', './utils', '@Obsidian/Enums/Reporting/comparisonType'], (function (exports) {
     'use strict';
-    var defineComponent, computed, getComparisonName, escapeHtml, truncate, EditComponent, getFieldEditorProps, getStandardFilterComponent;
+    var defineComponent, computed, getComparisonName, escapeHtml, truncate, EditComponent, getFieldEditorProps, getStandardFilterComponent, ComparisonType;
     return {
         setters: [function (module) {
             defineComponent = module.defineComponent;
@@ -15,177 +15,160 @@ System.register(['vue', '@Obsidian/Core/Reporting/comparisonType', '@Obsidian/Ut
         }, function (module) {
             getFieldEditorProps = module.getFieldEditorProps;
             getStandardFilterComponent = module.getStandardFilterComponent;
-        }, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}],
+        }, function (module) {
+            ComparisonType = module.ComparisonType;
+        }],
         execute: (function () {
 
-            const unsupportedFieldTypeConfigurationComponent = defineComponent({
-                props: {
-                    modelValue: {
-                        type: Object,
-                        required: true
-                    },
-                    configurationProperties: {
-                        type: Object,
-                        required: true
-                    }
+            var unsupportedFieldTypeConfigurationComponent = defineComponent({
+              props: {
+                modelValue: {
+                  type: Object,
+                  required: true
                 },
-                setup() {
-                    return {};
-                },
-                template: `
-<div class="alert alert-warning">
-    Configuration of this field type is not supported.
-</div>
-`
+                configurationProperties: {
+                  type: Object,
+                  required: true
+                }
+              },
+              setup() {
+                return {};
+              },
+              template: "\n<div class=\"alert alert-warning\">\n    Configuration of this field type is not supported.\n</div>\n"
             });
             class FieldTypeBase {
-                getTextValue(value, _configurationValues) {
-                    return value !== null && value !== void 0 ? value : "";
+              getTextValue(value, _configurationValues) {
+                return value !== null && value !== void 0 ? value : "";
+              }
+              getHtmlValue(value, configurationValues) {
+                return "".concat(escapeHtml(this.getTextValue(value, configurationValues)));
+              }
+              getCondensedTextValue(value, configurationValues) {
+                return truncate(this.getTextValue(value, configurationValues), 100);
+              }
+              getCondensedHtmlValue(value, configurationValues) {
+                return "".concat(escapeHtml(this.getCondensedTextValue(value, configurationValues)));
+              }
+              getFormattedComponent() {
+                return defineComponent({
+                  name: "FieldType.Formatted",
+                  props: getFieldEditorProps(),
+                  setup: props => {
+                    return {
+                      content: computed(() => {
+                        var _props$modelValue;
+                        return this.getHtmlValue((_props$modelValue = props.modelValue) !== null && _props$modelValue !== void 0 ? _props$modelValue : "", props.configurationValues);
+                      })
+                    };
+                  },
+                  template: "<div v-html=\"content\"></div>"
+                });
+              }
+              getCondensedFormattedComponent() {
+                return defineComponent({
+                  name: "FieldType.CondensedFormatted",
+                  props: getFieldEditorProps(),
+                  setup: props => {
+                    return {
+                      content: computed(() => {
+                        var _props$modelValue2;
+                        return this.getCondensedHtmlValue((_props$modelValue2 = props.modelValue) !== null && _props$modelValue2 !== void 0 ? _props$modelValue2 : "", props.configurationValues);
+                      })
+                    };
+                  },
+                  template: "<span v-html=\"content\"></span>"
+                });
+              }
+              getEditComponent() {
+                return EditComponent;
+              }
+              getConfigurationComponent() {
+                return unsupportedFieldTypeConfigurationComponent;
+              }
+              hasDefaultComponent() {
+                return true;
+              }
+              isFilterable() {
+                return true;
+              }
+              getSupportedComparisonTypes() {
+                return ComparisonType.EqualTo | ComparisonType.NotEqualTo;
+              }
+              getFilterComponent() {
+                return getStandardFilterComponent(this.getSupportedComparisonTypes(), this.getEditComponent());
+              }
+              getFilterValueDescription(value, configurationValues) {
+                var valueText = this.getFilterValueText(value, configurationValues);
+                if (!value.comparisonType) {
+                  return valueText ? "Is ".concat(valueText) : "";
                 }
-                getHtmlValue(value, configurationValues) {
-                    return `${escapeHtml(this.getTextValue(value, configurationValues))}`;
+                if (value.comparisonType === ComparisonType.IsBlank || value.comparisonType === ComparisonType.IsNotBlank) {
+                  return getComparisonName(value.comparisonType);
                 }
-                getCondensedTextValue(value, configurationValues) {
-                    return truncate(this.getTextValue(value, configurationValues), 100);
+                if (valueText === "") {
+                  if (this.getSupportedComparisonTypes() & ComparisonType.IsBlank && (value.comparisonType === ComparisonType.EqualTo || value.comparisonType === ComparisonType.NotEqualTo)) {
+                    return "".concat(getComparisonName(value.comparisonType), " ''");
+                  }
+                  return "";
                 }
-                getCondensedHtmlValue(value, configurationValues) {
-                    return `${escapeHtml(this.getCondensedTextValue(value, configurationValues))}`;
+                return "".concat(getComparisonName(value.comparisonType), " ").concat(valueText);
+              }
+              getFilterValueText(value, configurationValues) {
+                var _this$getTextValue;
+                var text = (_this$getTextValue = this.getTextValue(value.value, configurationValues !== null && configurationValues !== void 0 ? configurationValues : {})) !== null && _this$getTextValue !== void 0 ? _this$getTextValue : "";
+                return text ? "'".concat(text, "'") : text;
+              }
+              doesValueMatchFilter(value, filterValue, _configurationValues) {
+                if (!filterValue.comparisonType) {
+                  return false;
                 }
-                getFormattedComponent() {
-                    return defineComponent({
-                        name: "FieldType.Formatted",
-                        props: getFieldEditorProps(),
-                        setup: (props) => {
-                            return {
-                                content: computed(() => { var _a; return this.getHtmlValue((_a = props.modelValue) !== null && _a !== void 0 ? _a : "", props.configurationValues); })
-                            };
-                        },
-                        template: `<div v-html="content"></div>`
-                    });
+                if (!filterValue.value) {
+                  if (filterValue.comparisonType === ComparisonType.IsBlank) {
+                    return (value !== null && value !== void 0 ? value : "") === "";
+                  } else if (filterValue.comparisonType === ComparisonType.IsNotBlank) {
+                    return (value !== null && value !== void 0 ? value : "") !== "";
+                  } else if (this.getSupportedComparisonTypes() & ComparisonType.IsBlank) {
+                    if (filterValue.comparisonType === ComparisonType.EqualTo) {
+                      return (value !== null && value !== void 0 ? value : "") === "";
+                    } else if (filterValue.comparisonType === ComparisonType.NotEqualTo) {
+                      return (value !== null && value !== void 0 ? value : "") !== "";
+                    }
+                  }
+                  return false;
                 }
-                getCondensedFormattedComponent() {
-                    return defineComponent({
-                        name: "FieldType.CondensedFormatted",
-                        props: getFieldEditorProps(),
-                        setup: (props) => {
-                            return {
-                                content: computed(() => { var _a; return this.getCondensedHtmlValue((_a = props.modelValue) !== null && _a !== void 0 ? _a : "", props.configurationValues); })
-                            };
-                        },
-                        template: `<span v-html="content"></span>`
-                    });
+                var numericFilterValue = parseFloat(filterValue.value);
+                var numericValue = parseFloat(value !== null && value !== void 0 ? value : "");
+                var isNumericComparison = !Number.isNaN(numericFilterValue) && !Number.isNaN(numericValue);
+                if (filterValue.comparisonType === ComparisonType.Contains) {
+                  return (value !== null && value !== void 0 ? value : "").toLowerCase().includes(filterValue.value.toLowerCase());
+                } else if (filterValue.comparisonType === ComparisonType.DoesNotContain) {
+                  return !(value !== null && value !== void 0 ? value : "").toLowerCase().includes(filterValue.value.toLowerCase());
+                } else if (filterValue.comparisonType === ComparisonType.StartsWith) {
+                  return (value !== null && value !== void 0 ? value : "").toLowerCase().startsWith(filterValue.value.toLowerCase());
+                } else if (filterValue.comparisonType === ComparisonType.EndsWith) {
+                  return (value !== null && value !== void 0 ? value : "").toLowerCase().endsWith(filterValue.value.toLowerCase());
+                } else if (filterValue.comparisonType === ComparisonType.EqualTo) {
+                  return (value !== null && value !== void 0 ? value : "").toLowerCase() === filterValue.value.toLowerCase();
+                } else if (filterValue.comparisonType === ComparisonType.NotEqualTo) {
+                  return (value !== null && value !== void 0 ? value : "").toLowerCase() !== filterValue.value.toLowerCase();
+                } else if (filterValue.comparisonType === ComparisonType.IsBlank) {
+                  return (value !== null && value !== void 0 ? value : "").toLowerCase().trim() === "";
+                } else if (filterValue.comparisonType === ComparisonType.IsNotBlank) {
+                  return (value !== null && value !== void 0 ? value : "").toLowerCase().trim() !== "";
+                } else if (filterValue.comparisonType === ComparisonType.LessThan) {
+                  return isNumericComparison ? numericValue < numericFilterValue : (value !== null && value !== void 0 ? value : "").toLowerCase() < filterValue.value.toLowerCase();
+                } else if (filterValue.comparisonType === ComparisonType.LessThanOrEqualTo) {
+                  return isNumericComparison ? numericValue <= numericFilterValue : (value !== null && value !== void 0 ? value : "").toLowerCase() <= filterValue.value.toLowerCase();
+                } else if (filterValue.comparisonType === ComparisonType.GreaterThan) {
+                  return isNumericComparison ? numericValue > numericFilterValue : (value !== null && value !== void 0 ? value : "").toLowerCase() > filterValue.value.toLowerCase();
+                } else if (filterValue.comparisonType === ComparisonType.GreaterThanOrEqualTo) {
+                  return isNumericComparison ? numericValue >= numericFilterValue : (value !== null && value !== void 0 ? value : "").toLowerCase() >= filterValue.value.toLowerCase();
                 }
-                getEditComponent() {
-                    return EditComponent;
-                }
-                getConfigurationComponent() {
-                    return unsupportedFieldTypeConfigurationComponent;
-                }
-                hasDefaultComponent() {
-                    return true;
-                }
-                isFilterable() {
-                    return true;
-                }
-                getSupportedComparisonTypes() {
-                    return 1 | 2;
-                }
-                getFilterComponent() {
-                    return getStandardFilterComponent(this.getSupportedComparisonTypes(), this.getEditComponent());
-                }
-                getFilterValueDescription(value, configurationValues) {
-                    const valueText = this.getFilterValueText(value, configurationValues);
-                    if (!value.comparisonType) {
-                        return valueText ? `Is ${valueText}` : "";
-                    }
-                    if (value.comparisonType === 32 || value.comparisonType === 64) {
-                        return getComparisonName(value.comparisonType);
-                    }
-                    if (valueText === "") {
-                        if (this.getSupportedComparisonTypes() & 32 && (value.comparisonType === 1 || value.comparisonType === 2)) {
-                            return `${getComparisonName(value.comparisonType)} ''`;
-                        }
-                        return "";
-                    }
-                    return `${getComparisonName(value.comparisonType)} ${valueText}`;
-                }
-                getFilterValueText(value, configurationValues) {
-                    var _a;
-                    const text = (_a = this.getTextValue(value.value, configurationValues !== null && configurationValues !== void 0 ? configurationValues : {})) !== null && _a !== void 0 ? _a : "";
-                    return text ? `'${text}'` : text;
-                }
-                doesValueMatchFilter(value, filterValue, _configurationValues) {
-                    if (!filterValue.comparisonType) {
-                        return false;
-                    }
-                    if (!filterValue.value) {
-                        if (filterValue.comparisonType === 32) {
-                            return (value !== null && value !== void 0 ? value : "") === "";
-                        }
-                        else if (filterValue.comparisonType === 64) {
-                            return (value !== null && value !== void 0 ? value : "") !== "";
-                        }
-                        else if (this.getSupportedComparisonTypes() & 32) {
-                            if (filterValue.comparisonType === 1) {
-                                return (value !== null && value !== void 0 ? value : "") === "";
-                            }
-                            else if (filterValue.comparisonType === 2) {
-                                return (value !== null && value !== void 0 ? value : "") !== "";
-                            }
-                        }
-                        return false;
-                    }
-                    const numericFilterValue = parseFloat(filterValue.value);
-                    const numericValue = parseFloat(value !== null && value !== void 0 ? value : "");
-                    const isNumericComparison = !Number.isNaN(numericFilterValue) && !Number.isNaN(numericValue);
-                    if (filterValue.comparisonType === 8) {
-                        return (value !== null && value !== void 0 ? value : "").toLowerCase().includes(filterValue.value.toLowerCase());
-                    }
-                    else if (filterValue.comparisonType === 16) {
-                        return !(value !== null && value !== void 0 ? value : "").toLowerCase().includes(filterValue.value.toLowerCase());
-                    }
-                    else if (filterValue.comparisonType === 4) {
-                        return (value !== null && value !== void 0 ? value : "").toLowerCase().startsWith(filterValue.value.toLowerCase());
-                    }
-                    else if (filterValue.comparisonType === 2048) {
-                        return (value !== null && value !== void 0 ? value : "").toLowerCase().endsWith(filterValue.value.toLowerCase());
-                    }
-                    else if (filterValue.comparisonType === 1) {
-                        return (value !== null && value !== void 0 ? value : "").toLowerCase() === filterValue.value.toLowerCase();
-                    }
-                    else if (filterValue.comparisonType === 2) {
-                        return (value !== null && value !== void 0 ? value : "").toLowerCase() !== filterValue.value.toLowerCase();
-                    }
-                    else if (filterValue.comparisonType === 32) {
-                        return (value !== null && value !== void 0 ? value : "").toLowerCase().trim() === "";
-                    }
-                    else if (filterValue.comparisonType === 64) {
-                        return (value !== null && value !== void 0 ? value : "").toLowerCase().trim() !== "";
-                    }
-                    else if (filterValue.comparisonType === 512) {
-                        return isNumericComparison
-                            ? numericValue < numericFilterValue
-                            : (value !== null && value !== void 0 ? value : "").toLowerCase() < filterValue.value.toLowerCase();
-                    }
-                    else if (filterValue.comparisonType === 1024) {
-                        return isNumericComparison
-                            ? numericValue <= numericFilterValue
-                            : (value !== null && value !== void 0 ? value : "").toLowerCase() <= filterValue.value.toLowerCase();
-                    }
-                    else if (filterValue.comparisonType === 128) {
-                        return isNumericComparison
-                            ? numericValue > numericFilterValue
-                            : (value !== null && value !== void 0 ? value : "").toLowerCase() > filterValue.value.toLowerCase();
-                    }
-                    else if (filterValue.comparisonType === 256) {
-                        return isNumericComparison
-                            ? numericValue >= numericFilterValue
-                            : (value !== null && value !== void 0 ? value : "").toLowerCase() >= filterValue.value.toLowerCase();
-                    }
-                    return false;
-                }
+                return false;
+              }
             } exports('FieldTypeBase', FieldTypeBase);
 
         })
     };
 }));
+//# sourceMappingURL=fieldType.js.map

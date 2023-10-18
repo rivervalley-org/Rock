@@ -9,46 +9,42 @@ System.register(['vue'], (function (exports) {
         }],
         execute: (function () {
 
-            var InlineCheckBox = exports('default', defineComponent({
-                name: "InlineCheckBox",
-                components: {},
-                props: {
-                    modelValue: {
-                        type: Boolean,
-                        required: true
-                    },
-                    label: {
-                        type: String,
-                        required: true
-                    }
+            var inlineCheckBox = exports('default', defineComponent({
+              name: "InlineCheckBox",
+              components: {},
+              emits: ["update:modelValue"],
+              props: {
+                modelValue: {
+                  type: Boolean,
+                  required: true
                 },
-                setup(props, { emit }) {
-                    const internalValue = ref(props.modelValue);
-                    const toggle = () => {
-                        internalValue.value = !internalValue.value;
-                    };
-                    watch(() => props.modelValue, () => {
-                        internalValue.value = props.modelValue;
-                    });
-                    watch(internalValue, () => {
-                        emit("update:modelValue", internalValue.value);
-                    });
-                    return {
-                        internalValue,
-                        label: props.label,
-                        toggle
-                    };
-                },
-                template: `
-<div class="checkbox">
-    <label title="">
-        <input type="checkbox" v-model="internalValue" />
-        <span class="label-text ">{{label}}</span>
-    </label>
-</div>
-`
+                label: {
+                  type: String,
+                  required: true
+                }
+              },
+              setup(props, _ref) {
+                var emit = _ref.emit;
+                var internalValue = ref(props.modelValue);
+                var toggle = () => {
+                  internalValue.value = !internalValue.value;
+                };
+                watch(() => props.modelValue, () => {
+                  internalValue.value = props.modelValue;
+                });
+                watch(internalValue, () => {
+                  emit("update:modelValue", internalValue.value);
+                });
+                return {
+                  internalValue,
+                  label: props.label,
+                  toggle
+                };
+              },
+              template: "\n<div class=\"checkbox\">\n    <label title=\"\">\n        <input type=\"checkbox\" v-model=\"internalValue\" v-bind=\"$attrs\" />\n        <span class=\"label-text \">{{label}}</span>\n    </label>\n</div>\n"
             }));
 
         })
     };
 }));
+//# sourceMappingURL=inlineCheckBox.js.map

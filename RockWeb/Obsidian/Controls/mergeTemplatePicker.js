@@ -1,6 +1,6 @@
-System.register(['@Obsidian/Utility/block', '@Obsidian/Utility/component', 'vue', '@Obsidian/Utility/treeItemProviders', '@Obsidian/Enums/Controls/mergeTemplateOwnership', './treeItemPicker.obs.js', './treeList.js', 'tslib', '@Obsidian/Utility/promiseUtils', './contentDropDownPicker.obs.js', './rockButton.js', '@Obsidian/Enums/Controls/btnType', '@Obsidian/Enums/Controls/btnSize', './rockFormField.js', '@Obsidian/Utility/form', '@Obsidian/Utility/guid', '@Obsidian/ValidationRules', './rockLabel.js', './helpBlock.js', './javaScriptAnchor.js', '@Obsidian/Controls/fullscreen'], (function (exports) {
+System.register(['@Obsidian/Utility/block', '@Obsidian/Utility/component', 'vue', '@Obsidian/Utility/treeItemProviders', '@Obsidian/Enums/Controls/mergeTemplateOwnership', './treeItemPicker.obs'], (function (exports) {
     'use strict';
-    var useSecurityGrantToken, updateRefValue, defineComponent, ref, watch, MergeTemplateTreeItemProvider, MergeTemplateOwnership, exportHelper;
+    var useSecurityGrantToken, updateRefValue, defineComponent, ref, watch, MergeTemplateTreeItemProvider, MergeTemplateOwnership, TreeItemPicker;
     return {
         setters: [function (module) {
             useSecurityGrantToken = module.useSecurityGrantToken;
@@ -15,69 +15,63 @@ System.register(['@Obsidian/Utility/block', '@Obsidian/Utility/component', 'vue'
         }, function (module) {
             MergeTemplateOwnership = module.MergeTemplateOwnership;
         }, function (module) {
-            exportHelper = module["default"];
-        }, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}],
+            TreeItemPicker = module["default"];
+        }],
         execute: (function () {
 
             var mergeTemplatePicker = exports('default', defineComponent({
-                name: "MergeTemplatePicker",
-                components: {
-                    TreeItemPicker: exportHelper
+              name: "MergeTemplatePicker",
+              components: {
+                TreeItemPicker
+              },
+              props: {
+                modelValue: {
+                  type: Object,
+                  required: false
                 },
-                props: {
-                    modelValue: {
-                        type: Object,
-                        required: false
-                    },
-                    mergeTemplateOwnership: {
-                        type: Number,
-                        default: MergeTemplateOwnership.Global
-                    },
-                },
-                emits: {
-                    "update:modelValue": (_value) => true
-                },
-                setup(props, { emit }) {
-                    var _a;
-                    const internalValue = ref((_a = props.modelValue) !== null && _a !== void 0 ? _a : null);
-                    const securityGrantToken = useSecurityGrantToken();
-                    const itemProvider = ref();
-                    function refreshItemProvider() {
-                        const provider = new MergeTemplateTreeItemProvider();
-                        provider.mergeTemplateOwnership = props.mergeTemplateOwnership;
-                        provider.securityGrantToken = securityGrantToken.value;
-                        itemProvider.value = provider;
-                    }
-                    refreshItemProvider();
-                    watch(() => [props.mergeTemplateOwnership], refreshItemProvider);
-                    watch(securityGrantToken, () => {
-                        if (itemProvider.value) {
-                            itemProvider.value.securityGrantToken = securityGrantToken.value;
-                        }
-                    });
-                    watch(internalValue, () => {
-                        emit("update:modelValue", internalValue.value);
-                    });
-                    watch(() => props.modelValue, () => {
-                        var _a;
-                        updateRefValue(internalValue, (_a = props.modelValue) !== null && _a !== void 0 ? _a : null);
-                    });
-                    return {
-                        internalValue,
-                        itemProvider
-                    };
-                },
-                template: `
-<TreeItemPicker v-model="internalValue"
-    formGroupClasses="category-picker"
-    iconCssClass="fa fa-files-o"
-    :provider="itemProvider"
-    :multiple="multiple"
-    disableFolderSelection
-/>
-`
+                mergeTemplateOwnership: {
+                  type: Number,
+                  default: MergeTemplateOwnership.Global
+                }
+              },
+              emits: {
+                "update:modelValue": _value => true
+              },
+              setup(props, _ref) {
+                var _props$modelValue;
+                var emit = _ref.emit;
+                var internalValue = ref((_props$modelValue = props.modelValue) !== null && _props$modelValue !== void 0 ? _props$modelValue : null);
+                var securityGrantToken = useSecurityGrantToken();
+                var itemProvider = ref();
+                function refreshItemProvider() {
+                  var provider = new MergeTemplateTreeItemProvider();
+                  provider.mergeTemplateOwnership = props.mergeTemplateOwnership;
+                  provider.securityGrantToken = securityGrantToken.value;
+                  itemProvider.value = provider;
+                }
+                refreshItemProvider();
+                watch(() => [props.mergeTemplateOwnership], refreshItemProvider);
+                watch(securityGrantToken, () => {
+                  if (itemProvider.value) {
+                    itemProvider.value.securityGrantToken = securityGrantToken.value;
+                  }
+                });
+                watch(internalValue, () => {
+                  emit("update:modelValue", internalValue.value);
+                });
+                watch(() => props.modelValue, () => {
+                  var _props$modelValue2;
+                  updateRefValue(internalValue, (_props$modelValue2 = props.modelValue) !== null && _props$modelValue2 !== void 0 ? _props$modelValue2 : null);
+                });
+                return {
+                  internalValue,
+                  itemProvider
+                };
+              },
+              template: "\n<TreeItemPicker v-model=\"internalValue\"\n    formGroupClasses=\"category-picker\"\n    iconCssClass=\"fa fa-files-o\"\n    :provider=\"itemProvider\"\n    :multiple=\"multiple\"\n    disableFolderSelection\n/>\n"
             }));
 
         })
     };
 }));
+//# sourceMappingURL=mergeTemplatePicker.js.map

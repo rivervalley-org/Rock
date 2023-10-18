@@ -1,282 +1,217 @@
-System.register(['vue', './checkBox.js', './textBox.js', './categoryPicker.js', './fieldTypeEditor.js', './staticFormControl.js', './panelWidget.js', './rockFormField.js', '@Obsidian/Utility/component', '@Obsidian/Utility/form', '@Obsidian/Utility/guid', '@Obsidian/ValidationRules', './rockLabel.js', './helpBlock.js', './javaScriptAnchor.js', '@Obsidian/Utility/treeItemProviders', './treeItemPicker.js', './rockButton.js', 'tslib', '@Obsidian/Utility/promiseUtils', './treeList.js', './rockField.js', '@Obsidian/Utility/fieldTypes', './alert.vue.js', './dropDownList.js', 'ant-design-vue', '@Obsidian/Utility/util', '@Obsidian/Utility/stringUtils', '@Obsidian/Utility/http'], (function (exports) {
-    'use strict';
-    var defineComponent, ref, computed, watch, CheckBox, TextBox, CategoryPicker, FieldTypeEditor, StaticFormControl, PanelWidget;
-    return {
-        setters: [function (module) {
-            defineComponent = module.defineComponent;
-            ref = module.ref;
-            computed = module.computed;
-            watch = module.watch;
-        }, function (module) {
-            CheckBox = module["default"];
-        }, function (module) {
-            TextBox = module["default"];
-        }, function (module) {
-            CategoryPicker = module["default"];
-        }, function (module) {
-            FieldTypeEditor = module["default"];
-        }, function (module) {
-            StaticFormControl = module["default"];
-        }, function (module) {
-            PanelWidget = module["default"];
-        }, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}, function () {}],
-        execute: (function () {
+System.register(['vue', './checkBox', './textBox', './categoryPicker', './fieldTypeEditor', './staticFormControl', './panelWidget', '@Obsidian/SystemGuids/entityType'], (function (exports) {
+  'use strict';
+  var defineComponent, ref, computed, watch, CheckBox, TextBox, CategoryPicker, FieldTypeEditor, StaticFormControl, PanelWidget, EntityType;
+  return {
+    setters: [function (module) {
+      defineComponent = module.defineComponent;
+      ref = module.ref;
+      computed = module.computed;
+      watch = module.watch;
+    }, function (module) {
+      CheckBox = module["default"];
+    }, function (module) {
+      TextBox = module["default"];
+    }, function (module) {
+      CategoryPicker = module["default"];
+    }, function (module) {
+      FieldTypeEditor = module["default"];
+    }, function (module) {
+      StaticFormControl = module["default"];
+    }, function (module) {
+      PanelWidget = module["default"];
+    }, function (module) {
+      EntityType = module.EntityType;
+    }],
+    execute: (function () {
 
-            var attributeEditor = exports('default', defineComponent({
-                name: "AttributeEditor",
-                components: {
-                    CategoryPicker,
-                    CheckBox,
-                    FieldTypeEditor,
-                    PanelWidget,
-                    StaticFormControl,
-                    TextBox
-                },
-                props: {
-                    modelValue: {
-                        type: Object,
-                        default: null
-                    },
-                    attributeEntityTypeGuid: {
-                        type: String,
-                        default: ""
-                    },
-                    isAnalyticsVisible: {
-                        type: Boolean,
-                        default: false
-                    },
-                    isShowInGridVisible: {
-                        type: Boolean,
-                        default: true
-                    },
-                    isShowOnBulkVisible: {
-                        type: Boolean,
-                        default: true
-                    },
-                    isAllowSearchVisible: {
-                        type: Boolean,
-                        default: false
-                    },
-                    isIndexingEnabledVisible: {
-                        type: Boolean,
-                        default: false
-                    },
-                    reservedKeyNames: {
-                        type: Array,
-                        default: []
-                    }
-                },
-                setup(props, { emit }) {
-                    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17;
-                    const attributeName = ref((_b = (_a = props.modelValue) === null || _a === void 0 ? void 0 : _a.name) !== null && _b !== void 0 ? _b : "");
-                    const abbreviatedName = ref((_d = (_c = props.modelValue) === null || _c === void 0 ? void 0 : _c.abbreviatedName) !== null && _d !== void 0 ? _d : "");
-                    const attributeKey = ref((_f = (_e = props.modelValue) === null || _e === void 0 ? void 0 : _e.key) !== null && _f !== void 0 ? _f : "");
-                    const description = ref((_h = (_g = props.modelValue) === null || _g === void 0 ? void 0 : _g.description) !== null && _h !== void 0 ? _h : "");
-                    const isSystem = ref((_k = (_j = props.modelValue) === null || _j === void 0 ? void 0 : _j.isSystem) !== null && _k !== void 0 ? _k : false);
-                    const isActive = ref((_m = (_l = props.modelValue) === null || _l === void 0 ? void 0 : _l.isActive) !== null && _m !== void 0 ? _m : true);
-                    const isPublic = ref((_p = (_o = props.modelValue) === null || _o === void 0 ? void 0 : _o.isPublic) !== null && _p !== void 0 ? _p : false);
-                    const isRequired = ref((_r = (_q = props.modelValue) === null || _q === void 0 ? void 0 : _q.isRequired) !== null && _r !== void 0 ? _r : false);
-                    const isShowOnBulk = ref((_t = (_s = props.modelValue) === null || _s === void 0 ? void 0 : _s.isShowOnBulk) !== null && _t !== void 0 ? _t : false);
-                    const isShowInGrid = ref((_v = (_u = props.modelValue) === null || _u === void 0 ? void 0 : _u.isShowInGrid) !== null && _v !== void 0 ? _v : false);
-                    const isHistoryEnabled = ref((_x = (_w = props.modelValue) === null || _w === void 0 ? void 0 : _w.isEnableHistory) !== null && _x !== void 0 ? _x : false);
-                    const isAllowSearch = ref((_z = (_y = props.modelValue) === null || _y === void 0 ? void 0 : _y.isAllowSearch) !== null && _z !== void 0 ? _z : false);
-                    const isIndexingEnabled = ref((_1 = (_0 = props.modelValue) === null || _0 === void 0 ? void 0 : _0.isIndexEnabled) !== null && _1 !== void 0 ? _1 : false);
-                    const isAnalyticsEnabled = ref((_3 = (_2 = props.modelValue) === null || _2 === void 0 ? void 0 : _2.isAnalytic) !== null && _3 !== void 0 ? _3 : false);
-                    const isAnalyticsHistoryEnabled = ref((_5 = (_4 = props.modelValue) === null || _4 === void 0 ? void 0 : _4.isAnalyticHistory) !== null && _5 !== void 0 ? _5 : false);
-                    const preHtml = ref((_7 = (_6 = props.modelValue) === null || _6 === void 0 ? void 0 : _6.preHtml) !== null && _7 !== void 0 ? _7 : "");
-                    const postHtml = ref((_9 = (_8 = props.modelValue) === null || _8 === void 0 ? void 0 : _8.postHtml) !== null && _9 !== void 0 ? _9 : "");
-                    const categories = ref([...((_11 = (_10 = props.modelValue) === null || _10 === void 0 ? void 0 : _10.categories) !== null && _11 !== void 0 ? _11 : [])]);
-                    const fieldTypeValue = ref({
-                        fieldTypeGuid: (_13 = (_12 = props.modelValue) === null || _12 === void 0 ? void 0 : _12.fieldTypeGuid) !== null && _13 !== void 0 ? _13 : "",
-                        configurationValues: Object.assign({}, ((_15 = (_14 = props.modelValue) === null || _14 === void 0 ? void 0 : _14.configurationValues) !== null && _15 !== void 0 ? _15 : {})),
-                        defaultValue: (_17 = (_16 = props.modelValue) === null || _16 === void 0 ? void 0 : _16.defaultValue) !== null && _17 !== void 0 ? _17 : ""
-                    });
-                    const categoryQualifierValue = computed(() => {
-                        if (props.attributeEntityTypeGuid) {
-                            return `{EL:${"A2277FBA-D09F-4D07-B0AB-1C650C25A7A7"}:${props.attributeEntityTypeGuid}}`;
-                        }
-                        else {
-                            return "";
-                        }
-                    });
-                    const isFieldTypeReadOnly = computed(() => { var _a; return !!((_a = props.modelValue) === null || _a === void 0 ? void 0 : _a.guid); });
-                    watch([
-                        attributeName,
-                        abbreviatedName,
-                        attributeKey,
-                        description,
-                        isActive,
-                        isPublic,
-                        isRequired,
-                        isShowOnBulk,
-                        isShowInGrid,
-                        isAllowSearch,
-                        isAnalyticsHistoryEnabled,
-                        isAnalyticsHistoryEnabled,
-                        isHistoryEnabled,
-                        isIndexingEnabled,
-                        preHtml,
-                        postHtml,
-                        categories,
-                        fieldTypeValue
-                    ], () => {
-                        var _a;
-                        const newModelValue = Object.assign(Object.assign({}, ((_a = props.modelValue) !== null && _a !== void 0 ? _a : { isSystem: false })), { name: attributeName.value, abbreviatedName: abbreviatedName.value, key: attributeKey.value, description: description.value, isActive: isActive.value, isPublic: isPublic.value, isRequired: isRequired.value, isShowOnBulk: isShowOnBulk.value, isShowInGrid: isShowInGrid.value, isAllowSearch: isAllowSearch.value, isAnalytic: isAnalyticsEnabled.value, isAnalyticHistory: isAnalyticsHistoryEnabled.value, isEnableHistory: isHistoryEnabled.value, isIndexEnabled: isIndexingEnabled.value, preHtml: preHtml.value, postHtml: postHtml.value, categories: [...categories.value], fieldTypeGuid: fieldTypeValue.value.fieldTypeGuid, configurationValues: Object.assign({}, fieldTypeValue.value.configurationValues), defaultValue: fieldTypeValue.value.defaultValue });
-                        emit("update:modelValue", newModelValue);
-                    });
-                    return {
-                        abbreviatedName,
-                        attributeEntityTypeGuid: "5997C8D3-8840-4591-99A5-552919F90CBD",
-                        attributeName,
-                        attributeKey,
-                        categoryQualifierValue,
-                        description,
-                        categories,
-                        fieldTypeValue,
-                        isActive,
-                        isAllowSearch,
-                        isAnalyticsEnabled,
-                        isAnalyticsHistoryEnabled,
-                        isFieldTypeReadOnly,
-                        isHistoryEnabled,
-                        isIndexingEnabled,
-                        isPublic,
-                        isRequired,
-                        isShowInGrid,
-                        isShowOnBulk,
-                        isSystem,
-                        preHtml,
-                        postHtml
-                    };
-                },
-                template: `
-<fieldset>
-    <div class="row">
-        <div class="col-md-6">
-            <TextBox v-model="attributeName"
-                label="Name"
-                rules="required" />
-        </div>
+      function ownKeys(object, enumerableOnly) {
+        var keys = Object.keys(object);
+        if (Object.getOwnPropertySymbols) {
+          var symbols = Object.getOwnPropertySymbols(object);
+          enumerableOnly && (symbols = symbols.filter(function (sym) {
+            return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+          })), keys.push.apply(keys, symbols);
+        }
+        return keys;
+      }
+      function _objectSpread2(target) {
+        for (var i = 1; i < arguments.length; i++) {
+          var source = null != arguments[i] ? arguments[i] : {};
+          i % 2 ? ownKeys(Object(source), !0).forEach(function (key) {
+            _defineProperty(target, key, source[key]);
+          }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) {
+            Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+          });
+        }
+        return target;
+      }
+      function _defineProperty(obj, key, value) {
+        key = _toPropertyKey(key);
+        if (key in obj) {
+          Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+          });
+        } else {
+          obj[key] = value;
+        }
+        return obj;
+      }
+      function _toPrimitive(input, hint) {
+        if (typeof input !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+          var res = prim.call(input, hint || "default");
+          if (typeof res !== "object") return res;
+          throw new TypeError("@@toPrimitive must return a primitive value.");
+        }
+        return (hint === "string" ? String : Number)(input);
+      }
+      function _toPropertyKey(arg) {
+        var key = _toPrimitive(arg, "string");
+        return typeof key === "symbol" ? key : String(key);
+      }
 
-        <div class="col-md-6">
-            <CheckBox v-model="isActive"
-                label="Active"
-                help="Set to Inactive to exclude this attribute from Edit and Display UIs."
-                text="Yes" />
-        </div>
-    </div>
+      var attributeEditor = exports('default', defineComponent({
+        name: "AttributeEditor",
+        components: {
+          CategoryPicker,
+          CheckBox,
+          FieldTypeEditor,
+          PanelWidget,
+          StaticFormControl,
+          TextBox
+        },
+        props: {
+          modelValue: {
+            type: Object,
+            default: null
+          },
+          attributeEntityTypeGuid: {
+            type: String,
+            default: ""
+          },
+          isAnalyticsVisible: {
+            type: Boolean,
+            default: false
+          },
+          isShowInGridVisible: {
+            type: Boolean,
+            default: true
+          },
+          isShowOnBulkVisible: {
+            type: Boolean,
+            default: true
+          },
+          isAllowSearchVisible: {
+            type: Boolean,
+            default: false
+          },
+          isIndexingEnabledVisible: {
+            type: Boolean,
+            default: false
+          },
+          reservedKeyNames: {
+            type: Array,
+            default: []
+          }
+        },
+        setup(props, _ref) {
+          var _props$modelValue$nam, _props$modelValue, _props$modelValue$abb, _props$modelValue2, _props$modelValue$key, _props$modelValue3, _props$modelValue$des, _props$modelValue4, _props$modelValue$isS, _props$modelValue5, _props$modelValue$isA, _props$modelValue6, _props$modelValue$isP, _props$modelValue7, _props$modelValue$isR, _props$modelValue8, _props$modelValue$isS2, _props$modelValue9, _props$modelValue$isS3, _props$modelValue10, _props$modelValue$isE, _props$modelValue11, _props$modelValue$isA2, _props$modelValue12, _props$modelValue$isI, _props$modelValue13, _props$modelValue$isA3, _props$modelValue14, _props$modelValue$isA4, _props$modelValue15, _props$modelValue$pre, _props$modelValue16, _props$modelValue$pos, _props$modelValue17, _props$modelValue$cat, _props$modelValue18, _props$modelValue$fie, _props$modelValue19, _props$modelValue$con, _props$modelValue20, _props$modelValue$def, _props$modelValue21;
+          var emit = _ref.emit;
+          var attributeName = ref((_props$modelValue$nam = (_props$modelValue = props.modelValue) === null || _props$modelValue === void 0 ? void 0 : _props$modelValue.name) !== null && _props$modelValue$nam !== void 0 ? _props$modelValue$nam : "");
+          var abbreviatedName = ref((_props$modelValue$abb = (_props$modelValue2 = props.modelValue) === null || _props$modelValue2 === void 0 ? void 0 : _props$modelValue2.abbreviatedName) !== null && _props$modelValue$abb !== void 0 ? _props$modelValue$abb : "");
+          var attributeKey = ref((_props$modelValue$key = (_props$modelValue3 = props.modelValue) === null || _props$modelValue3 === void 0 ? void 0 : _props$modelValue3.key) !== null && _props$modelValue$key !== void 0 ? _props$modelValue$key : "");
+          var description = ref((_props$modelValue$des = (_props$modelValue4 = props.modelValue) === null || _props$modelValue4 === void 0 ? void 0 : _props$modelValue4.description) !== null && _props$modelValue$des !== void 0 ? _props$modelValue$des : "");
+          var isSystem = ref((_props$modelValue$isS = (_props$modelValue5 = props.modelValue) === null || _props$modelValue5 === void 0 ? void 0 : _props$modelValue5.isSystem) !== null && _props$modelValue$isS !== void 0 ? _props$modelValue$isS : false);
+          var isActive = ref((_props$modelValue$isA = (_props$modelValue6 = props.modelValue) === null || _props$modelValue6 === void 0 ? void 0 : _props$modelValue6.isActive) !== null && _props$modelValue$isA !== void 0 ? _props$modelValue$isA : true);
+          var isPublic = ref((_props$modelValue$isP = (_props$modelValue7 = props.modelValue) === null || _props$modelValue7 === void 0 ? void 0 : _props$modelValue7.isPublic) !== null && _props$modelValue$isP !== void 0 ? _props$modelValue$isP : false);
+          var isRequired = ref((_props$modelValue$isR = (_props$modelValue8 = props.modelValue) === null || _props$modelValue8 === void 0 ? void 0 : _props$modelValue8.isRequired) !== null && _props$modelValue$isR !== void 0 ? _props$modelValue$isR : false);
+          var isShowOnBulk = ref((_props$modelValue$isS2 = (_props$modelValue9 = props.modelValue) === null || _props$modelValue9 === void 0 ? void 0 : _props$modelValue9.isShowOnBulk) !== null && _props$modelValue$isS2 !== void 0 ? _props$modelValue$isS2 : false);
+          var isShowInGrid = ref((_props$modelValue$isS3 = (_props$modelValue10 = props.modelValue) === null || _props$modelValue10 === void 0 ? void 0 : _props$modelValue10.isShowInGrid) !== null && _props$modelValue$isS3 !== void 0 ? _props$modelValue$isS3 : false);
+          var isHistoryEnabled = ref((_props$modelValue$isE = (_props$modelValue11 = props.modelValue) === null || _props$modelValue11 === void 0 ? void 0 : _props$modelValue11.isEnableHistory) !== null && _props$modelValue$isE !== void 0 ? _props$modelValue$isE : false);
+          var isAllowSearch = ref((_props$modelValue$isA2 = (_props$modelValue12 = props.modelValue) === null || _props$modelValue12 === void 0 ? void 0 : _props$modelValue12.isAllowSearch) !== null && _props$modelValue$isA2 !== void 0 ? _props$modelValue$isA2 : false);
+          var isIndexingEnabled = ref((_props$modelValue$isI = (_props$modelValue13 = props.modelValue) === null || _props$modelValue13 === void 0 ? void 0 : _props$modelValue13.isIndexEnabled) !== null && _props$modelValue$isI !== void 0 ? _props$modelValue$isI : false);
+          var isAnalyticsEnabled = ref((_props$modelValue$isA3 = (_props$modelValue14 = props.modelValue) === null || _props$modelValue14 === void 0 ? void 0 : _props$modelValue14.isAnalytic) !== null && _props$modelValue$isA3 !== void 0 ? _props$modelValue$isA3 : false);
+          var isAnalyticsHistoryEnabled = ref((_props$modelValue$isA4 = (_props$modelValue15 = props.modelValue) === null || _props$modelValue15 === void 0 ? void 0 : _props$modelValue15.isAnalyticHistory) !== null && _props$modelValue$isA4 !== void 0 ? _props$modelValue$isA4 : false);
+          var preHtml = ref((_props$modelValue$pre = (_props$modelValue16 = props.modelValue) === null || _props$modelValue16 === void 0 ? void 0 : _props$modelValue16.preHtml) !== null && _props$modelValue$pre !== void 0 ? _props$modelValue$pre : "");
+          var postHtml = ref((_props$modelValue$pos = (_props$modelValue17 = props.modelValue) === null || _props$modelValue17 === void 0 ? void 0 : _props$modelValue17.postHtml) !== null && _props$modelValue$pos !== void 0 ? _props$modelValue$pos : "");
+          var categories = ref([...((_props$modelValue$cat = (_props$modelValue18 = props.modelValue) === null || _props$modelValue18 === void 0 ? void 0 : _props$modelValue18.categories) !== null && _props$modelValue$cat !== void 0 ? _props$modelValue$cat : [])]);
+          var fieldTypeValue = ref({
+            fieldTypeGuid: (_props$modelValue$fie = (_props$modelValue19 = props.modelValue) === null || _props$modelValue19 === void 0 ? void 0 : _props$modelValue19.fieldTypeGuid) !== null && _props$modelValue$fie !== void 0 ? _props$modelValue$fie : "",
+            configurationValues: _objectSpread2({}, (_props$modelValue$con = (_props$modelValue20 = props.modelValue) === null || _props$modelValue20 === void 0 ? void 0 : _props$modelValue20.configurationValues) !== null && _props$modelValue$con !== void 0 ? _props$modelValue$con : {}),
+            defaultValue: (_props$modelValue$def = (_props$modelValue21 = props.modelValue) === null || _props$modelValue21 === void 0 ? void 0 : _props$modelValue21.defaultValue) !== null && _props$modelValue$def !== void 0 ? _props$modelValue$def : ""
+          });
+          var categoryQualifierValue = computed(() => {
+            if (props.attributeEntityTypeGuid) {
+              return "{EL:".concat(EntityType.EntityType, ":").concat(props.attributeEntityTypeGuid, "}");
+            } else {
+              return "";
+            }
+          });
+          var isFieldTypeReadOnly = computed(() => {
+            var _props$modelValue22;
+            return !!((_props$modelValue22 = props.modelValue) !== null && _props$modelValue22 !== void 0 && _props$modelValue22.guid);
+          });
+          watch([attributeName, abbreviatedName, attributeKey, description, isActive, isPublic, isRequired, isShowOnBulk, isShowInGrid, isAllowSearch, isAnalyticsHistoryEnabled, isAnalyticsHistoryEnabled, isHistoryEnabled, isIndexingEnabled, preHtml, postHtml, categories, fieldTypeValue], () => {
+            var _props$modelValue23;
+            var newModelValue = _objectSpread2(_objectSpread2({}, (_props$modelValue23 = props.modelValue) !== null && _props$modelValue23 !== void 0 ? _props$modelValue23 : {
+              isSystem: false
+            }), {}, {
+              name: attributeName.value,
+              abbreviatedName: abbreviatedName.value,
+              key: attributeKey.value,
+              description: description.value,
+              isActive: isActive.value,
+              isPublic: isPublic.value,
+              isRequired: isRequired.value,
+              isShowOnBulk: isShowOnBulk.value,
+              isShowInGrid: isShowInGrid.value,
+              isAllowSearch: isAllowSearch.value,
+              isAnalytic: isAnalyticsEnabled.value,
+              isAnalyticHistory: isAnalyticsHistoryEnabled.value,
+              isEnableHistory: isHistoryEnabled.value,
+              isIndexEnabled: isIndexingEnabled.value,
+              preHtml: preHtml.value,
+              postHtml: postHtml.value,
+              categories: [...categories.value],
+              fieldTypeGuid: fieldTypeValue.value.fieldTypeGuid,
+              configurationValues: _objectSpread2({}, fieldTypeValue.value.configurationValues),
+              defaultValue: fieldTypeValue.value.defaultValue
+            });
+            emit("update:modelValue", newModelValue);
+          });
+          return {
+            abbreviatedName,
+            attributeEntityTypeGuid: EntityType.Attribute,
+            attributeName,
+            attributeKey,
+            categoryQualifierValue,
+            description,
+            categories,
+            fieldTypeValue,
+            isActive,
+            isAllowSearch,
+            isAnalyticsEnabled,
+            isAnalyticsHistoryEnabled,
+            isFieldTypeReadOnly,
+            isHistoryEnabled,
+            isIndexingEnabled,
+            isPublic,
+            isRequired,
+            isShowInGrid,
+            isShowOnBulk,
+            isSystem,
+            preHtml,
+            postHtml
+          };
+        },
+        template: "\n<fieldset>\n    <div class=\"row\">\n        <div class=\"col-md-6\">\n            <TextBox v-model=\"attributeName\"\n                label=\"Name\"\n                rules=\"required\" />\n        </div>\n\n        <div class=\"col-md-6\">\n            <CheckBox v-model=\"isActive\"\n                label=\"Active\"\n                help=\"Set to Inactive to exclude this attribute from Edit and Display UIs.\"\n                text=\"Yes\" />\n        </div>\n    </div>\n\n    <div class=\"row\">\n        <div class=\"col-md-6\">\n            <TextBox v-model=\"abbreviatedName\"\n                label=\"Abbreviated Name\" />\n        </div>\n\n        <div class=\"col-md-6\">\n            <CheckBox v-model=\"isPublic\"\n                label=\"Public\"\n                help=\"Set to public if you want this attribute to be displayed in public contexts.\"\n                text=\"Yes\" />\n        </div>\n    </div>\n\n    <TextBox v-model=\"description\"\n        label=\"Description\"\n        textMode=\"multiline\" />\n\n    <div class=\"row\">\n        <div class=\"col-md-6\">\n            <CategoryPicker v-model=\"categories\"\n                label=\"Categories\"\n                :entityTypeGuid=\"attributeEntityTypeGuid\"\n                entityTypeQualifierColumn=\"EntityTypeId\"\n                :entityTypeQualifierValue=\"categoryQualifierValue\"\n                multiple />\n\n            <StaticFormControl v-if=\"isSystem\" v-model=\"attributeKey\" label=\"Key\" />\n            <TextBox v-else v-model=\"attributeKey\" label=\"Key\" rules=\"required\" :disabled=\"keyDisabledAttr\" />\n\n            <div class=\"row\">\n                <div class=\"col-sm-6\">\n                    <CheckBox v-model=\"isRequired\"\n                        label=\"Required\"\n                        text=\"Yes\" />\n                </div>\n\n                <div class=\"col-sm-6\">\n                    <CheckBox v-if=\"isShowOnBulkVisible\"\n                        v-model=\"isShowOnBulk\"\n                        label=\"Show on Bulk\"\n                        help=\"If selected, this attribute will be shown with bulk update attributes.\"\n                        text=\"Yes\" />\n                </div>\n\n                <div class=\"col-sm-6\">\n                    <CheckBox v-if=\"isShowInGridVisible\"\n                        v-model=\"isShowInGrid\"\n                        label=\"Show in Grid\"\n                        help=\"If selected, this attribute will be included in a grid.\"\n                        text=\"Yes\" />\n                </div>\n            </div>\n        </div>\n\n        <div class=\"col-md-6\">\n            <FieldTypeEditor v-model=\"fieldTypeValue\" :isFieldTypeReadOnly=\"isFieldTypeReadOnly\" />\n        </div>\n    </div>\n\n    <PanelWidget>\n        <template #header>Advanced Settings</template>\n        <div class=\"row\">\n            <div class=\"col-md-6\">\n                <CheckBox label=\"Enable History\"\n                    v-model=\"isHistoryEnabled\"\n                    help=\"If selected, changes to the value of this attribute will be stored in attribute value history.\"\n                    text=\"Yes\" />\n\n                <CheckBox v-if=\"isAllowSearchVisible\"\n                    label=\"Allow Search\"\n                    v-model=\"isAllowSearch\"\n                    help=\"If selected, this attribute can be searched on.\"\n                    text=\"Yes\" />\n\n                <CheckBox v-if=\"isIndexingEnabledVisible\"\n                    label=\"Indexing Enabled\"\n                    v-model=\"isIndexingEnabled\"\n                    help=\"If selected, this attribute can be used when indexing for universal search.\"\n                    text=\"Yes\" />\n            </div>\n\n            <div class=\"col-md-6\">\n                <CheckBox v-if=\"isAnalyticsVisible\"\n                    label=\"Analytics Enabled\"\n                    v-model=\"isAnalyticHistory\"\n                    help=\"If selected, this attribute will be made available as an Analytic.\"\n                    text=\"Yes\" />\n\n                <CheckBox v-if=\"isAnalyticsVisible\"\n                    label=\"Analytics History Enabled\"\n                    v-model=\"isAnalyticsHistoryEnabled\"\n                    help=\"If selected, changes to the value of this attribute will cause Analytics to create a history record. Note that this requires that 'Analytics Enabled' is also enabled.\"\n                    text=\"Yes\" />\n            </div>\n        </div>\n\n        <TextBox v-model=\"preHtml\"\n            label=\"Pre-HTML\"\n            help=\"HTML that should be rendered before the attribute's edit control.\"\n            textMode=\"multiline\" />\n\n        <TextBox v-model=\"postHtml\"\n            label=\"Post-HTML\"\n            help=\"HTML that should be rendered before the attribute's edit control.\"\n            textMode=\"multiline\" />\n    </PanelWidget>\n</fieldset>\n"
+      }));
 
-    <div class="row">
-        <div class="col-md-6">
-            <TextBox v-model="abbreviatedName"
-                label="Abbreviated Name" />
-        </div>
-
-        <div class="col-md-6">
-            <CheckBox v-model="isPublic"
-                label="Public"
-                help="Set to public if you want this attribute to be displayed in public contexts."
-                text="Yes" />
-        </div>
-    </div>
-
-    <TextBox v-model="description"
-        label="Description"
-        textMode="multiline" />
-
-    <div class="row">
-        <div class="col-md-6">
-            <CategoryPicker v-model="categories"
-                label="Categories"
-                :entityTypeGuid="attributeEntityTypeGuid"
-                entityTypeQualifierColumn="EntityTypeId"
-                :entityTypeQualifierValue="categoryQualifierValue"
-                multiple />
-
-            <StaticFormControl v-if="isSystem" v-model="attributeKey" label="Key" />
-            <TextBox v-else v-model="attributeKey" label="Key" rules="required" :disabled="keyDisabledAttr" />
-
-            <div class="row">
-                <div class="col-sm-6">
-                    <CheckBox v-model="isRequired"
-                        label="Required"
-                        text="Yes" />
-                </div>
-
-                <div class="col-sm-6">
-                    <CheckBox v-if="isShowOnBulkVisible"
-                        v-model="isShowOnBulk"
-                        label="Show on Bulk"
-                        help="If selected, this attribute will be shown with bulk update attributes."
-                        text="Yes" />
-                </div>
-
-                <div class="col-sm-6">
-                    <CheckBox v-if="isShowInGridVisible"
-                        v-model="isShowInGrid"
-                        label="Show in Grid"
-                        help="If selected, this attribute will be included in a grid."
-                        text="Yes" />
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <FieldTypeEditor v-model="fieldTypeValue" :isFieldTypeReadOnly="isFieldTypeReadOnly" />
-        </div>
-    </div>
-
-    <PanelWidget>
-        <template #header>Advanced Settings</template>
-        <div class="row">
-            <div class="col-md-6">
-                <CheckBox label="Enable History"
-                    v-model="isHistoryEnabled"
-                    help="If selected, changes to the value of this attribute will be stored in attribute value history."
-                    text="Yes" />
-
-                <CheckBox v-if="isAllowSearchVisible"
-                    label="Allow Search"
-                    v-model="isAllowSearch"
-                    help="If selected, this attribute can be searched on."
-                    text="Yes" />
-
-                <CheckBox v-if="isIndexingEnabledVisible"
-                    label="Indexing Enabled"
-                    v-model="isIndexingEnabled"
-                    help="If selected, this attribute can be used when indexing for universal search."
-                    text="Yes" />
-            </div>
-
-            <div class="col-md-6">
-                <CheckBox v-if="isAnalyticsVisible"
-                    label="Analytics Enabled"
-                    v-model="isAnalyticHistory"
-                    help="If selected, this attribute will be made available as an Analytic."
-                    text="Yes" />
-
-                <CheckBox v-if="isAnalyticsVisible"
-                    label="Analytics History Enabled"
-                    v-model="isAnalyticsHistoryEnabled"
-                    help="If selected, changes to the value of this attribute will cause Analytics to create a history record. Note that this requires that 'Analytics Enabled' is also enabled."
-                    text="Yes" />
-            </div>
-        </div>
-
-        <TextBox v-model="preHtml"
-            label="Pre-HTML"
-            help="HTML that should be rendered before teh attribute's edit control."
-            textMode="multiline" />
-
-        <TextBox v-model="postHtml"
-            label="Post-HTML"
-            help="HTML that should be rendered before teh attribute's edit control."
-            textMode="multiline" />
-    </PanelWidget>
-</fieldset>
-`
-            }));
-
-        })
-    };
+    })
+  };
 }));
+//# sourceMappingURL=attributeEditor.js.map

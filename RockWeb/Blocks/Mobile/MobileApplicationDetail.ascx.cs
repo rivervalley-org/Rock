@@ -28,9 +28,9 @@ using Rock.Attribute;
 using Rock.Common.Mobile.Enums;
 using Rock.Data;
 using Rock.DownhillCss;
-using Rock.DownhillCss.Utility;
 using Rock.Model;
 using Rock.Security;
+
 using Rock.Web;
 using Rock.Web.Cache;
 using Rock.Web.UI;
@@ -38,6 +38,7 @@ using Rock.Web.UI.Controls;
 
 using AdditionalSiteSettings = Rock.Mobile.AdditionalSiteSettings;
 using ListItem = System.Web.UI.WebControls.ListItem;
+
 using ShellType = Rock.Common.Mobile.Enums.ShellType;
 using TabLocation = Rock.Mobile.TabLocation;
 
@@ -490,6 +491,8 @@ namespace RockWeb.Blocks.Mobile
             ceEditFlyoutXaml.Text = additionalSettings.FlyoutXaml;
             cbEnableDeepLinking.Checked = additionalSettings.IsDeepLinkingEnabled;
             cbCompressUpdatePackages.Checked = additionalSettings.IsPackageCompressionEnabled;
+            tbAuth0ClientDomain.Text = additionalSettings.Auth0Domain;
+            tbAuth0ClientId.Text = additionalSettings.Auth0ClientId;
 
             ceEditNavBarActionXaml.Text = additionalSettings.NavigationBarActionXaml;
             ceEditHomepageRoutingLogic.Text = additionalSettings.HomepageRoutingLogic;
@@ -505,8 +508,20 @@ namespace RockWeb.Blocks.Mobile
             ppEditProfilePage.SetValue( additionalSettings.ProfilePageId );
             ppEditInteractiveExperiencePage.SetValue( additionalSettings.InteractiveExperiencePageId );
             ppCommunicationViewPage.SetValue( additionalSettings.CommunicationViewPageId );
+            ppEditSmsConversationPage.SetValue( additionalSettings.SmsConversationPageId );
 
             ppEditInteractiveExperiencePage.SiteType = SiteType.Mobile;
+
+            int channelMediumWebsiteValueId = DefinedValueCache.Get( Rock.SystemGuid.DefinedValue.INTERACTIONCHANNELTYPE_WEBSITE.AsGuid() ).Id;
+            var interactionChannelForSite = new InteractionChannelService( new RockContext() ).Queryable()
+                .Where( a => a.ChannelTypeMediumValueId == channelMediumWebsiteValueId && a.ChannelEntityId == site.Id ).FirstOrDefault();
+
+            if ( interactionChannelForSite != null )
+            {
+                nbPageViewRetentionPeriodDays.Text = interactionChannelForSite.RetentionDuration.ToString();
+            }
+
+            cbEnablePageViewGeoTracking.Checked = site.EnablePageViewGeoTracking;
 
             //
             // Set the API Key.
@@ -617,8 +632,34 @@ namespace RockWeb.Blocks.Mobile
             }
             else
             {
+                var groupService = new GroupService( rockContext );
+                var groupMemberService = new GroupMemberService( rockContext );
+
+                // Create the person that is representative of the mobile application.
                 restPerson = new Person();
                 personService.Add( restPerson );
+
+                // Our default 'Mobile Application Users' RSR group.
+                var mobileApplicationUsersGroupGuid = Rock.SystemGuid.Group.GROUP_MOBILE_APPLICATION_USERS.AsGuid();
+                var mobileApplicationUsersGroup = groupService
+                    .Queryable()
+                    .FirstOrDefault( g => g.Guid == mobileApplicationUsersGroupGuid );
+
+                // This group really shouldn't ever be null, but just in case someone
+                // manually deleted it.
+                if ( mobileApplicationUsersGroup != null )
+                {
+                    var groupRoleId = GroupTypeCache.Get( mobileApplicationUsersGroup.GroupTypeId )
+                   .DefaultGroupRoleId;
+
+                    // Add the person to the default mobile rest security group.
+                    var groupMember = new GroupMember();
+                    groupMember.PersonId = restPerson.Id;
+                    groupMember.GroupId = mobileApplicationUsersGroup.Id;
+                    groupMember.GroupRoleId = groupRoleId.Value;
+
+                    groupMemberService.Add( groupMember );
+                }
             }
 
             // the rest user name gets saved as the last name on a person
@@ -720,7 +761,7 @@ namespace RockWeb.Blocks.Mobile
                     p.Id,
                     p.InternalName,
                     LayoutName = p.Layout.Name,
-                    DisplayInNav = p.DisplayInNavWhen != DisplayInNavWhen.Never
+                    DisplayInNavWhen = p.DisplayInNavWhen.GetDescription() ?? p.DisplayInNavWhen.ToStringSafe()
                 } )
                 .ToList();
 
@@ -899,7 +940,7 @@ namespace RockWeb.Blocks.Mobile
             site.IsActive = cbEditActive.Checked;
             site.Description = tbEditDescription.Text;
             site.LoginPageId = ppEditLoginPage.PageId;
-
+            
             var additionalSettings = site.AdditionalSettings.FromJsonOrNull<AdditionalSiteSettings>() ?? new AdditionalSiteSettings();
 
             // Save the deep link settings, if enabled.
@@ -950,6 +991,7 @@ namespace RockWeb.Blocks.Mobile
             additionalSettings.ProfilePageId = ppEditProfilePage.PageId;
             additionalSettings.InteractiveExperiencePageId = ppEditInteractiveExperiencePage.PageId;
             additionalSettings.CommunicationViewPageId = ppCommunicationViewPage.PageId;
+            additionalSettings.SmsConversationPageId = ppEditSmsConversationPage.PageId;
             additionalSettings.EnableNotificationsAutomatically = cbEnableNotificationsAutomatically.Checked;
             additionalSettings.FlyoutXaml = ceEditFlyoutXaml.Text;
             additionalSettings.IsDeepLinkingEnabled = cbEnableDeepLinking.Checked;
@@ -960,6 +1002,8 @@ namespace RockWeb.Blocks.Mobile
             additionalSettings.CampusFilterDataViewId = dvpCampusFilter.SelectedValueAsId();
             additionalSettings.NavigationBarActionXaml = ceEditNavBarActionXaml.Text;
             additionalSettings.HomepageRoutingLogic = ceEditHomepageRoutingLogic.Text;
+            additionalSettings.Auth0ClientId = tbAuth0ClientId.Text;
+            additionalSettings.Auth0Domain = tbAuth0ClientDomain.Text;
 
             //
             // Save the image.
@@ -978,6 +1022,9 @@ namespace RockWeb.Blocks.Mobile
                 binaryFileService.Get( site.ThumbnailBinaryFileId.Value ).IsTemporary = false;
             }
 
+            site.EnablePageViewGeoTracking = cbEnablePageViewGeoTracking.Checked;
+
+            // This is a new site.
             if ( site.Id == 0 )
             {
                 rockContext.WrapTransaction( () =>
@@ -994,6 +1041,7 @@ namespace RockWeb.Blocks.Mobile
                     var layoutService = new LayoutService( rockContext );
                     var pageName = string.Format( "{0} Homepage", site.Name );
 
+                    // Create the default layout for the homepage.
                     var layout = new Layout
                     {
                         Name = "Homepage",
@@ -1007,6 +1055,7 @@ namespace RockWeb.Blocks.Mobile
                     layoutService.Add( layout );
                     rockContext.SaveChanges();
 
+                    // Create the default homepage for this mobile application.
                     var page = new Page
                     {
                         InternalName = pageName,
@@ -1014,7 +1063,7 @@ namespace RockWeb.Blocks.Mobile
                         PageTitle = pageName,
                         Description = string.Empty,
                         LayoutId = layout.Id,
-                        DisplayInNavWhen = DisplayInNavWhen.WhenAllowed
+                        DisplayInNavWhen = Rock.Model.DisplayInNavWhen.WhenAllowed
                     };
 
                     pageService.Add( page );
@@ -1035,6 +1084,28 @@ namespace RockWeb.Blocks.Mobile
 
                 rockContext.SaveChanges();
             }
+
+            //
+            // Create the default interaction channel for this site, and set the Retention Duration.
+            //
+            var interactionChannelService = new InteractionChannelService( rockContext );
+            int channelMediumWebsiteValueId = DefinedValueCache.Get( Rock.SystemGuid.DefinedValue.INTERACTIONCHANNELTYPE_WEBSITE.AsGuid() ).Id;
+            var interactionChannelForSite = interactionChannelService.Queryable()
+                .Where( a => a.ChannelTypeMediumValueId == channelMediumWebsiteValueId && a.ChannelEntityId == site.Id ).FirstOrDefault();
+
+            if ( interactionChannelForSite == null )
+            {
+                interactionChannelForSite = new InteractionChannel();
+                interactionChannelForSite.ChannelTypeMediumValueId = channelMediumWebsiteValueId;
+                interactionChannelForSite.ChannelEntityId = site.Id;
+                interactionChannelService.Add( interactionChannelForSite );
+            }
+
+            interactionChannelForSite.Name = site.Name;
+            interactionChannelForSite.RetentionDuration = nbPageViewRetentionPeriodDays.Text.AsIntegerOrNull();
+            interactionChannelForSite.ComponentEntityTypeId = EntityTypeCache.Get<Rock.Model.Page>().Id;
+
+            rockContext.SaveChanges();
 
             NavigateToCurrentPage( new Dictionary<string, string>
             {

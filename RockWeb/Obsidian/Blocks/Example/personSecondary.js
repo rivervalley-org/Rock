@@ -19,80 +19,56 @@ System.register(['@Obsidian/Utility/bus', '@Obsidian/Templates/block', '@Obsidia
         }],
         execute: (function () {
 
-            const store = useStore();
+            var store = useStore();
             var personSecondary = exports('default', defineComponent({
-                name: "Example.PersonSecondary",
-                components: {
-                    Block,
-                    SecondaryBlock,
-                    TextBox,
-                    RockButton
+              name: "Example.PersonSecondary",
+              components: {
+                Block,
+                SecondaryBlock,
+                TextBox,
+                RockButton
+              },
+              data() {
+                return {
+                  messageToPublish: "",
+                  receivedMessage: ""
+                };
+              },
+              methods: {
+                receiveMessage(message) {
+                  this.receivedMessage = message;
                 },
-                data() {
-                    return {
-                        messageToPublish: "",
-                        receivedMessage: ""
-                    };
+                doPublish() {
+                  bus.publish("PersonSecondary:Message", this.messageToPublish);
+                  this.messageToPublish = "";
                 },
-                methods: {
-                    receiveMessage(message) {
-                        this.receivedMessage = message;
-                    },
-                    doPublish() {
-                        bus.publish("PersonSecondary:Message", this.messageToPublish);
-                        this.messageToPublish = "";
-                    },
-                    doThrowError() {
-                        throw new Error("This is an uncaught error");
-                    }
+                doThrowError() {
+                  throw new Error("This is an uncaught error");
+                }
+              },
+              computed: {
+                currentPerson() {
+                  return store.state.currentPerson;
                 },
-                computed: {
-                    currentPerson() {
-                        return store.state.currentPerson;
-                    },
-                    currentPersonName() {
-                        var _a;
-                        return ((_a = this.currentPerson) === null || _a === void 0 ? void 0 : _a.fullName) || "anonymous";
-                    },
-                    imageUrl() {
-                        var _a;
-                        return ((_a = this.currentPerson) === null || _a === void 0 ? void 0 : _a.photoUrl) || "/Assets/Images/person-no-photo-unknown.svg";
-                    },
-                    photoElementStyle() {
-                        return `background-image: url("${this.imageUrl}"); background-size: cover; background-repeat: no-repeat;`;
-                    }
+                currentPersonName() {
+                  var _this$currentPerson;
+                  return ((_this$currentPerson = this.currentPerson) === null || _this$currentPerson === void 0 ? void 0 : _this$currentPerson.fullName) || "anonymous";
                 },
-                created() {
-                    bus.subscribe("PersonDetail:Message", this.receiveMessage);
+                imageUrl() {
+                  var _this$currentPerson2;
+                  return ((_this$currentPerson2 = this.currentPerson) === null || _this$currentPerson2 === void 0 ? void 0 : _this$currentPerson2.photoUrl) || "/Assets/Images/person-no-photo-unknown.svg";
                 },
-                template: `<SecondaryBlock>
-    <Block title="Secondary Block">
-        <template #default>
-            <div class="row">
-                <div class="col-sm-6">
-                    <p>
-                        Hi, {{currentPersonName}}!
-                        <div class="photo-icon photo-round photo-round-sm" :style="photoElementStyle"></div>
-                    </p>
-                    <p>This is a secondary block. It respects the store's value indicating if secondary blocks are visible.</p>
-                    <RockButton btnType="danger" btnSize="sm" @click="doThrowError">Throw Error</RockButton>
-                </div>
-                <div class="col-sm-6">
-                    <div class="well">
-                        <TextBox label="Message" v-model="messageToPublish" />
-                        <RockButton btnType="primary" btnSize="sm" @click="doPublish">Publish</RockButton>
-                    </div>
-                    <p>
-                        <strong>Detail block says:</strong>
-                        {{receivedMessage}}
-                    </p>
-                </div>
-            </div>
-        </template>
-    </Block>
-</SecondaryBlock>`
+                photoElementStyle() {
+                  return "background-image: url(\"".concat(this.imageUrl, "\"); background-size: cover; background-repeat: no-repeat;");
+                }
+              },
+              created() {
+                bus.subscribe("PersonDetail:Message", this.receiveMessage);
+              },
+              template: "<SecondaryBlock>\n    <Block title=\"Secondary Block\">\n        <template #default>\n            <div class=\"row\">\n                <div class=\"col-sm-6\">\n                    <p>\n                        Hi, {{currentPersonName}}!\n                        <div class=\"photo-icon photo-round photo-round-sm\" :style=\"photoElementStyle\"></div>\n                    </p>\n                    <p>This is a secondary block. It respects the store's value indicating if secondary blocks are visible.</p>\n                    <RockButton btnType=\"danger\" btnSize=\"sm\" @click=\"doThrowError\">Throw Error</RockButton>\n                </div>\n                <div class=\"col-sm-6\">\n                    <div class=\"well\">\n                        <TextBox label=\"Message\" v-model=\"messageToPublish\" />\n                        <RockButton btnType=\"primary\" btnSize=\"sm\" @click=\"doPublish\">Publish</RockButton>\n                    </div>\n                    <p>\n                        <strong>Detail block says:</strong>\n                        {{receivedMessage}}\n                    </p>\n                </div>\n            </div>\n        </template>\n    </Block>\n</SecondaryBlock>"
             }));
 
         })
     };
 }));
+//# sourceMappingURL=personSecondary.js.map

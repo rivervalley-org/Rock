@@ -10,33 +10,23 @@ System.register(['vue', '@Obsidian/Controls/panel'], (function (exports) {
         execute: (function () {
 
             var block = exports('default', defineComponent({
-                name: "Block",
-                components: {
-                    Panel
-                },
-                props: {
-                    title: {
-                        type: String,
-                        required: false
-                    }
-                },
-                setup() {
-                    return {};
-                },
-                template: `
-<Panel type="block" :title="title">
-    <template v-if="$slots.headerActions" #headerActions>
-        <slot name="headerActions" />
-    </template>
-
-    <template v-if="$slots.drawer" #drawer>
-        <slot name="drawer" />
-    </template>
-
-    <slot />
-</Panel>`
+              name: "Block",
+              components: {
+                Panel
+              },
+              props: {
+                title: {
+                  type: String,
+                  required: false
+                }
+              },
+              setup() {
+                return {};
+              },
+              template: "\n<Panel type=\"block\" :title=\"title\">\n    <template v-if=\"$slots.headerActions\" #headerActions>\n        <slot name=\"headerActions\" />\n    </template>\n\n    <template v-if=\"$slots.drawer\" #drawer>\n        <slot name=\"drawer\" />\n    </template>\n\n    <template v-if=\"$slots.preBody\" #preBody>\n        <slot name=\"preBody\" />\n    </template>\n\n    <slot />\n</Panel>"
             }));
 
         })
     };
 }));
+//# sourceMappingURL=block.js.map

@@ -128,9 +128,9 @@ namespace RockWeb.Blocks.GroupScheduling
 
         protected class PageParameterKey
         {
-            public const string AttendanceId = "attendanceId";
-            public const string AttendanceIds = "attendanceIds";
-            public const string IsConfirmed = "isConfirmed";
+            public const string AttendanceId = "AttendanceId";
+            public const string AttendanceIds = "AttendanceIds";
+            public const string IsConfirmed = "IsConfirmed";
             public const string ReturnUrl = "ReturnUrl";
             public const string Person = "Person";
         }
@@ -539,6 +539,7 @@ namespace RockWeb.Blocks.GroupScheduling
                         .Where( a => a.Id == attendanceId && a.PersonAlias.PersonId == _selectedPerson.Id )
                         .Include( a => a.PersonAlias.Person )
                         .Include( a => a.ScheduledByPersonAlias.Person )
+                        .Include( a => a.Occurrence.Group )
                         .FirstOrDefault();
 
                     if ( attendance == null )
@@ -606,6 +607,7 @@ namespace RockWeb.Blocks.GroupScheduling
                             .Where( a => a.Id == attendanceId && a.PersonAlias.PersonId == _selectedPerson.Id )
                             .Include( a => a.PersonAlias.Person )
                             .Include( a => a.ScheduledByPersonAlias.Person )
+                            .Include( a => a.Occurrence.Group )
                             .FirstOrDefault();
 
                         if ( attendance != null )

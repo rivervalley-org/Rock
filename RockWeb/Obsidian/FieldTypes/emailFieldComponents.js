@@ -1,4 +1,4 @@
-System.register(['vue', './utils.js', '@Obsidian/Controls/emailBox', '@Obsidian/Controls/textBox', '@Obsidian/Utility/component', '@Obsidian/Core/Reporting/comparisonType', '@Obsidian/Core/Reporting/comparisonTypeOptions', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/fieldFilterContainer', '@Obsidian/Utility/numberUtils'], (function (exports) {
+System.register(['vue', './utils', '@Obsidian/Controls/emailBox', '@Obsidian/Controls/textBox', '@Obsidian/Utility/component'], (function (exports) {
     'use strict';
     var defineComponent, getFieldEditorProps, EmailBox, TextBox, useVModelPassthrough;
     return {
@@ -12,59 +12,55 @@ System.register(['vue', './utils.js', '@Obsidian/Controls/emailBox', '@Obsidian/
             TextBox = module["default"];
         }, function (module) {
             useVModelPassthrough = module.useVModelPassthrough;
-        }, function () {}, function () {}, function () {}, function () {}, function () {}],
+        }],
         execute: (function () {
 
-            const EditComponent = exports('EditComponent', defineComponent({
-                name: "EmailField.Edit",
-                components: {
-                    EmailBox
+            var EditComponent = exports('EditComponent', defineComponent({
+              name: "EmailField.Edit",
+              components: {
+                EmailBox
+              },
+              props: getFieldEditorProps(),
+              data() {
+                return {
+                  internalValue: ""
+                };
+              },
+              watch: {
+                internalValue() {
+                  this.$emit("update:modelValue", this.internalValue);
                 },
-                props: getFieldEditorProps(),
-                data() {
-                    return {
-                        internalValue: ""
-                    };
-                },
-                watch: {
-                    internalValue() {
-                        this.$emit("update:modelValue", this.internalValue);
-                    },
-                    modelValue: {
-                        immediate: true,
-                        handler() {
-                            this.internalValue = this.modelValue || "";
-                        }
-                    }
-                },
-                template: `
-<EmailBox v-model="internalValue" />
-`
+                modelValue: {
+                  immediate: true,
+                  handler() {
+                    this.internalValue = this.modelValue || "";
+                  }
+                }
+              },
+              template: "\n<EmailBox v-model=\"internalValue\" />\n"
             }));
-            const FilterComponent = exports('FilterComponent', defineComponent({
-                name: "EmailField.Filter",
-                components: {
-                    TextBox
-                },
-                props: getFieldEditorProps(),
-                emits: [
-                    "update:modelValue"
-                ],
-                setup(props, { emit }) {
-                    const internalValue = useVModelPassthrough(props, "modelValue", emit);
-                    return {
-                        internalValue
-                    };
-                },
-                template: `
-<TextBox v-model="internalValue" />
-`
+            var FilterComponent = exports('FilterComponent', defineComponent({
+              name: "EmailField.Filter",
+              components: {
+                TextBox
+              },
+              props: getFieldEditorProps(),
+              emits: ["update:modelValue"],
+              setup(props, _ref) {
+                var emit = _ref.emit;
+                var internalValue = useVModelPassthrough(props, "modelValue", emit);
+                return {
+                  internalValue
+                };
+              },
+              template: "\n<TextBox v-model=\"internalValue\" />\n"
             }));
-            const ConfigurationComponent = exports('ConfigurationComponent', defineComponent({
-                name: "EmailField.Configuration",
-                template: ``
+            var ConfigurationComponent = exports('ConfigurationComponent', defineComponent({
+              name: "EmailField.Configuration",
+              template: ""
             }));
 
         })
     };
 }));
+//# sourceMappingURL=emailFieldComponents.js.map

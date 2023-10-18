@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="BarChartDashboardWidget.ascx.cs" Inherits="RockWeb.Blocks.Reporting.Dashboard.BarChartDashboardWidget" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="BarChartDashboardWidget.ascx.cs" Inherits="RockWeb.Blocks.Reporting.Dashboard.BarChartDashboardWidget" %>
 
 <asp:UpdatePanel ID="upnlContent" runat="server">
     <ContentTemplate>
@@ -9,7 +9,7 @@
             <asp:Literal runat="server" ID="lDashboardSubtitle" />
         </asp:Panel>
         <Rock:NotificationBox ID="nbMetricWarning" runat="server" NotificationBoxType="Warning" Text="Please select a metric in the block settings." />
-        <Rock:BarChart ID="flotChart" runat="server" />
+        <Rock:RockBarChart ID="metricChart" runat="server" />
 
         <%-- Edit Panel --%>
         <asp:Panel ID="pnlEditModel" runat="server" Visible="false">

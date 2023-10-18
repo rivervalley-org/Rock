@@ -1,4 +1,4 @@
-System.register(['./loadingIndicator.js', 'vue'], (function (exports) {
+System.register(['./loadingIndicator', 'vue'], (function (exports) {
     'use strict';
     var LoadingIndicator, defineComponent;
     return {
@@ -10,23 +10,24 @@ System.register(['./loadingIndicator.js', 'vue'], (function (exports) {
         execute: (function () {
 
             var loading = exports('default', defineComponent({
-                name: "Loading",
-                components: {
-                    LoadingIndicator
+              name: "Loading",
+              components: {
+                LoadingIndicator
+              },
+              props: {
+                isLoading: {
+                  type: Boolean,
+                  required: true
                 },
-                props: {
-                    isLoading: {
-                        type: Boolean,
-                        required: true
-                    }
-                },
-                template: `
-<div>
-    <slot v-if="!isLoading" />
-    <LoadingIndicator v-else />
-</div>`
+                isSmall: {
+                  type: Boolean,
+                  default: false
+                }
+              },
+              template: "\n<div>\n    <slot v-if=\"!isLoading\" />\n    <LoadingIndicator v-else :isSmall=\"isSmall\" />\n</div>"
             }));
 
         })
     };
 }));
+//# sourceMappingURL=loading.js.map
