@@ -887,9 +887,6 @@ namespace RockWeb.Plugins.org_riverValley.Finance
         public string RegularAttender { get; set; }
         public string ConfirmationCode { get; set; }
         public string Note { get; set; }
-        public string IncomeAccountNumber { get; set; }
-        public string PurposeCode { get; set; }
-        public string Recurring { get; set; }
 
         public int? RockFinancialAccountId { get; set; }
 
@@ -924,9 +921,6 @@ namespace RockWeb.Plugins.org_riverValley.Finance
             Map( m => m.RegularAttender ).Name( "Regular Attender" );
             Map( m => m.ConfirmationCode ).Name( "Confirmation Code" );
             Map( m => m.Note ).Name( "Note" );
-            Map( m => m.IncomeAccountNumber ).Name( "Income Account Number", " Income Account Number" );
-            Map( m => m.PurposeCode ).Name( "Purpose Code" );
-            Map( m => m.Recurring ).Name( "Recurring" );
         }
     }
 
