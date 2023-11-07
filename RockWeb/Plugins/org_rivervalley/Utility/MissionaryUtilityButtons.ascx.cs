@@ -21,11 +21,11 @@ using Rock.Communication;
 
 namespace RockWeb.Plugins.org_rivervalley.Utility
 {
-    [DisplayName("Missionary Utility Buttons")]
-    [Category("org_rivervalley > Utility")]
-    [Description("Will update missionary data")]
-    [IntegerField("Group Id", "Group Id for the missionary or missionary organization to be added to.", false, 0)]
-    [IntegerField("Group Id 2", "Group Id for the missionary to the Online Contribution Receipt for Missionary Group.", false, 0)]
+    [DisplayName( "Missionary Utility Buttons" )]
+    [Category( "org_rivervalley > Utility" )]
+    [Description( "Will update missionary data" )]
+    [IntegerField( "Group Id", "Group Id for the missionary or missionary organization to be added to.", false, 0 )]
+    [IntegerField( "Group Id 2", "Group Id for the missionary to the Online Contribution Receipt for Missionary Group.", false, 0 )]
 
     public partial class MissionaryUtilityButtons : Rock.Web.UI.RockBlock
     {
@@ -35,18 +35,18 @@ namespace RockWeb.Plugins.org_rivervalley.Utility
         /// Raises the <see cref="E:Init" /> event.
         /// </summary>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        protected override void OnInit(EventArgs e)
+        protected override void OnInit( EventArgs e )
         {
-            base.OnInit(e);            
+            base.OnInit( e );
         }
 
         /// <summary>
         /// Raises the <see cref="E:Load" /> event.
         /// </summary>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        protected override void OnLoad(EventArgs e)
+        protected override void OnLoad( EventArgs e )
         {
-            base.OnLoad(e);
+            base.OnLoad( e );
 
             nbNotification.Text = "";
             nbNotification.Visible = false;
@@ -63,7 +63,7 @@ namespace RockWeb.Plugins.org_rivervalley.Utility
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        protected void btnDoNotMail_Click(object sender, EventArgs e)
+        protected void btnDoNotMail_Click( object sender, EventArgs e )
         {
             // make sure person exists
             int? personId = PageParameter( "PersonId" ).AsIntegerOrNull();
@@ -88,7 +88,7 @@ namespace RockWeb.Plugins.org_rivervalley.Utility
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        protected void btnAddMissionary_Click(object sender, EventArgs e)
+        protected void btnAddMissionary_Click( object sender, EventArgs e )
         {
             var rockContext = new RockContext();
 
@@ -141,7 +141,7 @@ namespace RockWeb.Plugins.org_rivervalley.Utility
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        protected void btnAddContribution_Click(object sender, EventArgs e)
+        protected void btnAddContribution_Click( object sender, EventArgs e )
         {
             var rockContext = new RockContext();
 
@@ -183,11 +183,11 @@ namespace RockWeb.Plugins.org_rivervalley.Utility
                 var groupMemberService = new GroupMemberService( rockContext );
                 var groupMember = groupMemberService.AddOrRestoreGroupMember( group, personId.Value, group.GroupType.DefaultGroupRoleId.Value );
                 groupMember.GroupMemberStatus = GroupMemberStatus.Active;
-                
+
                 rockContext.SaveChanges();
 
                 nbNotification.Text = person.FullName + " was added to group " + group.Name;
-                nbNotification.Visible = true;      
+                nbNotification.Visible = true;
             }
         }
 
@@ -214,7 +214,7 @@ namespace RockWeb.Plugins.org_rivervalley.Utility
                 .Where( av => av.EntityId.HasValue && av.AttributeId == 3671 && av.ValueAsPersonId == personId )
                 .Select( av => av.EntityId.Value )
                 .FirstOrDefault();
-                    
+
             if ( accountId.HasValue && accountId > 0 )
             {
                 hfFinancialAccountId.Value = accountId.ToString();
@@ -296,7 +296,7 @@ namespace RockWeb.Plugins.org_rivervalley.Utility
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        protected void btnCancel_Click(object sender, EventArgs e)
+        protected void btnCancel_Click( object sender, EventArgs e )
         {
             pnlButtons.Visible = true;
             pnlFeatured.Visible = false;
@@ -317,7 +317,7 @@ namespace RockWeb.Plugins.org_rivervalley.Utility
         protected bool IsGroupMember( int groupId, int personId )
         {
             return new GroupMemberService( new RockContext() ).Queryable().AsNoTracking()
-                .Any( g => g.GroupId == groupId && 
+                .Any( g => g.GroupId == groupId &&
                            g.PersonId == personId );
         }
 
