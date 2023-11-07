@@ -29,270 +29,273 @@ namespace RockWeb.Plugins.org_rivervalley.Utility
 
     public partial class MissionaryUtilityButtons : Rock.Web.UI.RockBlock
     {
-        #region Fields
-
-        private Person cPerson = null;
-        private string connString = ConfigurationManager.ConnectionStrings["RockContext"].ConnectionString;
-        private int familyId;
-        private Person fPerson;
-        private PersonAlias pAlias;
-        private Group mGroup;
-        //private GroupMember gmGroup;
-        private FinancialAccount fAccount;
-        private bool isMember;
-        private DateTime startDate = new DateTime(1900, 1, 1);
-        private DateTime endDate = new DateTime(1900, 1, 1);
-
-        #endregion
-
         #region Base Control Methods
 
+        /// <summary>
+        /// Raises the <see cref="E:Init" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected override void OnInit(EventArgs e)
         {
             base.OnInit(e);            
         }
 
+        /// <summary>
+        /// Raises the <see cref="E:Load" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            lOutputString.Text = "";
+
+            nbNotification.Text = "";
+            nbNotification.Visible = false;
+            nbNotification.NotificationBoxType = NotificationBoxType.Info;
+            nbNotificationFeatured.NotificationBoxType = NotificationBoxType.Info;
         }
 
         #endregion
 
         #region Events
 
+        /// <summary>
+        /// Handles the Click event of the btnDoNotMail control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void btnDoNotMail_Click(object sender, EventArgs e)
         {
-            string personId = PageParameter("PersonId");
-            if (!string.IsNullOrWhiteSpace(personId))
+            // make sure person exists
+            int? personId = PageParameter( "PersonId" ).AsIntegerOrNull();
+            if ( !personId.HasValue )
             {
-                var id = Int32.Parse(personId);
-                var rockContext = new RockContext();
-                cPerson = new PersonService(rockContext).Get(id);
-                GetFamilyId();
-                GetFamilyMembers();
-                lOutputString.Text = "Do Not Mail Attributes Updated";
-                lOutputString.Visible = true;
+                nbNotification.Text = "An error has occurred in processing your request";
+                nbNotification.Visible = true;
             }
-            else
-            {
-                lOutputString.Text = "An error has occurred in processing your request";
-                lOutputString.Visible = true;
-            }
+
+            var rockContext = new RockContext();
+            var person = new PersonService( rockContext ).Get( personId.Value );
+            person.LoadAttributes( rockContext );
+            person.SetAttributeValue( "Arena-35-504", "true" );
+            person.SaveAttributeValues();
+
+            nbNotification.Text = "Do Not Mail Attributes Updated";
+            nbNotification.Visible = true;
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnAddMissionary control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void btnAddMissionary_Click(object sender, EventArgs e)
         {
-            string personId = PageParameter("PersonId");
-            if (!string.IsNullOrWhiteSpace(personId))
+            var rockContext = new RockContext();
+
+            // make sure person exists
+            int? personId = PageParameter( "PersonId" ).AsIntegerOrNull();
+            if ( !personId.HasValue )
             {
-                var id = Int32.Parse(personId);
-                var rockContext = new RockContext();
-                cPerson = new PersonService(rockContext).Get(id);
-                // get block variable for proper group id
-                int groupId = Convert.ToInt32(GetAttributeValue("GroupId"));
-                if(groupId > 0)
-                {
-                    mGroup = new GroupService(new RockContext()).Get(groupId);
+                nbNotification.Text = "An error has occurred in processing your request";
+                nbNotification.Visible = true;
+            }
+            var person = new PersonService( rockContext ).Get( personId.Value );
 
-                    isMember = false;
-                    CheckMemberStatus(groupId, id);
-                    if (isMember)
-                    {
-                        lOutputString.Text = cPerson.FullName + " already part of group " + mGroup.Name;
-                        lOutputString.Visible = true;
-                    }
-                    else
-                    {
-                        var service = new GroupMemberService(rockContext);
-                        var groupMember = new GroupMember();
-                        service.Add(groupMember);
-                        groupMember.GroupId = groupId;
-                        groupMember.PersonId = id;
-                        groupMember.GroupRoleId = 163;
-                        rockContext.SaveChanges();
+            // make sure group exists
+            int? groupId = GetAttributeValue( "GroupId" ).AsIntegerOrNull();
+            if ( !groupId.HasValue )
+            {
+                nbNotification.Text = "An error has occurred in processing your request. Add a block 'Group Id' attribute.";
+                nbNotification.Visible = true;
+                return;
+            }
+            var group = new GroupService( rockContext ).Get( groupId.Value );
 
-                        lOutputString.Text = cPerson.FullName + " was added to group " + mGroup.Name;
-                        lOutputString.Visible = true;
 
-                        // update missionary state to Approved status
-                        cPerson.LoadAttributes(rockContext);
-                        cPerson.SetAttributeValue("MissionaryState", "Approved");
-                        cPerson.SaveAttributeValues();
-                    }
-                }
-                else
-                {
-                    lOutputString.Text = "An error has occurred in processing your request. Add a block 'Group Id' attribute.";
-                    lOutputString.Visible = true;
-                }
+            if ( IsGroupMember( group.Id, person.Id ) )
+            {
+                nbNotification.Text = person.FullName + " already part of group " + group.Name;
+                nbNotification.Visible = true;
             }
             else
             {
-                lOutputString.Text = "An error has occurred in processing your request";
-                lOutputString.Visible = true;
+                var groupMemberService = new GroupMemberService( rockContext );
+                var groupMember = groupMemberService.AddOrRestoreGroupMember( group, personId.Value, group.GroupType.DefaultGroupRoleId.Value );
+                groupMember.GroupMemberStatus = GroupMemberStatus.Active;
+
+                rockContext.SaveChanges();
+
+                nbNotification.Text = person.FullName + " was added to group " + group.Name;
+                nbNotification.Visible = true;
+
+                // update missionary state to Approved status
+                person.LoadAttributes( rockContext );
+                person.SetAttributeValue( "MissionaryState", "Approved" );
+                person.SaveAttributeValues();
             }
+
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnAddContribution control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void btnAddContribution_Click(object sender, EventArgs e)
         {
-            string personId = PageParameter("PersonId");
-            if (!string.IsNullOrWhiteSpace(personId))
+            var rockContext = new RockContext();
+
+            // make sure person exists
+            int? personId = PageParameter( "PersonId" ).AsIntegerOrNull();
+            if ( !personId.HasValue )
             {
-                var id = Int32.Parse(personId);
-                var rockContext = new RockContext();
-                cPerson = new PersonService(rockContext).Get(id);
-                // get block variable for proper group id
-                int groupId = Convert.ToInt32(GetAttributeValue("GroupId2"));
-                if (groupId > 0)
-                {
-                    mGroup = new GroupService(new RockContext()).Get(groupId);
+                nbNotification.Text = "An error has occurred in processing your request";
+                nbNotification.Visible = true;
+            }
+            var person = new PersonService( rockContext ).Get( personId.Value );
 
-                    isMember = false;
-                    CheckMemberStatus(groupId, id);
-                    if (isMember)
-                    {
-                        lOutputString.Text = cPerson.FullName + " already part of group " + mGroup.Name;
-                        lOutputString.Visible = true;
-                    }
-                    else
-                    {
-                        var service = new GroupMemberService(rockContext);
-                        var groupMember = new GroupMember();
-                        service.Add(groupMember);
-                        groupMember.GroupId = groupId;
-                        groupMember.PersonId = id;
-                        groupMember.GroupRoleId = 34; //163;
-                        rockContext.SaveChanges();
+            // make sure group exists
+            int? groupId = GetAttributeValue( "GroupId2" ).AsIntegerOrNull();
+            if ( !groupId.HasValue )
+            {
+                nbNotification.Text = "An error has occurred in processing your request. Add a block 'Group Id' attribute.";
+                nbNotification.Visible = true;
+                return;
+            }
+            var group = new GroupService( rockContext ).Get( groupId.Value );
 
-                        lOutputString.Text = cPerson.FullName + " was added to group " + mGroup.Name;
-                        lOutputString.Visible = true;
+            // make sure configued group has a default role we can use.
+            if ( !group.GroupType.DefaultGroupRoleId.HasValue )
+            {
+                nbNotification.Text = "The configured group's group type does not have a default group role assigned.";
+                nbNotification.Visible = true;
+                return;
+            }
 
-                        
-                    }
-                }
-                else
-                {
-                    lOutputString.Text = "An error has occurred in processing your request. Add a block 'Group Id' attribute.";
-                    lOutputString.Visible = true;
-                }
+            // add person to group
+            if ( IsGroupMember( groupId.Value, personId.Value ) )
+            {
+                nbNotification.Text = person.FullName + " already part of group " + group.Name;
+                nbNotification.Visible = true;
             }
             else
             {
-                lOutputString.Text = "An error has occurred in processing your request";
-                lOutputString.Visible = true;
+                var groupMemberService = new GroupMemberService( rockContext );
+                var groupMember = groupMemberService.AddOrRestoreGroupMember( group, personId.Value, group.GroupType.DefaultGroupRoleId.Value );
+                groupMember.GroupMemberStatus = GroupMemberStatus.Active;
+                
+                rockContext.SaveChanges();
+
+                nbNotification.Text = person.FullName + " was added to group " + group.Name;
+                nbNotification.Visible = true;      
             }
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnFeatured control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void btnFeatured_Click( object sender, EventArgs e )
         {
+            var rockContext = new RockContext();
+
+            // make sure person exists
+            int? personId = PageParameter( "PersonId" ).AsIntegerOrNull();
+            if ( !personId.HasValue )
+            {
+                nbNotification.Text = "An error has occurred in processing your request";
+                nbNotification.Visible = true;
+            }
+            var person = new PersonService( rockContext ).Get( personId.Value );
+
+            int? accountId = new AttributeValueService( rockContext )
+                .Queryable().AsNoTracking()
+                .Where( av => av.EntityId.HasValue && av.AttributeId == 3671 && av.ValueAsPersonId == personId )
+                .Select( av => av.EntityId.Value )
+                .FirstOrDefault();
+                    
+            if ( accountId.HasValue && accountId > 0 )
+            {
+                hfFinancialAccountId.Value = accountId.ToString();
+                var account = new FinancialAccountService( rockContext ).Get( accountId.Value );
+                account.LoadAttributes( rockContext );
+
+                if ( account.GetAttributeValue( "FeatureStartDate" ).IsNotNullOrWhiteSpace() )
+                {
+                    var startDate = Convert.ToDateTime( account.GetAttributeValue( "FeatureStartDate" ) );
+                    dpStartDate.Text = startDate.ToShortDateString();
+                }
+                if ( account.GetAttributeValue( "FeatureStopDate" ).IsNotNullOrWhiteSpace() )
+                {
+                    var endDate = Convert.ToDateTime( account.GetAttributeValue( "FeatureStopDate" ) );
+                    dpEndDate.Text = endDate.ToShortDateString();
+                }
+
+                nbNotificationFeatured.Text = "Prefilled dates reflect previously entered data.";
+                nbNotificationFeatured.Visible = true;
+
+                pnlButtons.Visible = false;
+                pnlFeatured.Visible = true;
+            }
+            else
+            {
+                pnlButtons.Visible = true;
+                pnlFeatured.Visible = false;
+                nbNotification.Text = "This person does not have an account set up. Contact administrator.";
+                nbNotification.Visible = true;
+            }
+
+        }
+
+        /// <summary>
+        /// Handles the Click event of the btnFeaturedSave control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        protected void btnFeaturedSave_Click( object sender, EventArgs e )
+        {
+            int accountId = int.Parse( hfFinancialAccountId.Value );
+
+            if ( !dpStartDate.SelectedDate.HasValue && !dpEndDate.SelectedDate.HasValue )
+            {
+                nbNotificationFeatured.Text = "Start or End date is blank";
+
+                pnlFeatured.Visible = true;
+                pnlButtons.Visible = false;
+                nbNotificationFeatured.Visible = true;
+                return;
+            }
+
             int? personId = PageParameter( "PersonId" ).AsIntegerOrNull();
             if ( personId.HasValue )
             {
                 var rockContext = new RockContext();
-                int? accountId = new AttributeValueService( rockContext )
-                    .Queryable().AsNoTracking()
-                    .Where( av => av.EntityId.HasValue && av.AttributeId == 3671 && av.ValueAsPersonId == personId )
-                    .Select( av => av.EntityId.Value )
-                    .FirstOrDefault();
-                    
-                if ( accountId.HasValue )
-                {
-                    hfFinancialAccountId.Value = accountId.ToString();
-                    fAccount = new FinancialAccountService( rockContext ).Get( accountId.Value );
-                    fAccount.LoadAttributes( rockContext );
+                var account = new FinancialAccountService( rockContext ).Get( accountId );
+                account.LoadAttributes( rockContext );
 
-                    if ( fAccount.GetAttributeValue( "FeatureStartDate" ) != "" )
-                    {
-                        startDate = Convert.ToDateTime( fAccount.GetAttributeValue( "FeatureStartDate" ) );
-                        dpStartDate.Text = startDate.ToShortDateString();
-                    }
-                    if ( fAccount.GetAttributeValue( "FeatureStopDate" ) != "" )
-                    {
-                        endDate = Convert.ToDateTime( fAccount.GetAttributeValue( "FeatureStopDate" ) );
-                        dpEndDate.Text = endDate.ToShortDateString();
-                    }
+                account.SetAttributeValue( "FeatureStartDate", dpStartDate.SelectedDate.Value );
+                account.SetAttributeValue( "FeatureStopDate", dpStartDate.SelectedDate.Value );
+                account.SaveAttributeValues();
 
-                    lOutputStringFeatured.Text = "Prefilled dates reflect previously entered data.";
-                    lOutputStringFeatured.Visible = true;
+                pnlButtons.Visible = true;
+                pnlFeatured.Visible = false;
 
-                    pnlButtons.Visible = false;
-                    pnlFeatured.Visible = true;
-                }
-                else
-                {
-                    pnlButtons.Visible = true;
-                    pnlFeatured.Visible = false;
-                    lOutputString.Text = "This person does not have an account set up. Contact administrator.";
-                    lOutputString.Visible = true;
-                }
+                nbNotification.Text = "Dates Saved";
+                nbNotification.Visible = true;
             }
             else
             {
-                lOutputStringFeatured.Text = "An error has occurred in processing your request";
-                lOutputStringFeatured.Visible = true;
+                nbNotificationFeatured.Text = "An error has occurred in processing your request";
+                nbNotificationFeatured.Visible = true;
             }
         }
 
-        protected void btnFeaturedSave_Click( object sender, EventArgs e )
-        {
-            Boolean formError = false;
-            int accountId = int.Parse( hfFinancialAccountId.Value );
-
-            if ( dpStartDate.SelectedDate.HasValue )
-            {
-                startDate = DateTime.Parse( dpStartDate.SelectedDate.ToString() );
-            }
-            else
-            {
-                formError = true;
-                lOutputStringFeatured.Text = "Start date is blank";
-            }
-
-            if ( dpEndDate.SelectedDate.HasValue )
-            {
-                endDate = DateTime.Parse( dpEndDate.SelectedDate.ToString() );
-            }
-            else
-            {
-                formError = true;
-                lOutputStringFeatured.Text += "<br>End date is blank";
-            }
-            if ( formError )
-            {
-                pnlFeatured.Visible = true;
-                pnlButtons.Visible = false;
-                lOutputStringFeatured.Visible = true;
-            }
-            else
-            {
-                string personId = PageParameter( "PersonId" );
-                if ( !string.IsNullOrWhiteSpace( personId ) )
-                {
-                    var id = Int32.Parse( personId );
-                    var rockContext = new RockContext();
-                    fAccount = new FinancialAccountService( rockContext ).Get( accountId );
-                    fAccount.LoadAttributes( rockContext );
-
-                    fAccount.SetAttributeValue( "FeatureStartDate", startDate );
-                    fAccount.SetAttributeValue( "FeatureStopDate", endDate );
-                    fAccount.SaveAttributeValues();
-
-                    pnlButtons.Visible = true;
-                    pnlFeatured.Visible = false;
-
-                    lOutputString.Text = "Dates Saved";
-                    lOutputString.Visible = true;
-                }
-                else
-                {
-                    lOutputStringFeatured.Text = "An error has occurred in processing your request";
-                    lOutputStringFeatured.Visible = true;
-                }
-            }
-        }
-
+        /// <summary>
+        /// Handles the Click event of the btnCancel control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void btnCancel_Click(object sender, EventArgs e)
         {
             pnlButtons.Visible = true;
@@ -303,83 +306,19 @@ namespace RockWeb.Plugins.org_rivervalley.Utility
 
         #region Methods
 
-        protected void GetFamilyId()
+        /// <summary>
+        /// Determines whether [is group member] [the specified group identifier].
+        /// </summary>
+        /// <param name="groupId">The group identifier.</param>
+        /// <param name="personId">The person identifier.</param>
+        /// <returns>
+        ///   <c>true</c> if [is group member] [the specified group identifier]; otherwise, <c>false</c>.
+        /// </returns>
+        protected bool IsGroupMember( int groupId, int personId )
         {
-            string qryString = "";
-            qryString = qryString += "SELECT g.Id ";
-            qryString = qryString += "FROM[Group] g ";
-            qryString = qryString += "INNER JOIN GroupMember gm ON gm.GroupId = g.Id ";
-            qryString = qryString += "WHERE gm.PersonId = " + cPerson.Id + " ";
-            qryString = qryString += "AND g.GroupTypeId = 10";
-            SqlConnection conn = new SqlConnection(connString);
-            conn.Open();
-            SqlCommand cmd = new SqlCommand(qryString, conn);
-            cmd.CommandType = System.Data.CommandType.Text;
-            SqlDataReader rdr = cmd.ExecuteReader();
-
-            while (rdr.Read())
-            {
-                familyId = rdr.GetInt32(0);
-            }
-            conn.Close();
-        }
-        protected void GetFamilyMembers()
-        {
-            string qryString = "";
-            qryString = qryString += "SELECT PersonId ";
-            qryString = qryString += "FROM GroupMember ";
-            qryString = qryString += "WHERE GroupId = " + familyId;
-
-            SqlConnection conn = new SqlConnection(connString);
-            conn.Open();
-            SqlCommand cmd = new SqlCommand(qryString, conn);
-            cmd.CommandType = System.Data.CommandType.Text;
-            SqlDataReader rdr = cmd.ExecuteReader();
-
-            while (rdr.Read())
-            {
-                var rockContext = new RockContext();
-                fPerson = new PersonService(rockContext).Get(rdr.GetInt32(0));                
-                fPerson.LoadAttributes(rockContext);                
-                fPerson.SetAttributeValue("Arena-35-504", "true");
-                fPerson.SaveAttributeValues();
-            }
-            conn.Close();
-        }
-
-        protected void GetAdultFamilyMembers()
-        {
-            string qryString = "";
-            qryString = qryString += "SELECT PersonId ";
-            qryString = qryString += "FROM GroupMember ";
-            qryString = qryString += "WHERE GroupId = " + familyId;
-            qryString = qryString += "AND GroupRoleId = 3";
-            SqlConnection conn = new SqlConnection(connString);
-            conn.Open();
-            SqlCommand cmd = new SqlCommand(qryString, conn);
-            cmd.CommandType = System.Data.CommandType.Text;
-            SqlDataReader rdr = cmd.ExecuteReader();
-
-            while (rdr.Read())
-            {
-                var rockContext = new RockContext();
-                fPerson = new PersonService(rockContext).Get(rdr.GetInt32(0));
-                fPerson.LoadAttributes(rockContext);
-                fPerson.SetAttributeValue("Arena-35-504", "true");
-                fPerson.SaveAttributeValues();
-            }
-            conn.Close();
-        }
-
-        protected void CheckMemberStatus(int grpId, int pId)
-        {
-            var qry = new GroupMemberService(new RockContext()).Queryable();
-            qry = qry.Where(row => row.GroupId == grpId && row.PersonId == pId);
-
-            foreach (var qRow in qry)
-            {
-                isMember = true;
-            }
+            return new GroupMemberService( new RockContext() ).Queryable().AsNoTracking()
+                .Any( g => g.GroupId == groupId && 
+                           g.PersonId == personId );
         }
 
         #endregion

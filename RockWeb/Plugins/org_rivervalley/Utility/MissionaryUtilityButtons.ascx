@@ -10,7 +10,7 @@
             <div class="panel-body">        
                 <div class="row">
                     <div class="col-md-12">
-                        <Rock:RockLiteral ID="lOutputString" runat="server" Visible ="false" />
+                        <Rock:NotificationBox ID="nbNotification" runat="server" Visible ="false" />
                     </div>
                 </div>
                 <div class="actions">
@@ -31,7 +31,7 @@
             <div class="panel-body">        
                 <div class="row">
                     <div class="col-md-12">
-                        <Rock:RockLiteral ID="lOutputStringFeatured" runat="server" Visible ="false" />    
+                        <Rock:NotificationBox ID="nbNotificationFeatured" runat="server" Visible ="false" />    
                     </div>
                 </div>
                 <div class="row">
