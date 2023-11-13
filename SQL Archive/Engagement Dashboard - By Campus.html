@@ -1,0 +1,40 @@
+<div class="panel panel-block">
+    <div class="panel-heading">
+        <h1 class="panel-title pull-left"><i class="fa fa-map-marker"></i> Engagement By Campus</h1>
+        {% comment %}
+        <div class="panel-labels">
+            <span class="label label-info">{{ row.Name }}</span>
+            <span class="label label-success">{{ row.RunDate | Date:'MM/dd/yyyy' }}</span>
+        </div>
+        {% endcomment %}
+    </div>
+    
+    {% assign totalEngagementRow = rows | First %}
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Average Total Index</h4>
+                <p style="font-size: xxx-large;">{{ totalEngagementRow.Total }}</p>
+            </div>
+            <div class="col-md-6">
+                <h4>Total People</h4>
+                <p style="font-size: xxx-large;">{{ totalEngagementRow.TotalPeople | Format:'#,###' }}</p>
+            </div>
+            <hr/>
+        </div>
+        <hr/>
+        <div class="row">
+            {% for row in rows offset:1 %}
+            <div class="col-md-6">
+                <h4>{{ row.Category }}</h4>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ row.Total }}" aria-valuemin="0" aria-valuemax="{{ row.TotalPossible }}" style="background-color:{{ row.HtmlColor }}; width: {{ row.Total | DividedBy:row.TotalPossible | Times:100 | Format:'0.00' }}%;">
+                        {{ row.Total }}
+                    </div>
+                    <div style="width: 3px; height: 24px; position: absolute; background: red; left:{{ row.Total | DividedBy:row.TotalPossible | Times:100 | Plus:10 | Format:'0.00' }}%;" title="hello"></div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
