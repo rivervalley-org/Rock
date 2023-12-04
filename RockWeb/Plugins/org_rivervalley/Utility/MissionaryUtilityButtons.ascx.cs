@@ -275,7 +275,7 @@ namespace RockWeb.Plugins.org_rivervalley.Utility
                 account.LoadAttributes( rockContext );
 
                 account.SetAttributeValue( "FeatureStartDate", dpStartDate.SelectedDate.Value );
-                account.SetAttributeValue( "FeatureStopDate", dpStartDate.SelectedDate.Value );
+                account.SetAttributeValue( "FeatureStopDate", dpEndDate.SelectedDate.Value );
                 account.SaveAttributeValues();
 
                 pnlButtons.Visible = true;
