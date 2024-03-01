@@ -1463,7 +1463,11 @@ namespace RockWeb.Plugins.com_kfs.Groups
 
                         foreach ( var personAttribute in personAttributeValues.Split( ',' ).AsGuidList() )
                         {
-                            AvailablePersonAttributeIds.Add( AttributeCache.Get( personAttribute ).Id );
+                            var attribute = AttributeCache.Get( personAttribute );
+                            if ( attribute != null )
+                            {
+                                AvailablePersonAttributeIds.Add( attribute.Id ); 
+                            }
                         }
                     }
 
