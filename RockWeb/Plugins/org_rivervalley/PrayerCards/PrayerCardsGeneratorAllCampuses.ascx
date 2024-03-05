@@ -8,23 +8,28 @@
         <asp:Panel ID="pnlDateSelection" runat="server" CssClass="panel panel-block" Visible="false">            
             <div class="panel-heading">
                 <h1 class="panel-title">
-                    Prayer Card Date Selection
+                    Prayer Card Generator
                 </h1>
             </div>    
             <div class="panel-body">
                 <div class="row">
                     <div class="col-sm-12">
-                        This process will create prayer cards for all campuses for the date selected (which must be a Tuesday).<br>&nbsp;<br>
+                        <p>This process will create prayer cards for the campuses below for the date selected (which must be a Tuesday).</p>
+                        <p>
+                            <b>Campuses:</b><br />
+                            <asp:Literal ID="lCampuses" runat="server" />
+                        </p>
                     </div>                            
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
+                        <br />
                         <Rock:DatePicker ID="dtPickerDate" runat="server" Label="Prayer Date"  DatePickerType="Date" Required="true" />
                     </div>                            
                 </div>                
                 <div class="actions">
                     <p></p>
-                    <asp:LinkButton ID="btnDateSelection" runat="server" Text="Continue" CssClass="btn btn-primary" OnClick="btnDateSelection_Click" CausesValidation="false" />
+                    <asp:LinkButton ID="btnDateSelection" runat="server" Text="Generate" CssClass="btn btn-primary" OnClick="btnDateSelection_Click" CausesValidation="false" />
                     <asp:LinkButton ID="btnDateSelectionCancel" runat="server" Text="Cancel" CssClass="btn btn-link" CausesValidation="false" OnClick="btnDetailCancel_Click" />
                 </div>
                                 

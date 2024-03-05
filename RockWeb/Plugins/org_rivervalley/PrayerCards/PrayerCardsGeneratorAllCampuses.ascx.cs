@@ -19,6 +19,7 @@ using Rock.Security;
 using Rock.Web.Cache;
 using Rock.Web.UI;
 using Rock.Web.UI.Controls;
+using System.Text;
 
 
 namespace RockWeb.Plugins.org_rivervalley.PrayerCards
@@ -26,18 +27,13 @@ namespace RockWeb.Plugins.org_rivervalley.PrayerCards
     [DisplayName("Prayer Cards Generator All Campuses")]
     [Category("org_rivervalley > PrayerCards")]
     [Description("Prayer Cards Generator for all campuses ")]
-    [TextField("CampusIds", "List the Campus Id's to process - seperate with a comma. For example: 2,3,4")]
+
+    [CampusesField( "Campuses", "Choose specific campuses to limit the prayer cards to just those campuses or leave this setting to blank and it will automatically choose all active campuese.", false, "", "", 0 )]
 
     public partial class PrayerCardsGeneratorAllCampuses : Rock.Web.UI.RockBlock
     {
         #region Fields
 
-        // Test field
-        private bool saveAttributes = true;
-        private bool saveDataRecord = true;
-
-        //private string qsDate;
-        private string blockCampuses;
         private string connString = ConfigurationManager.ConnectionStrings["RockContext"].ConnectionString;
         private Person cPerson;
         private int campusId;
@@ -78,15 +74,19 @@ namespace RockWeb.Plugins.org_rivervalley.PrayerCards
         }
         protected override void OnLoad(EventArgs e)
         {
-            base.OnLoad(e);
+            base.OnLoad( e );
 
-            if (!Page.IsPostBack)
+            BuildCampusDescription();
+
+            if ( !Page.IsPostBack )
             {
                 pnlDateSelection.Visible = true;
                 pnlError.Visible = false;
                 pnlComplete.Visible = false;
             }
         }
+
+        
 
         #endregion
 
@@ -162,21 +162,6 @@ namespace RockWeb.Plugins.org_rivervalley.PrayerCards
 
         #region Methods
 
-        protected void GetCampuses()
-        {            
-            // get ids from block list
-            blockCampuses = GetAttributeValue("CampusIds");
-            string[] ids = blockCampuses.Split(',');
-            foreach (var item in ids)
-            {
-                if (item != "")
-                {
-                    var id = Int32.Parse(item);
-                    campusIds.Add(id);
-                }
-            }
-        }
-
         protected void ProcessRecords()
         {            
             lOutputString.Text += "";
@@ -184,16 +169,7 @@ namespace RockWeb.Plugins.org_rivervalley.PrayerCards
             GetCampusEntityId();
             GetAttribute296Details(); // gets appropriate number of prayer records for each type prayer category                        
             BuildNonFamilyOutputString();
-            /*  testing counts
-            networkChurchesCount = 1;
-            localChurchesCount = 1;
-            ministryLeaderCount = 1;
-            politicalLeadersCount = 1;
-            missionariesCount = 1;
-            deaconsCount = 1;
-            staffCount = 1;
-            virtuesCount = 1;
-            */
+
             ProcessNetworkChurches(networkChurchesCount);
             ProcessLocalChurches(localChurchesCount);
             ProcessMinistryLeaders(ministryLeaderCount);
@@ -211,10 +187,7 @@ namespace RockWeb.Plugins.org_rivervalley.PrayerCards
                 SetSelectedCampus(campusId);
                 GetCampusEntityId();
                 GetAttribute296Details(); // really only need this for the campus value...
-                /*
-                familiesCount = 1;
-                lifeGroupCount = 1;
-                */
+
                 BuildFamilyOutputString();
                 lOutputString.Text += "<br>";
                 ProcessFamilies(familiesCount);
@@ -358,10 +331,9 @@ namespace RockWeb.Plugins.org_rivervalley.PrayerCards
                 var definedValueNC = new DefinedValueService(new RockContext()).Get(rdr.GetInt32(1));
                 definedValueNC.LoadAttributes();
                 definedValueNC.SetAttributeValue("DatePrayedFor", datePrayedFor);
-                if (saveAttributes)
-                {
-                    definedValueNC.SaveAttributeValues();
-                }
+
+                definedValueNC.SaveAttributeValues();
+
                 BuildPrayerDateRecord(0, 0, prayerCardType, prayerCardNames, datePrayedFor, campusId);
             }
             conn.Close();
@@ -394,10 +366,9 @@ namespace RockWeb.Plugins.org_rivervalley.PrayerCards
                 var definedValueLC = new DefinedValueService(new RockContext()).Get(rdr.GetInt32(1));
                 definedValueLC.LoadAttributes();
                 definedValueLC.SetAttributeValue("DatePrayedFor", datePrayedFor);
-                if (saveAttributes)
-                {
+
                     definedValueLC.SaveAttributeValues();
-                }
+
 
                 BuildPrayerDateRecord(0, 0, prayerCardType, prayerCardNames, datePrayedFor, campusId);
             }
@@ -427,10 +398,9 @@ namespace RockWeb.Plugins.org_rivervalley.PrayerCards
                 var definedValueML = new DefinedValueService(new RockContext()).Get(rdr.GetInt32(1));
                 definedValueML.LoadAttributes();
                 definedValueML.SetAttributeValue("DatePrayedFor", datePrayedFor);
-                if (saveAttributes)
-                {
+
                     definedValueML.SaveAttributeValues();
-                }
+
                 BuildPrayerDateRecord(0, 0, prayerCardType, prayerCardNames, datePrayedFor, campusId);
             }
             conn.Close();
@@ -461,10 +431,9 @@ namespace RockWeb.Plugins.org_rivervalley.PrayerCards
                 var definedValuePL = new DefinedValueService(new RockContext()).Get(rdr.GetInt32(1));
                 definedValuePL.LoadAttributes();
                 definedValuePL.SetAttributeValue("DatePrayedFor", datePrayedFor);
-                if (saveAttributes)
-                {
+
                     definedValuePL.SaveAttributeValues();
-                }
+
                 BuildPrayerDateRecord(0, 0, prayerCardType, prayerCardNames, datePrayedFor, campusId);
             }
             conn.Close();
@@ -493,10 +462,9 @@ namespace RockWeb.Plugins.org_rivervalley.PrayerCards
                 var definedValueMS = new DefinedValueService(new RockContext()).Get(rdr.GetInt32(1));
                 definedValueMS.LoadAttributes();
                 definedValueMS.SetAttributeValue("DatePrayedFor", datePrayedFor);
-                if (saveAttributes)
-                {
+
                     definedValueMS.SaveAttributeValues();
-                }
+
                 BuildPrayerDateRecord(0, 0, prayerCardType, prayerCardNames, datePrayedFor, campusId);
             }
             conn.Close();
@@ -529,10 +497,9 @@ namespace RockWeb.Plugins.org_rivervalley.PrayerCards
                 BuildPersonPrayerCardNames(cPerson.Id, "staff");
                 cPerson.LoadAttributes(rockContext);
                 cPerson.SetAttributeValue("Arena-34-306", datePrayedFor);
-                if (saveAttributes)
-                {
+
                     cPerson.SaveAttributeValues();
-                }
+
                 BuildPrayerDateRecord(cPerson.Id, aliasId, prayerCardType, prayerCardNames, datePrayedFor, campusId);
             }
             conn.Close();
@@ -557,10 +524,9 @@ namespace RockWeb.Plugins.org_rivervalley.PrayerCards
                 fGroup = new GroupService(rockContext).Get(rdr.GetInt32(0));
                 fGroup.LoadAttributes(rockContext);
                 fGroup.SetAttributeValue("DateLastPrayedfor", datePrayedFor);
-                if (saveAttributes)
-                {
+
                     fGroup.SaveAttributeValues();
-                }
+
                 BuildPrayerDateRecord(cPerson.Id, aliasId, prayerCardType, prayerCardNames, datePrayedFor, campusId);
             }
             conn.Close();
@@ -587,10 +553,9 @@ namespace RockWeb.Plugins.org_rivervalley.PrayerCards
             {
                 recordDetail.CampusId = null;
             }
-            if (saveDataRecord)
-            {
+
                 rockContext.SaveChanges();
-            }
+
             lOutputString.Text += "<br>" + type + ": " + names;
         }
 
@@ -606,16 +571,6 @@ namespace RockWeb.Plugins.org_rivervalley.PrayerCards
             if (sPerson != null)
             {
                 prayerCardNames = cPerson.NickName + " & " + sPerson.NickName + " " + cPerson.LastName + " | ";
-                /* removed bolding of staff
-                if (type == "staff")
-                {
-                    prayerCardNames = "<b>" + cPerson.NickName + " </b>& " + sPerson.NickName + " " + cPerson.LastName + " | ";
-                }
-                else
-                {
-                    prayerCardNames = cPerson.NickName + " & " + sPerson.NickName + " " + cPerson.LastName + " | ";
-                }
-                */
             }
             else
             {
@@ -658,10 +613,9 @@ namespace RockWeb.Plugins.org_rivervalley.PrayerCards
                 GetVirtueName(rdr.GetInt32(1));
                 definedValueVR.LoadAttributes();
                 definedValueVR.SetAttributeValue("DatePrayedFor", datePrayedFor);
-                if (saveAttributes)
-                {
+
                     definedValueVR.SaveAttributeValues();
-                }
+
                 BuildPrayerDateRecord(0, 0, prayerCardType, prayerCardNames, datePrayedFor, campusId);
             }
             conn.Close();
@@ -695,13 +649,59 @@ namespace RockWeb.Plugins.org_rivervalley.PrayerCards
                 prayerCardNames = rdr.GetString(1);
                 lifeGroup.LoadAttributes(rockContext);
                 lifeGroup.SetAttributeValue("DateLastPrayedFor-GRP", datePrayedFor);
-                if (saveAttributes)
-                {
+
                     lifeGroup.SaveAttributeValues();
-                }
+
                 BuildPrayerDateRecord(0, 0, prayerCardType, prayerCardNames, datePrayedFor, campusId);
             }
             conn.Close();
+        }
+
+        private List<CampusCache> GetCampuses()
+        {
+            var campuses = new List<CampusCache>();
+
+            // get campuses from block settings
+            var campusGuids = GetAttributeValue( "Campuses" ).SplitDelimitedValues().AsGuidList();
+            foreach ( var campusGuid in campusGuids )
+            {
+                var campus = CampusCache.Get( campusGuid );
+                if ( campus != null )
+                {
+                    campuses.Add( campus );
+                    campusIds.Add( campus.Id );
+                }
+            }
+
+            // if the campus list is empty, get all active campuses
+            if (!campuses.Any())
+            {
+                foreach ( var campus in CampusCache.All().Where( c => c.IsActive ?? false == true ).ToList() )
+                {
+                    campuses.Add( campus );
+                    campusIds.Add( campus.Id );
+                }
+            }
+
+            return campuses.OrderBy( c => c.Order ).ToList();
+        }
+
+        private void BuildCampusDescription()
+        {
+            var sb = new StringBuilder();
+            foreach ( var campus in GetCampuses() )
+            {
+                if ( campus == GetCampuses().Last() )
+                {
+                    sb.AppendLine( campus.Name );
+                }
+                else
+                {
+                    sb.AppendLine( string.Format( "{0}, ", campus.Name ) );
+                }
+            }
+
+            lCampuses.Text = sb.ToString();
         }
 
         #endregion
