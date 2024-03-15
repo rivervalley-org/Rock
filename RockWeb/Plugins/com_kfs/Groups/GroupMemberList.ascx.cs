@@ -1983,14 +1983,49 @@ namespace RockWeb.Plugins.com_kfs.Groups
             }
 
             // Filter query by any configured attribute filters
+            var entityTypeIdGroupMember = EntityTypeCache.GetId<Rock.Model.GroupMember>();
+            var entityTypeIdPerson = EntityTypeCache.GetId<Rock.Model.Person>();
+
+            List<int> groupMemberPersonIds = qry.Select( m => m.PersonId ).ToList();
+
             if ( AvailableAttributes != null && AvailableAttributes.Any() )
             {
-                foreach ( var attribute in AvailableAttributes )
+                //Group Member Attribute
+                foreach ( var attribute in AvailableAttributes.Where( a => a.EntityTypeId == entityTypeIdGroupMember ) )
                 {
                     var filterControl = phAttributeFilters.FindControl( "filter_" + attribute.Id.ToString() );
                     qry = attribute.FieldType.Field.ApplyAttributeQueryFilter( qry, filterControl, attribute, groupMemberService, Rock.Reporting.FilterMode.SimpleFilter );
                 }
+
+                // Person Attributes
+                var personService = new PersonService( rockContext );
+                foreach ( var attribute in AvailableAttributes.Where( a => a.EntityTypeId == entityTypeIdPerson ) )
+                {
+                    var attributeValueService = new AttributeValueService( rockContext );
+                    var parameterExpression = personService.ParameterExpression;
+                    var filterControl = phAttributeFilters.FindControl( "filter_" + attribute.Id.ToString() );
+                    if ( filterControl != null )
+                    {
+                        var filterValues = attribute.FieldType.Field.GetFilterValues( filterControl, attribute.QualifierValues, Rock.Reporting.FilterMode.SimpleFilter );
+
+                        if ( filterValues.Any() && !string.IsNullOrWhiteSpace( filterValues[0] ) )
+                        {
+                            var entityField = EntityHelper.GetEntityFieldForAttribute( attribute, false );
+                            var expression = Rock.Utility.ExpressionHelper.GetAttributeExpression( personService, parameterExpression, entityField, filterValues );
+                            var attributeValuePersonIds = personService.Queryable().AsNoTracking().Where( parameterExpression, expression ).Select( p => p.Id ).ToList();
+
+                            // filter the attribute value results so we only include people that are in the group.  If we don't, the query will be too
+                            // big and will cause massive timeouts.
+                            attributeValuePersonIds = attributeValuePersonIds.Where( t => groupMemberPersonIds.Contains( t ) ).ToList();
+                            if ( attributeValuePersonIds.Any() )
+                            {
+                                qry = qry.Where( m => attributeValuePersonIds.Contains( m.PersonId ) );
+                            }
+                        }
+                    }
+                }
             }
+
 
             _inactiveStatus = DefinedValueCache.Get( Rock.SystemGuid.DefinedValue.PERSON_RECORD_STATUS_INACTIVE );
 
@@ -2177,10 +2212,6 @@ namespace RockWeb.Plugins.com_kfs.Groups
 			//
             // Attributes
             //
-
-            // Get all the person ids in current page of query results
-			var entityTypeIdGroupMember = EntityTypeCache.GetId<Rock.Model.GroupMember>();
-            var entityTypeIdPerson = EntityTypeCache.GetId<Rock.Model.Person>();
 					
 			var groupMembersList = qry.ToList();
 			var groupMemberIds = groupMembersList.Select( m => m.Id ).ToList();
