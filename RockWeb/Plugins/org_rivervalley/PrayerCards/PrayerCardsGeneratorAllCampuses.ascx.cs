@@ -476,7 +476,13 @@ namespace RockWeb.Plugins.org_rivervalley.PrayerCards
             if (type == "deacons")
             {
                 prayerCardType = "Elder/Deacon";
-                qryString = "SELECT TOP " + count + " * FROM _org_rivervalley_vGroupDeaconElderActive ORDER BY DateLastPrayedFor";
+
+                // We are grouping the data here by family since there could be cases where a both adults in the family are
+                //  deacons and we don't want the family to appear twice.
+                qryString = "SELECT TOP " + count + @" MIN(PersonId) AS [PersonId], FamilyGroupId, GroupName, MAX(DateLastPrayedFor) AS DateLastPrayedFor
+                            FROM _org_rivervalley_vGroupDeaconElderActive 
+                            GROUP BY FamilyGroupId, GroupName, DateLastPrayedFor
+                            ORDER BY DateLastPrayedFor";
             }
             if (type == "staff")
             {
