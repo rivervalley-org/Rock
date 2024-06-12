@@ -1,17 +1,22 @@
-System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 'mitt', '@Obsidian/Enums/Controls/controlLazyMode', '@Obsidian/Enums/Controls/pickerDisplayStyle', '@Obsidian/Enums/Controls/slidingDateRangeType', '@Obsidian/Enums/Controls/timeUnitType', '@Obsidian/Enums/Controls/mergeTemplateOwnership'], (function (exports) {
+System.register(['axios', 'vue', '@Obsidian/Libs/pluralize', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 'mitt', '@Obsidian/Enums/Controls/controlLazyMode', '@Obsidian/Enums/Controls/pickerDisplayStyle', '@Obsidian/Libs/liquidjs', '@Obsidian/Enums/Controls/slidingDateRangeType', '@Obsidian/Enums/Controls/timeUnitType', '@Obsidian/Enums/Controls/mergeTemplateOwnership'], (function (exports) {
   'use strict';
-  var axios, inject, provide, ref, watch, nextTick, defineAsyncComponent$1, reactive, FixedOffsetZone, DateTime, DayOfWeek, mitt, ControlLazyMode, PickerDisplayStyle, SlidingDateRangeType, TimeUnitType, MergeTemplateOwnership;
+  var axios, provide, getCurrentInstance, inject, ref, watch, nextTick, defineAsyncComponent$1, reactive, createVNode, render, Pluralize, FixedOffsetZone, DateTime, DayOfWeek, mitt, ControlLazyMode, PickerDisplayStyle, Liquid, SlidingDateRangeType, TimeUnitType, MergeTemplateOwnership;
   return {
     setters: [function (module) {
       axios = module["default"];
     }, function (module) {
-      inject = module.inject;
       provide = module.provide;
+      getCurrentInstance = module.getCurrentInstance;
+      inject = module.inject;
       ref = module.ref;
       watch = module.watch;
       nextTick = module.nextTick;
       defineAsyncComponent$1 = module.defineAsyncComponent;
       reactive = module.reactive;
+      createVNode = module.createVNode;
+      render = module.render;
+    }, function (module) {
+      Pluralize = module.Pluralize;
     }, function (module) {
       FixedOffsetZone = module.FixedOffsetZone;
       DateTime = module.DateTime;
@@ -23,6 +28,8 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
       ControlLazyMode = module.ControlLazyMode;
     }, function (module) {
       PickerDisplayStyle = module.PickerDisplayStyle;
+    }, function (module) {
+      Liquid = module.Liquid;
     }, function (module) {
       SlidingDateRangeType = module.SlidingDateRangeType;
     }, function (module) {
@@ -301,7 +308,11 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
         provide(httpFunctionsSymbol, functions);
       }
       function useHttp() {
-        return inject(httpFunctionsSymbol) || {
+        var http;
+        if (getCurrentInstance()) {
+          http = inject(httpFunctionsSymbol);
+        }
+        return http || {
           doApiCall: doApiCall,
           get: get$1,
           post: post
@@ -377,13 +388,13 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
         });
         return _uploadBinaryFile.apply(this, arguments);
       }
-      var http$1 = {
+      var http$2 = {
         doApiCall,
         post,
         get: get$1
       };
 
-      var http$2 = /*#__PURE__*/Object.freeze({
+      var http$3 = /*#__PURE__*/Object.freeze({
         __proto__: null,
         doApiCall: doApiCall,
         get: get$1,
@@ -392,9 +403,9 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
         useHttp: useHttp,
         uploadContentFile: uploadContentFile,
         uploadBinaryFile: uploadBinaryFile,
-        'default': http$1
+        'default': http$2
       });
-      exports('http', http$2);
+      exports('http', http$3);
 
       function getDefaultAddressControlModel() {
         return {
@@ -405,11 +416,15 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
       function validateAddress(address) {
         return post("/api/v2/Controls/AddressControlValidateAddress", undefined, address);
       }
+      function getAddressString(address) {
+        return post("/api/v2/Controls/AddressControlGetStreetAddressString", undefined, address);
+      }
 
       var address = /*#__PURE__*/Object.freeze({
         __proto__: null,
         getDefaultAddressControlModel: getDefaultAddressControlModel,
-        validateAddress: validateAddress
+        validateAddress: validateAddress,
+        getAddressString: getAddressString
       });
       exports('address', address);
 
@@ -625,8 +640,9 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
       function isNullOrWhiteSpace(val) {
         return isWhiteSpace(val) || val === undefined || val === null;
       }
-      function splitCamelCase(val) {
-        return val.replace(/([a-z])([A-Z])/g, "$1 $2");
+      function splitCase(val) {
+        val = val.replace(/([A-Z]+)([A-Z][a-z])/g, "$1 $2");
+        return val.replace(/([a-z0-9])([A-Z])/g, "$1 $2");
       }
       function asCommaAnd(strs) {
         if (strs.length === 0) {
@@ -655,6 +671,9 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
         }
         return str.charAt(0).toUpperCase() + str.substring(1);
       }
+      function pluralize(word, count) {
+        return Pluralize(word, count);
+      }
       function pluralConditional(num, singular, plural) {
         return num === 1 ? singular : plural;
       }
@@ -666,7 +685,7 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
           padCharacter = padCharacter.substring(0, 1);
         }
         if (!str) {
-          return Array(length).join(padCharacter);
+          return Array(length + 1).join(padCharacter);
         }
         if (str.length >= length) {
           return str;
@@ -726,10 +745,14 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
         }
         return value === itemValue;
       }
+      function containsHtmlTag(value) {
+        return /<[/0-9a-zA-Z]/.test(value);
+      }
       var stringUtils = {
         asCommaAnd,
+        containsHtmlTag,
         escapeHtml,
-        splitCamelCase,
+        splitCase,
         isNullOrWhiteSpace,
         isWhiteSpace,
         isEmpty,
@@ -745,16 +768,18 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
         isEmpty: isEmpty,
         isWhiteSpace: isWhiteSpace,
         isNullOrWhiteSpace: isNullOrWhiteSpace,
-        splitCamelCase: splitCamelCase,
+        splitCase: splitCase,
         asCommaAnd: asCommaAnd,
         toTitleCase: toTitleCase,
         upperCaseFirstCharacter: upperCaseFirstCharacter,
+        pluralize: pluralize,
         pluralConditional: pluralConditional,
         padLeft: padLeft,
         padRight: padRight,
         truncate: truncate,
         escapeHtml: escapeHtml,
         defaultControlCompareValue: defaultControlCompareValue,
+        containsHtmlTag: containsHtmlTag,
         'default': stringUtils
       });
       exports('stringUtils', stringUtils$1);
@@ -1099,7 +1124,7 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
           throw "Could not determine day of week.";
         }
         get dayOfYear() {
-          return this.dateTime.year;
+          return this.dateTime.ordinal;
         }
         get hour() {
           return this.dateTime.hour;
@@ -1264,6 +1289,24 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
         isEarlierThan(otherDateTime) {
           return this.dateTime.toMillis() < otherDateTime.dateTime.toMillis();
         }
+        humanizeElapsed(otherDateTime) {
+          var _otherDateTime;
+          otherDateTime = (_otherDateTime = otherDateTime) !== null && _otherDateTime !== void 0 ? _otherDateTime : RockDateTime.now();
+          var totalSeconds = Math.floor((otherDateTime.dateTime.toMillis() - this.dateTime.toMillis()) / 1000);
+          if (totalSeconds <= 1) {
+            return "right now";
+          } else if (totalSeconds < 60) {
+            return "".concat(totalSeconds, " seconds ago");
+          } else if (totalSeconds < 3600) {
+            return "".concat(Math.floor(totalSeconds / 60), " minutes ago");
+          } else if (totalSeconds < 86400) {
+            return "".concat(Math.floor(totalSeconds / 3600), " hours ago");
+          } else if (totalSeconds < 31536000) {
+            return "".concat(Math.floor(totalSeconds / 86400), " days ago");
+          } else {
+            return "".concat(Math.floor(totalSeconds / 31536000), " years ago");
+          }
+        }
       }
 
       var rockDateTime = /*#__PURE__*/Object.freeze({
@@ -1274,8 +1317,82 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
       });
       exports('rockDateTime', rockDateTime);
 
+      function deepEqual(a, b, strict) {
+        if (strict && a === b) {
+          return true;
+        } else if (!strict && a == b) {
+          return true;
+        }
+        if (typeof a === "number" && typeof b === "number" && isNaN(a) && isNaN(b)) {
+          return true;
+        }
+        if (a && b && typeof a === "object" && typeof b === "object") {
+          if (Array.isArray(a) !== Array.isArray(b)) {
+            return false;
+          }
+          if (Array.isArray(a) && Array.isArray(b)) {
+            if (a.length !== b.length) {
+              return false;
+            }
+            for (var i = 0; i < a.length; i++) {
+              if (!deepEqual(a[i], b[i], strict)) {
+                return false;
+              }
+            }
+            return true;
+          } else {
+            if (a.constructor !== b.constructor) {
+              return false;
+            }
+            var aEntries = Object.entries(a).sort((a, b) => a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0);
+            var bEntries = Object.entries(b).sort((a, b) => a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0);
+            if (aEntries.length !== bEntries.length) {
+              return false;
+            }
+            for (var _i = 0; _i < aEntries.length; _i++) {
+              var aEntry = aEntries[_i];
+              var bEntry = bEntries[_i];
+              if (!deepEqual(aEntry[0], bEntry[0], true)) {
+                return false;
+              }
+              if (!deepEqual(aEntry[1], bEntry[1], strict)) {
+                return false;
+              }
+            }
+            return true;
+          }
+        }
+        return false;
+      }
+      function debounce(fn) {
+        var delay = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 250;
+        var eager = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+        var timeout = null;
+        return () => {
+          if (timeout) {
+            clearTimeout(timeout);
+          } else if (eager) {
+            fn();
+            timeout = setTimeout(() => timeout = null, delay);
+            return;
+          }
+          timeout = setTimeout(() => {
+            timeout = null;
+            fn();
+          }, delay);
+        };
+      }
+
+      var util = /*#__PURE__*/Object.freeze({
+        __proto__: null,
+        deepEqual: deepEqual,
+        debounce: debounce
+      });
+      exports('util', util);
+
       var blockReloadSymbol = Symbol();
       var configurationValuesChangedSymbol = Symbol();
+      var staticContentSymbol = Symbol();
       function useConfigurationValues() {
         var result = inject("configurationValues");
         if (result === undefined) {
@@ -1289,6 +1406,27 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
           throw "Attempted to access block action invocation outside of a RockBlock.";
         }
         return result;
+      }
+      function createInvokeBlockAction(post, pageGuid, blockGuid, pageParameters) {
+        function invokeBlockAction(_x) {
+          return _invokeBlockAction.apply(this, arguments);
+        }
+        function _invokeBlockAction() {
+          _invokeBlockAction = _asyncToGenerator(function* (actionName) {
+            var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
+            var actionContext = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : undefined;
+            var context = {};
+            if (actionContext) {
+              context = _objectSpread2({}, actionContext);
+            }
+            context.pageParameters = pageParameters;
+            return yield post("/api/v2/BlockActions/".concat(pageGuid, "/").concat(blockGuid, "/").concat(actionName), undefined, _objectSpread2({
+              __context: context
+            }, data));
+          });
+          return _invokeBlockAction.apply(this, arguments);
+        }
+        return invokeBlockAction;
       }
       function provideReloadBlock(callback) {
         provide(blockReloadSymbol, callback);
@@ -1317,6 +1455,12 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
           callbacks.push(callback);
         }
       }
+      function provideStaticContent(content) {
+        provide(staticContentSymbol, content);
+      }
+      function useStaticContent() {
+        return inject(staticContentSymbol);
+      }
       function setCustomSettingsBoxValue(box, propertyName, value) {
         if (!box.settings) {
           box.settings = {};
@@ -1337,7 +1481,7 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
         if (!box.validProperties) {
           box.validProperties = [];
         }
-        if (!box.validProperties.includes(propertyName)) {
+        if (!box.validProperties.some(p => p.toLowerCase() === propertyName.toLowerCase())) {
           box.validProperties.push(propertyName);
         }
       }
@@ -1353,6 +1497,43 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
       }
       function isBlockEvent(event) {
         return "guid" in event && "data" in event;
+      }
+      var entityTypeNameSymbol = Symbol("EntityTypeName");
+      var entityTypeGuidSymbol = Symbol("EntityTypeGuid");
+      function useEntityDetailBlock(options) {
+        var securityGrant = getSecurityGrant(options.blockConfig.securityGrantToken);
+        provideSecurityGrant(securityGrant);
+        if (options.blockConfig.entityTypeName) {
+          provideEntityTypeName(options.blockConfig.entityTypeName);
+        }
+        if (options.blockConfig.entityTypeGuid) {
+          provideEntityTypeGuid(options.blockConfig.entityTypeGuid);
+        }
+        var entity = options.entity;
+        var result = {};
+        if (entity) {
+          var invokeBlockAction = useInvokeBlockAction();
+          var refreshAttributesDebounce = debounce(() => refreshEntityDetailAttributes(entity, invokeBlockAction), undefined, true);
+          result.onPropertyChanged = propertyName => {
+            if (!options.blockConfig.qualifiedAttributeProperties || !options.blockConfig.qualifiedAttributeProperties.some(n => n.toLowerCase() === propertyName.toLowerCase())) {
+              return;
+            }
+            refreshAttributesDebounce();
+          };
+        }
+        return result;
+      }
+      function provideEntityTypeName(name) {
+        provide(entityTypeNameSymbol, name);
+      }
+      function useEntityTypeName() {
+        return inject(entityTypeNameSymbol, undefined);
+      }
+      function provideEntityTypeGuid(guid) {
+        provide(entityTypeGuidSymbol, guid);
+      }
+      function useEntityTypeGuid() {
+        return inject(entityTypeGuidSymbol, undefined);
       }
       var securityGrantSymbol = Symbol();
       function getSecurityGrant(token) {
@@ -1431,7 +1612,30 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
           _iterator.f();
         }
       }
-      function refreshDetailAttributes(_x, _x2, _x3) {
+      function refreshEntityDetailAttributes(_x2, _x3) {
+        return _refreshEntityDetailAttributes.apply(this, arguments);
+      }
+      function _refreshEntityDetailAttributes() {
+        _refreshEntityDetailAttributes = _asyncToGenerator(function* (box, invokeBlockAction) {
+          var result = yield invokeBlockAction("RefreshAttributes", {
+            box: box.value
+          });
+          if (result.isSuccess) {
+            if (result.statusCode === 200 && result.data && box.value) {
+              var _result$data$bag, _result$data$bag2;
+              var newBox = _objectSpread2(_objectSpread2({}, box.value), {}, {
+                bag: _objectSpread2(_objectSpread2({}, box.value.bag), {}, {
+                  attributes: (_result$data$bag = result.data.bag) === null || _result$data$bag === void 0 ? void 0 : _result$data$bag.attributes,
+                  attributeValues: (_result$data$bag2 = result.data.bag) === null || _result$data$bag2 === void 0 ? void 0 : _result$data$bag2.attributeValues
+                })
+              });
+              box.value = newBox;
+            }
+          }
+        });
+        return _refreshEntityDetailAttributes.apply(this, arguments);
+      }
+      function refreshDetailAttributes(_x4, _x5, _x6) {
         return _refreshDetailAttributes.apply(this, arguments);
       }
       function _refreshDetailAttributes() {
@@ -1464,26 +1668,73 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
       function useBlockGuid() {
         return inject(blockGuidSymbol);
       }
+      var blockPreferenceProviderSymbol = Symbol();
+      var emptyPreferences = {
+        getValue() {
+          return "";
+        },
+        setValue() {},
+        getKeys() {
+          return [];
+        },
+        containsKey() {
+          return false;
+        },
+        save() {
+          return Promise.resolve();
+        },
+        withPrefix() {
+          return emptyPreferences;
+        },
+        on() {},
+        off() {}
+      };
+      var emptyPreferenceProvider = {
+        blockPreferences: emptyPreferences,
+        getGlobalPreferences() {
+          return Promise.resolve(emptyPreferences);
+        },
+        getEntityPreferences() {
+          return Promise.resolve(emptyPreferences);
+        }
+      };
+      function providePersonPreferences(provider) {
+        provide(blockPreferenceProviderSymbol, provider);
+      }
+      function usePersonPreferences() {
+        var _inject;
+        return (_inject = inject(blockPreferenceProviderSymbol)) !== null && _inject !== void 0 ? _inject : emptyPreferenceProvider;
+      }
 
       var block = /*#__PURE__*/Object.freeze({
         __proto__: null,
         useConfigurationValues: useConfigurationValues,
         useInvokeBlockAction: useInvokeBlockAction,
+        createInvokeBlockAction: createInvokeBlockAction,
         provideReloadBlock: provideReloadBlock,
         useReloadBlock: useReloadBlock,
         provideConfigurationValuesChanged: provideConfigurationValuesChanged,
         onConfigurationValuesChanged: onConfigurationValuesChanged,
+        provideStaticContent: provideStaticContent,
+        useStaticContent: useStaticContent,
         setCustomSettingsBoxValue: setCustomSettingsBoxValue,
         setPropertiesBoxValue: setPropertiesBoxValue,
         dispatchBlockEvent: dispatchBlockEvent,
         isBlockEvent: isBlockEvent,
+        useEntityDetailBlock: useEntityDetailBlock,
+        provideEntityTypeName: provideEntityTypeName,
+        useEntityTypeName: useEntityTypeName,
+        provideEntityTypeGuid: provideEntityTypeGuid,
+        useEntityTypeGuid: useEntityTypeGuid,
         getSecurityGrant: getSecurityGrant,
         provideSecurityGrant: provideSecurityGrant,
         useSecurityGrantToken: useSecurityGrantToken,
         watchPropertyChanges: watchPropertyChanges,
         refreshDetailAttributes: refreshDetailAttributes,
         provideBlockGuid: provideBlockGuid,
-        useBlockGuid: useBlockGuid
+        useBlockGuid: useBlockGuid,
+        providePersonPreferences: providePersonPreferences,
+        usePersonPreferences: usePersonPreferences
       });
       exports('block', block);
 
@@ -1523,13 +1774,18 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
         }
         return boolOrNull ? "True" : "False";
       }
+      function asTrueOrFalseString(val) {
+        var boolOrNull = asBooleanOrNull(val);
+        return boolOrNull ? "True" : "False";
+      }
 
       var booleanUtils = /*#__PURE__*/Object.freeze({
         __proto__: null,
         asBooleanOrNull: asBooleanOrNull,
         asBoolean: asBoolean,
         asYesNoOrNull: asYesNoOrNull,
-        asTrueFalseOrNull: asTrueFalseOrNull
+        asTrueFalseOrNull: asTrueFalseOrNull,
+        asTrueOrFalseString: asTrueOrFalseString
       });
       exports('booleanUtils', booleanUtils);
 
@@ -1630,78 +1886,86 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
       });
       exports('cache', cache);
 
-      function deepEqual(a, b, strict) {
-        if (strict && a === b) {
-          return true;
-        } else if (!strict && a == b) {
-          return true;
-        }
-        if (typeof a === "number" && typeof b === "number" && isNaN(a) && isNaN(b)) {
-          return true;
-        }
-        if (a && b && typeof a === "object" && typeof b === "object") {
-          if (Array.isArray(a) !== Array.isArray(b)) {
-            return false;
-          }
-          if (Array.isArray(a) && Array.isArray(b)) {
-            if (a.length !== b.length) {
-              return false;
-            }
-            for (var i = 0; i < a.length; i++) {
-              if (!deepEqual(a[i], b[i], strict)) {
-                return false;
-              }
-            }
-            return true;
-          } else {
-            if (a.constructor !== b.constructor) {
-              return false;
-            }
-            var aEntries = Object.entries(a).sort((a, b) => a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0);
-            var bEntries = Object.entries(b).sort((a, b) => a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0);
-            if (aEntries.length !== bEntries.length) {
-              return false;
-            }
-            for (var _i = 0; _i < aEntries.length; _i++) {
-              var aEntry = aEntries[_i];
-              var bEntry = bEntries[_i];
-              if (!deepEqual(aEntry[0], bEntry[0], true)) {
-                return false;
-              }
-              if (!deepEqual(aEntry[1], bEntry[1], strict)) {
-                return false;
-              }
-            }
-            return true;
-          }
-        }
-        return false;
+      function shortcutCancelledEvent(listener) {
+        window.setTimeout(listener, 0);
       }
-      function debounce(fn) {
-        var delay = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 250;
-        var eager = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-        var timeout = null;
-        return () => {
-          if (timeout) {
-            clearTimeout(timeout);
-          } else if (eager) {
-            fn();
-            timeout = setTimeout(() => timeout = null, delay);
-            return;
+      function isCancellationToken(thing) {
+        if (thing === CancellationTokenNone || thing === CancellationTokenCancelled) {
+          return true;
+        }
+        if (thing instanceof MutableToken) {
+          return true;
+        }
+        if (!thing || typeof thing !== "object") {
+          return false;
+        }
+        return typeof thing.isCancellationRequested === "boolean" && typeof thing.onCancellationRequested === "function";
+      }
+      var CancellationTokenNone = Object.freeze({
+        isCancellationRequested: false,
+        onCancellationRequested() {}
+      });
+      var CancellationTokenCancelled = Object.freeze({
+        isCancellationRequested: true,
+        onCancellationRequested: shortcutCancelledEvent
+      });
+      class MutableToken {
+        constructor() {
+          _defineProperty(this, "isCancelled", false);
+          _defineProperty(this, "emitter", null);
+        }
+        cancel() {
+          if (!this.isCancelled) {
+            this.isCancelled = true;
+            if (this.emitter) {
+              this.emitter.emit("cancel", undefined);
+              this.emitter = null;
+            }
           }
-          timeout = setTimeout(() => {
-            timeout = null;
-            fn();
-          }, delay);
-        };
+        }
+        get isCancellationRequested() {
+          return this.isCancelled;
+        }
+        onCancellationRequested(listener) {
+          if (this.isCancelled) {
+            return shortcutCancelledEvent(listener);
+          }
+          if (!this.emitter) {
+            this.emitter = mitt();
+          }
+          this.emitter.on("cancel", listener);
+        }
+      }
+      class CancellationTokenSource {
+        constructor(parent) {
+          _defineProperty(this, "internalToken", undefined);
+          if (parent) {
+            parent.onCancellationRequested(() => this.cancel());
+          }
+        }
+        get token() {
+          if (!this.internalToken) {
+            this.internalToken = new MutableToken();
+          }
+          return this.internalToken;
+        }
+        cancel() {
+          if (!this.internalToken) {
+            this.internalToken = CancellationTokenCancelled;
+          } else if (this.internalToken instanceof MutableToken) {
+            this.internalToken.cancel();
+          }
+        }
       }
 
-      var util = /*#__PURE__*/Object.freeze({
+      var cancellation = /*#__PURE__*/Object.freeze({
         __proto__: null,
-        deepEqual: deepEqual,
-        debounce: debounce
+        isCancellationToken: isCancellationToken,
+        CancellationTokenNone: CancellationTokenNone,
+        CancellationTokenCancelled: CancellationTokenCancelled,
+        CancellationTokenSource: CancellationTokenSource
       });
-      exports('util', util);
+      exports('cancellation', cancellation);
 
       var suspenseSymbol = Symbol("RockSuspense");
       class BasicSuspenseProvider {
@@ -1776,10 +2040,159 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
       });
       exports('suspense', suspense);
 
+      function asFormattedString(num, digits) {
+        var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+        if (num === null) {
+          return "";
+        }
+        return num.toLocaleString("en-US", _objectSpread2({
+          minimumFractionDigits: digits,
+          maximumFractionDigits: digits !== null && digits !== void 0 ? digits : 9
+        }, options));
+      }
+      function toNumber(str) {
+        return toNumberOrNull(str) || 0;
+      }
+      function toNumberOrNull(str) {
+        if (str === null || str === undefined || str === "") {
+          return null;
+        }
+        if (typeof str === "number") {
+          return str;
+        }
+        var replaced = str.replace(/[$,]/g, "");
+        var num = Number(replaced);
+        return !isNaN(num) ? num : null;
+      }
+      function toCurrencyOrNull(value) {
+        var _currencyInfo$symbol, _currencyInfo$decimal;
+        var currencyInfo = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+        if (typeof value === "string") {
+          value = toNumberOrNull(value);
+        }
+        if (value === null || value === undefined) {
+          return null;
+        }
+        var currencySymbol = (_currencyInfo$symbol = currencyInfo === null || currencyInfo === void 0 ? void 0 : currencyInfo.symbol) !== null && _currencyInfo$symbol !== void 0 ? _currencyInfo$symbol : "$";
+        var currencyDecimalPlaces = (_currencyInfo$decimal = currencyInfo === null || currencyInfo === void 0 ? void 0 : currencyInfo.decimalPlaces) !== null && _currencyInfo$decimal !== void 0 ? _currencyInfo$decimal : 2;
+        return "".concat(currencySymbol).concat(asFormattedString(value, currencyDecimalPlaces));
+      }
+      function toOrdinalSuffix(num) {
+        if (!num) {
+          return "";
+        }
+        var j = num % 10;
+        var k = num % 100;
+        if (j == 1 && k != 11) {
+          return num + "st";
+        }
+        if (j == 2 && k != 12) {
+          return num + "nd";
+        }
+        if (j == 3 && k != 13) {
+          return num + "rd";
+        }
+        return num + "th";
+      }
+      function toOrdinal(num) {
+        if (!num) {
+          return "";
+        }
+        switch (num) {
+          case 1:
+            return "first";
+          case 2:
+            return "second";
+          case 3:
+            return "third";
+          case 4:
+            return "fourth";
+          case 5:
+            return "fifth";
+          case 6:
+            return "sixth";
+          case 7:
+            return "seventh";
+          case 8:
+            return "eighth";
+          case 9:
+            return "ninth";
+          case 10:
+            return "tenth";
+          default:
+            return toOrdinalSuffix(num);
+        }
+      }
+      function toWord(num) {
+        if (num === null || num === undefined) {
+          return "";
+        }
+        switch (num) {
+          case 1:
+            return "one";
+          case 2:
+            return "two";
+          case 3:
+            return "three";
+          case 4:
+            return "four";
+          case 5:
+            return "five";
+          case 6:
+            return "six";
+          case 7:
+            return "seven";
+          case 8:
+            return "eight";
+          case 9:
+            return "nine";
+          case 10:
+            return "ten";
+          default:
+            return "".concat(num);
+        }
+      }
+      function zeroPad(num, length) {
+        var str = num.toString();
+        while (str.length < length) {
+          str = "0" + str;
+        }
+        return str;
+      }
+      function toDecimalPlaces(num, decimalPlaces) {
+        decimalPlaces = Math.floor(decimalPlaces);
+        return Math.round(num * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces);
+      }
+      var numberUtils = {
+        toOrdinal,
+        toOrdinalSuffix,
+        toNumberOrNull,
+        asFormattedString
+      };
+
+      var numberUtils$1 = /*#__PURE__*/Object.freeze({
+        __proto__: null,
+        asFormattedString: asFormattedString,
+        toNumber: toNumber,
+        toNumberOrNull: toNumberOrNull,
+        toCurrencyOrNull: toCurrencyOrNull,
+        toOrdinalSuffix: toOrdinalSuffix,
+        toOrdinal: toOrdinal,
+        toWord: toWord,
+        zeroPad: zeroPad,
+        toDecimalPlaces: toDecimalPlaces,
+        'default': numberUtils
+      });
+      exports('numberUtils', numberUtils$1);
+
       function useVModelPassthrough(props, modelName, emit, options) {
         var internalValue = ref(props[modelName]);
         watch(() => props[modelName], val => updateRefValue(internalValue, val), options);
-        watch(internalValue, val => emit("update:".concat(modelName), val), options);
+        watch(internalValue, val => {
+          if (val !== props[modelName]) {
+            emit("update:".concat(modelName), val);
+          }
+        }, options);
         return internalValue;
       }
       function useVModelPassthroughWithPropUpdateCheck(props, modelName, emit, options) {
@@ -1934,6 +2347,66 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
           propertyName
         });
       }
+      function getVNodeProp(node, propName) {
+        if (node.props && node.props[propName] !== undefined) {
+          return node.props[propName];
+        }
+        if (typeof node.type === "object" && typeof node.type["props"] === "object") {
+          var defaultProps = node.type["props"];
+          var defaultProp = defaultProps[propName];
+          if (defaultProp && typeof defaultProp === "object" && defaultProp["default"] !== undefined) {
+            return defaultProp["default"];
+          }
+        }
+        return undefined;
+      }
+      function getVNodeProps(node) {
+        var props = {};
+        if (typeof node.type === "object" && typeof node.type["props"] === "object") {
+          var defaultProps = node.type["props"];
+          for (var p in defaultProps) {
+            var defaultProp = defaultProps[p];
+            if (defaultProp && typeof defaultProp === "object" && defaultProp["default"] !== undefined) {
+              props[p] = defaultProp["default"];
+            }
+          }
+        }
+        if (node.props) {
+          for (var _p in node.props) {
+            if (typeof node.type === "object" && typeof node.type["props"] === "object") {
+              var _node$type$props$_p;
+              var propType = (_node$type$props$_p = node.type["props"][_p]) === null || _node$type$props$_p === void 0 ? void 0 : _node$type$props$_p.type;
+              if (propType === Boolean) {
+                props[_p] = node.props[_p] === true || node.props[_p] === "";
+              } else if (propType === Number) {
+                var _toNumberOrNull;
+                props[_p] = (_toNumberOrNull = toNumberOrNull(node.props[_p])) !== null && _toNumberOrNull !== void 0 ? _toNumberOrNull : undefined;
+              } else {
+                props[_p] = node.props[_p];
+              }
+            } else {
+              props[_p] = node.props[_p];
+            }
+          }
+        }
+        return props;
+      }
+      function extractText(node, props) {
+        var el = document.createElement("div");
+        var vnode = createVNode(node, props);
+        render(vnode, el);
+        var text = el.innerText;
+        render(null, el);
+        return text.trim();
+      }
+      function extractHtml(node, props) {
+        var el = document.createElement("div");
+        var vnode = createVNode(node, props);
+        render(vnode, el);
+        var html = el.innerHTML;
+        render(null, el);
+        return html;
+      }
 
       var component = /*#__PURE__*/Object.freeze({
         __proto__: null,
@@ -1946,150 +2419,13 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
         standardAsyncPickerProps: standardAsyncPickerProps,
         useStandardAsyncPickerProps: useStandardAsyncPickerProps,
         extendedRef: extendedRef,
-        propertyRef: propertyRef
+        propertyRef: propertyRef,
+        getVNodeProp: getVNodeProp,
+        getVNodeProps: getVNodeProps,
+        extractText: extractText,
+        extractHtml: extractHtml
       });
       exports('component', component);
-
-      function asFormattedString(num, digits) {
-        var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-        if (num === null) {
-          return "";
-        }
-        return num.toLocaleString("en-US", _objectSpread2({
-          minimumFractionDigits: digits,
-          maximumFractionDigits: digits !== null && digits !== void 0 ? digits : 9
-        }, options));
-      }
-      function toNumber(str) {
-        return toNumberOrNull(str) || 0;
-      }
-      function toNumberOrNull(str) {
-        if (str === null || str === undefined || str === "") {
-          return null;
-        }
-        if (typeof str === "number") {
-          return str;
-        }
-        var replaced = str.replace(/[$,]/g, "");
-        var num = Number(replaced);
-        return !isNaN(num) ? num : null;
-      }
-      function toCurrencyOrNull(value) {
-        if (typeof value === "string") {
-          value = toNumberOrNull(value);
-        }
-        if (value === null || value === undefined) {
-          return null;
-        }
-        return "$" + asFormattedString(value, 2);
-      }
-      function toOrdinalSuffix(num) {
-        if (!num) {
-          return "";
-        }
-        var j = num % 10;
-        var k = num % 100;
-        if (j == 1 && k != 11) {
-          return num + "st";
-        }
-        if (j == 2 && k != 12) {
-          return num + "nd";
-        }
-        if (j == 3 && k != 13) {
-          return num + "rd";
-        }
-        return num + "th";
-      }
-      function toOrdinal(num) {
-        if (!num) {
-          return "";
-        }
-        switch (num) {
-          case 1:
-            return "first";
-          case 2:
-            return "second";
-          case 3:
-            return "third";
-          case 4:
-            return "fourth";
-          case 5:
-            return "fifth";
-          case 6:
-            return "sixth";
-          case 7:
-            return "seventh";
-          case 8:
-            return "eighth";
-          case 9:
-            return "ninth";
-          case 10:
-            return "tenth";
-          default:
-            return toOrdinalSuffix(num);
-        }
-      }
-      function toWord(num) {
-        if (num === null || num === undefined) {
-          return "";
-        }
-        switch (num) {
-          case 1:
-            return "one";
-          case 2:
-            return "two";
-          case 3:
-            return "three";
-          case 4:
-            return "four";
-          case 5:
-            return "five";
-          case 6:
-            return "six";
-          case 7:
-            return "seven";
-          case 8:
-            return "eight";
-          case 9:
-            return "nine";
-          case 10:
-            return "ten";
-          default:
-            return "".concat(num);
-        }
-      }
-      function zeroPad(num, length) {
-        var str = num.toString();
-        while (str.length < length) {
-          str = "0" + str;
-        }
-        return str;
-      }
-      function toDecimalPlaces(num, decimalPlaces) {
-        decimalPlaces = Math.floor(decimalPlaces);
-        return Math.round(num * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces);
-      }
-      var numberUtils = {
-        toOrdinal,
-        toOrdinalSuffix,
-        toNumberOrNull,
-        asFormattedString
-      };
-
-      var numberUtils$1 = /*#__PURE__*/Object.freeze({
-        __proto__: null,
-        asFormattedString: asFormattedString,
-        toNumber: toNumber,
-        toNumberOrNull: toNumberOrNull,
-        toCurrencyOrNull: toCurrencyOrNull,
-        toOrdinalSuffix: toOrdinalSuffix,
-        toOrdinal: toOrdinal,
-        toWord: toWord,
-        zeroPad: zeroPad,
-        toDecimalPlaces: toDecimalPlaces,
-        'default': numberUtils
-      });
-      exports('numberUtils', numberUtils$1);
 
       var dateKeyLength = "YYYYMMDD".length;
       var dateKeyNoYearLength = "MMDD".length;
@@ -2228,8 +2564,9 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
       }
       function _loadJavaScriptAsync() {
         _loadJavaScriptAsync = _asyncToGenerator(function* (source, isScriptLoaded, attributes, fingerprint) {
+          var _Obsidian, _Obsidian$options;
           var src = source;
-          if (fingerprint !== false && Obsidian.options.fingerprint) {
+          if (fingerprint !== false && typeof Obsidian !== "undefined" && (_Obsidian = Obsidian) !== null && _Obsidian !== void 0 && (_Obsidian$options = _Obsidian.options) !== null && _Obsidian$options !== void 0 && _Obsidian$options.fingerprint) {
             if (src.indexOf("?") === -1) {
               src += "?".concat(Obsidian.options.fingerprint);
             } else {
@@ -2283,13 +2620,17 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
         });
         return _loadJavaScriptAsync.apply(this, arguments);
       }
+      function addQuickReturn(title, section, sectionOrder) {
+        window["Rock"].personalLinks.addQuickReturn(section, sectionOrder !== null && sectionOrder !== void 0 ? sectionOrder : 0, title);
+      }
 
       var page$1 = /*#__PURE__*/Object.freeze({
         __proto__: null,
         smoothScrollToTop: smoothScrollToTop,
         'default': page,
         trackModalState: trackModalState,
-        loadJavaScriptAsync: loadJavaScriptAsync
+        loadJavaScriptAsync: loadJavaScriptAsync,
+        addQuickReturn: addQuickReturn
       });
       exports('page', page$1);
 
@@ -2482,12 +2823,17 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
         }
         return confirm(message);
       }
+      function showSecurity(entityTypeIdKey, entityIdKey) {
+        var entityTitle = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "Item";
+        Rock.controls.modal.show(undefined, "/Secure/".concat(entityTypeIdKey, "/").concat(entityIdKey, "?t=Secure ").concat(entityTitle, "&pb=&sb=Done"));
+      }
 
       var dialogs = /*#__PURE__*/Object.freeze({
         __proto__: null,
         alert: alert,
         confirm: confirm,
-        confirmDelete: confirmDelete
+        confirmDelete: confirmDelete,
+        showSecurity: showSecurity
       });
       exports('dialogs', dialogs);
 
@@ -2504,6 +2850,23 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
         isEmail: isEmail
       });
       exports('email', email);
+
+      function enumToListItemBag(description) {
+        var listItemBagList = [];
+        for (var property in description) {
+          listItemBagList.push({
+            text: description[property].toString(),
+            value: property.toString()
+          });
+        }
+        return listItemBagList;
+      }
+
+      var enumUtils = /*#__PURE__*/Object.freeze({
+        __proto__: null,
+        enumToListItemBag: enumToListItemBag
+      });
+      exports('enumUtils', enumUtils);
 
       var fieldTypeTable = {};
       function registerFieldType(fieldTypeGuid, fieldType) {
@@ -2694,7 +3057,9 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
       function _loadMapResources() {
         _loadMapResources = _asyncToGenerator(function* () {
           var _response$data;
-          var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+          var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+            mapStyleValueGuid: emptyGuid
+          };
           var response = yield post("/api/v2/Controls/GeoPickerGetGoogleMapSettings", undefined, options);
           var googleMapSettings = (_response$data = response.data) !== null && _response$data !== void 0 ? _response$data : {};
           var keyParam = "";
@@ -2817,6 +3182,16 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
         try {
           for (_iterator.s(); !(_step = _iterator.n()).done;) {
             var valuePart = _step.value;
+            if (!valueType) {
+              var length = valuePart.length;
+              if (length === 8) {
+                valueType = "DATE";
+              } else if ((length === 15 || length === 16) && valuePart[8] === "T") {
+                valueType = "DATE-TIME";
+              } else {
+                valueType = "PERIOD";
+              }
+            }
             if (valueType === "PERIOD") {
               recurrenceDates.push(...getDatesFromRangeOrPeriod(valuePart));
             } else if (valueType === "DATE") {
@@ -2824,7 +3199,7 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
               if (date) {
                 recurrenceDates.push(date);
               }
-            } else {
+            } else if (valueType === "DATE-TIME") {
               var _date2 = getDateTimeFromString(valuePart);
               if (_date2) {
                 recurrenceDates.push(_date2);
@@ -3511,6 +3886,38 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
       });
       exports('internetCalendar', internetCalendar);
 
+      var engine = new Liquid({
+        cache: true
+      });
+      function resolveMergeFields(template, mergeFields) {
+        var tpl = engine.parse(template);
+        return engine.renderSync(tpl, mergeFields);
+      }
+
+      var lava = /*#__PURE__*/Object.freeze({
+        __proto__: null,
+        resolveMergeFields: resolveMergeFields
+      });
+      exports('lava', lava);
+
+      function asListItemBagOrNull(bagJson) {
+        try {
+          var val = JSON.parse(bagJson);
+          if ("value" in val || "text" in val) {
+            return val;
+          }
+          return null;
+        } catch (e) {
+          return null;
+        }
+      }
+
+      var listItemBag = /*#__PURE__*/Object.freeze({
+        __proto__: null,
+        asListItemBagOrNull: asListItemBagOrNull
+      });
+      exports('listItemBag', listItemBag);
+
       function formatValue(_x) {
         return _formatValue.apply(this, arguments);
       }
@@ -3560,14 +3967,14 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
       });
       exports('objectUtils', objectUtils);
 
-      var http = useHttp();
+      var http$1 = useHttp();
       function fetchPhoneNumberConfiguration() {
         return _fetchPhoneNumberConfiguration.apply(this, arguments);
       }
       function _fetchPhoneNumberConfiguration() {
         _fetchPhoneNumberConfiguration = _asyncToGenerator(function* () {
           var _result$errorMessage;
-          var result = yield http.post("/api/v2/Controls/PhoneNumberBoxGetConfiguration", undefined, null);
+          var result = yield http$1.post("/api/v2/Controls/PhoneNumberBoxGetConfiguration", undefined, null);
           if (result.isSuccess && result.data) {
             return result.data;
           }
@@ -3575,7 +3982,25 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
         });
         return _fetchPhoneNumberConfiguration.apply(this, arguments);
       }
+      function fetchPhoneNumberAndSmsConfiguration() {
+        return _fetchPhoneNumberAndSmsConfiguration.apply(this, arguments);
+      }
+      function _fetchPhoneNumberAndSmsConfiguration() {
+        _fetchPhoneNumberAndSmsConfiguration = _asyncToGenerator(function* () {
+          var _result$errorMessage2;
+          var options = {
+            showSmsOptIn: true
+          };
+          var result = yield http$1.post("/api/v2/Controls/PhoneNumberBoxGetConfiguration", undefined, options);
+          if (result.isSuccess && result.data) {
+            return result.data;
+          }
+          throw new Error((_result$errorMessage2 = result.errorMessage) !== null && _result$errorMessage2 !== void 0 ? _result$errorMessage2 : "Error fetching phone number configuration");
+        });
+        return _fetchPhoneNumberAndSmsConfiguration.apply(this, arguments);
+      }
       var getPhoneNumberConfiguration = Cache.cachePromiseFactory("phoneNumberConfiguration", fetchPhoneNumberConfiguration);
+      var getPhoneNumberAndSmsConfiguration = Cache.cachePromiseFactory("phoneNumberAndSmsConfiguration", fetchPhoneNumberAndSmsConfiguration);
       var defaultRulesConfig = [{
         "match": "^(\\d{3})(\\d{4})$",
         "format": "$1-$2"
@@ -3627,6 +4052,7 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
       var phone$1 = /*#__PURE__*/Object.freeze({
         __proto__: null,
         getPhoneNumberConfiguration: getPhoneNumberConfiguration,
+        getPhoneNumberAndSmsConfiguration: getPhoneNumberAndSmsConfiguration,
         formatPhoneNumber: formatPhoneNumber,
         stripPhoneNumber: stripPhoneNumber,
         'default': phone
@@ -3965,6 +4391,31 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
       });
       exports('slidingDateRange', slidingDateRange);
 
+      var http = useHttp();
+      function getStructuredContentEditorConfiguration(_x) {
+        return _getStructuredContentEditorConfiguration.apply(this, arguments);
+      }
+      function _getStructuredContentEditorConfiguration() {
+        _getStructuredContentEditorConfiguration = _asyncToGenerator(function* (options) {
+          var result = yield http.post("/api/v2/Controls/StructuredContentEditorGetConfiguration", undefined, options);
+          if (result.isSuccess && result.data) {
+            return result.data;
+          }
+          throw new Error(result.errorMessage || "Error fetching structured content editor configuration");
+        });
+        return _getStructuredContentEditorConfiguration.apply(this, arguments);
+      }
+      var structuredContentEditor = {
+        getStructuredContentEditorConfiguration
+      };
+
+      var structuredContentEditor$1 = /*#__PURE__*/Object.freeze({
+        __proto__: null,
+        getStructuredContentEditorConfiguration: getStructuredContentEditorConfiguration,
+        'default': structuredContentEditor
+      });
+      exports('structuredContentEditor', structuredContentEditor$1);
+
       function tooltip(node, options) {
         var _options$sanitize;
         if (Array.isArray(node)) {
@@ -3987,10 +4438,14 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
           sanitize: (_options$sanitize = options === null || options === void 0 ? void 0 : options.sanitize) !== null && _options$sanitize !== void 0 ? _options$sanitize : true
         });
       }
+      function showTooltip(node) {
+        $(node).tooltip("show");
+      }
 
       var tooltip$1 = /*#__PURE__*/Object.freeze({
         __proto__: null,
-        tooltip: tooltip
+        tooltip: tooltip,
+        showTooltip: showTooltip
       });
       exports('tooltip', tooltip$1);
 
@@ -4004,7 +4459,11 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
               entityTypeQualifierColumn: _this.entityTypeQualifierColumn,
               entityTypeQualifierValue: _this.entityTypeQualifierValue,
               lazyLoad: false,
-              securityGrantToken: _this.securityGrantToken
+              securityGrantToken: _this.securityGrantToken,
+              getCategorizedItems: false,
+              includeCategoriesWithoutChildren: false,
+              includeInactiveItems: false,
+              includeUnnamedEntityItems: false
             };
             var response = yield post("/api/v2/Controls/CategoryPickerChildTreeItems", {}, options);
             if (response.isSuccess && response.data) {
@@ -4032,8 +4491,9 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
         getItems(parentGuid) {
           var _this4 = this;
           return _asyncToGenerator(function* () {
+            var _toGuidOrNull;
             var options = {
-              guid: parentGuid !== null && parentGuid !== void 0 ? parentGuid : emptyGuid,
+              guid: (_toGuidOrNull = toGuidOrNull(parentGuid)) !== null && _toGuidOrNull !== void 0 ? _toGuidOrNull : emptyGuid,
               rootLocationGuid: emptyGuid,
               securityGrantToken: _this4.securityGrantToken
             };
@@ -4061,6 +4521,9 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
         }
       }
       class DataViewTreeItemProvider {
+        constructor() {
+          _defineProperty(this, "displayPersistedOnly", false);
+        }
         getItems(parentGuid) {
           var _this7 = this;
           return _asyncToGenerator(function* () {
@@ -4070,7 +4533,9 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
               includeCategoriesWithoutChildren: false,
               entityTypeGuidFilter: _this7.entityTypeGuid,
               lazyLoad: false,
-              securityGrantToken: _this7.securityGrantToken
+              securityGrantToken: _this7.securityGrantToken,
+              displayPersistedOnly: _this7.displayPersistedOnly,
+              includeUnnamedEntityItems: false
             };
             var response = yield post("/api/v2/Controls/DataViewPickerGetDataViews", {}, options);
             if (response.isSuccess && response.data) {
@@ -4102,7 +4567,11 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
             var options = {
               parentGuid,
               includeInactiveItems: (_this10$includeInacti = _this10.includeInactiveItems) !== null && _this10$includeInacti !== void 0 ? _this10$includeInacti : false,
-              securityGrantToken: _this10.securityGrantToken
+              securityGrantToken: _this10.securityGrantToken,
+              getCategorizedItems: false,
+              includeCategoriesWithoutChildren: false,
+              includeUnnamedEntityItems: false,
+              lazyLoad: false
             };
             var response = yield post("/api/v2/Controls/WorkflowTypePickerGetWorkflowTypes", {}, options);
             if (response.isSuccess && response.data) {
@@ -4130,10 +4599,10 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
         getItems(parentGuid) {
           var _this13 = this;
           return _asyncToGenerator(function* () {
-            var _this13$hidePageGuids;
+            var _toGuidOrNull2, _this13$hidePageGuids;
             var result;
             var options = {
-              guid: parentGuid !== null && parentGuid !== void 0 ? parentGuid : emptyGuid,
+              guid: (_toGuidOrNull2 = toGuidOrNull(parentGuid)) !== null && _toGuidOrNull2 !== void 0 ? _toGuidOrNull2 : emptyGuid,
               rootPageGuid: null,
               hidePageGuids: (_this13$hidePageGuids = _this13.hidePageGuids) !== null && _this13$hidePageGuids !== void 0 ? _this13$hidePageGuids : [],
               securityGrantToken: _this13.securityGrantToken
@@ -4286,10 +4755,11 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
           var _arguments2 = arguments,
             _this24 = this;
           return _asyncToGenerator(function* () {
+            var _toNumberOrNull;
             var parentGuid = _arguments2.length > 0 && _arguments2[0] !== undefined ? _arguments2[0] : null;
             var options = {
               parentGuid,
-              mergeTemplateOwnership: _this24.mergeTemplateOwnership,
+              mergeTemplateOwnership: (_toNumberOrNull = toNumberOrNull(_this24.mergeTemplateOwnership)) !== null && _toNumberOrNull !== void 0 ? _toNumberOrNull : 0,
               securityGrantToken: _this24.securityGrantToken
             };
             var url = "/api/v2/Controls/MergeTemplatePickerGetMergeTemplates";
@@ -4512,10 +4982,10 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
           var _arguments8 = arguments,
             _this42 = this;
           return _asyncToGenerator(function* () {
-            var _toNumberOrNull;
+            var _toNumberOrNull2;
             var parentId = _arguments8.length > 0 && _arguments8[0] !== undefined ? _arguments8[0] : null;
             var options = {
-              parentId: (_toNumberOrNull = toNumberOrNull(parentId)) !== null && _toNumberOrNull !== void 0 ? _toNumberOrNull : 0,
+              parentId: (_toNumberOrNull2 = toNumberOrNull(parentId)) !== null && _toNumberOrNull2 !== void 0 ? _toNumberOrNull2 : 0,
               securityGrantToken: _this42.securityGrantToken
             };
             var url = "/api/v2/Controls/WorkflowActionTypePickerGetChildren";
@@ -4686,21 +5156,27 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
         for (var _len = arguments.length, queryParamKeys = new Array(_len), _key = 0; _key < _len; _key++) {
           queryParamKeys[_key] = arguments[_key];
         }
-        removeUrlQueryParams(window.location.href, ...queryParamKeys);
+        return removeUrlQueryParams(window.location.href, ...queryParamKeys);
       }
       function removeUrlQueryParams(url) {
         for (var _len2 = arguments.length, queryParamKeys = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
           queryParamKeys[_key2 - 1] = arguments[_key2];
         }
         if (!queryParamKeys || !queryParamKeys.length) {
-          return;
+          return [];
         }
         if (typeof url === "string") {
           url = new URL(url);
         }
         var queryParams = url.searchParams;
-        queryParamKeys.forEach(queryParamKey => queryParams.delete(queryParamKey));
+        var removedQueryParams = [];
+        for (var i = 0; i < queryParamKeys.length; i++) {
+          var queryParamKey = queryParamKeys[i];
+          removedQueryParams.push(queryParams.get(queryParamKey));
+          queryParams.delete(queryParamKey);
+        }
         window.history.replaceState(null, "", url);
+        return removedQueryParams;
       }
 
       var url = /*#__PURE__*/Object.freeze({
@@ -4736,9 +5212,9 @@ System.register(['axios', 'vue', 'luxon', '@Obsidian/Enums/Controls/dayOfWeek', 
       function normalizeRules(rules) {
         if (typeof rules === "string") {
           if (rules.indexOf("|") !== -1) {
-            return rules.split("|").filter(r => r !== "");
-          } else if (rules !== "") {
-            return [rules];
+            return rules.split("|").filter(r => r.trim() !== "");
+          } else if (rules.trim() !== "") {
+            return [rules.trim()];
           }
         } else if (Array.isArray(rules)) {
           var normalizedRules = [];

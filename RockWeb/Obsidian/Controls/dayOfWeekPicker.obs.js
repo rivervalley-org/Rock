@@ -1,4 +1,4 @@
-System.register(['vue', '@Obsidian/Enums/Controls/dayOfWeek', '@Obsidian/Utility/component', './dropDownList', './checkBoxList'], (function (exports) {
+System.register(['vue', '@Obsidian/Enums/Controls/dayOfWeek', '@Obsidian/Utility/component', './dropDownList.obs', './checkBoxList.obs'], (function (exports) {
   'use strict';
   var defineComponent, computed, openBlock, createBlock, unref, isRef, DayOfWeek, useVModelPassthrough, DropDownList, CheckBoxList;
   return {

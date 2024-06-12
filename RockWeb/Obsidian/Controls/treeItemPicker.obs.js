@@ -1,4 +1,4 @@
-System.register(['vue', './treeList', '@Obsidian/Utility/component', './contentDropDownPicker.obs'], (function (exports) {
+System.register(['vue', './treeList.obs', '@Obsidian/Utility/component', './contentDropDownPicker.obs'], (function (exports) {
   'use strict';
   var defineComponent, ref, computed, watch, openBlock, createBlock, unref, createSlots, withCtx, createElementVNode, toDisplayString, createVNode, renderSlot, TreeList, updateRefValue, ContentDropDownPicker;
   return {
@@ -119,6 +119,10 @@ System.register(['vue', './treeList', '@Obsidian/Utility/component', './contentD
             default: false
           },
           autoExpand: {
+            type: Boolean,
+            default: false
+          },
+          showChildCount: {
             type: Boolean,
             default: false
           },
@@ -250,8 +254,9 @@ System.register(['vue', './treeList', '@Obsidian/Utility/component', './contentD
                 provider: __props.provider,
                 "onUpdate:items": onUpdateItems,
                 disableFolderSelection: __props.disableFolderSelection,
-                autoExpand: __props.autoExpand
-              }, null, 8, ["modelValue", "multiple", "items", "provider", "disableFolderSelection", "autoExpand"])]),
+                autoExpand: __props.autoExpand,
+                showChildCount: __props.showChildCount
+              }, null, 8, ["modelValue", "multiple", "items", "provider", "disableFolderSelection", "autoExpand", "showChildCount"])]),
               _: 2
             }, [_ctx.$slots.pickerContentSuperHeader ? {
               name: "pickerContentSuperHeader",

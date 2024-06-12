@@ -1,4 +1,4 @@
-System.register(['vue', './rockButton', '@Obsidian/Enums/Controls/btnType', '@Obsidian/Enums/Controls/btnSize', './rockFormField', '@Obsidian/Utility/component', '@Obsidian/Utility/guid', '@Obsidian/Controls/fullscreen'], (function (exports) {
+System.register(['vue', './rockButton.obs', '@Obsidian/Enums/Controls/btnType', '@Obsidian/Enums/Controls/btnSize', './rockFormField.obs', '@Obsidian/Utility/component', '@Obsidian/Utility/guid', '@Obsidian/Controls/fullscreen.obs'], (function (exports) {
   'use strict';
   var pushScopeId, popScopeId, createElementVNode, defineComponent, ref, computed, watch, openBlock, createBlock, unref, mergeProps, withCtx, renderSlot, normalizeClass, withModifiers, toDisplayString, createElementBlock, createCommentVNode, withDirectives, isRef, normalizeStyle, createVNode, createTextVNode, vShow, RockButton, BtnType, BtnSize, RockFormField, standardRockFormFieldProps, useStandardRockFormFieldProps, useVModelPassthrough, newGuid, Fullscreen;
   return {
@@ -104,26 +104,34 @@ System.register(['vue', './rockButton', '@Obsidian/Enums/Controls/btnType', '@Ob
       var _hoisted_3 = {
         class: "selected-names"
       };
-      var _hoisted_4 = _withScopeId(() => createElementVNode("b", {
-        class: "fa fa-caret-down pull-right"
+      var _hoisted_4 = _withScopeId(() => createElementVNode("i", {
+        class: "fa fa-times"
       }, null, -1));
-      var _hoisted_5 = {
+      var _hoisted_5 = [_hoisted_4];
+      var _hoisted_6 = _withScopeId(() => createElementVNode("b", {
+        class: "fa fa-caret-down"
+      }, null, -1));
+      var _hoisted_7 = {
+        key: 0,
+        class: "hidden"
+      };
+      var _hoisted_8 = {
         key: 0,
         class: "picker-mode-options"
       };
-      var _hoisted_6 = {
+      var _hoisted_9 = {
         key: 1,
         class: "picker-search-header picker-header"
       };
-      var _hoisted_7 = _withScopeId(() => createElementVNode("i", {
+      var _hoisted_10 = _withScopeId(() => createElementVNode("i", {
         class: "fa fa-expand"
       }, null, -1));
-      var _hoisted_8 = {
+      var _hoisted_11 = {
         class: "picker-actions"
       };
-      var _hoisted_9 = {
+      var _hoisted_12 = {
         key: 1,
-        class: "pull-right"
+        class: "ml-auto d-flex align-items-center"
       };
       var script = exports('default', defineComponent({
         name: 'contentDropDownPicker',
@@ -199,6 +207,10 @@ System.register(['vue', './rockButton', '@Obsidian/Enums/Controls/btnType', '@Ob
           fullWidth: {
             type: Boolean,
             default: false
+          },
+          disabled: {
+            type: Boolean,
+            default: false
           }
         }),
         emits: ["primaryButtonClicked", "secondaryButtonClicked", "clearButtonClicked", "update:showPopup", "update:isFullscreen"],
@@ -242,6 +254,13 @@ System.register(['vue', './rockButton', '@Obsidian/Enums/Controls/btnType', '@Ob
             }
             return "";
           });
+          var disabledBinding = computed(() => {
+            return props.disabled ? {
+              disabled: true,
+              tabindex: -1,
+              onMousedown: e => e.preventDefault()
+            } : {};
+          });
           watch(() => props.showPopup, () => {
             if (props.showPopup != null) {
               internalShowPopup.value = props.showPopup;
@@ -250,7 +269,16 @@ System.register(['vue', './rockButton', '@Obsidian/Enums/Controls/btnType', '@Ob
             immediate: true
           });
           watch(internalShowPopup, () => emit("update:showPopup", internalShowPopup.value));
+          watch(() => props.disabled, () => {
+            if (props.disabled) {
+              internalShowPopup.value = false;
+            }
+          });
           function togglePickerMenu() {
+            if (props.disabled) {
+              internalShowPopup.value = false;
+              return;
+            }
             internalShowPopup.value = !internalShowPopup.value;
           }
           function onAction(type) {
@@ -278,26 +306,30 @@ System.register(['vue', './rockButton', '@Obsidian/Enums/Controls/btnType', '@Ob
                   isInputGroupSupported: true
                 }), createElementVNode("div", {
                   class: normalizeClass(["picker picker-obsidian picker-select rollover-container", unref(additionalPickerClass)])
-                }, [createElementVNode("a", {
-                  class: normalizeClass(["picker-label", {
-                    'has-ig-prepend': _ctx.$slots.inputGroupPrepend
-                  }]),
+                }, [createElementVNode("a", mergeProps({
+                  class: ["picker-label", {
+                    'has-ig-prepend': _ctx.$slots.inputGroupPrepend,
+                    'text-gray-400': __props.disabled
+                  }],
                   href: "#",
                   onClick: withModifiers(togglePickerMenu, ["prevent", "stop"])
-                }, [createElementVNode("i", {
+                }, unref(disabledBinding)), [createElementVNode("i", {
                   class: normalizeClass(unref(pickerIconClass))
-                }, null, 2), renderSlot(_ctx.$slots, "innerLabel", {}, () => [createElementVNode("span", _hoisted_3, toDisplayString(__props.innerLabel), 1)]), _hoisted_4, __props.showClear ? (openBlock(), createElementBlock("b", {
+                }, null, 2), renderSlot(_ctx.$slots, "innerLabel", {}, () => [createElementVNode("span", _hoisted_3, toDisplayString(__props.innerLabel), 1)]), __props.showClear && !__props.disabled ? (openBlock(), createElementBlock("button", {
                   key: 0,
-                  class: "fa fa-times pull-right",
+                  type: "button",
+                  role: "button",
+                  "aria-label": "Clear selection",
+                  class: "btn picker-select-none",
                   onClick: _cache[0] || (_cache[0] = withModifiers($event => onAction('clear'), ["prevent", "stop"]))
-                })) : createCommentVNode("v-if", true)], 10, _hoisted_2), internalShowPopup.value || !__props.forceContentReloadOnOpen ? withDirectives((openBlock(), createBlock(unref(Fullscreen), {
-                  key: 0,
+                }, _hoisted_5)) : createCommentVNode("v-if", true), _hoisted_6], 16, _hoisted_2), createCommentVNode(" This helps trigger the resize when embedded in auto-resizing controls such as modals. "), internalShowPopup.value ? (openBlock(), createElementBlock("div", _hoisted_7)) : createCommentVNode("v-if", true), internalShowPopup.value || !__props.forceContentReloadOnOpen ? withDirectives((openBlock(), createBlock(unref(Fullscreen), {
+                  key: 1,
                   modelValue: unref(internalIsFullscreen),
                   "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => isRef(internalIsFullscreen) ? internalIsFullscreen.value = $event : null),
                   class: normalizeClass(["picker-menu", unref(internalIsFullscreen) ? 'is-fullscreen' : 'dropdown-menu']),
                   style: normalizeStyle(unref(pickerMenuStyles))
                 }, {
-                  default: withCtx(() => [createCommentVNode(" Optional \"super header\" area for things such as a means to switch between picker types "), _ctx.$slots.pickerContentSuperHeader ? (openBlock(), createElementBlock("div", _hoisted_5, [renderSlot(_ctx.$slots, "pickerContentSuperHeader")])) : createCommentVNode("v-if", true), createCommentVNode(" Optional header area for picker header content. If you provide content for the header or enable showing the fullscreen button, this will show "), _ctx.$slots.pickerContentHeader || _ctx.$slots.pickerContentHeading || __props.pickerContentHeadingText || __props.showFullscreenButton ? (openBlock(), createElementBlock("div", _hoisted_6, [createCommentVNode(" Override entire header area with `pickerContentHeader` slot "), renderSlot(_ctx.$slots, "pickerContentHeader", {}, () => [createCommentVNode(" Override heading, but keep fullscreen button intact with this `pickerContentHeading` slot, or specify heading text with `pickerContentHeadingText` prop "), renderSlot(_ctx.$slots, "pickerContentHeading", {}, () => [createElementVNode("h4", null, toDisplayString(__props.pickerContentHeadingText), 1)]), createCommentVNode(" Show this fullscreen button in the header if enabled "), __props.showFullscreenButton ? (openBlock(), createBlock(unref(RockButton), {
+                  default: withCtx(() => [createCommentVNode(" Optional \"super header\" area for things such as a means to switch between picker types "), _ctx.$slots.pickerContentSuperHeader ? (openBlock(), createElementBlock("div", _hoisted_8, [renderSlot(_ctx.$slots, "pickerContentSuperHeader")])) : createCommentVNode("v-if", true), createCommentVNode(" Optional header area for picker header content. If you provide content for the header or enable showing the fullscreen button, this will show "), _ctx.$slots.pickerContentHeader || _ctx.$slots.pickerContentHeading || __props.pickerContentHeadingText || __props.showFullscreenButton ? (openBlock(), createElementBlock("div", _hoisted_9, [createCommentVNode(" Override entire header area with `pickerContentHeader` slot "), renderSlot(_ctx.$slots, "pickerContentHeader", {}, () => [createCommentVNode(" Override heading, but keep fullscreen button intact with this `pickerContentHeading` slot, or specify heading text with `pickerContentHeadingText` prop "), renderSlot(_ctx.$slots, "pickerContentHeading", {}, () => [createElementVNode("h4", null, toDisplayString(__props.pickerContentHeadingText), 1)]), createCommentVNode(" Show this fullscreen button in the header if enabled "), __props.showFullscreenButton ? (openBlock(), createBlock(unref(RockButton), {
                     key: 0,
                     onClick: _cache[1] || (_cache[1] = $event => internalIsFullscreen.value = !unref(internalIsFullscreen)),
                     btnType: unref(fullscreenButtonType),
@@ -305,12 +337,12 @@ System.register(['vue', './rockButton', '@Obsidian/Enums/Controls/btnType', '@Ob
                     title: "Toggle Fullscreen",
                     "aria-label": "Toggle Fullscreen"
                   }, {
-                    default: withCtx(() => [_hoisted_7]),
+                    default: withCtx(() => [_hoisted_10]),
                     _: 1
                   }, 8, ["btnType"])) : createCommentVNode("v-if", true)])])) : createCommentVNode("v-if", true), createCommentVNode(" Main Picker Content via default slot "), createElementVNode("div", {
                     class: "scrollbar-thin picker-body",
                     style: normalizeStyle(unref(pickerMenuInnerStyles))
-                  }, [renderSlot(_ctx.$slots, "default")], 4), createCommentVNode(" Actions Buttons "), createElementVNode("div", _hoisted_8, [createCommentVNode(" Main Action Buttons: Overridable via `mainPickerActions` slot, or just configure with props "), !__props.hideMainActionButtons ? renderSlot(_ctx.$slots, "mainPickerActions", {
+                  }, [renderSlot(_ctx.$slots, "default")], 4), createCommentVNode(" Actions Buttons "), createElementVNode("div", _hoisted_11, [createCommentVNode(" Main Action Buttons: Overridable via `mainPickerActions` slot, or just configure with props "), !__props.hideMainActionButtons ? renderSlot(_ctx.$slots, "mainPickerActions", {
                     key: 0
                   }, () => [createVNode(unref(RockButton), {
                     btnSize: selectButton.size,
@@ -328,7 +360,7 @@ System.register(['vue', './rockButton', '@Obsidian/Enums/Controls/btnType', '@Ob
                   }, {
                     default: withCtx(() => [renderSlot(_ctx.$slots, "secondaryButtonLabel", {}, () => [createTextVNode(toDisplayString(__props.secondaryButtonLabel), 1)])]),
                     _: 3
-                  }, 8, ["btnSize", "btnType"])]) : createCommentVNode("v-if", true), createCommentVNode(" Custom Action Buttons: `customPickerActions` slot allows you to add additional buttons to the right "), _ctx.$slots.customPickerActions ? (openBlock(), createElementBlock("div", _hoisted_9, [renderSlot(_ctx.$slots, "customPickerActions")])) : createCommentVNode("v-if", true)])]),
+                  }, 8, ["btnSize", "btnType"])]) : createCommentVNode("v-if", true), createCommentVNode(" Custom Action Buttons: `customPickerActions` slot allows you to add additional buttons to the right "), _ctx.$slots.customPickerActions ? (openBlock(), createElementBlock("div", _hoisted_12, [renderSlot(_ctx.$slots, "customPickerActions")])) : createCommentVNode("v-if", true)])]),
                   _: 3
                 }, 8, ["modelValue", "class", "style"])), [[vShow, internalShowPopup.value]]) : createCommentVNode("v-if", true)], 2)], 2), renderSlot(_ctx.$slots, "append", {
                   isInputGroupSupported: true
@@ -365,7 +397,7 @@ System.register(['vue', './rockButton', '@Obsidian/Enums/Controls/btnType', '@Ob
         }
       }
 
-      var css_248z = ".scrollbar-thin[data-v-3dcc5dd8]{scrollbar-width:thin}.scrollbar-thin[data-v-3dcc5dd8]::-webkit-scrollbar{border-radius:4px;width:8px}.scrollbar-thin[data-v-3dcc5dd8]::-webkit-scrollbar-button{display:none}.scrollbar-thin[data-v-3dcc5dd8]::-webkit-scrollbar-thumb{background-color:#858585;border-radius:4px}.scrollbar-thin[data-v-3dcc5dd8]::-webkit-scrollbar-thumb:hover{background-color:#6b6b6b}.scrollbar-thin[data-v-3dcc5dd8]::-webkit-scrollbar-track{background-color:#f0f0f0;border-radius:4px}.picker-menu[data-v-3dcc5dd8]{--body-background:var(--panel-bg);overflow-y:visible}.picker-menu.is-fullscreen[data-v-3dcc5dd8]{display:flex!important;flex-direction:column}.picker-actions[data-v-3dcc5dd8],.picker-header[data-v-3dcc5dd8]{flex:0}.picker-body[data-v-3dcc5dd8]{flex:1}.has-ig-prepend[data-v-3dcc5dd8]{border-bottom-left-radius:0;border-top-left-radius:0}";
+      var css_248z = ".scrollbar-thin[data-v-3dcc5dd8]{scrollbar-width:thin}.scrollbar-thin[data-v-3dcc5dd8]::-webkit-scrollbar{border-radius:4px;width:8px}.scrollbar-thin[data-v-3dcc5dd8]::-webkit-scrollbar-button{display:none}.scrollbar-thin[data-v-3dcc5dd8]::-webkit-scrollbar-thumb{background-color:#858585;border-radius:4px}.scrollbar-thin[data-v-3dcc5dd8]::-webkit-scrollbar-thumb:hover{background-color:#6b6b6b}.scrollbar-thin[data-v-3dcc5dd8]::-webkit-scrollbar-track{background-color:#f0f0f0;border-radius:4px}.picker-menu[data-v-3dcc5dd8]{--body-background:var(--panel-bg);overflow-y:visible}.picker-menu.is-fullscreen[data-v-3dcc5dd8]{display:flex!important;flex-direction:column}.picker-header[data-v-3dcc5dd8]{flex:0;width:100%}.picker-actions[data-v-3dcc5dd8],.picker-header[data-v-3dcc5dd8]{flex:0}.picker-body[data-v-3dcc5dd8]{flex:1}.has-ig-prepend[data-v-3dcc5dd8]{border-bottom-left-radius:0;border-top-left-radius:0}";
       styleInject(css_248z);
 
       script.__scopeId = "data-v-3dcc5dd8";

@@ -50,7 +50,7 @@ namespace RockWeb.Blocks.Examples
     {
         #region Fields
 
-        private const string DEFINED_TYPE_ROUTE = "/admintools/general/defined-type/";
+        private const string DEFINED_TYPE_ROUTE = "/admin/general/defined-types/";
 
         #endregion Fields
 
@@ -180,9 +180,9 @@ namespace RockWeb.Blocks.Examples
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void gfSettings_ApplyFilterClick( object sender, EventArgs e )
         {
-            gfSettings.SaveUserPreference( "IsRequired", ddlIsRequired.SelectedValue );
-            gfSettings.SaveUserPreference( "IsDatabase", ddlIsDatabase.SelectedValue );
-            gfSettings.SaveUserPreference( "IsLava", ddlIsLava.SelectedValue );
+            gfSettings.SetFilterPreference( "IsRequired", ddlIsRequired.SelectedValue );
+            gfSettings.SetFilterPreference( "IsDatabase", ddlIsDatabase.SelectedValue );
+            gfSettings.SetFilterPreference( "IsLava", ddlIsLava.SelectedValue );
 
             ShowData( hfSelectedCategoryGuid.Value.AsGuidOrNull(), hfSelectedEntityId.Value.AsIntegerOrNull() );
         }
@@ -194,7 +194,7 @@ namespace RockWeb.Blocks.Examples
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void gfSettings_ClearFilterClick( object sender, EventArgs e )
         {
-            gfSettings.DeleteUserPreferences();
+            gfSettings.DeleteFilterPreferences();
             BindFilter();
 
             ShowData( hfSelectedCategoryGuid.Value.AsGuidOrNull(), hfSelectedEntityId.Value.AsIntegerOrNull() );
@@ -213,23 +213,23 @@ namespace RockWeb.Blocks.Examples
             {
                 if ( !string.IsNullOrWhiteSpace( PageParameter( "IsRequired" ) ) )
                 {
-                    gfSettings.SaveUserPreference( "IsRequired", PageParameter( "IsRequired" ) );
+                    gfSettings.SetFilterPreference( "IsRequired", PageParameter( "IsRequired" ) );
                 }
 
                 if ( !string.IsNullOrWhiteSpace( PageParameter( "IsDatabase" ) ) )
                 {
-                    gfSettings.SaveUserPreference( "IsDatabase", PageParameter( "IsDatabase" ) );
+                    gfSettings.SetFilterPreference( "IsDatabase", PageParameter( "IsDatabase" ) );
                 }
 
                 if ( !string.IsNullOrWhiteSpace( PageParameter( "IsLava" ) ) )
                 {
-                    gfSettings.SaveUserPreference( "IsLava", PageParameter( "IsLava" ) );
+                    gfSettings.SetFilterPreference( "IsLava", PageParameter( "IsLava" ) );
                 }
             }
 
-            ddlIsRequired.SelectedValue = gfSettings.GetUserPreference( "IsRequired" );
-            ddlIsDatabase.SelectedValue = gfSettings.GetUserPreference( "IsDatabase" );
-            ddlIsLava.SelectedValue = gfSettings.GetUserPreference( "IsLava" );
+            ddlIsRequired.SelectedValue = gfSettings.GetFilterPreference( "IsRequired" );
+            ddlIsDatabase.SelectedValue = gfSettings.GetFilterPreference( "IsDatabase" );
+            ddlIsLava.SelectedValue = gfSettings.GetFilterPreference( "IsLava" );
         }
 
         private void LoadCategories()
@@ -448,8 +448,33 @@ namespace RockWeb.Blocks.Examples
                         pageReference.QueryString["EntityType"] = entityType.Guid.ToString();
 
                         lClassName.Text = mClass.Name;
+                        lActualTableName.Text = "";
+
+                        // Check if there is a TableAttribute.
+                        if ( System.Attribute.IsDefined( type, typeof( TableAttribute ) ) )
+                        {
+                            // Get the custom attribute.
+                            TableAttribute attribute = ( TableAttribute ) System.Attribute.GetCustomAttribute( type, typeof( TableAttribute ) );
+                            string tableName = attribute.Name;
+
+                            // Check if the table name is different than the class name.
+                            if ( !tableName.Equals( lClassName.Text ) )
+                            {
+                                lActualTableName.Text = "<small>[" + tableName + "]</small>";
+                            }
+                        }
+
                         hlAnchor.NavigateUrl = pageReference.BuildUrl();
                         lClassDescription.Text = mClass.Comment != null ? mClass.Comment.Summary : string.Empty;
+                        lClassExample.Text = ExampleNode( mClass );
+                        if ( divClass.HasCssClass( "mb-4" ) )
+                        {
+                            divClass.RemoveCssClass( "mb-4" );
+                        }
+                        if ( lClassDescription.Text.IsNotNullOrWhiteSpace() || lClassExample.Text.IsNotNullOrWhiteSpace())
+                        {
+                            divClass.AddCssClass( "mb-4" );
+                        }
                         lClasses.Text = ClassNode( mClass );
 
                         pnlClassDetail.Visible = true;
@@ -488,9 +513,9 @@ namespace RockWeb.Blocks.Examples
                     sb.AppendLine( "<h5 class='font-weight-normal'>Properties</h5><table class='table table-properties'>" );
                     foreach ( var property in aClass.Properties.OrderBy( p => p.Name ) )
                     {
-                        bool? isRequired = gfSettings.GetUserPreference( "IsRequired" ).AsBooleanOrNull();
-                        bool? isDatabase = gfSettings.GetUserPreference( "IsDatabase" ).AsBooleanOrNull();
-                        bool? isLava = gfSettings.GetUserPreference( "IsLava" ).AsBooleanOrNull();
+                        bool? isRequired = gfSettings.GetFilterPreference( "IsRequired" ).AsBooleanOrNull();
+                        bool? isDatabase = gfSettings.GetFilterPreference( "IsDatabase" ).AsBooleanOrNull();
+                        bool? isLava = gfSettings.GetFilterPreference( "IsLava" ).AsBooleanOrNull();
 
                         if ( isRequired.HasValue && isRequired.Value != property.Required )
                         {
@@ -555,6 +580,27 @@ namespace RockWeb.Blocks.Examples
             }
 
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Examples the node.
+        /// </summary>
+        /// <param name="mClass">The m class.</param>
+        /// <returns></returns>
+        private string ExampleNode(MClass mClass)
+        {
+            if (!string.IsNullOrWhiteSpace(mClass.Comment.Example))
+            {
+                return $@"
+<h4>Example</h4>
+<div class=""well"">
+    {mClass.Comment.Example}
+</div>";
+            }
+            else
+            {
+                return string.Empty;
+            }
         }
 
         /// <summary>
@@ -626,6 +672,7 @@ namespace RockWeb.Blocks.Examples
                     xmlComment.Value = name.Element( "value" ).ValueSafe();
                     xmlComment.Remarks = name.Element( "remarks" ).ValueSafe();
                     xmlComment.Returns = name.Element( "returns" ).ValueSafe();
+                    xmlComment.Example = name.Element( "example" ).ValueSafe();
                 }
             }
             catch
@@ -753,6 +800,11 @@ namespace RockWeb.Blocks.Examples
                 innerXml = System.Text.RegularExpressions.Regex.Replace( innerXml, match.Value, updatedValue );
                 match = match.NextMatch();
             }
+
+            innerXml = innerXml.Replace( "<para>", "<p>" ).Replace( "</para>", "</p>" );
+            innerXml = innerXml.Replace( "<c>", "<code>" ).Replace( "</c>", "</code>" );
+            innerXml = innerXml.Replace( "<example>", "<p>" ).Replace( "</example>", "</p>" );
+            innerXml = innerXml.Replace( "<code>", "<pre>" ).Replace( "</code>", "</pre>" );
 
             // Now replace any cref property references
             var propertyRefMatch = System.Text.RegularExpressions.Regex.Match( innerXml, @"<see\w* cref=""P:(.*?)""(?:\s*/>|>(.*)</see\w*>)" );
@@ -937,6 +989,8 @@ namespace RockWeb.Blocks.Examples
         public string[] Params { get; set; }
 
         public string Returns { get; set; }
+
+        public string Example { get; set; }
     }
 
     #endregion

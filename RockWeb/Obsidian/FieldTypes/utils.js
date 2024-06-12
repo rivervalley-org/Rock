@@ -1,4 +1,4 @@
-System.register(['vue', '@Obsidian/Core/Reporting/comparisonType', '@Obsidian/Core/Reporting/comparisonTypeOptions', '@Obsidian/Enums/Reporting/comparisonType', '@Obsidian/Core/Reporting/filterMode', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/fieldFilterContainer', '@Obsidian/Utility/numberUtils'], (function (exports) {
+System.register(['vue', '@Obsidian/Core/Reporting/comparisonType', '@Obsidian/Core/Reporting/comparisonTypeOptions', '@Obsidian/Enums/Reporting/comparisonType', '@Obsidian/Core/Reporting/filterMode', '@Obsidian/Controls/dropDownList.obs', '@Obsidian/Controls/fieldFilterContainer.obs', '@Obsidian/Utility/numberUtils'], (function (exports) {
     'use strict';
     var defineComponent, ref, computed, watch, isSingleComparisonType, isCompareVisibleForComparisonFilter, binaryComparisonTypes, stringComparisonTypes, containsComparisonTypes, getFilteredComparisonTypeOptions, ComparisonType, FilterMode, DropDownList, FieldFilterContainer, toNumberOrNull;
     return {
@@ -43,6 +43,9 @@ System.register(['vue', '@Obsidian/Core/Reporting/comparisonType', '@Obsidian/Co
                 configurationValues: {
                   type: Object,
                   default: () => ({})
+                },
+                dataEntryMode: {
+                  type: String
                 }
               };
             }

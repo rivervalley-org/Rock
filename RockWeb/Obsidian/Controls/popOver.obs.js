@@ -1,11 +1,12 @@
 System.register(['vue', '@Obsidian/Utility/guid'], (function (exports) {
   'use strict';
-  var createElementVNode, defineComponent, ref, watch, nextTick, openBlock, createElementBlock, Fragment, renderSlot, normalizeClass, normalizeStyle, newGuid;
+  var createElementVNode, defineComponent, ref, computed, watch, nextTick, openBlock, createElementBlock, Fragment, renderSlot, normalizeClass, normalizeStyle, unref, newGuid;
   return {
     setters: [function (module) {
       createElementVNode = module.createElementVNode;
       defineComponent = module.defineComponent;
       ref = module.ref;
+      computed = module.computed;
       watch = module.watch;
       nextTick = module.nextTick;
       openBlock = module.openBlock;
@@ -14,6 +15,7 @@ System.register(['vue', '@Obsidian/Utility/guid'], (function (exports) {
       renderSlot = module.renderSlot;
       normalizeClass = module.normalizeClass;
       normalizeStyle = module.normalizeStyle;
+      unref = module.unref;
     }, function (module) {
       newGuid = module.newGuid;
     }],
@@ -122,24 +124,40 @@ System.register(['vue', '@Obsidian/Utility/guid'], (function (exports) {
             type: String,
             default: "right"
           },
-          triggerUpdate: {
-            type: Boolean,
-            default: false
+          trigger: {
+            type: String,
+            default: "hover"
+          },
+          anchorY: {
+            type: Number,
+            required: false
+          },
+          anchorX: {
+            type: Number,
+            required: false
           }
         },
-        emits: ["update:isVisible", "update:triggerUpdate"],
+        emits: ["update:isVisible"],
         setup(__props, _ref) {
           var emit = _ref.emit;
           var props = __props;
           var activatorEl = ref(null);
           var popOverEl = ref(null);
+          var resizeObserver;
           var isPopOverVisible = ref(false);
           var isHovering = ref(false);
           var popOverStyle = ref({
             display: "none"
           });
           var popOverId = "popover-" + newGuid();
+          var computedPopOverStyle = computed(() => {
+            var styles = _objectSpread2(_objectSpread2({}, popOverStyle.value), getPositionStyles());
+            return styles;
+          });
           watch(isHovering, isHover => {
+            if (props.trigger !== "hover") {
+              return;
+            }
             if (isHover) {
               setTimeout(() => {
                 if (isHovering.value) {
@@ -154,16 +172,24 @@ System.register(['vue', '@Obsidian/Utility/guid'], (function (exports) {
               }, 100);
             }
           });
-          watch(() => props.triggerUpdate, () => {
-            if (props.triggerUpdate) {
-              popOverStyle.value = _objectSpread2(_objectSpread2({}, popOverStyle.value), getPositionStyles());
-              emit("update:triggerUpdate", false);
-            }
-          });
           watch(isPopOverVisible, isVisible => {
             if (isVisible) {
               showPopOver();
+              if (window.ResizeObserver) {
+                resizeObserver = new ResizeObserver(() => {
+                  popOverStyle.value = _objectSpread2({}, popOverStyle.value);
+                });
+                if (popOverEl.value) {
+                  resizeObserver.observe(popOverEl.value);
+                }
+                if (activatorEl.value) {
+                  resizeObserver.observe(activatorEl.value);
+                }
+              }
             } else {
+              var _resizeObserver;
+              (_resizeObserver = resizeObserver) === null || _resizeObserver === void 0 ? void 0 : _resizeObserver.disconnect();
+              resizeObserver = undefined;
               hidePopOver();
             }
             emit("update:isVisible", isVisible);
@@ -215,7 +241,9 @@ System.register(['vue', '@Obsidian/Utility/guid'], (function (exports) {
           }
           function _hidePopOver() {
             _hidePopOver = _asyncToGenerator(function* () {
-              popOverStyle.value.opacity = "0";
+              popOverStyle.value = _objectSpread2(_objectSpread2({}, popOverStyle.value), {}, {
+                opacity: "0"
+              });
               yield nextTick();
               setTimeout(() => {
                 if (!isHovering.value) {
@@ -233,25 +261,45 @@ System.register(['vue', '@Obsidian/Utility/guid'], (function (exports) {
             var boxA = getElementBox(activatorEl.value);
             var boxP = getElementBox(popOverEl.value);
             if (props.placement == "top") {
-              console.log("TOP", {
-                boxA,
-                boxP
-              });
+              if (props.anchorX !== undefined && props.anchorY !== undefined) {
+                return {
+                  left: "".concat(props.anchorX - boxP.width / 2, "px"),
+                  top: "".concat(props.anchorY - boxP.height, "px")
+                };
+              }
               return {
                 left: boxA.left + boxA.width / 2 - boxP.width / 2 + "px",
                 top: boxA.top - boxP.height + "px"
               };
             }
             if (props.placement == "bottom") {
+              if (props.anchorX !== undefined && props.anchorY !== undefined) {
+                return {
+                  left: "".concat(props.anchorX - boxP.width / 2, "px"),
+                  top: "".concat(props.anchorY, "px")
+                };
+              }
               return {
                 left: boxA.left + boxA.width / 2 - boxP.width / 2 + "px",
                 top: boxA.top + boxA.height + "px"
               };
             }
             if (props.placement == "left") {
+              if (props.anchorX !== undefined && props.anchorY !== undefined) {
+                return {
+                  left: "".concat(props.anchorX - boxP.width, "px"),
+                  top: "".concat(props.anchorY - boxP.height / 2, "px")
+                };
+              }
               return {
                 left: boxA.left - boxP.width + "px",
                 top: boxA.top + boxA.height / 2 - boxP.height / 2 + "px"
+              };
+            }
+            if (props.anchorX !== undefined && props.anchorY !== undefined) {
+              return {
+                left: "".concat(props.anchorX, "px"),
+                top: "".concat(props.anchorY - boxP.height / 2, "px")
               };
             }
             return {
@@ -285,8 +333,8 @@ System.register(['vue', '@Obsidian/Utility/guid'], (function (exports) {
               ref_key: "popOverEl",
               ref: popOverEl,
               id: popOverId,
-              style: normalizeStyle(popOverStyle.value)
-            }, [_hoisted_1, _hoisted_2, createElementVNode("div", _hoisted_3, [renderSlot(_ctx.$slots, "popOverContent")])], 6)], 64);
+              style: normalizeStyle(unref(computedPopOverStyle))
+            }, [_hoisted_1, _hoisted_2, createElementVNode("div", _hoisted_3, [renderSlot(_ctx.$slots, "default")])], 6)], 64);
           };
         }
       }));

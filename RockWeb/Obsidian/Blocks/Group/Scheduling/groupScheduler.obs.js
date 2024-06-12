@@ -1,6 +1,6 @@
-System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/modal', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Enums/Controls/alertType', '@Obsidian/Utility/block', '@Obsidian/Utility/component', '@Obsidian/Utility/tooltip', '@Obsidian/Controls/datePicker.obs', '@Obsidian/Controls/radioButtonList', '@Obsidian/Enums/Blocks/Group/Scheduling/updateSchedulePreferenceMode', '@Obsidian/Directives/dragScroll', '@Obsidian/Utility/http', '@Obsidian/Controls/rockFormField', '@Obsidian/Controls/buttonGroup.obs', '@Obsidian/Controls/dataViewPicker', '@Obsidian/Controls/groupPicker', '@Obsidian/Controls/loading', '@Obsidian/Enums/Blocks/Group/Scheduling/resourceListSourceType', '@Obsidian/Enums/Controls/btnSize', '@Obsidian/SystemGuids/entityType', '@Obsidian/Utility/numberUtils', '@Obsidian/Controls/rockButton', '@Obsidian/Enums/Event/scheduledAttendanceItemStatus', '@Obsidian/Controls/rockLabel', '@Obsidian/Controls/slidingDateRangePicker.obs', '@Obsidian/Utility/stringUtils', '@Obsidian/Controls/modalAlert.obs', '@Obsidian/Controls/panel', '@Obsidian/Enums/Controls/modalAlertType', '@Obsidian/Utility/guid'], (function (exports) {
+System.register(['vue', '@Obsidian/Controls/dropDownList.obs', '@Obsidian/Controls/modal.obs', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Enums/Controls/alertType', '@Obsidian/Utility/block', '@Obsidian/Utility/component', '@Obsidian/Utility/tooltip', '@Obsidian/Controls/datePicker.obs', '@Obsidian/Controls/radioButtonList.obs', '@Obsidian/Enums/Blocks/Group/Scheduling/updateSchedulePreferenceMode', '@Obsidian/Directives/dragScroll', '@Obsidian/Utility/http', '@Obsidian/Controls/rockFormField.obs', '@Obsidian/Controls/textBox.obs', '@Obsidian/Controls/buttonGroup.obs', '@Obsidian/Controls/dataViewPicker.obs', '@Obsidian/Controls/groupPicker.obs', '@Obsidian/Controls/loading.obs', '@Obsidian/Enums/Blocks/Group/Scheduling/resourceListSourceType', '@Obsidian/Enums/Controls/btnSize', '@Obsidian/SystemGuids/entityType', '@Obsidian/Utility/numberUtils', '@Obsidian/Utility/guid', '@Obsidian/Controls/rockButton.obs', '@Obsidian/Enums/Event/scheduledAttendanceItemStatus', '@Obsidian/Controls/loadingIndicator.obs', '@Obsidian/Utility/stringUtils', '@Obsidian/Utility/rockDateTime', '@Obsidian/Controls/rockLabel.obs', '@Obsidian/Controls/slidingDateRangePicker.obs', '@Obsidian/Controls/modalAlert.obs', '@Obsidian/Controls/panel.obs', '@Obsidian/Enums/Controls/modalAlertType'], (function (exports) {
   'use strict';
-  var createTextVNode, createElementVNode, defineComponent, ref, computed, watch, openBlock, createBlock, unref, isRef, withCtx, createVNode, toDisplayString, createElementBlock, nextTick, normalizeClass, normalizeStyle, createCommentVNode, Fragment, renderList, withDirectives, vModelCheckbox, inject, provide, onUnmounted, DropDownList, Modal, NotificationBox, AlertType, useInvokeBlockAction, useConfigurationValues, getSecurityGrant, useReloadBlock, provideSecurityGrant, onConfigurationValuesChanged, useVModelPassthrough, tooltip, DatePicker, RadioButtonList, UpdateSchedulePreferenceMode, UpdateSchedulePreferenceModeDescription, NoDragScroll, DragScroll, useHttp, RockFormField, ButtonGroup, DataViewPicker, GroupPicker, Loading, ResourceListSourceType, ResourceListSourceTypeDescription, BtnSize, EntityType, toNumber, toOrdinalSuffix, RockButton, ScheduledAttendanceItemStatusDescription, ScheduledAttendanceItemStatus, RockLabel, SlidingDateRangePicker, pluralConditional, ModalAlert, Panel, ModalAlertType, newGuid;
+  var createTextVNode, createElementVNode, defineComponent, ref, computed, watch, openBlock, createBlock, unref, isRef, withCtx, createVNode, toDisplayString, createElementBlock, normalizeClass, normalizeStyle, createCommentVNode, nextTick, Fragment, renderList, withDirectives, vModelCheckbox, inject, provide, onUnmounted, DropDownList, Modal, NotificationBox, AlertType, useInvokeBlockAction, useConfigurationValues, getSecurityGrant, useReloadBlock, provideSecurityGrant, onConfigurationValuesChanged, useVModelPassthrough, tooltip, DatePicker, RadioButtonList, UpdateSchedulePreferenceMode, UpdateSchedulePreferenceModeDescription, NoDragScroll, DragScroll, useHttp, RockFormField, TextBox, ButtonGroup, DataViewPicker, GroupPicker, Loading, ResourceListSourceType, ResourceListSourceTypeDescription, BtnSize, EntityType, toNumber, toNumberOrNull, toOrdinalSuffix, toGuidOrNull, newGuid, RockButton, ScheduledAttendanceItemStatusDescription, ScheduledAttendanceItemStatus, LoadingIndicator, pluralize, pluralConditional, RockDateTime, RockLabel, SlidingDateRangePicker, ModalAlert, Panel, ModalAlertType;
   return {
     setters: [function (module) {
       createTextVNode = module.createTextVNode;
@@ -17,10 +17,10 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
       createVNode = module.createVNode;
       toDisplayString = module.toDisplayString;
       createElementBlock = module.createElementBlock;
-      nextTick = module.nextTick;
       normalizeClass = module.normalizeClass;
       normalizeStyle = module.normalizeStyle;
       createCommentVNode = module.createCommentVNode;
+      nextTick = module.nextTick;
       Fragment = module.Fragment;
       renderList = module.renderList;
       withDirectives = module.withDirectives;
@@ -62,6 +62,8 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
     }, function (module) {
       RockFormField = module["default"];
     }, function (module) {
+      TextBox = module["default"];
+    }, function (module) {
       ButtonGroup = module["default"];
     }, function (module) {
       DataViewPicker = module["default"];
@@ -78,29 +80,84 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
       EntityType = module.EntityType;
     }, function (module) {
       toNumber = module.toNumber;
+      toNumberOrNull = module.toNumberOrNull;
       toOrdinalSuffix = module.toOrdinalSuffix;
+    }, function (module) {
+      toGuidOrNull = module.toGuidOrNull;
+      newGuid = module.newGuid;
     }, function (module) {
       RockButton = module["default"];
     }, function (module) {
       ScheduledAttendanceItemStatusDescription = module.ScheduledAttendanceItemStatusDescription;
       ScheduledAttendanceItemStatus = module.ScheduledAttendanceItemStatus;
     }, function (module) {
+      LoadingIndicator = module["default"];
+    }, function (module) {
+      pluralize = module.pluralize;
+      pluralConditional = module.pluralConditional;
+    }, function (module) {
+      RockDateTime = module.RockDateTime;
+    }, function (module) {
       RockLabel = module["default"];
     }, function (module) {
       SlidingDateRangePicker = module["default"];
-    }, function (module) {
-      pluralConditional = module.pluralConditional;
     }, function (module) {
       ModalAlert = module["default"];
     }, function (module) {
       Panel = module["default"];
     }, function (module) {
       ModalAlertType = module.ModalAlertType;
-    }, function (module) {
-      newGuid = module.newGuid;
     }],
     execute: (function () {
 
+      function _iterableToArrayLimit(arr, i) {
+        var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
+        if (null != _i) {
+          var _s,
+            _e,
+            _x,
+            _r,
+            _arr = [],
+            _n = !0,
+            _d = !1;
+          try {
+            if (_x = (_i = _i.call(arr)).next, 0 === i) {
+              if (Object(_i) !== _i) return;
+              _n = !1;
+            } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0);
+          } catch (err) {
+            _d = !0, _e = err;
+          } finally {
+            try {
+              if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return;
+            } finally {
+              if (_d) throw _e;
+            }
+          }
+          return _arr;
+        }
+      }
+      function ownKeys(object, enumerableOnly) {
+        var keys = Object.keys(object);
+        if (Object.getOwnPropertySymbols) {
+          var symbols = Object.getOwnPropertySymbols(object);
+          enumerableOnly && (symbols = symbols.filter(function (sym) {
+            return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+          })), keys.push.apply(keys, symbols);
+        }
+        return keys;
+      }
+      function _objectSpread2(target) {
+        for (var i = 1; i < arguments.length; i++) {
+          var source = null != arguments[i] ? arguments[i] : {};
+          i % 2 ? ownKeys(Object(source), !0).forEach(function (key) {
+            _defineProperty(target, key, source[key]);
+          }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) {
+            Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+          });
+        }
+        return target;
+      }
       function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
         try {
           var info = gen[key](arg);
@@ -131,21 +188,71 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
           });
         };
       }
+      function _defineProperty(obj, key, value) {
+        key = _toPropertyKey(key);
+        if (key in obj) {
+          Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+          });
+        } else {
+          obj[key] = value;
+        }
+        return obj;
+      }
+      function _slicedToArray(arr, i) {
+        return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+      }
+      function _arrayWithHoles(arr) {
+        if (Array.isArray(arr)) return arr;
+      }
+      function _unsupportedIterableToArray(o, minLen) {
+        if (!o) return;
+        if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+        var n = Object.prototype.toString.call(o).slice(8, -1);
+        if (n === "Object" && o.constructor) n = o.constructor.name;
+        if (n === "Map" || n === "Set") return Array.from(o);
+        if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+      }
+      function _arrayLikeToArray(arr, len) {
+        if (len == null || len > arr.length) len = arr.length;
+        for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+        return arr2;
+      }
+      function _nonIterableRest() {
+        throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+      }
+      function _toPrimitive(input, hint) {
+        if (typeof input !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+          var res = prim.call(input, hint || "default");
+          if (typeof res !== "object") return res;
+          throw new TypeError("@@toPrimitive must return a primitive value.");
+        }
+        return (hint === "string" ? String : Number)(input);
+      }
+      function _toPropertyKey(arg) {
+        var key = _toPrimitive(arg, "string");
+        return typeof key === "symbol" ? key : String(key);
+      }
 
-      var _hoisted_1$c = createTextVNode(" Configure the settings below to clone schedules for a different week. ");
+      var _hoisted_1$e = createTextVNode(" Configure the settings below to clone schedules for a different week. ");
       var _hoisted_2$c = {
         key: 1,
         class: "row"
       };
-      var _hoisted_3$b = {
+      var _hoisted_3$a = {
         class: "col-md-6"
       };
       var _hoisted_4$8 = createElementVNode("h3", null, "Source Settings", -1);
-      var _hoisted_5$7 = {
+      var _hoisted_5$8 = {
         class: "col-md-6"
       };
       var _hoisted_6$7 = createElementVNode("h3", null, "Destination Settings", -1);
-      var script$c = defineComponent({
+      var script$e = defineComponent({
         name: 'cloneSchedules.partial',
         props: {
           isVisible: {
@@ -202,6 +309,7 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
           }
           function _getCloneSettings() {
             _getCloneSettings = _asyncToGenerator(function* () {
+              var _cloneSettings$value$6, _cloneSettings$value6, _cloneSettings$value$7, _cloneSettings$value7, _cloneSettings$value$8, _cloneSettings$value8, _cloneSettings$value$9, _cloneSettings$value9, _cloneSettings$value$10, _cloneSettings$value10;
               if (isLoadingCloneSettings.value) {
                 return;
               }
@@ -216,6 +324,11 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
                 return;
               }
               cloneSettings.value = result.data;
+              selectedSourceDate.value = (_cloneSettings$value$6 = (_cloneSettings$value6 = cloneSettings.value) === null || _cloneSettings$value6 === void 0 ? void 0 : _cloneSettings$value6.selectedSourceDate) !== null && _cloneSettings$value$6 !== void 0 ? _cloneSettings$value$6 : "";
+              selectedDestinationDate.value = (_cloneSettings$value$7 = (_cloneSettings$value7 = cloneSettings.value) === null || _cloneSettings$value7 === void 0 ? void 0 : _cloneSettings$value7.selectedDestinationDate) !== null && _cloneSettings$value$7 !== void 0 ? _cloneSettings$value$7 : "";
+              selectedGroups.value = (_cloneSettings$value$8 = (_cloneSettings$value8 = cloneSettings.value) === null || _cloneSettings$value8 === void 0 ? void 0 : _cloneSettings$value8.selectedGroups) !== null && _cloneSettings$value$8 !== void 0 ? _cloneSettings$value$8 : [];
+              selectedLocations.value = (_cloneSettings$value$9 = (_cloneSettings$value9 = cloneSettings.value) === null || _cloneSettings$value9 === void 0 ? void 0 : _cloneSettings$value9.selectedLocations) !== null && _cloneSettings$value$9 !== void 0 ? _cloneSettings$value$9 : [];
+              selectedSchedules.value = (_cloneSettings$value$10 = (_cloneSettings$value10 = cloneSettings.value) === null || _cloneSettings$value10 === void 0 ? void 0 : _cloneSettings$value10.selectedSchedules) !== null && _cloneSettings$value$10 !== void 0 ? _cloneSettings$value$10 : [];
             });
             return _getCloneSettings.apply(this, arguments);
           }
@@ -247,13 +360,13 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
               "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => isRef(isVisible) ? isVisible.value = $event : null),
               title: "Clone Schedules",
               saveText: "Clone",
-              saveButtonDisabled: unref(isCloningDisabled),
+              isSaveButtonDisabled: unref(isCloningDisabled),
               onSave: onSave
             }, {
               default: withCtx(() => [createVNode(unref(NotificationBox), {
                 alertType: unref(AlertType).Info
               }, {
-                default: withCtx(() => [_hoisted_1$c]),
+                default: withCtx(() => [_hoisted_1$e]),
                 _: 1
               }, 8, ["alertType"]), loadCloneSettingsErrorMessage.value ? (openBlock(), createBlock(unref(NotificationBox), {
                 key: 0,
@@ -261,7 +374,7 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
               }, {
                 default: withCtx(() => [createTextVNode(toDisplayString(loadCloneSettingsErrorMessage.value), 1)]),
                 _: 1
-              }, 8, ["alertType"])) : (openBlock(), createElementBlock("div", _hoisted_2$c, [createElementVNode("div", _hoisted_3$b, [_hoisted_4$8, createVNode(unref(DropDownList), {
+              }, 8, ["alertType"])) : (openBlock(), createElementBlock("div", _hoisted_2$c, [createElementVNode("div", _hoisted_3$a, [_hoisted_4$8, createVNode(unref(DropDownList), {
                 modelValue: selectedSourceDate.value,
                 "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => selectedSourceDate.value = $event),
                 label: "Source Week Of",
@@ -289,7 +402,7 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
                 items: unref(availableSchedules),
                 multiple: true,
                 loading: unref(isBusy)
-              }, null, 8, ["modelValue", "items", "loading"])]), createElementVNode("div", _hoisted_5$7, [_hoisted_6$7, createVNode(unref(DropDownList), {
+              }, null, 8, ["modelValue", "items", "loading"])]), createElementVNode("div", _hoisted_5$8, [_hoisted_6$7, createVNode(unref(DropDownList), {
                 modelValue: selectedDestinationDate.value,
                 "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => selectedDestinationDate.value = $event),
                 label: "Destination Week Of",
@@ -298,14 +411,18 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
                 loading: unref(isBusy)
               }, null, 8, ["modelValue", "items", "loading"])])]))]),
               _: 1
-            }, 8, ["modelValue", "saveButtonDisabled"]);
+            }, 8, ["modelValue", "isSaveButtonDisabled"]);
           };
         }
       });
 
-      script$c.__file = "src/Group/Scheduling/GroupScheduler/cloneSchedules.partial.obs";
+      script$e.__file = "src/Group/Scheduling/GroupScheduler/cloneSchedules.partial.obs";
 
+      var UnassignedResourceCounts = Symbol("unassigned-resource-counts");
+      var ReportAssignedResources = Symbol("report-assigned-resources");
+      var OccurrenceDate = Symbol("occurrence-date");
       var OccurrenceDateTitle = Symbol("occurrence-date-title");
+      var ScheduleId = Symbol("schedule-id");
       var ReloadAllOccurrences = Symbol("reload-all-occurrences");
       var ReloadScheduleOccurrences = Symbol("reload-schedule-occurrences");
       var ReloadOccurrencesContainingResource = Symbol("reload-occurrences-containing-resource");
@@ -335,10 +452,8 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
         return NavigationUrlKey;
       }({});
 
-      var _hoisted_1$b = ["title"];
-      var _hoisted_2$b = ["title"];
-      var _hoisted_3$a = ["title"];
-      var script$b = defineComponent({
+      var _hoisted_1$d = ["data-original-title"];
+      var script$d = defineComponent({
         name: 'progressBar.partial',
         props: {
           progress: {
@@ -348,17 +463,16 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
         },
         setup(__props) {
           var props = __props;
-          var minimumThresholdElement = ref(null);
-          var desiredThresholdElement = ref(null);
-          var maximumThresholdElement = ref(null);
+          var progressBarElement = ref(null);
+          var progressBarTooltip = computed(() => {
+            return "\n<div class='progress-bar-tooltip'>\n    <div class='progress-bar-tooltip-configured'>\n        <span class=\"progress-bar-tooltip-label\">Configured</span>\n        <div class='progress-bar-tooltip-counts'>\n            <span>\n                <i class='far fa-minus-square'></i>\n                ".concat(minimumCapacity.value === 0 ? "-" : minimumCapacity.value, "\n            </span>\n            <span>\n                <i class='far fa-star'></i>\n                ").concat(desiredCapacity.value === 0 ? "-" : desiredCapacity.value, "\n            </span>\n            <span>\n                <i class='far fa-plus-square'></i>\n                ").concat(maximumCapacity.value === 0 ? "-" : maximumCapacity.value, "\n            </span>\n        </div>\n    </div>\n    <div class='progress-bar-tooltip-responses'>\n        <span class=\"progress-bar-tooltip-label\">Responses</span>\n        <div class='progress-bar-tooltip-counts'>\n            <span><i class='far fa-calendar-check'></i> ").concat(confirmedCount.value, "</span>\n            <span><i class='fa fa-question'></i> ").concat(pendingCount.value, "</span>\n            <span><i class='far fa-calendar-times'></i> ").concat(declinedCount.value, "</span>\n        </div>\n    </div>\n</div>");
+          });
           var minimumCapacity = computed(() => {
             var _props$progress$minim, _props$progress;
             return (_props$progress$minim = (_props$progress = props.progress) === null || _props$progress === void 0 ? void 0 : _props$progress.minimumCapacity) !== null && _props$progress$minim !== void 0 ? _props$progress$minim : 0;
           });
           var minimumPercentage = computed(() => {
-            return getPercentageOfWhole(minimumCapacity.value, {
-              isThreshold: true
-            });
+            return getPercentageOfWhole(minimumCapacity.value);
           });
           var showMinimumThreshold = computed(() => {
             return minimumPercentage.value > 0 && minimumPercentage.value < 100;
@@ -368,9 +482,7 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
             return (_props$progress$desir = (_props$progress2 = props.progress) === null || _props$progress2 === void 0 ? void 0 : _props$progress2.desiredCapacity) !== null && _props$progress$desir !== void 0 ? _props$progress$desir : 0;
           });
           var desiredPercentage = computed(() => {
-            return getPercentageOfWhole(desiredCapacity.value, {
-              isThreshold: true
-            });
+            return getPercentageOfWhole(desiredCapacity.value);
           });
           var showDesiredThreshold = computed(() => {
             return desiredPercentage.value > 0 && desiredPercentage.value < 100;
@@ -380,10 +492,7 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
             return (_props$progress$maxim = (_props$progress3 = props.progress) === null || _props$progress3 === void 0 ? void 0 : _props$progress3.maximumCapacity) !== null && _props$progress$maxim !== void 0 ? _props$progress$maxim : 0;
           });
           var maximumPercentage = computed(() => {
-            return getPercentageOfWhole(maximumCapacity.value, {
-              isThreshold: true,
-              isMax: true
-            });
+            return getPercentageOfWhole(maximumCapacity.value);
           });
           var showMaximumThreshold = computed(() => {
             return maximumPercentage.value > 0 && maximumPercentage.value < 100 && totalCount.value > maximumCapacity.value;
@@ -393,9 +502,7 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
             return (_props$progress$confi = (_props$progress4 = props.progress) === null || _props$progress4 === void 0 ? void 0 : _props$progress4.confirmedCount) !== null && _props$progress$confi !== void 0 ? _props$progress$confi : 0;
           });
           var confirmedPercentage = computed(() => {
-            return getPercentageOfWhole(confirmedCount.value, {
-              isThreshold: false
-            });
+            return getPercentageOfWhole(confirmedCount.value);
           });
           var pendingCount = computed(() => {
             var _props$progress$pendi, _props$progress5;
@@ -403,9 +510,11 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
           });
           var pendingPercentage = computed(() => {
             var pendingCountForPercentage = pendingCount.value + confirmedCount.value;
-            return getPercentageOfWhole(pendingCountForPercentage, {
-              isThreshold: false
-            });
+            return getPercentageOfWhole(pendingCountForPercentage);
+          });
+          var declinedCount = computed(() => {
+            var _props$progress$decli, _props$progress6;
+            return (_props$progress$decli = (_props$progress6 = props.progress) === null || _props$progress6 === void 0 ? void 0 : _props$progress6.declinedCount) !== null && _props$progress$decli !== void 0 ? _props$progress$decli : 0;
           });
           var totalCount = computed(() => {
             return confirmedCount.value + pendingCount.value;
@@ -446,40 +555,35 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
             }
             return whole;
           });
-          function getPercentageOfWhole(part, config) {
+          function getPercentageOfWhole(part) {
             if (whole.value > 0) {
-              if (config.isThreshold && !config.isMax) {
-                part--;
-              }
               var percentage = Math.floor(part / whole.value * 100);
               return percentage > 100 ? 100 : percentage;
             }
             return 0;
           }
-          function configureTooltips() {
-            if (minimumThresholdElement.value) {
-              tooltip(minimumThresholdElement.value);
-            }
-            if (desiredThresholdElement.value) {
-              tooltip(desiredThresholdElement.value);
-            }
-            if (maximumThresholdElement.value) {
-              tooltip(maximumThresholdElement.value);
-            }
-          }
-          watch([minimumThresholdElement, desiredThresholdElement, maximumThresholdElement], () => {
-            configureTooltips();
-          });
-          watch([minimumCapacity, desiredCapacity, maximumCapacity], () => {
+          function configureTooltip() {
             nextTick(() => {
-              configureTooltips();
+              if (progressBarElement.value) {
+                tooltip(progressBarElement.value, {
+                  html: true
+                });
+              }
             });
+          }
+          watch([minimumCapacity, desiredCapacity, maximumCapacity, confirmedCount, pendingCount, declinedCount], () => {
+            configureTooltip();
           });
+          configureTooltip();
           return (_ctx, _cache) => {
             return openBlock(), createElementBlock("div", {
+              ref_key: "progressBarElement",
+              ref: progressBarElement,
               class: normalizeClass("progress text-".concat(unref(state), " m-0 flex-fill")),
               role: "progressbar",
-              "aria-label": "Group Scheduler Progress"
+              "aria-label": "Group Scheduler Progress",
+              "data-toggle": "tooltip",
+              "data-original-title": unref(progressBarTooltip)
             }, [createElementVNode("div", {
               class: normalizeClass("progress-bar bg-".concat(unref(state))),
               style: normalizeStyle("width:".concat(unref(confirmedPercentage), "%"))
@@ -488,42 +592,58 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
               style: normalizeStyle("width:".concat(unref(pendingPercentage), "%"))
             }, null, 6), unref(showMinimumThreshold) ? (openBlock(), createElementBlock("div", {
               key: 0,
-              ref_key: "minimumThresholdElement",
-              ref: minimumThresholdElement,
               class: "indicator",
-              style: normalizeStyle("left:".concat(unref(minimumPercentage), "%;")),
-              "data-toggle": "tooltip",
-              title: "Minimum: ".concat(unref(minimumCapacity))
-            }, null, 12, _hoisted_1$b)) : createCommentVNode("v-if", true), unref(showDesiredThreshold) ? (openBlock(), createElementBlock("div", {
+              style: normalizeStyle("left:".concat(unref(minimumPercentage), "%;"))
+            }, null, 4)) : createCommentVNode("v-if", true), unref(showDesiredThreshold) ? (openBlock(), createElementBlock("div", {
               key: 1,
-              ref_key: "desiredThresholdElement",
-              ref: desiredThresholdElement,
               class: "indicator",
-              style: normalizeStyle("left:".concat(unref(desiredPercentage), "%;")),
-              "data-toggle": "tooltip",
-              title: "Desired: ".concat(unref(desiredCapacity))
-            }, null, 12, _hoisted_2$b)) : createCommentVNode("v-if", true), unref(showMaximumThreshold) ? (openBlock(), createElementBlock("div", {
+              style: normalizeStyle("left:".concat(unref(desiredPercentage), "%;"))
+            }, null, 4)) : createCommentVNode("v-if", true), unref(showMaximumThreshold) ? (openBlock(), createElementBlock("div", {
               key: 2,
-              ref_key: "maximumThresholdElement",
-              ref: maximumThresholdElement,
               class: "indicator",
-              style: normalizeStyle("left:".concat(unref(maximumPercentage), "%;")),
-              "data-toggle": "tooltip",
-              title: "Maximum: ".concat(unref(maximumCapacity))
-            }, null, 12, _hoisted_3$a)) : createCommentVNode("v-if", true)], 2);
+              style: normalizeStyle("left:".concat(unref(maximumPercentage), "%;"))
+            }, null, 4)) : createCommentVNode("v-if", true)], 10, _hoisted_1$d);
           };
         }
       });
 
-      script$b.__file = "src/Group/Scheduling/GroupScheduler/progressBar.partial.obs";
+      function styleInject(css, ref) {
+        if (ref === void 0) ref = {};
+        var insertAt = ref.insertAt;
+        if (!css || typeof document === 'undefined') {
+          return;
+        }
+        var head = document.head || document.getElementsByTagName('head')[0];
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        if (insertAt === 'top') {
+          if (head.firstChild) {
+            head.insertBefore(style, head.firstChild);
+          } else {
+            head.appendChild(style);
+          }
+        } else {
+          head.appendChild(style);
+        }
+        if (style.styleSheet) {
+          style.styleSheet.cssText = css;
+        } else {
+          style.appendChild(document.createTextNode(css));
+        }
+      }
 
-      var _hoisted_1$a = {
+      var css_248z$2 = ".group-scheduler-v2 .progress-bar-tooltip{min-width:130px}.group-scheduler-v2 .progress-bar-tooltip-label{font-weight:700}.group-scheduler-v2 .progress-bar-tooltip-responses{margin-top:12px}.group-scheduler-v2 .progress-bar-tooltip-counts{align-items:center;display:flex;justify-content:space-around;margin-top:4px}.group-scheduler-v2 .progress-bar-tooltip-counts>span{align-items:center;display:flex;gap:6px}";
+      styleInject(css_248z$2);
+
+      script$d.__file = "src/Group/Scheduling/GroupScheduler/progressBar.partial.obs";
+
+      var _hoisted_1$c = {
         class: "form-group"
       };
-      var _hoisted_2$a = createElementVNode("span", {
+      var _hoisted_2$b = createElementVNode("span", {
         class: "control-label"
       }, "These other preferences will be removed and replaced.", -1);
-      var script$a = defineComponent({
+      var script$c = defineComponent({
         name: 'updatePreference.partial',
         props: {
           isVisible: {
@@ -679,7 +799,7 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
               title: "Update Preference",
               saveText: "Save",
               subtitle: unref(subtitle),
-              saveButtonDisabled: unref(isUpdatingDisabled),
+              isSaveButtonDisabled: unref(isUpdatingDisabled),
               onSave: onSave
             }, {
               default: withCtx(() => [loadPreferencesErrorMessage.value ? (openBlock(), createBlock(unref(NotificationBox), {
@@ -715,7 +835,7 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
                 "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => scheduleStartDate.value = $event),
                 label: "Starting On",
                 isLoading: unref(isBusy)
-              }, null, 8, ["modelValue", "isLoading"])) : createCommentVNode("v-if", true), createElementVNode("div", _hoisted_1$a, [createVNode(unref(RadioButtonList), {
+              }, null, 8, ["modelValue", "isLoading"])) : createCommentVNode("v-if", true), createElementVNode("div", _hoisted_1$c, [createVNode(unref(RadioButtonList), {
                 modelValue: updateMode.value,
                 "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => updateMode.value = $event),
                 items: availableUpdateModes,
@@ -724,53 +844,53 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
                 key: 3,
                 alertType: unref(AlertType).Info
               }, {
-                default: withCtx(() => [_hoisted_2$a, createElementVNode("ul", null, [(openBlock(true), createElementBlock(Fragment, null, renderList(otherPreferences.value, otherPreference => {
+                default: withCtx(() => [_hoisted_2$b, createElementVNode("ul", null, [(openBlock(true), createElementBlock(Fragment, null, renderList(otherPreferences.value, otherPreference => {
                   return openBlock(), createElementBlock("li", null, toDisplayString(otherPreference), 1);
                 }), 256))])]),
                 _: 1
               }, 8, ["alertType"])) : createCommentVNode("v-if", true)], 64))]),
               _: 1
-            }, 8, ["modelValue", "subtitle", "saveButtonDisabled"]);
+            }, 8, ["modelValue", "subtitle", "isSaveButtonDisabled"]);
           };
         }
       });
 
-      script$a.__file = "src/Group/Scheduling/GroupScheduler/updatePreference.partial.obs";
+      script$c.__file = "src/Group/Scheduling/GroupScheduler/updatePreference.partial.obs";
 
-      var _hoisted_1$9 = {
-        key: 0,
-        class: "list-group-item text-sm"
-      };
-      var _hoisted_2$9 = ["src"];
+      var _hoisted_1$b = ["src"];
+      var _hoisted_2$a = ["data-original-title"];
       var _hoisted_3$9 = {
-        class: "resource-name"
+        key: 0,
+        class: "fa fa-exclamation-triangle"
       };
-      var _hoisted_4$7 = ["title"];
-      var _hoisted_5$6 = ["title"];
-      var _hoisted_6$6 = {
+      var _hoisted_4$7 = {
+        key: 1,
+        class: "fa fa-minus-circle"
+      };
+      var _hoisted_5$7 = {
         class: "resource-role"
       };
-      var _hoisted_7$5 = {
+      var _hoisted_6$6 = {
         class: "dropdown"
       };
-      var _hoisted_8$4 = ["disabled"];
-      var _hoisted_9$3 = createElementVNode("i", {
+      var _hoisted_7$5 = ["disabled"];
+      var _hoisted_8$4 = createElementVNode("i", {
         class: "fa fa-ellipsis-v"
       }, null, -1);
-      var _hoisted_10$2 = [_hoisted_9$3];
-      var _hoisted_11$2 = {
+      var _hoisted_9$3 = [_hoisted_8$4];
+      var _hoisted_10$2 = {
         class: "dropdown-menu dropdown-menu-right"
       };
-      var _hoisted_12$1 = ["disabled"];
+      var _hoisted_11$2 = ["disabled"];
+      var _hoisted_12$2 = ["disabled"];
       var _hoisted_13$1 = ["disabled"];
       var _hoisted_14$1 = ["disabled"];
-      var _hoisted_15$1 = ["disabled"];
-      var _hoisted_16$1 = {
+      var _hoisted_15$1 = {
         key: 0
       };
+      var _hoisted_16$1 = ["disabled"];
       var _hoisted_17$1 = ["disabled"];
-      var _hoisted_18$1 = ["disabled"];
-      var script$9 = defineComponent({
+      var script$b = defineComponent({
         name: 'scheduledResource.partial',
         props: {
           occurrence: {
@@ -801,14 +921,16 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
           var isUpdatingPreference = ref(false);
           var imgSrc = ref((_props$resource$Perso = (_props$resource = props.resource) === null || _props$resource === void 0 ? void 0 : _props$resource.PersonPhotoUrl) !== null && _props$resource$Perso !== void 0 ? _props$resource$Perso : "");
           var personName = ref((_props$resource$Perso2 = (_props$resource2 = props.resource) === null || _props$resource2 === void 0 ? void 0 : _props$resource2.PersonName) !== null && _props$resource$Perso2 !== void 0 ? _props$resource$Perso2 : "");
-          var conflictElement = ref(null);
-          var preferenceElement = ref(null);
+          var resourceNameElement = ref(null);
           var status = computed(() => {
             var _props$resource$Confi, _props$resource3;
             return (_props$resource$Confi = (_props$resource3 = props.resource) === null || _props$resource3 === void 0 ? void 0 : _props$resource3.ConfirmationStatus) !== null && _props$resource$Confi !== void 0 ? _props$resource$Confi : "";
           });
-          var imgCssClass = computed(() => {
-            return "avatar avatar-status".concat(status.value ? " ".concat(status.value.toLowerCase()) : "");
+          var statusCssClass = computed(() => {
+            return "status-".concat(status.value ? "".concat(status.value.toLowerCase()) : "unknown");
+          });
+          var resourceCssClass = computed(() => {
+            return "list-group-item text-sm ".concat(statusCssClass.value);
           });
           var attendanceId = computed(() => {
             var _props$resource$Atten, _props$resource4;
@@ -821,43 +943,53 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
           var isSchedulingDisabled = computed(() => {
             return props.disabled || isUpdatingResource.value;
           });
+          var declinedReasonTooltip = computed(() => {
+            var _props$resource6;
+            var reason = (_props$resource6 = props.resource) === null || _props$resource6 === void 0 ? void 0 : _props$resource6.DeclinedReason;
+            return reason ? wrapTooltipSection("<div class='font-weight-semibold'>Declined Reason</div><div>".concat(reason, "</div>")) : "";
+          });
           var preferenceList = computed(() => {
-            var _props$resource$Resou, _props$resource6, _props$resource6$Reso;
-            return (_props$resource$Resou = (_props$resource6 = props.resource) === null || _props$resource6 === void 0 ? void 0 : (_props$resource6$Reso = _props$resource6.ResourcePreferenceList) === null || _props$resource6$Reso === void 0 ? void 0 : _props$resource6$Reso.filter(a => a.ScheduleName)) !== null && _props$resource$Resou !== void 0 ? _props$resource$Resou : [];
+            var _props$resource$Resou, _props$resource7, _props$resource7$Reso;
+            return (_props$resource$Resou = (_props$resource7 = props.resource) === null || _props$resource7 === void 0 ? void 0 : (_props$resource7$Reso = _props$resource7.ResourcePreferenceList) === null || _props$resource7$Reso === void 0 ? void 0 : _props$resource7$Reso.filter(a => a.ScheduleName)) !== null && _props$resource$Resou !== void 0 ? _props$resource$Resou : [];
           });
           var preferenceTooltip = computed(() => {
-            var _props$resource7;
+            var _props$resource8;
             var tooltip = "";
-            if (((_props$resource7 = props.resource) === null || _props$resource7 === void 0 ? void 0 : _props$resource7.MatchesPreference) === Preference.notMatches && preferenceList.value.length) {
+            if (((_props$resource8 = props.resource) === null || _props$resource8 === void 0 ? void 0 : _props$resource8.MatchesPreference) === Preference.notMatches && preferenceList.value.length) {
               tooltip += "<div class='font-weight-semibold'>Preference</div>";
               preferenceList.value.forEach(preference => {
                 var locationName = preference.LocationName ? " - ".concat(preference.LocationName) : "";
                 tooltip += "<div>".concat(preference.ScheduleName).concat(locationName, "</div>");
               });
             }
-            return tooltip;
+            return tooltip ? wrapTooltipSection(tooltip) : "";
           });
           var schedulingConflictList = computed(() => {
-            var _props$resource$Sched, _props$resource8, _props$resource8$Sche;
-            return (_props$resource$Sched = (_props$resource8 = props.resource) === null || _props$resource8 === void 0 ? void 0 : (_props$resource8$Sche = _props$resource8.SchedulingConflicts) === null || _props$resource8$Sche === void 0 ? void 0 : _props$resource8$Sche.filter(a => a.ScheduleName)) !== null && _props$resource$Sched !== void 0 ? _props$resource$Sched : [];
+            var _props$resource$Sched, _props$resource9, _props$resource9$Sche;
+            return (_props$resource$Sched = (_props$resource9 = props.resource) === null || _props$resource9 === void 0 ? void 0 : (_props$resource9$Sche = _props$resource9.SchedulingConflicts) === null || _props$resource9$Sche === void 0 ? void 0 : _props$resource9$Sche.filter(a => a.ScheduleName)) !== null && _props$resource$Sched !== void 0 ? _props$resource$Sched : [];
           });
           var conflictTooltip = computed(() => {
-            var _props$resource9, _props$resource10, _schedulingConflictLi;
+            var _schedulingConflictLi, _props$resource10, _props$resource11;
             var tooltip = "";
-            if ((_props$resource9 = props.resource) !== null && _props$resource9 !== void 0 && _props$resource9.HasBlackoutConflict) {
-              tooltip += "<div class='conflict-type'>Cannot be scheduled due to a blackout.</div>";
-            }
-            if ((_props$resource10 = props.resource) !== null && _props$resource10 !== void 0 && _props$resource10.HasGroupRequirementsConflict) {
-              tooltip += "<div class='conflict-type'>Does not meet the requirements for this group.</div>";
-            }
             if ((_schedulingConflictLi = schedulingConflictList.value) !== null && _schedulingConflictLi !== void 0 && _schedulingConflictLi.length) {
-              tooltip += "<div class='conflict-type font-weight-semibold'>Scheduling Conflicts:</div>";
               schedulingConflictList.value.forEach(conflict => {
                 var locationName = conflict.LocationName ? " - ".concat(conflict.LocationName) : "";
                 tooltip += "<div>".concat(conflict.ScheduleName).concat(locationName, "</div>");
               });
             }
-            return tooltip;
+            if ((_props$resource10 = props.resource) !== null && _props$resource10 !== void 0 && _props$resource10.HasBlackoutConflict) {
+              tooltip += "<div>Cannot be scheduled due to a blackout.</div>";
+            }
+            if ((_props$resource11 = props.resource) !== null && _props$resource11 !== void 0 && _props$resource11.HasGroupRequirementsConflict) {
+              tooltip += "<div>Does not meet the requirements for this group.</div>";
+            }
+            if (tooltip) {
+              tooltip = "<div class='font-weight-semibold'>Scheduling Conflicts</div>".concat(tooltip);
+            }
+            return tooltip ? wrapTooltipSection(tooltip) : "";
+          });
+          var resourceTooltip = computed(() => {
+            return "".concat(declinedReasonTooltip.value).concat(preferenceTooltip.value).concat(conflictTooltip.value);
           });
           function getFriendlyAction(action) {
             switch (action) {
@@ -877,14 +1009,12 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
                 return "updating ".concat(personName.value);
             }
           }
-          function configureTooltips() {
-            if (conflictElement.value) {
-              tooltip(conflictElement.value, {
-                html: true
-              });
-            }
-            if (preferenceElement.value) {
-              tooltip(preferenceElement.value, {
+          function wrapTooltipSection(tooltipSection) {
+            return "<div class=\"tooltip-section\">".concat(tooltipSection, "</div>");
+          }
+          function configureTooltip() {
+            if (resourceNameElement.value) {
+              tooltip(resourceNameElement.value, {
                 html: true
               });
             }
@@ -932,11 +1062,8 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
             });
             return _onUpdateResource.apply(this, arguments);
           }
-          watch([conflictElement, preferenceElement], () => {
-            configureTooltips();
-          });
-          watch([conflictTooltip, preferenceTooltip], () => {
-            configureTooltips();
+          watch([resourceNameElement, resourceTooltip], () => {
+            configureTooltip();
           });
           watch(isUpdatingPreference, () => {
             if (!isUpdatingPreference.value) {
@@ -944,63 +1071,58 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
             }
           });
           return (_ctx, _cache) => {
-            var _props$resource11;
-            return openBlock(), createElementBlock(Fragment, null, [__props.resource ? (openBlock(), createElementBlock("li", _hoisted_1$9, [createElementVNode("img", {
-              src: imgSrc.value,
-              class: normalizeClass(unref(imgCssClass)),
-              draggable: "false"
-            }, null, 10, _hoisted_2$9), createElementVNode("span", _hoisted_3$9, [createTextVNode(toDisplayString(personName.value) + " ", 1), unref(conflictTooltip) ? (openBlock(), createElementBlock("i", {
+            var _props$resource12;
+            return openBlock(), createElementBlock(Fragment, null, [__props.resource ? (openBlock(), createElementBlock("li", {
               key: 0,
-              ref_key: "conflictElement",
-              ref: conflictElement,
-              class: "fa fa-exclamation-triangle",
+              class: normalizeClass(unref(resourceCssClass))
+            }, [createElementVNode("img", {
+              src: imgSrc.value,
+              class: "avatar",
+              draggable: "false"
+            }, null, 8, _hoisted_1$b), createElementVNode("span", {
+              ref_key: "resourceNameElement",
+              ref: resourceNameElement,
+              class: "resource-name",
               "data-toggle": "tooltip",
-              title: unref(conflictTooltip)
-            }, null, 8, _hoisted_4$7)) : createCommentVNode("v-if", true), unref(preferenceTooltip) ? (openBlock(), createElementBlock("i", {
-              key: 1,
-              ref_key: "preferenceElement",
-              ref: preferenceElement,
-              class: "fa fa-minus-circle",
-              "data-toggle": "tooltip",
-              title: unref(preferenceTooltip)
-            }, null, 8, _hoisted_5$6)) : createCommentVNode("v-if", true)]), createElementVNode("span", _hoisted_6$6, toDisplayString((_props$resource11 = __props.resource) === null || _props$resource11 === void 0 ? void 0 : _props$resource11.GroupRoleName), 1), withDirectives((openBlock(), createElementBlock("div", _hoisted_7$5, [createElementVNode("button", {
+              "data-original-title": unref(resourceTooltip)
+            }, [createTextVNode(toDisplayString(personName.value) + " ", 1), unref(conflictTooltip) ? (openBlock(), createElementBlock("i", _hoisted_3$9)) : createCommentVNode("v-if", true), unref(preferenceTooltip) ? (openBlock(), createElementBlock("i", _hoisted_4$7)) : createCommentVNode("v-if", true)], 8, _hoisted_2$a), createElementVNode("span", _hoisted_5$7, toDisplayString((_props$resource12 = __props.resource) === null || _props$resource12 === void 0 ? void 0 : _props$resource12.GroupRoleName), 1), withDirectives((openBlock(), createElementBlock("div", _hoisted_6$6, [createElementVNode("button", {
               type: "button",
               class: "btn btn-link btn-overflow",
               "data-toggle": "dropdown",
               "aria-haspopup": "true",
               "aria-expanded": "false",
               disabled: unref(isSchedulingDisabled)
-            }, _hoisted_10$2, 8, _hoisted_8$4), createElementVNode("ul", _hoisted_11$2, [createElementVNode("li", null, [createElementVNode("button", {
+            }, _hoisted_9$3, 8, _hoisted_7$5), createElementVNode("ul", _hoisted_10$2, [createElementVNode("li", null, [createElementVNode("button", {
               type: "button",
               class: "dropdown-item btn-link",
               disabled: unref(isSchedulingDisabled),
               onClick: _cache[0] || (_cache[0] = $event => onUpdateResource(unref(ResourceAction).MarkConfirmed))
-            }, " Mark Confirmed ", 8, _hoisted_12$1)]), createElementVNode("li", null, [createElementVNode("button", {
+            }, " Mark Confirmed ", 8, _hoisted_11$2)]), createElementVNode("li", null, [createElementVNode("button", {
               type: "button",
               class: "dropdown-item btn-link",
               disabled: unref(isSchedulingDisabled),
               onClick: _cache[1] || (_cache[1] = $event => onUpdateResource(unref(ResourceAction).MarkPending))
-            }, " Mark Pending ", 8, _hoisted_13$1)]), createElementVNode("li", null, [createElementVNode("button", {
+            }, " Mark Pending ", 8, _hoisted_12$2)]), createElementVNode("li", null, [createElementVNode("button", {
               type: "button",
               class: "dropdown-item btn-link",
               disabled: unref(isSchedulingDisabled),
               onClick: _cache[2] || (_cache[2] = $event => onUpdateResource(unref(ResourceAction).MarkDeclined))
-            }, " Mark Declined ", 8, _hoisted_14$1)]), createElementVNode("li", null, [createElementVNode("button", {
+            }, " Mark Declined ", 8, _hoisted_13$1)]), createElementVNode("li", null, [createElementVNode("button", {
               type: "button",
               class: "dropdown-item btn-link",
               disabled: unref(isSchedulingDisabled),
               onClick: _cache[3] || (_cache[3] = $event => onUpdateResource(unref(ResourceAction).ResendConfirmation))
-            }, " Resend Confirmation ", 8, _hoisted_15$1)]), unref(groupMemberId) ? (openBlock(), createElementBlock("li", _hoisted_16$1, [createElementVNode("button", {
+            }, " Resend Confirmation ", 8, _hoisted_14$1)]), unref(groupMemberId) ? (openBlock(), createElementBlock("li", _hoisted_15$1, [createElementVNode("button", {
               type: "button",
               class: "dropdown-item btn-link",
               disabled: unref(isSchedulingDisabled),
               onClick: _cache[4] || (_cache[4] = $event => onUpdateResource(unref(ResourceAction).UpdatePreference))
-            }, " Update Preference ", 8, _hoisted_17$1)])) : createCommentVNode("v-if", true), createElementVNode("li", null, [createElementVNode("button", {
+            }, " Update Preference ", 8, _hoisted_16$1)])) : createCommentVNode("v-if", true), createElementVNode("li", null, [createElementVNode("button", {
               type: "button",
               class: "dropdown-item dropdown-item-danger btn-link",
               disabled: unref(isSchedulingDisabled),
               onClick: _cache[5] || (_cache[5] = $event => onUpdateResource(unref(ResourceAction).Remove))
-            }, " Remove ", 8, _hoisted_18$1)])])])), [[unref(NoDragScroll)]])])) : createCommentVNode("v-if", true), createVNode(unref(script$a), {
+            }, " Remove ", 8, _hoisted_17$1)])])])), [[unref(NoDragScroll)]])], 2)) : createCommentVNode("v-if", true), createVNode(unref(script$c), {
               isVisible: isUpdatingPreference.value,
               "onUpdate:isVisible": _cache[6] || (_cache[6] = $event => isUpdatingPreference.value = $event),
               occurrence: __props.occurrence,
@@ -1011,13 +1133,13 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
         }
       });
 
-      script$9.__file = "src/Group/Scheduling/GroupScheduler/scheduledResource.partial.obs";
+      script$b.__file = "src/Group/Scheduling/GroupScheduler/scheduledResource.partial.obs";
 
-      var _hoisted_1$8 = {
+      var _hoisted_1$a = {
         key: 0,
         class: "resource-notes-section"
       };
-      var _hoisted_2$8 = {
+      var _hoisted_2$9 = {
         key: 1,
         class: "resource-notes-section"
       };
@@ -1028,7 +1150,7 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
       var _hoisted_4$6 = createElementVNode("div", {
         class: "resource-notes-header"
       }, "Conflicts", -1);
-      var _hoisted_5$5 = {
+      var _hoisted_5$6 = {
         key: 3,
         class: "resource-notes-section"
       };
@@ -1046,7 +1168,7 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
         key: 5,
         class: "resource-notes-section"
       };
-      var script$8 = defineComponent({
+      var script$a = defineComponent({
         name: 'resourceNotes.partial',
         props: {
           resource: {
@@ -1095,14 +1217,14 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
             return unref(shouldShow) ? (openBlock(), createElementBlock("div", {
               key: 0,
               class: normalizeClass(unref(cssClass))
-            }, [unref(hasBlackoutConflict) ? (openBlock(), createElementBlock("div", _hoisted_1$8, " Cannot be scheduled due to a blackout. ")) : createCommentVNode("v-if", true), unref(hasGroupRequirementsConflict) ? (openBlock(), createElementBlock("div", _hoisted_2$8, " Does not meet the requirements for this group. ")) : createCommentVNode("v-if", true), unref(schedulingConflictList).length ? (openBlock(), createElementBlock("div", _hoisted_3$8, [_hoisted_4$6, (openBlock(true), createElementBlock(Fragment, null, renderList(unref(schedulingConflictList), conflict => {
+            }, [unref(hasBlackoutConflict) ? (openBlock(), createElementBlock("div", _hoisted_1$a, " Cannot be scheduled due to a blackout. ")) : createCommentVNode("v-if", true), unref(hasGroupRequirementsConflict) ? (openBlock(), createElementBlock("div", _hoisted_2$9, " Does not meet the requirements for this group. ")) : createCommentVNode("v-if", true), unref(schedulingConflictList).length ? (openBlock(), createElementBlock("div", _hoisted_3$8, [_hoisted_4$6, (openBlock(true), createElementBlock(Fragment, null, renderList(unref(schedulingConflictList), conflict => {
               return openBlock(), createElementBlock("div", {
                 key: "conflict-".concat(conflict.ScheduleId, "-").concat(conflict.LocationId),
                 class: "resource-schedule-conflict"
               }, [createTextVNode(toDisplayString(conflict.ScheduleName) + " ", 1), conflict.LocationName ? (openBlock(), createElementBlock(Fragment, {
                 key: 0
               }, [createTextVNode(" - " + toDisplayString(conflict.LocationName), 1)], 64)) : createCommentVNode("v-if", true)]);
-            }), 128))])) : createCommentVNode("v-if", true), unref(preferenceList).length ? (openBlock(), createElementBlock("div", _hoisted_5$5, [_hoisted_6$5, (openBlock(true), createElementBlock(Fragment, null, renderList(unref(preferenceList), preference => {
+            }), 128))])) : createCommentVNode("v-if", true), unref(preferenceList).length ? (openBlock(), createElementBlock("div", _hoisted_5$6, [_hoisted_6$5, (openBlock(true), createElementBlock(Fragment, null, renderList(unref(preferenceList), preference => {
               return openBlock(), createElementBlock("div", {
                 key: "preference-".concat(preference.ScheduleId, "-").concat(preference.LocationId),
                 class: "resource-preference"
@@ -1121,24 +1243,24 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
         }
       });
 
-      script$8.__file = "src/Group/Scheduling/GroupScheduler/resourceNotes.partial.obs";
+      script$a.__file = "src/Group/Scheduling/GroupScheduler/resourceNotes.partial.obs";
 
-      var _hoisted_1$7 = {
+      var _hoisted_1$9 = {
         class: "control-wrapper"
       };
-      var _hoisted_2$7 = {
+      var _hoisted_2$8 = {
         class: "controls rockcheckboxlist rockcheckboxlist-vertical input-group"
       };
       var _hoisted_3$7 = ["for"];
       var _hoisted_4$5 = ["id", "name", "value", "disabled"];
-      var _hoisted_5$4 = {
+      var _hoisted_5$5 = {
         class: "label-text resource-name"
       };
       var _hoisted_6$4 = {
         key: 0,
         class: "small text-muted"
       };
-      var script$7 = defineComponent({
+      var script$9 = defineComponent({
         name: 'availableResources.partial',
         props: {
           modelValue: {
@@ -1169,7 +1291,7 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
               formGroupClasses: "check-box-list",
               name: "check-box-list"
             }, {
-              default: withCtx(() => [createElementVNode("div", _hoisted_1$7, [createElementVNode("div", _hoisted_2$7, [(openBlock(true), createElementBlock(Fragment, null, renderList(__props.resources, resource => {
+              default: withCtx(() => [createElementVNode("div", _hoisted_1$9, [createElementVNode("div", _hoisted_2$8, [(openBlock(true), createElementBlock(Fragment, null, renderList(__props.resources, resource => {
                 var _resource$GroupRole;
                 return openBlock(), createElementBlock("div", {
                   key: resource.PersonId,
@@ -1183,7 +1305,7 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
                   name: resource.PersonId.toString(),
                   value: resource.PersonId,
                   disabled: __props.disabled || getIsDisabled(resource)
-                }, null, 8, _hoisted_4$5), [[vModelCheckbox, unref(selectedResources)]]), createElementVNode("span", _hoisted_5$4, [createTextVNode(toDisplayString(resource.PersonName) + " ", 1), (_resource$GroupRole = resource.GroupRole) !== null && _resource$GroupRole !== void 0 && _resource$GroupRole.Name ? (openBlock(), createElementBlock("span", _hoisted_6$4, toDisplayString(resource.GroupRole.Name), 1)) : createCommentVNode("v-if", true)])], 8, _hoisted_3$7), createVNode(unref(script$8), {
+                }, null, 8, _hoisted_4$5), [[vModelCheckbox, unref(selectedResources)]]), createElementVNode("span", _hoisted_5$5, [createTextVNode(toDisplayString(resource.PersonName) + " ", 1), (_resource$GroupRole = resource.GroupRole) !== null && _resource$GroupRole !== void 0 && _resource$GroupRole.Name ? (openBlock(), createElementBlock("span", _hoisted_6$4, toDisplayString(resource.GroupRole.Name), 1)) : createCommentVNode("v-if", true)])], 8, _hoisted_3$7), createVNode(unref(script$a), {
                   resource: resource,
                   disabled: getIsDisabled(resource)
                 }, null, 8, ["resource", "disabled"])]);
@@ -1194,43 +1316,115 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
         }
       });
 
-      script$7.__file = "src/Group/Scheduling/GroupScheduler/availableResources.partial.obs";
+      script$9.__file = "src/Group/Scheduling/GroupScheduler/availableResources.partial.obs";
 
-      var _hoisted_1$6 = {
+      var _hoisted_1$8 = createElementVNode("div", {
+        class: "input-group-addon"
+      }, [createElementVNode("i", {
+        class: "fa fa-search"
+      })], -1);
+      var script$8 = defineComponent({
+        name: 'resourceFilterByName.partial',
+        props: {
+          modelValue: {
+            type: String,
+            required: true
+          },
+          disabled: {
+            type: Boolean,
+            default: false
+          }
+        },
+        emits: ["update:modelValue"],
+        setup(__props, _ref) {
+          var emit = _ref.emit;
+          var props = __props;
+          var nameFilter = useVModelPassthrough(props, "modelValue", emit);
+          var isDisabled = computed(() => {
+            return props.disabled;
+          });
+          var hasFilter = computed(() => {
+            return !!nameFilter.value;
+          });
+          var clearButtonCssClass = computed(() => {
+            return {
+              "input-group-addon": true,
+              "clickable": !isDisabled.value && hasFilter.value
+            };
+          });
+          var clearIconCssClass = computed(() => {
+            return {
+              "fa fa-times": true,
+              "text-muted": isDisabled.value || !hasFilter.value
+            };
+          });
+          function onClearClick() {
+            if (isDisabled.value) {
+              return;
+            }
+            nameFilter.value = "";
+          }
+          return (_ctx, _cache) => {
+            return openBlock(), createBlock(unref(TextBox), {
+              modelValue: unref(nameFilter),
+              "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => isRef(nameFilter) ? nameFilter.value = $event : null),
+              placeholder: "Search",
+              size: "small",
+              disabled: __props.disabled
+            }, {
+              inputGroupPrepend: withCtx(() => [_hoisted_1$8]),
+              inputGroupAppend: withCtx(() => [createElementVNode("div", {
+                class: normalizeClass(unref(clearButtonCssClass)),
+                onClick: onClearClick
+              }, [createElementVNode("i", {
+                class: normalizeClass(unref(clearIconCssClass))
+              }, null, 2)], 2)]),
+              _: 1
+            }, 8, ["modelValue", "disabled"]);
+          };
+        }
+      });
+
+      script$8.__file = "src/Group/Scheduling/GroupScheduler/resourceFilterByName.partial.obs";
+
+      var _hoisted_1$7 = {
         class: "d-md-flex justify-content-md-between"
       };
-      var _hoisted_2$6 = {
-        class: "d-none d-md-block form-group"
+      var _hoisted_2$7 = {
+        class: "resource-sources"
       };
       var _hoisted_3$6 = {
-        class: "d-md-none form-group"
+        class: "d-none d-md-block form-group"
       };
       var _hoisted_4$4 = {
+        class: "d-md-none form-group"
+      };
+      var _hoisted_5$4 = {
         key: 1,
         class: "form-group"
       };
-      var _hoisted_5$3 = {
+      var _hoisted_6$3 = {
         key: 2,
         class: "form-group"
       };
-      var _hoisted_6$3 = {
+      var _hoisted_7$3 = {
         key: 3
       };
-      var _hoisted_7$3 = {
+      var _hoisted_8$2 = {
         class: "d-none d-md-block form-group"
       };
-      var _hoisted_8$2 = {
+      var _hoisted_9$1 = {
         class: "d-md-none form-group"
       };
-      var _hoisted_9$1 = {
+      var _hoisted_10$1 = {
         key: 0,
-        class: "form-group"
+        class: "mb-0 mb-md-2"
       };
-      var _hoisted_10$1 = createTextVNode(" Some assignments were unsuccessful. ");
-      var _hoisted_11$1 = {
+      var _hoisted_11$1 = createTextVNode(" Some assignments were unsuccessful. ");
+      var _hoisted_12$1 = {
         key: 2
       };
-      var script$6 = defineComponent({
+      var script$7 = defineComponent({
         name: 'selectIndividuals.partial',
         props: {
           isVisible: {
@@ -1273,6 +1467,7 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
           var selectedDataView = ref(null);
           var availableResources = ref([]);
           var selectedPersonIds = ref([]);
+          var resourceNameFilter = ref("");
           var occurrenceTitle = computed(() => {
             var o = props.occurrence;
             var titleParts = [];
@@ -1366,6 +1561,10 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
               };
             }
           });
+          var remainingSpotsAndNameFilterCssClass = computed(() => {
+            var justifyClass = remainingResourceSpots.value ? "justify-content-between" : "justify-content-end";
+            return "d-flex flex-column-reverse flex-md-column ".concat(justifyClass, " align-items-start align-items-md-end form-group");
+          });
           var groupId = computed(() => {
             var _props$occurrence$gro, _props$occurrence6;
             return (_props$occurrence$gro = (_props$occurrence6 = props.occurrence) === null || _props$occurrence6 === void 0 ? void 0 : _props$occurrence6.groupId) !== null && _props$occurrence$gro !== void 0 ? _props$occurrence$gro : 0;
@@ -1388,10 +1587,54 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
             var _resourceSettings$val3, _resourceSettings$val4;
             return (_resourceSettings$val3 = (_resourceSettings$val4 = resourceSettings.value) === null || _resourceSettings$val4 === void 0 ? void 0 : _resourceSettings$val4.resourceGroupMemberFilterType) !== null && _resourceSettings$val3 !== void 0 ? _resourceSettings$val3 : 1;
           });
+          var filteredResources = computed(() => {
+            var _resourceNameFilter$v;
+            var filter = (_resourceNameFilter$v = resourceNameFilter.value) === null || _resourceNameFilter$v === void 0 ? void 0 : _resourceNameFilter$v.trim().replace(/\s+/g, " ");
+            if (!filter || filter.length < 2) {
+              return availableResources.value;
+            }
+            var filterParts;
+            var lastNameFilter;
+            var firstNameFilter;
+            var useOrComparison = false;
+            if (filter.includes(",")) {
+              filterParts = filter.split(",");
+              lastNameFilter = filterParts[0].trim();
+              firstNameFilter = filterParts[1].trim();
+            } else if (filter.includes(" ")) {
+              filterParts = filter.split(" ");
+              lastNameFilter = filterParts[1];
+              firstNameFilter = filterParts[0];
+            } else {
+              lastNameFilter = filter;
+              firstNameFilter = filter;
+              useOrComparison = true;
+            }
+            lastNameFilter = lastNameFilter.toUpperCase();
+            firstNameFilter = firstNameFilter.toUpperCase();
+            return availableResources.value.filter(resource => {
+              if (useOrComparison) {
+                var _resource$PersonNickN, _resource$PersonLastN;
+                return !!((_resource$PersonNickN = resource.PersonNickName) !== null && _resource$PersonNickN !== void 0 && _resource$PersonNickN.toUpperCase().startsWith(firstNameFilter)) || !!((_resource$PersonLastN = resource.PersonLastName) !== null && _resource$PersonLastN !== void 0 && _resource$PersonLastN.toUpperCase().startsWith(lastNameFilter));
+              } else {
+                var _resource$PersonNickN2, _resource$PersonLastN2;
+                return !!((_resource$PersonNickN2 = resource.PersonNickName) !== null && _resource$PersonNickN2 !== void 0 && _resource$PersonNickN2.toUpperCase().startsWith(firstNameFilter)) && !!((_resource$PersonLastN2 = resource.PersonLastName) !== null && _resource$PersonLastN2 !== void 0 && _resource$PersonLastN2.toUpperCase().startsWith(lastNameFilter));
+              }
+            });
+          });
+          var noResourcesMessage = computed(() => {
+            if (loadResourcesInfoMessage.value) {
+              return loadResourcesInfoMessage.value;
+            }
+            return filteredResources.value.length ? "" : "No individuals available for selection.";
+          });
           var isBusy = computed(() => {
             return isLoadingResourceSettings.value || isLoadingResources.value || isAssigningResources.value;
           });
-          var saveButtonDisabled = computed(() => {
+          var isNameFilterDisabled = computed(() => {
+            return isBusy.value || !availableResources.value.length;
+          });
+          var isSaveButtonDisabled = computed(() => {
             var _selectedPersonIds$va2;
             return isBusy.value || selectedSourceType.value === undefined || !((_selectedPersonIds$va2 = selectedPersonIds.value) !== null && _selectedPersonIds$va2 !== void 0 && _selectedPersonIds$va2.length);
           });
@@ -1421,12 +1664,19 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
             return _getResourceSettings.apply(this, arguments);
           }
           function updateSettingsValues() {
-            if (primarySourceTypeItems.value.length === 1 && primarySourceTypeItems.value[0].value === primarySourceTypeGroupValue) {
-              selectedPrimarySourceType.value = primarySourceTypeGroupValue;
+            var _resourceSettings$val5, _resourceSettings$val6, _resourceSettings$val7, _resourceSettings$val8, _resourceSettings$val9;
+            var sourceType = (_resourceSettings$val5 = resourceSettings.value) === null || _resourceSettings$val5 === void 0 ? void 0 : _resourceSettings$val5.resourceListSourceType;
+            if (sourceType !== undefined) {
+              if (secondarySourceTypes.some(secondary => secondary === sourceType)) {
+                selectedPrimarySourceType.value = primarySourceTypeGroupValue;
+                selectedSecondarySourceType.value = sourceType.toString();
+              } else {
+                selectedPrimarySourceType.value = sourceType.toString();
+              }
             }
-            nextTick(() => {
-              getResources();
-            });
+            selectedAlternateGroup.value = (_resourceSettings$val6 = (_resourceSettings$val7 = resourceSettings.value) === null || _resourceSettings$val7 === void 0 ? void 0 : _resourceSettings$val7.resourceAlternateGroup) !== null && _resourceSettings$val6 !== void 0 ? _resourceSettings$val6 : null;
+            selectedDataView.value = (_resourceSettings$val8 = (_resourceSettings$val9 = resourceSettings.value) === null || _resourceSettings$val9 === void 0 ? void 0 : _resourceSettings$val9.resourceDataView) !== null && _resourceSettings$val8 !== void 0 ? _resourceSettings$val8 : null;
+            getResources();
           }
           function getResources() {
             return _getResources.apply(this, arguments);
@@ -1457,7 +1707,7 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
                   loadResourcesInfoMessage.value = "Select an alternate group to continue.";
                   return;
                 }
-                parameters.ResourceGroupGuid = selectedAlternateGroup.value.value;
+                parameters.ResourceGroupGuid = toGuidOrNull(selectedAlternateGroup.value.value);
               } else if (selectedSourceTypeIsParentGroup.value) {
                 if (!parentGroupId.value) {
                   availableResources.value = [];
@@ -1471,9 +1721,10 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
                   loadResourcesInfoMessage.value = "Select a data view to continue.";
                   return;
                 }
-                parameters.ResourceDataViewGuid = selectedDataView.value.value;
+                parameters.ResourceDataViewGuid = toGuidOrNull(selectedDataView.value.value);
               }
               isLoadingResources.value = true;
+              loadResourcesInfoMessage.value = "";
               loadResourcesErrorMessage.value = "";
               var result = yield http.post("".concat(baseApiUrl, "/GetSchedulerResources"), null, parameters);
               isLoadingResources.value = false;
@@ -1483,7 +1734,6 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
                 return;
               }
               availableResources.value = (_result$data = result.data) !== null && _result$data !== void 0 ? _result$data : [];
-              loadResourcesInfoMessage.value = availableResources.value.length ? "" : "No individuals available for selection.";
             });
             return _getResources.apply(this, arguments);
           }
@@ -1501,8 +1751,8 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
               var bag = {
                 groupId: groupId.value,
                 resourceListSourceType: selectedSourceType.value,
-                resourceAlternateGroupGuid: (_selectedAlternateGro = selectedAlternateGroup.value) === null || _selectedAlternateGro === void 0 ? void 0 : _selectedAlternateGro.value,
-                resourceDataViewGuid: (_selectedDataView$val = selectedDataView.value) === null || _selectedDataView$val === void 0 ? void 0 : _selectedDataView$val.value
+                resourceAlternateGroupGuid: toGuidOrNull((_selectedAlternateGro = selectedAlternateGroup.value) === null || _selectedAlternateGro === void 0 ? void 0 : _selectedAlternateGro.value),
+                resourceDataViewGuid: toGuidOrNull((_selectedDataView$val = selectedDataView.value) === null || _selectedDataView$val === void 0 ? void 0 : _selectedDataView$val.value)
               };
               var result = yield invokeBlockAction("ApplyResourceSettings", {
                 bag
@@ -1566,6 +1816,7 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
           watch(isVisible, () => {
             if (isVisible.value) {
               getResourceSettings();
+              resourceNameFilter.value = "";
             } else {
               isLoadingResourceSettings.value = false;
               isLoadingResources.value = false;
@@ -1582,11 +1833,11 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
           return (_ctx, _cache) => {
             return openBlock(), createBlock(unref(Modal), {
               modelValue: unref(isVisible),
-              "onUpdate:modelValue": _cache[7] || (_cache[7] = $event => isRef(isVisible) ? isVisible.value = $event : null),
+              "onUpdate:modelValue": _cache[8] || (_cache[8] = $event => isRef(isVisible) ? isVisible.value = $event : null),
               title: "Select Individuals",
               saveText: "Assign",
               subtitle: unref(occurrenceTitle),
-              saveButtonDisabled: unref(saveButtonDisabled),
+              isSaveButtonDisabled: unref(isSaveButtonDisabled),
               onSave: onSave
             }, {
               default: withCtx(() => [loadResourceSettingsErrorMessage.value ? (openBlock(), createBlock(unref(NotificationBox), {
@@ -1597,45 +1848,55 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
                 _: 1
               }, 8, ["alertType"])) : (openBlock(), createElementBlock(Fragment, {
                 key: 1
-              }, [createElementVNode("div", _hoisted_1$6, [createElementVNode("div", null, [unref(primarySourceTypeItems).length > 1 ? (openBlock(), createElementBlock(Fragment, {
+              }, [createElementVNode("div", _hoisted_1$7, [createElementVNode("div", _hoisted_2$7, [unref(primarySourceTypeItems).length > 1 ? (openBlock(), createElementBlock(Fragment, {
                 key: 0
-              }, [createCommentVNode(" Desktop "), createElementVNode("div", _hoisted_2$6, [createVNode(unref(ButtonGroup), {
+              }, [createCommentVNode(" Desktop "), createElementVNode("div", _hoisted_3$6, [createVNode(unref(ButtonGroup), {
                 modelValue: selectedPrimarySourceType.value,
                 "onUpdate:modelValue": [_cache[0] || (_cache[0] = $event => selectedPrimarySourceType.value = $event), onSettingsSelectionChanged],
                 items: unref(primarySourceTypeItems),
                 disabled: unref(isBusy)
-              }, null, 8, ["modelValue", "items", "disabled"])]), createCommentVNode(" Mobile "), createElementVNode("div", _hoisted_3$6, [createVNode(unref(DropDownList), {
+              }, null, 8, ["modelValue", "items", "disabled"])]), createCommentVNode(" Mobile "), createElementVNode("div", _hoisted_4$4, [createVNode(unref(DropDownList), {
                 modelValue: selectedPrimarySourceType.value,
                 "onUpdate:modelValue": [_cache[1] || (_cache[1] = $event => selectedPrimarySourceType.value = $event), onSettingsSelectionChanged],
                 items: unref(primarySourceTypeItems),
                 showBlankItem: false,
                 disabled: unref(isBusy)
-              }, null, 8, ["modelValue", "items", "disabled"])])], 64)) : createCommentVNode("v-if", true), unref(selectedSourceTypeIsAlternateGroup) ? (openBlock(), createElementBlock("div", _hoisted_4$4, [createVNode(unref(GroupPicker), {
+              }, null, 8, ["modelValue", "items", "disabled"])])], 64)) : createCommentVNode("v-if", true), unref(selectedSourceTypeIsAlternateGroup) ? (openBlock(), createElementBlock("div", _hoisted_5$4, [createVNode(unref(GroupPicker), {
                 modelValue: selectedAlternateGroup.value,
                 "onUpdate:modelValue": [_cache[2] || (_cache[2] = $event => selectedAlternateGroup.value = $event), onSettingsSelectionChanged],
                 disabled: unref(isBusy)
-              }, null, 8, ["modelValue", "disabled"])])) : createCommentVNode("v-if", true), unref(selectedSourceTypeIsDataView) ? (openBlock(), createElementBlock("div", _hoisted_5$3, [createVNode(unref(DataViewPicker), {
+              }, null, 8, ["modelValue", "disabled"])])) : createCommentVNode("v-if", true), unref(selectedSourceTypeIsDataView) ? (openBlock(), createElementBlock("div", _hoisted_6$3, [createVNode(unref(DataViewPicker), {
                 modelValue: selectedDataView.value,
                 "onUpdate:modelValue": [_cache[3] || (_cache[3] = $event => selectedDataView.value = $event), onSettingsSelectionChanged],
                 entityTypeGuid: unref(EntityType).Person,
                 disabled: unref(isBusy)
-              }, null, 8, ["modelValue", "entityTypeGuid", "disabled"])])) : createCommentVNode("v-if", true), unref(groupName) ? (openBlock(), createElementBlock("h4", _hoisted_6$3, toDisplayString(unref(groupName)), 1)) : createCommentVNode("v-if", true), unref(selectedSourceTypeIsGroup) ? (openBlock(), createElementBlock(Fragment, {
+              }, null, 8, ["modelValue", "entityTypeGuid", "disabled"])])) : createCommentVNode("v-if", true), unref(groupName) ? (openBlock(), createElementBlock("h4", _hoisted_7$3, toDisplayString(unref(groupName)), 1)) : createCommentVNode("v-if", true), unref(selectedSourceTypeIsGroup) ? (openBlock(), createElementBlock(Fragment, {
                 key: 4
-              }, [createCommentVNode(" Desktop "), createElementVNode("div", _hoisted_7$3, [createVNode(unref(ButtonGroup), {
+              }, [createCommentVNode(" Desktop "), createElementVNode("div", _hoisted_8$2, [createVNode(unref(ButtonGroup), {
                 modelValue: selectedSecondarySourceType.value,
                 "onUpdate:modelValue": [_cache[4] || (_cache[4] = $event => selectedSecondarySourceType.value = $event), onSettingsSelectionChanged],
                 items: unref(secondarySourceTypeItems),
                 btnSize: unref(BtnSize).ExtraSmall,
                 disabled: unref(isBusy)
-              }, null, 8, ["modelValue", "items", "btnSize", "disabled"])]), createCommentVNode(" Mobile "), createElementVNode("div", _hoisted_8$2, [createVNode(unref(DropDownList), {
+              }, null, 8, ["modelValue", "items", "btnSize", "disabled"])]), createCommentVNode(" Mobile "), createElementVNode("div", _hoisted_9$1, [createVNode(unref(DropDownList), {
                 modelValue: selectedSecondarySourceType.value,
                 "onUpdate:modelValue": [_cache[5] || (_cache[5] = $event => selectedSecondarySourceType.value = $event), onSettingsSelectionChanged],
                 items: unref(secondarySourceTypeItems),
                 showBlankItem: false,
                 disabled: unref(isBusy)
-              }, null, 8, ["modelValue", "items", "disabled"])])], 64)) : createCommentVNode("v-if", true)]), unref(remainingResourceSpots) ? (openBlock(), createElementBlock("div", _hoisted_9$1, [createElementVNode("span", {
+              }, null, 8, ["modelValue", "items", "disabled"])])], 64)) : createCommentVNode("v-if", true)]), createElementVNode("div", {
+                class: normalizeClass(unref(remainingSpotsAndNameFilterCssClass))
+              }, [unref(remainingResourceSpots) ? (openBlock(), createElementBlock("div", _hoisted_10$1, [createElementVNode("span", {
                 class: normalizeClass(unref(remainingResourceSpots).cssClass)
-              }, toDisplayString(unref(remainingResourceSpots).label), 3)])) : createCommentVNode("v-if", true)]), createVNode(unref(Loading), {
+              }, toDisplayString(unref(remainingResourceSpots).label), 3)])) : createCommentVNode("v-if", true), createElementVNode("div", {
+                class: normalizeClass({
+                  'mb-2 mb-md-0': unref(remainingResourceSpots)
+                })
+              }, [createVNode(unref(script$8), {
+                modelValue: resourceNameFilter.value,
+                "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => resourceNameFilter.value = $event),
+                disabled: unref(isNameFilterDisabled)
+              }, null, 8, ["modelValue", "disabled"])], 2)], 2)]), createVNode(unref(Loading), {
                 isLoading: unref(isBusy)
               }, {
                 default: withCtx(() => [unsuccessfulAssignmentPersonIds.value.length ? (openBlock(), createBlock(unref(NotificationBox), {
@@ -1644,9 +1905,9 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
                 }, {
                   default: withCtx(() => [!unsuccessfulAssignmentMessages.value.length ? (openBlock(), createElementBlock(Fragment, {
                     key: 0
-                  }, [_hoisted_10$1], 64)) : unsuccessfulAssignmentMessages.value.length === 1 ? (openBlock(), createElementBlock(Fragment, {
+                  }, [_hoisted_11$1], 64)) : unsuccessfulAssignmentMessages.value.length === 1 ? (openBlock(), createElementBlock(Fragment, {
                     key: 1
-                  }, [createTextVNode(toDisplayString(unsuccessfulAssignmentMessages.value[0]), 1)], 64)) : (openBlock(), createElementBlock("ul", _hoisted_11$1, [(openBlock(true), createElementBlock(Fragment, null, renderList(unsuccessfulAssignmentMessages.value, (message, index) => {
+                  }, [createTextVNode(toDisplayString(unsuccessfulAssignmentMessages.value[0]), 1)], 64)) : (openBlock(), createElementBlock("ul", _hoisted_12$1, [(openBlock(true), createElementBlock(Fragment, null, renderList(unsuccessfulAssignmentMessages.value, (message, index) => {
                     return openBlock(), createElementBlock("li", {
                       key: index
                     }, toDisplayString(message), 1);
@@ -1658,31 +1919,31 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
                 }, {
                   default: withCtx(() => [createTextVNode(toDisplayString(loadResourcesErrorMessage.value), 1)]),
                   _: 1
-                }, 8, ["alertType"])) : loadResourcesInfoMessage.value ? (openBlock(), createBlock(unref(NotificationBox), {
+                }, 8, ["alertType"])) : unref(noResourcesMessage) ? (openBlock(), createBlock(unref(NotificationBox), {
                   key: 2,
                   alertType: unref(AlertType).Info
                 }, {
-                  default: withCtx(() => [createTextVNode(toDisplayString(loadResourcesInfoMessage.value), 1)]),
+                  default: withCtx(() => [createTextVNode(toDisplayString(unref(noResourcesMessage)), 1)]),
                   _: 1
-                }, 8, ["alertType"])) : (openBlock(), createBlock(unref(script$7), {
+                }, 8, ["alertType"])) : (openBlock(), createBlock(unref(script$9), {
                   key: 3,
                   modelValue: selectedPersonIds.value,
-                  "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => selectedPersonIds.value = $event),
-                  resources: availableResources.value,
+                  "onUpdate:modelValue": _cache[7] || (_cache[7] = $event => selectedPersonIds.value = $event),
+                  resources: unref(filteredResources),
                   disabled: unref(isBusy)
                 }, null, 8, ["modelValue", "resources", "disabled"]))]),
                 _: 1
               }, 8, ["isLoading"])], 64))]),
               _: 1
-            }, 8, ["modelValue", "subtitle", "saveButtonDisabled"]);
+            }, 8, ["modelValue", "subtitle", "isSaveButtonDisabled"]);
           };
         }
       });
 
-      script$6.__file = "src/Group/Scheduling/GroupScheduler/selectIndividuals.partial.obs";
+      script$7.__file = "src/Group/Scheduling/GroupScheduler/selectIndividuals.partial.obs";
 
-      var _hoisted_1$5 = createTextVNode(" Unable to schedule this occurrence. ");
-      var _hoisted_2$5 = {
+      var _hoisted_1$6 = createTextVNode(" Unable to schedule this occurrence. ");
+      var _hoisted_2$6 = {
         key: 1,
         class: "location js-schedule-location"
       };
@@ -1692,7 +1953,7 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
       var _hoisted_4$3 = {
         class: "d-block text-sm"
       };
-      var _hoisted_5$2 = {
+      var _hoisted_5$3 = {
         key: 2,
         class: "list-group list-group-sched"
       };
@@ -1702,7 +1963,7 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
       var _hoisted_7$2 = createElementVNode("i", {
         class: "fa fa-plus"
       }, null, -1);
-      var script$5 = defineComponent({
+      var script$6 = defineComponent({
         name: 'occurrence.partial',
         props: {
           occurrence: {
@@ -1746,6 +2007,10 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
             var pending = ScheduledAttendanceItemStatusDescription[ScheduledAttendanceItemStatus.Pending].toLowerCase();
             return resources.value.filter(r => r.ConfirmationStatus === pending).length;
           });
+          var declinedCount = computed(() => {
+            var declined = ScheduledAttendanceItemStatusDescription[ScheduledAttendanceItemStatus.Declined].toLowerCase();
+            return resources.value.filter(r => r.ConfirmationStatus === declined).length;
+          });
           var totalCount = computed(() => {
             return confirmedCount.value + pendingCount.value;
           });
@@ -1763,7 +2028,8 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
               desiredCapacity,
               maximumCapacity,
               confirmedCount: confirmedCount.value,
-              pendingCount: pendingCount.value
+              pendingCount: pendingCount.value,
+              declinedCount: declinedCount.value
             };
             return progress;
           });
@@ -1800,6 +2066,9 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
             isSelectingIndividuals.value = true;
           }
           getCurrentResources();
+          watch(() => props.occurrence, () => {
+            getCurrentResources();
+          });
           watch(isSelectingIndividuals, () => {
             if (!isSelectingIndividuals.value) {
               getCurrentResources();
@@ -1827,9 +2096,9 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
               key: 0,
               alertType: unref(AlertType).Warning
             }, {
-              default: withCtx(() => [_hoisted_1$5]),
+              default: withCtx(() => [_hoisted_1$6]),
               _: 1
-            }, 8, ["alertType"])) : (openBlock(), createElementBlock("div", _hoisted_2$5, [createElementVNode("div", _hoisted_3$5, [createElementVNode("span", _hoisted_4$3, toDisplayString(unref(title)), 1)]), updateResourceWarningMessage.value ? (openBlock(), createBlock(unref(NotificationBox), {
+            }, 8, ["alertType"])) : (openBlock(), createElementBlock("div", _hoisted_2$6, [createElementVNode("div", _hoisted_3$5, [createElementVNode("span", _hoisted_4$3, toDisplayString(unref(title)), 1)]), updateResourceWarningMessage.value ? (openBlock(), createBlock(unref(NotificationBox), {
               key: 0,
               alertType: unref(AlertType).Warning
             }, {
@@ -1841,8 +2110,8 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
             }, {
               default: withCtx(() => [createTextVNode(toDisplayString(getResourcesWarningMessage.value), 1)]),
               _: 1
-            }, 8, ["alertType"])) : (openBlock(), createElementBlock("ul", _hoisted_5$2, [(openBlock(true), createElementBlock(Fragment, null, renderList(resources.value, resource => {
-              return openBlock(), createBlock(unref(script$9), {
+            }, 8, ["alertType"])) : (openBlock(), createElementBlock("ul", _hoisted_5$3, [(openBlock(true), createElementBlock(Fragment, null, renderList(resources.value, resource => {
+              return openBlock(), createBlock(unref(script$b), {
                 key: resource.AttendanceId,
                 occurrence: __props.occurrence,
                 resource: resource,
@@ -1852,7 +2121,7 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
                 onResourceUpdated: onResourceUpdated,
                 onPreferenceUpdated: $event => _ctx.$emit('preferenceUpdated', resource.PersonId)
               }, null, 8, ["occurrence", "resource", "updateResourceWarningMessage", "disabled", "onPreferenceUpdated"]);
-            }), 128)), createElementVNode("li", _hoisted_6$2, [createVNode(unref(script$b), {
+            }), 128)), createElementVNode("li", _hoisted_6$2, [createVNode(unref(script$d), {
               progress: unref(scheduleProgress)
             }, null, 8, ["progress"]), withDirectives((openBlock(), createElementBlock("div", null, [createVNode(unref(RockButton), {
               type: "button",
@@ -1868,7 +2137,7 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
                 _: 1
               }, 8, ["isLoading"])]),
               _: 1
-            }, 8, ["disabled"])])), [[unref(NoDragScroll)]])])])), createVNode(unref(script$6), {
+            }, 8, ["disabled"])])), [[unref(NoDragScroll)]])])])), createVNode(unref(script$7), {
               isVisible: isSelectingIndividuals.value,
               "onUpdate:isVisible": _cache[1] || (_cache[1] = $event => isSelectingIndividuals.value = $event),
               occurrence: __props.occurrence,
@@ -1879,7 +2148,231 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
         }
       });
 
-      script$5.__file = "src/Group/Scheduling/GroupScheduler/occurrence.partial.obs";
+      script$6.__file = "src/Group/Scheduling/GroupScheduler/occurrence.partial.obs";
+
+      var _hoisted_1$5 = {
+        class: "sched-group-provide-location-resource"
+      };
+      var _hoisted_2$5 = {
+        class: "sched-group-provide-location-resource-name"
+      };
+      var script$5 = defineComponent({
+        name: 'provideLocations.partial',
+        props: {
+          isVisible: {
+            type: Boolean,
+            required: true
+          },
+          unassignedResourceCount: {
+            type: Object,
+            required: true
+          },
+          availableOccurrences: {
+            type: Array,
+            required: true
+          }
+        },
+        emits: ["update:isVisible", "resourceListUpdated"],
+        setup(__props, _ref) {
+          var emit = _ref.emit;
+          var props = __props;
+          var http = useHttp();
+          var baseApiUrl = "/api/Attendances";
+          var missingDataErrorMessage = "Unable to get unassigned resources.";
+          var isVisible = useVModelPassthrough(props, "isVisible", emit);
+          var blockActionErrorMessage = ref("");
+          var isLoadingResources = ref(false);
+          var resources = ref([]);
+          var locationIdByPersonIds = ref({});
+          var isAssigningResources = ref(false);
+          var reportAssignedResources = inject(ReportAssignedResources);
+          var title = computed(() => {
+            var _props$unassignedReso, _props$unassignedReso2;
+            return "Provide ".concat(pluralize("Location", (_props$unassignedReso = (_props$unassignedReso2 = props.unassignedResourceCount) === null || _props$unassignedReso2 === void 0 ? void 0 : _props$unassignedReso2.resourceCount) !== null && _props$unassignedReso !== void 0 ? _props$unassignedReso : 0));
+          });
+          var unassignedResourceCountGuid = computed(() => {
+            var _props$unassignedReso3;
+            return toGuidOrNull((_props$unassignedReso3 = props.unassignedResourceCount) === null || _props$unassignedReso3 === void 0 ? void 0 : _props$unassignedReso3.guid);
+          });
+          var occurrenceDate = computed(() => {
+            var _props$unassignedReso4, _props$unassignedReso5;
+            return (_props$unassignedReso4 = (_props$unassignedReso5 = props.unassignedResourceCount) === null || _props$unassignedReso5 === void 0 ? void 0 : _props$unassignedReso5.occurrenceDate) !== null && _props$unassignedReso4 !== void 0 ? _props$unassignedReso4 : "";
+          });
+          var scheduleId = computed(() => {
+            var _props$unassignedReso6, _props$unassignedReso7;
+            return (_props$unassignedReso6 = (_props$unassignedReso7 = props.unassignedResourceCount) === null || _props$unassignedReso7 === void 0 ? void 0 : _props$unassignedReso7.scheduleId) !== null && _props$unassignedReso6 !== void 0 ? _props$unassignedReso6 : 0;
+          });
+          var groupId = computed(() => {
+            var _props$unassignedReso8, _props$unassignedReso9;
+            return (_props$unassignedReso8 = (_props$unassignedReso9 = props.unassignedResourceCount) === null || _props$unassignedReso9 === void 0 ? void 0 : _props$unassignedReso9.groupId) !== null && _props$unassignedReso8 !== void 0 ? _props$unassignedReso8 : 0;
+          });
+          var attendanceOccurrenceId = computed(() => {
+            var _props$unassignedReso10, _props$unassignedReso11;
+            return (_props$unassignedReso10 = (_props$unassignedReso11 = props.unassignedResourceCount) === null || _props$unassignedReso11 === void 0 ? void 0 : _props$unassignedReso11.attendanceOccurrenceId) !== null && _props$unassignedReso10 !== void 0 ? _props$unassignedReso10 : 0;
+          });
+          var locations = computed(() => {
+            var _props$availableOccur, _props$availableOccur2;
+            return (_props$availableOccur = (_props$availableOccur2 = props.availableOccurrences) === null || _props$availableOccur2 === void 0 ? void 0 : _props$availableOccur2.filter(o => (o === null || o === void 0 ? void 0 : o.locationId) && o.locationName).map(o => ({
+              text: o.locationName,
+              value: o.locationId.toString()
+            }))) !== null && _props$availableOccur !== void 0 ? _props$availableOccur : [];
+          });
+          var isDataMissing = computed(() => {
+            return !unassignedResourceCountGuid || !occurrenceDate || !scheduleId || !groupId || !attendanceOccurrenceId || !locations.value.length;
+          });
+          var isBusy = computed(() => {
+            return isLoadingResources.value || isAssigningResources.value;
+          });
+          var areAnyLocationsSelected = computed(() => {
+            return Object.entries(locationIdByPersonIds.value).some(_ref2 => {
+              var _ref3 = _slicedToArray(_ref2, 2);
+                _ref3[0];
+                var value = _ref3[1];
+              return !!value;
+            });
+          });
+          var isSaveButtonDisabled = computed(() => {
+            return isDataMissing.value || isBusy.value || !areAnyLocationsSelected.value;
+          });
+          function getUnassignedResources() {
+            return _getUnassignedResources.apply(this, arguments);
+          }
+          function _getUnassignedResources() {
+            _getUnassignedResources = _asyncToGenerator(function* () {
+              var _result$data;
+              if (isBusy.value || isDataMissing.value) {
+                return;
+              }
+              isLoadingResources.value = true;
+              blockActionErrorMessage.value = "";
+              var result = yield http.get("".concat(baseApiUrl, "/GetAttendingSchedulerResources?attendanceOccurrenceId=").concat(attendanceOccurrenceId.value));
+              isLoadingResources.value = false;
+              if (!result.isSuccess) {
+                blockActionErrorMessage.value = result.errorMessage || "Unknown error while trying to get unassigned resources.";
+                return;
+              }
+              resources.value = (_result$data = result.data) !== null && _result$data !== void 0 ? _result$data : [];
+              if (!resources.value.length) {
+                blockActionErrorMessage.value = missingDataErrorMessage;
+                return;
+              }
+              var locationIdByPersonIds = {};
+              resources.value.forEach(r => {
+                locationIdByPersonIds[r.PersonId] = "";
+              });
+            });
+            return _getUnassignedResources.apply(this, arguments);
+          }
+          function onSave() {
+            return _onSave.apply(this, arguments);
+          }
+          function _onSave() {
+            _onSave = _asyncToGenerator(function* () {
+              if (isSaveButtonDisabled.value) {
+                return;
+              }
+              isAssigningResources.value = true;
+              blockActionErrorMessage.value = "";
+              var successfullyAssignedPersonIds = [];
+              var unsuccessfullyAssignedPersonIds = [];
+              yield Promise.all(resources.value.map(function () {
+                var _ref4 = _asyncToGenerator(function* (resource) {
+                  var _props$availableOccur3, _props$availableOccur4;
+                  var personId = resource.PersonId;
+                  var locationId = toNumberOrNull(locationIdByPersonIds.value[personId]);
+                  if (!locationId) {
+                    return;
+                  }
+                  var assignToAttendanceOccurrenceId = (_props$availableOccur3 = props.availableOccurrences) === null || _props$availableOccur3 === void 0 ? void 0 : (_props$availableOccur4 = _props$availableOccur3.find(o => (o === null || o === void 0 ? void 0 : o.locationId) === locationId)) === null || _props$availableOccur4 === void 0 ? void 0 : _props$availableOccur4.attendanceOccurrenceId;
+                  if (!assignToAttendanceOccurrenceId) {
+                    unsuccessfullyAssignedPersonIds.push(personId);
+                    return;
+                  }
+                  var attendanceId = resource.AttendanceId;
+                  var result = yield http.doApiCall("PUT", "".concat(baseApiUrl, "/ScheduledPersonRemove?attendanceId=").concat(attendanceId));
+                  if (!result.isSuccess) {
+                    unsuccessfullyAssignedPersonIds.push(personId);
+                    return;
+                  }
+                  var params = {
+                    personId,
+                    attendanceOccurrenceId: assignToAttendanceOccurrenceId
+                  };
+                  result = yield http.doApiCall("PUT", "".concat(baseApiUrl, "/ScheduledPersonAddConfirmed"), params);
+                  if (!result.isSuccess) {
+                    unsuccessfullyAssignedPersonIds.push(personId);
+                  } else {
+                    successfullyAssignedPersonIds.push(personId);
+                  }
+                });
+                return function (_x) {
+                  return _ref4.apply(this, arguments);
+                };
+              }()));
+              if (successfullyAssignedPersonIds.length) {
+                emit("resourceListUpdated", attendanceOccurrenceId.value);
+                reportAssignedResources === null || reportAssignedResources === void 0 ? void 0 : reportAssignedResources(unassignedResourceCountGuid.value, successfullyAssignedPersonIds.length);
+                resources.value = resources.value.filter(resource => !successfullyAssignedPersonIds.some(id => resource.PersonId === id));
+                successfullyAssignedPersonIds.forEach(id => delete locationIdByPersonIds.value[id]);
+              }
+              if (unsuccessfullyAssignedPersonIds.length) {
+                var count = unsuccessfullyAssignedPersonIds.length;
+                blockActionErrorMessage.value = "The following ".concat(pluralize("assignment", count), " ").concat(pluralize("was", count), " unsuccessful.");
+              } else {
+                isVisible.value = false;
+              }
+              isAssigningResources.value = false;
+            });
+            return _onSave.apply(this, arguments);
+          }
+          getUnassignedResources();
+          return (_ctx, _cache) => {
+            return openBlock(), createBlock(unref(Modal), {
+              modelValue: unref(isVisible),
+              "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => isRef(isVisible) ? isVisible.value = $event : null),
+              modalWrapperClasses: "group-scheduler-v2 provide-location-modal",
+              saveText: "Save",
+              title: unref(title),
+              isSaveButtonDisabled: unref(isSaveButtonDisabled),
+              onSave: onSave
+            }, {
+              default: withCtx(() => [unref(isDataMissing) ? (openBlock(), createBlock(unref(NotificationBox), {
+                key: 0,
+                alertType: unref(AlertType).Warning
+              }, {
+                default: withCtx(() => [createTextVNode(toDisplayString(missingDataErrorMessage))]),
+                _: 1
+              }, 8, ["alertType"])) : (openBlock(), createElementBlock(Fragment, {
+                key: 1
+              }, [blockActionErrorMessage.value ? (openBlock(), createBlock(unref(NotificationBox), {
+                key: 0,
+                alertType: unref(AlertType).Warning
+              }, {
+                default: withCtx(() => [createTextVNode(toDisplayString(blockActionErrorMessage.value), 1)]),
+                _: 1
+              }, 8, ["alertType"])) : createCommentVNode("v-if", true), isLoadingResources.value ? (openBlock(), createBlock(unref(LoadingIndicator), {
+                key: 1,
+                delay: 500
+              })) : createCommentVNode("v-if", true), (openBlock(true), createElementBlock(Fragment, null, renderList(resources.value, resource => {
+                return openBlock(), createElementBlock("div", _hoisted_1$5, [createElementVNode("div", _hoisted_2$5, toDisplayString(resource.PersonName), 1), createVNode(unref(DropDownList), {
+                  modelValue: locationIdByPersonIds.value[resource.PersonId],
+                  "onUpdate:modelValue": $event => locationIdByPersonIds.value[resource.PersonId] = $event,
+                  items: unref(locations),
+                  validationTitle: "Location for ".concat(resource.PersonName),
+                  inputClasses: "input-width-lg",
+                  disabled: unref(isBusy)
+                }, null, 8, ["modelValue", "onUpdate:modelValue", "items", "validationTitle", "disabled"])]);
+              }), 256))], 64))]),
+              _: 1
+            }, 8, ["modelValue", "title", "isSaveButtonDisabled"]);
+          };
+        }
+      });
+
+      var css_248z$1 = ".group-scheduler-v2{@media (min-width:576px){&.provide-location-modal{.modal-scrollable{display:flex;justify-content:center}.modal.container{left:auto;margin-left:auto;margin-right:auto;min-width:480px;right:auto;width:auto}}}.sched-group-provide-location-resource{align-items:center;display:flex;gap:12px;justify-content:space-between;&:not(:first-of-type){margin-top:12px}}}";
+      styleInject(css_248z$1);
+
+      script$5.__file = "src/Group/Scheduling/GroupScheduler/provideLocations.partial.obs";
 
       var _hoisted_1$4 = {
         class: "card card-sched js-schedule-group"
@@ -1891,6 +2384,9 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
         class: "d-block font-weight-bold text-sm"
       };
       var _hoisted_4$2 = createTextVNode(" No locations available. ");
+      var _hoisted_5$2 = {
+        class: "group-sched-unassigned-resources-text"
+      };
       var script$4 = defineComponent({
         name: 'group.partial',
         props: {
@@ -1906,38 +2402,82 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
         emits: ["resourceListUpdated", "preferenceUpdated"],
         setup(__props) {
           var props = __props;
+          var occurrenceDate = inject(OccurrenceDate, ref(""));
+          var scheduleId = inject(ScheduleId, ref(0));
+          var unassignedResourceCounts = inject(UnassignedResourceCounts, ref([]));
+          var isProvideLocationsModalVisible = ref(false);
+          var groupId = computed(() => {
+            var _props$occurrences$0$, _props$occurrences, _props$occurrences$;
+            return (_props$occurrences$0$ = (_props$occurrences = props.occurrences) === null || _props$occurrences === void 0 ? void 0 : (_props$occurrences$ = _props$occurrences[0]) === null || _props$occurrences$ === void 0 ? void 0 : _props$occurrences$.groupId) !== null && _props$occurrences$0$ !== void 0 ? _props$occurrences$0$ : 0;
+          });
           var title = computed(() => {
-            var _props$occurrences;
-            var groupName;
-            if ((_props$occurrences = props.occurrences) !== null && _props$occurrences !== void 0 && _props$occurrences.length) {
-              groupName = props.occurrences[0].groupName;
-            }
-            return groupName || "Group";
+            var _props$occurrences2, _props$occurrences2$;
+            return ((_props$occurrences2 = props.occurrences) === null || _props$occurrences2 === void 0 ? void 0 : (_props$occurrences2$ = _props$occurrences2[0]) === null || _props$occurrences2$ === void 0 ? void 0 : _props$occurrences2$.groupName) || "Group";
           });
           var anyLocations = computed(() => {
-            var _props$occurrences2;
-            return !!Object.keys((_props$occurrences2 = props.occurrences) === null || _props$occurrences2 === void 0 ? void 0 : _props$occurrences2.length);
+            var _props$occurrences3;
+            return !!((_props$occurrences3 = props.occurrences) !== null && _props$occurrences3 !== void 0 && _props$occurrences3.length);
+          });
+          var unassignedResourceCount = computed(() => {
+            var _unassignedResourceCo;
+            if (!occurrenceDate.value || !scheduleId.value || !groupId.value || !((_unassignedResourceCo = unassignedResourceCounts.value) !== null && _unassignedResourceCo !== void 0 && _unassignedResourceCo.length)) {
+              return;
+            }
+            return unassignedResourceCounts.value.find(bag => bag.occurrenceDate === occurrenceDate.value && bag.scheduleId === scheduleId.value && bag.groupId === groupId.value);
+          });
+          var unassignedResourceText = computed(() => {
+            var _unassignedResourceCo2, _unassignedResourceCo3;
+            var count = (_unassignedResourceCo2 = (_unassignedResourceCo3 = unassignedResourceCount.value) === null || _unassignedResourceCo3 === void 0 ? void 0 : _unassignedResourceCo3.resourceCount) !== null && _unassignedResourceCo2 !== void 0 ? _unassignedResourceCo2 : 0;
+            return count ? "Missing ".concat(pluralize("location", count), " for ").concat(count, " ").concat(pluralize("individual", count), ".") : "";
+          });
+          var provideLocationText = computed(() => {
+            var _unassignedResourceCo4, _unassignedResourceCo5;
+            var count = (_unassignedResourceCo4 = (_unassignedResourceCo5 = unassignedResourceCount.value) === null || _unassignedResourceCo5 === void 0 ? void 0 : _unassignedResourceCo5.resourceCount) !== null && _unassignedResourceCo4 !== void 0 ? _unassignedResourceCo4 : 0;
+            return count ? "Provide ".concat(pluralize("Location", count)) : "";
           });
           return (_ctx, _cache) => {
-            return openBlock(), createElementBlock("div", _hoisted_1$4, [createElementVNode("div", _hoisted_2$4, [createElementVNode("span", _hoisted_3$4, toDisplayString(unref(title)), 1), !unref(anyLocations) ? (openBlock(), createBlock(unref(NotificationBox), {
+            return openBlock(), createElementBlock(Fragment, null, [createElementVNode("div", _hoisted_1$4, [createElementVNode("div", _hoisted_2$4, [createElementVNode("span", _hoisted_3$4, toDisplayString(unref(title)), 1), !unref(anyLocations) ? (openBlock(), createBlock(unref(NotificationBox), {
               key: 0,
               alertType: unref(AlertType).Info
             }, {
               default: withCtx(() => [_hoisted_4$2]),
               _: 1
+            }, 8, ["alertType"])) : (openBlock(), createElementBlock(Fragment, {
+              key: 1
+            }, [unref(unassignedResourceCount) ? (openBlock(), createBlock(unref(NotificationBox), {
+              key: 0,
+              alertType: unref(AlertType).Warning,
+              class: "group-sched-unassigned-resources small"
+            }, {
+              default: withCtx(() => [createElementVNode("div", _hoisted_5$2, toDisplayString(unref(unassignedResourceText)), 1), withDirectives((openBlock(), createElementBlock("div", {
+                class: "group-sched-provide-locations",
+                onClick: _cache[0] || (_cache[0] = $event => isProvideLocationsModalVisible.value = true)
+              }, [createTextVNode(toDisplayString(unref(provideLocationText)), 1)])), [[unref(NoDragScroll)]])]),
+              _: 1
             }, 8, ["alertType"])) : createCommentVNode("v-if", true), (openBlock(true), createElementBlock(Fragment, null, renderList(__props.occurrences, occurrence => {
-              return openBlock(), createBlock(unref(script$5), {
+              return openBlock(), createBlock(unref(script$6), {
                 key: occurrence.locationId,
                 occurrence: occurrence,
                 disabled: __props.disabled,
-                onResourceListUpdated: _cache[0] || (_cache[0] = $event => _ctx.$emit('resourceListUpdated', $event)),
-                onPreferenceUpdated: _cache[1] || (_cache[1] = $event => _ctx.$emit('preferenceUpdated', $event))
+                onResourceListUpdated: _cache[1] || (_cache[1] = $event => _ctx.$emit('resourceListUpdated', $event)),
+                onPreferenceUpdated: _cache[2] || (_cache[2] = $event => _ctx.$emit('preferenceUpdated', $event))
               }, null, 8, ["occurrence", "disabled"]);
-            }), 128))])]);
+            }), 128))], 64))])]), unref(unassignedResourceCount) ? (openBlock(), createBlock(unref(script$5), {
+              key: 0,
+              isVisible: isProvideLocationsModalVisible.value,
+              "onUpdate:isVisible": _cache[3] || (_cache[3] = $event => isProvideLocationsModalVisible.value = $event),
+              unassignedResourceCount: unref(unassignedResourceCount),
+              availableOccurrences: __props.occurrences,
+              onResourceListUpdated: _cache[4] || (_cache[4] = $event => _ctx.$emit('resourceListUpdated', $event))
+            }, null, 8, ["isVisible", "unassignedResourceCount", "availableOccurrences"])) : createCommentVNode("v-if", true)], 64);
           };
         }
       });
 
+      var css_248z = ".group-sched-unassigned-resources[data-v-766b08ca]{margin:8px 0}.group-sched-provide-locations[data-v-766b08ca]{cursor:pointer;text-decoration:underline}";
+      styleInject(css_248z);
+
+      script$4.__scopeId = "data-v-766b08ca";
       script$4.__file = "src/Group/Scheduling/GroupScheduler/group.partial.obs";
 
       var _hoisted_1$3 = {
@@ -1978,17 +2518,17 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
         setup(__props) {
           var props = __props;
           var reloadScheduleOccurrences = ref(null);
+          var scheduleId = computed(() => {
+            var _props$occurrences$0$, _props$occurrences, _props$occurrences$;
+            return (_props$occurrences$0$ = (_props$occurrences = props.occurrences) === null || _props$occurrences === void 0 ? void 0 : (_props$occurrences$ = _props$occurrences[0]) === null || _props$occurrences$ === void 0 ? void 0 : _props$occurrences$.scheduleId) !== null && _props$occurrences$0$ !== void 0 ? _props$occurrences$0$ : 0;
+          });
           var title = computed(() => {
-            var _props$occurrences;
-            var scheduleName;
-            if ((_props$occurrences = props.occurrences) !== null && _props$occurrences !== void 0 && _props$occurrences.length) {
-              scheduleName = props.occurrences[0].scheduleName;
-            }
-            return scheduleName || "Schedule";
+            var _props$occurrences2, _props$occurrences2$;
+            return ((_props$occurrences2 = props.occurrences) === null || _props$occurrences2 === void 0 ? void 0 : (_props$occurrences2$ = _props$occurrences2[0]) === null || _props$occurrences2$ === void 0 ? void 0 : _props$occurrences2$.scheduleName) || "Schedule";
           });
           var sortedOccurrencesByGroup = computed(() => {
-            var _props$occurrences2;
-            if (!((_props$occurrences2 = props.occurrences) !== null && _props$occurrences2 !== void 0 && _props$occurrences2.length)) {
+            var _props$occurrences3;
+            if (!((_props$occurrences3 = props.occurrences) !== null && _props$occurrences3 !== void 0 && _props$occurrences3.length)) {
               return [];
             }
             var groupedOccurrences = new Map();
@@ -2018,6 +2558,7 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
               reloadScheduleOccurrences.value = null;
             });
           }
+          provide(ScheduleId, scheduleId);
           provide(ReloadScheduleOccurrences, reloadScheduleOccurrences);
           return (_ctx, _cache) => {
             return openBlock(), createElementBlock("div", _hoisted_1$3, [createElementVNode("div", _hoisted_2$3, [__props.showPrevNextButtons ? (openBlock(), createElementBlock("span", {
@@ -2048,6 +2589,22 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
       });
 
       script$3.__file = "src/Group/Scheduling/GroupScheduler/schedule.partial.obs";
+
+      function formatSchedulerDate(dateString) {
+        var formattedDate;
+        var rockDateTime = RockDateTime.parseISO(dateString);
+        if (rockDateTime) {
+          formattedDate = rockDateTime.toASPString("dddd, MMM d");
+          if (formattedDate) {
+            var dateParts = formattedDate.split(" ");
+            if (dateParts.length === 3) {
+              var ordinalDate = toOrdinalSuffix(+dateParts[2]);
+              formattedDate = [dateParts[0], dateParts[1], ordinalDate !== null && ordinalDate !== void 0 ? ordinalDate : dateParts[2]].join(" ");
+            }
+          }
+        }
+        return formattedDate || "No Date Provided";
+      }
 
       var _hoisted_1$2 = {
         class: "occurrence-date-title"
@@ -2080,20 +2637,12 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
           var locationsResizeObserver;
           var occurrenceDateElement = ref(null);
           var scheduleComponents = ref([]);
+          var occurrenceDate = computed(() => {
+            var _props$occurrences$0$, _props$occurrences, _props$occurrences$;
+            return (_props$occurrences$0$ = (_props$occurrences = props.occurrences) === null || _props$occurrences === void 0 ? void 0 : (_props$occurrences$ = _props$occurrences[0]) === null || _props$occurrences$ === void 0 ? void 0 : _props$occurrences$.occurrenceDate) !== null && _props$occurrences$0$ !== void 0 ? _props$occurrences$0$ : "";
+          });
           var title = computed(() => {
-            var _props$occurrences;
-            var friendlyOccurrenceDate;
-            if ((_props$occurrences = props.occurrences) !== null && _props$occurrences !== void 0 && _props$occurrences.length) {
-              friendlyOccurrenceDate = props.occurrences[0].friendlyOccurrenceDate;
-              if (friendlyOccurrenceDate) {
-                var dateParts = friendlyOccurrenceDate.split(" ");
-                if (dateParts.length === 3) {
-                  var ordinalDate = toOrdinalSuffix(+dateParts[2]);
-                  friendlyOccurrenceDate = [dateParts[0], dateParts[1], ordinalDate !== null && ordinalDate !== void 0 ? ordinalDate : dateParts[2]].join(" ");
-                }
-              }
-            }
-            return friendlyOccurrenceDate || "No Date Provided";
+            return formatSchedulerDate(occurrenceDate.value);
           });
           var sortedOccurrencesBySchedule = computed(() => {
             var _props$occurrences2;
@@ -2181,6 +2730,7 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
               });
             }
           }
+          provide(OccurrenceDate, occurrenceDate);
           provide(OccurrenceDateTitle, title);
           watch(() => props.occurrences, () => {
             scheduleComponents.value = [];
@@ -2222,7 +2772,7 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
       script$2.__file = "src/Group/Scheduling/GroupScheduler/occurrenceDate.partial.obs";
 
       var _hoisted_1$1 = {
-        class: "new-group-scheduler"
+        class: "group-scheduler-v2"
       };
       var _hoisted_2$1 = createTextVNode(" Select the filter options below to limit what is shown on the group scheduler. ");
       var _hoisted_3$1 = {
@@ -2401,7 +2951,7 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
               "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => isRef(isVisible) ? isVisible.value = $event : null),
               title: "Filters",
               saveText: "Apply",
-              saveButtonDisabled: unref(isBusy),
+              isSaveButtonDisabled: unref(isBusy),
               onSave: onSave
             }, {
               default: withCtx(() => [createElementVNode("div", _hoisted_1$1, [createVNode(unref(NotificationBox), {
@@ -2454,7 +3004,7 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
                 onOpen: onFiltersChanged
               }, null, 8, ["modelValue", "items", "loading", "disabled"])])]),
               _: 1
-            }, 8, ["modelValue", "saveButtonDisabled"]);
+            }, 8, ["modelValue", "isSaveButtonDisabled"]);
           };
         }
       });
@@ -2462,7 +3012,7 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
       script$1.__file = "src/Group/Scheduling/GroupScheduler/selectFilters.partial.obs";
 
       var _hoisted_1 = {
-        class: "new-group-scheduler"
+        class: "group-scheduler-v2"
       };
       var _hoisted_2 = createElementVNode("div", {
         class: "p-3 bg-white"
@@ -2480,7 +3030,7 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
         class: "fa fa-circle text-danger"
       }), createTextVNode(" Declined Invite")])]), createElementVNode("p", null, "The invite status is shown by a border around the individual's avatar."), createElementVNode("p", null, "Some scheduled individuals may also have notification icons that alert you to issues with their schedule."), createElementVNode("ul", null, [createElementVNode("li", null, [createElementVNode("i", {
         class: "fa fa-exclamation-triangle"
-      }), createTextVNode(" Indicates a conflict; which can can happen if an individual is unavailable due to a blackout, they do not meet the group requirements, or because they have a scheduling conflict.")]), createElementVNode("li", null, [createElementVNode("i", {
+      }), createTextVNode(" Indicates a conflict; which can happen if an individual is unavailable due to a blackout, they do not meet the group requirements, or because they have a scheduling conflict.")]), createElementVNode("li", null, [createElementVNode("i", {
         class: "fa fa-minus-circle"
       }), createTextVNode(" Indicates that the schedule does not match this person's scheduling preference.")])]), createElementVNode("p", null, "For both notification icon types, additional details can be viewed by hovering over the icon.")]), createElementVNode("div", {
         class: "col-md-6"
@@ -2592,12 +3142,7 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
         key: 1
       };
       var _hoisted_52 = createTextVNode(" One or more warnings occurred when sending confirmations: ");
-      var _hoisted_53 = {
-        key: 2
-      };
-      var _hoisted_54 = {
-        key: 3
-      };
+      var _hoisted_53 = ["innerHTML"];
       var ScrollDirection = function (ScrollDirection) {
         ScrollDirection[ScrollDirection["Previous"] = 0] = "Previous";
         ScrollDirection[ScrollDirection["Next"] = 1] = "Next";
@@ -2606,7 +3151,7 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
       var script = exports('default', defineComponent({
         name: 'groupScheduler',
         setup(__props) {
-          var _config$appliedFilter, _config$appliedFilter2, _config$appliedFilter3;
+          var _config$appliedFilter, _config$appliedFilter2, _config$appliedFilter3, _config$appliedFilter4, _config$appliedFilter5;
           var config = useConfigurationValues();
           var invokeBlockAction = useInvokeBlockAction();
           var securityGrant = getSecurityGrant(config.securityGrantToken);
@@ -2618,7 +3163,8 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
           var scheduleComponentsByOccurrenceDate = ref({});
           var filters = ref((_config$appliedFilter = config.appliedFilters) === null || _config$appliedFilter === void 0 ? void 0 : _config$appliedFilter.filters);
           var scheduleOccurrences = ref((_config$appliedFilter2 = config.appliedFilters) === null || _config$appliedFilter2 === void 0 ? void 0 : _config$appliedFilter2.scheduleOccurrences);
-          var navigationUrls = ref((_config$appliedFilter3 = config.appliedFilters) === null || _config$appliedFilter3 === void 0 ? void 0 : _config$appliedFilter3.navigationUrls);
+          var unassignedResourceCounts = ref((_config$appliedFilter3 = (_config$appliedFilter4 = config.appliedFilters) === null || _config$appliedFilter4 === void 0 ? void 0 : _config$appliedFilter4.unassignedResourceCounts) !== null && _config$appliedFilter3 !== void 0 ? _config$appliedFilter3 : []);
+          var navigationUrls = ref((_config$appliedFilter5 = config.appliedFilters) === null || _config$appliedFilter5 === void 0 ? void 0 : _config$appliedFilter5.navigationUrls);
           var disallowGroupSelection = ref(config.disallowGroupSelection);
           var isSelectingFilters = ref(false);
           var isSelectingCloneSettings = ref(false);
@@ -2736,19 +3282,38 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
             var _navigationUrls$value3, _navigationUrls$value4;
             return (_navigationUrls$value3 = (_navigationUrls$value4 = navigationUrls.value) === null || _navigationUrls$value4 === void 0 ? void 0 : _navigationUrls$value4[NavigationUrlKey.RosterPage]) !== null && _navigationUrls$value3 !== void 0 ? _navigationUrls$value3 : null;
           });
+          var sentCount = computed(() => {
+            var _sendNowResponse$valu, _sendNowResponse$valu2;
+            return (_sendNowResponse$valu = (_sendNowResponse$valu2 = sendNowResponse.value) === null || _sendNowResponse$valu2 === void 0 ? void 0 : _sendNowResponse$valu2.communicationsSentCount) !== null && _sendNowResponse$valu !== void 0 ? _sendNowResponse$valu : 0;
+          });
+          var anySendErrors = computed(() => {
+            var _sendNowResponse$valu3, _sendNowResponse$valu4;
+            return !!((_sendNowResponse$valu3 = sendNowResponse.value) !== null && _sendNowResponse$valu3 !== void 0 && (_sendNowResponse$valu4 = _sendNowResponse$valu3.errors) !== null && _sendNowResponse$valu4 !== void 0 && _sendNowResponse$valu4.length);
+          });
+          var anySendWarnings = computed(() => {
+            var _sendNowResponse$valu5, _sendNowResponse$valu6;
+            return !!((_sendNowResponse$valu5 = sendNowResponse.value) !== null && _sendNowResponse$valu5 !== void 0 && (_sendNowResponse$valu6 = _sendNowResponse$valu5.warnings) !== null && _sendNowResponse$valu6 !== void 0 && _sendNowResponse$valu6.length);
+          });
+          var anyCommunicationsToSend = computed(() => {
+            var _sendNowResponse$valu7;
+            return !!((_sendNowResponse$valu7 = sendNowResponse.value) !== null && _sendNowResponse$valu7 !== void 0 && _sendNowResponse$valu7.anyCommunicationsToSend);
+          });
           var sendNowModalAlertType = computed(() => {
-            var _sendNowResponse$valu, _sendNowResponse$valu2, _sendNowResponse$valu3, _sendNowResponse$valu4;
-            if ((_sendNowResponse$valu = sendNowResponse.value) !== null && _sendNowResponse$valu !== void 0 && (_sendNowResponse$valu2 = _sendNowResponse$valu.errors) !== null && _sendNowResponse$valu2 !== void 0 && _sendNowResponse$valu2.length) {
+            if (anySendErrors.value) {
               return ModalAlertType.Alert;
-            } else if ((_sendNowResponse$valu3 = sendNowResponse.value) !== null && _sendNowResponse$valu3 !== void 0 && (_sendNowResponse$valu4 = _sendNowResponse$valu3.warnings) !== null && _sendNowResponse$valu4 !== void 0 && _sendNowResponse$valu4.length) {
+            } else if (anySendWarnings.value) {
               return ModalAlertType.Warning;
             }
             return ModalAlertType.Information;
           });
-          var sentConfirmationsMessage = computed(() => {
-            var _sendNowResponse$valu5, _sendNowResponse$valu6;
-            var count = (_sendNowResponse$valu5 = (_sendNowResponse$valu6 = sendNowResponse.value) === null || _sendNowResponse$valu6 === void 0 ? void 0 : _sendNowResponse$valu6.communicationsSentCount) !== null && _sendNowResponse$valu5 !== void 0 ? _sendNowResponse$valu5 : 0;
-            return count ? "Successfully sent ".concat(count, " confirmation").concat(count > 1 ? "s" : "", ".") : null;
+          var sendNowOutcomeMessage = computed(() => {
+            var message = "";
+            if (sentCount.value > 0) {
+              message = "<p>Successfully sent ".concat(sentCount.value, " ").concat(pluralize("confirmation", sentCount.value), ".</p>");
+            } else if (!anySendErrors.value && !anySendWarnings.value && !anyCommunicationsToSend.value) {
+              message = "<p>Everybody has already been sent a confirmation. No additional confirmations sent.</p>";
+            }
+            return message;
           });
           var isBusy = computed(() => {
             return isSelectingFilters.value || isSelectingCloneSettings.value || isCloningSchedules.value || isAutoScheduling.value || isSendingNow.value;
@@ -2861,6 +3426,21 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
               reloadAllOccurrences.value = false;
             });
           }
+          function reportAssignedResources(unassignedResourceCountGuid, assignedCount) {
+            var _unassignedResourceCo, _unassignedResourceCo2;
+            if (!unassignedResourceCountGuid || assignedCount <= 0 || !((_unassignedResourceCo = unassignedResourceCounts.value) !== null && _unassignedResourceCo !== void 0 && _unassignedResourceCo.length)) {
+              return;
+            }
+            unassignedResourceCounts.value = (_unassignedResourceCo2 = unassignedResourceCounts.value.filter(c => c.guid !== unassignedResourceCountGuid || c.resourceCount - assignedCount > 0).map(c => {
+              if (c.guid !== unassignedResourceCountGuid) {
+                return c;
+              } else {
+                return _objectSpread2(_objectSpread2({}, c), {}, {
+                  resourceCount: c.resourceCount - assignedCount
+                });
+              }
+            })) !== null && _unassignedResourceCo2 !== void 0 ? _unassignedResourceCo2 : [];
+          }
           function onCopyToClipboardClick() {
             return _onCopyToClipboardClick.apply(this, arguments);
           }
@@ -2919,7 +3499,7 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
           }
           function _onAutoScheduleClick() {
             _onAutoScheduleClick = _asyncToGenerator(function* () {
-              var _result$data2, _result$data3, _result$data4;
+              var _result$data2, _result$data3, _result$data$unassign, _result$data4, _result$data5;
               if (isAutoScheduling.value) {
                 return;
               }
@@ -2935,7 +3515,8 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
               }
               filters.value = (_result$data2 = result.data) === null || _result$data2 === void 0 ? void 0 : _result$data2.filters;
               scheduleOccurrences.value = (_result$data3 = result.data) === null || _result$data3 === void 0 ? void 0 : _result$data3.scheduleOccurrences;
-              navigationUrls.value = (_result$data4 = result.data) === null || _result$data4 === void 0 ? void 0 : _result$data4.navigationUrls;
+              unassignedResourceCounts.value = (_result$data$unassign = (_result$data4 = result.data) === null || _result$data4 === void 0 ? void 0 : _result$data4.unassignedResourceCounts) !== null && _result$data$unassign !== void 0 ? _result$data$unassign : [];
+              navigationUrls.value = (_result$data5 = result.data) === null || _result$data5 === void 0 ? void 0 : _result$data5.navigationUrls;
               reloadAllScheduleOccurrences();
             });
             return _onAutoScheduleClick.apply(this, arguments);
@@ -2965,10 +3546,12 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
             return _onSendNowClick.apply(this, arguments);
           }
           function onFiltersApplied(appliedFilters) {
+            var _appliedFilters$unass;
             occurrenceDateComponents.value = [];
             scheduleComponentsByOccurrenceDate.value = {};
             filters.value = appliedFilters === null || appliedFilters === void 0 ? void 0 : appliedFilters.filters;
             scheduleOccurrences.value = appliedFilters === null || appliedFilters === void 0 ? void 0 : appliedFilters.scheduleOccurrences;
+            unassignedResourceCounts.value = (_appliedFilters$unass = appliedFilters === null || appliedFilters === void 0 ? void 0 : appliedFilters.unassignedResourceCounts) !== null && _appliedFilters$unass !== void 0 ? _appliedFilters$unass : [];
             navigationUrls.value = appliedFilters === null || appliedFilters === void 0 ? void 0 : appliedFilters.navigationUrls;
             nextTick(() => {
               if (snapContainerElement.value) {
@@ -2994,6 +3577,8 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
               reloadOccurrencesContainingResource.value = null;
             });
           }
+          provide(UnassignedResourceCounts, unassignedResourceCounts);
+          provide(ReportAssignedResources, reportAssignedResources);
           provide(ReloadAllOccurrences, reloadAllOccurrences);
           provide(ReloadOccurrencesContainingResource, reloadOccurrencesContainingResource);
           provideSecurityGrant(securityGrant);
@@ -3150,7 +3735,7 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
                 filters: filters.value,
                 disallowGroupSelection: disallowGroupSelection.value,
                 onFiltersApplied: onFiltersApplied
-              }, null, 8, ["isVisible", "filters", "disallowGroupSelection"]), createVNode(unref(script$c), {
+              }, null, 8, ["isVisible", "filters", "disallowGroupSelection"]), createVNode(unref(script$e), {
                 isVisible: isSelectingCloneSettings.value,
                 "onUpdate:isVisible": _cache[1] || (_cache[1] = $event => isSelectingCloneSettings.value = $event),
                 filters: filters.value,
@@ -3170,14 +3755,14 @@ System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/m
                 "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => isSendNowModalVisible.value = $event),
                 type: unref(sendNowModalAlertType)
               }, {
-                default: withCtx(() => {
-                  var _sendNowResponse$valu7, _sendNowResponse$valu8, _sendNowResponse$valu9, _sendNowResponse$valu10, _sendNowResponse$valu11;
-                  return [(_sendNowResponse$valu7 = sendNowResponse.value) !== null && _sendNowResponse$valu7 !== void 0 && (_sendNowResponse$valu8 = _sendNowResponse$valu7.errors) !== null && _sendNowResponse$valu8 !== void 0 && _sendNowResponse$valu8.length ? (openBlock(), createElementBlock("div", _hoisted_49, [_hoisted_50, createElementVNode("ul", null, [(openBlock(true), createElementBlock(Fragment, null, renderList(sendNowResponse.value.errors, error => {
-                    return openBlock(), createElementBlock("li", null, toDisplayString(error), 1);
-                  }), 256))])])) : createCommentVNode("v-if", true), (_sendNowResponse$valu9 = sendNowResponse.value) !== null && _sendNowResponse$valu9 !== void 0 && (_sendNowResponse$valu10 = _sendNowResponse$valu9.warnings) !== null && _sendNowResponse$valu10 !== void 0 && _sendNowResponse$valu10.length ? (openBlock(), createElementBlock("div", _hoisted_51, [_hoisted_52, createElementVNode("ul", null, [(openBlock(true), createElementBlock(Fragment, null, renderList(sendNowResponse.value.warnings, warning => {
-                    return openBlock(), createElementBlock("li", null, toDisplayString(warning), 1);
-                  }), 256))])])) : createCommentVNode("v-if", true), ((_sendNowResponse$valu11 = sendNowResponse.value) === null || _sendNowResponse$valu11 === void 0 ? void 0 : _sendNowResponse$valu11.anyCommunicationsToSend) === false ? (openBlock(), createElementBlock("p", _hoisted_53, " Everybody has already been sent a confirmation. No additional confirmations sent. ")) : unref(sentConfirmationsMessage) ? (openBlock(), createElementBlock("p", _hoisted_54, toDisplayString(unref(sentConfirmationsMessage)), 1)) : createCommentVNode("v-if", true)];
-                }),
+                default: withCtx(() => [unref(anySendErrors) ? (openBlock(), createElementBlock("div", _hoisted_49, [_hoisted_50, createElementVNode("ul", null, [(openBlock(true), createElementBlock(Fragment, null, renderList(sendNowResponse.value.errors, error => {
+                  return openBlock(), createElementBlock("li", null, toDisplayString(error), 1);
+                }), 256))])])) : createCommentVNode("v-if", true), unref(anySendWarnings) ? (openBlock(), createElementBlock("div", _hoisted_51, [_hoisted_52, createElementVNode("ul", null, [(openBlock(true), createElementBlock(Fragment, null, renderList(sendNowResponse.value.warnings, warning => {
+                  return openBlock(), createElementBlock("li", null, toDisplayString(warning), 1);
+                }), 256))])])) : createCommentVNode("v-if", true), unref(sendNowOutcomeMessage) ? (openBlock(), createElementBlock("div", {
+                  key: 2,
+                  innerHTML: unref(sendNowOutcomeMessage)
+                }, null, 8, _hoisted_53)) : createCommentVNode("v-if", true)]),
                 _: 1
               }, 8, ["modelValue", "type"])]),
               _: 1

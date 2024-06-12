@@ -1,4 +1,4 @@
-System.register(['vue', './utils', '@Obsidian/Controls/textBox', '@Obsidian/Controls/numberBox', '@Obsidian/Controls/checkBox', '@Obsidian/Utility/booleanUtils', '@Obsidian/Utility/numberUtils', '@Obsidian/Utility/component', '@Obsidian/Core/Reporting/comparisonType', './fieldType'], (function (exports, module) {
+System.register(['vue', './utils', '@Obsidian/Controls/textBox.obs', '@Obsidian/Controls/numberBox.obs', '@Obsidian/Controls/checkBox.obs', '@Obsidian/Utility/booleanUtils', '@Obsidian/Utility/numberUtils', '@Obsidian/Utility/component', '@Obsidian/Core/Reporting/comparisonType', './fieldType'], (function (exports, module) {
   'use strict';
   var defineComponent, computed, ref, watch, getFieldEditorProps, getFieldConfigurationProps, TextBox, NumberBox, CheckBox, asBooleanOrNull, asBoolean, asTrueFalseOrNull, toNumber, toNumberOrNull, defineAsyncComponent, useVModelPassthrough;
   return {
@@ -96,6 +96,11 @@ System.register(['vue', './utils', '@Obsidian/Controls/textBox', '@Obsidian/Cont
             }
             var showCountDownConfig = props.configurationValues[ConfigurationValueKey.ShowCountDown];
             var showCountDownValue = asBooleanOrNull(showCountDownConfig) || false;
+            var allowHtmlConfig = props.configurationValues[ConfigurationValueKey.AllowHtml];
+            var allowHtmlValue = asBooleanOrNull(allowHtmlConfig) || false;
+            if (allowHtmlValue) {
+              attributes.allowHtml = allowHtmlValue;
+            }
             if (showCountDownValue) {
               attributes.showCountDown = showCountDownValue;
             }

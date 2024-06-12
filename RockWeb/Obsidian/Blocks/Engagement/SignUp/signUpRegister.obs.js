@@ -1,10 +1,12 @@
-System.register(['vue', '@Obsidian/Controls/checkBox', '@Obsidian/Controls/emailBox', '@Obsidian/Controls/phoneNumberBox.obs', '@Obsidian/Controls/textBox', '@Obsidian/Controls/rockButton', '@Obsidian/Controls/rockLabel', '@Obsidian/Controls/checkBoxList', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Controls/radioButtonList', '@Obsidian/Enums/Controls/alertType', '@Obsidian/Controls/loading', '@Obsidian/Controls/rockForm', '@Obsidian/Enums/Blocks/Engagement/SignUp/registerMode', '@Obsidian/Enums/Controls/btnType', '@Obsidian/Utility/block'], (function (exports) {
+System.register(['vue', '@Obsidian/Controls/attributeValuesContainer.obs', '@Obsidian/Controls/checkBox.obs', '@Obsidian/Controls/emailBox.obs', '@Obsidian/Controls/phoneNumberBox.obs', '@Obsidian/Controls/textBox.obs', '@Obsidian/Controls/rockButton.obs', '@Obsidian/Controls/rockLabel.obs', '@Obsidian/Controls/checkBoxList.obs', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Controls/radioButtonList.obs', '@Obsidian/Enums/Controls/alertType', '@Obsidian/Controls/loading.obs', '@Obsidian/Controls/rockForm.obs', '@Obsidian/Enums/Blocks/Engagement/SignUp/registerMode', '@Obsidian/Enums/Controls/btnType', '@Obsidian/Utility/block'], (function (exports) {
   'use strict';
-  var createElementVNode, defineComponent, computed, openBlock, createElementBlock, Fragment, toDisplayString, createVNode, unref, isRef, createTextVNode, renderList, createBlock, withCtx, createCommentVNode, ref, CheckBox, EmailBox, PhoneNumberBox, TextBox, RockButton, RockLabel, CheckBoxList, NotificationBox, RadioButtonList, AlertType, Loading, RockForm, RegisterMode, BtnType, useConfigurationValues, useInvokeBlockAction, useReloadBlock, onConfigurationValuesChanged;
+  var createElementVNode, defineComponent, inject, ref, computed, openBlock, createElementBlock, Fragment, toDisplayString, createVNode, unref, isRef, createCommentVNode, createTextVNode, renderList, createBlock, withCtx, provide, AttributeValuesContainer, CheckBox, EmailBox, PhoneNumberBox, TextBox, RockButton, RockLabel, CheckBoxList, NotificationBox, RadioButtonList, AlertType, Loading, RockForm, RegisterMode, BtnType, useConfigurationValues, useInvokeBlockAction, useReloadBlock, onConfigurationValuesChanged;
   return {
     setters: [function (module) {
       createElementVNode = module.createElementVNode;
       defineComponent = module.defineComponent;
+      inject = module.inject;
+      ref = module.ref;
       computed = module.computed;
       openBlock = module.openBlock;
       createElementBlock = module.createElementBlock;
@@ -13,12 +15,14 @@ System.register(['vue', '@Obsidian/Controls/checkBox', '@Obsidian/Controls/email
       createVNode = module.createVNode;
       unref = module.unref;
       isRef = module.isRef;
+      createCommentVNode = module.createCommentVNode;
       createTextVNode = module.createTextVNode;
       renderList = module.renderList;
       createBlock = module.createBlock;
       withCtx = module.withCtx;
-      createCommentVNode = module.createCommentVNode;
-      ref = module.ref;
+      provide = module.provide;
+    }, function (module) {
+      AttributeValuesContainer = module["default"];
     }, function (module) {
       CheckBox = module["default"];
     }, function (module) {
@@ -86,8 +90,11 @@ System.register(['vue', '@Obsidian/Controls/checkBox', '@Obsidian/Controls/email
         };
       }
 
+      var MemberAttributes = Symbol("member-attributes");
+      var MemberOpportunityAttributes = Symbol("member-opportunity-attributes");
+
       var _hoisted_1$5 = {
-        class: "row"
+        class: "row sign-up-anonymous-name"
       };
       var _hoisted_2$4 = {
         class: "col-md-6"
@@ -96,7 +103,7 @@ System.register(['vue', '@Obsidian/Controls/checkBox', '@Obsidian/Controls/email
         class: "col-md-6"
       };
       var _hoisted_4$3 = {
-        class: "row"
+        class: "row sign-up-anonymous-communication"
       };
       var _hoisted_5$3 = {
         class: "col-md-6"
@@ -105,12 +112,20 @@ System.register(['vue', '@Obsidian/Controls/checkBox', '@Obsidian/Controls/email
         class: "col-md-6"
       };
       var _hoisted_7$2 = {
-        class: "row -mt-form-group"
+        class: "row -mt-form-group sign-up-anonymous-allow-sms"
       };
       var _hoisted_8$2 = {
         class: "col-md-6 col-md-offset-6"
       };
-      var _hoisted_9$2 = createElementVNode("hr", null, null, -1);
+      var _hoisted_9$2 = {
+        key: 0,
+        class: "sign-up-anonymous-member-attributes"
+      };
+      var _hoisted_10$2 = {
+        key: 1,
+        class: "sign-up-anonymous-member-opportunity-attributes"
+      };
+      var _hoisted_11$2 = createElementVNode("hr", null, null, -1);
       var script$5 = defineComponent({
         name: 'registerIndividual.partial',
         props: {
@@ -137,6 +152,8 @@ System.register(['vue', '@Obsidian/Controls/checkBox', '@Obsidian/Controls/email
         },
         setup(__props) {
           var props = __props;
+          var memberAttributes = inject(MemberAttributes, ref({}));
+          var memberOpportunityAttributes = inject(MemberOpportunityAttributes, ref({}));
           var firstName = computed({
             get() {
               var _props$registrant$fir;
@@ -189,40 +206,84 @@ System.register(['vue', '@Obsidian/Controls/checkBox', '@Obsidian/Controls/email
           var mobilePhoneRules = computed(() => {
             return props.requireMobilePhone ? "required" : "";
           });
+          var anyMemberAttributes = computed(() => {
+            return !!Object.keys(memberAttributes.value).length;
+          });
+          var anyMemberOpportunityAttributes = computed(() => {
+            return !!Object.keys(memberOpportunityAttributes.value).length;
+          });
+          var memberAttributeValues = computed({
+            get() {
+              var _props$registrant$mem;
+              return (_props$registrant$mem = props.registrant.memberAttributeValues) !== null && _props$registrant$mem !== void 0 ? _props$registrant$mem : {};
+            },
+            set(newValue) {
+              props.registrant.memberAttributeValues = newValue;
+            }
+          });
+          var memberOpportunityAttributeValues = computed({
+            get() {
+              var _props$registrant$mem2;
+              return (_props$registrant$mem2 = props.registrant.memberOpportunityAttributeValues) !== null && _props$registrant$mem2 !== void 0 ? _props$registrant$mem2 : {};
+            },
+            set(newValue) {
+              props.registrant.memberOpportunityAttributeValues = newValue;
+            }
+          });
           return (_ctx, _cache) => {
             return openBlock(), createElementBlock(Fragment, null, [createElementVNode("h4", null, toDisplayString(__props.title), 1), createElementVNode("div", _hoisted_1$5, [createElementVNode("div", _hoisted_2$4, [createVNode(unref(TextBox), {
               modelValue: unref(firstName),
               "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => isRef(firstName) ? firstName.value = $event : null),
               label: "First Name",
               rules: "required",
+              validationTitle: "".concat(__props.title, " First Name"),
               disabled: __props.disabled
-            }, null, 8, ["modelValue", "disabled"])]), createElementVNode("div", _hoisted_3$4, [createVNode(unref(TextBox), {
+            }, null, 8, ["modelValue", "validationTitle", "disabled"])]), createElementVNode("div", _hoisted_3$4, [createVNode(unref(TextBox), {
               modelValue: unref(lastName),
               "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => isRef(lastName) ? lastName.value = $event : null),
               label: "Last Name",
               rules: "required",
+              validationTitle: "".concat(__props.title, " Last Name"),
               disabled: __props.disabled
-            }, null, 8, ["modelValue", "disabled"])])]), createElementVNode("div", _hoisted_4$3, [createElementVNode("div", _hoisted_5$3, [createVNode(unref(EmailBox), {
+            }, null, 8, ["modelValue", "validationTitle", "disabled"])])]), createElementVNode("div", _hoisted_4$3, [createElementVNode("div", _hoisted_5$3, [createVNode(unref(EmailBox), {
               modelValue: unref(email),
               "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => isRef(email) ? email.value = $event : null),
               label: "Email",
               rules: unref(emailRules),
+              validationTitle: "".concat(__props.title, " Email"),
               disabled: __props.disabled
-            }, null, 8, ["modelValue", "rules", "disabled"])]), createElementVNode("div", _hoisted_6$3, [createVNode(unref(PhoneNumberBox), {
+            }, null, 8, ["modelValue", "rules", "validationTitle", "disabled"])]), createElementVNode("div", _hoisted_6$3, [createVNode(unref(PhoneNumberBox), {
               modelValue: unref(mobilePhoneNumber),
               "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => isRef(mobilePhoneNumber) ? mobilePhoneNumber.value = $event : null),
               countryCode: unref(mobilePhoneCountryCode),
               "onUpdate:countryCode": _cache[4] || (_cache[4] = $event => isRef(mobilePhoneCountryCode) ? mobilePhoneCountryCode.value = $event : null),
               label: "Mobile Phone",
               rules: unref(mobilePhoneRules),
+              validationTitle: "".concat(__props.title, " Mobile Phone"),
               disabled: __props.disabled
-            }, null, 8, ["modelValue", "countryCode", "rules", "disabled"])])]), createElementVNode("div", _hoisted_7$2, [createElementVNode("div", _hoisted_8$2, [createVNode(unref(CheckBox), {
+            }, null, 8, ["modelValue", "countryCode", "rules", "validationTitle", "disabled"])])]), createElementVNode("div", _hoisted_7$2, [createElementVNode("div", _hoisted_8$2, [createVNode(unref(CheckBox), {
               modelValue: __props.registrant.allowSms,
               "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => __props.registrant.allowSms = $event),
               label: "",
               text: "Allow SMS Messages",
               disabled: __props.disabled || !unref(mobilePhoneNumber)
-            }, null, 8, ["modelValue", "disabled"])])]), _hoisted_9$2], 64);
+            }, null, 8, ["modelValue", "disabled"])])]), unref(anyMemberAttributes) ? (openBlock(), createElementBlock("div", _hoisted_9$2, [createVNode(unref(AttributeValuesContainer), {
+              modelValue: unref(memberAttributeValues),
+              "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => isRef(memberAttributeValues) ? memberAttributeValues.value = $event : null),
+              isEditMode: true,
+              attributes: unref(memberAttributes),
+              showCategoryLabel: false,
+              numberOfColumns: 2,
+              disabled: __props.disabled
+            }, null, 8, ["modelValue", "attributes", "disabled"])])) : createCommentVNode("v-if", true), unref(anyMemberOpportunityAttributes) ? (openBlock(), createElementBlock("div", _hoisted_10$2, [createVNode(unref(AttributeValuesContainer), {
+              modelValue: unref(memberOpportunityAttributeValues),
+              "onUpdate:modelValue": _cache[7] || (_cache[7] = $event => isRef(memberOpportunityAttributeValues) ? memberOpportunityAttributeValues.value = $event : null),
+              isEditMode: true,
+              attributes: unref(memberOpportunityAttributes),
+              showCategoryLabel: false,
+              numberOfColumns: 2,
+              disabled: __props.disabled
+            }, null, 8, ["modelValue", "attributes", "disabled"])])) : createCommentVNode("v-if", true), _hoisted_11$2], 64);
           };
         }
       });
@@ -738,13 +799,15 @@ System.register(['vue', '@Obsidian/Controls/checkBox', '@Obsidian/Controls/email
       var script = exports('default', defineComponent({
         name: 'signUpRegister',
         setup(__props) {
-          var _config$mode, _config$communication, _config$registrants;
+          var _config$mode, _config$communication, _config$registrants, _config$memberAttribu, _config$memberOpportu;
           var config = useConfigurationValues();
           var invokeBlockAction = useInvokeBlockAction();
           var reloadBlock = useReloadBlock();
           var registerMode = ref((_config$mode = config.mode) !== null && _config$mode !== void 0 ? _config$mode : RegisterMode.Anonymous);
           var communicationPreferenceItems = ref((_config$communication = config.communicationPreferenceItems) !== null && _config$communication !== void 0 ? _config$communication : []);
           var registrants = ref((_config$registrants = config.registrants) !== null && _config$registrants !== void 0 ? _config$registrants : []);
+          var memberAttributes = ref((_config$memberAttribu = config.memberAttributes) !== null && _config$memberAttribu !== void 0 ? _config$memberAttribu : {});
+          var memberOpportunityAttributes = ref((_config$memberOpportu = config.memberOpportunityAttributes) !== null && _config$memberOpportu !== void 0 ? _config$memberOpportu : {});
           var isRegistering = ref(false);
           var errorMessage = ref("");
           var registrationWarning = ref("");
@@ -813,6 +876,8 @@ System.register(['vue', '@Obsidian/Controls/checkBox', '@Obsidian/Controls/email
             });
             return _onSubmit.apply(this, arguments);
           }
+          provide(MemberAttributes, memberAttributes);
+          provide(MemberOpportunityAttributes, memberOpportunityAttributes);
           onConfigurationValuesChanged(reloadBlock);
           return (_ctx, _cache) => {
             var _registeredRegistrant2, _unregisteredRegistra2;

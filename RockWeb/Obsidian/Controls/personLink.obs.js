@@ -1,4 +1,4 @@
-System.register(['vue', '@Obsidian/Utility/http', './popOver.obs', '@Obsidian/Utility/block', './loading'], (function (exports) {
+System.register(['vue', '@Obsidian/Utility/http', './popOver.obs', '@Obsidian/Utility/block', './loading.obs'], (function (exports) {
   'use strict';
   var createTextVNode, defineComponent, ref, watch, openBlock, createElementBlock, Fragment, createVNode, unref, withCtx, createElementVNode, mergeProps, createCommentVNode, toDisplayString, nextTick, useHttp, PopOver, useSecurityGrantToken, Loading;
   return {
@@ -144,7 +144,7 @@ System.register(['vue', '@Obsidian/Utility/http', './popOver.obs', '@Obsidian/Ut
               activator: withCtx(props => [createElementVNode("a", mergeProps(props, {
                 href: '/Person/' + __props.personId
               }), [__props.photoId != 0 ? (openBlock(), createElementBlock("i", _hoisted_2)) : createCommentVNode("v-if", true), _hoisted_3, createElementVNode("strong", null, toDisplayString(__props.personName), 1)], 16, _hoisted_1)]),
-              popOverContent: withCtx(() => [createVNode(unref(Loading), {
+              default: withCtx(() => [createVNode(unref(Loading), {
                 isLoading: !popOverContent.value,
                 isSmall: ""
               }, {

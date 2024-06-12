@@ -15,9 +15,8 @@
             <ul class="list-group">
                 <asp:Repeater ID="rpParticipant" runat="server">
                     <ItemTemplate>
-                        <li class="list-group-item pm-participant">
-                            <div class="photo-icon photo-round photo-round-xs pull-left margin-r-sm" style="background-image: url('<%# Eval("PhotoUrl") %>&width=56');"></div>
-                            <span><%# Eval( "FullName" ) %></span>
+                        <li class="list-group-item">
+                            <%# com.blueboxmoon.ProjectManagement.Utility.GetPersonDisplayHtml( Container.DataItem as Rock.Model.Person, CurrentPerson, true ) %>
                         </li>
                     </ItemTemplate>
                 </asp:Repeater>

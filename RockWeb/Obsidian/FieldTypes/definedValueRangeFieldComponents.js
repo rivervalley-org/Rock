@@ -1,4 +1,4 @@
-System.register(['vue', './utils', '@Obsidian/Controls/rockFormField', '@Obsidian/Utility/component', '@Obsidian/Utility/booleanUtils', '@Obsidian/Utility/linq', './fieldType'], (function (exports, module) {
+System.register(['vue', './utils', '@Obsidian/Controls/rockFormField.obs', '@Obsidian/Utility/component', '@Obsidian/Utility/booleanUtils', '@Obsidian/Utility/linq', './fieldType'], (function (exports, module) {
   'use strict';
   var defineComponent, ref, computed, watch, inject, getFieldEditorProps, RockFormField, defineAsyncComponent, asBoolean, List;
   return {

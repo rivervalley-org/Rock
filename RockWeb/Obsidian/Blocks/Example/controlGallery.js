@@ -1,8 +1,9 @@
-System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Controls/btnType', '@Obsidian/Enums/Controls/btnSize', '@Obsidian/Libs/highlightJs', '@Obsidian/Controls/fieldFilterEditor', '@Obsidian/Controls/attributeValuesContainer', '@Obsidian/Controls/textBox', '@Obsidian/Controls/emailBox', '@Obsidian/Controls/codeEditor', '@Obsidian/Controls/currencyBox', '@Obsidian/Controls/datePicker.obs', '@Obsidian/Controls/dateRangePicker', '@Obsidian/Controls/dateTimePicker', '@Obsidian/Controls/listBox', '@Obsidian/Controls/birthdayPicker', '@Obsidian/Controls/numberUpDown', '@Obsidian/Controls/addressControl.obs', '@Obsidian/Controls/inlineSwitch', '@Obsidian/Controls/switch', '@Obsidian/Controls/toggle', '@Obsidian/Controls/itemsWithPreAndPostHtml', '@Obsidian/Controls/staticFormControl', '@Obsidian/Controls/progressTracker', '@Obsidian/Controls/rockForm', '@Obsidian/Controls/rockButton', '@Obsidian/Controls/radioButtonList', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/dialog', '@Obsidian/Controls/inlineCheckBox', '@Obsidian/Controls/checkBox', '@Obsidian/Controls/phoneNumberBox.obs', '@Obsidian/Controls/helpBlock', '@Obsidian/Controls/datePartsPicker', '@Obsidian/Controls/colorPicker', '@Obsidian/Controls/numberBox', '@Obsidian/Controls/numberRangeBox', '@Obsidian/Controls/genderDropDownList', '@Obsidian/Controls/socialSecurityNumberBox', '@Obsidian/Controls/timePicker', '@Obsidian/Controls/urlLinkBox', '@Obsidian/Controls/checkBoxList', '@Obsidian/Controls/rating', '@Obsidian/Controls/fullscreen', '@Obsidian/Controls/panel', '@Obsidian/Controls/personPicker', '@Obsidian/Controls/fileUploader', '@Obsidian/Controls/imageUploader', '@Obsidian/Controls/entityTypePicker', '@Obsidian/Controls/achievementTypePicker', '@Obsidian/Controls/assessmentTypePicker', '@Obsidian/Controls/assetStorageProviderPicker', '@Obsidian/Controls/binaryFileTypePicker', '@Obsidian/Controls/binaryFilePicker', '@Obsidian/Controls/slidingDateRangePicker.obs', '@Obsidian/Controls/definedValuePicker.obs', '@Obsidian/Controls/categoryPicker', '@Obsidian/Controls/locationItemPicker', '@Obsidian/Controls/connectionRequestPicker', '@Obsidian/Controls/copyButton', '@Obsidian/Controls/entityTagList', '@Obsidian/Controls/following', '@Obsidian/Controls/auditDetail', '@Obsidian/Controls/campusPicker.obs', '@Obsidian/Templates/detailBlock', '@Obsidian/Utility/numberUtils', '@Obsidian/Utility/guid', '@Obsidian/SystemGuids/assessmentType', '@Obsidian/SystemGuids/binaryFiletype', '@Obsidian/SystemGuids/definedType', '@Obsidian/SystemGuids/entityType', '@Obsidian/SystemGuids/fieldType', '@Obsidian/Utility/slidingDateRange', '@Obsidian/Utility/promiseUtils', '@Obsidian/Utility/stringUtils', '@Obsidian/Controls/transitionVerticalCollapse', '@Obsidian/Controls/sectionContainer', '@Obsidian/Controls/sectionHeader', '@Obsidian/Enums/Controls/pickerDisplayStyle', '@Obsidian/PageState', '@Obsidian/Controls/badgeComponentPicker', '@Obsidian/Controls/componentPicker', '@Obsidian/Controls/modal', '@Obsidian/Controls/eventItemPicker', '@Obsidian/Controls/dataViewPicker', '@Obsidian/Controls/workflowTypePicker', '@Obsidian/Controls/financialGatewayPicker', '@Obsidian/Controls/financialStatementTemplatePicker', '@Obsidian/Controls/fieldTypePicker', '@Obsidian/Controls/gradePicker', '@Obsidian/Controls/scheduleBuilder.obs', '@Obsidian/Controls/groupMemberPicker', '@Obsidian/Controls/interactionChannelPicker', '@Obsidian/Controls/interactionComponentPicker', '@Obsidian/Controls/lavaCommandPicker', '@Obsidian/Controls/remoteAuthsPicker', '@Obsidian/Controls/stepProgramPicker', '@Obsidian/Controls/stepStatusPicker', '@Obsidian/Controls/stepTypePicker', '@Obsidian/Controls/streakTypePicker', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Enums/Controls/alertType', '@Obsidian/Controls/badgeList', '@Obsidian/Controls/badgePicker', '@Obsidian/Controls/basicTimePicker', '@Obsidian/Controls/countdownTimer', '@Obsidian/Controls/electronicSignature', '@Obsidian/Controls/fieldTypeEditor', '@Obsidian/Controls/inlineRangeSlider.obs', '@Obsidian/Controls/rangeSlider.obs', '@Obsidian/Controls/javaScriptAnchor', '@Obsidian/Controls/keyValueList', '@Obsidian/Controls/loading', '@Obsidian/Controls/loadingIndicator', '@Obsidian/Controls/numberUpDownGroup', '@Obsidian/Controls/panelWidget', '@Obsidian/Controls/progressBar', '@Obsidian/Controls/rockLabel', '@Obsidian/Controls/rockValidation', '@Obsidian/Controls/tabbedContent', '@Obsidian/Controls/valueDetailList', '@Obsidian/Controls/pagePicker.obs', '@Obsidian/Controls/groupPicker', '@Obsidian/Controls/mergeTemplatePicker', '@Obsidian/Enums/Controls/mergeTemplateOwnership', '@Obsidian/Controls/metricCategoryPicker', '@Obsidian/Controls/metricItemPicker', '@Obsidian/Controls/registrationTemplatePicker', '@Obsidian/Controls/reportPicker', '@Obsidian/Controls/schedulePicker', '@Obsidian/Controls/workflowActionTypePicker.obs', '@Obsidian/Controls/dayOfWeekPicker.obs', '@Obsidian/Controls/monthDayPicker.obs', '@Obsidian/Controls/monthYearPicker.obs', '@Obsidian/Controls/cacheabilityPicker.obs', '@Obsidian/Controls/buttonGroup.obs', '@Obsidian/Controls/intervalPicker.obs', '@Obsidian/Controls/geoPicker.obs', '@Obsidian/Controls/contentDropDownPicker.obs', '@Obsidian/Controls/wordCloud.obs', '@Obsidian/Controls/eventCalendarPicker.obs', '@Obsidian/Controls/groupTypePicker.obs', '@Obsidian/Controls/locationAddressPicker.obs', '@Obsidian/Controls/locationPicker.obs', '@Obsidian/Controls/locationList.obs', '@Obsidian/Controls/ethnicityPicker.obs', '@Obsidian/Controls/racePicker.obs', '@Obsidian/Controls/mediaElementPicker.obs', '@Obsidian/Controls/mergeFieldPicker.obs', '@Obsidian/Controls/categorizedValuePicker.obs', '@Obsidian/Controls/reminderTypePicker.obs', '@Obsidian/Controls/groupRolePicker.obs', '@Obsidian/Controls/modalAlert.obs', '@Obsidian/Enums/Controls/modalAlertType', '@Obsidian/Controls/contentChannelItemPicker.obs', '@Obsidian/Controls/personLink.obs', '@Obsidian/Controls/popOver.obs', '@Obsidian/Controls/rockLiteral.obs', '@Obsidian/Controls/registryEntry.obs', '@Obsidian/Controls/groupTypeGroupPicker.obs', '@Obsidian/Controls/imageEditor.obs', '@Obsidian/Controls/copyButton.obs', '@Obsidian/Controls/sectionHeader.obs', '@Obsidian/Controls/switch.obs', '@Obsidian/Controls/transitionVerticalCollapse.obs', '@Obsidian/Controls/checkBox.obs', '@Obsidian/Controls/textBox.obs', '@Obsidian/Controls/numberBox.obs'], (function (exports) {
+System.register(['vue', '@Obsidian/Utility/stringUtils', '@Obsidian/Enums/Controls/pickerDisplayStyle', '@Obsidian/Controls/copyButton.obs', '@Obsidian/Controls/sectionHeader.obs', '@Obsidian/Controls/switch.obs', '@Obsidian/Controls/transitionVerticalCollapse.obs', '@Obsidian/Libs/highlightJs', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Controls/btnType', '@Obsidian/Enums/Controls/btnSize', '@Obsidian/Controls/fieldFilterEditor.obs', '@Obsidian/Controls/attributeValuesContainer.obs', '@Obsidian/Controls/textBox.obs', '@Obsidian/Controls/emailBox.obs', '@Obsidian/Controls/codeEditor.obs', '@Obsidian/Controls/datePicker.obs', '@Obsidian/Controls/dateRangePicker.obs', '@Obsidian/Controls/dateTimePicker.obs', '@Obsidian/Controls/listItems.obs', '@Obsidian/Controls/listBox.obs', '@Obsidian/Controls/birthdayPicker.obs', '@Obsidian/Controls/numberUpDown.obs', '@Obsidian/Controls/addressControl.obs', '@Obsidian/Controls/inlineSwitch.obs', '@Obsidian/Controls/toggle.obs', '@Obsidian/Controls/itemsWithPreAndPostHtml.obs', '@Obsidian/Controls/staticFormControl.obs', '@Obsidian/Controls/progressTracker.obs', '@Obsidian/Controls/rockForm.obs', '@Obsidian/Controls/rockButton.obs', '@Obsidian/Controls/radioButtonList.obs', '@Obsidian/Controls/dropDownList.obs', '@Obsidian/Controls/dialog.obs', '@Obsidian/Controls/inlineCheckBox.obs', '@Obsidian/Controls/checkBox.obs', '@Obsidian/Controls/phoneNumberBox.obs', '@Obsidian/Controls/helpBlock.obs', '@Obsidian/Controls/datePartsPicker.obs', '@Obsidian/Controls/colorPicker.obs', '@Obsidian/Controls/numberBox.obs', '@Obsidian/Controls/numberRangeBox.obs', '@Obsidian/Controls/genderDropDownList.obs', '@Obsidian/Controls/socialSecurityNumberBox.obs', '@Obsidian/Controls/timePicker.obs', '@Obsidian/Controls/urlLinkBox.obs', '@Obsidian/Controls/checkBoxList.obs', '@Obsidian/Controls/rating.obs', '@Obsidian/Controls/fullscreen.obs', '@Obsidian/Controls/panel.obs', '@Obsidian/Controls/fileUploader.obs', '@Obsidian/Controls/imageUploader.obs', '@Obsidian/Controls/entityTypePicker.obs', '@Obsidian/Controls/achievementTypePicker.obs', '@Obsidian/Controls/assessmentTypePicker.obs', '@Obsidian/Controls/assetStorageProviderPicker.obs', '@Obsidian/Controls/binaryFileTypePicker.obs', '@Obsidian/Controls/binaryFilePicker.obs', '@Obsidian/Controls/slidingDateRangePicker.obs', '@Obsidian/Controls/definedValuePicker.obs', '@Obsidian/Controls/categoryPicker.obs', '@Obsidian/Controls/locationItemPicker.obs', '@Obsidian/Controls/connectionRequestPicker.obs', '@Obsidian/Controls/tagList.obs', '@Obsidian/Controls/following.obs', '@Obsidian/Controls/auditDetail.obs', '@Obsidian/Controls/campusPicker.obs', '@Obsidian/Templates/detailBlock', '@Obsidian/Utility/numberUtils', '@Obsidian/Utility/guid', '@Obsidian/SystemGuids/assessmentType', '@Obsidian/SystemGuids/binaryFiletype', '@Obsidian/SystemGuids/definedType', '@Obsidian/SystemGuids/definedValue', '@Obsidian/SystemGuids/entityType', '@Obsidian/SystemGuids/fieldType', '@Obsidian/Utility/slidingDateRange', '@Obsidian/Utility/promiseUtils', '@Obsidian/Controls/sectionContainer.obs', '@Obsidian/PageState', '@Obsidian/Controls/badgeComponentPicker.obs', '@Obsidian/Controls/componentPicker.obs', '@Obsidian/Controls/modal.obs', '@Obsidian/Controls/eventItemPicker.obs', '@Obsidian/Controls/dataViewPicker.obs', '@Obsidian/Controls/workflowTypePicker.obs', '@Obsidian/Controls/financialGatewayPicker.obs', '@Obsidian/Controls/financialStatementTemplatePicker.obs', '@Obsidian/Controls/fieldTypePicker.obs', '@Obsidian/Controls/gradePicker.obs', '@Obsidian/Controls/scheduleBuilder.obs', '@Obsidian/Controls/groupMemberPicker.obs', '@Obsidian/Controls/interactionChannelPicker.obs', '@Obsidian/Controls/interactionComponentPicker.obs', '@Obsidian/Controls/lavaCommandPicker.obs', '@Obsidian/Controls/remoteAuthsPicker.obs', '@Obsidian/Controls/stepProgramPicker.obs', '@Obsidian/Controls/stepProgramStepTypePicker.obs', '@Obsidian/Controls/stepProgramStepStatusPicker.obs', '@Obsidian/Controls/stepStatusPicker.obs', '@Obsidian/Controls/stepTypePicker.obs', '@Obsidian/Controls/streakTypePicker.obs', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Enums/Controls/alertType', '@Obsidian/Controls/badgeList.obs', '@Obsidian/Controls/badgePicker.obs', '@Obsidian/Controls/basicTimePicker.obs', '@Obsidian/Controls/countdownTimer.obs', '@Obsidian/Controls/mediaSelector.obs', '@Obsidian/Controls/electronicSignature.obs', '@Obsidian/Controls/fieldTypeEditor.obs', '@Obsidian/Controls/inlineRangeSlider.obs', '@Obsidian/Controls/rangeSlider.obs', '@Obsidian/Controls/javaScriptAnchor.obs', '@Obsidian/Controls/keyValueList.obs', '@Obsidian/Controls/loading.obs', '@Obsidian/Controls/loadingIndicator.obs', '@Obsidian/Controls/numberUpDownGroup.obs', '@Obsidian/Controls/progressBar.obs', '@Obsidian/Controls/rockLabel.obs', '@Obsidian/Controls/rockValidation.obs', '@Obsidian/Controls/tabbedBar.obs', '@Obsidian/Controls/tabbedContent.obs', '@Obsidian/Controls/valueDetailList.obs', '@Obsidian/Controls/pagePicker.obs', '@Obsidian/Controls/groupPicker.obs', '@Obsidian/Controls/mergeTemplatePicker.obs', '@Obsidian/Enums/Controls/mergeTemplateOwnership', '@Obsidian/Controls/metricCategoryPicker.obs', '@Obsidian/Controls/metricItemPicker.obs', '@Obsidian/Controls/registrationTemplatePicker.obs', '@Obsidian/Controls/reportPicker.obs', '@Obsidian/Controls/schedulePicker.obs', '@Obsidian/Controls/workflowActionTypePicker.obs', '@Obsidian/Controls/dayOfWeekPicker.obs', '@Obsidian/Controls/monthDayPicker.obs', '@Obsidian/Controls/monthYearPicker.obs', '@Obsidian/Controls/cacheabilityPicker.obs', '@Obsidian/Controls/buttonGroup.obs', '@Obsidian/Controls/intervalPicker.obs', '@Obsidian/Controls/geoPicker.obs', '@Obsidian/Controls/contentDropDownPicker.obs', '@Obsidian/Controls/wordCloud.obs', '@Obsidian/Controls/eventCalendarPicker.obs', '@Obsidian/Controls/groupTypePicker.obs', '@Obsidian/Controls/locationAddressPicker.obs', '@Obsidian/Controls/locationPicker.obs', '@Obsidian/Controls/locationList.obs', '@Obsidian/Controls/ethnicityPicker.obs', '@Obsidian/Controls/racePicker.obs', '@Obsidian/Controls/mediaElementPicker.obs', '@Obsidian/Controls/mergeFieldPicker.obs', '@Obsidian/Controls/categorizedValuePicker.obs', '@Obsidian/Controls/reminderTypePicker.obs', '@Obsidian/Controls/groupRolePicker.obs', '@Obsidian/Controls/modalAlert.obs', '@Obsidian/Enums/Controls/modalAlertType', '@Obsidian/Controls/contentChannelItemPicker.obs', '@Obsidian/Controls/personLink.obs', '@Obsidian/Controls/popOver.obs', '@Obsidian/Controls/rockLiteral.obs', '@Obsidian/Controls/registryEntry.obs', '@Obsidian/Controls/groupTypeGroupPicker.obs', '@Obsidian/Controls/groupAndRolePicker.obs', '@Obsidian/Controls/accountPicker.obs', '@Obsidian/Controls/noteTextEditor.obs', '@Obsidian/Controls/structuredContentEditor.obs', '@Obsidian/Controls/registrationInstancePicker.obs', '@Obsidian/Controls/interactionChannelInteractionComponentPicker.obs', '@Obsidian/Controls/workflowPicker.obs', '@Obsidian/Controls/valueList.obs', '@Obsidian/Controls/blockTemplatePicker.obs', '@Obsidian/Controls/buttonDropDownList.obs', '@Obsidian/Controls/dropDownMenu.obs', '@Obsidian/Utility/dialogs', '@Obsidian/Controls/dropDownContent.obs', '@Obsidian/Controls/campusAccountAmountPicker.obs', '@Obsidian/Controls/personPicker.obs', '@Obsidian/Controls/imageEditor.obs', '@Obsidian/Enums/Controls/mediaSelectorMode', '@Obsidian/Controls/grid', '@Obsidian/Utility/rockDateTime', '@Obsidian/Controls/currencyBox.obs'], (function (exports) {
   'use strict';
-  var pushScopeId, popScopeId, createElementVNode, createTextVNode, defineComponent, getCurrentInstance, computed, ref, openBlock, createElementBlock, Fragment, createVNode, unref, normalizeClass, renderSlot, withCtx, createCommentVNode, renderList, toDisplayString, createBlock, watch, onMounted, onUnmounted, isRef, ObjectUtils, BtnType, BtnSize, HighlightJs, FieldFilterEditor, AttributeValuesContainer, TextBox$1, EmailBox, CodeEditor, CurrencyBox, DatePicker, DateRangePicker, DateTimePicker, ListBox, BirthdayPicker, NumberUpDown, AddressControl, InlineSwitch, Switch$1, Toggle, ItemsWithPreAndPostHtml, StaticFormControl, ProgressTracker, RockForm, RockButton, RadioButtonList, DropDownList, Dialog, InlineCheckBox, CheckBox$1, PhoneNumberBox, HelpBlock, DatePartsPicker, ColorPicker, NumberBox$1, NumberRangeBox, GenderDropDownList, SocialSecurityNumberBox, TimePicker, UrlLinkBox, CheckBoxList, Rating, Fullscreen, Panel, PersonPicker, FileUploader, ImageUploader, EntityTypePicker, AchievementTypePicker, AssessmentTypePicker, AssetStorageProviderPicker, BinaryFileTypePicker, BinaryFilePicker, SlidingDateRangePicker, DefinedValuePicker, CategoryPicker, LocationItemPicker, ConnectionRequestPicker, CopyButton$1, EntityTagList, Following, AuditDetail, CampusPicker, DetailBlock, toNumber, newGuid, AssessmentType, BinaryFiletype, DefinedType, EntityType, FieldType, rangeTypeOptions, sleep, upperCaseFirstCharacter, TransitionVerticalCollapse$1, SectionContainer, SectionHeader$1, PickerDisplayStyle, useStore, BadgeComponentPicker, ComponentPicker, Modal, EventItemPicker, DataViewPicker, WorkflowTypePicker, FinancialGatewayPicker, FinancialStatementTemplatePicker, FieldTypePicker, GradePicker, ScheduleBuilder, GroupMemberPicker, InteractionChannelPicker, InteractionComponentPicker, LavaCommandPicker, RemoteAuthsPicker, StepProgramPicker, StepStatusPicker, StepTypePicker, StreakTypePicker, NotificationBox, AlertType, BadgeList, BadgePicker, BasicTimePicker, CountdownTimer, ElectronicSignature, FieldTypeEditor, InlineRangeSlider, RangeSlider, JavaScriptAnchor, KeyValueList, Loading, LoadingIndicator, NumberUpDownGroup, PanelWidget, ProgressBar, RockLabel, RockValidation, TabbedContent, ValueDetailList, PagePicker, GroupPicker, MergeTemplatePicker, MergeTemplateOwnership, MetricCategoryPicker, MetricItemPicker, RegistrationTemplatePicker, ReportPicker, SchedulePicker, WorkflowActionTypePicker, DayOfWeekPicker, MonthDayPicker, MonthYearPicker, CacheabilityPicker, ButtonGroup, IntervalPicker, GeoPicker, ContentDropDownPicker, WordCloud, EventCalendarPicker, GroupTypePicker, LocationAddressPicker, LocationPicker, LocationList, EthnicityPicker, RacePicker, MediaElementPicker, MergeFieldPicker, CategorizedValuePicker, ReminderTypePicker, GroupRolePicker, ModalAlert, ModalAlertType, ContentChannelItemPicker, PersonLink, PopOver, RockLiteral, RegistryEntry, GroupTypeGroupPicker, ImageEditor, CopyButton, SectionHeader, Switch, TransitionVerticalCollapse, CheckBox, TextBox, NumberBox;
+  var isRef, pushScopeId, popScopeId, createElementVNode, createTextVNode, defineComponent, getCurrentInstance, computed, ref, openBlock, createElementBlock, Fragment, createVNode, unref, normalizeClass, renderSlot, withCtx, createCommentVNode, renderList, toDisplayString, createBlock, reactive, watch, nextTick, onMounted, onUnmounted, upperCaseFirstCharacter, PickerDisplayStyle, CopyButton, SectionHeader, Switch, TransitionVerticalCollapse, HighlightJs, ObjectUtils, BtnType, BtnSize, FieldFilterEditor, AttributeValuesContainer, TextBox, EmailBox, CodeEditor, DatePicker, DateRangePicker, DateTimePicker, ListItems, ListBox, BirthdayPicker, NumberUpDown, AddressControl, InlineSwitch, Toggle, ItemsWithPreAndPostHtml, StaticFormControl, ProgressTracker, RockForm, RockButton, RadioButtonList, DropDownList, Dialog, InlineCheckBox, CheckBox, PhoneNumberBox, HelpBlock, DatePartsPicker, ColorPicker, NumberBox, NumberRangeBox, GenderDropDownList, SocialSecurityNumberBox, TimePicker, UrlLinkBox, CheckBoxList, Rating, Fullscreen, Panel, FileUploader, ImageUploader, EntityTypePicker, AchievementTypePicker, AssessmentTypePicker, AssetStorageProviderPicker, BinaryFileTypePicker, BinaryFilePicker, SlidingDateRangePicker, DefinedValuePicker, CategoryPicker, LocationItemPicker, ConnectionRequestPicker, TagList, Following, AuditDetail, CampusPicker, DetailBlock, toNumberOrNull, toNumber, toGuidOrNull, newGuid, AssessmentType, BinaryFiletype, DefinedType, DefinedValue, EntityType, FieldType, rangeTypeOptions, sleep, SectionContainer, useStore, BadgeComponentPicker, ComponentPicker, Modal, EventItemPicker, DataViewPicker, WorkflowTypePicker, FinancialGatewayPicker, FinancialStatementTemplatePicker, FieldTypePicker, GradePicker, ScheduleBuilder, GroupMemberPicker, InteractionChannelPicker, InteractionComponentPicker, LavaCommandPicker, RemoteAuthsPicker, StepProgramPicker, StepProgramStepTypePicker, StepProgramStepStatusPicker, StepStatusPicker, StepTypePicker, StreakTypePicker, NotificationBox, AlertType, BadgeList, BadgePicker, BasicTimePicker, CountdownTimer, MediaSelector, ElectronicSignature, FieldTypeEditor, InlineRangeSlider, RangeSlider, JavaScriptAnchor, KeyValueList, Loading, LoadingIndicator, NumberUpDownGroup, ProgressBar, RockLabel, RockValidation, TabbedBar, TabbedContent, ValueDetailList, PagePicker, GroupPicker, MergeTemplatePicker, MergeTemplateOwnership, MetricCategoryPicker, MetricItemPicker, RegistrationTemplatePicker, ReportPicker, SchedulePicker, WorkflowActionTypePicker, DayOfWeekPicker, MonthDayPicker, MonthYearPicker, CacheabilityPicker, ButtonGroup, IntervalPicker, GeoPicker, ContentDropDownPicker, WordCloud, EventCalendarPicker, GroupTypePicker, LocationAddressPicker, LocationPicker, LocationList, EthnicityPicker, RacePicker, MediaElementPicker, MergeFieldPicker, CategorizedValuePicker, ReminderTypePicker, GroupRolePicker, ModalAlert, ModalAlertType, ContentChannelItemPicker, PersonLink, PopOver, RockLiteral, RegistryEntry, GroupTypeGroupPicker, GroupAndRolePicker, AccountPicker, NoteTextEditor, StructuredContentEditor, RegistrationInstancePicker, InteractionChannelInteractionComponentPicker, WorkflowPicker, ValueList, BlockTemplatePicker, ButtonDropDownList, DropDownMenu, alert$1, DropDownContent, CampusAccountAmountPicker, PersonPicker, ImageEditor, MediaSelectorMode, Grid, TextColumn, DateColumn, NumberColumn, BooleanColumn, EditColumn, DeleteColumn, RockDateTime, CurrencyBox;
   return {
     setters: [function (module) {
+      isRef = module.isRef;
       pushScopeId = module.pushScopeId;
       popScopeId = module.popScopeId;
       createElementVNode = module.createElementVNode;
@@ -23,10 +24,25 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       renderList = module.renderList;
       toDisplayString = module.toDisplayString;
       createBlock = module.createBlock;
+      reactive = module.reactive;
       watch = module.watch;
+      nextTick = module.nextTick;
       onMounted = module.onMounted;
       onUnmounted = module.onUnmounted;
-      isRef = module.isRef;
+    }, function (module) {
+      upperCaseFirstCharacter = module.upperCaseFirstCharacter;
+    }, function (module) {
+      PickerDisplayStyle = module.PickerDisplayStyle;
+    }, function (module) {
+      CopyButton = module["default"];
+    }, function (module) {
+      SectionHeader = module["default"];
+    }, function (module) {
+      Switch = module["default"];
+    }, function (module) {
+      TransitionVerticalCollapse = module["default"];
+    }, function (module) {
+      HighlightJs = module["default"];
     }, function (module) {
       ObjectUtils = module;
     }, function (module) {
@@ -34,25 +50,23 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
     }, function (module) {
       BtnSize = module.BtnSize;
     }, function (module) {
-      HighlightJs = module["default"];
-    }, function (module) {
       FieldFilterEditor = module["default"];
     }, function (module) {
       AttributeValuesContainer = module["default"];
     }, function (module) {
-      TextBox$1 = module["default"];
+      TextBox = module["default"];
     }, function (module) {
       EmailBox = module["default"];
     }, function (module) {
       CodeEditor = module["default"];
-    }, function (module) {
-      CurrencyBox = module["default"];
     }, function (module) {
       DatePicker = module["default"];
     }, function (module) {
       DateRangePicker = module["default"];
     }, function (module) {
       DateTimePicker = module["default"];
+    }, function (module) {
+      ListItems = module["default"];
     }, function (module) {
       ListBox = module["default"];
     }, function (module) {
@@ -63,8 +77,6 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       AddressControl = module["default"];
     }, function (module) {
       InlineSwitch = module["default"];
-    }, function (module) {
-      Switch$1 = module["default"];
     }, function (module) {
       Toggle = module["default"];
     }, function (module) {
@@ -86,7 +98,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
     }, function (module) {
       InlineCheckBox = module["default"];
     }, function (module) {
-      CheckBox$1 = module["default"];
+      CheckBox = module["default"];
     }, function (module) {
       PhoneNumberBox = module["default"];
     }, function (module) {
@@ -96,7 +108,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
     }, function (module) {
       ColorPicker = module["default"];
     }, function (module) {
-      NumberBox$1 = module["default"];
+      NumberBox = module["default"];
     }, function (module) {
       NumberRangeBox = module["default"];
     }, function (module) {
@@ -115,8 +127,6 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       Fullscreen = module["default"];
     }, function (module) {
       Panel = module["default"];
-    }, function (module) {
-      PersonPicker = module["default"];
     }, function (module) {
       FileUploader = module["default"];
     }, function (module) {
@@ -144,9 +154,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
     }, function (module) {
       ConnectionRequestPicker = module["default"];
     }, function (module) {
-      CopyButton$1 = module["default"];
-    }, function (module) {
-      EntityTagList = module["default"];
+      TagList = module["default"];
     }, function (module) {
       Following = module["default"];
     }, function (module) {
@@ -156,8 +164,10 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
     }, function (module) {
       DetailBlock = module["default"];
     }, function (module) {
+      toNumberOrNull = module.toNumberOrNull;
       toNumber = module.toNumber;
     }, function (module) {
+      toGuidOrNull = module.toGuidOrNull;
       newGuid = module.newGuid;
     }, function (module) {
       AssessmentType = module.AssessmentType;
@@ -165,6 +175,8 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       BinaryFiletype = module.BinaryFiletype;
     }, function (module) {
       DefinedType = module.DefinedType;
+    }, function (module) {
+      DefinedValue = module.DefinedValue;
     }, function (module) {
       EntityType = module.EntityType;
     }, function (module) {
@@ -174,15 +186,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
     }, function (module) {
       sleep = module.sleep;
     }, function (module) {
-      upperCaseFirstCharacter = module.upperCaseFirstCharacter;
-    }, function (module) {
-      TransitionVerticalCollapse$1 = module["default"];
-    }, function (module) {
       SectionContainer = module["default"];
-    }, function (module) {
-      SectionHeader$1 = module["default"];
-    }, function (module) {
-      PickerDisplayStyle = module.PickerDisplayStyle;
     }, function (module) {
       useStore = module.useStore;
     }, function (module) {
@@ -220,6 +224,10 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
     }, function (module) {
       StepProgramPicker = module["default"];
     }, function (module) {
+      StepProgramStepTypePicker = module["default"];
+    }, function (module) {
+      StepProgramStepStatusPicker = module["default"];
+    }, function (module) {
       StepStatusPicker = module["default"];
     }, function (module) {
       StepTypePicker = module["default"];
@@ -237,6 +245,8 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       BasicTimePicker = module["default"];
     }, function (module) {
       CountdownTimer = module["default"];
+    }, function (module) {
+      MediaSelector = module["default"];
     }, function (module) {
       ElectronicSignature = module["default"];
     }, function (module) {
@@ -256,13 +266,13 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
     }, function (module) {
       NumberUpDownGroup = module["default"];
     }, function (module) {
-      PanelWidget = module["default"];
-    }, function (module) {
       ProgressBar = module["default"];
     }, function (module) {
       RockLabel = module["default"];
     }, function (module) {
       RockValidation = module["default"];
+    }, function (module) {
+      TabbedBar = module["default"];
     }, function (module) {
       TabbedContent = module["default"];
     }, function (module) {
@@ -346,28 +356,53 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
     }, function (module) {
       GroupTypeGroupPicker = module["default"];
     }, function (module) {
+      GroupAndRolePicker = module["default"];
+    }, function (module) {
+      AccountPicker = module["default"];
+    }, function (module) {
+      NoteTextEditor = module["default"];
+    }, function (module) {
+      StructuredContentEditor = module["default"];
+    }, function (module) {
+      RegistrationInstancePicker = module["default"];
+    }, function (module) {
+      InteractionChannelInteractionComponentPicker = module["default"];
+    }, function (module) {
+      WorkflowPicker = module["default"];
+    }, function (module) {
+      ValueList = module["default"];
+    }, function (module) {
+      BlockTemplatePicker = module["default"];
+    }, function (module) {
+      ButtonDropDownList = module["default"];
+    }, function (module) {
+      DropDownMenu = module["default"];
+    }, function (module) {
+      alert$1 = module.alert;
+    }, function (module) {
+      DropDownContent = module["default"];
+    }, function (module) {
+      CampusAccountAmountPicker = module["default"];
+    }, function (module) {
+      PersonPicker = module["default"];
+    }, function (module) {
       ImageEditor = module["default"];
     }, function (module) {
-      CopyButton = module["default"];
+      MediaSelectorMode = module.MediaSelectorMode;
     }, function (module) {
-      SectionHeader = module["default"];
+      Grid = module["default"];
+      TextColumn = module.TextColumn;
+      DateColumn = module.DateColumn;
+      NumberColumn = module.NumberColumn;
+      BooleanColumn = module.BooleanColumn;
+      EditColumn = module.EditColumn;
+      DeleteColumn = module.DeleteColumn;
     }, function (module) {
-      Switch = module["default"];
+      RockDateTime = module.RockDateTime;
     }, function (module) {
-      TransitionVerticalCollapse = module["default"];
-    }, function (module) {
-      CheckBox = module["default"];
-    }, function (module) {
-      TextBox = module["default"];
-    }, function (module) {
-      NumberBox = module["default"];
+      CurrencyBox = module["default"];
     }],
     execute: (function () {
-
-      exports({
-        getControlImportPath: getControlImportPath,
-        getTemplateImportPath: getTemplateImportPath
-      });
 
       function _iterableToArrayLimit(arr, i) {
         var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
@@ -498,41 +533,76 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
         return typeof key === "symbol" ? key : String(key);
       }
 
-      function convertComponentName(name) {
-        if (!name) {
-          return "Unknown Component";
-        }
-        return name.replace(/[A-Z]/g, " $&").replace(/Gallery$/, "").trim();
+      function getControlImportPath(fileName) {
+        return "import ".concat(upperCaseFirstCharacter(fileName), " from \"@Obsidian/Controls/").concat(fileName, "\";");
       }
       function getSfcControlImportPath(fileName) {
         return "import ".concat(upperCaseFirstCharacter(fileName), " from \"@Obsidian/Controls/").concat(fileName, ".obs\";");
       }
+      function getTemplateImportPath(fileName) {
+        return "import ".concat(upperCaseFirstCharacter(fileName), " from \"@Obsidian/Templates/").concat(fileName, "\";");
+      }
+      function convertComponentName(name) {
+        if (!name) {
+          return "Unknown Component";
+        }
+        return name.replace(/[A-Z]/g, " $&").replace(/^[a-z]/, m => m.toUpperCase()).replace(/\.partial$/, "").replace(/Gallery$/, "").trim();
+      }
+      function buildExampleCode(elementName, attributes) {
+        var attrs = [];
+        for (var attr in attributes) {
+          var value = attributes[attr];
+          console.log("attributes", attr, value);
+          if (isRef(value)) {
+            value = value.value;
+          }
+          if (typeof value === "string") {
+            attrs.push("".concat(attr, "=\"").concat(value, "\""));
+          } else if (typeof value === "number") {
+            attrs.push(":".concat(attr, "=\"").concat(value, "\""));
+          } else if (typeof value === "boolean") {
+            attrs.push(":".concat(attr, "=\"").concat(value ? "true" : "false", "\""));
+          } else ;
+        }
+        console.log(attrs);
+        return "<".concat(elementName, " ").concat(attrs.join(" "), " />");
+      }
+      var displayStyleItems = [{
+        value: PickerDisplayStyle.Auto,
+        text: "Auto"
+      }, {
+        value: PickerDisplayStyle.List,
+        text: "List"
+      }, {
+        value: PickerDisplayStyle.Condensed,
+        text: "Condensed"
+      }];
 
       var _withScopeId = n => (pushScopeId("data-v-5e8aca9b"), n = n(), popScopeId(), n);
-      var _hoisted_1$1 = {
+      var _hoisted_1$8 = {
         class: "galleryContent-mainRow mb-5 row"
       };
-      var _hoisted_2$1 = _withScopeId(() => createElementVNode("h4", {
+      var _hoisted_2$8 = _withScopeId(() => createElementVNode("h4", {
         class: "mt-0"
       }, "Test Control", -1));
-      var _hoisted_3$1 = {
+      var _hoisted_3$8 = {
         key: 0,
         class: "mt-3"
       };
-      var _hoisted_4 = {
+      var _hoisted_4$5 = {
         class: "mb-3 galleryContent-reflectionToggle"
       };
-      var _hoisted_5 = {
+      var _hoisted_5$5 = {
         key: 0
       };
-      var _hoisted_6 = _withScopeId(() => createElementVNode("h4", {
+      var _hoisted_6$4 = _withScopeId(() => createElementVNode("h4", {
         class: "mt-0"
       }, "Control Reflection", -1));
-      var _hoisted_7 = {
+      var _hoisted_7$3 = {
         key: 1,
         class: "col-sm-6"
       };
-      var _hoisted_8 = {
+      var _hoisted_8$1 = {
         class: "well"
       };
       var _hoisted_9 = createTextVNode("Current Value");
@@ -608,7 +678,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var _hoisted_34 = _withScopeId(() => createElementVNode("p", {
         class: "text-semibold font-italic"
       }, [createTextVNode("The "), createElementVNode("code", null, "result"), createTextVNode(" slot is deprecated. Please update to the newest Control Gallery template.")], -1));
-      var script$1 = defineComponent({
+      var script$8 = defineComponent({
         name: 'galleryAndResult.partial',
         props: {
           value: {
@@ -678,17 +748,17 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
             return openBlock(), createElementBlock(Fragment, null, [createVNode(unref(SectionHeader), {
               title: unref(componentName),
               description: __props.description
-            }, null, 8, ["title", "description"]), createElementVNode("div", _hoisted_1$1, [_ctx.$slots.default ? (openBlock(), createElementBlock("div", {
+            }, null, 8, ["title", "description"]), createElementVNode("div", _hoisted_1$8, [_ctx.$slots.default ? (openBlock(), createElementBlock("div", {
               key: 0,
               class: normalizeClass(__props.value === void 0 ? 'col-sm-12' : 'col-sm-6')
-            }, [_hoisted_2$1, renderSlot(_ctx.$slots, "default"), __props.enableReflection ? (openBlock(), createElementBlock("div", _hoisted_3$1, [createElementVNode("div", _hoisted_4, [createVNode(unref(Switch), {
+            }, [_hoisted_2$8, renderSlot(_ctx.$slots, "default"), __props.enableReflection ? (openBlock(), createElementBlock("div", _hoisted_3$8, [createElementVNode("div", _hoisted_4$5, [createVNode(unref(Switch), {
               modelValue: showReflection.value,
               "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => showReflection.value = $event),
               text: "Show Reflection"
             }, null, 8, ["modelValue"])]), createVNode(unref(TransitionVerticalCollapse), null, {
-              default: withCtx(() => [showReflection.value ? (openBlock(), createElementBlock("div", _hoisted_5, [_hoisted_6, renderSlot(_ctx.$slots, "default")])) : createCommentVNode("v-if", true)]),
+              default: withCtx(() => [showReflection.value ? (openBlock(), createElementBlock("div", _hoisted_5$5, [_hoisted_6$4, renderSlot(_ctx.$slots, "default")])) : createCommentVNode("v-if", true)]),
               _: 3
-            })])) : createCommentVNode("v-if", true)], 2)) : createCommentVNode("v-if", true), __props.value !== void 0 ? (openBlock(), createElementBlock("div", _hoisted_7, [createElementVNode("div", _hoisted_8, [createElementVNode("h4", null, [_hoisted_9, __props.hasMultipleValues ? (openBlock(), createElementBlock(Fragment, {
+            })])) : createCommentVNode("v-if", true)], 2)) : createCommentVNode("v-if", true), __props.value !== void 0 ? (openBlock(), createElementBlock("div", _hoisted_7$3, [createElementVNode("div", _hoisted_8$1, [createElementVNode("h4", null, [_hoisted_9, __props.hasMultipleValues ? (openBlock(), createElementBlock(Fragment, {
               key: 0
             }, [_hoisted_10], 64)) : createCommentVNode("v-if", true)]), __props.hasMultipleValues ? (openBlock(true), createElementBlock(Fragment, {
               key: 0
@@ -741,17 +811,423 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var css_248z = ".galleryContent-mainRow>div.well[data-v-5e8aca9b]{overflow-x:auto}.galleryContent-reflectionToggle[data-v-5e8aca9b]{display:flex;justify-content:flex-end}.galleryContent-valueBox[data-v-5e8aca9b]{max-height:300px;overflow:auto}.galleryContent-codeSampleWrapper[data-v-5e8aca9b]{position:relative}.galleryContent-codeSample[data-v-5e8aca9b]{overflow-x:auto;padding-right:3rem}.galleryContent-codeCopyButton[data-v-5e8aca9b]{position:absolute;right:.5rem;top:1.4rem;transform:translateY(-50%);z-index:1}.galleryContent-codeCopyButton[data-v-5e8aca9b]:before{background:linear-gradient(270deg,#f5f5f4,#f5f5f4 80%,#f5f5f500);bottom:-.3rem;content:\"\";left:-.5rem;position:absolute;right:-.5rem;top:-.3rem;z-index:-1}";
       styleInject(css_248z);
 
-      script$1.__scopeId = "data-v-5e8aca9b";
-      script$1.__file = "src/Example/ControlGallery/galleryAndResult.partial.obs";
+      script$8.__scopeId = "data-v-5e8aca9b";
+      script$8.__file = "src/Example/ControlGallery/galleryAndResult.partial.obs";
 
-      var _hoisted_1 = {
+      var _hoisted_1$7 = {
+        style: {
+          "padding-left": "calc(50% - 18px)",
+          "display": "flex",
+          "background-color": "#f3f3f3"
+        }
+      };
+      var _hoisted_2$7 = {
         class: "row"
       };
-      var _hoisted_2 = {
+      var _hoisted_3$7 = {
+        class: "col-md-3"
+      };
+      var script$7 = defineComponent({
+        name: 'dropDownMenuGallery.partial',
+        setup(__props) {
+          var align = ref("left");
+          var alignItems = [{
+            value: "left",
+            text: "Left"
+          }, {
+            value: "right",
+            text: "Right"
+          }];
+          var menuItems = [{
+            title: "Default",
+            type: "default",
+            handler: function () {
+              var _handler = _asyncToGenerator(function* () {
+                return yield alert$1("Default action clicked.");
+              });
+              function handler() {
+                return _handler.apply(this, arguments);
+              }
+              return handler;
+            }()
+          }, {
+            iconCssClass: "fa fa-refresh",
+            title: "Refresh",
+            type: "default",
+            handler: function () {
+              var _handler2 = _asyncToGenerator(function* () {
+                return yield alert$1("Refresh action clicked.");
+              });
+              function handler() {
+                return _handler2.apply(this, arguments);
+              }
+              return handler;
+            }()
+          }, {
+            iconCssClass: "fa fa-trash",
+            title: "Delete",
+            type: "danger",
+            handler: function () {
+              var _handler3 = _asyncToGenerator(function* () {
+                return yield alert$1("Delete action clicked.");
+              });
+              function handler() {
+                return _handler3.apply(this, arguments);
+              }
+              return handler;
+            }()
+          }, {
+            title: "Disabled",
+            type: "default",
+            disabled: true
+          }];
+          var importCode = getSfcControlImportPath("dropDownMenu");
+          var exampleCode = computed(() => {
+            return "<DropDownMenu :items=\"menuItems\" align=\"".concat(align.value, "\">\n    <!-- Optional content -->\n    <i class=\"fa fa-ellipsis-v\"></i>\n</DropDownMenu>");
+          });
+          return (_ctx, _cache) => {
+            return openBlock(), createBlock(unref(script$8), {
+              importCode: unref(importCode),
+              exampleCode: unref(exampleCode)
+            }, {
+              settings: withCtx(() => [createElementVNode("div", _hoisted_2$7, [createElementVNode("div", _hoisted_3$7, [createVNode(unref(DropDownList), {
+                label: "Align",
+                modelValue: align.value,
+                "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => align.value = $event),
+                items: alignItems,
+                showBlankItem: false
+              }, null, 8, ["modelValue"])])])]),
+              default: withCtx(() => [createElementVNode("div", _hoisted_1$7, [createVNode(unref(DropDownMenu), {
+                items: menuItems,
+                align: align.value
+              }, null, 8, ["align"])])]),
+              _: 1
+            }, 8, ["importCode", "exampleCode"]);
+          };
+        }
+      });
+
+      script$7.__file = "src/Example/ControlGallery/dropDownMenuGallery.partial.obs";
+
+      var _hoisted_1$6 = {
+        style: {
+          "padding-left": "calc(50% - 18px)",
+          "display": "flex",
+          "background-color": "#f3f3f3"
+        }
+      };
+      var _hoisted_2$6 = {
+        class: "p-2 clickable"
+      };
+      var _hoisted_3$6 = createElementVNode("div", {
+        class: "p-3"
+      }, " This is the inner content. ", -1);
+      var _hoisted_4$4 = {
+        class: "mt-4"
+      };
+      var _hoisted_5$4 = createTextVNode("Open");
+      var _hoisted_6$3 = {
         class: "row"
       };
-      var _hoisted_3 = createElementVNode("p", null, [createTextVNode("Additional props extend and are passed to the underlying "), createElementVNode("code", null, "Rock Form Field"), createTextVNode(".")], -1);
-      var script = defineComponent({
+      var _hoisted_7$2 = {
+        class: "col-md-3"
+      };
+      var script$6 = defineComponent({
+        name: 'dropDownContentGallery.partial',
+        setup(__props) {
+          var isOpen = ref(false);
+          var showArrow = ref(false);
+          var importCode = getSfcControlImportPath("dropDownContent");
+          var exampleCode = "<DropDownContent>\n    <div class=\"p-3\">This is the inner content.</div>\n</DropDownMenu>";
+          return (_ctx, _cache) => {
+            return openBlock(), createBlock(unref(script$8), {
+              importCode: unref(importCode),
+              exampleCode: exampleCode
+            }, {
+              settings: withCtx(() => [createElementVNode("div", _hoisted_6$3, [createElementVNode("div", _hoisted_7$2, [createVNode(unref(CheckBox), {
+                label: "Show Arrow",
+                modelValue: showArrow.value,
+                "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => showArrow.value = $event)
+              }, null, 8, ["modelValue"])])])]),
+              default: withCtx(() => [createElementVNode("div", _hoisted_1$6, [createElementVNode("span", _hoisted_2$6, [createVNode(unref(DropDownContent), {
+                modelValue: isOpen.value,
+                "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => isOpen.value = $event),
+                showArrow: showArrow.value
+              }, {
+                default: withCtx(() => [_hoisted_3$6]),
+                _: 1
+              }, 8, ["modelValue", "showArrow"])])]), createElementVNode("div", _hoisted_4$4, [createVNode(unref(RockButton), {
+                btnType: "primary",
+                onClick: _cache[1] || (_cache[1] = $event => isOpen.value = true)
+              }, {
+                default: withCtx(() => [_hoisted_5$4]),
+                _: 1
+              })])]),
+              _: 1
+            }, 8, ["importCode"]);
+          };
+        }
+      });
+
+      script$6.__file = "src/Example/ControlGallery/dropDownContentGallery.partial.obs";
+
+      var _hoisted_1$5 = {
+        class: "row"
+      };
+      var _hoisted_2$5 = {
+        class: "col-md-4"
+      };
+      var _hoisted_3$5 = {
+        key: 0,
+        class: "col-md-4"
+      };
+      var script$5 = defineComponent({
+        name: 'buttonDropDownListGallery.partial',
+        setup(__props) {
+          var items = [{
+            text: "Top",
+            value: "top"
+          }, {
+            text: "Right",
+            value: "right"
+          }, {
+            text: "Bottom",
+            value: "bottom"
+          }, {
+            text: "Left",
+            value: "left"
+          }, {
+            text: "Center",
+            value: "center"
+          }];
+          var value = ref("center");
+          var useCheckmarks = ref(false);
+          var title = ref("Choose");
+          var selectionStyle = computed(() => useCheckmarks.value ? "checkmark" : "title");
+          var importCode = getSfcControlImportPath("buttonDropDownList");
+          var exampleCode = computed(() => {
+            return "<ButtonDropDownList v-model=\"value\" :items=\"items\" selectionStyle=\"".concat(selectionStyle.value, "\" ").concat(useCheckmarks.value ? "title=\"".concat(title.value, "\" ") : "", "label=\"Select a placement\" />");
+          });
+          return (_ctx, _cache) => {
+            return openBlock(), createBlock(unref(script$8), {
+              importCode: unref(importCode),
+              exampleCode: unref(exampleCode),
+              value: {
+                value: value.value,
+                items: items
+              },
+              hasMultipleValues: ""
+            }, {
+              settings: withCtx(() => [createElementVNode("div", _hoisted_1$5, [createElementVNode("div", _hoisted_2$5, [createVNode(unref(CheckBox), {
+                label: "Use Checkmark Selection Style",
+                modelValue: useCheckmarks.value,
+                "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => useCheckmarks.value = $event),
+                help: "When this is active, the <code>selectionStyle</code> prop is set to 'checkmark'. This means there's a checkmark next to the selected value, and the label inside the button is determined by the <code>title</code> prop rather than the selected value. "
+              }, null, 8, ["modelValue"])]), useCheckmarks.value ? (openBlock(), createElementBlock("div", _hoisted_3$5, [createVNode(unref(TextBox), {
+                label: "Title",
+                modelValue: title.value,
+                "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => title.value = $event),
+                help: "This is used as the text on the button when the selection style is 'checkmark'."
+              }, null, 8, ["modelValue"])])) : createCommentVNode("v-if", true)])]),
+              default: withCtx(() => [createVNode(unref(ButtonDropDownList), {
+                modelValue: value.value,
+                "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => value.value = $event),
+                items: items,
+                selectionStyle: unref(selectionStyle),
+                title: title.value,
+                label: "Select a placement"
+              }, null, 8, ["modelValue", "selectionStyle", "title"])]),
+              _: 1
+            }, 8, ["importCode", "exampleCode", "value"]);
+          };
+        }
+      });
+
+      script$5.__file = "src/Example/ControlGallery/buttonDropDownListGallery.partial.obs";
+
+      var _hoisted_1$4 = {
+        class: "row"
+      };
+      var _hoisted_2$4 = {
+        class: "col-md-3"
+      };
+      var _hoisted_3$4 = {
+        class: "col-md-3"
+      };
+      var _hoisted_4$3 = {
+        class: "col-md-3"
+      };
+      var _hoisted_5$3 = {
+        class: "col-md-3"
+      };
+      var _hoisted_6$2 = {
+        class: "row"
+      };
+      var _hoisted_7$1 = {
+        class: "col-md-3"
+      };
+      var _hoisted_8 = {
+        class: "col-md-3"
+      };
+      var script$4 = defineComponent({
+        name: 'campusAccountAmountPickerGallery.partial',
+        setup(__props) {
+          var multiple = ref(false);
+          var value = ref([]);
+          var campusGuid = ref(null);
+          var hideCampusIfKnown = ref(false);
+          var orderBySelectableAccountsIndex = ref(false);
+          var includeInactiveCampuses = ref(false);
+          var disableAccountCampusMappingLogic = ref(false);
+          var accountHeaderTemplate = ref("{{ Account.PublicName }}");
+          var selectableAccountGuids = ["bab250ee-cae6-4a41-9756-ad9327408be0", "67c6181c-1d8c-44d7-b262-b81e746f06d8", "4410306f-3fb5-4a57-9a80-09a3f9d40d0c"];
+          var importCode = getSfcControlImportPath("campusAccountAmountPicker");
+          var exampleCode = computed(() => "<CampusAccountAmountPicker v-model=\"value\" v-model:campusGuid=\"campusGuid\"\n    :selectableAccountGuids=\"['".concat(selectableAccountGuids.join("','"), "']\"\n    accountAmountEntryMode=\"").concat(multiple.value ? "multipleAccounts" : "singleAccount", "\"").concat(hideCampusIfKnown.value ? "\n    hideCampusIfKnown" : "").concat(orderBySelectableAccountsIndex.value ? "\n    orderBySelectableAccountsIndex" : "").concat(includeInactiveCampuses.value ? "\n    includeInactiveCampuses" : "").concat(accountHeaderTemplate.value != "{{ Account.PublicName }}" ? "\n    accountHeaderTemplate=\"".concat(accountHeaderTemplate.value, "\"") : "").concat(disableAccountCampusMappingLogic.value ? "\n    disableAccountCampusMappingLogic" : "", " />"));
+          return (_ctx, _cache) => {
+            return openBlock(), createBlock(unref(script$8), {
+              value: {
+                value: value.value,
+                campusGuid: campusGuid.value
+              },
+              hasMultipleValues: "",
+              importCode: unref(importCode),
+              exampleCode: unref(exampleCode),
+              enableReflection: ""
+            }, {
+              settings: withCtx(() => [createElementVNode("div", _hoisted_1$4, [createElementVNode("div", _hoisted_2$4, [createVNode(unref(CheckBox), {
+                label: "Use Multiple Account Entry",
+                modelValue: multiple.value,
+                "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => multiple.value = $event),
+                help: "If this is checked, we set <code>accountAmountEntryMode</code> prop to 'multipleAccounts' instead of the default 'singleAccount'. This allows you to enter amounts for every given account instead of having one amount that is entered for the chosen account."
+              }, null, 8, ["modelValue"])]), createElementVNode("div", _hoisted_3$4, [createVNode(unref(CheckBox), {
+                label: "Hide Campus Picker if Known",
+                modelValue: hideCampusIfKnown.value,
+                "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => hideCampusIfKnown.value = $event),
+                help: "If this option is set and we pass in a campusGuid, then that campus will be used and the picker will be hidden."
+              }, null, 8, ["modelValue"])]), createElementVNode("div", _hoisted_4$3, [createVNode(unref(CheckBox), {
+                label: "Order Accounts as Passed In",
+                modelValue: orderBySelectableAccountsIndex.value,
+                "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => orderBySelectableAccountsIndex.value = $event),
+                help: "By default the accounts are in an order as determined by the database, but if this option is passed, the accounts will appear in the same order as they were passed in"
+              }, null, 8, ["modelValue"])]), createElementVNode("div", _hoisted_5$3, [createVNode(unref(CheckBox), {
+                label: "Include Inactive Campuses",
+                modelValue: includeInactiveCampuses.value,
+                "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => includeInactiveCampuses.value = $event)
+              }, null, 8, ["modelValue"])])]), createElementVNode("div", _hoisted_6$2, [createElementVNode("div", _hoisted_7$1, [createVNode(unref(CheckBox), {
+                label: "Disable Account-Campus Mapping Logic",
+                modelValue: disableAccountCampusMappingLogic.value,
+                "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => disableAccountCampusMappingLogic.value = $event)
+              }, null, 8, ["modelValue"])]), createElementVNode("div", _hoisted_8, [createVNode(unref(TextBox), {
+                label: "Account Label Template",
+                modelValue: accountHeaderTemplate.value,
+                "onUpdate:modelValue": _cache[7] || (_cache[7] = $event => accountHeaderTemplate.value = $event),
+                help: "Use Lava to specify how the account names should appear above the currency boxes (multi-account mode) or in the dropdown (single account mode). <code>{{ Account.PublicName }}</code> is the default"
+              }, null, 8, ["modelValue"])])])]),
+              default: withCtx(() => [createVNode(unref(CampusAccountAmountPicker), {
+                modelValue: value.value,
+                "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => value.value = $event),
+                campusGuid: campusGuid.value,
+                "onUpdate:campusGuid": _cache[1] || (_cache[1] = $event => campusGuid.value = $event),
+                selectableAccountGuids: selectableAccountGuids,
+                accountAmountEntryMode: multiple.value ? 'multipleAccounts' : 'singleAccount',
+                hideCampusIfKnown: hideCampusIfKnown.value,
+                orderBySelectableAccountsIndex: orderBySelectableAccountsIndex.value,
+                includeInactiveCampuses: includeInactiveCampuses.value,
+                accountHeaderTemplate: accountHeaderTemplate.value,
+                disableAccountCampusMappingLogic: disableAccountCampusMappingLogic.value
+              }, null, 8, ["modelValue", "campusGuid", "accountAmountEntryMode", "hideCampusIfKnown", "orderBySelectableAccountsIndex", "includeInactiveCampuses", "accountHeaderTemplate", "disableAccountCampusMappingLogic"])]),
+              _: 1
+            }, 8, ["value", "importCode", "exampleCode"]);
+          };
+        }
+      });
+
+      script$4.__file = "src/Example/ControlGallery/campusAccountAmountPickerGallery.partial.obs";
+
+      var _hoisted_1$3 = {
+        class: "row"
+      };
+      var _hoisted_2$3 = {
+        class: "col-md-3"
+      };
+      var _hoisted_3$3 = {
+        class: "col-md-3"
+      };
+      var _hoisted_4$2 = {
+        class: "col-md-3"
+      };
+      var _hoisted_5$2 = {
+        class: "col-md-3"
+      };
+      var _hoisted_6$1 = createElementVNode("p", {
+        class: "text-semibold font-italic"
+      }, "Not all settings are demonstrated in this gallery.", -1);
+      var _hoisted_7 = createElementVNode("p", null, [createTextVNode("Additional props extend and are passed to the underlying "), createElementVNode("code", null, "Rock Form Field"), createTextVNode(".")], -1);
+      var script$3 = defineComponent({
+        name: 'personPickerGallery.partial',
+        setup(__props) {
+          var value = ref({});
+          var includeBusinesses = ref(false);
+          var excludeDeceased = ref(false);
+          var enableSelfSelection = ref(false);
+          var expandSearchOptions = ref(false);
+          var importCode = getSfcControlImportPath("personPicker");
+          var exampleCode = computed(() => {
+            return "<PersonPicker v-model=\"value\" label=\"Select a Person\"".concat(includeBusinesses.value ? " includeBusinesses" : "").concat(excludeDeceased.value ? " excludeDeceased" : "").concat(enableSelfSelection.value ? " enableSelfSelection" : "").concat(expandSearchOptions.value ? " expandSearchOptions" : "", " />");
+          });
+          return (_ctx, _cache) => {
+            var _value$value;
+            return openBlock(), createBlock(unref(script$8), {
+              value: (_value$value = value.value) !== null && _value$value !== void 0 ? _value$value : null,
+              importCode: unref(importCode),
+              exampleCode: unref(exampleCode),
+              enableReflection: ""
+            }, {
+              settings: withCtx(() => [createElementVNode("div", _hoisted_1$3, [createElementVNode("div", _hoisted_2$3, [createVNode(unref(CheckBox), {
+                label: "Include Businesses",
+                modelValue: includeBusinesses.value,
+                "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => includeBusinesses.value = $event),
+                help: "Include businesses in the search results"
+              }, null, 8, ["modelValue"])]), createElementVNode("div", _hoisted_3$3, [createVNode(unref(CheckBox), {
+                label: "Exclude Deceased",
+                modelValue: excludeDeceased.value,
+                "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => excludeDeceased.value = $event),
+                help: "Exclude deceased people from the search results"
+              }, null, 8, ["modelValue"])]), createElementVNode("div", _hoisted_4$2, [createVNode(unref(CheckBox), {
+                label: "Enable Self Selection",
+                modelValue: enableSelfSelection.value,
+                "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => enableSelfSelection.value = $event),
+                help: "Add a button that can select the current person"
+              }, null, 8, ["modelValue"])]), createElementVNode("div", _hoisted_5$2, [createVNode(unref(CheckBox), {
+                label: "Expand Search Options",
+                modelValue: expandSearchOptions.value,
+                "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => expandSearchOptions.value = $event),
+                help: "Show the extra (address, phone, and email) search fields immediately rather than needing to press the magnifying glass button first."
+              }, null, 8, ["modelValue"])])]), _hoisted_6$1, _hoisted_7]),
+              default: withCtx(() => [createVNode(unref(PersonPicker), {
+                modelValue: value.value,
+                "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => value.value = $event),
+                label: "Select a Person",
+                includeBusinesses: includeBusinesses.value,
+                enableSelfSelection: enableSelfSelection.value,
+                expandSearchOptions: expandSearchOptions.value
+              }, null, 8, ["modelValue", "includeBusinesses", "enableSelfSelection", "expandSearchOptions"])]),
+              _: 1
+            }, 8, ["value", "importCode", "exampleCode"]);
+          };
+        }
+      });
+
+      script$3.__file = "src/Example/ControlGallery/personPickerGallery.partial.obs";
+
+      var _hoisted_1$2 = {
+        class: "row"
+      };
+      var _hoisted_2$2 = {
+        class: "row"
+      };
+      var _hoisted_3$2 = createElementVNode("p", null, [createTextVNode("Additional props extend and are passed to the underlying "), createElementVNode("code", null, "Rock Form Field"), createTextVNode(".")], -1);
+      var script$2 = defineComponent({
         name: 'imageEditorGallery.partial',
         setup(__props) {
           var binaryFileTypeGuid = ref(BinaryFiletype.Default);
@@ -767,13 +1243,13 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
             return "<ImageEditor v-model=\"value\" label=\"Profile Picture\"".concat(disabled.value ? " disabled" : "").concat(hideDeleteButton.value ? " hideDeleteButton" : "").concat(binaryFileTypeGuid.value !== BinaryFiletype.Default ? " :binaryFileTypeGuid=\"".concat(binaryFileTypeGuid.value, "\"") : "").concat(noPictureUrl.value !== "/Assets/Images/person-no-photo-unknown.svg" ? " :noPictureUrl=\"".concat(noPictureUrl.value, "\"") : "").concat(maxImageHeight.value !== 0 ? " :maxImageHeight=\"".concat(maxImageHeight.value, "\"") : "").concat(maxImageWidth.value !== 0 ? " :maxImageWidth=\"".concat(maxImageWidth.value, "\"") : "", " />");
           });
           return (_ctx, _cache) => {
-            return openBlock(), createBlock(unref(script$1), {
+            return openBlock(), createBlock(unref(script$8), {
               value: value.value,
               importCode: unref(importCode),
               exampleCode: unref(exampleCode),
               enableReflection: ""
             }, {
-              settings: withCtx(() => [createElementVNode("div", _hoisted_1, [createVNode(unref(CheckBox), {
+              settings: withCtx(() => [createElementVNode("div", _hoisted_1$2, [createVNode(unref(CheckBox), {
                 formGroupClasses: "col-sm-3",
                 modelValue: disabled.value,
                 "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => disabled.value = $event),
@@ -796,7 +1272,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
                 "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => maxImageHeight.value = $event),
                 label: "Max Image Height",
                 help: "The maximum pixel height of the image to be uploaded to the server. If the cropped image is bigger than this, it will be scaled down to this height. Default is 0, which means there is no limit"
-              }, null, 8, ["modelValue"])]), createElementVNode("div", _hoisted_2, [createVNode(unref(NumberBox), {
+              }, null, 8, ["modelValue"])]), createElementVNode("div", _hoisted_2$2, [createVNode(unref(NumberBox), {
                 formGroupClasses: "col-sm-4",
                 modelValue: aspectRatio.value,
                 "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => aspectRatio.value = $event),
@@ -813,7 +1289,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
                 "onUpdate:modelValue": _cache[7] || (_cache[7] = $event => noPictureUrl.value = $event),
                 label: "Placeholder Image",
                 help: "The URL of the image that is shown if there is no cropped image chosen/provided. The URL in this box on page load is the default"
-              }, null, 8, ["modelValue"])]), _hoisted_3]),
+              }, null, 8, ["modelValue"])]), _hoisted_3$2]),
               default: withCtx(() => [createVNode(unref(ImageEditor), {
                 modelValue: value.value,
                 "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => value.value = $event),
@@ -832,133 +1308,209 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
         }
       });
 
-      script.__file = "src/Example/ControlGallery/imageEditorGallery.partial.obs";
+      script$2.__file = "src/Example/ControlGallery/imageEditorGallery.partial.obs";
 
-      var displayStyleItems = [{
-        value: PickerDisplayStyle.Auto,
-        text: "Auto"
-      }, {
-        value: PickerDisplayStyle.List,
-        text: "List"
-      }, {
-        value: PickerDisplayStyle.Condensed,
-        text: "Condensed"
-      }];
-      function buildExampleCode(elementName, attributes) {
-        var attrs = [];
-        for (var attr in attributes) {
-          var value = attributes[attr];
-          console.log("attributes", attr, value);
-          if (isRef(value)) {
-            value = value.value;
+      var _hoisted_1$1 = {
+        class: "row"
+      };
+      var _hoisted_2$1 = {
+        class: "col-md-6"
+      };
+      var _hoisted_3$1 = {
+        class: "row"
+      };
+      var _hoisted_4$1 = {
+        class: "col-md-3"
+      };
+      var _hoisted_5$1 = {
+        class: "col-md-3"
+      };
+      var script$1 = defineComponent({
+        name: 'lightGridGallery.partial',
+        setup(__props) {
+          var isVisible = ref(true);
+          var useColumnTitles = ref(false);
+          var showExport = ref(false);
+          var nameTitle = ref("");
+          var dateTitle = ref("");
+          var numberTitle = ref("");
+          var activeTitle = ref("");
+          var gridData = reactive({
+            rows: [1, 2, 3, 4, 5].map(idx => generateItem(idx))
+          });
+          var importCode = getControlImportPath("grid");
+          var exampleCode = computed(() => {
+            return "<Grid :data=\"gridData\" light>\n    <TextColumn name=\"name\" field=\"name\" />\n    <DateColumn name=\"date\" field=\"date\" visiblePriority=\"md\" />\n    <NumberColumn name=\"index\" field=\"index\" visiblePriority=\"lg\" />\n    <BooleanColumn name=\"isActive\" field=\"isActive\" visiblePriority=\"sm\" />\n    <EditColumn />\n    <DeleteColumn disableConfirmation />\n</Grid>\n";
+          });
+          function generateItem(index) {
+            return {
+              key: "".concat(index),
+              name: "Item ".concat(index),
+              date: RockDateTime.now().date.addDays(-index).toISOString(),
+              index: index,
+              isActive: index % 3 === 0
+            };
           }
-          if (typeof value === "string") {
-            attrs.push("".concat(attr, "=\"").concat(value, "\""));
-          } else if (typeof value === "number") {
-            attrs.push(":".concat(attr, "=\"").concat(value, "\""));
-          } else if (typeof value === "boolean") {
-            attrs.push(":".concat(attr, "=\"").concat(value ? "true" : "false", "\""));
-          } else ;
-        }
-        console.log(attrs);
-        return "<".concat(elementName, " ").concat(attrs.join(" "), " />");
-      }
-      var GalleryAndResult = exports('GalleryAndResult', defineComponent({
-        name: "GalleryAndResult",
-        inheritAttrs: false,
-        components: {
-          Switch: Switch$1,
-          SectionHeader: SectionHeader$1,
-          TransitionVerticalCollapse: TransitionVerticalCollapse$1,
-          CopyButton: CopyButton$1
-        },
-        props: {
-          value: {
-            required: false
-          },
-          hasMultipleValues: {
-            type: Boolean,
-            default: false
-          },
-          enableReflection: {
-            type: Boolean,
-            default: false
-          },
-          importCode: {
-            type: String
-          },
-          exampleCode: {
-            type: String
-          },
-          description: {
-            type: String,
-            default: ""
-          },
-          displayAsRaw: {
-            type: Boolean,
-            default: false
+          function onAddItem() {
+            if (gridData.rows) {
+              gridData.rows.splice(gridData.rows.length, 0, generateItem(gridData.rows.length + 1));
+            }
           }
-        },
-        setup(props) {
-          var _getCurrentInstance, _getCurrentInstance$p, _getCurrentInstance$p2;
-          var componentName = convertComponentName((_getCurrentInstance = getCurrentInstance()) === null || _getCurrentInstance === void 0 ? void 0 : (_getCurrentInstance$p = _getCurrentInstance.parent) === null || _getCurrentInstance$p === void 0 ? void 0 : (_getCurrentInstance$p2 = _getCurrentInstance$p.type) === null || _getCurrentInstance$p2 === void 0 ? void 0 : _getCurrentInstance$p2.name);
-          var formattedValue = computed(() => {
-            if (props.displayAsRaw) {
-              return props.value;
-            } else if (!props.hasMultipleValues) {
-              return JSON.stringify(props.value, null, 4);
-            } else {
-              return ObjectUtils.fromEntries(Object.entries(props.value).map(_ref => {
-                var _ref2 = _slicedToArray(_ref, 2),
-                  key = _ref2[0],
-                  val = _ref2[1];
-                return [key, JSON.stringify(val, null, 4)];
-              }));
+          function onDelete(key) {
+            if (gridData.rows) {
+              var index = gridData.rows.findIndex(r => r.key === key);
+              if (index !== -1) {
+                gridData.rows.splice(index, 1);
+              }
             }
-          });
-          var styledImportCode = computed(() => {
-            var _HighlightJs$highligh;
-            if (!props.importCode) {
-              return undefined;
-            }
-            return (_HighlightJs$highligh = HighlightJs.highlight(props.importCode, {
-              language: "typescript"
-            })) === null || _HighlightJs$highligh === void 0 ? void 0 : _HighlightJs$highligh.value;
-          });
-          var styledExampleCode = computed(() => {
-            var _HighlightJs$highligh2;
-            if (!props.exampleCode) {
-              return undefined;
-            }
-            return (_HighlightJs$highligh2 = HighlightJs.highlight(props.exampleCode, {
-              language: "html"
-            })) === null || _HighlightJs$highligh2 === void 0 ? void 0 : _HighlightJs$highligh2.value;
-          });
-          var showReflection = ref(false);
-          return {
-            componentName,
-            formattedValue,
-            showReflection,
-            styledExampleCode,
-            styledImportCode
+          }
+          watch(useColumnTitles, _asyncToGenerator(function* () {
+            isVisible.value = false;
+            yield nextTick();
+            nameTitle.value = useColumnTitles.value ? "Name" : "";
+            dateTitle.value = useColumnTitles.value ? "Date" : "";
+            numberTitle.value = useColumnTitles.value ? "Number" : "";
+            activeTitle.value = useColumnTitles.value ? "Active" : "";
+            isVisible.value = true;
+          }));
+          return (_ctx, _cache) => {
+            return openBlock(), createBlock(unref(script$8), {
+              importCode: unref(importCode),
+              exampleCode: unref(exampleCode)
+            }, {
+              settings: withCtx(() => [createElementVNode("div", _hoisted_3$1, [createElementVNode("div", _hoisted_4$1, [createVNode(unref(CheckBox), {
+                label: "Use Column Titles",
+                modelValue: useColumnTitles.value,
+                "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => useColumnTitles.value = $event)
+              }, null, 8, ["modelValue"])]), createElementVNode("div", _hoisted_5$1, [createVNode(unref(CheckBox), {
+                label: "Show Export",
+                modelValue: showExport.value,
+                "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => showExport.value = $event)
+              }, null, 8, ["modelValue"])])])]),
+              default: withCtx(() => [createElementVNode("div", _hoisted_1$1, [createElementVNode("div", _hoisted_2$1, [isVisible.value ? (openBlock(), createBlock(unref(Grid), {
+                key: 0,
+                data: gridData,
+                keyField: "key",
+                liveUpdates: "",
+                light: "",
+                onAddItem: onAddItem,
+                showExport: showExport.value
+              }, {
+                default: withCtx(() => [createVNode(unref(TextColumn), {
+                  name: "name",
+                  title: nameTitle.value,
+                  field: "name"
+                }, null, 8, ["title"]), createVNode(unref(DateColumn), {
+                  name: "date",
+                  title: dateTitle.value,
+                  field: "date",
+                  visiblePriority: "md"
+                }, null, 8, ["title"]), createVNode(unref(NumberColumn), {
+                  name: "index",
+                  title: numberTitle.value,
+                  field: "index",
+                  visiblePriority: "lg"
+                }, null, 8, ["title"]), createVNode(unref(BooleanColumn), {
+                  name: "isActive",
+                  title: activeTitle.value,
+                  field: "isActive",
+                  visiblePriority: "sm"
+                }, null, 8, ["title"]), createVNode(unref(EditColumn)), createVNode(unref(DeleteColumn), {
+                  onClick: onDelete,
+                  disableConfirmation: ""
+                })]),
+                _: 1
+              }, 8, ["data", "showExport"])) : createCommentVNode("v-if", true)])])]),
+              _: 1
+            }, 8, ["importCode", "exampleCode"]);
           };
-        },
-        template: "\n<v-style>\n.galleryContent-mainRow > div.well {\n    overflow-x: auto;\n}\n\n.galleryContent-reflectionToggle {\n    display: flex;\n    justify-content: flex-end;\n}\n\n.galleryContent-valueBox {\n    max-height: 300px;\n    overflow: auto;\n}\n\n.galleryContent-codeSampleWrapper {\n    position: relative;\n}\n\n.galleryContent-codeSample {\n    padding-right: 3rem;\n    overflow-x: auto;\n}\n\n.galleryContent-codeCopyButton {\n    position: absolute;\n    top: 1.4rem;\n    transform: translateY(-50%);\n    right: .5rem;\n    z-index: 1;\n}\n\n.galleryContent-codeCopyButton::before {\n    content: \"\";\n    position: absolute;\n    top: -0.3rem;\n    right: -0.5rem;\n    bottom: -0.3rem;\n    left: -0.5rem;\n    background: linear-gradient(to left, #f5f5f4, #f5f5f4 80%, #f5f5f500);\n    z-index: -1;\n}\n</v-style>\n\n<SectionHeader :title=\"componentName\" :description=\"description\" />\n<div class=\"galleryContent-mainRow mb-5 row\">\n    <div v-if=\"$slots.default\" :class=\"value === void 0 ? 'col-sm-12' : 'col-sm-6'\">\n        <h4 class=\"mt-0\">Test Control</h4>\n        <slot name=\"default\" />\n\n        <div v-if=\"enableReflection\" class=\"mt-3\">\n            <div class=\"mb-3 galleryContent-reflectionToggle\">\n                <Switch v-model=\"showReflection\" text=\"Show Reflection\" />\n            </div>\n            <TransitionVerticalCollapse>\n                <div v-if=\"showReflection\">\n                    <h4 class=\"mt-0\">Control Reflection</h4>\n                    <slot name=\"default\" />\n                </div>\n            </TransitionVerticalCollapse>\n        </div>\n    </div>\n    <div v-if=\"value !== void 0\" class=\"col-sm-6\">\n        <div class=\"well\">\n            <h4>Current Value<template v-if=\"hasMultipleValues\">s</template></h4>\n            <template v-if=\"hasMultipleValues\" v-for=\"value, key in formattedValue\">\n                <h5><code>{{ key }}</code></h5>\n                <pre class=\"m-0 p-0 border-0 galleryContent-valueBox\">{{ value }}</pre>\n            </template>\n            <pre v-else class=\"m-0 p-0 border-0 galleryContent-valueBox\">{{ formattedValue }}</pre>\n        </div>\n    </div>\n</div>\n<div v-if=\"$slots.settings\" class=\"mb-5\">\n    <h4 class=\"mt-0\">Settings</h4>\n    <slot name=\"settings\" />\n</div>\n<div v-if=\"importCode || exampleCode || $slots.usage\" class=\"mb-5\">\n    <h4 class=\"mt-0 mb-3\">Usage Notes</h4>\n    <slot name=\"usage\">\n        <h5 v-if=\"importCode\" class=\"mt-3 mb-2\">Import</h5>\n        <slot name=\"importNotes\" />\n        <div v-if=\"importCode\" class=\"galleryContent-codeSampleWrapper\">\n            <pre class=\"galleryContent-codeSample\"><code v-html=\"styledImportCode\"></code></pre>\n            <CopyButton :value=\"importCode\" class=\"galleryContent-codeCopyButton\" btnSize=\"sm\" btnType=\"link\" />\n        </div>\n        <h5 v-if=\"exampleCode\" class=\"mt-3 mb-2\">Template Syntax</h5>\n        <slot name=\"syntaxNotes\" />\n        <div v-if=\"exampleCode\" class=\"galleryContent-codeSampleWrapper\">\n            <pre class=\"galleryContent-codeSample\"><code v-html=\"styledExampleCode\"></code></pre>\n            <CopyButton :value=\"exampleCode\" class=\"galleryContent-codeCopyButton\" btnSize=\"sm\" btnType=\"link\" />\n        </div>\n    </slot>\n</div>\n\n<div v-if=\"$slots.header\">\n    <p class=\"text-semibold font-italic\">The <code>header</code> slot is no longer supported.</p>\n</div>\n\n<div v-if=\"$attrs.splitWidth !== void 0\">\n    <p class=\"text-semibold font-italic\">The <code>splitWidth</code> prop is no longer supported.</p>\n</div>\n\n<div v-if=\"$slots.gallery\">\n    <p class=\"text-semibold font-italic\">The <code>gallery</code> slot is deprecated. Please update to the newest Control Gallery template.</p>\n    <slot name=\"gallery\" />\n</div>\n<div v-if=\"$slots.result\">\n    <p class=\"text-semibold font-italic\">The <code>result</code> slot is deprecated. Please update to the newest Control Gallery template.</p>\n    <slot name=\"result\" />\n</div>\n"
-      }));
-      function getControlImportPath(fileName) {
-        return "import ".concat(upperCaseFirstCharacter(fileName), " from \"@Obsidian/Controls/").concat(fileName, "\";");
-      }
-      function getTemplateImportPath(fileName) {
-        return "import ".concat(upperCaseFirstCharacter(fileName), " from \"@Obsidian/Templates/").concat(fileName, "\";");
-      }
+        }
+      });
+
+      script$1.__file = "src/Example/ControlGallery/lightGridGallery.partial.obs";
+
+      var _hoisted_1 = {
+        class: "row"
+      };
+      var _hoisted_2 = {
+        class: "col-md-3"
+      };
+      var _hoisted_3 = {
+        class: "col-md-3"
+      };
+      var _hoisted_4 = {
+        class: "col-md-3"
+      };
+      var _hoisted_5 = createElementVNode("p", {
+        class: "text-semibold font-italic"
+      }, "Not all settings are demonstrated in this gallery.", -1);
+      var _hoisted_6 = createElementVNode("p", null, [createTextVNode("Additional props extend and are passed to the underlying "), createElementVNode("code", null, "Rock Form Field"), createTextVNode(" and "), createElementVNode("code", null, "Number Box"), createTextVNode(".")], -1);
+      var script = defineComponent({
+        name: 'currencyBoxGallery.partial',
+        setup(__props) {
+          var value = ref(1.23);
+          var currency = ref({
+            text: "USD",
+            value: "0BD42A7E-9C7E-417C-AFFE-51102B1E4B43"
+          });
+          var minimumValue = ref("");
+          var maximumValue = ref("");
+          var numericMinimumValue = computed(() => toNumberOrNull(minimumValue.value));
+          var numericMaximumValue = computed(() => toNumberOrNull(maximumValue.value));
+          var importCode = getSfcControlImportPath("currencyBox");
+          var exampleCode = computed(() => {
+            var currencyProp = " currencyCodeDefinedValueGuid=\"".concat(currency.value.value, "\"");
+            var minValProp = numericMinimumValue.value != null ? " :minimumValue=\"".concat(numericMinimumValue.value, "\"") : "";
+            var maxValProp = numericMaximumValue.value != null ? " :maximumValue=\"".concat(numericMaximumValue.value, "\"") : "";
+            return "<CurrencyBox label=\"Currency\" v-model=\"value\"".concat(currencyProp).concat(minValProp).concat(maxValProp, " />");
+          });
+          return (_ctx, _cache) => {
+            return openBlock(), createBlock(unref(script$8), {
+              value: value.value,
+              importCode: unref(importCode),
+              exampleCode: unref(exampleCode),
+              enableReflection: ""
+            }, {
+              settings: withCtx(() => [createElementVNode("div", _hoisted_1, [createElementVNode("div", _hoisted_2, [createVNode(unref(DefinedValuePicker), {
+                definedTypeGuid: "B9F3D359-4365-4594-BCEE-D23FA824FB81",
+                label: "Currency",
+                modelValue: currency.value,
+                "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => currency.value = $event)
+              }, null, 8, ["modelValue"])]), createElementVNode("div", _hoisted_3, [createVNode(unref(TextBox), {
+                label: "Minimum Value",
+                modelValue: minimumValue.value,
+                "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => minimumValue.value = $event),
+                help: "The effect of this is no noticeable in this gallery, but it affects validation."
+              }, null, 8, ["modelValue"])]), createElementVNode("div", _hoisted_4, [createVNode(unref(TextBox), {
+                label: "Maximum Value",
+                modelValue: maximumValue.value,
+                "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => maximumValue.value = $event),
+                help: "The effect of this is no noticeable in this gallery, but it affects validation."
+              }, null, 8, ["modelValue"])])]), _hoisted_5, _hoisted_6]),
+              default: withCtx(() => [createVNode(unref(CurrencyBox), {
+                label: "Currency",
+                modelValue: value.value,
+                "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => value.value = $event),
+                currencyCodeDefinedValueGuid: unref(toGuidOrNull)(currency.value.value),
+                minimumValue: unref(numericMinimumValue),
+                maximumValue: unref(numericMaximumValue)
+              }, null, 8, ["modelValue", "currencyCodeDefinedValueGuid", "minimumValue", "maximumValue"])]),
+              _: 1
+            }, 8, ["value", "importCode", "exampleCode"]);
+          };
+        }
+      });
+
+      script.__file = "src/Example/ControlGallery/currencyBoxGallery.partial.obs";
+
       var attributeValuesContainerGallery = defineComponent({
         name: "AttributeValuesContainerGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           AttributeValuesContainer,
-          CheckBox: CheckBox$1,
-          NumberBox: NumberBox$1,
-          TextBox: TextBox$1
+          CheckBox,
+          NumberBox,
+          TextBox
         },
         setup() {
           var isEditMode = ref(false);
@@ -1079,10 +1631,10 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var fieldFilterEditorGallery = defineComponent({
         name: "FieldFilterEditorGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           FieldFilterEditor,
-          CheckBox: CheckBox$1,
-          TextBox: TextBox$1
+          CheckBox,
+          TextBox
         },
         setup() {
           var sources = [{
@@ -1289,7 +1841,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var phoneNumberBoxGallery = defineComponent({
         name: "PhoneNumberBoxGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           PhoneNumberBox,
           RockForm,
           RockButton
@@ -1307,9 +1859,9 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var helpBlockGallery = defineComponent({
         name: "HelpBlockGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           HelpBlock,
-          TextBox: TextBox$1
+          TextBox
         },
         setup() {
           return {
@@ -1323,8 +1875,8 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var dropDownListGallery = defineComponent({
         name: "DropDownListGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           DropDownList
         },
         setup() {
@@ -1347,12 +1899,12 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
             disabled: true
           }];
           var loadOptionsAsync = function () {
-            var _ref3 = _asyncToGenerator(function* () {
+            var _ref = _asyncToGenerator(function* () {
               yield sleep(5000);
               return options;
             });
             return function loadOptionsAsync() {
-              return _ref3.apply(this, arguments);
+              return _ref.apply(this, arguments);
             };
           }();
           return {
@@ -1372,7 +1924,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var radioButtonListGallery = defineComponent({
         name: "RadioButtonListGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           RadioButtonList,
           Toggle,
           NumberUpDown
@@ -1413,9 +1965,9 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var checkBoxGallery = defineComponent({
         name: "CheckBoxGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
-          TextBox: TextBox$1
+          GalleryAndResult: script$8,
+          CheckBox,
+          TextBox
         },
         setup() {
           return {
@@ -1429,7 +1981,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var inlineCheckBoxGallery = defineComponent({
         name: "InlineCheckBoxGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           InlineCheckBox
         },
         data() {
@@ -1445,10 +1997,10 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var dialogGallery = defineComponent({
         name: "DialogGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           RockButton,
           Dialog,
-          CheckBox: CheckBox$1
+          CheckBox
         },
         setup() {
           return {
@@ -1463,7 +2015,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var checkBoxListGallery = defineComponent({
         name: "CheckBoxListGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           CheckBoxList,
           NumberUpDown,
           Toggle
@@ -1489,10 +2041,54 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
         },
         template: "\n<GalleryAndResult\n    :value=\"{'output:modelValue': items, 'input:items': options}\"\n    hasMultipleValues\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n    <CheckBoxList label=\"CheckBoxList\" v-model=\"items\" :items=\"options\" :horizontal=\"isHorizontal\" :repeatColumns=\"repeatColumns\" />\n\n    <template #settings>\n        <div class=\"row\">\n            <NumberUpDown formGroupClasses=\"col-sm-6\" label=\"Horizontal Columns\" v-model=\"repeatColumns\" :min=\"0\" />\n            <Toggle formGroupClasses=\"col-sm-6\" label=\"Horizontal\" v-model=\"isHorizontal\" />\n        </div>\n    </template>\n</GalleryAndResult>"
       });
+      var mediaSelectorGallery = defineComponent({
+        name: "mediaSelectorGallery",
+        components: {
+          GalleryAndResult: script$8,
+          MediaSelector,
+          KeyValueList,
+          DropDownList
+        },
+        setup() {
+          return {
+            items: ref([""]),
+            mediaItems: [],
+            modeOptions: [{
+              text: "Image",
+              value: "0"
+            }, {
+              text: "Audio",
+              value: "1"
+            }],
+            mode: ref(MediaSelectorMode.Image),
+            itemWidth: "100px",
+            importCode: getControlImportPath("mediaSelector"),
+            exampleCode: "<MediaSelector label=\"MediaSelector\" v-model=\"value\" :mediaItems=\"mediaItems\" :itemWidth=\"itemWidth\" />"
+          };
+        },
+        template: "\n<GalleryAndResult\n    :value=\"{'output:modelValue': items, 'input:items': mediaItems}\"\n    hasMultipleValues\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n    <MediaSelector label=\"MediaSelector\" v-model=\"items\" :mediaItems=\"mediaItems\" :mode=\"mode\"/>\n\n    <template #settings>\n        <div class=\"row\">\n            <KeyValueList label=\"Media Items\" v-model=\"mediaItems\" />\n            <DropDownList label=\"Mode\" v-model=\"mode\" :items=\"modeOptions\" />\n        </div>\n    </template>\n</GalleryAndResult>"
+      });
+      var listItemsGallery = defineComponent({
+        name: "ListItemsGallery",
+        components: {
+          GalleryAndResult: script$8,
+          ListItems,
+          TextBox
+        },
+        setup() {
+          return {
+            value: ref([]),
+            valuePrompt: ref(""),
+            importCode: getControlImportPath("listItems"),
+            exampleCode: "<ListItems label=\"List Items\" v-model=\"value\" :valuePrompt=\"valuePrompt\" />"
+          };
+        },
+        template: "\n<GalleryAndResult\n    :value=\"{'output:modelValue': value, 'input:items': options}\"\n    hasMultipleValues\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n    <ListItems label=\"List Items\" v-model=\"value\" :valuePrompt=\"valuePrompt\" />\n\n    <template #settings>\n        <TextBox label=\"Value Prompt\" v-model=\"valuePrompt\" />\n    </template>\n</GalleryAndResult>"
+      });
       var listBoxGallery = defineComponent({
         name: "ListBoxGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           ListBox,
           InlineCheckBox
         },
@@ -1522,7 +2118,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var datePickerGallery = defineComponent({
         name: "DatePickerGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           DatePicker,
           InlineCheckBox
         },
@@ -1557,7 +2153,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var dateRangePickerGallery = defineComponent({
         name: "DateRangePickerGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           DateRangePicker
         },
         setup() {
@@ -1573,7 +2169,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var dateTimePickerGallery = defineComponent({
         name: "DateTimePickerGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           DateTimePicker,
           InlineCheckBox
         },
@@ -1582,16 +2178,17 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
             date: ref(null),
             displayCurrentOption: ref(false),
             isCurrentDateOffset: ref(false),
+            disabled: ref(false),
             importCode: getControlImportPath("dateTimePicker"),
-            exampleCode: "<DateTimePicker label=\"Date and Time\" v-model=\"date\" :displayCurrentOption=\"false\" :isCurrentDateOffset=\"false\" />"
+            exampleCode: "<DateTimePicker label=\"Date and Time\" v-model=\"date\" :displayCurrentOption=\"false\" :isCurrentDateOffset=\"false\" :disabled=\"disabled\" />"
           };
         },
-        template: "\n<GalleryAndResult\n    :value=\"date\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n\n    <DateTimePicker label=\"Date and Time\" v-model=\"date\" :displayCurrentOption=\"displayCurrentOption\" :isCurrentDateOffset=\"isCurrentDateOffset\" />\n\n    <template #settings>\n        <div class=\"row\">\n            <div class=\"col-sm-4\">\n                <InlineCheckBox v-model=\"displayCurrentOption\" label=\"Display Current Option\" />\n            </div>\n            <div class=\"col-sm-4\">\n                <InlineCheckBox v-model=\"isCurrentDateOffset\" label=\"Is Current Date Offset\" />\n            </div>\n        </div>\n        <p>Additional props extend and are passed to the underlying <code>Rock Form Field</code>.</p>\n    </template>\n</GalleryAndResult>"
+        template: "\n<GalleryAndResult\n    :value=\"date\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n\n    <DateTimePicker label=\"Date and Time\" v-model=\"date\" :displayCurrentOption=\"displayCurrentOption\" :isCurrentDateOffset=\"isCurrentDateOffset\" :disabled=\"disabled\" />\n\n    <template #settings>\n        <div class=\"row\">\n            <div class=\"col-sm-4\">\n                <InlineCheckBox v-model=\"displayCurrentOption\" label=\"Display Current Option\" />\n            </div>\n            <div class=\"col-sm-4\">\n                <InlineCheckBox v-model=\"isCurrentDateOffset\" label=\"Is Current Date Offset\" />\n            </div>\n            <div class=\"col-sm-4\">\n                <InlineCheckBox v-model=\"disabled\" label=\"Is Disabled\" />\n            </div>\n        </div>\n        <p>Additional props extend and are passed to the underlying <code>Rock Form Field</code>.</p>\n    </template>\n</GalleryAndResult>"
       });
       var datePartsPickerGallery = defineComponent({
         name: "DatePartsPickerGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           Toggle,
           DatePartsPicker
         },
@@ -1612,8 +2209,8 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var textBoxGallery = defineComponent({
         name: "TextBoxGallery",
         components: {
-          GalleryAndResult,
-          TextBox: TextBox$1
+          GalleryAndResult: script$8,
+          TextBox
         },
         data() {
           return {
@@ -1627,7 +2224,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var colorPickerGallery = defineComponent({
         name: "ColorPickerGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           ColorPicker
         },
         setup() {
@@ -1642,11 +2239,11 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var numberBoxGallery = defineComponent({
         name: "NumberBoxGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           RockForm,
           RockButton,
-          TextBox: TextBox$1,
-          NumberBox: NumberBox$1
+          TextBox,
+          NumberBox
         },
         setup() {
           var minimumValue = ref("0");
@@ -1669,7 +2266,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var numberRangeBoxGallery = defineComponent({
         name: "NumberRangeBoxGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           NumberRangeBox
         },
         setup() {
@@ -1687,7 +2284,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var genderDropDownListGallery = defineComponent({
         name: "GenderDropDownListGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           GenderDropDownList
         },
         setup() {
@@ -1702,7 +2299,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var socialSecurityNumberBoxGallery = defineComponent({
         name: "SocialSecurityNumberBoxGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           SocialSecurityNumberBox
         },
         setup() {
@@ -1717,8 +2314,9 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var timePickerGallery = defineComponent({
         name: "TimePickerGallery",
         components: {
-          GalleryAndResult,
-          TimePicker
+          GalleryAndResult: script$8,
+          TimePicker,
+          CheckBox
         },
         setup() {
           return {
@@ -1726,17 +2324,18 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
               hour: 14,
               minute: 15
             }),
-            importCode: getControlImportPath("timePicker"),
+            disabled: ref(false),
+            importCode: getSfcControlImportPath("timePicker"),
             exampleCode: "<TimePicker label=\"Time\" v-model=\"value\" />"
           };
         },
-        template: "\n<GalleryAndResult\n    :value=\"value\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n    <TimePicker label=\"Time\" v-model=\"value\" />\n\n    <template #settings>\n        <p class=\"text-semibold font-italic\">Not all settings are demonstrated in this gallery.</p>\n        <p>Additional props extend and are passed to the underlying <code>Rock Form Field</code> and <code>Drop Down List</code>.</p>\n    </template>\n</GalleryAndResult>"
+        template: "\n<GalleryAndResult\n    :value=\"value\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n    <TimePicker label=\"Time\" v-model=\"value\" :disabled=\"disabled\" />\n\n    <template #settings>\n        <div>\n            <CheckBox v-model=\"disabled\" label=\"Disabled\" />\n        </div>\n        <p class=\"text-semibold font-italic\">Not all settings are demonstrated in this gallery.</p>\n        <p>Additional props extend and are passed to the underlying <code>Rock Form Field</code> and <code>Drop Down List</code>.</p>\n    </template>\n</GalleryAndResult>"
       });
       var ratingGallery = defineComponent({
         name: "RatingGallery",
         components: {
-          GalleryAndResult,
-          NumberBox: NumberBox$1,
+          GalleryAndResult: script$8,
+          NumberBox,
           Rating
         },
         setup() {
@@ -1752,8 +2351,8 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var switchGallery = defineComponent({
         name: "SwitchGallery",
         components: {
-          GalleryAndResult,
-          Switch: Switch$1
+          GalleryAndResult: script$8,
+          Switch
         },
         setup() {
           return {
@@ -1767,8 +2366,8 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var inlineSwitchGallery = defineComponent({
         name: "InlineSwitchGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           InlineSwitch
         },
         setup() {
@@ -1781,25 +2380,10 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
         },
         template: "\n<GalleryAndResult\n    :value=\"isChecked\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n    <InlineSwitch label=\"Inline Switch\" v-model=\"isChecked\" :isBold=\"isBold\" />\n\n    <template #settings>\n        <CheckBox label=\"Is Bold\" v-model=\"isBold\" />\n        <p class=\"text-semibold font-italic\">Not all settings are demonstrated in this gallery.</p>\n    </template>\n</GalleryAndResult>"
       });
-      var currencyBoxGallery = defineComponent({
-        name: "CurrencyBoxGallery",
-        components: {
-          GalleryAndResult,
-          CurrencyBox
-        },
-        setup() {
-          return {
-            value: ref(1.23),
-            importCode: getControlImportPath("currencyBox"),
-            exampleCode: "<CurrencyBox label=\"Currency\" v-model=\"value\" />"
-          };
-        },
-        template: "\n<GalleryAndResult\n    :value=\"value\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n    <CurrencyBox label=\"Currency\" v-model=\"value\" />\n\n    <template #settings>\n        <p class=\"text-semibold font-italic\">Not all settings are demonstrated in this gallery.</p>\n        <p>Additional props extend and are passed to the underlying <code>Rock Form Field</code> and <code>Number Box</code>.</p>\n    </template>\n</GalleryAndResult>"
-      });
       var emailBoxGallery = defineComponent({
         name: "EmailBoxGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           EmailBox
         },
         setup() {
@@ -1814,7 +2398,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var numberUpDownGallery = defineComponent({
         name: "NumberUpDownGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           NumberUpDown
         },
         setup() {
@@ -1829,7 +2413,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var staticFormControlGallery = defineComponent({
         name: "StaticFormControlGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           StaticFormControl
         },
         setup() {
@@ -1844,28 +2428,46 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var addressControlGallery = defineComponent({
         name: "AddressControlGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           RockForm,
           RockButton,
-          CheckBox: CheckBox$1,
-          AddressControl
+          CheckBox,
+          AddressControl,
+          ButtonDropDownList
         },
         setup() {
+          var showCountrySelected = ref("default");
+          var showCountry = computed(() => {
+            return showCountrySelected.value == "true" ? true : showCountrySelected.value == "false" ? false : null;
+          });
           return {
             value: ref({}),
             submit: ref(false),
             required: ref(false),
+            partial: ref(false),
+            showCountry,
+            showCountrySelected,
+            showCountryOptions: [{
+              text: "Default",
+              value: "default"
+            }, {
+              text: "Yes",
+              value: "true"
+            }, {
+              text: "No",
+              value: "false"
+            }],
             importCode: getSfcControlImportPath("addressControl"),
             exampleCode: "<AddressControl label=\"Address\" v-model=\"value\" />"
           };
         },
-        template: "\n<GalleryAndResult :value=\"value\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n\n    <RockForm v-model:submit=\"submit\">\n    <AddressControl label=\"Address\" v-model=\"value\" :rules=\"required ? 'required' : ''\" />\n\n    <RockButton @click=\"submit=true\">Validate</RockButton>\n    </RockForm>\n\n    <template #settings>\n        <div class=\"row\">\n            <div class=\"col-sm-4\">\n                <CheckBox label=\"Required\" v-model=\"required\" />\n            </div>\n        </div>\n        <p>All props match that of a <code>Rock Form Field</code></p>\n    </template>\n</GalleryAndResult>"
+        template: "\n<GalleryAndResult :value=\"value\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n\n    <RockForm v-model:submit=\"submit\">\n    <AddressControl label=\"Address\" v-model=\"value\" :rules=\"required ? 'required' : ''\" :partialAddressIsAllowed=\"partial\" :showCountry=\"showCountry\" />\n\n    <RockButton @click=\"submit=true\">Validate</RockButton>\n    </RockForm>\n\n    <template #settings>\n        <div class=\"row\">\n            <div class=\"col-sm-4\">\n                <CheckBox label=\"Required\" v-model=\"required\" />\n            </div>\n            <div class=\"col-sm-4\">\n                <CheckBox label=\"Allow Partial Addresses\" v-model=\"partial\" />\n            </div>\n            <div class=\"col-sm-4\">\n                <ButtonDropDownList label=\"Show Country\" v-model=\"showCountrySelected\" :items=\"showCountryOptions\" help=\"If no value is passed in, the visibility of the Country field will depend on the 'Support International Addresses' Global Attribute setting.\" />\n            </div>\n        </div>\n        <p>All props match that of a <code>Rock Form Field</code></p>\n    </template>\n</GalleryAndResult>"
       });
       var toggleGallery = defineComponent({
         name: "ToggleGallery",
         components: {
-          GalleryAndResult,
-          TextBox: TextBox$1,
+          GalleryAndResult: script$8,
+          TextBox,
           DropDownList,
           Toggle
         },
@@ -1897,7 +2499,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var progressTrackerGallery = defineComponent({
         name: "ProgressTrackerGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           NumberUpDown,
           ProgressTracker
         },
@@ -1954,8 +2556,8 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var itemsWithPreAndPostHtmlGallery = defineComponent({
         name: "ItemsWithPreAndPostHtmlGallery",
         components: {
-          GalleryAndResult,
-          TextBox: TextBox$1,
+          GalleryAndResult: script$8,
+          TextBox,
           ItemsWithPreAndPostHtml
         },
         setup() {
@@ -1979,7 +2581,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
         name: "UrlLinkBoxGallery",
         components: {
           UrlLinkBox,
-          GalleryAndResult
+          GalleryAndResult: script$8
         },
         setup() {
           return {
@@ -1993,9 +2595,9 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var fullscreenGallery = defineComponent({
         name: "FullscreenGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           InlineSwitch,
-          CheckBox: CheckBox$1,
+          CheckBox,
           Fullscreen
         },
         setup() {
@@ -2011,8 +2613,8 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var panelGallery = defineComponent({
         name: "PanelGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           CheckBoxList,
           Panel,
           RockButton
@@ -2047,6 +2649,9 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
               value: "drawer",
               text: "Drawer"
             }, {
+              value: "sidebar",
+              text: "Sidebar"
+            }, {
               value: "headerActions",
               text: "Header Actions"
             }, {
@@ -2072,6 +2677,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
               text: "Large Body"
             }],
             simulateDrawer: computed(() => simulateValues.value.includes("drawer")),
+            simulateSidebar: computed(() => simulateValues.value.includes("sidebar")),
             simulateHeaderActions: computed(() => simulateValues.value.includes("headerActions")),
             simulateSubheaderLeft: computed(() => simulateValues.value.includes("subheaderLeft")),
             simulateSubheaderRight: computed(() => simulateValues.value.includes("subheaderRight")),
@@ -2081,34 +2687,19 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
             simulateHelp: computed(() => simulateValues.value.includes("helpContent")),
             isFullscreenPageOnly: ref(true),
             value: ref(true),
-            importCode: getControlImportPath("panel"),
-            exampleCode: "<Panel v-model=\"isExanded\" v-model:isDrawerOpen=\"false\" title=\"Panel Title\" :hasCollapse=\"true\" :hasFullscreen=\"false\" :isFullscreenPageOnly=\"true\" :headerSecondaryActions=\"false\">\n    <template #helpContent>Help Content</template>\n    <template #drawer>Drawer Content</template>\n    <template #headerActions>Header Actions</template>\n    <template #subheaderLeft>Sub Header Left</template>\n    <template #subheaderRight>Sub Header Right</template>\n    <template #footerActions>Footer Actions</template>\n    <template #footerSecondaryActions>Footer Secondary Actions</template>\n\n    Main Panel Content\n</Panel>"
+            importCode: getSfcControlImportPath("panel"),
+            exampleCode: "<Panel v-model=\"isExanded\" v-model:isDrawerOpen=\"false\" title=\"Panel Title\" :hasCollapse=\"true\" :hasFullscreen=\"false\" :isFullscreenPageOnly=\"true\" :headerSecondaryActions=\"false\">\n    <template #helpContent>Help Content</template>\n    <template #sidebar>Sidebar Content</template>\n    <template #drawer>Drawer Content</template>\n    <template #headerActions>Header Actions</template>\n    <template #subheaderLeft>Sub Header Left</template>\n    <template #subheaderRight>Sub Header Right</template>\n    <template #footerActions>Footer Actions</template>\n    <template #footerSecondaryActions>Footer Secondary Actions</template>\n\n    Main Panel Content\n</Panel>"
           };
         },
-        template: "\n<GalleryAndResult\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\" >\n    <Panel v-model=\"value\" v-model:isDrawerOpen=\"drawerValue\" :hasCollapse=\"collapsibleValue\" :hasZoom=\"hasZoom\" :hasFullscreen=\"hasFullscreen\" :isFullscreenPageOnly=\"isFullscreenPageOnly\" title=\"Panel Title\" :headerSecondaryActions=\"headerSecondaryActions\">\n        <template v-if=\"simulateHelp\" #helpContent>\n            This is some help text.\n        </template>\n\n        <template v-if=\"simulateDrawer\" #drawer>\n            <div style=\"text-align: center;\">Drawer Content</div>\n        </template>\n\n        <template v-if=\"simulateHeaderActions\" #headerActions>\n            <span class=\"action\">\n                <i class=\"fa fa-star-o\"></i>\n            </span>\n\n            <span class=\"action\">\n                <i class=\"fa fa-user\"></i>\n            </span>\n        </template>\n\n        <template v-if=\"simulateSubheaderLeft\" #subheaderLeft>\n            <span class=\"label label-warning\">Warning</span>&nbsp;\n            <span class=\"label label-default\">Default</span>\n        </template>\n\n        <template v-if=\"simulateSubheaderRight\" #subheaderRight>\n            <span class=\"label label-info\">Info</span>&nbsp;\n            <span class=\"label label-default\">Default</span>\n        </template>\n\n        <template v-if=\"simulateFooterActions\" #footerActions>\n            <RockButton btnType=\"primary\">Action 1</RockButton>\n            <RockButton btnType=\"primary\">Action 2</RockButton>\n        </template>\n\n        <template v-if=\"simulateFooterSecondaryActions\" #footerSecondaryActions>\n            <RockButton btnType=\"default\"><i class=\"fa fa-lock\"></i></RockButton>\n            <RockButton btnType=\"default\"><i class=\"fa fa-unlock\"></i></RockButton>\n        </template>\n\n\n        <h4>Romans 11:33-36</h4>\n        <p>\n            Oh, the depth of the riches<br />\n            and the wisdom and the knowledge of God!<br />\n            How unsearchable his judgments<br />\n            and untraceable his ways!<br />\n            For who has known the mind of the Lord?<br />\n            Or who has been his counselor?<br />\n            And who has ever given to God,<br />\n            that he should be repaid?<br />\n            For from him and through him<br />\n            and to him are all things.<br />\n            To him be the glory forever. Amen.\n        </p>\n    </Panel>\n\n    <template #settings>\n        <div class=\"row\">\n            <CheckBox formGroupClasses=\"col-sm-3\" v-model=\"collapsibleValue\" label=\"Collapsible\" />\n            <CheckBox formGroupClasses=\"col-sm-3\" v-model=\"value\" label=\"Panel Open\" />\n            <CheckBox formGroupClasses=\"col-sm-3\" v-model=\"hasFullscreen\" label=\"Has Fullscreen\" />\n            <CheckBox formGroupClasses=\"col-sm-3\" v-model=\"isFullscreenPageOnly\" label=\"Page Only Fullscreen\" />\n            <CheckBox formGroupClasses=\"col-sm-3\" v-model=\"hasZoom\" label=\"Has Zoom\" />\n        </div>\n        <CheckBoxList v-model=\"simulateValues\" label=\"Simulate\" :items=\"simulateOptions\" />\n\n        <p class=\"text-semibold font-italic\">Not all settings are demonstrated in this gallery.</p>\n    </template>\n</GalleryAndResult>"
-      });
-      var personPickerGallery = defineComponent({
-        name: "PersonPickerGallery",
-        components: {
-          GalleryAndResult,
-          PersonPicker
-        },
-        setup() {
-          return {
-            value: ref(null),
-            importCode: getControlImportPath("personPicker"),
-            exampleCode: "<PersonPicker v-model=\"value\" label=\"Person\" />"
-          };
-        },
-        template: "\n<GalleryAndResult\n    :value=\"value ?? null\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n    <PersonPicker v-model=\"value\" label=\"Person\" />\n    <template #settings>\n        <p class=\"text-semibold font-italic\">Not all settings are demonstrated in this gallery.</p>\n        <p>Additional props extend and are passed to the underlying <code>Rock Form Field</code>.</p>\n    </template>\n</GalleryAndResult>"
+        template: "\n<GalleryAndResult\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\" >\n    <Panel v-model=\"value\" v-model:isDrawerOpen=\"drawerValue\" :hasCollapse=\"collapsibleValue\" :hasZoom=\"hasZoom\" :hasFullscreen=\"hasFullscreen\" :isFullscreenPageOnly=\"isFullscreenPageOnly\" title=\"Panel Title\" :headerSecondaryActions=\"headerSecondaryActions\">\n        <template v-if=\"simulateHelp\" #helpContent>\n            This is some help text.\n        </template>\n\n        <template v-if=\"simulateDrawer\" #drawer>\n            <div style=\"text-align: center;\">Drawer Content</div>\n        </template>\n\n        <template v-if=\"simulateSidebar\" #sidebar>\n            <div style=\"text-align: center;\"><img src=\"https://placehold.co/280x158\" /></div>\n        </template>\n\n        <template v-if=\"simulateHeaderActions\" #headerActions>\n            <span class=\"action\">\n                <i class=\"fa fa-star-o\"></i>\n            </span>\n\n            <span class=\"action\">\n                <i class=\"fa fa-user\"></i>\n            </span>\n        </template>\n\n        <template v-if=\"simulateSubheaderLeft\" #subheaderLeft>\n            <span class=\"label label-warning\">Warning</span>&nbsp;\n            <span class=\"label label-default\">Default</span>\n        </template>\n\n        <template v-if=\"simulateSubheaderRight\" #subheaderRight>\n            <span class=\"label label-info\">Info</span>&nbsp;\n            <span class=\"label label-default\">Default</span>\n        </template>\n\n        <template v-if=\"simulateFooterActions\" #footerActions>\n            <RockButton btnType=\"primary\">Action 1</RockButton>\n            <RockButton btnType=\"primary\">Action 2</RockButton>\n        </template>\n\n        <template v-if=\"simulateFooterSecondaryActions\" #footerSecondaryActions>\n            <RockButton btnType=\"default\"><i class=\"fa fa-lock\"></i></RockButton>\n            <RockButton btnType=\"default\"><i class=\"fa fa-unlock\"></i></RockButton>\n        </template>\n\n\n        <h4>Romans 11:33-36</h4>\n        <p>\n            Oh, the depth of the riches<br />\n            and the wisdom and the knowledge of God!<br />\n            How unsearchable his judgments<br />\n            and untraceable his ways!<br />\n            For who has known the mind of the Lord?<br />\n            Or who has been his counselor?<br />\n            And who has ever given to God,<br />\n            that he should be repaid?<br />\n            For from him and through him<br />\n            and to him are all things.<br />\n            To him be the glory forever. Amen.\n        </p>\n    </Panel>\n\n    <template #settings>\n        <div class=\"row\">\n            <CheckBox formGroupClasses=\"col-sm-3\" v-model=\"collapsibleValue\" label=\"Collapsible\" />\n            <CheckBox formGroupClasses=\"col-sm-3\" v-model=\"value\" label=\"Panel Open\" />\n            <CheckBox formGroupClasses=\"col-sm-3\" v-model=\"hasFullscreen\" label=\"Has Fullscreen\" />\n            <CheckBox formGroupClasses=\"col-sm-3\" v-model=\"isFullscreenPageOnly\" label=\"Page Only Fullscreen\" />\n            <CheckBox formGroupClasses=\"col-sm-3\" v-model=\"hasZoom\" label=\"Has Zoom\" />\n        </div>\n        <CheckBoxList v-model=\"simulateValues\" label=\"Simulate\" :items=\"simulateOptions\" horizontal :repeatColumns=\"4\" />\n\n        <p class=\"text-semibold font-italic\">Not all settings are demonstrated in this gallery.</p>\n    </template>\n</GalleryAndResult>"
       });
       var fileUploaderGallery = defineComponent({
         name: "FileUploaderGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           FileUploader,
-          TextBox: TextBox$1
+          TextBox
         },
         setup() {
           return {
@@ -2126,10 +2717,10 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var imageUploaderGallery = defineComponent({
         name: "ImageUploaderGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           ImageUploader,
-          TextBox: TextBox$1
+          TextBox
         },
         setup() {
           return {
@@ -2147,7 +2738,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var slidingDateRangePickerGallery = defineComponent({
         name: "SlidingDateRangePickerGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           SlidingDateRangePicker,
           DropDownList
         },
@@ -2177,10 +2768,10 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var definedValuePickerGallery = defineComponent({
         name: "DefinedValuePickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           DefinedValuePicker,
-          TextBox: TextBox$1
+          TextBox
         },
         setup() {
           function onsubmit() {
@@ -2206,8 +2797,8 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var entityTypePickerGallery = defineComponent({
         name: "EntityTypePickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           DropDownList,
           EntityTypePicker,
           NumberUpDown
@@ -2234,8 +2825,8 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var achievementTypePickerGallery = defineComponent({
         name: "AchievementTypePickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           DropDownList,
           AchievementTypePicker,
           NumberUpDown
@@ -2258,8 +2849,8 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var badgeComponentPickerGallery = defineComponent({
         name: "BadgeComponentPickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           DropDownList,
           BadgeComponentPicker,
           NumberUpDown,
@@ -2284,9 +2875,9 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var sectionHeaderGallery = defineComponent({
         name: "SectionHeaderGallery",
         components: {
-          GalleryAndResult,
-          SectionHeader: SectionHeader$1,
-          CheckBox: CheckBox$1
+          GalleryAndResult: script$8,
+          SectionHeader,
+          CheckBox
         },
         setup() {
           var showSeparator = ref(true);
@@ -2306,14 +2897,14 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
             exampleCode: "<SectionHeader title=\"This is a SectionHeader\" description=\"A Description\" :isSeparatorHidden=\"false\">\n    <template #actions>Action Buttons</template>\n</SectionHeader>"
           };
         },
-        template: "\n<GalleryAndResult\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\" >\n\n    <SectionHeader\n        title=\"This is a SectionHeader\"\n        :description=\"description\"\n        :isSeparatorHidden=\"!showSeparator\" >\n        <template v-if=\"showActionBar\" #actions>\n            <div>\n                <a class=\"btn btn-default btn-xs btn-square\"><i class=\"fa fa-lock\"></i></a>\n                <a class=\"btn btn-default btn-xs btn-square\"><i class=\"fa fa-pencil\"></i></a>\n                <a class=\"btn btn-danger btn-xs btn-square\"><i class=\"fa fa-trash-alt\"></i></a>\n            </div>\n        </template>\n    </SectionHeader>\n\n    <template #settings>\n        <div class=\"row\">\n            <CheckBox formGroupClasses=\"col-xs-4\" v-model=\"showSeparator\" label=\"Show Separator\" />\n            <CheckBox formGroupClasses=\"col-xs-4\" v-model=\"showDescription\" label=\"Show Description\" />\n            <CheckBox formGroupClasses=\"col-xs-4\" v-model=\"showActionBar\" label=\"Show Action Bar\" />\n        </div>\n    </template>\n</GalleryAndResult>"
+        template: "\n<GalleryAndResult\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\" >\n\n    <SectionHeader\n        title=\"This is a SectionHeader\"\n        :description=\"description\"\n        :isSeparatorHidden=\"!showSeparator\" >\n        <template v-if=\"showActionBar\" #actions>\n            <a class=\"btn btn-default btn-xs btn-square\"><i class=\"fa fa-lock\"></i></a>\n            <a class=\"btn btn-default btn-xs btn-square\"><i class=\"fa fa-pencil\"></i></a>\n            <a class=\"btn btn-danger btn-xs btn-square\"><i class=\"fa fa-trash-alt\"></i></a>\n        </template>\n    </SectionHeader>\n\n    <template #settings>\n        <div class=\"row\">\n            <CheckBox formGroupClasses=\"col-xs-4\" v-model=\"showSeparator\" label=\"Show Separator\" />\n            <CheckBox formGroupClasses=\"col-xs-4\" v-model=\"showDescription\" label=\"Show Description\" />\n            <CheckBox formGroupClasses=\"col-xs-4\" v-model=\"showActionBar\" label=\"Show Action Bar\" />\n        </div>\n    </template>\n</GalleryAndResult>"
       });
       var sectionContainerGallery = defineComponent({
         name: "SectionContainerGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           SectionContainer,
-          CheckBox: CheckBox$1
+          CheckBox
         },
         setup() {
           var showDescription = ref(true);
@@ -2333,25 +2924,22 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
             exampleCode: "<SectionContainer title=\"This is a Section Container\" description=\"A Description\" v-model=\"showContent\" toggleText=\"Show\">\n    <template #actions>Action Buttons</template>\n    Main Content\n</SectionContainer>"
           };
         },
-        template: "\n<GalleryAndResult\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\" >\n\n    <SectionContainer\n        title=\"This is a Section Container\"\n        :description=\"description\"\n        v-model=\"showContent\"\n        :toggleText=\"showContentToggle ? 'Show' : ''\" >\n        <template v-if=\"showActionBar\" #actions>\n            <div>\n                <a class=\"btn btn-default btn-xs btn-square\"><i class=\"fa fa-lock\"></i></a>\n                <a class=\"btn btn-default btn-xs btn-square\"><i class=\"fa fa-pencil\"></i></a>\n                <a class=\"btn btn-danger btn-xs btn-square\"><i class=\"fa fa-trash-alt\"></i></a>\n            </div>\n        </template>\n        Here's some content to put in here.\n    </SectionContainer>\n\n    <template #settings>\n        <div class=\"row\">\n            <CheckBox formGroupClasses=\"col-xs-4\" v-model=\"showDescription\" label=\"Show Description\" />\n            <CheckBox formGroupClasses=\"col-xs-4\" v-model=\"showActionBar\" label=\"Show Action Bar\" />\n            <CheckBox formGroupClasses=\"col-xs-4\" v-model=\"showContentToggle\" label=\"Show Content Toggle\" />\n        </div>\n        <p class=\"text-semibold font-italic\">Not all settings are demonstrated in this gallery.</p>\n    </template>\n</GalleryAndResult>"
+        template: "\n<GalleryAndResult\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\" >\n\n    <SectionContainer\n        title=\"This is a Section Container\"\n        :description=\"description\"\n        v-model=\"showContent\"\n        :toggleText=\"showContentToggle ? 'Show' : ''\" >\n        <template v-if=\"showActionBar\" #actions>\n            <a class=\"btn btn-default btn-xs btn-square\"><i class=\"fa fa-lock\"></i></a>\n            <a class=\"btn btn-default btn-xs btn-square\"><i class=\"fa fa-pencil\"></i></a>\n            <a class=\"btn btn-danger btn-xs btn-square\"><i class=\"fa fa-trash-alt\"></i></a>\n        </template>\n        Here's some content to put in here.\n    </SectionContainer>\n\n    <template #settings>\n        <div class=\"row\">\n            <CheckBox formGroupClasses=\"col-xs-4\" v-model=\"showDescription\" label=\"Show Description\" />\n            <CheckBox formGroupClasses=\"col-xs-4\" v-model=\"showActionBar\" label=\"Show Action Bar\" />\n            <CheckBox formGroupClasses=\"col-xs-4\" v-model=\"showContentToggle\" label=\"Show Content Toggle\" />\n        </div>\n        <p class=\"text-semibold font-italic\">Not all settings are demonstrated in this gallery.</p>\n    </template>\n</GalleryAndResult>"
       });
       var categoryPickerGallery = defineComponent({
         name: "CategoryPickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           CategoryPicker,
-          TextBox: TextBox$1,
+          TextBox,
           EntityTypePicker
         },
         setup() {
           var entityType = ref(null);
           var entityTypeGuid = computed(() => {
-            var _entityType$value;
-            if (entityType !== null && entityType !== void 0 && (_entityType$value = entityType.value) !== null && _entityType$value !== void 0 && _entityType$value.value) {
-              return entityType.value.value;
-            }
-            return null;
+            var _toGuidOrNull, _entityType$value;
+            return (_toGuidOrNull = toGuidOrNull(entityType === null || entityType === void 0 ? void 0 : (_entityType$value = entityType.value) === null || _entityType$value === void 0 ? void 0 : _entityType$value.value)) !== null && _toGuidOrNull !== void 0 ? _toGuidOrNull : undefined;
           });
           return {
             entityType,
@@ -2367,8 +2955,8 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var locationItemPickerGallery = defineComponent({
         name: "LocationItemPickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           LocationItemPicker
         },
         setup() {
@@ -2384,8 +2972,8 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var connectionRequestPickerGallery = defineComponent({
         name: "ConnectionRequestPickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           ConnectionRequestPicker
         },
         setup() {
@@ -2401,10 +2989,10 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var copyButtonGallery = defineComponent({
         name: "CopyButtonGallery",
         components: {
-          GalleryAndResult,
-          TextBox: TextBox$1,
+          GalleryAndResult: script$8,
+          TextBox,
           DropDownList,
-          CopyButton: CopyButton$1
+          CopyButton
         },
         setup() {
           return {
@@ -2430,33 +3018,39 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
         },
         template: "\n<GalleryAndResult\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\" >\n    <CopyButton :value=\"value\" :tooltip=\"tooltip\" :btnSize=\"buttonSize\" />\n\n    <template #settings>\n        <div class=\"row\">\n            <TextBox formGroupClasses=\"col-sm-4\" v-model=\"value\" label=\"Value to Copy to Clipboard\" />\n            <TextBox formGroupClasses=\"col-sm-4\" v-model=\"tooltip\" label=\"Tooltip\" />\n            <DropDownList formGroupClasses=\"col-sm-4\" label=\"Button Size\" v-model=\"buttonSize\" :items=\"sizeOptions\" />\n        </div>\n\n        <p>Additional props extend and are passed to the underlying <code>Rock Button</code>.</p>\n    </template>\n</GalleryAndResult>"
       });
-      var entityTagListGallery = defineComponent({
-        name: "EntityTagListGallery",
+      var tagListGallery = defineComponent({
+        name: "TagListGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
-          EntityTagList
+          GalleryAndResult: script$8,
+          CheckBox,
+          RockButton,
+          TagList
         },
         setup() {
           var _store$state$currentP, _store$state$currentP2;
           var store = useStore();
           return {
+            control: ref(null),
             disabled: ref(false),
+            delaySave: ref(false),
+            showInactive: ref(false),
+            disallowNewTags: ref(false),
             entityTypeGuid: EntityType.Person,
             entityKey: (_store$state$currentP = (_store$state$currentP2 = store.state.currentPerson) === null || _store$state$currentP2 === void 0 ? void 0 : _store$state$currentP2.idKey) !== null && _store$state$currentP !== void 0 ? _store$state$currentP : "",
-            importCode: getControlImportPath("entityTagList"),
-            exampleCode: "<EntityTagList :entityTypeGuid=\"entityTypeGuid\" :entityKey=\"entityKey\" />"
+            btnType: BtnType.Primary,
+            importCode: getSfcControlImportPath("tagList"),
+            exampleCode: "<TagList :entityTypeGuid=\"entityTypeGuid\" :entityKey=\"entityKey\" />"
           };
         },
-        template: "\n<GalleryAndResult\n    :value=\"value\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\">\n    <EntityTagList :entityTypeGuid=\"entityTypeGuid\" :entityKey=\"entityKey\" :disabled=\"disabled\" />\n\n    <template #settings>\n        <CheckBox label=\"Disabled\" v-model=\"disabled\" />\n    </template>\n</GalleryAndResult>"
+        template: "\n<GalleryAndResult\n    :value=\"value\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\">\n\n    <TagList\n        :entityTypeGuid=\"entityTypeGuid\"\n        :entityKey=\"entityKey\"\n        :disabled=\"disabled\"\n        :showInactiveTags=\"showInactive\"\n        :disallowNewTags=\"disallowNewTags\"\n        :delaySave=\"delaySave\"\n        ref=\"control\" />\n\n    <template #settings>\n        <div class=\"row\">\n            <div class=\"col-md-3\">\n                <CheckBox label=\"Disabled\" v-model=\"disabled\" help=\"Makes it read-only. You can't add or remove tags if it's disabled.\" />\n            </div>\n            <div class=\"col-md-3\">\n                <CheckBox label=\"Delay Saving Value\" v-model=\"delaySave\" help=\"If checked, creating new tags, adding tags and removing tags is not saved to the server until the component's <code>saveTagValues</code> method is called.\" />\n                <RockButton v-if=\"delaySave\" :btnType=\"btnType\" type=\"button\" @click=\"control.saveTagValues()\"><i class=\"fa fa-save\" /> Save Values</RockButton>\n            </div>\n            <div class=\"col-md-3\">\n                <CheckBox label=\"Disallow New Tags\" v-model=\"disallowNewTags\" help=\"If checked, no new tags can be created, though you can still add existing tags\" />\n            </div>\n            <div class=\"col-md-3\">\n                <CheckBox label=\"Show Inactive Tags\" v-model=\"showInactive\" />\n            </div>\n        </div>\n        <p>\n            This control takes multiple props for filtering the tags to show and giving specifiers about what it tags. Below is a list of those props:\n        </p>\n        <table class=\"table\" style=\"max-width:450px;\">\n            <tr>\n                <th scope=\"col\">Prop</th>\n                <th scope=\"col\">Type</th>\n                <th scope=\"col\" class=\"text-center\">Required</th>\n            </tr>\n            <tr>\n                <th scope=\"row\"><code>entityTypeGuid</code></th>\n                <td>GUID String</td>\n                <td class=\"text-center\"><i class=\"fa fa-check text-success\"></i></td>\n            </tr>\n            <tr>\n                <th scope=\"row\"><code>entityKey</code></th>\n                <td>String</td>\n                <td class=\"text-center\"><i class=\"fa fa-check text-success\"></i></td>\n            </tr>\n            <tr>\n                <th scope=\"row\"><code>categoryGuid</code></th>\n                <td>GUID String</td>\n                <td class=\"text-center\"><i class=\"fa fa-ban text-danger\"></i></td>\n            </tr>\n            <tr>\n                <th scope=\"row\"><code>entityQualifierColumn</code></th>\n                <td>String</td>\n                <td class=\"text-center\"><i class=\"fa fa-ban text-danger\"></i></td>\n            </tr>\n            <tr>\n                <th scope=\"row\"><code>entityQualifierValue</code></th>\n                <td>String</td>\n                <td class=\"text-center\"><i class=\"fa fa-ban text-danger\"></i></td>\n            </tr>\n        </table>\n    </template>\n</GalleryAndResult>"
       });
       var followingGallery = defineComponent({
         name: "FollowingGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           Following,
-          TextBox: TextBox$1
+          TextBox
         },
         setup() {
           var _store$state$currentP3, _store$state$currentP4;
@@ -2474,8 +3068,8 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var assessmentTypePickerGallery = defineComponent({
         name: "AssessmentTypePickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           DropDownList,
           AssessmentTypePicker,
           NumberUpDown
@@ -2502,8 +3096,8 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var assetStorageProviderPickerGallery = defineComponent({
         name: "AssetStorageProviderPickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           DropDownList,
           AssetStorageProviderPicker,
           NumberUpDown
@@ -2526,8 +3120,8 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var binaryFileTypePickerGallery = defineComponent({
         name: "BinaryFileTypePickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           DropDownList,
           BinaryFileTypePicker,
           NumberUpDown
@@ -2550,13 +3144,13 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var campusPickerGallery = defineComponent({
         name: "CampusPickerGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           CampusPicker,
-          CheckBox: CheckBox$1,
+          CheckBox,
           DefinedValuePicker,
           DropDownList,
           NumberUpDown,
-          TextBox: TextBox$1
+          TextBox
         },
         setup() {
           return {
@@ -2582,7 +3176,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var scheduleBuilderGallery = defineComponent({
         name: "ScheduleBuilderGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           ScheduleBuilder
         },
         setup() {
@@ -2597,8 +3191,8 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var binaryFilePickerGallery = defineComponent({
         name: "BinaryFilePickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           DropDownList,
           BinaryFilePicker,
           BinaryFileTypePicker,
@@ -2625,8 +3219,8 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var eventItemPickerGallery = defineComponent({
         name: "EventItemPickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           DropDownList,
           EventItemPicker,
           NumberUpDown
@@ -2650,8 +3244,8 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var dataViewPickerGallery = defineComponent({
         name: "DataViewPickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           DropDownList,
           DataViewPicker,
           NumberUpDown,
@@ -2662,17 +3256,18 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
             entityTypeGuid: ref(null),
             multiple: ref(false),
             value: ref(null),
+            displayPersistedOnly: ref(false),
             importCode: getControlImportPath("dataViewPicker"),
-            exampleCode: "<DataViewPicker label=\"Data View\" v-model=\"value\" />"
+            exampleCode: "<DataViewPicker label=\"Data View\" v-model=\"value\" :displayOnlyPersisted=\"true\"/>"
           };
         },
-        template: "\n<GalleryAndResult\n    :value=\"value\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n    <DataViewPicker label=\"Data Views\"\n        v-model=\"value\"\n        :multiple=\"multiple\"\n        :showBlankItem=\"showBlankItem\"\n        :entityTypeGuid=\"entityTypeGuid?.value\" />\n    <template #settings>\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Multiple\" v-model=\"multiple\" />\n            </div>\n            <div class=\"col-md-4\">\n                <EntityTypePicker label=\"For Entity Type\" v-model=\"entityTypeGuid\" enhanceForLongLists showBlankItem />\n            </div>\n        </div>\n    </template>\n</GalleryAndResult>"
+        template: "\n<GalleryAndResult\n    :value=\"value\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n    <DataViewPicker label=\"Data Views\"\n        v-model=\"value\"\n        :multiple=\"multiple\"\n        :displayPersistedOnly=\"displayPersistedOnly\"\n        :showBlankItem=\"showBlankItem\"\n        :entityTypeGuid=\"entityTypeGuid?.value\" />\n    <template #settings>\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Multiple\" v-model=\"multiple\" />\n            </div>\n            <div class=\"col-md-4\">\n                <EntityTypePicker label=\"For Entity Type\" v-model=\"entityTypeGuid\" enhanceForLongLists showBlankItem />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Display Only Persisted\" v-model=\"displayPersistedOnly\" />\n            </div>\n        </div>\n    </template>\n</GalleryAndResult>"
       });
       var workflowTypePickerGallery = defineComponent({
         name: "WorkflowTypePickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           DropDownList,
           WorkflowTypePicker,
           NumberUpDown,
@@ -2683,7 +3278,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
             includeInactiveItems: ref(false),
             multiple: ref(false),
             value: ref(null),
-            importCode: getControlImportPath("workflowTypePicker"),
+            importCode: getSfcControlImportPath("workflowTypePicker"),
             exampleCode: "<WorkflowTypePicker label=\"Data View\" v-model=\"value\" />"
           };
         },
@@ -2692,8 +3287,8 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var financialGatewayPickerGallery = defineComponent({
         name: "FinancialGatewayPickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           DropDownList,
           FinancialGatewayPicker,
           NumberUpDown
@@ -2718,8 +3313,8 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var financialStatementTemplatePickerGallery = defineComponent({
         name: "FinancialStatementTemplatePickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           DropDownList,
           FinancialStatementTemplatePicker,
           NumberUpDown
@@ -2742,8 +3337,8 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var fieldTypePickerGallery = defineComponent({
         name: "FieldTypePickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           DropDownList,
           FieldTypePicker,
           NumberUpDown
@@ -2766,9 +3361,9 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var auditDetailGallery = defineComponent({
         name: "AuditDetailGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           AuditDetail,
-          TextBox: TextBox$1
+          TextBox
         },
         setup() {
           var _store$state$currentP5, _store$state$currentP6;
@@ -2785,30 +3380,36 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var modalGallery = defineComponent({
         name: "ModalGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           Modal,
-          TextBox: TextBox$1
+          TextBox
         },
         setup() {
           return {
             isOpen: ref(false),
+            saveText: ref("Save"),
+            cancelText: ref("Cancel"),
+            isFooterHidden: ref(false),
+            isSaveButtonDisabled: ref(false),
+            isCloseButtonHidden: ref(false),
+            clickBackdropToClose: ref(false),
             value: "",
             importCode: getControlImportPath("modal"),
             exampleCode: "<Modal v-model=\"isOpen\" title=\"Modal Dialog Title\" saveText=\"Save\" @save=\"isOpen = false\">\n    <TextBox label=\"Required Value\" v-model=\"value\" rules=\"required\" />\n</Modal>"
           };
         },
-        template: "\n<GalleryAndResult\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\">\n    <CheckBox label=\"Is Open\" v-model=\"isOpen\" />\n\n    <Modal v-model=\"isOpen\" title=\"Modal Dialog Title\" saveText=\"Save\" @save=\"isOpen = false\">\n        <TextBox label=\"Required Value\" v-model=\"value\" rules=\"required\" />\n    </Modal>\n\n    <template #settings>\n    </template>\n</GalleryAndResult>"
+        template: "\n<GalleryAndResult\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\">\n    <CheckBox label=\"Is Open\" v-model=\"isOpen\" />\n\n    <Modal v-model=\"isOpen\"\n           title=\"Modal Dialog Title\"\n           :saveText=\"saveText\"\n           :cancelText=\"cancelText\"\n           :isFooterHidden=\"isFooterHidden\"\n           :isSaveButtonDisabled=\"isSaveButtonDisabled\"\n           :isCloseButtonHidden=\"isCloseButtonHidden\"\n           :clickBackdropToClose=\"clickBackdropToClose\"\n           @save=\"isOpen = false\">\n        <TextBox label=\"Required Value\" v-model=\"value\" rules=\"required\" />\n    </Modal>\n\n    <template #settings>\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <TextBox label=\"Save Text\" v-model=\"saveText\" help=\"If an empty string is provided, the Save button will be hidden.\" />\n            </div>\n            <div class=\"col-md-4\">\n                <TextBox label=\"Cancel Text\" v-model=\"cancelText\" help=\"If an empty string is provided, the Cancel button will be hidden.\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Is Footer Hidden\" v-model=\"isFooterHidden\" />\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Is Save Button Disabled\" v-model=\"isSaveButtonDisabled\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Is Close Button Hidden\" v-model=\"isCloseButtonHidden\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Click Backdrop to Close\" v-model=\"clickBackdropToClose\" />\n            </div>\n        </div>\n        <p class=\"text-semibold font-italic\">Not all settings are demonstrated in this gallery.</p>\n    </template>\n</GalleryAndResult>"
       });
       var componentPickerGallery = defineComponent({
         name: "ComponentPickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           DropDownList,
           ComponentPicker,
           NumberUpDown,
-          TextBox: TextBox$1
+          TextBox
         },
         setup() {
           return {
@@ -2829,12 +3430,12 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var gradePickerGallery = defineComponent({
         name: "GradePickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           DropDownList,
           GradePicker,
           NumberUpDown,
-          TextBox: TextBox$1
+          TextBox
         },
         setup() {
           return {
@@ -2856,13 +3457,12 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var groupMemberPickerGallery = defineComponent({
         name: "GroupMemberPickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           DropDownList,
           GroupMemberPicker,
           NumberUpDown,
-          TextBox: TextBox$1,
-          NumberBox: NumberBox$1
+          TextBox
         },
         setup() {
           return {
@@ -2878,18 +3478,18 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
             exampleCode: "<GroupMemberPicker label=\"Group Member\" v-model=\"value\" />"
           };
         },
-        template: "\n<GalleryAndResult\n    :value=\"value\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n    <GroupMemberPicker label=\"Group Member\"\n        v-model=\"value\"\n        :multiple=\"multiple\"\n        :columnCount=\"columnCount\"\n        :enhanceForLongLists=\"enhanceForLongLists\"\n        :displayStyle=\"displayStyle\"\n        :showBlankItem=\"showBlankItem\"\n        :groupGuid=\"groupGuid\" />\n    <template #settings>\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Multiple\" v-model=\"multiple\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Enhance For Long Lists\" v-model=\"enhanceForLongLists\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Show Blank Item\" v-model=\"showBlankItem\" />\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <DropDownList label=\"Display Style\" :showBlankItem=\"false\" v-model=\"displayStyle\" :items=\"displayStyleItems\" />\n            </div>\n            <div class=\"col-md-4\">\n                <NumberUpDown label=\"Column Count\" v-model=\"columnCount\" :min=\"0\" />\n            </div>\n            <div class=\"col-md-4\">\n                <NumberBox label=\"Group ID\" v-model=\"groupGuid\" />\n            </div>\n        </div>\n    </template>\n</GalleryAndResult>"
+        template: "\n<GalleryAndResult\n    :value=\"value\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n    <GroupMemberPicker label=\"Group Member\"\n        v-model=\"value\"\n        :multiple=\"multiple\"\n        :columnCount=\"columnCount\"\n        :enhanceForLongLists=\"enhanceForLongLists\"\n        :displayStyle=\"displayStyle\"\n        :showBlankItem=\"showBlankItem\"\n        :groupGuid=\"groupGuid\" />\n    <template #settings>\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Multiple\" v-model=\"multiple\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Enhance For Long Lists\" v-model=\"enhanceForLongLists\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Show Blank Item\" v-model=\"showBlankItem\" />\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <DropDownList label=\"Display Style\" :showBlankItem=\"false\" v-model=\"displayStyle\" :items=\"displayStyleItems\" />\n            </div>\n            <div class=\"col-md-4\">\n                <NumberUpDown label=\"Column Count\" v-model=\"columnCount\" :min=\"0\" />\n            </div>\n            <div class=\"col-md-4\">\n                <TextBox label=\"Group GUID\" v-model=\"groupGuid\" />\n            </div>\n        </div>\n    </template>\n</GalleryAndResult>"
       });
       var interactionChannelPickerGallery = defineComponent({
         name: "InteractionChannelPickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           DropDownList,
           InteractionChannelPicker,
           NumberUpDown,
-          TextBox: TextBox$1,
-          NumberBox: NumberBox$1
+          TextBox,
+          NumberBox
         },
         setup() {
           return {
@@ -2900,7 +3500,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
             multiple: ref(false),
             showBlankItem: ref(false),
             value: ref({}),
-            importCode: getControlImportPath("interactionChannelPicker"),
+            importCode: getSfcControlImportPath("interactionChannelPicker"),
             exampleCode: "<InteractionChannelPicker label=\"Interaction Channel\" v-model=\"value\" />"
           };
         },
@@ -2909,14 +3509,14 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var interactionComponentPickerGallery = defineComponent({
         name: "InteractionComponentPickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           DropDownList,
           InteractionComponentPicker,
           InteractionChannelPicker,
           NumberUpDown,
-          TextBox: TextBox$1,
-          NumberBox: NumberBox$1
+          TextBox,
+          NumberBox
         },
         setup() {
           return {
@@ -2928,7 +3528,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
             multiple: ref(false),
             showBlankItem: ref(false),
             value: ref({}),
-            importCode: getControlImportPath("interactionComponentPicker"),
+            importCode: getSfcControlImportPath("interactionComponentPicker"),
             exampleCode: "<InteractionComponentPicker label=\"Interaction Component\" v-model=\"value\" :interactionChannelGuid=\"interactionChannelGuid\" />"
           };
         },
@@ -2937,21 +3537,21 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var lavaCommandPickerGallery = defineComponent({
         name: "LavaCommandPickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           DropDownList,
           LavaCommandPicker,
           NumberUpDown,
-          TextBox: TextBox$1,
-          NumberBox: NumberBox$1
+          TextBox,
+          NumberBox
         },
         setup() {
           return {
-            columnCount: ref(0),
-            displayStyle: ref(PickerDisplayStyle.Auto),
+            columnCount: ref(3),
+            displayStyle: ref(PickerDisplayStyle.List),
             displayStyleItems,
             enhanceForLongLists: ref(false),
-            multiple: ref(false),
+            multiple: ref(true),
             showBlankItem: ref(false),
             value: ref({}),
             importCode: getControlImportPath("lavaCommandPicker"),
@@ -2963,13 +3563,13 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var remoteAuthsPickerGallery = defineComponent({
         name: "RemoteAuthsPickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           DropDownList,
           RemoteAuthsPicker,
           NumberUpDown,
-          TextBox: TextBox$1,
-          NumberBox: NumberBox$1
+          TextBox,
+          NumberBox
         },
         setup() {
           return {
@@ -2989,13 +3589,13 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var stepProgramPickerGallery = defineComponent({
         name: "StepProgramPickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           DropDownList,
           StepProgramPicker,
           NumberUpDown,
-          TextBox: TextBox$1,
-          NumberBox: NumberBox$1
+          TextBox,
+          NumberBox
         },
         setup() {
           return {
@@ -3006,25 +3606,84 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
             multiple: ref(false),
             showBlankItem: ref(false),
             value: ref({}),
-            importCode: getControlImportPath("stepProgramPicker"),
+            importCode: getSfcControlImportPath("stepProgramPicker"),
             exampleCode: "<StepProgramPicker label=\"Step Program\" v-model=\"value\" />"
           };
         },
         template: "\n<GalleryAndResult\n    :value=\"value\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n    <StepProgramPicker label=\"Step Program\"\n        v-model=\"value\"\n        :multiple=\"multiple\"\n        :columnCount=\"columnCount\"\n        :enhanceForLongLists=\"enhanceForLongLists\"\n        :displayStyle=\"displayStyle\"\n        :showBlankItem=\"showBlankItem\" />\n    <template #settings>\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Multiple\" v-model=\"multiple\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Enhance For Long Lists\" v-model=\"enhanceForLongLists\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Show Blank Item\" v-model=\"showBlankItem\" />\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <DropDownList label=\"Display Style\" :showBlankItem=\"false\" v-model=\"displayStyle\" :items=\"displayStyleItems\" />\n            </div>\n            <div class=\"col-md-4\">\n                <NumberUpDown label=\"Column Count\" v-model=\"columnCount\" :min=\"0\" />\n            </div>\n        </div>\n    </template>\n</GalleryAndResult>"
       });
+      var stepProgramStepTypePickerGallery = defineComponent({
+        name: "StepProgramStepTypePickerGallery",
+        components: {
+          GalleryAndResult: script$8,
+          StepProgramPicker,
+          StepProgramStepTypePicker,
+          CheckBox
+        },
+        setup() {
+          var defaultProgram = ref({});
+          var defaultProgramGuid = computed(() => {
+            var _defaultProgram$value;
+            return toGuidOrNull((_defaultProgram$value = defaultProgram.value) === null || _defaultProgram$value === void 0 ? void 0 : _defaultProgram$value.value);
+          });
+          return {
+            value: ref({}),
+            stepProgram: ref({}),
+            defaultProgram,
+            defaultProgramGuid,
+            required: ref(false),
+            disabled: ref(false),
+            importCode: getSfcControlImportPath("stepProgramStepTypePicker"),
+            exampleCode: "<StepProgramStepTypePicker label=\"Step Program > Step Type\" v-model=\"value\" />"
+          };
+        },
+        template: "\n<GalleryAndResult\n    :value=\"{value,stepProgram}\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    hasMultipleValues\n    enableReflection >\n\n    <StepProgramStepTypePicker label=\"Step Program > Step Type\"\n        v-model=\"value\"\n        v-model:stepProgram=\"stepProgram\"\n        :defaultStepProgramGuid=\"defaultProgramGuid\"\n        :rules=\"required ? 'required' : ''\"\n        :disabled=\"disabled\" />\n\n    <template #settings>\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <StepProgramPicker label=\"Default Step Program\" v-model=\"defaultProgram\" showBlankItem help=\"If this defaultStepProgramGuid prop is set, the Step Program selector will not be shown and the Step Types will be based on that Program.\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Required\" v-model=\"required\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Disabled\" v-model=\"disabled\" />\n            </div>\n        </div>\n    </template>\n</GalleryAndResult>"
+      });
+      var stepProgramStepStatusPickerGallery = defineComponent({
+        name: "StepProgramStepStatusPickerGallery",
+        components: {
+          GalleryAndResult: script$8,
+          StepProgramPicker,
+          StepProgramStepStatusPicker,
+          CheckBox
+        },
+        setup() {
+          var defaultProgram = ref({});
+          var defaultProgramGuid = computed(() => {
+            var _defaultProgram$value2;
+            return toGuidOrNull((_defaultProgram$value2 = defaultProgram.value) === null || _defaultProgram$value2 === void 0 ? void 0 : _defaultProgram$value2.value);
+          });
+          return {
+            value: ref({}),
+            stepProgram: ref({}),
+            defaultProgram,
+            defaultProgramGuid,
+            required: ref(false),
+            disabled: ref(false),
+            importCode: getSfcControlImportPath("stepProgramStepStatusPicker"),
+            exampleCode: "<StepProgramStepStatusPicker label=\"Step Program > Step Status\" v-model=\"value\" />"
+          };
+        },
+        template: "\n<GalleryAndResult\n    :value=\"{value,stepProgram}\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    hasMultipleValues\n    enableReflection >\n\n    <StepProgramStepStatusPicker label=\"Step Program > Step Status\"\n        v-model=\"value\"\n        v-model:stepProgram=\"stepProgram\"\n        :defaultStepProgramGuid=\"defaultProgramGuid\"\n        :rules=\"required ? 'required' : ''\"\n        :disabled=\"disabled\" />\n\n    <template #settings>\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <StepProgramPicker label=\"Default Step Program\" v-model=\"defaultProgram\" showBlankItem help=\"If this defaultStepProgramGuid prop is set, the Step Program selector will not be shown and the Step Types will be based on that Program.\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Required\" v-model=\"required\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Disabled\" v-model=\"disabled\" />\n            </div>\n        </div>\n    </template>\n</GalleryAndResult>"
+      });
       var stepStatusPickerGallery = defineComponent({
         name: "StepStatusPickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           DropDownList,
           StepStatusPicker,
           StepProgramPicker,
           NumberUpDown,
-          TextBox: TextBox$1,
-          NumberBox: NumberBox$1
+          TextBox,
+          NumberBox
         },
         setup() {
+          var stepProgram = ref({});
+          var stepProgramGuid = computed(() => {
+            var _stepProgram$value;
+            return toGuidOrNull((_stepProgram$value = stepProgram.value) === null || _stepProgram$value === void 0 ? void 0 : _stepProgram$value.value);
+          });
           return {
             columnCount: ref(0),
             displayStyle: ref(PickerDisplayStyle.Auto),
@@ -3032,27 +3691,33 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
             enhanceForLongLists: ref(false),
             multiple: ref(false),
             showBlankItem: ref(false),
-            stepProgramGuid: ref(null),
+            stepProgram,
+            stepProgramGuid,
             value: ref({}),
-            importCode: getControlImportPath("stepStatusPicker"),
+            importCode: getSfcControlImportPath("stepStatusPicker"),
             exampleCode: "<StepStatusPicker label=\"Step Status\" v-model=\"value\" />"
           };
         },
-        template: "\n<GalleryAndResult\n    :value=\"value\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n    <StepStatusPicker label=\"Step Status\"\n        v-model=\"value\"\n        :multiple=\"multiple\"\n        :columnCount=\"columnCount\"\n        :enhanceForLongLists=\"enhanceForLongLists\"\n        :displayStyle=\"displayStyle\"\n        :showBlankItem=\"showBlankItem\"\n        :stepProgramGuid=\"stepProgramGuid?.value\" />\n    <template #settings>\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Multiple\" v-model=\"multiple\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Enhance For Long Lists\" v-model=\"enhanceForLongLists\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Show Blank Item\" v-model=\"showBlankItem\" />\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <DropDownList label=\"Display Style\" :showBlankItem=\"false\" v-model=\"displayStyle\" :items=\"displayStyleItems\" />\n            </div>\n            <div class=\"col-md-4\">\n                <NumberUpDown label=\"Column Count\" v-model=\"columnCount\" :min=\"0\" />\n            </div>\n            <div class=\"col-md-4\">\n                <StepProgramPicker label=\"Step Program\" v-model=\"stepProgramGuid\" />\n            </div>\n        </div>\n    </template>\n</GalleryAndResult>"
+        template: "\n<GalleryAndResult\n    :value=\"value\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n    <StepStatusPicker label=\"Step Status\"\n        v-model=\"value\"\n        :multiple=\"multiple\"\n        :columnCount=\"columnCount\"\n        :enhanceForLongLists=\"enhanceForLongLists\"\n        :displayStyle=\"displayStyle\"\n        :showBlankItem=\"showBlankItem\"\n        :stepProgramGuid=\"stepProgramGuid\" />\n    <template #settings>\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Multiple\" v-model=\"multiple\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Enhance For Long Lists\" v-model=\"enhanceForLongLists\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Show Blank Item\" v-model=\"showBlankItem\" />\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <DropDownList label=\"Display Style\" :showBlankItem=\"false\" v-model=\"displayStyle\" :items=\"displayStyleItems\" />\n            </div>\n            <div class=\"col-md-4\">\n                <NumberUpDown label=\"Column Count\" v-model=\"columnCount\" :min=\"0\" />\n            </div>\n            <div class=\"col-md-4\">\n                <StepProgramPicker label=\"Step Program\" v-model=\"stepProgram\" />\n            </div>\n        </div>\n    </template>\n</GalleryAndResult>"
       });
       var stepTypePickerGallery = defineComponent({
         name: "StepTypePickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           DropDownList,
           StepTypePicker,
           StepProgramPicker,
           NumberUpDown,
-          TextBox: TextBox$1,
-          NumberBox: NumberBox$1
+          TextBox,
+          NumberBox
         },
         setup() {
+          var stepProgram = ref({});
+          var stepProgramGuid = computed(() => {
+            var _stepProgram$value2;
+            return toGuidOrNull((_stepProgram$value2 = stepProgram.value) === null || _stepProgram$value2 === void 0 ? void 0 : _stepProgram$value2.value);
+          });
           return {
             columnCount: ref(0),
             displayStyle: ref(PickerDisplayStyle.Auto),
@@ -3060,24 +3725,25 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
             enhanceForLongLists: ref(false),
             multiple: ref(false),
             showBlankItem: ref(false),
-            stepProgramGuid: ref(null),
+            stepProgram,
+            stepProgramGuid,
             value: ref({}),
-            importCode: getControlImportPath("stepTypePicker"),
+            importCode: getSfcControlImportPath("stepTypePicker"),
             exampleCode: "<StepTypePicker label=\"Step Type\" v-model=\"value\" />"
           };
         },
-        template: "\n<GalleryAndResult\n    :value=\"value\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n    <StepTypePicker label=\"Step Type\"\n        v-model=\"value\"\n        :multiple=\"multiple\"\n        :columnCount=\"columnCount\"\n        :enhanceForLongLists=\"enhanceForLongLists\"\n        :displayStyle=\"displayStyle\"\n        :showBlankItem=\"showBlankItem\"\n        :stepProgramGuid=\"stepProgramGuid?.value\" />\n    <template #settings>\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Multiple\" v-model=\"multiple\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Enhance For Long Lists\" v-model=\"enhanceForLongLists\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Show Blank Item\" v-model=\"showBlankItem\" />\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <DropDownList label=\"Display Style\" :showBlankItem=\"false\" v-model=\"displayStyle\" :items=\"displayStyleItems\" />\n            </div>\n            <div class=\"col-md-4\">\n                <NumberUpDown label=\"Column Count\" v-model=\"columnCount\" :min=\"0\" />\n            </div>\n            <div class=\"col-md-4\">\n                <StepProgramPicker label=\"Step Program\" v-model=\"stepProgramGuid\" />\n            </div>\n        </div>\n    </template>\n</GalleryAndResult>"
+        template: "\n<GalleryAndResult\n    :value=\"value\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n    <StepTypePicker label=\"Step Type\"\n        v-model=\"value\"\n        :multiple=\"multiple\"\n        :columnCount=\"columnCount\"\n        :enhanceForLongLists=\"enhanceForLongLists\"\n        :displayStyle=\"displayStyle\"\n        :showBlankItem=\"showBlankItem\"\n        :stepProgramGuid=\"stepProgramGuid\" />\n    <template #settings>\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Multiple\" v-model=\"multiple\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Enhance For Long Lists\" v-model=\"enhanceForLongLists\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Show Blank Item\" v-model=\"showBlankItem\" />\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <DropDownList label=\"Display Style\" :showBlankItem=\"false\" v-model=\"displayStyle\" :items=\"displayStyleItems\" />\n            </div>\n            <div class=\"col-md-4\">\n                <NumberUpDown label=\"Column Count\" v-model=\"columnCount\" :min=\"0\" />\n            </div>\n            <div class=\"col-md-4\">\n                <StepProgramPicker label=\"Step Program\" v-model=\"stepProgram\" />\n            </div>\n        </div>\n    </template>\n</GalleryAndResult>"
       });
       var streakTypePickerGallery = defineComponent({
         name: "StreakTypePickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           DropDownList,
           StreakTypePicker,
           NumberUpDown,
-          TextBox: TextBox$1,
-          NumberBox: NumberBox$1
+          TextBox,
+          NumberBox
         },
         setup() {
           return {
@@ -3097,13 +3763,13 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var badgePickerGallery = defineComponent({
         name: "BadgePickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           DropDownList,
           BadgePicker,
           NumberUpDown,
-          TextBox: TextBox$1,
-          NumberBox: NumberBox$1
+          TextBox,
+          NumberBox
         },
         setup() {
           return {
@@ -3123,11 +3789,11 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var notificationBoxGallery = defineComponent({
         name: "NotificationBoxGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           NotificationBox,
           DropDownList,
-          CheckBox: CheckBox$1,
-          TextBox: TextBox$1
+          CheckBox,
+          TextBox
         },
         setup() {
           var options = ["default", "success", "info", "danger", "warning", "primary", "validation"].map(key => ({
@@ -3150,11 +3816,11 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var badgeListGallery = defineComponent({
         name: "BadgeListGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           BadgeList,
           EntityTypePicker,
-          TextBox: TextBox$1,
-          CheckBox: CheckBox$1,
+          TextBox,
+          CheckBox,
           BadgePicker
         },
         setup() {
@@ -3182,22 +3848,24 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var basicTimePickerGallery = defineComponent({
         name: "BasicTimePickerGallery",
         components: {
-          GalleryAndResult,
-          BasicTimePicker
+          GalleryAndResult: script$8,
+          BasicTimePicker,
+          CheckBox
         },
         setup() {
           return {
             value: ref({}),
+            disabled: ref(false),
             importCode: getControlImportPath("basicTimePicker"),
             exampleCode: "<BasicTimePicker label=\"Time\" v-model=\"value\" />"
           };
         },
-        template: "\n<GalleryAndResult\n    :value=\"value\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n    <BasicTimePicker label=\"Time\" v-model=\"value\" />\n\n    <template #settings>\n        <p class=\"text-semibold font-italic\">Not all settings are demonstrated in this gallery.</p>\n        <p>Additional props extend and are passed to the underlying <code>Rock Form Field</code> and <code>Drop Down List</code>.</p>\n    </template>\n</GalleryAndResult>"
+        template: "\n<GalleryAndResult\n    :value=\"value\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n    <BasicTimePicker label=\"Time\" v-model=\"value\" :disabled=\"disabled\" />\n\n    <template #settings>\n        <div>\n            <CheckBox v-model=\"disabled\" label=\"Disabled\" />\n        </div>\n        <p class=\"text-semibold font-italic\">Not all settings are demonstrated in this gallery.</p>\n        <p>Additional props extend and are passed to the underlying <code>Rock Form Field</code> and <code>Drop Down List</code>.</p>\n    </template>\n</GalleryAndResult>"
       });
       var birthdayPickerGallery = defineComponent({
         name: "BirthdayPickerGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           Toggle,
           BirthdayPicker
         },
@@ -3218,9 +3886,9 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var countdownTimerGallery = defineComponent({
         name: "CountdownTimerGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           CountdownTimer,
-          TextBox: TextBox$1,
+          TextBox,
           RockButton
         },
         setup() {
@@ -3239,10 +3907,10 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var electronicSignatureGallery = defineComponent({
         name: "ElectronicSignatureGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           ElectronicSignature,
           Toggle,
-          TextBox: TextBox$1
+          TextBox
         },
         setup() {
           return {
@@ -3258,14 +3926,22 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var fieldTypeEditorGallery = defineComponent({
         name: "FieldTypeEditorGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           FieldTypeEditor,
-          CheckBox: CheckBox$1,
-          TextBox: TextBox$1
+          CheckBox,
+          TextBox
         },
         setup() {
           return {
-            value: ref({}),
+            value: ref({
+              configurationValues: {
+                truetext: "Yup",
+                falsetext: "Nah",
+                BooleanControlType: "2"
+              },
+              defaultValue: "True",
+              fieldTypeGuid: FieldType.Boolean
+            }),
             readOnly: ref(false),
             importCode: getControlImportPath("fieldTypeEditor"),
             exampleCode: "<FieldTypeEditor v-model=\"value\" :isFieldTypeReadOnly=\"readOnly\" />"
@@ -3276,10 +3952,10 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var inlineRangeSliderGallery = defineComponent({
         name: "InlineRangeSliderGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           InlineRangeSlider,
-          CheckBox: CheckBox$1,
-          NumberBox: NumberBox$1
+          CheckBox,
+          NumberBox
         },
         setup() {
           return {
@@ -3297,10 +3973,10 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var javaScriptAnchorGallery = defineComponent({
         name: "JavascriptAnchorGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           JavaScriptAnchor,
-          CheckBox: CheckBox$1,
-          NumberBox: NumberBox$1
+          CheckBox,
+          NumberBox
         },
         setup() {
           return {
@@ -3314,10 +3990,10 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var keyValueListGallery = defineComponent({
         name: "KeyValueListGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           KeyValueList,
-          CheckBox: CheckBox$1,
-          TextBox: TextBox$1
+          CheckBox,
+          TextBox
         },
         setup() {
           var limitValues = ref(false);
@@ -3338,20 +4014,21 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
             displayValueFirst,
             valueOptions,
             value: ref(null),
+            fullWidth: ref(false),
             keyPlaceholder: ref("Key"),
             valuePlaceholder: ref("Value"),
             importCode: getControlImportPath("keyValueList"),
             exampleCode: "<KeyValueList label=\"Keys and Values\" v-model=\"value\" :valueOptions=\"valueOptions\" :displayValueFirst=\"displayValueFirst\" :keyPlaceholder=\"keyPlaceholder\" :valuePlaceholder=\"valuePlaceholder\" />"
           };
         },
-        template: "\n<GalleryAndResult\n    :value=\"{ 'output:modelValue':value, 'input:valueOptions':valueOptions }\"\n    hasMultipleValues\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n\n    <KeyValueList label=\"Keys and Values\" v-model=\"value\" :valueOptions=\"valueOptions\" :displayValueFirst=\"displayValueFirst\" :keyPlaceholder=\"keyPlaceholder\" :valuePlaceholder=\"valuePlaceholder\" />\n\n    <template #settings>\n        <div class=\"row\">\n            <CheckBox formGroupClasses=\"col-md-3\" label=\"Limit Possible Values\" v-model=\"limitValues\" />\n            <CheckBox formGroupClasses=\"col-md-3\" label=\"Show Value First\" v-model=\"displayValueFirst\" />\n            <TextBox formGroupClasses=\"col-md-3\" label=\"Placeholder for Key Field\" v-model=\"keyPlaceholder\" />\n            <TextBox formGroupClasses=\"col-md-3\" label=\"Placeholder for Value Field\" v-model=\"valuePlaceholder\" />\n        </div>\n    </template>\n</GalleryAndResult>"
+        template: "\n<GalleryAndResult\n    :value=\"{ 'output:modelValue':value, 'input:valueOptions':valueOptions }\"\n    hasMultipleValues\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n\n    <KeyValueList label=\"Keys and Values\" v-model=\"value\" :valueOptions=\"valueOptions\" :displayValueFirst=\"displayValueFirst\" :keyPlaceholder=\"keyPlaceholder\" :valuePlaceholder=\"valuePlaceholder\" :fullWidth=\"fullWidth\" />\n\n    <template #settings>\n        <div class=\"row\">\n            <CheckBox formGroupClasses=\"col-md-4\" label=\"Limit Possible Values\" v-model=\"limitValues\" />\n            <CheckBox formGroupClasses=\"col-md-4\" label=\"Show Value First\" v-model=\"displayValueFirst\" />\n            <CheckBox formGroupClasses=\"col-md-4\" label=\"Full Width\" v-model=\"fullWidth\" />\n        </div>\n        <div class=\"row\">\n            <TextBox formGroupClasses=\"col-md-4\" label=\"Placeholder for Key Field\" v-model=\"keyPlaceholder\" />\n            <TextBox formGroupClasses=\"col-md-4\" label=\"Placeholder for Value Field\" v-model=\"valuePlaceholder\" />\n        </div>\n    </template>\n</GalleryAndResult>"
       });
       var loadingGallery = defineComponent({
         name: "LoadingGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           Loading,
-          CheckBox: CheckBox$1
+          CheckBox
         },
         setup() {
           return {
@@ -3365,7 +4042,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var loadingIndicatorGallery = defineComponent({
         name: "LoadingIndicatorGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           LoadingIndicator
         },
         setup() {
@@ -3379,10 +4056,10 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var numberUpDownGroupGallery = defineComponent({
         name: "NumberUpDownGroupGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           NumberUpDownGroup,
-          CheckBox: CheckBox$1,
-          NumberBox: NumberBox$1
+          CheckBox,
+          NumberBox
         },
         setup() {
           return {
@@ -3413,24 +4090,10 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
         },
         template: "\n<GalleryAndResult\n    :value=\"{ 'output:modelValue':value, 'input:options':options }\"\n    hasMultipleValues\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n\n    <NumberUpDownGroup v-model=\"value\" :options=\"options\" />\n</GalleryAndResult>"
       });
-      var panelWidgetGallery = defineComponent({
-        name: "PanelWidgetGallery",
-        components: {
-          GalleryAndResult,
-          PanelWidget
-        },
-        setup() {
-          return {
-            importCode: getControlImportPath("panelWidget"),
-            exampleCode: "<PanelWidget :isDefaultOpen=\"false\">\n    <template #header>Header</template>\n    Main Content...\n</PanelWidget>"
-          };
-        },
-        template: "\n<GalleryAndResult\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\" >\n\n    <PanelWidget :isDefaultOpen=\"false\">\n        <template #header>Panel Widget Header</template>\n        <h4>Romans 11:33-36</h4>\n        <p>\n            Oh, the depth of the riches<br />\n            and the wisdom and the knowledge of God!<br />\n            How unsearchable his judgments<br />\n            and untraceable his ways!<br />\n            For who has known the mind of the Lord?<br />\n            Or who has been his counselor?<br />\n            And who has ever given to God,<br />\n            that he should be repaid?<br />\n            For from him and through him<br />\n            and to him are all things.<br />\n            To him be the glory forever. Amen.\n        </p>\n    </PanelWidget>\n</GalleryAndResult>"
-      });
       var progressBarGallery = defineComponent({
         name: "ProgressBarGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           ProgressBar,
           RangeSlider
         },
@@ -3446,11 +4109,11 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var rockButtonGallery = defineComponent({
         name: "RockButtonGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           RockButton,
           DropDownList,
-          CheckBox: CheckBox$1,
-          TextBox: TextBox$1
+          CheckBox,
+          TextBox
         },
         setup() {
           var sizeOptions = [{
@@ -3502,7 +4165,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
             isLoading: ref(false),
             isSquare: ref(false),
             loadingText: ref("Loading..."),
-            importCode: "import RockButton, { BtnType, BtnSize } from \"@Obsidian/Controls/rockButton\";",
+            importCode: "import RockButton, { BtnType, BtnSize } from \"@Obsidian/Controls/rockButton.obs\";",
             exampleCode: "<RockButton\n    :btnSize=\"BtnSize.Default\"\n    :btnType=\"BtnType.Default\"\n    @click=\"onClick\"\n    :isLoading=\"isLoading\"\n    :autoLoading=\"autoLoading\"\n    :autoDisable=\"autoDisable\"\n    :loadingText=\"loadingText\">\n    Button Text\n</RockButton>"
           };
         },
@@ -3511,7 +4174,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var rockLabelGallery = defineComponent({
         name: "RockLabelGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           RockLabel
         },
         setup() {
@@ -3525,7 +4188,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var rockValidationGallery = defineComponent({
         name: "RockValidationGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           RockValidation
         },
         setup() {
@@ -3549,10 +4212,10 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var rangeSliderGallery = defineComponent({
         name: "RangeSliderGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           RangeSlider,
-          CheckBox: CheckBox$1,
-          NumberBox: NumberBox$1
+          CheckBox,
+          NumberBox
         },
         setup() {
           return {
@@ -3567,28 +4230,53 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
         },
         template: "\n<GalleryAndResult\n    :value=\"value\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n\n    <RangeSlider v-model=\"value\" label=\"Range Slider Value\" :step=\"step\" :min=\"min\" :max=\"max\" :showValueBar=\"showValue\" />\n\n    <template #settings>\n        <div class=\"row\">\n            <CheckBox formGroupClasses=\"col-md-3\" label=\"Show Value\" v-model=\"showValue\" />\n            <NumberBox formGroupClasses=\"col-md-3\" label=\"Step Value\" v-model=\"step\" help=\"Set to zero to have no step\" />\n            <NumberBox formGroupClasses=\"col-md-3\" label=\"Minimum Value\" v-model=\"min\" />\n            <NumberBox formGroupClasses=\"col-md-3\" label=\"Maximum Value\" v-model=\"max\" />\n        </div>\n    </template>\n</GalleryAndResult>"
       });
+      var tabbedBarGallery = defineComponent({
+        name: "TabbedBarGallery",
+        components: {
+          GalleryAndResult: script$8,
+          TabbedBar,
+          DropDownList
+        },
+        setup() {
+          return {
+            list: ["Matthew", "Mark", "Luke", "John", "Acts", "Romans", "1 Corinthians", "2 Corinthians", "Galatians", "Ephesians", "Philippians", "Colossians"],
+            selectedTab: ref(""),
+            type: ref("tabs"),
+            typeItems: [{
+              value: "tabs",
+              text: "Tabs"
+            }, {
+              value: "pills",
+              text: "Pills"
+            }],
+            importCode: getSfcControlImportPath("tabbedBar"),
+            exampleCode: "<TabbedBar v-model=\"selectedTab\" :tabs=\"arrayOfItems\" :type=\"type\" />"
+          };
+        },
+        template: "\n<GalleryAndResult\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\" >\n\n    <TabbedBar v-model=\"selectedTab\" :tabs=\"list\" :type=\"type\" />\n\n    <template #settings>\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <DropDownList label=\"Type\" v-model=\"type\" :items=\"typeItems\" :showBlankItem=\"false\" />\n            </div>\n        </div>\n    </template>\n</GalleryAndResult>"
+      });
       var tabbedContentGallery = defineComponent({
         name: "TabbedContentGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           TabbedContent,
-          CheckBox: CheckBox$1,
-          NumberBox: NumberBox$1
+          CheckBox,
+          NumberBox
         },
         setup() {
           return {
             list: ["Matthew", "Mark", "Luke", "John"],
-            importCode: getControlImportPath("tabbedContent"),
-            exampleCode: "<TabbedContent :tabList=\"arrayOfItems\">\n    <template #tab=\"{item}\">\n        {{ item }}\n    </template>\n    <template #tabpane=\"{item}\">\n        This is the content for {{item}}.\n    </template>\n</TabbedContent>"
+            importCode: getSfcControlImportPath("tabbedContent"),
+            exampleCode: "<TabbedContent :tabs=\"arrayOfItems\">\n    <template #tabpane=\"{item}\">\n        This is the content for {{item}}.\n    </template>\n</TabbedContent>"
           };
         },
-        template: "\n<GalleryAndResult\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\" >\n\n\n    <TabbedContent :tabList=\"list\">\n        <template #tab=\"{item}\">\n            {{ item }}\n        </template>\n        <template #tabpane=\"{item}\">\n            This is the content for {{item}}.\n        </template>\n    </TabbedContent>\n</GalleryAndResult>"
+        template: "\n<GalleryAndResult\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\" >\n\n    <TabbedContent :tabs=\"list\">\n        <template #tabpane=\"{item}\">\n            This is the content for {{item}}.\n        </template>\n    </TabbedContent>\n</GalleryAndResult>"
       });
       var transitionVerticalCollapseGallery = defineComponent({
         name: "TransitionVerticalCollapseGallery",
         components: {
-          GalleryAndResult,
-          TransitionVerticalCollapse: TransitionVerticalCollapse$1,
+          GalleryAndResult: script$8,
+          TransitionVerticalCollapse,
           RockButton
         },
         setup() {
@@ -3603,7 +4291,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var valueDetailListGallery = defineComponent({
         name: "ValueDetailListGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           ValueDetailList
         },
         setup() {
@@ -3624,10 +4312,10 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var codeEditorGallery = defineComponent({
         name: "CodeEditorGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           CodeEditor,
           DropDownList,
-          NumberBox: NumberBox$1
+          NumberBox
         },
         setup() {
           var themeItems = [{
@@ -3783,8 +4471,8 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var pagePickerGallery = defineComponent({
         name: "PagePickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           PagePicker
         },
         setup() {
@@ -3807,8 +4495,8 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var groupPickerGallery = defineComponent({
         name: "GroupPickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           GroupPicker
         },
         setup() {
@@ -3826,9 +4514,9 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var mergeTemplatePickerGallery = defineComponent({
         name: "MergeTemplatePickerGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           DropDownList,
-          CheckBox: CheckBox$1,
+          CheckBox,
           MergeTemplatePicker
         },
         setup() {
@@ -3856,9 +4544,9 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var metricCategoryPickerGallery = defineComponent({
         name: "MetricCategoryPickerGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           DropDownList,
-          CheckBox: CheckBox$1,
+          CheckBox,
           MetricCategoryPicker
         },
         setup() {
@@ -3874,9 +4562,9 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var metricItemPickerGallery = defineComponent({
         name: "MetricItemPickerGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           DropDownList,
-          CheckBox: CheckBox$1,
+          CheckBox,
           MetricItemPicker
         },
         setup() {
@@ -3892,9 +4580,9 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var registrationTemplatePickerGallery = defineComponent({
         name: "RegistrationTemplatePickerGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           DropDownList,
-          CheckBox: CheckBox$1,
+          CheckBox,
           RegistrationTemplatePicker
         },
         setup() {
@@ -3910,9 +4598,9 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var reportPickerGallery = defineComponent({
         name: "ReportPickerGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           DropDownList,
-          CheckBox: CheckBox$1,
+          CheckBox,
           ReportPicker
         },
         setup() {
@@ -3928,9 +4616,9 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var schedulePickerGallery = defineComponent({
         name: "SchedulePickerGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           DropDownList,
-          CheckBox: CheckBox$1,
+          CheckBox,
           SchedulePicker
         },
         setup() {
@@ -3946,9 +4634,9 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var workflowActionTypePickerGallery = defineComponent({
         name: "WorkflowActionTypePickerGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           DropDownList,
-          CheckBox: CheckBox$1,
+          CheckBox,
           WorkflowActionTypePicker
         },
         setup() {
@@ -3964,8 +4652,8 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var dayOfWeekPickerGallery = defineComponent({
         name: "DayOfWeekPickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           NumberUpDown,
           DayOfWeekPicker
         },
@@ -3984,8 +4672,8 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var monthDayPickerGallery = defineComponent({
         name: "MonthDayPickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           NumberUpDown,
           MonthDayPicker
         },
@@ -4004,8 +4692,8 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var monthYearPickerGallery = defineComponent({
         name: "MonthYearPickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           NumberUpDown,
           MonthYearPicker
         },
@@ -4024,8 +4712,8 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var cacheabilityPickerGallery = defineComponent({
         name: "CacheabilityPickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           NumberUpDown,
           CacheabilityPicker
         },
@@ -4041,11 +4729,11 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var buttonGroupGallery = defineComponent({
         name: "ButtonGroupGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           ButtonGroup,
           DropDownList,
-          CheckBox: CheckBox$1,
-          TextBox: TextBox$1
+          CheckBox,
+          TextBox
         },
         setup() {
           var sizeOptions = [{
@@ -4110,11 +4798,11 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var intervalPickerGallery = defineComponent({
         name: "IntervalPickerGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           IntervalPicker,
           DropDownList,
-          CheckBox: CheckBox$1,
-          TextBox: TextBox$1
+          CheckBox,
+          TextBox
         },
         setup() {
           var typeOptions = [{
@@ -4153,7 +4841,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var geoPickerGallery = defineComponent({
         name: "GeoPickerGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           GeoPicker,
           Toggle
         },
@@ -4173,10 +4861,10 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var contentDropDownPickerGallery = defineComponent({
         name: "ContentDropDownPickerGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           ContentDropDownPicker,
           InlineCheckBox,
-          TextBox: TextBox$1
+          TextBox
         },
         setup() {
           var value = ref("");
@@ -4208,10 +4896,10 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var wordCloudGallery = defineComponent({
         name: "WordCloudGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
-          NumberBox: NumberBox$1,
-          TextBox: TextBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
+          NumberBox,
+          TextBox,
           WordCloud
         },
         setup() {
@@ -4246,7 +4934,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var eventCalendarPickerGallery = defineComponent({
         name: "EventCalendarPickerGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           EventCalendarPicker
         },
         setup() {
@@ -4261,9 +4949,9 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var groupTypePickerGallery = defineComponent({
         name: "GroupTypePickerGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           GroupTypePicker,
-          CheckBox: CheckBox$1
+          CheckBox
         },
         setup() {
           return {
@@ -4279,11 +4967,11 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var locationAddressPickerGallery = defineComponent({
         name: "LocationAddressPickerGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           LocationAddressPicker,
           DropDownList,
-          CheckBox: CheckBox$1,
-          TextBox: TextBox$1,
+          CheckBox,
+          TextBox,
           Toggle
         },
         setup() {
@@ -4298,32 +4986,59 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var locationPickerGallery = defineComponent({
         name: "LocationPickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
-          LocationPicker
+          GalleryAndResult: script$8,
+          CheckBox,
+          LocationPicker,
+          CheckBoxList
         },
         setup() {
+          var options = [{
+            text: "Location",
+            value: "2"
+          }, {
+            text: "Address",
+            value: "1"
+          }, {
+            text: "Point",
+            value: "4"
+          }, {
+            text: "Geo-fence",
+            value: "8"
+          }];
+          var selectedOptions = ref(["1", "2", "4", "8"]);
+          var selectedAsNumber = computed(() => {
+            if (selectedOptions.value.length === 0) {
+              return undefined;
+            }
+            return selectedOptions.value.reduce((total, option) => {
+              return total + parseInt(option, 10);
+            }, 0);
+          });
           return {
-            value: ref(null),
+            value: ref(undefined),
+            currentPickerMode: ref(2),
+            options,
+            selectedOptions,
+            selectedAsNumber,
             importCode: getSfcControlImportPath("locationPicker"),
-            exampleCode: "<LocationPicker label=\"Location\" v-model=\"value\" :multiple=\"false\" />"
+            exampleCode: "<LocationPicker label=\"Location\" v-model=\"value\" />"
           };
         },
-        template: "\n<GalleryAndResult\n    :value=\"value\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n\n    <LocationPicker label=\"Location\" v-model=\"value\" :multiple=\"multiple\" />\n\n    <template #settings>\n        <p class=\"text-semibold font-italic\">Not all settings are demonstrated in this gallery.</p>\n    </template>\n</GalleryAndResult>"
+        template: "\n<GalleryAndResult\n    :value=\"{value, currentPickerMode}\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    hasMultipleValues\n    enableReflection >\n\n    <LocationPicker label=\"Location\" v-model=\"value\" v-model:currentPickerMode=\"currentPickerMode\" :allowedPickerModes=\"selectedAsNumber\" />\n\n    <template #settings>\n        <div class=\"row\">\n            <div class=\"col-md-6\">\n                <CheckBoxList v-model=\"selectedOptions\" :items=\"options\" label=\"Allowed Modes\" horizontal />\n            </div>\n        </div>\n        <p class=\"text-semibold font-italic\">Not all settings are demonstrated in this gallery.</p>\n    </template>\n</GalleryAndResult>"
       });
       var locationListGallery = defineComponent({
         name: "LocationListGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
-          TextBox: TextBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
+          TextBox,
           DefinedValuePicker,
           LocationList
         },
         setup() {
           return {
             value: ref(null),
-            locationType: ref(""),
+            locationType: ref(null),
             parentLocation: ref(""),
             showCityState: ref(false),
             multiple: ref(false),
@@ -4340,8 +5055,8 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var ethnicityPickerGallery = defineComponent({
         name: "EthnicityPickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           DropDownList,
           EthnicityPicker,
           NumberUpDown
@@ -4364,8 +5079,8 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var racePickerGallery = defineComponent({
         name: "RacePickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           DropDownList,
           RacePicker,
           NumberUpDown
@@ -4388,9 +5103,9 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var mediaElementPickerGallery = defineComponent({
         name: "MediaElementPickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
-          TextBox: TextBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
+          TextBox,
           DropDownList,
           MediaElementPicker
         },
@@ -4415,10 +5130,10 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var mergeFieldPickerGallery = defineComponent({
         name: "MergeFieldPickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           MergeFieldPicker,
-          TextBox: TextBox$1
+          TextBox
         },
         setup() {
           var value = ref([{
@@ -4441,10 +5156,10 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var categorizedValuePickerGallery = defineComponent({
         name: "CategorizedValuePickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           CategorizedValuePicker,
-          TextBox: TextBox$1
+          TextBox
         },
         setup() {
           return {
@@ -4461,12 +5176,12 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var reminderTypePickerGallery = defineComponent({
         name: "ReminderTypePickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           ReminderTypePicker,
           DropDownList,
           EntityTypePicker,
-          TextBox: TextBox$1,
+          TextBox,
           NumberUpDown
         },
         setup() {
@@ -4484,15 +5199,15 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
             exampleCode: "<ReminderTypePicker label=\"Reminder Type\" v-model=\"value\" />"
           };
         },
-        template: "\n<GalleryAndResult\n    :value=\"value\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n\n    <ReminderTypePicker\n        label=\"Reminder Type\"\n        v-model=\"value\"\n        :entityTypeGuid=\"entityTypeGuid?.value\"\n        :multiple=\"multiple\"\n        :columnCount=\"columnCount\"\n        :enhanceForLongLists=\"enhanceForLongLists\"\n        :displayStyle=\"displayStyle\"\n        :showBlankItem=\"showBlankItem\" />\n\n    <template #settings>\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Multiple\" v-model=\"multiple\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Enhance For Long Lists\" v-model=\"enhanceForLongLists\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Show Blank Item\" v-model=\"showBlankItem\" />\n            </div>\n            <div class=\"col-md-4\">\n                <DropDownList label=\"Display Style\" :showBlankItem=\"false\" v-model=\"displayStyle\" :items=\"displayStyleItems\" />\n            </div>\n            <div class=\"col-md-4\">\n                <NumberUpDown label=\"Column Count\" v-model=\"columnCount\" :min=\"0\" />\n            </div>\n            <div class=\"col-md-4\">\n                <EntityTypePicker label=\"For Entity Type\" v-model=\"entityTypeGuid\" enhanceForLongLists showBlankItem />\n            </div>\n        </div>\n        <p class=\"text-semibold font-italic\">Not all settings are demonstrated in this gallery.</p>\n    </template>\n</GalleryAndResult>"
+        template: "\n<GalleryAndResult\n    :value=\"value\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n\n    <ReminderTypePicker\n        label=\"Reminder Type\"\n        v-model=\"value\"\n        :entityTypeGuid=\"entityTypeGuid\"\n        :multiple=\"multiple\"\n        :columnCount=\"columnCount\"\n        :enhanceForLongLists=\"enhanceForLongLists\"\n        :displayStyle=\"displayStyle\"\n        :showBlankItem=\"showBlankItem\" />\n\n    <template #settings>\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Multiple\" v-model=\"multiple\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Enhance For Long Lists\" v-model=\"enhanceForLongLists\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Show Blank Item\" v-model=\"showBlankItem\" />\n            </div>\n            <div class=\"col-md-4\">\n                <DropDownList label=\"Display Style\" :showBlankItem=\"false\" v-model=\"displayStyle\" :items=\"displayStyleItems\" />\n            </div>\n            <div class=\"col-md-4\">\n                <NumberUpDown label=\"Column Count\" v-model=\"columnCount\" :min=\"0\" />\n            </div>\n            <div class=\"col-md-4\">\n                <EntityTypePicker label=\"For Entity Type\" v-model=\"entityTypeGuid\" enhanceForLongLists showBlankItem />\n            </div>\n        </div>\n        <p class=\"text-semibold font-italic\">Not all settings are demonstrated in this gallery.</p>\n    </template>\n</GalleryAndResult>"
       });
       var groupRolePickerGallery = defineComponent({
         name: "GroupRolePickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           GroupRolePicker,
-          TextBox: TextBox$1
+          TextBox
         },
         setup() {
           return {
@@ -4507,10 +5222,10 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var modalAlertGallery = defineComponent({
         name: "ModalAlertGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           RockButton,
           ModalAlert,
-          TextBox: TextBox$1,
+          TextBox,
           DropDownList
         },
         setup() {
@@ -4541,10 +5256,10 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var contentChannelItemPickerGallery = defineComponent({
         name: "ContentChannelItemPickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           ContentChannelItemPicker,
-          TextBox: TextBox$1
+          TextBox
         },
         setup() {
           return {
@@ -4563,10 +5278,10 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var personLinkGallery = defineComponent({
         name: "PersonLinkGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           PersonLink,
           DropDownList,
-          TextBox: TextBox$1
+          TextBox
         },
         setup() {
           var placement = ref("right");
@@ -4608,10 +5323,10 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var popOverGallery = defineComponent({
         name: "PopOverGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           PopOver,
           DropDownList,
-          CheckBox: CheckBox$1
+          CheckBox
         },
         setup() {
           var placement = ref("right");
@@ -4645,10 +5360,10 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var rockLiteralGallery = defineComponent({
         name: "RockLiteralGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           RockLiteral,
-          TextBox: TextBox$1,
-          CheckBox: CheckBox$1
+          TextBox,
+          CheckBox
         },
         setup() {
           return {
@@ -4665,11 +5380,11 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var registryEntryGallery = defineComponent({
         name: "RegistryEntryGallery",
         components: {
-          GalleryAndResult,
+          GalleryAndResult: script$8,
           RegistryEntry,
           RockForm,
           RockButton,
-          CheckBox: CheckBox$1
+          CheckBox
         },
         setup() {
           return {
@@ -4685,10 +5400,10 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
       var groupTypeGroupPickerGallery = defineComponent({
         name: "GroupTypeGroupPickerGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           GroupTypeGroupPicker,
-          TextBox: TextBox$1,
+          TextBox,
           RockButton
         },
         setup() {
@@ -4698,20 +5413,242 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
             required: ref(false),
             glabel: ref("Group"),
             importCode: getSfcControlImportPath("groupTypeGroupPicker"),
-            exampleCode: "<GroupTypeGroupPicker label=\"Group Type and TypeGroup\" groupLabel=\"Group\" v-model=\"value\"v-model:groupType=\"groupType\" />"
+            exampleCode: "<GroupTypeGroupPicker label=\"Group Type and Group\" groupLabel=\"Group\" v-model=\"value\" v-model:groupType=\"groupType\" />"
           };
         },
-        template: "\n<GalleryAndResult\n    :value=\"{value, groupType}\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    hasMultipleValues\n    enableReflection >\n\n    <GroupTypeGroupPicker label=\"Group Type and TypeGroup\" :groupLabel=\"glabel\" v-model=\"value\" v-model:groupType=\"groupType\" :rules=\"required ? 'required' : ''\" />\n\n    <template #settings>\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <TextBox label=\"Group Label\" v-model=\"glabel\" help=\"The label for the 2nd dropdown. The label for the first dropdown is not customizable\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Required\" v-model=\"required\" />\n            </div>\n        </div>\n        <p class=\"text-semibold font-italic\">Not all settings are demonstrated in this gallery.</p>\n        <p>Additional props extend and are passed to the underlying <code>Rock Form Field</code>.</p>\n    </template>\n</GalleryAndResult>"
+        template: "\n<GalleryAndResult\n    :value=\"{value, groupType}\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    hasMultipleValues\n    enableReflection >\n\n    <GroupTypeGroupPicker label=\"Group Type and Group\" :groupLabel=\"glabel\" v-model=\"value\" v-model:groupType=\"groupType\" :rules=\"required ? 'required' : ''\" />\n\n    <template #settings>\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <TextBox label=\"Group Label\" v-model=\"glabel\" help=\"The label for the 2nd dropdown. The label for the first dropdown is not customizable\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Required\" v-model=\"required\" />\n            </div>\n        </div>\n        <p class=\"text-semibold font-italic\">Not all settings are demonstrated in this gallery.</p>\n        <p>Additional props extend and are passed to the underlying <code>Rock Form Field</code>.</p>\n    </template>\n</GalleryAndResult>"
       });
-      var controlGalleryComponents = [notificationBoxGallery, attributeValuesContainerGallery, badgeListGallery, fieldFilterEditorGallery, textBoxGallery, datePickerGallery, dateRangePickerGallery, dateTimePickerGallery, datePartsPickerGallery, radioButtonListGallery, dialogGallery, checkBoxGallery, inlineCheckBoxGallery, switchGallery, inlineSwitchGallery, checkBoxListGallery, listBoxGallery, phoneNumberBoxGallery, dropDownListGallery, helpBlockGallery, colorPickerGallery, numberBoxGallery, numberRangeBoxGallery, genderDropDownListGallery, socialSecurityNumberBoxGallery, timePickerGallery, ratingGallery, currencyBoxGallery, emailBoxGallery, numberUpDownGallery, staticFormControlGallery, addressControlGallery, toggleGallery, progressTrackerGallery, itemsWithPreAndPostHtmlGallery, urlLinkBoxGallery, fullscreenGallery, panelGallery, personPickerGallery, fileUploaderGallery, imageUploaderGallery, slidingDateRangePickerGallery, definedValuePickerGallery, campusPickerGallery, entityTypePickerGallery, sectionHeaderGallery, sectionContainerGallery, categoryPickerGallery, locationItemPickerGallery, copyButtonGallery, entityTagListGallery, followingGallery, achievementTypePickerGallery, badgeComponentPickerGallery, assessmentTypePickerGallery, assetStorageProviderPickerGallery, auditDetailGallery, binaryFileTypePickerGallery, binaryFilePickerGallery, codeEditorGallery, modalGallery, eventItemPickerGallery, dataViewPickerGallery, workflowTypePickerGallery, componentPickerGallery, financialGatewayPickerGallery, financialStatementTemplatePickerGallery, fieldTypePickerGallery, gradePickerGallery, groupMemberPickerGallery, interactionChannelPickerGallery, interactionComponentPickerGallery, lavaCommandPickerGallery, remoteAuthsPickerGallery, stepProgramPickerGallery, stepStatusPickerGallery, stepTypePickerGallery, streakTypePickerGallery, badgePickerGallery, basicTimePickerGallery, birthdayPickerGallery, countdownTimerGallery, electronicSignatureGallery, fieldTypeEditorGallery, inlineRangeSliderGallery, javaScriptAnchorGallery, keyValueListGallery, loadingGallery, loadingIndicatorGallery, numberUpDownGroupGallery, panelWidgetGallery, progressBarGallery, rockButtonGallery, rockLabelGallery, rockValidationGallery, rangeSliderGallery, tabbedContentGallery, transitionVerticalCollapseGallery, valueDetailListGallery, pagePickerGallery, connectionRequestPickerGallery, groupPickerGallery, mergeTemplatePickerGallery, metricCategoryPickerGallery, metricItemPickerGallery, registrationTemplatePickerGallery, reportPickerGallery, schedulePickerGallery, workflowActionTypePickerGallery, dayOfWeekPickerGallery, monthDayPickerGallery, monthYearPickerGallery, cacheabilityPickerGallery, buttonGroupGallery, intervalPickerGallery, geoPickerGallery, contentDropDownPickerGallery, scheduleBuilderGallery, wordCloudGallery, eventCalendarPickerGallery, groupTypePickerGallery, locationAddressPickerGallery, locationPickerGallery, locationListGallery, ethnicityPickerGallery, racePickerGallery, mediaElementPickerGallery, mergeFieldPickerGallery, categorizedValuePickerGallery, reminderTypePickerGallery, groupRolePickerGallery, modalAlertGallery, contentChannelItemPickerGallery, personLinkGallery, popOverGallery, rockLiteralGallery, registryEntryGallery, groupTypeGroupPickerGallery, script].sort((a, b) => a.name.localeCompare(b.name)).reduce((newList, comp) => {
+      var groupAndRolePickerGallery = defineComponent({
+        name: "GroupAndRolePickerGallery",
+        components: {
+          GalleryAndResult: script$8,
+          CheckBox,
+          GroupAndRolePicker,
+          TextBox,
+          RockButton,
+          RockForm
+        },
+        setup() {
+          return {
+            value: ref(null),
+            groupType: ref(null),
+            group: ref(null),
+            required: ref(false),
+            disabled: ref(false),
+            glabel: ref("Group"),
+            submit: ref(false),
+            importCode: getSfcControlImportPath("groupAndRolePicker"),
+            exampleCode: "<GroupAndRolePicker label=\"Group and Role\" groupLabel=\"Group\" v-model=\"value\" v-model:groupType=\"groupType\" v-model:group=\"group\" />"
+          };
+        },
+        template: "\n<GalleryAndResult\n    :value=\"{groupType, group, value}\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    hasMultipleValues\n    enableReflection >\n\n<RockForm v-model:submit=\"submit\">\n    <GroupAndRolePicker label=\"Group and Role\" :groupLabel=\"glabel\" v-model=\"value\" v-model:groupType=\"groupType\" v-model:group=\"group\" :rules=\"required ? 'required' : ''\" :disabled=\"disabled\" />\n    <RockButton @click=\"submit = true\">Submit</RockButton>\n</RockForm>\n\n    <template #settings>\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <TextBox label=\"Group Label\" v-model=\"glabel\" help=\"The label for the 2nd dropdown. The main label is also customizable, but the group type and role labels are not.\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Required\" v-model=\"required\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Disabled\" v-model=\"disabled\" />\n            </div>\n        </div>\n        <p class=\"text-semibold font-italic\">Not all settings are demonstrated in this gallery.</p>\n        <p>Additional props extend and are passed to the underlying <code>Rock Form Field</code>.</p>\n    </template>\n</GalleryAndResult>"
+      });
+      var accountPickerGallery = defineComponent({
+        name: "AccountPickerGallery",
+        components: {
+          GalleryAndResult: script$8,
+          CheckBox,
+          AccountPicker,
+          https: TextBox,
+          RockButton
+        },
+        setup() {
+          return {
+            value: ref(null),
+            activeOnly: ref(false),
+            displayPublic: ref(false),
+            multiple: ref(false),
+            enhance: ref(false),
+            displayChildItemCountLabel: ref(false),
+            importCode: getSfcControlImportPath("accountPicker"),
+            exampleCode: "<AccountPicker label=\"Financial Account\" v-model=\"value\" enhanceForLongLists activeOnly displayPublicName multiple displayChildItemCountLabel />"
+          };
+        },
+        template: "\n<GalleryAndResult\n    :value=\"value\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n\n    <AccountPicker label=\"Financial Account\" v-model=\"value\" :enhanceForLongLists=\"enhance\" :activeOnly=\"activeOnly\" :displayPublicName=\"displayPublic\" :multiple=\"multiple\" :displayChildItemCountLabel=\"displayChildItemCountLabel\" />\n\n    <template #settings>\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Enhance For Long Lists\" v-model=\"enhance\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Active Only\" v-model=\"activeOnly\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Display Public Names\" v-model=\"displayPublic\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Select Multiple\" v-model=\"multiple\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Display Child Count\" v-model=\"displayChildItemCountLabel\" />\n            </div>\n        </div>\n        <p class=\"text-semibold font-italic\">Not all settings are demonstrated in this gallery.</p>\n        <p>Additional props extend and are passed to the underlying <code>Rock Form Field</code>.</p>\n    </template>\n</GalleryAndResult>"
+      });
+      var noteTextEditorGallery = defineComponent({
+        name: "NoteTextEditorGallery",
+        components: {
+          GalleryAndResult: script$8,
+          NoteTextEditor,
+          CheckBox
+        },
+        setup() {
+          return {
+            value: ref(""),
+            importCode: getSfcControlImportPath("noteTextEditor"),
+            exampleCode: "<NoteTextEditor v-model=\"value\" />"
+          };
+        },
+        template: "\n<GalleryAndResult\n    :value=\"value\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection>\n\n    <NoteTextEditor v-model=\"value\" :avatar=\"avatar\" label=\"Leave a Note\" />\n\n    <template #settings>\n    </template>\n</GalleryAndResult>"
+      });
+      var structuredContentEditorGallery = defineComponent({
+        name: "StructuredContentEditorGallery",
+        components: {
+          GalleryAndResult: script$8,
+          CheckBox,
+          DefinedValuePicker,
+          StructuredContentEditor
+        },
+        setup() {
+          var required = ref(false);
+          var toolsItemBag = ref({
+            value: DefinedValue.StructureContentEditorDefault
+          });
+          var toolsGuid = computed(() => {
+            var _toolsItemBag$value;
+            return toGuidOrNull((_toolsItemBag$value = toolsItemBag.value) === null || _toolsItemBag$value === void 0 ? void 0 : _toolsItemBag$value.value);
+          });
+          var toolsTypeGuid = DefinedType.StructuredContentEditorTools;
+          return {
+            value: ref("{}"),
+            required,
+            importCode: getSfcControlImportPath("structuredContentEditor"),
+            exampleCode: computed(() => "<StructuredContentEditor v-model=\"value\" label=\"StructuredContent Editor\" :toolsGuid=\"".concat(toolsGuid.value, "\" ").concat(required.value ? 'rules="required" ' : "", "/>")),
+            toolsGuid,
+            toolsItemBag,
+            toolsTypeGuid
+          };
+        },
+        template: "\n<GalleryAndResult\n    :value=\"value\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\" >\n\n    <StructuredContentEditor\n        v-model=\"value\"\n        label=\"Structured Content Editor\"\n        :toolsGuid=\"toolsGuid\"\n        :rules=\"required ? 'required' : ''\" />\n\n    <template #settings>\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Required\" v-model=\"required\" />\n            </div>\n            <div class=\"col-md-4\">\n                <DefinedValuePicker v-model=\"toolsItemBag\" :definedTypeGuid=\"toolsTypeGuid\" label=\"Structured Content Editor Tools Value\" lazyMode=\"eager\" :multiple=\"false\" />\n            </div>\n        </div>\n        <p class=\"text-semibold font-italic\">Not all settings are demonstrated in this gallery.</p>\n    </template>\n</GalleryAndResult>"
+      });
+      var registrationInstancePickerGallery = defineComponent({
+        name: "RegistrationInstancePickerGallery",
+        components: {
+          GalleryAndResult: script$8,
+          RegistrationInstancePicker,
+          RegistrationTemplatePicker,
+          CheckBox
+        },
+        setup() {
+          return {
+            registrationTemplateGuid: ref(null),
+            value: ref({
+              "value": "eefe4ad9-bfa9-405c-b732-ccb4d857ab73",
+              "text": "Joe's Test Registration",
+              "category": null
+            }),
+            required: ref(false),
+            disabled: ref(false),
+            importCode: getSfcControlImportPath("registrationInstancePicker"),
+            exampleCode: "<RegistrationInstancePicker label=\"Registration Instance\" v-model=\"value\" />"
+          };
+        },
+        template: "\n<GalleryAndResult\n    :value=\"value\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n\n    <RegistrationInstancePicker\n        v-model=\"value\"\n        label=\"Registration Instance\"\n        :registrationTemplateGuid=\"registrationTemplateGuid\"\n        :disabled=\"disabled\"\n        :rules=\"required ? 'required' : ''\" />\n\n    <template #settings>\n        <div class=\"row mb-3\">\n            <div class=\"col-md-3\">\n                <RegistrationTemplatePicker label=\"Default Registration Template\" v-model=\"registrationTemplateGuid\" showBlankItem />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Required\" v-model=\"required\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Disabled\" v-model=\"disabled\" />\n            </div>\n        </div>\n\n        <p class=\"text-semibold font-italic\">Not all settings are demonstrated in this gallery.</p>\n        <p>Additional props extend and are passed to the underlying <code>Rock Form Field</code>.</p>\n    </template>\n</GalleryAndResult>"
+      });
+      var interactionChannelInteractionComponentPickerGallery = defineComponent({
+        name: "InteractionChannelInteractionComponentPickerGallery",
+        components: {
+          GalleryAndResult: script$8,
+          InteractionChannelInteractionComponentPicker,
+          InteractionChannelPicker,
+          DropDownList,
+          NumberUpDown
+        },
+        setup() {
+          return {
+            interactionChannelGuid: ref(null),
+            value: ref({
+              "value": "1d6d3e3c-131c-4ed9-befe-b34f3c3da7d3",
+              "text": "Calendar",
+              "category": null
+            }),
+            importCode: getSfcControlImportPath("interactionChannelInteractionComponentPicker"),
+            exampleCode: "<InteractionChannelInteractionComponentPicker label=\"Interaction Channel > Interaction Component\" v-model=\"value\" />"
+          };
+        },
+        template: "\n<GalleryAndResult\n    :value=\"value\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n\n    <InteractionChannelInteractionComponentPicker\n        v-model=\"value\"\n        label=\"Interaction Channel > Interaction Component\"\n        :defaultInteractionChannelGuid=\"interactionChannelGuid?.value\" />\n\n    <template #settings>\n        <div class=\"row mb-3\">\n            <div class=\"col-md-3\">\n                <InteractionChannelPicker label=\"Default Interaction Channel\" v-model=\"interactionChannelGuid\" showBlankItem />\n            </div>\n        </div>\n\n        <p class=\"text-semibold font-italic\">Not all settings are demonstrated in this gallery.</p>\n        <p>Additional props extend and are passed to the underlying <code>Rock Form Field</code>.</p>\n    </template>\n</GalleryAndResult>"
+      });
+      var workflowPickerGallery = defineComponent({
+        name: "WorkflowPickerGallery",
+        components: {
+          GalleryAndResult: script$8,
+          WorkflowTypePicker,
+          WorkflowPicker,
+          CheckBox
+        },
+        setup() {
+          return {
+            value: ref({
+              "value": "969b09e5-d830-46b7-86ab-2f0fbd12cf51",
+              "text": "New Request",
+              "category": null
+            }),
+            workflowType: ref({}),
+            workflowTypeGuid: ref(null),
+            required: ref(false),
+            disabled: ref(false),
+            importCode: getSfcControlImportPath("workflowPicker"),
+            exampleCode: "<WorkflowPicker label=\"Choose a Workflow\" v-model=\"value\" />"
+          };
+        },
+        template: "\n<GalleryAndResult\n    :value=\"value\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n\n    <WorkflowPicker label=\"Choose a Workflow\"\n        v-model=\"value\"\n        :workflowTypeGuid=\"workflowTypeGuid\"\n        :rules=\"required ? 'required' : ''\"\n        :disabled=\"disabled\" />\n\n    <template #settings>\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <WorkflowTypePicker label=\"Workflow Type\" v-model=\"workflowTypeGuid\" showBlankItem help=\"If this workflowTypeGuid prop is set, the Workflow Type selector will not be shown and the Workflows will be based on that type.\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Required\" v-model=\"required\" />\n            </div>\n            <div class=\"col-md-4\">\n                <CheckBox label=\"Disabled\" v-model=\"disabled\" />\n            </div>\n        </div>\n    </template>\n</GalleryAndResult>"
+      });
+      var valueListGallery = defineComponent({
+        name: "ValueListGallery",
+        components: {
+          GalleryAndResult: script$8,
+          ValueList,
+          CheckBox,
+          TextBox
+        },
+        setup() {
+          var usePredefinedValues = ref(false);
+          var displayValueFirst = ref(false);
+          var options = [{
+            text: "Option 1",
+            value: "1"
+          }, {
+            text: "Option 2",
+            value: "2"
+          }, {
+            text: "Option 3",
+            value: "3"
+          }];
+          var customValues = computed(() => usePredefinedValues.value ? options : null);
+          return {
+            usePredefinedValues: usePredefinedValues,
+            displayValueFirst,
+            customValues,
+            fullWidth: ref(false),
+            useDefinedType: ref(false),
+            value: ref(null),
+            definedTypeGuid: DefinedType.PersonConnectionStatus,
+            valuePrompt: ref("Value"),
+            importCode: getSfcControlImportPath("valueList"),
+            exampleCode: "<ValueList label=\"List of Values\" v-model=\"value\" :customValues=\"customValues\" :valuePrompt=\"valuePrompt\" :definedTypeGuid=\"definedTypeGuid\" />"
+          };
+        },
+        template: "\n<GalleryAndResult\n    :value=\"value\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    enableReflection >\n\n    <ValueList label=\"List of Values\" v-model=\"value\" :customValues=\"customValues\" :valuePrompt=\"valuePrompt\" :fullWidth=\"fullWidth\" :definedTypeGuid=\"useDefinedType ? definedTypeGuid : null\" />\n\n    <template #settings>\n        <div class=\"row\">\n            <CheckBox formGroupClasses=\"col-md-3\" label=\"Use Predefined Values\" v-model=\"usePredefinedValues\" help=\"Enabling this will pass a pre-made <code>ListItemBag[]</code> of options to the ValueList component via the <code>customValues</code> prop.\" :disabled=\"useDefinedType\" />\n            <CheckBox formGroupClasses=\"col-md-3\" label=\"Use Defined Type\" v-model=\"useDefinedType\" help=\"Enabling this will pass the Connection Status Defined Type's GUID to the ValueList component via the <code>definedTypeGuid</code> prop.\" :disabled=\"usePredefinedValues\" />\n            <CheckBox formGroupClasses=\"col-md-3\" label=\"Full Width\" v-model=\"fullWidth\" />\n            <TextBox formGroupClasses=\"col-md-3\" label=\"Placeholder for Value Field\" v-model=\"valuePrompt\" />\n        </div>\n        <p>\n            There are 2 different props that control what options users can choose/enter.\n            The <code>definedTypeGuid</code> prop takes a GUID string and will limit users to choosing values from a list of defined values of that type.\n            The <code>customValues</code> option allows you to pass a <code>ListItemBag</code> array in as a list of options that the user can choose from a dropdown.\n            If both of those props are specified, the <code>definedTypeGuid</code> prop will take precedence.\n            If neither option is used, a text box is shown, allowing users to manually type in any values.\n        </p>\n    </template>\n</GalleryAndResult>"
+      });
+      var blockTemplatePickerGallery = defineComponent({
+        name: "BlockTemplatePickerGallery",
+        components: {
+          GalleryAndResult: script$8,
+          BlockTemplatePicker,
+          DefinedValuePicker
+        },
+        setup() {
+          return {
+            value: ref(null),
+            templateKey: ref(null),
+            definedTypeGuid: DefinedType.TemplateBlock,
+            templateBlockGuid: ref(null),
+            importCode: getSfcControlImportPath("blockTemplatePicker"),
+            exampleCode: "<BlockTemplatePicker label=\"Select a Template\" v-model=\"value\" :templateBlockValueGuid=\"templateBlockValueGuid\" />"
+          };
+        },
+        template: "\n<GalleryAndResult\n    :value=\"{value, templateKey}\"\n    :importCode=\"importCode\"\n    :exampleCode=\"exampleCode\"\n    hasMultipleValues\n    enableReflection >\n\n    <BlockTemplatePicker label=\"Select a Template\" v-model=\"value\" v-model:templateKey=\"templateKey\" :templateBlockValueGuid=\"templateBlockGuid?.value\" />\n\n    <template #settings>\n        <div class=\"row\">\n            <DefinedValuePicker label=\"Template Block\" formGroupClasses=\"col-md-4\" v-model=\"templateBlockGuid\" :definedTypeGuid=\"definedTypeGuid\" showBlankItem />\n        </div>\n    </template>\n</GalleryAndResult>"
+      });
+      var controlGalleryComponents = [notificationBoxGallery, attributeValuesContainerGallery, badgeListGallery, fieldFilterEditorGallery, textBoxGallery, datePickerGallery, dateRangePickerGallery, dateTimePickerGallery, datePartsPickerGallery, radioButtonListGallery, dialogGallery, checkBoxGallery, inlineCheckBoxGallery, switchGallery, inlineSwitchGallery, checkBoxListGallery, mediaSelectorGallery, listItemsGallery, listBoxGallery, phoneNumberBoxGallery, dropDownListGallery, helpBlockGallery, colorPickerGallery, numberBoxGallery, numberRangeBoxGallery, genderDropDownListGallery, socialSecurityNumberBoxGallery, timePickerGallery, ratingGallery, script, emailBoxGallery, numberUpDownGallery, staticFormControlGallery, addressControlGallery, toggleGallery, progressTrackerGallery, itemsWithPreAndPostHtmlGallery, urlLinkBoxGallery, fullscreenGallery, panelGallery, script$3, fileUploaderGallery, imageUploaderGallery, slidingDateRangePickerGallery, definedValuePickerGallery, campusPickerGallery, entityTypePickerGallery, sectionHeaderGallery, sectionContainerGallery, categoryPickerGallery, locationItemPickerGallery, copyButtonGallery, tagListGallery, followingGallery, achievementTypePickerGallery, badgeComponentPickerGallery, assessmentTypePickerGallery, assetStorageProviderPickerGallery, auditDetailGallery, binaryFileTypePickerGallery, binaryFilePickerGallery, codeEditorGallery, modalGallery, eventItemPickerGallery, dataViewPickerGallery, workflowTypePickerGallery, componentPickerGallery, financialGatewayPickerGallery, financialStatementTemplatePickerGallery, fieldTypePickerGallery, gradePickerGallery, groupMemberPickerGallery, interactionChannelPickerGallery, interactionComponentPickerGallery, lavaCommandPickerGallery, remoteAuthsPickerGallery, stepProgramPickerGallery, stepProgramStepTypePickerGallery, stepProgramStepStatusPickerGallery, stepStatusPickerGallery, stepTypePickerGallery, streakTypePickerGallery, badgePickerGallery, basicTimePickerGallery, birthdayPickerGallery, countdownTimerGallery, electronicSignatureGallery, fieldTypeEditorGallery, inlineRangeSliderGallery, javaScriptAnchorGallery, keyValueListGallery, loadingGallery, loadingIndicatorGallery, numberUpDownGroupGallery, progressBarGallery, rockButtonGallery, rockLabelGallery, rockValidationGallery, rangeSliderGallery, tabbedBarGallery, tabbedContentGallery, transitionVerticalCollapseGallery, valueDetailListGallery, pagePickerGallery, connectionRequestPickerGallery, groupPickerGallery, mergeTemplatePickerGallery, metricCategoryPickerGallery, metricItemPickerGallery, registrationTemplatePickerGallery, reportPickerGallery, schedulePickerGallery, workflowActionTypePickerGallery, dayOfWeekPickerGallery, monthDayPickerGallery, monthYearPickerGallery, cacheabilityPickerGallery, buttonGroupGallery, intervalPickerGallery, geoPickerGallery, contentDropDownPickerGallery, scheduleBuilderGallery, wordCloudGallery, eventCalendarPickerGallery, groupTypePickerGallery, locationAddressPickerGallery, locationPickerGallery, locationListGallery, ethnicityPickerGallery, racePickerGallery, mediaElementPickerGallery, mergeFieldPickerGallery, categorizedValuePickerGallery, reminderTypePickerGallery, groupRolePickerGallery, modalAlertGallery, contentChannelItemPickerGallery, personLinkGallery, popOverGallery, rockLiteralGallery, registryEntryGallery, groupTypeGroupPickerGallery, groupAndRolePickerGallery, accountPickerGallery, noteTextEditorGallery, structuredContentEditorGallery, registrationInstancePickerGallery, interactionChannelInteractionComponentPickerGallery, workflowPickerGallery, valueListGallery, blockTemplatePickerGallery, script$7, script$6, script$5, script$4, script$1, script$2].sort((a, b) => a.name.localeCompare(b.name)).reduce((newList, comp) => {
         newList[comp.name] = comp;
         return newList;
       }, {});
       var detailBlockGallery = defineComponent({
         name: "DetailBlockGallery",
         components: {
-          GalleryAndResult,
-          CheckBox: CheckBox$1,
+          GalleryAndResult: script$8,
+          CheckBox,
           CheckBoxList,
           DetailBlock
         },
@@ -4847,7 +5784,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
         name: "Example.ControlGallery",
         components: _objectSpread2(_objectSpread2({
           Panel,
-          SectionHeader: SectionHeader$1
+          SectionHeader
         }, controlGalleryComponents), templateGalleryComponents),
         setup() {
           var currentComponent = ref(Object.values(controlGalleryComponents)[0]);
@@ -4873,7 +5810,7 @@ System.register(['vue', '@Obsidian/Utility/objectUtils', '@Obsidian/Enums/Contro
             templateGalleryComponents
           };
         },
-        template: "\n<v-style>\n.gallerySidebar {\n    border-radius: 0;\n    margin: -1px 0 -1px -1px;\n    overflow-y: auto;\n}\n\n.gallerySidebar li.current {\n    font-weight: 700;\n}\n\n.galleryContent {\n    flex-grow: 1;\n    overflow-x: clip;\n    overflow-y: auto;\n    padding: 20px;\n}\n\n.galleryContent .rock-header {\n    margin: 0 -20px;\n}\n\n.galleryContent .rock-header .title {\n    margin-left: 20px;\n}\n</v-style>\n<Panel type=\"block\">\n    <template #title>\n        Obsidian Control Gallery\n    </template>\n    <template #default>\n        <div class=\"panel-flex-fill-body flex-row\">\n\n            <div class=\"gallerySidebar well\">\n                <h4>Components</h4>\n\n                <ul class=\"list-unstyled mb-0\">\n                    <li v-for=\"(component, key) in controlGalleryComponents\" :key=\"key\" :class=\"{current: currentComponent.name === component.name}\">\n                        <a :href=\"'#' + key\" @click=\"currentComponent = component\">{{ convertComponentName(component.name) }}</a>\n                    </li>\n                </ul>\n\n                <h4 class=\"mt-3\">Templates</h4>\n\n                <ul class=\"list-unstyled mb-0\">\n                    <li v-for=\"(component, key) in templateGalleryComponents\" :key=\"key\" :class=\"{current: currentComponent.name === component.name}\">\n                        <a :href=\"'#' + key\" @click=\"currentComponent = component\">{{ convertComponentName(component.name) }}</a>\n                    </li>\n                </ul>\n            </div>\n\n            <div class=\"galleryContent\">\n                <component :is=\"currentComponent\" />\n            </div>\n\n        </div>\n    </template>\n</Panel>"
+        template: "\n<v-style>\n.gallerySidebar {\n    border-radius: 0;\n    margin: -1px 0 -1px -1px;\n    overflow-y: auto;\n    flex-shrink: 0;\n}\n\n.gallerySidebar li.current {\n    font-weight: 700;\n}\n\n.galleryContent {\n    flex-grow: 1;\n    overflow-x: clip;\n    overflow-y: auto;\n    padding: 20px;\n}\n\n.galleryContent > .rock-header hr {\n    margin-left: -20px;\n    margin-right: -20px;\n}\n</v-style>\n<Panel type=\"block\">\n    <template #title>\n        Obsidian Control Gallery\n    </template>\n    <template #default>\n        <div class=\"panel-flex-fill-body flex-row\">\n\n            <div class=\"gallerySidebar well\">\n                <h4>Components</h4>\n\n                <ul class=\"list-unstyled mb-0\">\n                    <li v-for=\"(component, key) in controlGalleryComponents\" :key=\"key\" :class=\"{current: currentComponent.name === component.name}\">\n                        <a :href=\"'#' + key\" @click=\"currentComponent = component\">{{ convertComponentName(component.name) }}</a>\n                    </li>\n                </ul>\n\n                <h4 class=\"mt-3\">Templates</h4>\n\n                <ul class=\"list-unstyled mb-0\">\n                    <li v-for=\"(component, key) in templateGalleryComponents\" :key=\"key\" :class=\"{current: currentComponent.name === component.name}\">\n                        <a :href=\"'#' + key\" @click=\"currentComponent = component\">{{ convertComponentName(component.name) }}</a>\n                    </li>\n                </ul>\n            </div>\n\n            <div class=\"galleryContent\">\n                <component :is=\"currentComponent\" />\n            </div>\n\n        </div>\n    </template>\n</Panel>"
       }));
 
     })

@@ -11,6 +11,7 @@ using Rock;
 using Rock.Attribute;
 using Rock.Communication;
 using Rock.Data;
+using Rock.Jobs;
 using Rock.Model;
 using Rock.Transactions;
 using Rock.Web.Cache;
@@ -34,7 +35,7 @@ namespace org.rivervalley.Jobs
 
     #endregion
 
-    public class SendKBGivingThresholdReport : IJob
+    public class SendKBGivingThresholdReport : RockJob
     {
         #region Attribute Keys
 
@@ -64,7 +65,7 @@ namespace org.rivervalley.Jobs
         /// Perform the job using the parameters supplied in the execution context.
         /// </summary>
         /// <param name="context"></param>
-        public void Execute( IJobExecutionContext context )
+        public override void Execute()
         {
             // check to see if it's the last day of the month
             DateTime today = RockDateTime.Today;
@@ -82,16 +83,13 @@ namespace org.rivervalley.Jobs
 
                 int emailsSent = 0;
 
-                // Get the configuration settings for this job instance.
-                var dataMap = context.JobDetail.JobDataMap;
-
-                Guid? dataView5000Guid = dataMap.GetString( AttributeKey.DataView5000 ).AsGuidOrNull();
-                Guid? dataView10000Guid = dataMap.GetString( AttributeKey.DataView10000 ).AsGuidOrNull();
-                Guid? av5000Guid = dataMap.GetString( AttributeKey.Attribute5000 ).AsGuidOrNull();
-                Guid? av10000Guid = dataMap.GetString( AttributeKey.Attribute10000 ).AsGuidOrNull();
-                Guid? systemCommunicationGuid = dataMap.GetString( AttributeKey.SystemCommunication ).AsGuidOrNull();
-                string recipent5000EmailAddress = dataMap.GetString( AttributeKey.Recipient5000 );
-                string recipient10000EmailAddress = dataMap.GetString( AttributeKey.Recipient10000 );
+                Guid? dataView5000Guid = GetAttributeValue( AttributeKey.DataView5000 ).AsGuidOrNull();
+                Guid? dataView10000Guid = GetAttributeValue( AttributeKey.DataView10000 ).AsGuidOrNull();
+                Guid? av5000Guid = GetAttributeValue( AttributeKey.Attribute5000 ).AsGuidOrNull();
+                Guid? av10000Guid = GetAttributeValue( AttributeKey.Attribute10000 ).AsGuidOrNull();
+                Guid? systemCommunicationGuid = GetAttributeValue( AttributeKey.SystemCommunication ).AsGuidOrNull();
+                string recipent5000EmailAddress = GetAttributeValue( AttributeKey.Recipient5000 );
+                string recipient10000EmailAddress = GetAttributeValue( AttributeKey.Recipient10000 );
 
                 if ( dataView5000Guid == null )
                 {
@@ -306,11 +304,11 @@ namespace org.rivervalley.Jobs
                     }
                 }
 
-                context.Result = string.Format( "{0} emails sent", emailsSent ); 
+                this.Result = string.Format( "{0} emails sent", emailsSent ); 
             }
             else
             {
-                context.Result = "Did not run. This job only processes on the last day of the month.";
+                this.Result = "Did not run. This job only processes on the last day of the month.";
             }
         }
     }

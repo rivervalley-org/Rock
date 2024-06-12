@@ -1,6 +1,6 @@
-System.register(['vue', './notificationBox.obs', './modal.obs', './rockButton', './rockFormField.obs', '@Obsidian/SystemGuids/binaryFiletype', '@Obsidian/Utility/http', '@Obsidian/Enums/Controls/btnType', '@Obsidian/Utility/component', '@Obsidian/Libs/cropper'], (function (exports) {
+System.register(['vue', './notificationBox.obs', './modal.obs', './rockButton.obs', './rockFormField.obs', '@Obsidian/SystemGuids/binaryFiletype', '@Obsidian/Utility/http', '@Obsidian/Enums/Controls/btnType', '@Obsidian/Utility/component', '@Obsidian/Libs/cropper', '@Obsidian/Utility/guid'], (function (exports) {
   'use strict';
-  var createElementVNode, createTextVNode, defineComponent, ref, computed, watch, openBlock, createElementBlock, Fragment, createVNode, unref, mergeProps, withCtx, createBlock, toDisplayString, createCommentVNode, withModifiers, withKeys, normalizeStyle, NotificationBox, Modal, RockButton, RockFormField, BinaryFiletype, uploadBinaryFile, BtnType, useStandardRockFormFieldProps, standardRockFormFieldProps, Cropper;
+  var createElementVNode, createTextVNode, defineComponent, ref, computed, watch, openBlock, createElementBlock, Fragment, createVNode, unref, mergeProps, withCtx, createBlock, toDisplayString, createCommentVNode, withModifiers, withKeys, normalizeStyle, NotificationBox, Modal, RockButton, RockFormField, BinaryFiletype, uploadBinaryFile, BtnType, useStandardRockFormFieldProps, standardRockFormFieldProps, Cropper, toGuidOrNull;
   return {
     setters: [function (module) {
       createElementVNode = module.createElementVNode;
@@ -41,6 +41,8 @@ System.register(['vue', './notificationBox.obs', './modal.obs', './rockButton', 
       standardRockFormFieldProps = module.standardRockFormFieldProps;
     }, function (module) {
       Cropper = module["default"];
+    }, function (module) {
+      toGuidOrNull = module.toGuidOrNull;
     }],
     execute: (function () {
 
@@ -223,12 +225,12 @@ System.register(['vue', './notificationBox.obs', './modal.obs', './rockButton', 
         }, standardRockFormFieldProps),
         emits: ["update:modelValue", "cropped"],
         setup(__props, _ref) {
-          var _props$modelValue$val, _props$modelValue, _props$modelValue$tex, _props$modelValue2;
+          var _props$modelValue, _props$modelValue$tex, _props$modelValue2;
           var emit = _ref.emit;
           var props = __props;
           var imgRef = ref(null);
           var cropper;
-          var fileGuid = ref((_props$modelValue$val = (_props$modelValue = props.modelValue) === null || _props$modelValue === void 0 ? void 0 : _props$modelValue.value) !== null && _props$modelValue$val !== void 0 ? _props$modelValue$val : "");
+          var fileGuid = ref(toGuidOrNull((_props$modelValue = props.modelValue) === null || _props$modelValue === void 0 ? void 0 : _props$modelValue.value));
           var fileName = ref((_props$modelValue$tex = (_props$modelValue2 = props.modelValue) === null || _props$modelValue2 === void 0 ? void 0 : _props$modelValue2.text) !== null && _props$modelValue$tex !== void 0 ? _props$modelValue$tex : "");
           var isUploading = ref(false);
           var uploadProgressText = ref("");
@@ -309,7 +311,7 @@ System.register(['vue', './notificationBox.obs', './modal.obs', './rockButton', 
                 type: file.type
               });
               try {
-                var _result$value, _result$text;
+                var _result$text;
                 var result = yield uploadBinaryFile(fileToUpload, props.binaryFileTypeGuid || BinaryFiletype.Default, {
                   baseUrl: "/ImageUploader.ashx",
                   isTemporary: false,
@@ -317,7 +319,7 @@ System.register(['vue', './notificationBox.obs', './modal.obs', './rockButton', 
                     uploadProgressText.value = "".concat(percent, "%");
                   }
                 });
-                fileGuid.value = (_result$value = result.value) !== null && _result$value !== void 0 ? _result$value : "";
+                fileGuid.value = toGuidOrNull(result.value);
                 fileName.value = (_result$text = result.text) !== null && _result$text !== void 0 ? _result$text : "";
               } catch (e) {
                 errorMessage.value = String(e);
@@ -336,7 +338,7 @@ System.register(['vue', './notificationBox.obs', './modal.obs', './rockButton', 
           function onRemoveFileClick() {
             selectedImageUrl.value = "";
             errorMessage.value = "";
-            fileGuid.value = "";
+            fileGuid.value = null;
             fileName.value = "";
           }
           function onFileChange() {
@@ -352,7 +354,7 @@ System.register(['vue', './notificationBox.obs', './modal.obs', './rockButton', 
             if (isUploading.value) {
               return;
             }
-            fileGuid.value = "";
+            fileGuid.value = null;
             fileName.value = "";
           }
           function cropAndUpload() {
@@ -422,8 +424,8 @@ System.register(['vue', './notificationBox.obs', './modal.obs', './rockButton', 
             }
           });
           watch(() => props.modelValue, () => {
-            var _props$modelValue$val2, _props$modelValue3, _props$modelValue$tex2, _props$modelValue4;
-            fileGuid.value = (_props$modelValue$val2 = (_props$modelValue3 = props.modelValue) === null || _props$modelValue3 === void 0 ? void 0 : _props$modelValue3.value) !== null && _props$modelValue$val2 !== void 0 ? _props$modelValue$val2 : "";
+            var _props$modelValue3, _props$modelValue$tex2, _props$modelValue4;
+            fileGuid.value = toGuidOrNull((_props$modelValue3 = props.modelValue) === null || _props$modelValue3 === void 0 ? void 0 : _props$modelValue3.value);
             fileName.value = (_props$modelValue$tex2 = (_props$modelValue4 = props.modelValue) === null || _props$modelValue4 === void 0 ? void 0 : _props$modelValue4.text) !== null && _props$modelValue$tex2 !== void 0 ? _props$modelValue$tex2 : "";
           });
           watch([fileGuid, fileName], () => {

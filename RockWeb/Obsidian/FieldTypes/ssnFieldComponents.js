@@ -1,4 +1,4 @@
-System.register(['vue', './utils', '@Obsidian/Controls/socialSecurityNumberBox'], (function (exports) {
+System.register(['vue', './utils', '@Obsidian/Controls/socialSecurityNumberBox.obs'], (function (exports) {
     'use strict';
     var defineComponent, ref, watch, getFieldEditorProps, SocialSecurityNumberBox;
     return {

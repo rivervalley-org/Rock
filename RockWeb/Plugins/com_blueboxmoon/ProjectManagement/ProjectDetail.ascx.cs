@@ -402,7 +402,7 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
             hlId.Text = string.Format( "#{0} - {1}", project.Id, project.ProjectType.Name );
             hlState.Text = project.State;
             hlState.LabelType = project.IsActive ? LabelType.Success : LabelType.Default;
-            lRequestedBy.Text = project.RequestedByPersonAlias != null ? project.RequestedByPersonAlias.Person.FullName : string.Empty;
+            lRequestedBy.Text = project.RequestedByPersonAlias != null ? Utility.GetPersonDisplayHtml( project.RequestedByPersonAlias.Person, CurrentPerson, true ) : string.Empty;
             lRequestDate.Text = project.RequestDate.ToShortDateString();
             lDueDate.Text = project.DueDate.HasValue ? project.DueDate.Value.ToShortDateString() : string.Empty;
 
@@ -456,7 +456,7 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
             //
             if ( project.Assignees.Any() )
             {
-                lAssignedTo.Text = string.Join( "<br />", project.Assignees.Select( a => a.Person.FullName ).OrderBy( n => n ).ToArray() );
+                lAssignedTo.Text = string.Join( "", project.Assignees.Select( a => Utility.GetPersonDisplayHtml( a.Person, CurrentPerson, true ) ).OrderBy( n => n ).ToArray() );
             }
 
             //

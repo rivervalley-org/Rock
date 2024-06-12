@@ -1,4 +1,4 @@
-System.register(['vue', './utils', '@Obsidian/Utility/numberUtils', '@Obsidian/Controls/numberBox'], (function (exports) {
+System.register(['vue', './utils', '@Obsidian/Utility/numberUtils', '@Obsidian/Controls/numberBox.obs'], (function (exports) {
     'use strict';
     var defineComponent, getFieldEditorProps, toNumberOrNull, NumberBox;
     return {

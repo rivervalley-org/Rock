@@ -95,7 +95,7 @@
                         excludeProjectTypeIds: []
                     };
 
-                    var $filters = $('#<%= pnlCalendar.ClientID %>').find('.project-filters .fa,.project-type-filters .fa-check').closest('li');
+                    var $filters = $('#<%= pnlCalendar.ClientID %>').find('.project-filters .fa,.project-type-filters .project-type-indicator').closest('li');
 
                     $filters.each(function () {
                         var $filter = $(this);

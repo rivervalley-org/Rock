@@ -5,7 +5,8 @@ System.register([], (function (exports) {
 
             var AgeBracket = {
               Unknown: 0,
-              ZeroToTwelve: 1,
+              ZeroToFive: 9,
+              SixToTwelve: 1,
               ThirteenToSeventeen: 2,
               EighteenToTwentyFour: 3,
               TwentyFiveToThirtyFour: 4,
@@ -16,14 +17,15 @@ System.register([], (function (exports) {
             };
             var AgeBracketDescription = {
               0: "Unknown",
-              1: "Zero To Twelve",
-              2: "Thirteen To Seventeen",
-              3: "Eighteen To Twenty Four",
-              4: "Twenty Five To Thirty Four",
-              5: "Thirty Five To Forty Four",
-              6: "Forty Five To Fifty Four",
-              7: "Fifty Five To Sixty Four",
-              8: "Sixty Five Or Older"
+              9: "0 - 5",
+              1: "6 - 12",
+              2: "13 - 17",
+              3: "18 - 24",
+              4: "25 - 34",
+              5: "35 - 44",
+              6: "40 - 54",
+              7: "55 - 64",
+              8: "65+"
             };
 
             var ageBracket = /*#__PURE__*/Object.freeze({

@@ -1,4 +1,4 @@
-System.register(['vue', './utils', '@Obsidian/Controls/dropDownList', '@Obsidian/Utility/component', './fieldType'], (function (exports, module) {
+System.register(['vue', './utils', '@Obsidian/Controls/dropDownList.obs', '@Obsidian/Utility/component', './fieldType'], (function (exports, module) {
   'use strict';
   var defineComponent, computed, getFieldEditorProps, DropDownList, defineAsyncComponent, useVModelPassthrough;
   return {

@@ -1,9 +1,11 @@
-System.register(['@Obsidian/Utility/page', '@Obsidian/Utility/guid'], (function (exports) {
+System.register(['@Obsidian/Utility/page', '@Obsidian/Utility/promiseUtils', '@Obsidian/Utility/guid'], (function (exports) {
   'use strict';
-  var loadJavaScriptAsync, newGuid;
+  var loadJavaScriptAsync, isPromise, newGuid;
   return {
     setters: [function (module) {
       loadJavaScriptAsync = module.loadJavaScriptAsync;
+    }, function (module) {
+      isPromise = module.isPromise;
     }, function (module) {
       newGuid = module.newGuid;
     }],
@@ -31,6 +33,36 @@ System.register(['@Obsidian/Utility/page', '@Obsidian/Utility/guid'], (function 
           });
         }
         return target;
+      }
+      function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+        try {
+          var info = gen[key](arg);
+          var value = info.value;
+        } catch (error) {
+          reject(error);
+          return;
+        }
+        if (info.done) {
+          resolve(value);
+        } else {
+          Promise.resolve(value).then(_next, _throw);
+        }
+      }
+      function _asyncToGenerator(fn) {
+        return function () {
+          var self = this,
+            args = arguments;
+          return new Promise(function (resolve, reject) {
+            var gen = fn.apply(self, args);
+            function _next(value) {
+              asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+            }
+            function _throw(err) {
+              asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+            }
+            _next(undefined);
+          });
+        };
       }
       function _defineProperty(obj, key, value) {
         key = _toPropertyKey(key);
@@ -386,25 +418,58 @@ System.register(['@Obsidian/Utility/page', '@Obsidian/Utility/guid'], (function 
         }
       });
       function useDragReorder(values, reorder) {
+        var dragState = "none";
         return {
           id: newGuid(),
           copyElement: false,
           handleSelector: ".reorder-handle",
+          startDrag(operation, handle) {
+            if (dragState !== "none") {
+              return false;
+            }
+            return Array.from(operation.sourceContainer.querySelectorAll(".reorder-handle")).some(n => n.contains(handle));
+          },
+          dragEnd() {
+            if (dragState === "dragging") {
+              dragState = "none";
+            }
+          },
           dragDrop(operation) {
-            if (operation.targetIndex === undefined || operation.sourceIndex === operation.targetIndex) {
-              return;
-            }
-            if (!values.value || operation.sourceIndex >= values.value.length) {
-              return;
-            }
-            var targetIndex = operation.sourceIndex > operation.targetIndex ? operation.targetIndex : operation.targetIndex + 1;
-            var value = values.value[operation.sourceIndex];
-            var beforeValue = targetIndex < values.value.length ? values.value[targetIndex] : null;
-            values.value.splice(operation.sourceIndex, 1);
-            values.value.splice(operation.targetIndex, 0, value);
-            if (reorder) {
-              reorder(value, beforeValue);
-            }
+            return _asyncToGenerator(function* () {
+              if (operation.targetIndex === undefined || operation.sourceIndex === operation.targetIndex) {
+                return;
+              }
+              if (!values.value || operation.sourceIndex >= values.value.length) {
+                return;
+              }
+              var targetIndex = operation.sourceIndex > operation.targetIndex ? operation.targetIndex : operation.targetIndex + 1;
+              var value = values.value[operation.sourceIndex];
+              var beforeValue = targetIndex < values.value.length ? values.value[targetIndex] : null;
+              values.value.splice(operation.sourceIndex, 1);
+              values.value.splice(operation.targetIndex, 0, value);
+              if (!reorder) {
+                return;
+              }
+              dragState = "waiting";
+              var callbackResult;
+              try {
+                callbackResult = reorder(value, beforeValue);
+                if (isPromise(callbackResult)) {
+                  callbackResult = yield callbackResult;
+                }
+              } catch (error) {
+                callbackResult = false;
+                console.log(error);
+              }
+              if (callbackResult === false) {
+                var _operation$sourceSibl;
+                values.value.splice(operation.targetIndex, 1);
+                values.value.splice(operation.sourceIndex, 0, value);
+                operation.element.remove();
+                operation.sourceContainer.insertBefore(operation.element, (_operation$sourceSibl = operation.sourceSibling) !== null && _operation$sourceSibl !== void 0 ? _operation$sourceSibl : null);
+              }
+              dragState = "none";
+            })();
           }
         };
       }

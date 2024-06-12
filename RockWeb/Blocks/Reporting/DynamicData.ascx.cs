@@ -356,7 +356,7 @@ namespace RockWeb.Blocks.Reporting
         /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
         protected void ApplyFilterClick( object sender, EventArgs e )
         {
-            GridFilter.DeleteUserPreferences();
+            GridFilter.DeleteFilterPreferences();
 
             foreach ( Control control in GridFilter.Controls )
             {
@@ -387,7 +387,7 @@ namespace RockWeb.Blocks.Reporting
                     name = key.Remove( 0, 2 ).SplitCase();
                 }
 
-                GridFilter.SaveUserPreference( key, name, value );
+                GridFilter.SetFilterPreference( key, name, value );
             }
 
             gReport_GridRebind( sender, e );
@@ -414,7 +414,9 @@ namespace RockWeb.Blocks.Reporting
             {
                 var pageCache = PageCache.Get( RockPage.PageId );
                 if ( pageCache != null &&
-                    ( pageCache.PageTitle != tbName.Text || pageCache.Description != tbDesc.Text ) )
+                        ( pageCache.PageTitle != tbName.Text || pageCache.Description != tbDesc.Text )
+                        && pageCache.Guid != Rock.SystemGuid.Page.PAGE_MAP.AsGuid() // Don't allow editing the title of the page if the page is the internal page editor (Issue #5542)
+                   )
                 {
                     var rockContext = new RockContext();
                     var service = new PageService( rockContext );
@@ -774,7 +776,7 @@ namespace RockWeb.Blocks.Reporting
                     if ( GetAttributeValue( AttributeKey.EnableQuickReturn ).AsBoolean() && setData && RockPage.PageTitle.IsNotNullOrWhiteSpace() )
                     {
                         string quickReturnLava = "{{ Title | AddQuickReturn:'Dynamic Data', 80 }}";
-                        var quickReturnMergeFields = Rock.Lava.LavaHelper.GetCommonMergeFields( this.RockPage, this.CurrentPerson, new Rock.Lava.CommonMergeFieldsOptions { GetLegacyGlobalMergeFields = false } );
+                        var quickReturnMergeFields = Rock.Lava.LavaHelper.GetCommonMergeFields( this.RockPage, this.CurrentPerson, new Rock.Lava.CommonMergeFieldsOptions() );
                         quickReturnMergeFields.Add( "Title", RockPage.PageTitle );
                         quickReturnLava.ResolveMergeFields( quickReturnMergeFields );
                     }
@@ -1096,7 +1098,7 @@ namespace RockWeb.Blocks.Reporting
                         filterControl.Items.Add( BoolToString( false ) );
                         GridFilter.Controls.Add( filterControl );
 
-                        var value = GridFilter.GetUserPreference( id );
+                        var value = GridFilter.GetFilterPreference( id );
 
                         if ( value != null )
                         {
@@ -1136,7 +1138,7 @@ namespace RockWeb.Blocks.Reporting
 
                         GridFilter.Controls.Add( filterControl );
 
-                        var value = GridFilter.GetUserPreference( id );
+                        var value = GridFilter.GetFilterPreference( id );
 
                         if ( value != null )
                         {
@@ -1173,7 +1175,7 @@ namespace RockWeb.Blocks.Reporting
 
                         GridFilter.Controls.Add( filterControl );
                         var key = filterControl.ID;
-                        var value = GridFilter.GetUserPreference( key );
+                        var value = GridFilter.GetFilterPreference( key );
 
                         if ( value != null )
                         {

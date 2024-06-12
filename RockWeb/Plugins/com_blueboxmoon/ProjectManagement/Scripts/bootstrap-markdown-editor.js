@@ -490,7 +490,7 @@ define("com/blueboxmoon/project-markdown-highlight-rules", ['require', 'exports'
             btnOrderedList: 'Ordered list',
             btnLink: 'Link',
             btnImage: 'Insert image',
-            btnUpload: 'Upload image',
+            btnUpload: 'Upload file/image',
             btnEdit: 'Edit',
             btnPreview: 'Preview',
             btnFullscreen: 'Fullscreen',

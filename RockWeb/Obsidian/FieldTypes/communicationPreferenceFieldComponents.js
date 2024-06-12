@@ -1,4 +1,4 @@
-System.register(['vue', './utils', '@Obsidian/Controls/textBox', '@Obsidian/Controls/radioButtonList', '@Obsidian/Utility/component', './fieldType'], (function (exports, module) {
+System.register(['vue', './utils', '@Obsidian/Controls/textBox.obs', '@Obsidian/Controls/radioButtonList.obs', '@Obsidian/Utility/component', './fieldType'], (function (exports, module) {
   'use strict';
   var defineComponent, ref, watch, computed, getFieldEditorProps, getFieldConfigurationProps, TextBox, RadioButtonList, defineAsyncComponent;
   return {

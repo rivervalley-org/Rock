@@ -105,6 +105,37 @@
     background-color: #f2dede;
 }
 
+/* Person Photo Display */
+.pm-person-row {
+    display: flex;
+}
+
+.pm-person-row {
+    margin-top: 4px;
+}
+
+.list-group-item > .pm-person-row,
+td > .pm-person-row:first-child {
+    margin-top: 0px;
+}
+
+.pm-person-row.is-deceased .pm-person-name {
+    color: #d4442e;
+}
+
+.pm-person-row .pm-person-photo {
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    margin-right: 6px;
+    align-self: center;
+}
+
+.pm-person-row .pm-person-name {
+    flex-grow: 1;
+    align-self: center;
+}
+
 /* Watching toggle styles */
 .panel-watch-status.watching {
     color: #fff;

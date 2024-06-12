@@ -1,6 +1,6 @@
-System.register(['vue', '@Obsidian/Controls/panel', '@Obsidian/Controls/modal', '@Obsidian/Enums/Controls/detailPanelMode', '@Obsidian/Utility/promiseUtils', '@Obsidian/Controls/auditDetail', '@Obsidian/Controls/badgeList', '@Obsidian/Controls/entityTagList', '@Obsidian/Controls/rockButton', '@Obsidian/Controls/rockForm', '@Obsidian/Controls/rockSuspense', '@Obsidian/Utility/component', '@Obsidian/Utility/dialogs', '@Obsidian/Utility/http', '@Obsidian/Utility/url', '@Obsidian/Utility/booleanUtils'], (function (exports) {
+System.register(['vue', '@Obsidian/Controls/panel.obs', '@Obsidian/Controls/modal.obs', '@Obsidian/Enums/Controls/detailPanelMode', '@Obsidian/Utility/promiseUtils', '@Obsidian/Controls/auditDetail.obs', '@Obsidian/Controls/badgeList.obs', '@Obsidian/Controls/tagList.obs', '@Obsidian/Controls/rockButton.obs', '@Obsidian/Controls/rockForm.obs', '@Obsidian/Controls/rockSuspense.obs', '@Obsidian/Utility/component', '@Obsidian/Utility/dialogs', '@Obsidian/Utility/http', '@Obsidian/Utility/url', '@Obsidian/Utility/booleanUtils', '@Obsidian/Utility/stringUtils', '@Obsidian/Utility/guid', '@Obsidian/Utility/block'], (function (exports) {
   'use strict';
-  var defineComponent, ref, computed, watch, Panel, Modal, DetailPanelMode, isPromise, PromiseCompletionSource, AuditDetail, BadgeList, EntityTagList, RockButton, RockForm, RockSuspense, useVModelPassthrough, alert, confirmDelete, useHttp, makeUrlRedirectSafe, asBooleanOrNull;
+  var defineComponent, ref, computed, watch, Panel, Modal, DetailPanelMode, isPromise, PromiseCompletionSource, AuditDetail, BadgeList, EntityTagList, RockButton, RockForm, RockSuspense, useVModelPassthrough, showSecurity, alert, confirmDelete, useHttp, makeUrlRedirectSafe, asBooleanOrNull, splitCase, emptyGuid, areEqual, useEntityTypeName, useEntityTypeGuid;
   return {
     setters: [function (module) {
       defineComponent = module.defineComponent;
@@ -31,6 +31,7 @@ System.register(['vue', '@Obsidian/Controls/panel', '@Obsidian/Controls/modal', 
     }, function (module) {
       useVModelPassthrough = module.useVModelPassthrough;
     }, function (module) {
+      showSecurity = module.showSecurity;
       alert = module.alert;
       confirmDelete = module.confirmDelete;
     }, function (module) {
@@ -39,6 +40,14 @@ System.register(['vue', '@Obsidian/Controls/panel', '@Obsidian/Controls/modal', 
       makeUrlRedirectSafe = module.makeUrlRedirectSafe;
     }, function (module) {
       asBooleanOrNull = module.asBooleanOrNull;
+    }, function (module) {
+      splitCase = module.splitCase;
+    }, function (module) {
+      emptyGuid = module.emptyGuid;
+      areEqual = module.areEqual;
+    }, function (module) {
+      useEntityTypeName = module.useEntityTypeName;
+      useEntityTypeGuid = module.useEntityTypeGuid;
     }],
     execute: (function () {
 
@@ -160,11 +169,11 @@ System.register(['vue', '@Obsidian/Controls/panel', '@Obsidian/Controls/modal', 
           },
           entityTypeGuid: {
             type: String,
-            required: true
+            required: false
           },
           entityTypeName: {
             type: String,
-            required: true
+            required: false
           },
           entityKey: {
             type: String,
@@ -197,6 +206,10 @@ System.register(['vue', '@Obsidian/Controls/panel', '@Obsidian/Controls/modal', 
           isDeleteVisible: {
             type: Boolean,
             default: false
+          },
+          isFullScreenVisible: {
+            type: Boolean,
+            default: true
           },
           mode: {
             type: Number,
@@ -237,6 +250,10 @@ System.register(['vue', '@Obsidian/Controls/panel', '@Obsidian/Controls/modal', 
           onDelete: {
             type: Function,
             required: false
+          },
+          additionalDeleteMessage: {
+            type: String,
+            required: false
           }
         },
         emits: {
@@ -252,23 +269,35 @@ System.register(['vue', '@Obsidian/Controls/panel', '@Obsidian/Controls/modal', 
           var isEntityFollowed = ref(null);
           var showAuditDetailsModal = ref(false);
           var isPanelVisible = ref(true);
+          var providedEntityTypeName = useEntityTypeName();
+          var providedEntityTypeGuid = useEntityTypeGuid();
           var formSubmissionSource = null;
           var editModeReadyCompletionSource = null;
           var params = new URLSearchParams(window.location.search);
           var isAutoEditMode = ref((_asBooleanOrNull = asBooleanOrNull(params.get("autoEdit"))) !== null && _asBooleanOrNull !== void 0 ? _asBooleanOrNull : false);
           var autoEditReturnUrl = params.get("returnUrl");
+          var entityTypeName = computed(() => {
+            var _ref2, _props$entityTypeName;
+            return (_ref2 = (_props$entityTypeName = props.entityTypeName) !== null && _props$entityTypeName !== void 0 ? _props$entityTypeName : providedEntityTypeName) !== null && _ref2 !== void 0 ? _ref2 : "EntityTypeNotConfigured";
+          });
+          var entityTypeGuid = computed(() => {
+            var _ref3, _props$entityTypeGuid;
+            return (_ref3 = (_props$entityTypeGuid = props.entityTypeGuid) !== null && _props$entityTypeGuid !== void 0 ? _props$entityTypeGuid : providedEntityTypeGuid) !== null && _ref3 !== void 0 ? _ref3 : emptyGuid;
+          });
           var panelTitle = computed(() => {
-            var _props$name;
+            var _props$name, _props$name2;
             if (props.title) {
               return props.title;
             }
             switch (internalMode.value) {
               case DetailPanelMode.View:
-                return (_props$name = props.name) !== null && _props$name !== void 0 ? _props$name : props.entityTypeName;
-              case DetailPanelMode.Edit:
+                return (_props$name = props.name) !== null && _props$name !== void 0 ? _props$name : splitCase(entityTypeName.value);
               case DetailPanelMode.Add:
+                return "Add ".concat(splitCase(entityTypeName.value));
+              case DetailPanelMode.Edit:
+                return (_props$name2 = props.name) !== null && _props$name2 !== void 0 ? _props$name2 : splitCase(entityTypeName.value);
               default:
-                return props.entityTypeName;
+                return splitCase(entityTypeName.value);
             }
           });
           var panelTitleIconCssClass = computed(() => {
@@ -381,27 +410,29 @@ System.register(['vue', '@Obsidian/Controls/panel', '@Obsidian/Controls/modal', 
             return action.iconCssClass || "fa fa-square";
           };
           var getEntityFollowedState = function () {
-            var _ref2 = _asyncToGenerator(function* () {
-              if (!props.entityTypeGuid || !props.entityKey) {
+            var _ref4 = _asyncToGenerator(function* () {
+              if (areEqual(entityTypeGuid.value, emptyGuid) || !props.entityKey) {
                 isEntityFollowed.value = null;
                 return;
               }
               var data = {
-                entityTypeGuid: props.entityTypeGuid,
+                entityTypeGuid: entityTypeGuid.value,
                 entityKey: props.entityKey
               };
               var response = yield http.post("/api/v2/Controls/FollowingGetFollowing", undefined, data);
               isEntityFollowed.value = response.isSuccess && response.data && response.data.isFollowing;
             });
             return function getEntityFollowedState() {
-              return _ref2.apply(this, arguments);
+              return _ref4.apply(this, arguments);
             };
           }();
-          var onSecurityClick = event => {
-            Rock.controls.modal.show($(event.target), "/Secure/".concat(props.entityTypeGuid, "/").concat(props.entityKey, "?t=Secure ").concat(props.entityTypeName, "&pb=&sb=Done"));
+          var onSecurityClick = () => {
+            if (props.entityKey) {
+              showSecurity(entityTypeGuid.value, props.entityKey, props.entityTypeName);
+            }
           };
           var onEditCancelClick = function () {
-            var _ref3 = _asyncToGenerator(function* () {
+            var _ref5 = _asyncToGenerator(function* () {
               if (props.onCancelEdit) {
                 var result = props.onCancelEdit();
                 if (isPromise(result)) {
@@ -425,11 +456,11 @@ System.register(['vue', '@Obsidian/Controls/panel', '@Obsidian/Controls/modal', 
               internalMode.value = DetailPanelMode.View;
             });
             return function onEditCancelClick() {
-              return _ref3.apply(this, arguments);
+              return _ref5.apply(this, arguments);
             };
           }();
           var onEditClick = function () {
-            var _ref4 = _asyncToGenerator(function* () {
+            var _ref6 = _asyncToGenerator(function* () {
               if (props.onEdit) {
                 var result = props.onEdit();
                 if (isPromise(result)) {
@@ -451,7 +482,7 @@ System.register(['vue', '@Obsidian/Controls/panel', '@Obsidian/Controls/modal', 
               return true;
             });
             return function onEditClick() {
-              return _ref4.apply(this, arguments);
+              return _ref6.apply(this, arguments);
             };
           }();
           var onEditSuspenseReady = () => {
@@ -459,17 +490,18 @@ System.register(['vue', '@Obsidian/Controls/panel', '@Obsidian/Controls/modal', 
             (_editModeReadyComplet = editModeReadyCompletionSource) === null || _editModeReadyComplet === void 0 ? void 0 : _editModeReadyComplet.resolve();
           };
           var onSaveClick = function () {
-            var _ref5 = _asyncToGenerator(function* () {
+            var _ref7 = _asyncToGenerator(function* () {
               formSubmissionSource = new PromiseCompletionSource();
               isFormSubmitting.value = true;
               yield formSubmissionSource.promise;
+              isFormSubmitting.value = false;
             });
             return function onSaveClick() {
-              return _ref5.apply(this, arguments);
+              return _ref7.apply(this, arguments);
             };
           }();
           var onSaveSubmit = function () {
-            var _ref6 = _asyncToGenerator(function* () {
+            var _ref8 = _asyncToGenerator(function* () {
               try {
                 if (props.onSave) {
                   var result = props.onSave();
@@ -495,17 +527,19 @@ System.register(['vue', '@Obsidian/Controls/panel', '@Obsidian/Controls/modal', 
               } finally {
                 if (formSubmissionSource !== null) {
                   formSubmissionSource.resolve();
+                  formSubmissionSource = null;
                 }
               }
             });
             return function onSaveSubmit() {
-              return _ref6.apply(this, arguments);
+              return _ref8.apply(this, arguments);
             };
           }();
           var onDeleteClick = function () {
-            var _ref7 = _asyncToGenerator(function* () {
+            var _ref9 = _asyncToGenerator(function* () {
               if (props.onDelete) {
-                if (!(yield confirmDelete(props.entityTypeName))) {
+                var _props$additionalDele;
+                if (!(yield confirmDelete(entityTypeName.value, (_props$additionalDele = props.additionalDeleteMessage) !== null && _props$additionalDele !== void 0 ? _props$additionalDele : ""))) {
                   return;
                 }
                 var result = props.onDelete();
@@ -521,7 +555,7 @@ System.register(['vue', '@Obsidian/Controls/panel', '@Obsidian/Controls/modal', 
               }
             });
             return function onDeleteClick() {
-              return _ref7.apply(this, arguments);
+              return _ref9.apply(this, arguments);
             };
           }();
           var onActionClick = (action, event) => {
@@ -530,12 +564,12 @@ System.register(['vue', '@Obsidian/Controls/panel', '@Obsidian/Controls/modal', 
             }
           };
           var onFollowClick = function () {
-            var _ref8 = _asyncToGenerator(function* () {
-              if (isEntityFollowed.value === null || !props.entityTypeGuid || !props.entityKey) {
+            var _ref10 = _asyncToGenerator(function* () {
+              if (isEntityFollowed.value === null || areEqual(entityTypeGuid.value, emptyGuid) || !props.entityKey) {
                 return;
               }
               var data = {
-                entityTypeGuid: props.entityTypeGuid,
+                entityTypeGuid: entityTypeGuid.value,
                 entityKey: props.entityKey,
                 isFollowing: !isEntityFollowed.value
               };
@@ -547,20 +581,21 @@ System.register(['vue', '@Obsidian/Controls/panel', '@Obsidian/Controls/modal', 
               }
             });
             return function onFollowClick() {
-              return _ref8.apply(this, arguments);
+              return _ref10.apply(this, arguments);
             };
           }();
           var onAuditClick = function () {
-            var _ref9 = _asyncToGenerator(function* () {
+            var _ref11 = _asyncToGenerator(function* () {
               showAuditDetailsModal.value = true;
             });
             return function onAuditClick() {
-              return _ref9.apply(this, arguments);
+              return _ref11.apply(this, arguments);
             };
           }();
           watch(isFormSubmitting, () => {
             if (isFormSubmitting.value === false && formSubmissionSource !== null) {
               formSubmissionSource.resolve();
+              formSubmissionSource = null;
             }
           });
           watch(() => props.isFollowVisible, () => {
@@ -576,6 +611,8 @@ System.register(['vue', '@Obsidian/Controls/panel', '@Obsidian/Controls/modal', 
             onEditClick();
           }
           return {
+            entityTypeName,
+            entityTypeGuid,
             hasLabels,
             internalFooterSecondaryActions,
             internalHeaderSecondaryActions,
@@ -601,7 +638,7 @@ System.register(['vue', '@Obsidian/Controls/panel', '@Obsidian/Controls/modal', 
             showAuditDetailsModal
           };
         },
-        template: "\n<Panel v-if=\"isPanelVisible\"\n    v-show=\"isPanelShown\"\n    type=\"block\"\n    :title=\"panelTitle\"\n    :titleIconCssClass=\"panelTitleIconCssClass\"\n    :hasFullscreen=\"true\"\n    :headerSecondaryActions=\"internalHeaderSecondaryActions\">\n\n    <template #headerActions>\n        <span v-for=\"action in headerActions\" :class=\"getClassForIconAction(action)\" :title=\"action.title\" @click=\"onActionClick(action, $event)\">\n            <i :class=\"getActionIconCssClass(action)\"></i>\n        </span>\n    </template>\n\n    <template v-if=\"!isEditMode && (hasLabels || isTagsVisible)\" #subheaderLeft>\n        <div class=\"d-flex\">\n            <div v-if=\"hasLabels\" class=\"label-group\">\n                <span v-for=\"action in labels\" :class=\"getClassForLabelAction(action)\" @click=\"onActionClick(action, $event)\">\n                    <template v-if=\"action.title\">{{ action.title }}</template>\n                    <i v-else :class=\"action.iconCssClass\"></i>\n                </span>\n            </div>\n\n            <div v-if=\"isTagsVisible && hasLabels\" style=\"width: 2px; background-color: #eaedf0; margin: 0px 12px;\"></div>\n\n            <div v-if=\"isTagsVisible\" class=\"flex-grow-1\">\n                <EntityTagList :entityTypeGuid=\"entityTypeGuid\" :entityKey=\"entityKey\" />\n            </div>\n        </div>\n    </template>\n\n    <template v-if=\"!isEditMode && isBadgesVisible\" #subheaderRight>\n        <BadgeList :entityTypeGuid=\"entityTypeGuid\" :entityKey=\"entityKey\" />\n    </template>\n\n    <template v-if=\"$slots.helpContent\" #helpContent>\n        <slot name=\"helpContent\" />\n    </template>\n\n    <template #footerActions>\n        <template v-if=\"isEditMode\">\n            <RockButton btnType=\"primary\" autoDisable @click=\"onSaveClick\">Save</RockButton>\n            <RockButton btnType=\"link\" @click=\"onEditCancelClick\">Cancel</RockButton>\n        </template>\n\n        <template v-else>\n            <RockButton v-if=\"isEditVisible\" btnType=\"primary\" @click=\"onEditClick\" autoDisable>Edit</RockButton>\n            <RockButton v-if=\"isDeleteVisible\" btnType=\"link\" @click=\"onDeleteClick\" autoDisable>Delete</RockButton>\n        </template>\n\n        <RockButton v-for=\"action in footerActions\" :btnType=\"action.type\" @click=\"onActionClick(action, $event)\">\n            <template v-if=\"action.title\">{{ action.title }}</template>\n            <i v-else :class=\"action.iconCssClass\"></i>\n        </RockButton>\n    </template>\n\n    <template #footerSecondaryActions>\n        <RockButton v-for=\"action in internalFooterSecondaryActions\" :btnType=\"action.type\" btnSize=\"sm\" :title=\"action.title\" @click=\"onActionClick(action, $event)\" :disabled=\"action.disabled\">\n            <i :class=\"getActionIconCssClass(action)\"></i>\n        </RockButton>\n    </template>\n\n    <template #default>\n        <v-style>\n            .panel-flex .label-group > .label + * {\n                margin-left: 8px;\n            }\n        </v-style>\n\n        <RockForm v-if=\"isEditModeVisible\" v-show=\"isEditMode\" @submit=\"onSaveSubmit\" v-model:submit=\"isFormSubmitting\">\n            <RockSuspense @ready=\"onEditSuspenseReady\">\n                <slot name=\"edit\" />\n            </RockSuspense>\n        </RockForm>\n\n        <slot v-if=\"isViewMode\" name=\"view\" />\n    </template>\n</Panel>\n\n<Modal v-model=\"showAuditDetailsModal\" title=\"Audit Details\">\n    <AuditDetail :entityTypeGuid=\"entityTypeGuid\" :entityKey=\"entityKey\" />\n</Modal>\n"
+        template: "\n<Panel v-if=\"isPanelVisible\"\n    v-show=\"isPanelShown\"\n    type=\"block\"\n    :title=\"panelTitle\"\n    :titleIconCssClass=\"panelTitleIconCssClass\"\n    :hasFullscreen=\"isFullScreenVisible\"\n    :headerSecondaryActions=\"internalHeaderSecondaryActions\">\n\n    <template #headerActions>\n        <span v-for=\"action in headerActions\" :class=\"getClassForIconAction(action)\" :title=\"action.title\" @click=\"onActionClick(action, $event)\">\n            <i :class=\"getActionIconCssClass(action)\"></i>\n        </span>\n    </template>\n\n    <template v-if=\"!isEditMode && (hasLabels || isTagsVisible)\" #subheaderLeft>\n        <div class=\"d-flex\">\n            <div v-if=\"hasLabels\" class=\"label-group\">\n                <span v-for=\"action in labels\" :class=\"getClassForLabelAction(action)\" @click=\"onActionClick(action, $event)\">\n                    <template v-if=\"action.title\">{{ action.title }}</template>\n                    <i v-else :class=\"action.iconCssClass\"></i>\n                </span>\n            </div>\n\n            <div v-if=\"isTagsVisible && hasLabels\" style=\"width: 2px; background-color: #eaedf0; margin: 0px 12px;\"></div>\n\n            <div v-if=\"isTagsVisible\" class=\"flex-grow-1\">\n                <EntityTagList :entityTypeGuid=\"entityTypeGuid\" :entityKey=\"entityKey\" />\n            </div>\n        </div>\n    </template>\n\n    <template v-if=\"!isEditMode && isBadgesVisible\" #subheaderRight>\n        <BadgeList :entityTypeGuid=\"entityTypeGuid\" :entityKey=\"entityKey\" />\n    </template>\n\n    <template v-if=\"$slots.helpContent\" #helpContent>\n        <slot name=\"helpContent\" />\n    </template>\n\n    <template #footerActions>\n        <template v-if=\"isEditMode\">\n            <RockButton btnType=\"primary\" autoDisable @click=\"onSaveClick\">Save</RockButton>\n            <RockButton btnType=\"link\" @click=\"onEditCancelClick\">Cancel</RockButton>\n        </template>\n\n        <template v-else>\n            <RockButton v-if=\"isEditVisible\" btnType=\"primary\" @click=\"onEditClick\" autoDisable>Edit</RockButton>\n            <RockButton v-if=\"isDeleteVisible\" btnType=\"link\" @click=\"onDeleteClick\" autoDisable>Delete</RockButton>\n        </template>\n\n        <RockButton v-for=\"action in footerActions\" :btnType=\"action.type\" @click=\"onActionClick(action, $event)\">\n            <template v-if=\"action.title\">{{ action.title }}</template>\n            <i v-else :class=\"action.iconCssClass\"></i>\n        </RockButton>\n    </template>\n\n    <template #footerSecondaryActions>\n        <RockButton v-for=\"action in internalFooterSecondaryActions\" :btnType=\"action.type\" btnSize=\"sm\" :title=\"action.title\" @click=\"onActionClick(action, $event)\" :disabled=\"action.disabled\">\n            <i :class=\"getActionIconCssClass(action)\"></i>\n        </RockButton>\n    </template>\n\n    <template #default>\n        <v-style>\n            .panel-flex .label-group > .label + * {\n                margin-left: 8px;\n            }\n        </v-style>\n\n        <RockForm v-if=\"isEditModeVisible\" v-show=\"isEditMode\" @submit=\"onSaveSubmit\" v-model:submit=\"isFormSubmitting\">\n            <RockSuspense @ready=\"onEditSuspenseReady\">\n                <slot name=\"edit\" />\n            </RockSuspense>\n        </RockForm>\n\n        <slot v-if=\"isViewMode\" name=\"view\" />\n    </template>\n</Panel>\n\n<Modal v-model=\"showAuditDetailsModal\" title=\"Audit Details\">\n    <AuditDetail :entityTypeGuid=\"entityTypeGuid\" :entityKey=\"entityKey\" />\n</Modal>\n"
       }));
 
     })

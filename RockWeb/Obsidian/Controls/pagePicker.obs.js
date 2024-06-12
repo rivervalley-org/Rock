@@ -1,6 +1,6 @@
-System.register(['vue', '@Obsidian/Utility/treeItemProviders', './treeItemPicker.obs', './rockButton', '@Obsidian/Enums/Controls/btnType', '@Obsidian/Enums/Controls/btnSize', '@Obsidian/PageState', './baseAsyncPicker', '@Obsidian/Utility/http', '@Obsidian/Enums/Controls/pickerDisplayStyle', '@Obsidian/Enums/Controls/controlLazyMode', '@Obsidian/Utility/guid', '@Obsidian/Utility/component', '@Obsidian/Utility/dialogs'], (function (exports) {
+System.register(['vue', '@Obsidian/Utility/treeItemProviders', './treeItemPicker.obs', './rockButton.obs', '@Obsidian/Enums/Controls/btnType', '@Obsidian/Enums/Controls/btnSize', '@Obsidian/PageState', './baseAsyncPicker.obs', '@Obsidian/Utility/http', '@Obsidian/Enums/Controls/pickerDisplayStyle', '@Obsidian/Enums/Controls/controlLazyMode', '@Obsidian/Utility/guid', '@Obsidian/Utility/component', '@Obsidian/Utility/dialogs'], (function (exports) {
   'use strict';
-  var createElementVNode, defineComponent, ref, computed, watch, openBlock, createBlock, unref, mergeProps, createSlots, withCtx, withDirectives, createElementBlock, toDisplayString, createVNode, vShow, createCommentVNode, nextTick, PageTreeItemProvider, TreeItemPicker, RockButton, BtnType, BtnSize, useStore, BaseAsyncPicker, useHttp, PickerDisplayStyle, ControlLazyMode, emptyGuid, useStandardRockFormFieldProps, standardRockFormFieldProps, Dialogs;
+  var createElementVNode, defineComponent, ref, computed, watch, openBlock, createBlock, unref, mergeProps, createSlots, withCtx, withDirectives, createElementBlock, toDisplayString, createVNode, vShow, createCommentVNode, nextTick, PageTreeItemProvider, TreeItemPicker, RockButton, BtnType, BtnSize, useStore, BaseAsyncPicker, useHttp, PickerDisplayStyle, ControlLazyMode, emptyGuid, toGuidOrNull, useStandardRockFormFieldProps, standardRockFormFieldProps, Dialogs;
   return {
     setters: [function (module) {
       createElementVNode = module.createElementVNode;
@@ -43,6 +43,7 @@ System.register(['vue', '@Obsidian/Utility/treeItemProviders', './treeItemPicker
       ControlLazyMode = module.ControlLazyMode;
     }, function (module) {
       emptyGuid = module.emptyGuid;
+      toGuidOrNull = module.toGuidOrNull;
     }, function (module) {
       useStandardRockFormFieldProps = module.useStandardRockFormFieldProps;
       standardRockFormFieldProps = module.standardRockFormFieldProps;
@@ -232,13 +233,14 @@ System.register(['vue', '@Obsidian/Utility/treeItemProviders', './treeItemPicker
           }
           function _selectCurrentPage() {
             _selectCurrentPage = _asyncToGenerator(function* () {
+              var _toGuidOrNull2;
               if (currentPage) {
                 updatePage(props.multiple ? [currentPage] : currentPage);
                 refreshProvider();
                 return;
               }
               var options = {
-                pageGuid,
+                pageGuid: (_toGuidOrNull2 = toGuidOrNull(pageGuid)) !== null && _toGuidOrNull2 !== void 0 ? _toGuidOrNull2 : emptyGuid,
                 securityGrantToken: props.securityGrantToken
               };
               var response = yield http.post("/api/v2/Controls/PagePickerGetPageName", {}, options);
@@ -320,11 +322,12 @@ System.register(['vue', '@Obsidian/Utility/treeItemProviders', './treeItemPicker
           });
           var loadOptions = function () {
             var _ref2 = _asyncToGenerator(function* () {
+              var _toGuidOrNull, _internalPageValue$va3;
               if (Array.isArray(internalPageValue.value)) {
                 return [];
               }
               var options = {
-                pageGuid: internalPageValue.value.value
+                pageGuid: (_toGuidOrNull = toGuidOrNull((_internalPageValue$va3 = internalPageValue.value) === null || _internalPageValue$va3 === void 0 ? void 0 : _internalPageValue$va3.value)) !== null && _toGuidOrNull !== void 0 ? _toGuidOrNull : emptyGuid
               };
               var result = yield http.post("/api/v2/Controls/PagePickerGetPageRoutes", undefined, options);
               if (result.isSuccess && result.data) {

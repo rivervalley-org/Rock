@@ -493,6 +493,13 @@ namespace RockWeb.Blocks.Mobile
             cbCompressUpdatePackages.Checked = additionalSettings.IsPackageCompressionEnabled;
             tbAuth0ClientDomain.Text = additionalSettings.Auth0Domain;
             tbAuth0ClientId.Text = additionalSettings.Auth0ClientId;
+            tbEntraClientId.Text = additionalSettings.EntraClientId;
+            tbEntraTenantId.Text = additionalSettings.EntraTenantId;
+
+            if( additionalSettings.EntraAuthenticationComponent != null )
+            {
+                compEntraAuthComponent.SetValue( additionalSettings.EntraAuthenticationComponent.ToString() );
+            }
 
             ceEditNavBarActionXaml.Text = additionalSettings.NavigationBarActionXaml;
             ceEditHomepageRoutingLogic.Text = additionalSettings.HomepageRoutingLogic;
@@ -1004,6 +1011,13 @@ namespace RockWeb.Blocks.Mobile
             additionalSettings.HomepageRoutingLogic = ceEditHomepageRoutingLogic.Text;
             additionalSettings.Auth0ClientId = tbAuth0ClientId.Text;
             additionalSettings.Auth0Domain = tbAuth0ClientDomain.Text;
+            additionalSettings.EntraClientId = tbEntraClientId.Text;
+            additionalSettings.EntraTenantId = tbEntraTenantId.Text;
+
+            if( compEntraAuthComponent.SelectedValue.IsNotNullOrWhiteSpace() )
+            {
+                additionalSettings.EntraAuthenticationComponent = compEntraAuthComponent.SelectedValueAsGuid().Value;
+            }
 
             //
             // Save the image.
@@ -1239,9 +1253,14 @@ namespace RockWeb.Blocks.Mobile
         /// <summary>
         /// Handles the Click event of the lbDeploy control.
         /// </summary>
+        /// <remarks>
+        /// "async void" is not normal, but WebForms has special logic to deal with
+        /// it that allows await to be used and ensures HttpContext is propogated
+        /// along the async call chain.
+        /// </remarks>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        protected void lbDeploy_Click( object sender, EventArgs e )
+        protected async void lbDeploy_Click( object sender, EventArgs e )
         {
             var applicationId = PageParameter( "SiteId" ).AsInteger();
 
@@ -1249,10 +1268,10 @@ namespace RockWeb.Blocks.Mobile
             {
                 var siteService = new SiteService( rockContext );
 
-                siteService.BuildMobileApplication( applicationId );
-
-                ShowDetail( applicationId );
+                await siteService.BuildMobileApplicationAsync( applicationId );
             }
+
+            ShowDetail( applicationId );
         }
 
         #endregion

@@ -1,4 +1,4 @@
-System.register(['vue', './rockFormField', './dropDownList', './textBox', '@Obsidian/Enums/Controls/requirementLevel', '@Obsidian/Utility/http', './loading', '@Obsidian/ValidationRules'], (function (exports) {
+System.register(['vue', './rockFormField.obs', './dropDownList.obs', './textBox.obs', '@Obsidian/Enums/Controls/requirementLevel', '@Obsidian/Utility/http', './loading.obs', '@Obsidian/ValidationRules'], (function (exports) {
   'use strict';
   var defineComponent, reactive, computed, watch, ref, openBlock, createBlock, unref, isRef, withCtx, createElementVNode, createVNode, createElementBlock, createCommentVNode, normalizeClass, RockFormField, DropDownList, TextBox, RequirementLevel, post, Loading, rulesPropType, containsRequiredRule;
   return {
@@ -164,6 +164,10 @@ System.register(['vue', './rockFormField', './dropDownList', './textBox', '@Obsi
             type: String,
             default: ""
           },
+          showCountry: {
+            type: Boolean,
+            default: null
+          },
           showCounty: {
             type: Boolean,
             default: false
@@ -173,6 +177,10 @@ System.register(['vue', './rockFormField', './dropDownList', './textBox', '@Obsi
             default: true
           },
           useCountryAbbreviation: {
+            type: Boolean,
+            default: false
+          },
+          omitDefaultValues: {
             type: Boolean,
             default: false
           },
@@ -215,8 +223,12 @@ System.register(['vue', './rockFormField', './dropDownList', './textBox', '@Obsi
             });
           });
           var isLoading = ref(false);
+          var isInternational = ref(false);
           var country = reactive({
-            isVisible: true,
+            isVisible: computed(() => {
+              var _props$showCountry;
+              return (_props$showCountry = props.showCountry) !== null && _props$showCountry !== void 0 ? _props$showCountry : isInternational.value;
+            }),
             label: "Country",
             autocomplete: "country"
           });
@@ -294,21 +306,26 @@ System.register(['vue', './rockFormField', './dropDownList', './textBox', '@Obsi
             }
             return rules;
           });
-          function getConfiguration() {
+          function getConfiguration(_x) {
             return _getConfiguration.apply(this, arguments);
           }
           function _getConfiguration() {
-            _getConfiguration = _asyncToGenerator(function* () {
-              isLoading.value = true;
+            _getConfiguration = _asyncToGenerator(function* (selectedCountry) {
+              var loadingTimer;
+              if (countryOptions.value.length === 0) {
+                isLoading.value = true;
+              } else {
+                loadingTimer = window.setTimeout(() => isLoading.value = true, 200);
+              }
               var options = {
                 useCountryAbbreviation: props.useCountryAbbreviation,
-                countryCode: props.modelValue.country
+                countryCode: selectedCountry
               };
               var result = yield post("/api/v2/Controls/AddressControlGetConfiguration", undefined, options);
               if (result.isSuccess && result.data) {
                 var _data$localityLabel, _data$cityLabel, _data$stateLabel, _data$postalCodeLabel, _data$countries, _data$states, _ref5, _data$defaultState;
                 var data = result.data;
-                country.isVisible = data.showCountrySelection;
+                isInternational.value = data.showCountrySelection;
                 address1.isVisible = data.addressLine1Requirement != RequirementLevel.Unavailable;
                 address1.rules = data.addressLine1Requirement;
                 address2.isVisible = data.addressLine2Requirement == RequirementLevel.Required || props.showAddressLine2 && data.addressLine2Requirement != RequirementLevel.Unavailable;
@@ -331,28 +348,29 @@ System.register(['vue', './rockFormField', './dropDownList', './textBox', '@Obsi
                 hasStateList.value = data.hasStateList;
                 var countryValue = (_ref5 = data.selectedCountry || data.defaultCountry) !== null && _ref5 !== void 0 ? _ref5 : "";
                 var stateValue = (_data$defaultState = data.defaultState) !== null && _data$defaultState !== void 0 ? _data$defaultState : "";
-                if (!internalValue.country && countryValue) {
+                if (!internalValue.country && countryValue && !props.omitDefaultValues) {
                   internalValue.country = countryValue;
                 }
-                if (!internalValue.state && stateValue) {
+                if (!internalValue.state && stateValue && !props.omitDefaultValues) {
                   internalValue.state = stateValue;
                 }
               } else {
                 var _result$errorMessage;
                 console.error((_result$errorMessage = result.errorMessage) !== null && _result$errorMessage !== void 0 ? _result$errorMessage : "Unknown error while loading data.");
               }
+              clearTimeout(loadingTimer);
               isLoading.value = false;
             });
             return _getConfiguration.apply(this, arguments);
           }
           watch(() => internalValue.country, (currentVal, oldVal) => {
             if (currentVal != oldVal) {
-              getConfiguration();
+              getConfiguration(currentVal);
             }
           }, {
             deep: true
           });
-          getConfiguration();
+          getConfiguration(props.modelValue.country);
           return (_ctx, _cache) => {
             return openBlock(), createBlock(unref(RockFormField), {
               formGroupClasses: "address-control",
@@ -416,7 +434,7 @@ System.register(['vue', './rockFormField', './dropDownList', './textBox', '@Obsi
                     autocomplete: county.autocomplete
                   }, null, 8, ["modelValue", "placeholder", "validationTitle", "rules", "disabled", "autocomplete"])])) : createCommentVNode("v-if", true), state.isVisible ? (openBlock(), createElementBlock("div", _hoisted_8, [hasStateList.value ? (openBlock(), createBlock(unref(DropDownList), {
                     key: 0,
-                    showBlankItem: false,
+                    showBlankItem: state.rules != unref(RequirementLevel).Required || __props.disableFrontEndValidation,
                     modelValue: internalValue.state,
                     "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => internalValue.state = $event),
                     items: stateOptions.value,
@@ -424,7 +442,7 @@ System.register(['vue', './rockFormField', './dropDownList', './textBox', '@Obsi
                     rules: unref(rules).state,
                     disabled: __props.disabled,
                     autocomplete: state.autocomplete
-                  }, null, 8, ["modelValue", "items", "validationTitle", "rules", "disabled", "autocomplete"])) : (openBlock(), createBlock(unref(TextBox), {
+                  }, null, 8, ["showBlankItem", "modelValue", "items", "validationTitle", "rules", "disabled", "autocomplete"])) : (openBlock(), createBlock(unref(TextBox), {
                     key: 1,
                     modelValue: internalValue.state,
                     "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => internalValue.state = $event),

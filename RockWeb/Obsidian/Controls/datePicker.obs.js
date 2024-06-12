@@ -1,4 +1,4 @@
-System.register(['vue', '@Obsidian/Utility/numberUtils', '@Obsidian/Utility/component', './rockFormField', './textBox', './datePickerBase.obs'], (function (exports) {
+System.register(['vue', '@Obsidian/Utility/numberUtils', '@Obsidian/Utility/component', './rockFormField.obs', './textBox.obs', './datePickerBase.obs'], (function (exports) {
   'use strict';
   var createElementVNode, defineComponent, ref, computed, watch, openBlock, createBlock, unref, mergeProps, withCtx, createElementBlock, createVNode, withDirectives, vModelCheckbox, createCommentVNode, toNumber, useStandardRockFormFieldProps, standardRockFormFieldProps, RockFormField, TextBox, DatePickerBase;
   return {
@@ -147,6 +147,14 @@ System.register(['vue', '@Obsidian/Utility/numberUtils', '@Obsidian/Utility/comp
           startView: {
             type: Number,
             default: 0
+          },
+          container: {
+            type: HTMLElement,
+            required: false
+          },
+          horizontalOrientation: {
+            type: String,
+            required: false
           }
         }, standardRockFormFieldProps),
         emits: ["update:modelValue"],
@@ -174,7 +182,9 @@ System.register(['vue', '@Obsidian/Utility/numberUtils', '@Obsidian/Utility/comp
               disableHighlightToday: props.disableHighlightToday,
               disallowFutureDateSelection: props.disallowFutureDateSelection,
               disallowPastDateSelection: props.disallowPastDateSelection,
-              startView: props.startView
+              startView: props.startView,
+              container: props.container,
+              horizontalOrientation: props.horizontalOrientation
             };
           });
           watch(() => props.isCurrentDateOffset, () => {

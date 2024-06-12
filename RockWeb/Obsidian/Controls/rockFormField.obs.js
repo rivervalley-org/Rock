@@ -1,4 +1,4 @@
-System.register(['@Obsidian/Utility/component', '@Obsidian/Utility/form', '@Obsidian/Utility/guid', '@Obsidian/ValidationRules', 'vue', './rockLabel'], (function (exports) {
+System.register(['@Obsidian/Utility/component', '@Obsidian/Utility/form', '@Obsidian/Utility/guid', '@Obsidian/ValidationRules', 'vue', './rockLabel.obs'], (function (exports) {
   'use strict';
   var standardRockFormFieldProps, useFormState, newGuid, normalizeRules, validateValue, defineComponent, ref, computed, watch, onBeforeUnmount, RockLabel;
   return {
@@ -92,6 +92,10 @@ System.register(['@Obsidian/Utility/component', '@Obsidian/Utility/form', '@Obsi
           disableLabel: {
             type: Boolean,
             default: false
+          },
+          watchDeep: {
+            type: Boolean,
+            default: false
           }
         }, standardRockFormFieldProps),
         setup(props) {
@@ -121,7 +125,8 @@ System.register(['@Obsidian/Utility/component', '@Obsidian/Utility/form', '@Obsi
               formState === null || formState === void 0 ? void 0 : formState.setError(uniqueId, fieldLabel.value, "");
             }
           }, {
-            immediate: true
+            immediate: true,
+            deep: props.watchDeep
           });
           onBeforeUnmount(() => {
             currentError.value = "";

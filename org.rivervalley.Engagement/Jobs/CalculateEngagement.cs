@@ -5,12 +5,14 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+
 using org.rivervalley.Engagement.Model;
 using Quartz;
+
 using Rock;
 using Rock.Attribute;
 using Rock.Data;
+using Rock.Jobs;
 using Rock.Model;
 
 namespace org.rivervalley.Engagement.Jobs
@@ -23,7 +25,7 @@ namespace org.rivervalley.Engagement.Jobs
     [DataViewField( "Data View", "The dataview of people that will be processed.", required: true )]
     [BooleanField( "Only Run at Start of Month", "Should this job only be ran at the start of the month?", true, "", 1, Key = "OnlyRunAtStartOfMonth", IsRequired = true )]
 
-    public class CalculateEngagement : IJob
+    public class CalculateEngagement : RockJob
     {
         public CalculateEngagement()
         {
@@ -33,20 +35,18 @@ namespace org.rivervalley.Engagement.Jobs
         /// Executes the specified context.
         /// </summary>
         /// <param name="context">The context.</param>
-        public void Execute( IJobExecutionContext context )
+        public override void Execute()
         {
-            var dataMap = context.JobDetail.JobDataMap;
-
             RockContext rockContext = new RockContext();
             EngagementIndexService engagementIndexService = new EngagementIndexService( rockContext );
 
             // get run date - run date should be the first of every month.
-            bool onlyRunAtStartOfMonth = dataMap.GetString( "OnlyRunAtStartOfMonth" ).AsBoolean();
+            bool onlyRunAtStartOfMonth = GetAttributeValue( "OnlyRunAtStartOfMonth" ).AsBoolean();
             var runDate = RockDateTime.Now;
             
             if ( runDate.Day != 1 && onlyRunAtStartOfMonth )
             {
-                context.Result = "Indices should only be calculated at the first of the month.";
+                this.Result = "Indices should only be calculated at the first of the month.";
                 return;
             }
             else
@@ -56,13 +56,13 @@ namespace org.rivervalley.Engagement.Jobs
             }
 
             // get data view
-            Guid? dataviewGuid = dataMap.GetString( "DataView" ).AsGuidOrNull();
+            Guid? dataviewGuid = GetAttributeValue( "DataView" ).AsGuidOrNull();
             Rock.Model.DataView dataView = null;
             List<int> personIds = new List<int>();
 
             if ( !dataviewGuid.HasValue )
             {
-                context.Result = "No data view found.";
+                this.Result = "No data view found.";
                 return;
             }
             else
@@ -70,7 +70,7 @@ namespace org.rivervalley.Engagement.Jobs
                 dataView = new DataViewService( rockContext ).Get( dataviewGuid.Value );
                 if ( dataView == null )
                 {
-                    context.Result = "No data view found.";
+                    this.Result = "No data view found.";
                     return;
                 }
 
@@ -81,7 +81,7 @@ namespace org.rivervalley.Engagement.Jobs
                 }
                 catch ( Exception )
                 {
-                    context.Result = "Error processing data view.";
+                    this.Result = "Error processing data view.";
                     return;
                 }
             }
@@ -153,7 +153,7 @@ namespace org.rivervalley.Engagement.Jobs
                 jobSummaryBuilder.AppendLine( result );
             }
 
-            context.Result = jobSummaryBuilder.ToString();
+            this.Result = jobSummaryBuilder.ToString();
         }
     }
 }

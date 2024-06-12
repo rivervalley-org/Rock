@@ -1,4 +1,4 @@
-System.register(['vue', '@Obsidian/Controls/panel'], (function (exports) {
+System.register(['vue', '@Obsidian/Controls/panel.obs'], (function (exports) {
     'use strict';
     var defineComponent, Panel;
     return {

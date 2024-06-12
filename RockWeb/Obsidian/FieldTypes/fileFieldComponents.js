@@ -1,4 +1,4 @@
-System.register(['vue', './utils', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/fileUploader', '@Obsidian/Utility/component', '@Obsidian/Enums/Reporting/comparisonType', '@Obsidian/Utility/stringUtils', './fieldType'], (function (exports, module) {
+System.register(['vue', './utils', '@Obsidian/Controls/dropDownList.obs', '@Obsidian/Controls/fileUploader.obs', '@Obsidian/Utility/component', '@Obsidian/Enums/Reporting/comparisonType', '@Obsidian/Utility/stringUtils', './fieldType'], (function (exports, module) {
   'use strict';
   var defineComponent, ref, computed, watch, getFieldEditorProps, getFieldConfigurationProps, DropDownList, FileUploader, defineAsyncComponent, updateRefValue;
   return {

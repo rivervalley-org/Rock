@@ -39,6 +39,24 @@ System.register([], (function (exports) {
             });
             exports('auditType', auditType);
 
+            var BenchmarkRepititionMode = {
+              Normal: 0,
+              Fast: 1,
+              Extended: 2
+            };
+            var BenchmarkRepititionModeDescription = {
+              0: "Normal",
+              1: "Fast",
+              2: "Extended"
+            };
+
+            var benchmarkRepititionMode = /*#__PURE__*/Object.freeze({
+                __proto__: null,
+                BenchmarkRepititionMode: BenchmarkRepititionMode,
+                BenchmarkRepititionModeDescription: BenchmarkRepititionModeDescription
+            });
+            exports('benchmarkRepititionMode', benchmarkRepititionMode);
+
             var CameraBarcodeConfiguration = {
               Off: 0,
               Available: 1,
@@ -189,6 +207,159 @@ System.register([], (function (exports) {
             });
             exports('format', format);
 
+            var BooleanFilterMethod = {
+              All: 0,
+              No: 1,
+              Yes: 2
+            };
+            var BooleanFilterMethodDescription = {
+              0: "All",
+              1: "No",
+              2: "Yes"
+            };
+
+            var booleanFilterMethod = /*#__PURE__*/Object.freeze({
+                __proto__: null,
+                BooleanFilterMethod: BooleanFilterMethod,
+                BooleanFilterMethodDescription: BooleanFilterMethodDescription
+            });
+
+            var ColumnPositionAnchor = {
+              FirstColumn: 0,
+              LastColumn: 1
+            };
+            var ColumnPositionAnchorDescription = {
+              0: "First Column",
+              1: "Last Column"
+            };
+
+            var columnPositionAnchor = /*#__PURE__*/Object.freeze({
+                __proto__: null,
+                ColumnPositionAnchor: ColumnPositionAnchor,
+                ColumnPositionAnchorDescription: ColumnPositionAnchorDescription
+            });
+
+            var DateFilterMethod = {
+              Equals: 0,
+              DoesNotEqual: 1,
+              Before: 2,
+              After: 3,
+              Between: 4,
+              ThisWeek: 5,
+              LastWeek: 6,
+              NextWeek: 7,
+              ThisMonth: 8,
+              LastMonth: 9,
+              NextMonth: 10,
+              ThisYear: 11,
+              LastYear: 12,
+              NextYear: 13,
+              YearToDate: 14
+            };
+            var DateFilterMethodDescription = {
+              0: "Equals",
+              1: "Does Not Equal",
+              2: "Before",
+              3: "After",
+              4: "Between",
+              5: "This Week",
+              6: "Last Week",
+              7: "Next Week",
+              8: "This Month",
+              9: "Last Month",
+              10: "Next Month",
+              11: "This Year",
+              12: "Last Year",
+              13: "Next Year",
+              14: "Year To Date"
+            };
+
+            var dateFilterMethod = /*#__PURE__*/Object.freeze({
+                __proto__: null,
+                DateFilterMethod: DateFilterMethod,
+                DateFilterMethodDescription: DateFilterMethodDescription
+            });
+
+            var NumberFilterMethod = {
+              Equals: 0,
+              DoesNotEqual: 1,
+              GreaterThan: 2,
+              GreaterThanOrEqual: 3,
+              LessThan: 4,
+              LessThanOrEqual: 5,
+              Between: 6,
+              TopN: 7,
+              AboveAverage: 8,
+              BelowAverage: 9
+            };
+            var NumberFilterMethodDescription = {
+              0: "Equals",
+              1: "Does Not Equal",
+              2: "Greater Than",
+              3: "Greater Than Or Equal",
+              4: "Less Than",
+              5: "Less Than Or Equal",
+              6: "Between",
+              7: "Top N",
+              8: "Above Average",
+              9: "Below Average"
+            };
+
+            var numberFilterMethod = /*#__PURE__*/Object.freeze({
+                __proto__: null,
+                NumberFilterMethod: NumberFilterMethod,
+                NumberFilterMethodDescription: NumberFilterMethodDescription
+            });
+
+            var PickExistingFilterMethod = {
+              Any: 0,
+              Exclude: 1
+            };
+            var PickExistingFilterMethodDescription = {
+              0: "Any",
+              1: "Exclude"
+            };
+
+            var pickExistingFilterMethod = /*#__PURE__*/Object.freeze({
+                __proto__: null,
+                PickExistingFilterMethod: PickExistingFilterMethod,
+                PickExistingFilterMethodDescription: PickExistingFilterMethodDescription
+            });
+
+            var TextFilterMethod = {
+              StartsWith: 0,
+              Contains: 1,
+              DoesNotContain: 2,
+              EndsWith: 3,
+              Equals: 4,
+              DoesNotEqual: 5
+            };
+            var TextFilterMethodDescription = {
+              0: "Starts With",
+              1: "Contains",
+              2: "Does Not Contain",
+              3: "Ends With",
+              4: "Equals",
+              5: "Does Not Equal"
+            };
+
+            var textFilterMethod = /*#__PURE__*/Object.freeze({
+                __proto__: null,
+                TextFilterMethod: TextFilterMethod,
+                TextFilterMethodDescription: TextFilterMethodDescription
+            });
+
+            var virtualIndex = /*#__PURE__*/Object.freeze({
+                __proto__: null,
+                booleanFilterMethod: booleanFilterMethod,
+                columnPositionAnchor: columnPositionAnchor,
+                dateFilterMethod: dateFilterMethod,
+                numberFilterMethod: numberFilterMethod,
+                pickExistingFilterMethod: pickExistingFilterMethod,
+                textFilterMethod: textFilterMethod
+            });
+            exports('Grid', virtualIndex);
+
             var JobNotificationStatus = {
               All: 1,
               Success: 2,
@@ -208,6 +379,32 @@ System.register([], (function (exports) {
                 JobNotificationStatusDescription: JobNotificationStatusDescription
             });
             exports('jobNotificationStatus', jobNotificationStatus);
+
+            var KeyboardInputMode = {
+              Default: 0,
+              Email: 1,
+              Numeric: 2,
+              Decimal: 3,
+              Telephone: 4,
+              Text: 5,
+              Url: 6
+            };
+            var KeyboardInputModeDescription = {
+              0: "Default",
+              1: "Email",
+              2: "Numeric",
+              3: "Decimal",
+              4: "Telephone",
+              5: "Text",
+              6: "Url"
+            };
+
+            var keyboardInputMode = /*#__PURE__*/Object.freeze({
+                __proto__: null,
+                KeyboardInputMode: KeyboardInputMode,
+                KeyboardInputModeDescription: KeyboardInputModeDescription
+            });
+            exports('keyboardInputMode', keyboardInputMode);
 
             var KioskType = {
               IPad: 0,
@@ -306,6 +503,24 @@ System.register([], (function (exports) {
                 NoteApprovalStatusDescription: NoteApprovalStatusDescription
             });
             exports('noteApprovalStatus', noteApprovalStatus);
+
+            var NoteFormatType = {
+              Unknown: 0,
+              Unstructured: 1,
+              Structured: 2
+            };
+            var NoteFormatTypeDescription = {
+              0: "Unknown",
+              1: "Unstructured",
+              2: "Structured"
+            };
+
+            var noteFormatType = /*#__PURE__*/Object.freeze({
+                __proto__: null,
+                NoteFormatType: NoteFormatType,
+                NoteFormatTypeDescription: NoteFormatTypeDescription
+            });
+            exports('noteFormatType', noteFormatType);
 
             var NotificationMessageActionType = {
               Invalid: 0,

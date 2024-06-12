@@ -1,6 +1,6 @@
-System.register(['vue', '@Obsidian/Utility/promiseUtils', '@Obsidian/Controls/rockButton', '@Obsidian/Controls/rockFormField', '@Obsidian/Enums/Controls/btnType', '@Obsidian/Utility/component', '@Obsidian/Utility/util', '@Obsidian/Controls/campusPicker.obs', '@Obsidian/Utility/guid', '@Obsidian/Controls/baseAsyncPicker', '@Obsidian/Utility/block', '@Obsidian/Controls/textBox', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Controls/datePicker.obs', '@Obsidian/Controls/inlineCheckBox', '@Obsidian/Controls/modal', '@Obsidian/Controls/panel', '@Obsidian/Controls/personPicker', '@Obsidian/Controls/radioButtonList', '@Obsidian/Controls/rockLabel', '@Obsidian/Controls/transitionVerticalCollapse', '@Obsidian/Enums/Blocks/Group/GroupAttendanceDetail/groupAttendanceDetailDateSelectionMode', '@Obsidian/Enums/Blocks/Group/GroupAttendanceDetail/groupAttendanceDetailLocationSelectionMode', '@Obsidian/Enums/Blocks/Group/GroupAttendanceDetail/groupAttendanceDetailScheduleSelectionMode', '@Obsidian/Enums/Event/attendanceStatus', '@Obsidian/Utility/rockDateTime', '@Obsidian/Utility/realTime'], (function (exports) {
+System.register(['vue', '@Obsidian/Utility/promiseUtils', '@Obsidian/Controls/rockButton.obs', '@Obsidian/Controls/rockFormField.obs', '@Obsidian/Enums/Controls/btnType', '@Obsidian/Utility/component', '@Obsidian/Utility/util', '@Obsidian/Controls/campusPicker.obs', '@Obsidian/Utility/guid', '@Obsidian/Controls/baseAsyncPicker.obs', '@Obsidian/Utility/block', '@Obsidian/Controls/textBox.obs', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Controls/datePicker.obs', '@Obsidian/Controls/inlineCheckBox.obs', '@Obsidian/Controls/modal.obs', '@Obsidian/Controls/panel.obs', '@Obsidian/Controls/personPicker.obs', '@Obsidian/Controls/radioButtonList.obs', '@Obsidian/Controls/rockLabel.obs', '@Obsidian/Controls/transitionVerticalCollapse.obs', '@Obsidian/Enums/Blocks/Group/GroupAttendanceDetail/groupAttendanceDetailDateSelectionMode', '@Obsidian/Enums/Blocks/Group/GroupAttendanceDetail/groupAttendanceDetailLocationSelectionMode', '@Obsidian/Enums/Blocks/Group/GroupAttendanceDetail/groupAttendanceDetailScheduleSelectionMode', '@Obsidian/Enums/Event/attendanceStatus', '@Obsidian/Utility/rockDateTime', '@Obsidian/Utility/realTime'], (function (exports) {
   'use strict';
-  var createTextVNode, defineComponent, ref, computed, watch, openBlock, createElementBlock, createVNode, unref, mergeProps, withCtx, createElementVNode, toDisplayString, pushScopeId, popScopeId, onMounted, onUnmounted, normalizeClass, createCommentVNode, Fragment, renderList, nextTick, createBlock, withDirectives, isRef, vModelCheckbox, renderSlot, createSlots, vShow, isPromise, PromiseCompletionSource, RockButton, RockFormField, BtnType, useStandardRockFormFieldProps, standardRockFormFieldProps, useVModelPassthrough, useStandardAsyncPickerProps, standardAsyncPickerProps, debounce, CampusPicker, areEqual, BaseAsyncPicker, useInvokeBlockAction, useConfigurationValues, onConfigurationValuesChanged, useReloadBlock, TextBox, NotificationBox, DatePicker, InlineCheckBox, Modal, Panel, PersonPicker, RadioButtonList, RockLabel, TransitionVerticalCollapse, GroupAttendanceDetailDateSelectionMode, GroupAttendanceDetailLocationSelectionMode, GroupAttendanceDetailScheduleSelectionMode, AttendanceStatus, RockDateTime, getTopic;
+  var createTextVNode, defineComponent, ref, computed, watch, openBlock, createElementBlock, createVNode, unref, mergeProps, withCtx, createElementVNode, toDisplayString, pushScopeId, popScopeId, onMounted, onUnmounted, normalizeClass, createCommentVNode, Fragment, renderList, nextTick, createBlock, withDirectives, isRef, vModelCheckbox, renderSlot, createSlots, vShow, isPromise, PromiseCompletionSource, RockButton, RockFormField, BtnType, useStandardRockFormFieldProps, standardRockFormFieldProps, useVModelPassthrough, useStandardAsyncPickerProps, standardAsyncPickerProps, debounce, CampusPicker, areEqual, toGuidOrNull, emptyGuid, BaseAsyncPicker, useInvokeBlockAction, useConfigurationValues, onConfigurationValuesChanged, useReloadBlock, TextBox, NotificationBox, DatePicker, InlineCheckBox, Modal, Panel, PersonPicker, RadioButtonList, RockLabel, TransitionVerticalCollapse, GroupAttendanceDetailDateSelectionMode, GroupAttendanceDetailLocationSelectionMode, GroupAttendanceDetailScheduleSelectionMode, AttendanceStatus, RockDateTime, getTopic;
   return {
     setters: [function (module) {
       createTextVNode = module.createTextVNode;
@@ -53,6 +53,8 @@ System.register(['vue', '@Obsidian/Utility/promiseUtils', '@Obsidian/Controls/ro
       CampusPicker = module["default"];
     }, function (module) {
       areEqual = module.areEqual;
+      toGuidOrNull = module.toGuidOrNull;
+      emptyGuid = module.emptyGuid;
     }, function (module) {
       BaseAsyncPicker = module["default"];
     }, function (module) {
@@ -1193,7 +1195,7 @@ System.register(['vue', '@Obsidian/Utility/promiseUtils', '@Obsidian/Controls/ro
           var loadOptions = function () {
             var _ref2 = _asyncToGenerator(function* () {
               var bag = {
-                groupGuid: props.groupGuid
+                groupGuid: toGuidOrNull(props.groupGuid)
               };
               var result = yield invokeBlockAction("GetGroupLocations", {
                 bag
@@ -1276,8 +1278,8 @@ System.register(['vue', '@Obsidian/Utility/promiseUtils', '@Obsidian/Controls/ro
             var _ref2 = _asyncToGenerator(function* () {
               var _props$date;
               var bag = {
-                groupGuid: props.groupGuid,
-                locationGuid: props.locationGuid,
+                groupGuid: toGuidOrNull(props.groupGuid),
+                locationGuid: toGuidOrNull(props.locationGuid),
                 numberOfPreviousDaysToShow: props.numberOfPreviousDaysToShow,
                 occurrenceDate: (_props$date = props.date) === null || _props$date === void 0 ? void 0 : _props$date.toISOString()
               };
@@ -1367,8 +1369,8 @@ System.register(['vue', '@Obsidian/Utility/promiseUtils', '@Obsidian/Controls/ro
           var loadOptions = function () {
             var _ref2 = _asyncToGenerator(function* () {
               var bag = {
-                groupGuid: props.groupGuid,
-                locationGuid: props.locationGuid,
+                groupGuid: toGuidOrNull(props.groupGuid),
+                locationGuid: toGuidOrNull(props.locationGuid),
                 date: props.isoDateString
               };
               if (!props.shouldLoadItemsWhetherValuesAreSet && (!bag.groupGuid || !bag.locationGuid)) {
@@ -1524,38 +1526,39 @@ System.register(['vue', '@Obsidian/Utility/promiseUtils', '@Obsidian/Controls/ro
         key: 2
       };
       var _hoisted_18 = createTextVNode("Schedule");
-      var _hoisted_19 = {
+      var _hoisted_19 = ["innerHTML"];
+      var _hoisted_20 = {
         class: "mt-5"
       };
-      var _hoisted_20 = {
+      var _hoisted_21 = {
         class: "d-flex align-items-end"
       };
-      var _hoisted_21 = {
+      var _hoisted_22 = {
         key: 2,
         class: "ml-auto d-flex align-items-end"
       };
-      var _hoisted_22 = createTextVNode("Add Group Member");
-      var _hoisted_23 = {
+      var _hoisted_23 = createTextVNode("Add Group Member");
+      var _hoisted_24 = {
         class: "row"
       };
-      var _hoisted_24 = {
+      var _hoisted_25 = {
         class: "col-xs-12 col-sm-8 d-sm-flex"
       };
-      var _hoisted_25 = {
+      var _hoisted_26 = {
         class: "col-xs-12 col-sm-4 d-flex justify-content-end"
       };
-      var _hoisted_26 = {
+      var _hoisted_27 = {
         class: "form-group mb-sm-0 btn-group"
       };
-      var _hoisted_27 = _withScopeId(() => createElementVNode("i", {
+      var _hoisted_28 = _withScopeId(() => createElementVNode("i", {
         class: "fa fa-pencil-alt"
       }, null, -1));
-      var _hoisted_28 = createTextVNode(" Add Note");
-      var _hoisted_29 = _withScopeId(() => createElementVNode("i", {
+      var _hoisted_29 = createTextVNode(" Add Note");
+      var _hoisted_30 = _withScopeId(() => createElementVNode("i", {
         class: "fa fa-file-download"
       }, null, -1));
-      var _hoisted_30 = createTextVNode(" Roster");
-      var _hoisted_31 = createTextVNode("Back");
+      var _hoisted_31 = createTextVNode(" Roster");
+      var _hoisted_32 = createTextVNode("Back");
       var script = exports('default', defineComponent({
         name: 'groupAttendanceDetail',
         setup(__props) {
@@ -1635,23 +1638,24 @@ System.register(['vue', '@Obsidian/Utility/promiseUtils', '@Obsidian/Controls/ro
           }
           function _onAddPerson() {
             _onAddPerson = _asyncToGenerator(function* (personPickerSelection) {
-              var personAliasGuid = personPickerSelection === null || personPickerSelection === void 0 ? void 0 : personPickerSelection.value;
-              if (!personAliasGuid) {
+              var personAliasGuid = toGuidOrNull(personPickerSelection === null || personPickerSelection === void 0 ? void 0 : personPickerSelection.value);
+              if (!personAliasGuid || areEqual(personAliasGuid, emptyGuid)) {
                 return;
               }
-              var bag = {
-                attendanceOccurrenceGuid: attendanceOccurrenceGuid.value,
-                personAliasGuid: personAliasGuid
-              };
-              if (!attendanceOccurrenceGuid.value) {
+              var occurrenceGuid = toGuidOrNull(attendanceOccurrenceGuid.value);
+              if (!occurrenceGuid || areEqual(occurrenceGuid, emptyGuid)) {
                 yield getOrCreateAttendanceOccurrence({
                   attendanceOccurrenceDate: attendanceForDateIsoString.value,
                   locationGuid: locationGuid.value,
                   scheduleGuid: scheduleGuid.value,
-                  addedPersonAliasGuid: bag.personAliasGuid
+                  addedPersonAliasGuid: personAliasGuid
                 });
               } else {
                 var _result$data;
+                var bag = {
+                  attendanceOccurrenceGuid: occurrenceGuid,
+                  personAliasGuid
+                };
                 var result = yield invokeBlockAction("AddPerson", {
                   bag
                 });
@@ -1674,8 +1678,9 @@ System.register(['vue', '@Obsidian/Utility/promiseUtils', '@Obsidian/Controls/ro
           }
           function _onAttendanceChanged() {
             _onAttendanceChanged = _asyncToGenerator(function* (attendance) {
+              var _toGuidOrNull;
               yield autoMarkAttendance({
-                attendanceOccurrenceGuid: attendanceOccurrenceGuid.value,
+                attendanceOccurrenceGuid: (_toGuidOrNull = toGuidOrNull(attendanceOccurrenceGuid.value)) !== null && _toGuidOrNull !== void 0 ? _toGuidOrNull : emptyGuid,
                 personAliasId: attendance.personAliasId,
                 didAttend: attendance.didAttend
               });
@@ -1706,9 +1711,11 @@ System.register(['vue', '@Obsidian/Utility/promiseUtils', '@Obsidian/Controls/ro
           }
           function _onAttendanceOccurrenceTypeChanged() {
             _onAttendanceOccurrenceTypeChanged = _asyncToGenerator(function* (newAttendanceOccurrenceType) {
+              var _toGuidOrNull2, _toGuidOrNull3;
+              newAttendanceOccurrenceType = (_toGuidOrNull2 = toGuidOrNull(newAttendanceOccurrenceType)) !== null && _toGuidOrNull2 !== void 0 ? _toGuidOrNull2 : emptyGuid;
               attendanceOccurrenceTypeGuid.value = newAttendanceOccurrenceType;
               yield autoUpdateAttendanceOccurrenceType({
-                attendanceOccurrenceGuid: attendanceOccurrenceGuid.value,
+                attendanceOccurrenceGuid: (_toGuidOrNull3 = toGuidOrNull(attendanceOccurrenceGuid.value)) !== null && _toGuidOrNull3 !== void 0 ? _toGuidOrNull3 : emptyGuid,
                 attendanceOccurrenceTypeGuid: newAttendanceOccurrenceType
               });
             });
@@ -1741,6 +1748,7 @@ System.register(['vue', '@Obsidian/Utility/promiseUtils', '@Obsidian/Controls/ro
                   },
                   onSave() {
                     return _asyncToGenerator(function* () {
+                      var _attendanceOccurrence;
                       didNotOccur.value = newDidNotOccur;
                       var _iterator = _createForOfIteratorHelper(attendances.value),
                         _step;
@@ -1757,16 +1765,17 @@ System.register(['vue', '@Obsidian/Utility/promiseUtils', '@Obsidian/Controls/ro
                         _iterator.f();
                       }
                       yield autoUpdateDidNotOccur({
-                        attendanceOccurrenceGuid: attendanceOccurrenceGuid.value,
+                        attendanceOccurrenceGuid: (_attendanceOccurrence = attendanceOccurrenceGuid.value) !== null && _attendanceOccurrence !== void 0 ? _attendanceOccurrence : emptyGuid,
                         didNotOccur: newDidNotOccur
                       });
                     })();
                   }
                 });
               } else {
+                var _attendanceOccurrence2;
                 didNotOccur.value = newDidNotOccur;
                 autoUpdateDidNotOccur({
-                  attendanceOccurrenceGuid: attendanceOccurrenceGuid.value,
+                  attendanceOccurrenceGuid: (_attendanceOccurrence2 = attendanceOccurrenceGuid.value) !== null && _attendanceOccurrence2 !== void 0 ? _attendanceOccurrence2 : emptyGuid,
                   didNotOccur: newDidNotOccur
                 }).then(() => {});
               }
@@ -1789,7 +1798,7 @@ System.register(['vue', '@Obsidian/Utility/promiseUtils', '@Obsidian/Controls/ro
           }
           function _onGroupLocationPickerChanged() {
             _onGroupLocationPickerChanged = _asyncToGenerator(function* (locationPickerSelection) {
-              locationGuid.value = locationPickerSelection === null || locationPickerSelection === void 0 ? void 0 : locationPickerSelection.value;
+              locationGuid.value = toGuidOrNull(locationPickerSelection === null || locationPickerSelection === void 0 ? void 0 : locationPickerSelection.value);
               scheduleGuid.value = null;
               if (config.value.attendanceOccurrenceDateSelectionMode === GroupAttendanceDetailDateSelectionMode.ScheduledDatePicker) {
                 attendanceForDate.value = RockDateTime.now();
@@ -1873,8 +1882,9 @@ System.register(['vue', '@Obsidian/Utility/promiseUtils', '@Obsidian/Controls/ro
             if (attendance) {
               attendance.didAttend = message.status === AttendanceStatus.DidAttend;
             } else {
+              var attendanceGuid = toGuidOrNull(message.attendanceGuid);
               var bag = {
-                attendanceGuid: message.attendanceGuid
+                attendanceGuid: attendanceGuid !== null && attendanceGuid !== void 0 ? attendanceGuid : emptyGuid
               };
               invokeBlockAction("GetAttendance", {
                 bag
@@ -1920,11 +1930,13 @@ System.register(['vue', '@Obsidian/Utility/promiseUtils', '@Obsidian/Controls/ro
           }
           function _getGroupAttendanceTopic() {
             _getGroupAttendanceTopic = _asyncToGenerator(function* (groupGuid, attendanceOccurrenceGuid) {
+              var _toGuidOrNull4;
               var topic = yield getTopic("Rock.RealTime.Topics.EntityUpdatedTopic");
-              yield invokeBlockAction("SubscribeToRealTime", {
+              var request = {
                 connectionId: topic.connectionId,
-                groupGuid
-              });
+                groupGuid: (_toGuidOrNull4 = toGuidOrNull(groupGuid)) !== null && _toGuidOrNull4 !== void 0 ? _toGuidOrNull4 : emptyGuid
+              };
+              yield invokeBlockAction("SubscribeToRealTime", request);
               Object.defineProperty(topic, "attendanceOccurrenceGuid", {
                 value: attendanceOccurrenceGuid,
                 writable: false
@@ -1982,12 +1994,17 @@ System.register(['vue', '@Obsidian/Utility/promiseUtils', '@Obsidian/Controls/ro
           }
           function _markAttendance() {
             _markAttendance = _asyncToGenerator(function* (bag) {
-              if (!attendanceOccurrenceGuid.value) {
+              var occurenceGuid = toGuidOrNull(attendanceOccurrenceGuid.value);
+              var locationGuidOrNull = toGuidOrNull(locationGuid.value);
+              var scheduleGuidOrNull = toGuidOrNull(scheduleGuid.value);
+              if (!occurenceGuid) {
                 yield getOrCreateAttendanceOccurrence({
                   attendanceOccurrenceDate: attendanceForDateIsoString.value,
-                  locationGuid: locationGuid.value,
-                  scheduleGuid: scheduleGuid.value,
-                  updatedAttendances: attendances.value
+                  locationGuid: locationGuidOrNull,
+                  scheduleGuid: scheduleGuidOrNull,
+                  updatedAttendances: attendances.value.map(attendance => _objectSpread2(_objectSpread2({}, attendance), {}, {
+                    attendanceOccurrenceGuid: emptyGuid
+                  }))
                 });
               } else if (attendances.value.some(a => {
                 var _a$didAttend;
@@ -1995,12 +2012,14 @@ System.register(['vue', '@Obsidian/Utility/promiseUtils', '@Obsidian/Controls/ro
               })) {
                 yield getOrCreateAttendanceOccurrence({
                   attendanceOccurrenceDate: attendanceForDateIsoString.value,
-                  locationGuid: locationGuid.value,
-                  scheduleGuid: scheduleGuid.value,
+                  locationGuid: locationGuidOrNull,
+                  scheduleGuid: scheduleGuidOrNull,
                   updatedAttendances: attendances.value.filter(attendance => {
                     var _attendance$didAttend;
                     return attendance.personAliasId === bag.personAliasId || ((_attendance$didAttend = attendance.didAttend) !== null && _attendance$didAttend !== void 0 ? _attendance$didAttend : null) === null;
-                  })
+                  }).map(attendance => _objectSpread2(_objectSpread2({}, attendance), {}, {
+                    attendanceOccurrenceGuid: occurenceGuid
+                  }))
                 });
               } else {
                 yield invokeBlockAction("MarkAttendance", {
@@ -2018,19 +2037,22 @@ System.register(['vue', '@Obsidian/Utility/promiseUtils', '@Obsidian/Controls/ro
               try {
                 var _result$data3;
                 isPrintingRoster.value = true;
-                if (!attendanceOccurrenceGuid.value) {
+                var occurrenceGuid = toGuidOrNull(attendanceOccurrenceGuid.value);
+                var locationGuidOrNull = toGuidOrNull(locationGuid.value);
+                var scheduleGuidOrNull = toGuidOrNull(scheduleGuid.value);
+                if (!occurrenceGuid || areEqual(occurrenceGuid, emptyGuid)) {
                   yield getOrCreateAttendanceOccurrence({
                     attendanceOccurrenceDate: attendanceForDateIsoString.value,
-                    attendanceOccurrenceGuid: attendanceOccurrenceGuid.value,
-                    locationGuid: locationGuid.value,
-                    scheduleGuid: scheduleGuid.value
+                    locationGuid: locationGuidOrNull,
+                    scheduleGuid: scheduleGuidOrNull
                   });
+                  occurrenceGuid = toGuidOrNull(attendanceOccurrenceGuid.value);
                 }
                 var bag = {
                   attendanceOccurrenceDate: attendanceForDateIsoString.value,
-                  attendanceOccurrenceGuid: attendanceOccurrenceGuid.value,
-                  locationGuid: locationGuid.value,
-                  scheduleGuid: scheduleGuid.value
+                  attendanceOccurrenceGuid: occurrenceGuid,
+                  locationGuid: locationGuidOrNull,
+                  scheduleGuid: scheduleGuidOrNull
                 };
                 var result = yield invokeBlockAction("PrintRoster", {
                   bag
@@ -2051,11 +2073,12 @@ System.register(['vue', '@Obsidian/Utility/promiseUtils', '@Obsidian/Controls/ro
           }
           function _updateAttendanceOccurrenceType() {
             _updateAttendanceOccurrenceType = _asyncToGenerator(function* (bag) {
-              if (!attendanceOccurrenceGuid.value) {
+              var occurrenceGuid = toGuidOrNull(attendanceOccurrenceGuid.value);
+              if (!occurrenceGuid || areEqual(occurrenceGuid, emptyGuid)) {
                 yield getOrCreateAttendanceOccurrence({
                   attendanceOccurrenceDate: attendanceForDateIsoString.value,
-                  locationGuid: locationGuid.value,
-                  scheduleGuid: scheduleGuid.value,
+                  locationGuid: toGuidOrNull(locationGuid.value),
+                  scheduleGuid: toGuidOrNull(scheduleGuid.value),
                   updatedAttendanceOccurrenceTypeGuid: bag.attendanceOccurrenceTypeGuid
                 });
               } else {
@@ -2079,11 +2102,12 @@ System.register(['vue', '@Obsidian/Utility/promiseUtils', '@Obsidian/Controls/ro
               }
               try {
                 isSavingDidNotOccur.value = true;
-                if (!attendanceOccurrenceGuid.value) {
+                var occurrenceGuid = toGuidOrNull(attendanceOccurrenceGuid.value);
+                if (!occurrenceGuid || areEqual(occurrenceGuid, emptyGuid)) {
                   yield getOrCreateAttendanceOccurrence({
                     attendanceOccurrenceDate: attendanceForDateIsoString.value,
-                    locationGuid: locationGuid.value,
-                    scheduleGuid: scheduleGuid.value,
+                    locationGuid: toGuidOrNull(locationGuid.value),
+                    scheduleGuid: toGuidOrNull(scheduleGuid.value),
                     updatedDidNotOccur: bag.didNotOccur
                   });
                 } else {
@@ -2105,18 +2129,19 @@ System.register(['vue', '@Obsidian/Utility/promiseUtils', '@Obsidian/Controls/ro
           }
           function _updateNotes() {
             _updateNotes = _asyncToGenerator(function* () {
-              var bag = {
-                attendanceOccurrenceGuid: attendanceOccurrenceGuid.value,
-                notes: notes.value
-              };
               if (!attendanceOccurrenceGuid.value) {
                 yield getOrCreateAttendanceOccurrence({
                   attendanceOccurrenceDate: attendanceForDateIsoString.value,
-                  locationGuid: locationGuid.value,
-                  scheduleGuid: scheduleGuid.value,
-                  updatedNotes: bag.notes
+                  locationGuid: toGuidOrNull(locationGuid.value),
+                  scheduleGuid: toGuidOrNull(scheduleGuid.value),
+                  updatedNotes: notes.value
                 });
               } else {
+                var _toGuidOrNull5;
+                var bag = {
+                  attendanceOccurrenceGuid: (_toGuidOrNull5 = toGuidOrNull(attendanceOccurrenceGuid.value)) !== null && _toGuidOrNull5 !== void 0 ? _toGuidOrNull5 : emptyGuid,
+                  notes: notes.value
+                };
                 yield invokeBlockAction("UpdateNotes", {
                   bag
                 });
@@ -2249,10 +2274,12 @@ System.register(['vue', '@Obsidian/Utility/promiseUtils', '@Obsidian/Controls/ro
               }, null, 8, ["disabled", "groupGuid", "locationGuid", "isoDateString"])) : config.value.scheduleSelectionMode === unref(GroupAttendanceDetailScheduleSelectionMode).Readonly ? (openBlock(), createElementBlock("div", _hoisted_17, [createVNode(unref(RockLabel), null, {
                 default: withCtx(() => [_hoisted_18]),
                 _: 1
-              }), createElementVNode("div", null, toDisplayString(config.value.scheduleLabel), 1)])) : createCommentVNode("v-if", true)], 64)) : createCommentVNode("v-if", true)])]), createVNode(unref(TransitionVerticalCollapse), {
+              }), createElementVNode("div", {
+                innerHTML: config.value.scheduleLabel
+              }, null, 8, _hoisted_19)])) : createCommentVNode("v-if", true)], 64)) : createCommentVNode("v-if", true)])]), createVNode(unref(TransitionVerticalCollapse), {
                 speed: "fast"
               }, {
-                default: withCtx(() => [createElementVNode("div", _hoisted_19, [createElementVNode("div", _hoisted_20, [unref(isDidNotMeetShown) ? (openBlock(), createBlock(unref(InlineCheckBox), {
+                default: withCtx(() => [createElementVNode("div", _hoisted_20, [createElementVNode("div", _hoisted_21, [unref(isDidNotMeetShown) ? (openBlock(), createBlock(unref(InlineCheckBox), {
                   key: 0,
                   class: "mb-0",
                   modelValue: didNotOccur.value,
@@ -2268,7 +2295,7 @@ System.register(['vue', '@Obsidian/Utility/promiseUtils', '@Obsidian/Controls/ro
                   label: config.value.attendanceOccurrenceTypesSectionLabel,
                   modelValue: attendanceOccurrenceTypeGuid.value,
                   "onUpdate:modelValue": onAttendanceOccurrenceTypeChanged
-                }, null, 8, ["disabled", "formGroupClasses", "items", "label", "modelValue"])) : createCommentVNode("v-if", true), !didNotOccur.value ? (openBlock(), createElementBlock("div", _hoisted_21, [config.value.isNewAttendeeAdditionAllowed ? (openBlock(), createBlock(unref(PersonPicker), {
+                }, null, 8, ["disabled", "formGroupClasses", "items", "label", "modelValue"])) : createCommentVNode("v-if", true), !didNotOccur.value ? (openBlock(), createElementBlock("div", _hoisted_22, [config.value.isNewAttendeeAdditionAllowed ? (openBlock(), createBlock(unref(PersonPicker), {
                   key: 0,
                   disabled: !isAutoSaveOn.value,
                   formGroupClasses: "mb-0",
@@ -2281,7 +2308,7 @@ System.register(['vue', '@Obsidian/Utility/promiseUtils', '@Obsidian/Controls/ro
                   disabled: !isAutoSaveOn.value,
                   onClick: onAddGroupMemberClicked
                 }, {
-                  default: withCtx(() => [_hoisted_22]),
+                  default: withCtx(() => [_hoisted_23]),
                   _: 1
                 }, 8, ["disabled"])) : createCommentVNode("v-if", true)])) : createCommentVNode("v-if", true)])])]),
                 _: 1
@@ -2304,7 +2331,7 @@ System.register(['vue', '@Obsidian/Utility/promiseUtils', '@Obsidian/Controls/ro
                 default: withCtx(() => [createElementVNode("div", null, [createVNode(unref(TransitionVerticalCollapse), {
                   speed: "fast"
                 }, {
-                  default: withCtx(() => [withDirectives(createElementVNode("div", null, [createElementVNode("div", _hoisted_23, [createElementVNode("div", _hoisted_24, [createVNode(unref(script$9), {
+                  default: withCtx(() => [withDirectives(createElementVNode("div", null, [createElementVNode("div", _hoisted_24, [createElementVNode("div", _hoisted_25, [createVNode(unref(script$9), {
                     modelValue: didAttendFilter.value,
                     "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => didAttendFilter.value = $event),
                     attendances: unref(attendances)
@@ -2312,14 +2339,14 @@ System.register(['vue', '@Obsidian/Utility/promiseUtils', '@Obsidian/Controls/ro
                     modelValue: searchFilter.value,
                     "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => searchFilter.value = $event),
                     class: "flex-grow-1 mt-2 mt-sm-0 ml-sm-2"
-                  }, null, 8, ["modelValue"])]), createElementVNode("div", _hoisted_25, [createElementVNode("div", _hoisted_26, [!config.value.isNotesSectionHidden ? (openBlock(), createBlock(unref(RockButton), {
+                  }, null, 8, ["modelValue"])]), createElementVNode("div", _hoisted_26, [createElementVNode("div", _hoisted_27, [!config.value.isNotesSectionHidden ? (openBlock(), createBlock(unref(RockButton), {
                     key: 0,
                     btnSize: "sm",
                     btnType: isNotesShown.value ? 'primary' : 'default',
                     disabled: !isAutoSaveOn.value,
                     onClick: _cache[5] || (_cache[5] = $event => onShowNotesClicked())
                   }, {
-                    default: withCtx(() => [_hoisted_27, _hoisted_28]),
+                    default: withCtx(() => [_hoisted_28, _hoisted_29]),
                     _: 1
                   }, 8, ["btnType", "disabled"])) : createCommentVNode("v-if", true), config.value.isRosterDownloadShown ? (openBlock(), createBlock(unref(RockButton), {
                     key: 1,
@@ -2328,7 +2355,7 @@ System.register(['vue', '@Obsidian/Utility/promiseUtils', '@Obsidian/Controls/ro
                     disabled: !isAutoSaveOn.value,
                     onClick: _cache[6] || (_cache[6] = $event => onPrintAttendanceRosterClicked())
                   }, {
-                    default: withCtx(() => [_hoisted_29, _hoisted_30]),
+                    default: withCtx(() => [_hoisted_30, _hoisted_31]),
                     _: 1
                   }, 8, ["disabled"])) : createCommentVNode("v-if", true)])])]), !config.value.isNotesSectionHidden ? (openBlock(), createBlock(unref(TransitionVerticalCollapse), {
                     key: 0,
@@ -2368,7 +2395,7 @@ System.register(['vue', '@Obsidian/Utility/promiseUtils', '@Obsidian/Controls/ro
                 key: 0,
                 onClick: _cache[10] || (_cache[10] = $event => onBackClicked())
               }, {
-                default: withCtx(() => [_hoisted_31]),
+                default: withCtx(() => [_hoisted_32]),
                 _: 1
               })) : createCommentVNode("v-if", true)]),
               _: 2

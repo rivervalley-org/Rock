@@ -23,6 +23,24 @@ System.register([], (function (exports) {
             });
             exports('blockLocation', blockLocation);
 
+            var BotGuardianLevel = {
+              Inherit: -1,
+              Disable: 0,
+              Enable: 1
+            };
+            var BotGuardianLevelDescription = {
+              [-1]: "Inherit",
+              0: "Disable",
+              1: "Enable"
+            };
+
+            var botGuardianLevel = /*#__PURE__*/Object.freeze({
+                __proto__: null,
+                BotGuardianLevel: BotGuardianLevel,
+                BotGuardianLevelDescription: BotGuardianLevelDescription
+            });
+            exports('botGuardianLevel', botGuardianLevel);
+
             var ContentChannelDateType = {
               SingleDate: 1,
               DateRange: 2,
@@ -92,6 +110,24 @@ System.register([], (function (exports) {
                 ContentControlTypeDescription: ContentControlTypeDescription
             });
             exports('contentControlType', contentControlType);
+
+            var ContentLibraryItemExperienceLevel = {
+              Foundational: 1,
+              Intermediate: 2,
+              Advanced: 3
+            };
+            var ContentLibraryItemExperienceLevelDescription = {
+              1: "Foundational",
+              2: "Intermediate",
+              3: "Advanced"
+            };
+
+            var contentLibraryItemExperienceLevel = /*#__PURE__*/Object.freeze({
+                __proto__: null,
+                ContentLibraryItemExperienceLevel: ContentLibraryItemExperienceLevel,
+                ContentLibraryItemExperienceLevelDescription: ContentLibraryItemExperienceLevelDescription
+            });
+            exports('contentLibraryItemExperienceLevel', contentLibraryItemExperienceLevel);
 
             var DisplayInNavWhen = {
               WhenAllowed: 0,

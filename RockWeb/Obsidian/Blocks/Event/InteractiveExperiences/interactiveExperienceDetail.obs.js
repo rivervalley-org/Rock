@@ -1,6 +1,6 @@
-System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/SystemGuids/entityType', '@Obsidian/Templates/detailBlock', '@Obsidian/Enums/Controls/detailPanelMode', '@Obsidian/Controls/attributeValuesContainer', '@Obsidian/Controls/checkBox', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/modal', '@Obsidian/Controls/panel', '@Obsidian/Controls/sectionHeader', '@Obsidian/Directives/dragDrop', '@Obsidian/Utility/component', '@Obsidian/Utility/block', '@Obsidian/Utility/guid', '@Obsidian/Utility/dialogs', '@Obsidian/Controls/campusPicker.obs', '@Obsidian/Controls/codeEditor', '@Obsidian/Controls/colorPicker', '@Obsidian/Controls/dataViewPicker', '@Obsidian/Controls/imageUploader', '@Obsidian/Controls/groupPicker', '@Obsidian/Controls/radioButtonList', '@Obsidian/Controls/scheduleBuilder.obs', '@Obsidian/Controls/sectionContainer', '@Obsidian/Controls/textBox', '@Obsidian/Controls/transitionVerticalCollapse', '@Obsidian/SystemGuids/binaryFiletype', '@Obsidian/Utility/numberUtils', '@Obsidian/Enums/Event/interactiveExperiencePushNotificationType', '@Obsidian/Utility/internetCalendar', '@Obsidian/Enums/Event/interactiveExperienceCampusBehavior', '@Obsidian/Controls/valueDetailList', '@Obsidian/Core/Controls/valueDetailListItemBuilder', '@Obsidian/Utility/stringUtils', '@Obsidian/Utility/util'], (function (exports) {
+System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/SystemGuids/entityType', '@Obsidian/Templates/detailBlock', '@Obsidian/Enums/Controls/detailPanelMode', '@Obsidian/Controls/attributeValuesContainer.obs', '@Obsidian/Controls/checkBox.obs', '@Obsidian/Controls/dropDownList.obs', '@Obsidian/Controls/modal.obs', '@Obsidian/Controls/panel.obs', '@Obsidian/Controls/sectionHeader.obs', '@Obsidian/Directives/dragDrop', '@Obsidian/Utility/component', '@Obsidian/Utility/block', '@Obsidian/Utility/guid', '@Obsidian/Utility/dialogs', '@Obsidian/Controls/campusPicker.obs', '@Obsidian/Controls/codeEditor.obs', '@Obsidian/Controls/colorPicker.obs', '@Obsidian/Controls/dataViewPicker.obs', '@Obsidian/Controls/imageUploader.obs', '@Obsidian/Controls/groupPicker.obs', '@Obsidian/Controls/numberBox.obs', '@Obsidian/Controls/radioButtonList.obs', '@Obsidian/Controls/scheduleBuilder.obs', '@Obsidian/Controls/sectionContainer.obs', '@Obsidian/Controls/textBox.obs', '@Obsidian/Controls/transitionVerticalCollapse.obs', '@Obsidian/SystemGuids/binaryFiletype', '@Obsidian/Utility/numberUtils', '@Obsidian/Enums/Event/interactiveExperiencePushNotificationType', '@Obsidian/Utility/internetCalendar', '@Obsidian/Enums/Event/interactiveExperienceCampusBehavior', '@Obsidian/Controls/valueDetailList.obs', '@Obsidian/Core/Controls/valueDetailListItemBuilder', '@Obsidian/Utility/stringUtils', '@Obsidian/Utility/util'], (function (exports) {
   'use strict';
-  var pushScopeId, popScopeId, createElementVNode, defineComponent, ref, computed, watch, openBlock, createElementBlock, Fragment, createVNode, unref, withCtx, withModifiers, withDirectives, renderList, toDisplayString, normalizeClass, createBlock, createTextVNode, createCommentVNode, shallowRef, isRef, NotificationBox, EntityType, DetailBlock, DetailPanelMode, AttributeValuesContainer, CheckBox, DropDownList, Modal, Panel, SectionHeader, useDragReorder, DragSource, DragTarget, useVModelPassthrough, propertyRef, updateRefValue, useInvokeBlockAction, setPropertiesBoxValue, watchPropertyChanges, useConfigurationValues, getSecurityGrant, refreshDetailAttributes, provideSecurityGrant, areEqual, newGuid, confirmDelete, alert, CampusPicker, CodeEditor, ColorPicker, DataViewPicker, ImageUploader, GroupPicker, RadioButtonList, ScheduleBuilder, SectionContainer, TextBox, TransitionVerticalCollapse, BinaryFiletype, toNumber, InteractiveExperiencePushNotificationType, Calendar, InteractiveExperienceCampusBehavior, ValueDetailList, ValueDetailListItemBuilder, escapeHtml, debounce;
+  var pushScopeId, popScopeId, createElementVNode, defineComponent, ref, computed, watch, openBlock, createElementBlock, Fragment, createVNode, unref, withCtx, withModifiers, withDirectives, renderList, toDisplayString, normalizeClass, createBlock, createTextVNode, createCommentVNode, shallowRef, isRef, NotificationBox, EntityType, DetailBlock, DetailPanelMode, AttributeValuesContainer, CheckBox, DropDownList, Modal, Panel, SectionHeader, useDragReorder, DragSource, DragTarget, useVModelPassthrough, propertyRef, updateRefValue, useInvokeBlockAction, setPropertiesBoxValue, watchPropertyChanges, useConfigurationValues, getSecurityGrant, refreshDetailAttributes, provideSecurityGrant, areEqual, toGuidOrNull, emptyGuid, newGuid, confirmDelete, alert, CampusPicker, CodeEditor, ColorPicker, DataViewPicker, ImageUploader, GroupPicker, NumberBox, RadioButtonList, ScheduleBuilder, SectionContainer, TextBox, TransitionVerticalCollapse, BinaryFiletype, toNumber, InteractiveExperiencePushNotificationType, Calendar, InteractiveExperienceCampusBehavior, ValueDetailList, ValueDetailListItemBuilder, escapeHtml, debounce;
   return {
     setters: [function (module) {
       pushScopeId = module.pushScopeId;
@@ -64,6 +64,8 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
       provideSecurityGrant = module.provideSecurityGrant;
     }, function (module) {
       areEqual = module.areEqual;
+      toGuidOrNull = module.toGuidOrNull;
+      emptyGuid = module.emptyGuid;
       newGuid = module.newGuid;
     }, function (module) {
       confirmDelete = module.confirmDelete;
@@ -80,6 +82,8 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
       ImageUploader = module["default"];
     }, function (module) {
       GroupPicker = module["default"];
+    }, function (module) {
+      NumberBox = module["default"];
     }, function (module) {
       RadioButtonList = module["default"];
     }, function (module) {
@@ -248,6 +252,7 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
         class: "col-md-4"
       };
       var _hoisted_22$1 = {
+        key: 2,
         class: "col-md-4"
       };
       var script$3 = defineComponent({
@@ -322,12 +327,20 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
             return (_selectedVisualizerTy = (_selectedVisualizerTy2 = selectedVisualizerType.value) === null || _selectedVisualizerTy2 === void 0 ? void 0 : _selectedVisualizerTy2.attributes) !== null && _selectedVisualizerTy !== void 0 ? _selectedVisualizerTy : {};
           });
           var isRequiresModerationVisible = computed(() => {
-            var _selectedActionType$v3;
-            return ((_selectedActionType$v3 = selectedActionType.value) === null || _selectedActionType$v3 === void 0 ? void 0 : _selectedActionType$v3.isModerationSupported) === true;
+            var _selectedActionType$v3, _selectedActionType$v4;
+            return ((_selectedActionType$v3 = selectedActionType.value) === null || _selectedActionType$v3 === void 0 ? void 0 : _selectedActionType$v3.isModerationSupported) === true && ((_selectedActionType$v4 = selectedActionType.value) === null || _selectedActionType$v4 === void 0 ? void 0 : _selectedActionType$v4.isQuestionSupported) === true;
           });
           var isMultipleSubmissionsVisible = computed(() => {
-            var _selectedActionType$v4;
-            return ((_selectedActionType$v4 = selectedActionType.value) === null || _selectedActionType$v4 === void 0 ? void 0 : _selectedActionType$v4.isMultipleSubmissionSupported) === true;
+            var _selectedActionType$v5, _selectedActionType$v6;
+            return ((_selectedActionType$v5 = selectedActionType.value) === null || _selectedActionType$v5 === void 0 ? void 0 : _selectedActionType$v5.isMultipleSubmissionSupported) === true && ((_selectedActionType$v6 = selectedActionType.value) === null || _selectedActionType$v6 === void 0 ? void 0 : _selectedActionType$v6.isQuestionSupported) === true;
+          });
+          var isAnonymousResponsesVisible = computed(() => {
+            var _selectedActionType$v7;
+            return ((_selectedActionType$v7 = selectedActionType.value) === null || _selectedActionType$v7 === void 0 ? void 0 : _selectedActionType$v7.isQuestionSupported) === true;
+          });
+          var isResponseVisualVisible = computed(() => {
+            var _selectedActionType$v8;
+            return ((_selectedActionType$v8 = selectedActionType.value) === null || _selectedActionType$v8 === void 0 ? void 0 : _selectedActionType$v8.isQuestionSupported) === true;
           });
           function getActionTypeName(action) {
             var _props$actionTypes$fi2, _props$actionTypes$fi3;
@@ -438,14 +451,16 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
               if (!(yield confirmDelete("Action"))) {
                 return;
               }
-              var result = yield invokeBlockAction("DeleteAction", {
+              var actionGuid = toGuidOrNull(action.guid);
+              var request = {
                 idKey: props.interactiveExperienceIdKey,
-                actionGuid: action.guid
-              });
+                actionGuid: actionGuid !== null && actionGuid !== void 0 ? actionGuid : emptyGuid
+              };
+              var result = yield invokeBlockAction("DeleteAction", request);
               if (!result.isSuccess) {
                 alert(result.errorMessage || "Unable to delete the action.");
               } else {
-                var index = internalValue.value.findIndex(a => areEqual(a.guid, action.guid));
+                var index = internalValue.value.findIndex(a => areEqual(a.guid, actionGuid));
                 if (index !== -1) {
                   var newValue = [...internalValue.value];
                   newValue.splice(index, 1);
@@ -460,13 +475,14 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
           }
           function _onActionReorder() {
             _onActionReorder = _asyncToGenerator(function* (action, beforeAction) {
-              var _beforeAction$guid;
+              var _toGuidOrNull;
               internalValue.value = [...internalValue.value];
-              var result = yield invokeBlockAction("ReorderAction", {
+              var request = {
                 idKey: props.interactiveExperienceIdKey,
-                actionGuid: action.guid,
-                beforeActionGuid: (_beforeAction$guid = beforeAction === null || beforeAction === void 0 ? void 0 : beforeAction.guid) !== null && _beforeAction$guid !== void 0 ? _beforeAction$guid : null
-              });
+                actionGuid: (_toGuidOrNull = toGuidOrNull(action.guid)) !== null && _toGuidOrNull !== void 0 ? _toGuidOrNull : emptyGuid,
+                beforeActionGuid: toGuidOrNull(beforeAction === null || beforeAction === void 0 ? void 0 : beforeAction.guid)
+              };
+              var result = yield invokeBlockAction("ReorderAction", request);
               if (!result.isSuccess) {
                 alert(result.errorMessage || "Unable to re-order actions, you might need to reload the page.");
                 return;
@@ -543,16 +559,17 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
                 modelValue: allowMultipleSubmissions.value,
                 "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => allowMultipleSubmissions.value = $event),
                 label: "Allow Multiple Submissions"
-              }, null, 8, ["modelValue"])])) : createCommentVNode("v-if", true), createElementVNode("div", _hoisted_22$1, [createVNode(unref(CheckBox), {
+              }, null, 8, ["modelValue"])])) : createCommentVNode("v-if", true), unref(isAnonymousResponsesVisible) ? (openBlock(), createElementBlock("div", _hoisted_22$1, [createVNode(unref(CheckBox), {
                 modelValue: anonymousResponses.value,
                 "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => anonymousResponses.value = $event),
                 label: "Anonymous Responses"
-              }, null, 8, ["modelValue"])])]), createVNode(unref(DropDownList), {
+              }, null, 8, ["modelValue"])])) : createCommentVNode("v-if", true)]), unref(isResponseVisualVisible) ? (openBlock(), createBlock(unref(DropDownList), {
+                key: 1,
                 modelValue: responseVisual.value,
                 "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => responseVisual.value = $event),
                 label: "Response Visual",
                 items: unref(responseVisualItems)
-              }, null, 8, ["modelValue", "items"]), createVNode(unref(AttributeValuesContainer), {
+              }, null, 8, ["modelValue", "items"])) : createCommentVNode("v-if", true), createVNode(unref(AttributeValuesContainer), {
                 modelValue: attributeValues.value,
                 "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => attributeValues.value = $event),
                 attributes: unref(visualizerAttributes),
@@ -590,7 +607,7 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
         }
       }
 
-      var css_248z = ".action-item[data-v-fcffbb20]{align-items:stretch;border:1px solid #c4c4c4;border-radius:8px;display:flex;margin-bottom:12px;overflow:hidden}.action-item-count[data-v-fcffbb20]{align-items:center;background-color:var(--brand-info);color:#fff;display:flex;justify-content:center;min-width:35px;padding:8px 0}.action-item-body[data-v-fcffbb20]{align-items:center;display:flex;flex:1 0 0;padding:8px 0}.action-item-body>[data-v-fcffbb20]{align-items:center;display:flex;padding:0 12px}.action-item-body>[data-v-fcffbb20]:last-child{display:block;padding-right:16px}.action-item .action-item-icon[data-v-fcffbb20]{align-items:center;background-color:var(--brand-info);border-radius:50%;color:#fff;display:flex;height:36px;justify-content:center;padding:0;width:36px}.action-item .action-item-content[data-v-fcffbb20]{align-items:flex-start;flex:1 0;flex-direction:column;justify-content:center}.action-item .reorder-handle[data-v-fcffbb20]{cursor:grab}.action-item .action-columncommand[data-v-fcffbb20]{opacity:0;transition:opacity .2s ease-in-out;visibility:hidden}.action-item .title[data-v-fcffbb20]{font-weight:600}.action-item:hover .action-columncommand[data-v-fcffbb20]{opacity:1;visibility:visible}";
+      var css_248z = ".action-item[data-v-fcffbb20]{align-items:stretch;border:1px solid #c4c4c4;border-radius:8px;display:flex;margin-bottom:12px;overflow:hidden}.action-item-count[data-v-fcffbb20]{align-items:center;background-color:var(--color-info);color:#fff;display:flex;justify-content:center;min-width:35px;padding:8px 0}.action-item-body[data-v-fcffbb20]{align-items:center;display:flex;flex:1 0 0;padding:8px 0}.action-item-body>[data-v-fcffbb20]{align-items:center;display:flex;padding:0 12px}.action-item-body>[data-v-fcffbb20]:last-child{display:block;padding-right:16px}.action-item .action-item-icon[data-v-fcffbb20]{align-items:center;background-color:var(--color-info);border-radius:50%;color:#fff;display:flex;height:36px;justify-content:center;padding:0;width:36px}.action-item .action-item-content[data-v-fcffbb20]{align-items:flex-start;flex:1 0;flex-direction:column;justify-content:center}.action-item .reorder-handle[data-v-fcffbb20]{cursor:grab}.action-item .action-columncommand[data-v-fcffbb20]{opacity:0;transition:opacity .2s ease-in-out;visibility:hidden}.action-item .title[data-v-fcffbb20]{font-weight:600}.action-item:hover .action-columncommand[data-v-fcffbb20]{opacity:1;visibility:visible}";
       styleInject(css_248z);
 
       script$3.__scopeId = "data-v-fcffbb20";
@@ -774,6 +791,18 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
       var _hoisted_63 = {
         key: 0
       };
+      var _hoisted_64 = {
+        class: "row"
+      };
+      var _hoisted_65 = {
+        class: "col-md-6"
+      };
+      var _hoisted_66 = {
+        class: "col-md-6"
+      };
+      var _hoisted_67 = createElementVNode("span", {
+        class: "input-group-addon"
+      }, "mins before start", -1);
       var script$2 = defineComponent({
         name: 'editPanel.partial',
         props: {
@@ -788,7 +817,7 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
         },
         emits: ["update:modelValue", "propertyChanged"],
         setup(__props, _ref) {
-          var _props$modelValue$att, _props$modelValue$att2, _props$modelValue$des, _props$modelValue$exp, _props$modelValue$isA, _props$modelValue$nam, _props$modelValue$pub, _props$modelValue$pho, _props$modelValue$pus, _props$modelValue$pus2, _props$modelValue$sch, _props$modelValue$wel, _props$modelValue$wel2, _props$modelValue$wel3, _props$modelValue$noA, _props$modelValue$noA2, _props$modelValue$noA3, _props$modelValue$act, _props$modelValue$act2, _props$modelValue$act3, _props$modelValue$act4, _props$modelValue$act5, _props$modelValue$act6, _props$modelValue$act7, _props$modelValue$act8, _props$modelValue$aud, _props$modelValue$aud2, _props$modelValue$aud3, _props$modelValue$aud4, _props$modelValue$aud5, _props$modelValue$aud6, _props$modelValue$aud7;
+          var _props$modelValue$att, _props$modelValue$att2, _props$modelValue$des, _props$modelValue$exp, _props$modelValue$isA, _props$modelValue$nam, _props$modelValue$pub, _props$modelValue$pho, _props$modelValue$pus, _props$modelValue$pus2, _props$modelValue$sch, _props$modelValue$wel, _props$modelValue$wel2, _props$modelValue$wel3, _props$modelValue$noA, _props$modelValue$noA2, _props$modelValue$noA3, _props$modelValue$act, _props$modelValue$act2, _props$modelValue$act3, _props$modelValue$act4, _props$modelValue$act5, _props$modelValue$act6, _props$modelValue$act7, _props$modelValue$act8, _props$modelValue$aud, _props$modelValue$aud2, _props$modelValue$aud3, _props$modelValue$aud4, _props$modelValue$aud5, _props$modelValue$aud6, _props$modelValue$aud7, _props$modelValue$sch2;
           var emit = _ref.emit;
           var props = __props;
           var attributes = ref((_props$modelValue$att = props.modelValue.attributes) !== null && _props$modelValue$att !== void 0 ? _props$modelValue$att : {});
@@ -830,9 +859,12 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
           var editingSchedule = null;
           var scheduleModalTitle = ref("");
           var scheduleContent = ref("");
+          var scheduleEnableMinutesBefore = ref(null);
           var scheduleCampuses = shallowRef([]);
           var scheduleDataView = shallowRef(null);
           var scheduleGroup = shallowRef(null);
+          var scheduleAttributes = ref((_props$modelValue$sch2 = props.modelValue.scheduleAttributes) !== null && _props$modelValue$sch2 !== void 0 ? _props$modelValue$sch2 : {});
+          var scheduleAttributeValues = ref({});
           var propRefs = [description, isActive, name, publicLabel, experiencePhoto, pushNotificationConfiguration, pushNotificationTitle, pushNotificationDetail, welcomeTitle, welcomeMessage, welcomeHeaderImage, noActionsTitle, noActionsMessage, noActionsHeaderImage, actionBackgroundColor, actionTextColor, actionPrimaryButtonColor, actionPrimaryButtonTextColor, actionSecondaryButtonColor, actionSecondaryButtonTextColor, actionBackgroundImage, actionCustomCss, audienceBackgroundColor, audienceTextColor, audiencePrimaryColor, audienceSecondaryColor, audienceAccentColor, audienceBackgroundImage, audienceCustomCss];
           var binaryFileTypeGuid = BinaryFiletype.Default;
           var isActionAdvancedOptionsVisible = ref(false);
@@ -877,19 +909,23 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
             scheduleModalTitle.value = "Add Schedule";
             editingSchedule = null;
             scheduleContent.value = "";
+            scheduleEnableMinutesBefore.value = null;
             scheduleCampuses.value = [];
             scheduleDataView.value = null;
             scheduleGroup.value = null;
+            scheduleAttributeValues.value = {};
             isScheduleModalVisible.value = true;
           }
           function onEditScheduleClick(schedule) {
-            var _schedule$schedule$va, _schedule$schedule, _schedule$campuses, _schedule$dataView, _schedule$group;
+            var _schedule$schedule$va, _schedule$schedule, _schedule$enableMinut, _schedule$campuses, _schedule$dataView, _schedule$group, _schedule$attributeVa;
             scheduleModalTitle.value = "Edit Schedule";
             editingSchedule = schedule;
             scheduleContent.value = (_schedule$schedule$va = (_schedule$schedule = schedule.schedule) === null || _schedule$schedule === void 0 ? void 0 : _schedule$schedule.value) !== null && _schedule$schedule$va !== void 0 ? _schedule$schedule$va : "";
+            scheduleEnableMinutesBefore.value = (_schedule$enableMinut = schedule.enableMinutesBefore) !== null && _schedule$enableMinut !== void 0 ? _schedule$enableMinut : null;
             scheduleCampuses.value = (_schedule$campuses = schedule.campuses) !== null && _schedule$campuses !== void 0 ? _schedule$campuses : [];
             scheduleDataView.value = (_schedule$dataView = schedule.dataView) !== null && _schedule$dataView !== void 0 ? _schedule$dataView : null;
             scheduleGroup.value = (_schedule$group = schedule.group) !== null && _schedule$group !== void 0 ? _schedule$group : null;
+            scheduleAttributeValues.value = (_schedule$attributeVa = schedule.attributeValues) !== null && _schedule$attributeVa !== void 0 ? _schedule$attributeVa : {};
             isScheduleModalVisible.value = true;
           }
           function onDeleteScheduleClick(_x) {
@@ -917,9 +953,11 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
               value: scheduleContent.value,
               text: calendar.events[0].toFriendlyText()
             };
+            schedule.enableMinutesBefore = scheduleEnableMinutesBefore.value;
             schedule.campuses = scheduleCampuses.value;
             schedule.dataView = scheduleDataView.value;
             schedule.group = scheduleGroup.value;
+            schedule.attributeValues = scheduleAttributeValues.value;
             if (!editingSchedule) {
               schedules.value.push(schedule);
             }
@@ -1251,38 +1289,59 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
               _: 1
             })]), createVNode(unref(Modal), {
               modelValue: isScheduleModalVisible.value,
-              "onUpdate:modelValue": _cache[37] || (_cache[37] = $event => isScheduleModalVisible.value = $event),
+              "onUpdate:modelValue": _cache[39] || (_cache[39] = $event => isScheduleModalVisible.value = $event),
               title: scheduleModalTitle.value,
               saveText: "OK",
               onSave: onSaveSchedule
             }, {
-              default: withCtx(() => [createVNode(unref(ScheduleBuilder), {
+              default: withCtx(() => [createVNode(unref(SectionHeader), {
+                title: "Schedule Configuration",
+                description: "Settings to determine when the occurrence should occur."
+              }), createElementVNode("div", _hoisted_64, [createElementVNode("div", _hoisted_65, [createVNode(unref(ScheduleBuilder), {
                 modelValue: scheduleContent.value,
                 "onUpdate:modelValue": _cache[33] || (_cache[33] = $event => scheduleContent.value = $event),
                 label: "Schedule",
                 help: "The schedule of when the experience is active.",
                 rules: "required"
-              }, null, 8, ["modelValue"]), createVNode(unref(SectionHeader), {
+              }, null, 8, ["modelValue"])]), createElementVNode("div", _hoisted_66, [createVNode(unref(NumberBox), {
+                modelValue: scheduleEnableMinutesBefore.value,
+                "onUpdate:modelValue": _cache[34] || (_cache[34] = $event => scheduleEnableMinutesBefore.value = $event),
+                label: "Enable Experience"
+              }, {
+                inputGroupAppend: withCtx(() => [_hoisted_67]),
+                _: 1
+              }, 8, ["modelValue"])])]), createVNode(unref(SectionHeader), {
                 title: "Filters",
                 description: "Filters help to limit who will see experiences on the list those that are available."
               }), createVNode(unref(CampusPicker), {
                 modelValue: unref(scheduleCampuses),
-                "onUpdate:modelValue": _cache[34] || (_cache[34] = $event => isRef(scheduleCampuses) ? scheduleCampuses.value = $event : null),
+                "onUpdate:modelValue": _cache[35] || (_cache[35] = $event => isRef(scheduleCampuses) ? scheduleCampuses.value = $event : null),
                 label: "Campus",
                 help: "Which campuses the experience is for. Leave blank to show for all campuses.",
                 forceVisible: "",
                 multiple: ""
               }, null, 8, ["modelValue"]), createVNode(unref(DataViewPicker), {
                 modelValue: unref(scheduleDataView),
-                "onUpdate:modelValue": _cache[35] || (_cache[35] = $event => isRef(scheduleDataView) ? scheduleDataView.value = $event : null),
+                "onUpdate:modelValue": _cache[36] || (_cache[36] = $event => isRef(scheduleDataView) ? scheduleDataView.value = $event : null),
                 label: "Data View",
                 help: "A data view that the individual must be in to see the environment. It is highly encouraged that this data view be persisted for performance."
               }, null, 8, ["modelValue"]), createVNode(unref(GroupPicker), {
                 modelValue: unref(scheduleGroup),
-                "onUpdate:modelValue": _cache[36] || (_cache[36] = $event => isRef(scheduleGroup) ? scheduleGroup.value = $event : null),
+                "onUpdate:modelValue": _cache[37] || (_cache[37] = $event => isRef(scheduleGroup) ? scheduleGroup.value = $event : null),
                 label: "Group",
                 help: "A group that the individual must be in to see the environment."
-              }, null, 8, ["modelValue"])]),
+              }, null, 8, ["modelValue"]), Object.keys(scheduleAttributes.value).length > 0 ? (openBlock(), createBlock(unref(SectionHeader), {
+                key: 0,
+                title: "Attributes",
+                description: "Additional configuration settings for the schedule."
+              })) : createCommentVNode("v-if", true), createVNode(unref(AttributeValuesContainer), {
+                modelValue: scheduleAttributeValues.value,
+                "onUpdate:modelValue": _cache[38] || (_cache[38] = $event => scheduleAttributeValues.value = $event),
+                attributes: scheduleAttributes.value,
+                isEditMode: "",
+                numberOfColumns: 2,
+                showCategoryLabel: false
+              }, null, 8, ["modelValue", "attributes"])]),
               _: 1
             }, 8, ["modelValue", "title"])], 64);
           };

@@ -1,6 +1,6 @@
-System.register(['vue', '@Obsidian/Utility/component', '@Obsidian/Utility/http', './baseAsyncPicker'], (function (exports) {
+System.register(['vue', '@Obsidian/Utility/component', '@Obsidian/Utility/http', './baseAsyncPicker.obs', '@Obsidian/Utility/guid'], (function (exports) {
   'use strict';
-  var defineComponent, ref, computed, watch, openBlock, createElementBlock, Fragment, createBlock, unref, mergeProps, createCommentVNode, createVNode, nextTick, useStandardAsyncPickerProps, updateRefValue, standardAsyncPickerProps, useHttp, BaseAsyncPicker;
+  var defineComponent, ref, computed, watch, openBlock, createElementBlock, Fragment, createBlock, unref, mergeProps, createCommentVNode, createVNode, nextTick, useStandardAsyncPickerProps, updateRefValue, standardAsyncPickerProps, useHttp, BaseAsyncPicker, toGuidOrNull, areEqual, emptyGuid;
   return {
     setters: [function (module) {
       defineComponent = module.defineComponent;
@@ -24,6 +24,10 @@ System.register(['vue', '@Obsidian/Utility/component', '@Obsidian/Utility/http',
       useHttp = module.useHttp;
     }, function (module) {
       BaseAsyncPicker = module["default"];
+    }, function (module) {
+      toGuidOrNull = module.toGuidOrNull;
+      areEqual = module.areEqual;
+      emptyGuid = module.emptyGuid;
     }],
     execute: (function () {
 
@@ -133,8 +137,8 @@ System.register(['vue', '@Obsidian/Utility/component', '@Obsidian/Utility/http',
           var internalRoleValue = ref(props.modelValue);
           var loadedRoleItems = ref(null);
           var groupTypeGuidValue = computed(() => {
-            var _internalTypeValue$va;
-            return props.groupTypeGuid || ((_internalTypeValue$va = internalTypeValue.value) === null || _internalTypeValue$va === void 0 ? void 0 : _internalTypeValue$va.value) || null;
+            var _toGuidOrNull, _internalTypeValue$va;
+            return (_toGuidOrNull = toGuidOrNull(props.groupTypeGuid)) !== null && _toGuidOrNull !== void 0 ? _toGuidOrNull : toGuidOrNull((_internalTypeValue$va = internalTypeValue.value) === null || _internalTypeValue$va === void 0 ? void 0 : _internalTypeValue$va.value);
           });
           var roleLabel = computed(() => {
             var _internalTypeValue$va2, _internalTypeValue$va3;
@@ -173,11 +177,12 @@ System.register(['vue', '@Obsidian/Utility/component', '@Obsidian/Utility/http',
           }
           function _loadRoleOptions() {
             _loadRoleOptions = _asyncToGenerator(function* () {
-              if (!groupTypeGuidValue.value) {
+              var groupTypeGuid = toGuidOrNull(groupTypeGuidValue.value);
+              if (!groupTypeGuid || areEqual(groupTypeGuid, emptyGuid)) {
                 return [];
               }
               var options = {
-                groupTypeGuid: groupTypeGuidValue.value,
+                groupTypeGuid,
                 excludeGroupRoles: props.excludeGroupRoles
               };
               var result = yield http.post("/api/v2/Controls/GroupRolePickerGetGroupRoles", null, options);
@@ -200,8 +205,13 @@ System.register(['vue', '@Obsidian/Utility/component', '@Obsidian/Utility/http',
           function _loadRoleOptionsFromValue() {
             _loadRoleOptionsFromValue = _asyncToGenerator(function* () {
               var _props$modelValue;
+              var groupRoleGuid = toGuidOrNull((_props$modelValue = props.modelValue) === null || _props$modelValue === void 0 ? void 0 : _props$modelValue.value);
+              if (!groupRoleGuid || areEqual(groupRoleGuid, emptyGuid)) {
+                loadedRoleItems.value = [];
+                return;
+              }
               var options = {
-                groupRoleGuid: (_props$modelValue = props.modelValue) === null || _props$modelValue === void 0 ? void 0 : _props$modelValue.value,
+                groupRoleGuid,
                 excludeGroupRoles: props.excludeGroupRoles
               };
               var result = yield http.post("/api/v2/Controls/GroupRolePickerGetAllForGroupRole", null, options);

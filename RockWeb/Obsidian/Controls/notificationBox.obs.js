@@ -1,4 +1,4 @@
-System.register(['vue', '@Obsidian/Enums/Controls/alertType', './transitionVerticalCollapse'], (function (exports) {
+System.register(['vue', '@Obsidian/Enums/Controls/alertType', './transitionVerticalCollapse.obs'], (function (exports) {
   'use strict';
   var createElementVNode, defineComponent, computed, ref, openBlock, createElementBlock, normalizeClass, unref, withModifiers, createCommentVNode, toDisplayString, renderSlot, createBlock, withCtx, AlertType, TransitionVerticalCollapse;
   return {

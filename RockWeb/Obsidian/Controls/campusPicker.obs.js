@@ -1,4 +1,4 @@
-System.register(['vue', '@Obsidian/Enums/Controls/pickerDisplayStyle', '@Obsidian/Utility/component', '@Obsidian/Utility/guid', '@Obsidian/Utility/http', '@Obsidian/Utility/suspense', '@Obsidian/ValidationRules', './baseAsyncPicker'], (function (exports) {
+System.register(['vue', '@Obsidian/Enums/Controls/pickerDisplayStyle', '@Obsidian/Utility/component', '@Obsidian/Utility/guid', '@Obsidian/Utility/http', '@Obsidian/Utility/suspense', '@Obsidian/ValidationRules', './baseAsyncPicker.obs'], (function (exports) {
   'use strict';
   var defineComponent, ref, computed, unref, openBlock, createBlock, mergeProps, isRef, createCommentVNode, PickerDisplayStyle, useVModelPassthrough, useStandardAsyncPickerProps, standardAsyncPickerProps, areEqual, useHttp, useSuspense, containsRequiredRule, BaseAsyncPicker;
   return {

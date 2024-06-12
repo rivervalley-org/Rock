@@ -1,4 +1,4 @@
-System.register(['vue', '@Obsidian/Controls/checkBox', '@Obsidian/Controls/checkBoxList', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/numberBox', '@Obsidian/Utility/booleanUtils', '@Obsidian/Utility/numberUtils', '@Obsidian/Utility/component', '@Obsidian/Enums/Reporting/comparisonType', '@Obsidian/Core/Reporting/comparisonType', './fieldType', './utils'], (function (exports, module) {
+System.register(['vue', '@Obsidian/Controls/checkBox.obs', '@Obsidian/Controls/checkBoxList.obs', '@Obsidian/Controls/dropDownList.obs', '@Obsidian/Controls/numberBox.obs', '@Obsidian/Utility/booleanUtils', '@Obsidian/Utility/numberUtils', '@Obsidian/Utility/component', '@Obsidian/Enums/Reporting/comparisonType', '@Obsidian/Core/Reporting/comparisonType', './fieldType', './utils'], (function (exports, module) {
   'use strict';
   var defineComponent, ref, computed, watch, inject, CheckBox, CheckBoxList, DropDownList, NumberBox, asBoolean, asTrueFalseOrNull, toNumber, toNumberOrNull, defineAsyncComponent, useVModelPassthrough, getFieldEditorProps;
   return {
@@ -139,8 +139,9 @@ System.register(['vue', '@Obsidian/Controls/checkBox', '@Obsidian/Controls/check
 
       function parseModelValue(modelValue) {
         try {
+          var _clientValue$value;
           var clientValue = JSON.parse(modelValue !== null && modelValue !== void 0 ? modelValue : "");
-          return clientValue.value;
+          return (_clientValue$value = clientValue.value) !== null && _clientValue$value !== void 0 ? _clientValue$value : "";
         } catch (_unused) {
           return "";
         }
@@ -197,6 +198,7 @@ System.register(['vue', '@Obsidian/Controls/checkBox', '@Obsidian/Controls/check
             if (enhancedConfig) {
               attributes.enhanceForLongLists = asBoolean(enhancedConfig);
             }
+            attributes.multiple = isMultiple.value;
             return attributes;
           });
           var repeatColumns = computed(() => toNumber(props.configurationValues[ConfigurationValueKey.RepeatColumns]));
@@ -226,7 +228,7 @@ System.register(['vue', '@Obsidian/Controls/checkBox', '@Obsidian/Controls/check
             repeatColumns
           };
         },
-        template: "\n<DropDownList v-if=\"!isMultiple || configAttributes.enhanceForLongLists\" v-model=\"internalValue\" v-bind=\"configAttributes\" :items=\"options\" :showBlankItem=\"!isRequired\" />\n<CheckBoxList v-else v-model=\"internalValues\" :items=\"options\" horizontal :repeatColumns=\"repeatColumns\" />\n"
+        template: "\n<CheckBoxList v-if=\"isMultiple && !configAttributes.enhanceForLongLists\" v-model=\"internalValues\" :items=\"options\" horizontal :repeatColumns=\"repeatColumns\" />\n<DropDownList v-else-if=\"isMultiple && configAttributes.enhanceForLongLists\" v-model=\"internalValues\" v-bind=\"configAttributes\" :items=\"options\" />\n<DropDownList v-else v-model=\"internalValue\" v-bind=\"configAttributes\" :items=\"options\" />\n"
       }));
       var FilterComponent = exports('FilterComponent', defineComponent({
         name: "DefinedValueField.Filter",

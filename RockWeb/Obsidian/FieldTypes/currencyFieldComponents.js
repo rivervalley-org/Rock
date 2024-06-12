@@ -1,4 +1,4 @@
-System.register(['vue', './utils', '@Obsidian/Utility/numberUtils', '@Obsidian/Controls/currencyBox'], (function (exports) {
+System.register(['vue', './utils', '@Obsidian/Utility/numberUtils', '@Obsidian/Controls/currencyBox.obs'], (function (exports) {
     'use strict';
     var defineComponent, getFieldEditorProps, toNumberOrNull, CurrencyBox;
     return {

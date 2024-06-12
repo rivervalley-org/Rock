@@ -1,4 +1,4 @@
-System.register(['vue', './rockFormField', '@Obsidian/Utility/component', '@Obsidian/ValidationRules', '@Obsidian/Utility/phone', './inputGroupDropDown.obs'], (function (exports) {
+System.register(['vue', './rockFormField.obs', '@Obsidian/Utility/component', '@Obsidian/ValidationRules', '@Obsidian/Utility/phone', './inputGroupDropDown.obs'], (function (exports) {
   'use strict';
   var createElementVNode, defineComponent, ref, computed, watch, openBlock, createBlock, unref, mergeProps, isRef, withCtx, normalizeClass, createElementBlock, withDirectives, vModelText, RockFormField, useVModelPassthrough, useStandardRockFormFieldProps, standardRockFormFieldProps, normalizeRules, stripPhoneNumber, formatPhoneNumber, getPhoneNumberConfiguration, InputGroupDropDown;
   return {

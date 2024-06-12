@@ -47,12 +47,23 @@ function BindNavEvents() {
       }
     });
 
-    // watch the .rock-top-header element for changes in height and write the new height to the body element as a css variable
+    // Because the header naturally closes addClass navbar-side-open when a modal is open
+    if ($('#fixed-header').length) {
+      if ( $('#fixed-header').find('.modal.in').length ) {
+        bodyElement.addClass('navbar-side-open');
+        // Listen for modal close
+        $('#fixed-header').find('.modal.in').on('hidden.bs.modal', function (e) {
+          bodyElement.removeClass('navbar-side-open');
+        })
+      }
+    }
+
+    topHeaderOffset()
+
     var topHeader = $('.rock-top-header');
-    bodyElement.css('--top-header-height', topHeader.outerHeight() + 'px');
     // create a new resize observer to watch for changes in the top header height
     var topHeaderResizeObserver = new ResizeObserver(function(entries) {
-      bodyElement.css('--top-header-height', topHeader.outerHeight() + 'px');
+      topHeaderOffset()
     });
     // start observing the top header element
     topHeaderResizeObserver.observe(topHeader[0]);
@@ -60,6 +71,19 @@ function BindNavEvents() {
   });
 }
 
+function topHeaderOffset() {
+  // watch the .rock-top-header element for changes in height and write the new height to the body element as a css variable
+  var topHeader = document.querySelector('.rock-top-header');
+  document.body.style.setProperty('--top-header-height', topHeader.offsetHeight + 'px');
+  // if the top header is a fixed header, and is not position relative, then also set the --top-header-fixed-height css variable
+  // get computed topHeader style and check if position is relative
+  var topHeaderStyle = window.getComputedStyle(topHeader);
+  if (topHeaderStyle.position !== 'relative') {
+    document.body.style.setProperty('--sticky-element-offset', topHeader.offsetHeight + 'px');
+  } else {
+    document.body.style.setProperty('--sticky-element-offset', '0px');
+  }
+}
 
 function navMouseEvents() {
   var hoverDelay = 200,

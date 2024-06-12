@@ -1,4 +1,4 @@
-System.register(['vue', './utils', '@Obsidian/Utility/numberUtils', '@Obsidian/Controls/rating', '@Obsidian/Controls/numberBox', '@Obsidian/Utility/component', '@Obsidian/Enums/Reporting/comparisonType', '@Obsidian/Core/Reporting/comparisonType', './fieldType'], (function (exports, module) {
+System.register(['vue', './utils', '@Obsidian/Utility/numberUtils', '@Obsidian/Controls/rating.obs', '@Obsidian/Controls/numberBox.obs', '@Obsidian/Utility/component', '@Obsidian/Enums/Reporting/comparisonType', '@Obsidian/Core/Reporting/comparisonType', './fieldType', '@Obsidian/Utility/stringUtils'], (function (exports, module) {
   'use strict';
   var defineComponent, ref, watch, getFieldEditorProps, getFieldConfigurationProps, toNumberOrNull, Rating, NumberBox, defineAsyncComponent;
   return {
@@ -17,7 +17,7 @@ System.register(['vue', './utils', '@Obsidian/Utility/numberUtils', '@Obsidian/C
       NumberBox = module["default"];
     }, function (module) {
       defineAsyncComponent = module.defineAsyncComponent;
-    }, function () {}, function () {}, function () {}],
+    }, function () {}, function () {}, function () {}, function () {}],
     execute: (function () {
 
       function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {

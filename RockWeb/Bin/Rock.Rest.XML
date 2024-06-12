@@ -293,6 +293,36 @@
             <param name="rockContext">The rock context.</param>
             <returns></returns>
         </member>
+        <member name="T:Rock.Rest.Controllers.AdaptiveMessageAdaptationsController">
+            <summary>
+            AdaptiveMessageAdaptations REST API
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Controllers.AdaptiveMessageAdaptationsController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.AdaptiveMessageAdaptationsController"/> class.
+            </summary>
+        </member>
+        <member name="T:Rock.Rest.Controllers.AdaptiveMessageAdaptationSegmentsController">
+            <summary>
+            AdaptiveMessageAdaptationSegments REST API
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Controllers.AdaptiveMessageAdaptationSegmentsController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.AdaptiveMessageAdaptationSegmentsController"/> class.
+            </summary>
+        </member>
+        <member name="T:Rock.Rest.Controllers.AdaptiveMessagesController">
+            <summary>
+            AdaptiveMessages REST API
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Controllers.AdaptiveMessagesController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.AdaptiveMessagesController"/> class.
+            </summary>
+        </member>
         <member name="T:Rock.Rest.Controllers.AuthAuditLogsController">
             <summary>
             AuthAuditLogs REST API
@@ -361,6 +391,26 @@
         <member name="M:Rock.Rest.Controllers.ContentCollectionSourcesController.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.ContentCollectionSourcesController"/> class.
+            </summary>
+        </member>
+        <member name="T:Rock.Rest.Controllers.ContentTopicDomainsController">
+            <summary>
+            ContentTopicDomains REST API
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Controllers.ContentTopicDomainsController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.ContentTopicDomainsController"/> class.
+            </summary>
+        </member>
+        <member name="T:Rock.Rest.Controllers.ContentTopicsController">
+            <summary>
+            ContentTopics REST API
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Controllers.ContentTopicsController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.ContentTopicsController"/> class.
             </summary>
         </member>
         <member name="T:Rock.Rest.Controllers.InteractionSessionLocationsController">
@@ -625,20 +675,22 @@
             EntitySets REST API
             </summary>
         </member>
-        <member name="M:Rock.Rest.Controllers.EntitySetsController.PostEntitySetFromGuid(System.Collections.Generic.List{System.Guid},System.Guid)">
+        <member name="M:Rock.Rest.Controllers.EntitySetsController.PostEntitySetFromGuid(System.Collections.Generic.List{System.Guid},System.Guid,System.Int32)">
             <summary>
             Posts the entity set from unique identifier.
             </summary>
             <param name="entityItemGuids">The entity item guids.</param>
             <param name="entityTypeGuid">The entity type unique identifier.</param>
+            <param name="timeToExpire">The amount of time in minutes before the entity set expires.</param>
             <returns>IHttpActionResult.</returns>
         </member>
-        <member name="M:Rock.Rest.Controllers.EntitySetsController.PostEntitySetFromInt(System.Collections.Generic.List{System.Int32},System.Int32)">
+        <member name="M:Rock.Rest.Controllers.EntitySetsController.PostEntitySetFromInt(System.Collections.Generic.List{System.Int32},System.Int32,System.Int32)">
             <summary>
             Posts the entity set from int.
             </summary>
             <param name="entityItemIds">The entity item ids.</param>
             <param name="entityTypeId">The entity type identifier.</param>
+            <param name="timeToExpire">The amount of time in minutes before the entity set expires.</param>
             <returns>System.Web.Http.IHttpActionResult.</returns>
         </member>
         <member name="M:Rock.Rest.Controllers.EntitySetsController.#ctor">
@@ -2237,6 +2289,64 @@
             <param name="immediate">A boolean depicting whether or not the interaction item should be queued
             or immediately posted to the database.</param>
         </member>
+        <member name="T:Rock.Rest.Controllers.InteractionsController.RegisterPageInteractionActionInfo">
+            <summary>
+            Describes a processing request to register a page interaction.
+            </summary>
+        </member>
+        <member name="P:Rock.Rest.Controllers.InteractionsController.RegisterPageInteractionActionInfo.PageId">
+            <summary>
+            The unique identifier of the page.
+            </summary>
+        </member>
+        <member name="P:Rock.Rest.Controllers.InteractionsController.RegisterPageInteractionActionInfo.ActionName">
+            <summary>
+            The name of the action being registered.
+            </summary>
+        </member>
+        <member name="P:Rock.Rest.Controllers.InteractionsController.RegisterPageInteractionActionInfo.BrowserSessionGuid">
+            <summary>
+            The unique identifier for the browser session.
+            </summary>
+        </member>
+        <member name="P:Rock.Rest.Controllers.InteractionsController.RegisterPageInteractionActionInfo.PageRequestDateTime">
+            <summary>
+            The server date and time on which the page was requested.
+            </summary>
+        </member>
+        <member name="P:Rock.Rest.Controllers.InteractionsController.RegisterPageInteractionActionInfo.PageRequestTimeToServe">
+            <summary>
+            The time in seconds required to serve the initial page request.
+            </summary>
+        </member>
+        <member name="P:Rock.Rest.Controllers.InteractionsController.RegisterPageInteractionActionInfo.UserAgent">
+            <summary>
+            Gets the raw user agent string of the client browser.
+            </summary>
+        </member>
+        <member name="P:Rock.Rest.Controllers.InteractionsController.RegisterPageInteractionActionInfo.UserHostAddress">
+            <summary>
+            Gets the IP host address of the remote client.
+            </summary>
+        </member>
+        <member name="P:Rock.Rest.Controllers.InteractionsController.RegisterPageInteractionActionInfo.UrlReferrerHostAddress">
+            <summary>
+            Gets the DNS host name or IP address of the client's previous request that linked to the current URL.
+            </summary>
+        </member>
+        <member name="P:Rock.Rest.Controllers.InteractionsController.RegisterPageInteractionActionInfo.UrlReferrerSearchTerms">
+            <summary>
+            Gets the query search terms of the client's previous request that linked to the current URL.
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Controllers.InteractionsController.RegisterPageInteraction(Rock.Model.PageInteractionInfo,System.Boolean)">
+            <summary>
+            Registers a page interaction.
+            </summary>
+            <param name="interactionInfo">A data object containing details about the interaction.</param>
+            <param name="immediate">A flag indicating if the action should be processed immediately. If false, the action will be added to the transaction queue.</param>
+            <returns>A status code that indicates if the request was successful.</returns>
+        </member>
         <member name="M:Rock.Rest.Controllers.InteractionsController.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.InteractionsController"/> class.
@@ -3349,6 +3459,17 @@
             Blocks REST API
             </summary>
         </member>
+        <member name="F:Rock.Rest.Controllers.BlocksController._serviceProvider">
+            <summary>
+            The service provider for this instance.
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Controllers.BlocksController.#ctor(System.IServiceProvider)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Controllers.BlocksController"/> class.
+            </summary>
+            <param name="serviceProvider">The service provider for this instance.</param>
+        </member>
         <member name="M:Rock.Rest.Controllers.BlocksController.Delete(System.Int32)">
             <summary>
             Deletes the specified Block with extra logic to flush caches.
@@ -3461,6 +3582,28 @@
             <param name="lazyLoad">If true then get the data for each tree node as it is selected, otherwise get the entire tree.</param>
             <returns></returns>
         </member>
+        <member name="M:Rock.Rest.Controllers.CategoriesController.GetDataView(System.Int32,System.Int32,System.Boolean,System.Int32,System.String,System.String,System.Boolean,System.Boolean,System.String,System.String,System.String,System.Boolean,System.String,System.String,System.Boolean,System.Boolean)">
+            <summary>
+            Gets the children for the dataview
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="rootCategoryId">The root category identifier.</param>
+            <param name="getCategorizedItems">if set to <c>true</c> [get categorized items].</param>
+            <param name="entityTypeId">The entity type for the Categorys</param>
+            <param name="entityQualifier">The entity qualifier.</param>
+            <param name="entityQualifierValue">The entity qualifier value.</param>
+            <param name="showUnnamedEntityItems">if set to <c>true</c> [show unnamed entity items].</param>
+            <param name="showCategoriesThatHaveNoChildren">if set to <c>true</c> [show categories that have no children].</param>
+            <param name="includedCategoryIds">The included category ids.</param>
+            <param name="excludedCategoryIds">The excluded category ids.</param>
+            <param name="defaultIconCssClass">The default icon CSS class.</param>
+            <param name="includeInactiveItems">if set to <c>true</c> [include inactive items].</param>
+            <param name="itemFilterPropertyName">(Advanced) Property to FilterBy on the Item Query</param>
+            <param name="itemFilterPropertyValue">(Advanced) Property Value to FilterBy on the Item Query</param>
+            <param name="lazyLoad">If true then get the data for each tree node as it is selected, otherwise get the entire tree.</param>
+            <param name="displayPersistedOnly">The flag which is set to filter out only persisted data views</param>
+            <returns></returns>
+        </member>
         <member name="M:Rock.Rest.Controllers.CategoriesController.GetAllDescendants(Rock.Rest.Controllers.CategoryItem,Rock.Model.Person,System.Boolean,System.String,System.Boolean,Rock.Data.IService,System.Boolean,System.Boolean,System.String,System.String)">
             <summary>
             Gets all both category and non-category item decendents for the provided categoryItem.
@@ -3478,7 +3621,7 @@
             <param name="itemFilterPropertyValue">The item filter property value.</param>
             <returns></returns>
         </member>
-        <member name="M:Rock.Rest.Controllers.CategoriesController.GetCategorizedItems(Rock.Data.IService,System.Int32,System.Boolean,System.Boolean,System.String,System.String)">
+        <member name="M:Rock.Rest.Controllers.CategoriesController.GetCategorizedItems``1(Rock.Data.IService,System.Int32,System.Boolean,System.Boolean,System.String,System.String)">
             <summary>
             Gets the categorized items.
             </summary>
@@ -6184,6 +6327,24 @@
             <param name="args">The options to set</param>
             <returns></returns>
         </member>
+        <member name="M:Rock.Rest.Controllers.PeopleController.OneClickUnsubscribe(System.String,System.String)">
+            <summary>
+            Unsubscribes a person from all email communications or a specific communication list if one is provided.
+            </summary>
+            <param name="personActionIdentifier">The person action identifier. Action should be "Unsubscribe".</param>
+            <param name="communicationListIdKey">The communication list identifier key.</param>
+            <remarks>
+            <para>This endpoint is for email client one-click unsubscribe functionality (<a href="https://datatracker.ietf.org/doc/html/rfc8058">RFC8058</a>).</para>
+            <para>As of 12/13/2023, <a href="https://datatracker.ietf.org/doc/html/rfc8058#section-3.1">RFC8058 Section 3.1</a> states:</para>
+            <para>
+            The POST request MUST NOT include cookies, HTTP authorization, or any
+            other context information. The unsubscribe operation is logically
+            unrelated to any previous web activity, and context information could
+            inappropriately link the unsubscribe to previous activity.
+            </para>
+            <para>For this reason, this endpoint does not and must not require authentication or authorization other than the encrypted person action identifier.</para>
+            </remarks>
+        </member>
         <member name="M:Rock.Rest.Controllers.PeopleController.UpdateProfilePhoto(System.Byte[],System.String)">
             <summary>
             Updates the profile photo of the logged in person.
@@ -7592,7 +7753,7 @@
             <summary>
             Gets the campus context.
             </summary>
-            <returns></returns>
+            <returns>The identifier for the campus context or 0 if not found.</returns>
         </member>
         <member name="M:Rock.Rest.Controllers.UtilityController.GetRockSemanticVersionNumber">
             <summary>
@@ -7608,6 +7769,37 @@
             <param name="toNumber">To number.</param>
             <param name="message">The message.</param>
             <returns></returns>
+        </member>
+        <member name="T:Rock.Rest.Handler.RockDependencyControllerActivator">
+            <summary>
+            Custom HttpControllerActivator that uses dependency injection to
+            activate the controller.
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Handler.RockDependencyControllerActivator.Create(System.Net.Http.HttpRequestMessage,System.Web.Http.Controllers.HttpControllerDescriptor,System.Type)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Rock.Rest.Handler.RockHttpControllerSelector">
+            <summary>
+            Custom controller selector that handles duplicate class names. Web Api
+            out of the box does not allow duplicate class names, even if they have
+            different namespaces and different routes.
+            </summary>
+        </member>
+        <member name="T:Rock.Rest.Handler.ServiceScopeHandler">
+            <summary>
+            A handler for the ASP.Net pipeline that will put the entire API request
+            in scoped section of the service provider.
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Handler.ServiceScopeHandler.#ctor(System.IServiceProvider)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Handler.ServiceScopeHandler"/> class.
+            </summary>
+            <param name="serviceProvider">The service provider to use as the root for all requests.</param>
+        </member>
+        <member name="M:Rock.Rest.Handler.ServiceScopeHandler.SendAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
+            <inheritdoc/>
         </member>
         <member name="T:Rock.Rest.HttpRequestMessageWrapper">
             <summary>
@@ -7636,10 +7828,263 @@
             </summary>
             <param name="request">The request to be wrapped.</param>
         </member>
+        <member name="T:Rock.Rest.Utility.RockMessageResponseContext">
+            <summary>
+            An implementation of <see cref="T:Rock.Net.IRockResponseContext"/> that can be
+            used when dealing with API requests.
+            </summary>
+        </member>
+        <member name="F:Rock.Rest.Utility.RockMessageResponseContext._seenIds">
+            <summary>
+            The HTML element identifiers that have already been seen and should
+            be ignored on further adds.
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Utility.RockMessageResponseContext.#ctor">
+            <summary>
+            Creates a new instance of <see cref="T:Rock.Net.RockResponseContext"/>.
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Utility.RockMessageResponseContext.AddBreadCrumb(Rock.Web.IBreadCrumb)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Rock.Rest.Utility.RockMessageResponseContext.AddCookie(Rock.Net.BrowserCookie)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Rock.Rest.Utility.RockMessageResponseContext.RemoveCookie(Rock.Net.BrowserCookie)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Rock.Rest.Utility.RockMessageResponseContext.AddHtmlElement(System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.String},Rock.Enums.Net.ResponseElementLocation)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Rock.Rest.Utility.RockMessageResponseContext.RedirectToUrl(System.String,System.Boolean)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Rock.Rest.Utility.RockMessageResponseContext.SetHttpHeader(System.String,System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Rock.Rest.Utility.RockMessageResponseContext.SetPageTitle(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Rock.Rest.Utility.RockMessageResponseContext.SetBrowserTitle(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Rock.Rest.Utility.RockMessageResponseContext.Update(System.Net.Http.HttpResponseMessage)">
+            <summary>
+            Updates the response message with the values from this instance.
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="T:Rock.Rest.Utility.IMappedApiModel">
+            <summary>
+            An interface that can be implemented on api models that want to use the <see cref="M:Rock.Rest.Utility.ApiModelMapper.CreateMapped``1(Rock.Rest.Utility.IMappedApiModel,System.String[])"></see> method.
+            That allows properties to be copied from the incoming api model to a target instance class.
+            </summary>
+        </member>
+        <member name="T:Rock.Rest.Utility.ApiModelMapper">
+            <summary>
+            Class ApiModelMapper.
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Utility.ApiModelMapper.CreateMapped``1(Rock.Rest.Utility.IMappedApiModel,System.String[])">
+            <summary>
+            Copies properties from the source that implements <see cref="T:Rock.Rest.Utility.IMappedApiModel"/> to the target instance class.
+            </summary>
+            <typeparam name="TTarget">The instanced type of the target.</typeparam>
+            <param name="sourceType">The source that is an <see cref="T:Rock.Rest.Utility.IMappedApiModel"/> implemented type.</param>
+            <param name="ignoreProperties">Property names to ignore. Note: Must match case.</param>
+            <returns>TTarget.</returns>
+        </member>
+        <member name="T:Rock.Rest.Utility.ApiPickerJsonMediaTypeFormatter">
+            <summary>
+            Picks the correct <see cref="T:System.Net.Http.Formatting.JsonMediaTypeFormatter"/> depending on
+            which version of the API is being requested.
+            </summary>
+            <seealso cref="T:System.Net.Http.Formatting.JsonMediaTypeFormatter" />
+        </member>
+        <member name="P:Rock.Rest.Utility.ApiPickerJsonMediaTypeFormatter.ApiV1Formatter">
+            <summary>
+            Gets the formatter that should be used for v1 endpoints.
+            </summary>
+            <value>
+            The API v2 formatter.
+            </value>
+        </member>
+        <member name="P:Rock.Rest.Utility.ApiPickerJsonMediaTypeFormatter.ApiV2Formatter">
+            <summary>
+            Gets the formatter that should be used for /api/v2 endpoints.
+            </summary>
+            <value>
+            The API v2 formatter.
+            </value>
+        </member>
+        <member name="M:Rock.Rest.Utility.ApiPickerJsonMediaTypeFormatter.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Utility.ApiPickerJsonMediaTypeFormatter"/> class.
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Utility.ApiPickerJsonMediaTypeFormatter.GetPerRequestFormatterInstance(System.Type,System.Net.Http.HttpRequestMessage,System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Rock.Rest.Utility.RockActionValueBinder">
+            <summary>
+            Custom action value binder that handles special /api/v2 endpoint use
+            cases.
+            </summary>
+            <seealso cref="T:System.Web.Http.ModelBinding.DefaultActionValueBinder" />
+        </member>
+        <member name="M:Rock.Rest.Utility.RockActionValueBinder.GetParameterBinding(System.Web.Http.Controllers.HttpParameterDescriptor)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Rock.Rest.Utility.RockFormatterParameterBinding">
+            <summary>
+            Parameter Binding that handles differences in v1 and v2 API endpoints.
+            </summary>
+            <seealso cref="T:System.Web.Http.ModelBinding.FormatterParameterBinding" />
+        </member>
+        <member name="M:Rock.Rest.Utility.RockFormatterParameterBinding.#ctor(System.Web.Http.Controllers.HttpParameterDescriptor,System.Collections.Generic.IEnumerable{System.Net.Http.Formatting.MediaTypeFormatter},System.Web.Http.Validation.IBodyModelValidator)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Utility.RockFormatterParameterBinding"/> class.
+            </summary>
+            <param name="descriptor">The descriptor.</param>
+            <param name="formatters">The formatter.</param>
+            <param name="bodyModelValidator">The body model validator.</param>
+        </member>
+        <member name="M:Rock.Rest.Utility.RockFormatterParameterBinding.ReadContentAsync(System.Net.Http.HttpRequestMessage,System.Type,System.Collections.Generic.IEnumerable{System.Net.Http.Formatting.MediaTypeFormatter},System.Net.Http.Formatting.IFormatterLogger,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Rock.Rest.Utility.RockOrganizationDateTimeJsonConverter">
+            <summary>
+            JsonConverter that handles ensuring a DateTime is in Rock Organization
+            time zone.
+            </summary>
+            <seealso cref="T:Newtonsoft.Json.JsonConverter" />
+        </member>
+        <member name="M:Rock.Rest.Utility.RockOrganizationDateTimeJsonConverter.CanConvert(System.Type)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Rock.Rest.Utility.RockOrganizationDateTimeJsonConverter.ReadJson(Newtonsoft.Json.JsonReader,System.Type,System.Object,Newtonsoft.Json.JsonSerializer)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Rock.Rest.Utility.RockOrganizationDateTimeJsonConverter.WriteJson(Newtonsoft.Json.JsonWriter,System.Object,Newtonsoft.Json.JsonSerializer)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Rock.Rest.Utility.ValueProviders.RockApiV2ValueProviderResult">
+            <summary>
+            Custom value provider result that handles conversion of DateTime
+            into the API v2 format.
+            </summary>
+            <seealso cref="T:System.Web.Http.ValueProviders.ValueProviderResult" />
+        </member>
+        <member name="M:Rock.Rest.Utility.ValueProviders.RockApiV2ValueProviderResult.#ctor(System.Object,System.String,System.Globalization.CultureInfo)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Utility.ValueProviders.RockApiV2ValueProviderResult"/> class.
+            </summary>
+            <param name="rawValue">The raw value.</param>
+            <param name="attemptedValue">The attempted value.</param>
+            <param name="culture">The culture.</param>
+        </member>
+        <member name="M:Rock.Rest.Utility.ValueProviders.RockApiV2ValueProviderResult.ConvertTo(System.Type,System.Globalization.CultureInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Rock.Rest.Utility.ValueProviders.RockQueryStringValueProvider">
+            <summary>
+            Custom <see cref="T:System.Web.Http.ValueProviders.Providers.QueryStringValueProvider"/> that handles special API v2
+            considerations.
+            </summary>
+            <seealso cref="T:System.Web.Http.ValueProviders.Providers.QueryStringValueProvider" />
+        </member>
+        <member name="M:Rock.Rest.Utility.ValueProviders.RockQueryStringValueProvider.#ctor(System.Web.Http.Controllers.HttpActionContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Utility.ValueProviders.RockQueryStringValueProvider"/> class.
+            </summary>
+            <param name="actionContext">The action context.</param>
+        </member>
+        <member name="M:Rock.Rest.Utility.ValueProviders.RockQueryStringValueProvider.GetValue(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Rock.Rest.Utility.ValueProviders.RockQueryStringValueProviderFactory">
+            <summary>
+            Special <see cref="T:System.Web.Http.ValueProviders.Providers.QueryStringValueProviderFactory"/> that makes use
+            of our custom provider to handle API v2 considerations.
+            </summary>
+            <seealso cref="T:System.Web.Http.ValueProviders.Providers.QueryStringValueProviderFactory" />
+        </member>
+        <member name="M:Rock.Rest.Utility.ValueProviders.RockQueryStringValueProviderFactory.GetValueProvider(System.Web.Http.Controllers.HttpActionContext)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Rock.Rest.Utility.ValueProviders.RockRouteDataValueProvider">
+            <summary>
+            Custom <see cref="T:System.Web.Http.ValueProviders.Providers.RouteDataValueProvider"/> implementation that
+            handles special API v2 considerations.
+            </summary>
+            <seealso cref="T:System.Web.Http.ValueProviders.Providers.RouteDataValueProvider" />
+        </member>
+        <member name="M:Rock.Rest.Utility.ValueProviders.RockRouteDataValueProvider.#ctor(System.Web.Http.Controllers.HttpActionContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.Utility.ValueProviders.RockRouteDataValueProvider"/> class.
+            </summary>
+            <param name="actionContext">The action context.</param>
+        </member>
+        <member name="M:Rock.Rest.Utility.ValueProviders.RockRouteDataValueProvider.GetValue(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Rock.Rest.Utility.ValueProviders.RockRouteDataValueProviderFactory">
+            <summary>
+            Custom <see cref="T:System.Web.Http.ValueProviders.Providers.RouteDataValueProviderFactory"/> implementation that
+            uses our custom provider to handle special API v2 considerations.
+            </summary>
+            <seealso cref="T:System.Web.Http.ValueProviders.Providers.QueryStringValueProviderFactory" />
+        </member>
+        <member name="M:Rock.Rest.Utility.ValueProviders.RockRouteDataValueProviderFactory.GetValueProvider(System.Web.Http.Controllers.HttpActionContext)">
+            <inheritdoc/>
+        </member>
         <member name="T:Rock.Rest.v2.ControlsController">
             <summary>
             Provides API endpoints for the Controls controller.
             </summary>
+        </member>
+        <member name="M:Rock.Rest.v2.ControlsController.AccountPickerGetChildren(Rock.ViewModels.Rest.Controls.AccountPickerGetChildrenOptionsBag)">
+            <summary>
+            Gets the accounts that can be displayed in the account picker.
+            </summary>
+            <param name="options">The options that describe which items to load.</param>
+            <returns>A List of <see cref="T:Rock.ViewModels.Utility.TreeItemBag"/> objects that represent the accounts.</returns>
+        </member>
+        <member name="M:Rock.Rest.v2.ControlsController.AccountPickerGetChildrenData(Rock.ViewModels.Rest.Controls.AccountPickerGetChildrenOptionsBag,Rock.Data.RockContext)">
+            <summary>
+            Gets the accounts that can be displayed in the account picker.
+            </summary>
+            <param name="options">The options that describe which items to load.</param>
+            <param name="rockContext">DB context.</param>
+            <returns>A List of <see cref="T:Rock.ViewModels.Utility.TreeItemBag"/> objects that represent the accounts.</returns>
+        </member>
+        <member name="M:Rock.Rest.v2.ControlsController.AccountPickerGetParentGuids(Rock.ViewModels.Rest.Controls.AccountPickerGetParentGuidsOptionsBag)">
+            <summary>
+            Gets the accounts that can be displayed in the account picker.
+            </summary>
+            <param name="options">The options that describe which items to load.</param>
+            <returns>A List of <see cref="T:Rock.ViewModels.Utility.TreeItemBag"/> objects that represent the accounts.</returns>
+        </member>
+        <member name="M:Rock.Rest.v2.ControlsController.AccountPickerGetSearchedAccounts(Rock.ViewModels.Rest.Controls.AccountPickerGetSearchedAccountsOptionsBag)">
+            <summary>
+            Gets the accounts that match the given search terms.
+            </summary>
+            <param name="options">The options that describe which items to load.</param>
+            <returns>A List of <see cref="T:Rock.ViewModels.Utility.ListItemBag"/> objects that represent the accounts that match the search.</returns>
+        </member>
+        <member name="M:Rock.Rest.v2.ControlsController.AccountPickerGetPreviewItems(Rock.ViewModels.Rest.Controls.AccountPickerGetPreviewItemsOptionsBag)">
+            <summary>
+            Gets the full account information of the selected accounts for the "preview" view
+            </summary>
+            <param name="options">The options that describe which items to load.</param>
+            <returns>A List of <see cref="T:Rock.ViewModels.Utility.ListItemBag"/> objects that represent the selected accounts.</returns>
+        </member>
+        <member name="M:Rock.Rest.v2.ControlsController.AccountPickerGetAllowSelectAll">
+            <summary>
+            Gets whether or not to allow account picker to Select All based on how many accounts exist
+            </summary>
+            <returns>True if there are few enough accounts</returns>
         </member>
         <member name="M:Rock.Rest.v2.ControlsController.AchievementTypePickerGetAchievementTypes(Rock.ViewModels.Rest.Controls.AchievementTypePickerGetAchievementTypesOptionsBag)">
             <summary>
@@ -7660,6 +8105,13 @@
             Validates the given address and returns the string representation of the address
             </summary>
             <param name="options">Address details to validate</param>
+            <returns>Validation information and a single string representation of the address</returns>
+        </member>
+        <member name="M:Rock.Rest.v2.ControlsController.AddressControlGetStreetAddressString(Rock.ViewModels.Controls.AddressControlBag)">
+            <summary>
+            Validates the given address and returns the string representation of the address
+            </summary>
+            <param name="address">Address details to validate</param>
             <returns>Validation information and a single string representation of the address</returns>
         </member>
         <member name="M:Rock.Rest.v2.ControlsController.AssessmentTypePickerGetEntityTypes(Rock.ViewModels.Rest.Controls.AssessmentTypePickerGetAssessmentTypesOptionsBag)">
@@ -7717,12 +8169,36 @@
             <param name="options">The options that describe which items to load.</param>
             <returns>A List of <see cref="T:Rock.ViewModels.Utility.ListItemBag"/> objects that represent the binary file types.</returns>
         </member>
+        <member name="M:Rock.Rest.v2.ControlsController.BlockTemplatePickerGetBlockTemplates(Rock.ViewModels.Rest.Controls.BlockTemplatePickerGetBlockTemplatesOptionsBag)">
+            <summary>
+            Gets the templates that can be displayed in the block template picker.
+            </summary>
+            <param name="options">The options that describe which items to load.</param>
+            <returns>A List of <see cref="T:Rock.ViewModels.Rest.Controls.BlockTemplatePickerGetBlockTemplatesResultsBag"/> objects that represent the binary file types.</returns>
+        </member>
         <member name="M:Rock.Rest.v2.ControlsController.CampusPickerGetCampuses(Rock.ViewModels.Rest.Controls.CampusPickerGetCampusesOptionsBag)">
             <summary>
             Gets the campuses that can be displayed in the campus picker.
             </summary>
             <param name="options">The options that describe which items to load.</param>
             <returns>A List of <see cref="T:Rock.ViewModels.Controls.CampusPickerItemBag"/> objects that represent the binary file types.</returns>
+        </member>
+        <member name="M:Rock.Rest.v2.ControlsController.CampusAccountAmountPickerGetAccounts(Rock.ViewModels.Rest.Controls.CampusAccountAmountPickerGetAccountsOptionsBag)">
+            <summary>
+            Gets the accounts that can be displayed in the campus account amount picker.
+            </summary>
+            <param name="options">The options that describe which items to load.</param>
+            <returns>A List of <see cref="T:Rock.ViewModels.Controls.CampusPickerItemBag"/> objects that represent the binary file types.</returns>
+        </member>
+        <member name="M:Rock.Rest.v2.ControlsController.CaptchaControlGetConfiguration">
+            <summary>
+            Gets saved captcha Site Key
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.v2.ControlsController.CaptchaControlValidateToken(Rock.ViewModels.Rest.Controls.CaptchaControlValidateTokenOptionsBag)">
+            <summary>
+            Gets saved captcha Site Key
+            </summary>
         </member>
         <member name="M:Rock.Rest.v2.ControlsController.CategorizedValuePickerGetTree(Rock.ViewModels.Rest.Controls.CategorizedValuePickerGetTreeOptionsBag)">
             <summary>
@@ -7814,6 +8290,12 @@
             <param name="rockContext">DB context</param>
             <returns>A List of <see cref="T:Rock.ViewModels.Utility.TreeItemBag"/> objects that represent the content channel items.</returns>
         </member>
+        <member name="M:Rock.Rest.v2.ControlsController.CurrencyBoxGetCurrencyInfo(Rock.ViewModels.Rest.Controls.CurrencyBoxGetCurrencyInfoOptionsBag)">
+            <summary>
+            Gets the currency info for the currency box matching the given currency code defined value Guid.
+            </summary>
+            <returns>The currency symbol and decimal places</returns>
+        </member>
         <member name="M:Rock.Rest.v2.ControlsController.DataViewPickerGetDataViews(Rock.ViewModels.Rest.Controls.DataViewPickerGetDataViewsOptionsBag)">
             <summary>
             Gets the data views and their categories that match the options sent in the request body.
@@ -7873,6 +8355,13 @@
             <returns>An instance of <see cref="T:Rock.ViewModels.Rest.Controls.EntityTagListTagBag"/> that represents the tag applied to the entity.</returns>
         </member>
         <member name="M:Rock.Rest.v2.ControlsController.EntityTagListRemoveEntityTag(Rock.ViewModels.Rest.Controls.EntityTagListRemoveEntityTagOptionsBag)">
+            <summary>
+            Removes a tag from the given entity.
+            </summary>
+            <param name="options">The options that describe the tag and the entity to be untagged.</param>
+            <returns>A response code that indicates success or failure.</returns>
+        </member>
+        <member name="M:Rock.Rest.v2.ControlsController.EntityTagListSaveTagValues(Rock.ViewModels.Rest.Controls.EntityTagListSaveTagValuesOptionsBag)">
             <summary>
             Removes a tag from the given entity.
             </summary>
@@ -7967,6 +8456,13 @@
             <param name="options">The options that describe which items to load.</param>
             <returns>A List of <see cref="T:Rock.ViewModels.Utility.ListItemBag"/> objects that represent the grades.</returns>
         </member>
+        <member name="M:Rock.Rest.v2.ControlsController.GroupAndRolePickerGetRoles(Rock.ViewModels.Rest.Controls.GroupAndRolePickerGetRolesOptionsBag)">
+            <summary>
+            Gets the roles that can be displayed in the group and role picker for the specified group.
+            </summary>
+            <param name="options">The options that describe which items to load.</param>
+            <returns>A List of <see cref="T:Rock.ViewModels.Utility.TreeItemBag"/> objects that represent the groups.</returns>
+        </member>
         <member name="M:Rock.Rest.v2.ControlsController.GroupMemberPickerGetGroupMembers(Rock.ViewModels.Rest.Controls.GroupMemberPickerGetGroupMembersOptionsBag)">
             <summary>
             Gets the group members that can be displayed in the group member picker.
@@ -8038,6 +8534,12 @@
             <param name="excludeGroupRoles">Do not include these roles in the result</param>
             <param name="rockContext">DB context</param>
             <returns>A List of <see cref="T:Rock.ViewModels.Utility.TreeItemBag"/> objects that represent the group roles.</returns>
+        </member>
+        <member name="M:Rock.Rest.v2.ControlsController.InteractionChannelInteractionComponentPickerGetChannelFromComponent(Rock.ViewModels.Rest.Controls.InteractionChannelInteractionComponentPickerGetChannelFromComponentOptionsBag)">
+            <summary>
+            Gets the interaction channel that the given interaction component is a part of.
+            </summary>
+            <returns>A <see cref="T:Rock.ViewModels.Utility.ListItemBag"/> object that represents the interaction channel.</returns>
         </member>
         <member name="M:Rock.Rest.v2.ControlsController.InteractionChannelPickerGetInteractionChannels">
             <summary>
@@ -8222,6 +8724,13 @@
             <param name="rockContext">Context for performing DB queries.</param>
             <returns>A List of <see cref="T:Rock.ViewModels.Utility.TreeItemBag"/> objects that represent a tree of metric items.</returns>
         </member>
+        <member name="M:Rock.Rest.v2.ControlsController.NoteEditorMentionSearch(Rock.ViewModels.Rest.Controls.NoteEditorMentionSearchOptionsBag)">
+            <summary>
+            Searches for possible mention candidates to display that match the request.
+            </summary>
+            <param name="options">The options that describe the mention sources to search for.</param>
+            <returns>An instance of <see cref="T:Rock.ViewModels.Rest.Controls.NoteEditorMentionSearchResultsBag"/> that contains the possible matches.</returns>
+        </member>
         <member name="M:Rock.Rest.v2.ControlsController.PagePickerGetChildren(Rock.ViewModels.Rest.Controls.PagePickerGetChildrenOptionsBag)">
             <summary>
             Gets the tree list of pages
@@ -8265,7 +8774,7 @@
             <param name="options">The options that describe how the search should be performed.</param>
             <returns>A collection of <see cref="T:Rock.Rest.Controllers.PersonSearchResult"/> objects.</returns>
         </member>
-        <member name="M:Rock.Rest.v2.ControlsController.PhoneNumberBoxGetConfiguration">
+        <member name="M:Rock.Rest.v2.ControlsController.PhoneNumberBoxGetConfiguration(Rock.ViewModels.Rest.Controls.PhoneNumberBoxGetConfigurationOptionsBag)">
             <summary>
             Get the phone number configuration related to country codes and number formats
             </summary>
@@ -8276,6 +8785,18 @@
             Gets the races that can be displayed in the race picker.
             </summary>
             <returns>A List of <see cref="T:Rock.ViewModels.Utility.ListItemBag"/> objects that represent the races and the label for the control.</returns>
+        </member>
+        <member name="M:Rock.Rest.v2.ControlsController.RegistrationInstancePickerGetRegistrationInstances(Rock.ViewModels.Rest.Controls.RegistrationInstancePickerGetRegistrationInstancesOptionsBag)">
+            <summary>
+            Gets the instances that can be displayed in the registration instance picker.
+            </summary>
+            <returns>A List of <see cref="T:Rock.ViewModels.Utility.ListItemBag"/> objects that represent the registration instances for the control.</returns>
+        </member>
+        <member name="M:Rock.Rest.v2.ControlsController.RegistrationInstancePickerGetRegistrationTemplateForInstance(Rock.ViewModels.Rest.Controls.RegistrationInstancePickerGetRegistrationTemplateForInstanceOptionsBag)">
+            <summary>
+            Gets the registration template that the given instance uses.
+            </summary>
+            <returns>A <see cref="T:Rock.ViewModels.Utility.ListItemBag"/> object that represents the registration template.</returns>
         </member>
         <member name="M:Rock.Rest.v2.ControlsController.RegistrationTemplatePickerGetChildren(Rock.ViewModels.Rest.Controls.RegistrationTemplatePickerGetChildrenOptionsBag)">
             <summary>
@@ -8347,6 +8868,13 @@
             </summary>
             <returns>A List of <see cref="T:Rock.ViewModels.Utility.ListItemBag"/> objects that represent the streak types.</returns>
         </member>
+        <member name="M:Rock.Rest.v2.ControlsController.StructuredContentEditorGetConfiguration(Rock.ViewModels.Rest.Controls.StructuredContentEditorGetConfigurationOptionsBag)">
+            <summary>
+            Gets the structured content editor configuration.
+            </summary>
+            <param name="options">The options.</param>
+            <returns>The structured content editor configuration.</returns>
+        </member>
         <member name="M:Rock.Rest.v2.ControlsController.WorkflowActionTypePickerGetChildren(Rock.ViewModels.Rest.Controls.WorkflowActionTypePickerGetChildrenOptionsBag)">
             <summary>
             Gets the workflow action types and their categories that match the options sent in the request body.
@@ -8360,6 +8888,20 @@
             Gets the categorized workflow actions.
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:Rock.Rest.v2.ControlsController.WorkflowPickerGetWorkflows(Rock.ViewModels.Rest.Controls.WorkflowPickerGetWorkflowsOptionsBag)">
+            <summary>
+            Gets the workflows and their categories that match the options sent in the request body.
+            This endpoint returns items formatted for use in a tree view control.
+            </summary>
+            <param name="options">The options that describe which workflows to load.</param>
+            <returns>A List of <see cref="T:Rock.ViewModels.Utility.ListItemBag"/> objects that represent a tree of workflows.</returns>
+        </member>
+        <member name="M:Rock.Rest.v2.ControlsController.WorkflowPickerGetWorkflowTypeForWorkflow(Rock.ViewModels.Rest.Controls.WorkflowPickerGetWorkflowTypeForWorkflowOptionsBag)">
+            <summary>
+            Gets the workflow type that the given instance uses.
+            </summary>
+            <returns>A <see cref="T:Rock.ViewModels.Utility.ListItemBag"/> object that represents the workflow type.</returns>
         </member>
         <member name="M:Rock.Rest.v2.ControlsController.WorkflowTypePickerGetWorkflowTypes(Rock.ViewModels.Rest.Controls.WorkflowTypePickerGetWorkflowTypesOptionsBag)">
             <summary>
@@ -8469,6 +9011,17 @@
             </summary>
             <seealso cref="T:Rock.Rest.ApiControllerBase" />
         </member>
+        <member name="F:Rock.Rest.v2.BlockActionsController._serviceProvider">
+            <summary>
+            The service provider for this instance.
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.v2.BlockActionsController.#ctor(System.IServiceProvider)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Rock.Rest.v2.BlockActionsController"/> class.
+            </summary>
+            <param name="serviceProvider">The service provider for this instance.</param>
+        </member>
         <member name="M:Rock.Rest.v2.BlockActionsController.BlockAction(System.Guid,System.Guid,System.String)">
             <summary>
             Executes an action handler on a specific block.
@@ -8488,7 +9041,7 @@
             <param name="parameters">The parameters.</param>
             <returns></returns>
         </member>
-        <member name="M:Rock.Rest.v2.BlockActionsController.ProcessAction(Rock.Rest.ApiControllerBase,System.Nullable{System.Guid},System.Nullable{System.Guid},System.String,Newtonsoft.Json.Linq.JToken)">
+        <member name="M:Rock.Rest.v2.BlockActionsController.ProcessAction(Rock.Rest.ApiControllerBase,System.Nullable{System.Guid},System.Nullable{System.Guid},System.String,Newtonsoft.Json.Linq.JToken,System.IServiceProvider)">
             <summary>
             Processes the action.
             </summary>
@@ -8497,7 +9050,8 @@
             <param name="blockGuid">The block unique identifier.</param>
             <param name="actionName">Name of the action.</param>
             <param name="parameters">The parameters.</param>
-            <returns></returns>
+            <param name="serviceProvider">The provider of the services that will be used to process the action.</param>
+            <returns>The result of the block action method.</returns>
         </member>
         <member name="M:Rock.Rest.v2.BlockActionsController.InvokeAction(Rock.Rest.ApiControllerBase,Rock.Blocks.IRockBlockType,System.String,System.Collections.Generic.Dictionary{System.String,Newtonsoft.Json.Linq.JToken},Newtonsoft.Json.Linq.JToken)">
             <summary>
@@ -8528,169 +9082,116 @@
             <param name="parameters">The parameters.</param>
             <returns>The single best match or <c>null</c> if it could not be determined.</returns>
         </member>
-        <member name="T:Rock.Rest.Utility.IMappedApiModel">
+        <member name="T:Rock.Rest.v2.UtilitiesController">
             <summary>
-            An interface that can be implemented on api models that want to use the <see cref="M:Rock.Rest.Utility.ApiModelMapper.CreateMapped``1(Rock.Rest.Utility.IMappedApiModel,System.String[])"></see> method.
-            That allows properties to be copied from the incoming api model to a target instance class.
+            API controller for the /api/v2/Utilities endpoints.
             </summary>
+            <seealso cref="T:Rock.Rest.ApiControllerBase" />
         </member>
-        <member name="T:Rock.Rest.Utility.ApiModelMapper">
+        <member name="M:Rock.Rest.v2.UtilitiesController.GetPersonPreferences">
             <summary>
-            Class ApiModelMapper.
+            Retrieves all preferences for the current person that are not
+            attached to any specified entity.
             </summary>
+            <returns>A collection of preference values.</returns>
         </member>
-        <member name="M:Rock.Rest.Utility.ApiModelMapper.CreateMapped``1(Rock.Rest.Utility.IMappedApiModel,System.String[])">
+        <member name="M:Rock.Rest.v2.UtilitiesController.PostPersonPreferences(Rock.ViewModels.Rest.Utilities.UpdatePersonPreferencesOptionsBag)">
             <summary>
-            Copies properties from the source that implements <see cref="T:Rock.Rest.Utility.IMappedApiModel"/> to the target instance class.
+            <para>
+            Creates or updates a set of preferences for the current person
+            that are not attached to a specific entity.
+            </para>
+            <para>
+            Setting a value to an empty string will cause it to be deleted.
+            </para>
             </summary>
-            <typeparam name="TTarget">The instanced type of the target.</typeparam>
-            <param name="sourceType">The source that is an <see cref="T:Rock.Rest.Utility.IMappedApiModel"/> implemented type.</param>
-            <param name="ignoreProperties">Property names to ignore. Note: Must match case.</param>
-            <returns>TTarget.</returns>
+            <param name="options">The options containing the preferences to be set.</param>
+            <returns>A response that indicates if the preferences were set.</returns>
         </member>
-        <member name="T:Rock.Rest.Utility.ApiPickerJsonMediaTypeFormatter">
+        <member name="M:Rock.Rest.v2.UtilitiesController.PostPersonPreferencesAccessed(Rock.ViewModels.Rest.Utilities.UpdatePersonPreferencesAccessedOptionsBag)">
             <summary>
-            Picks the correct <see cref="T:System.Net.Http.Formatting.JsonMediaTypeFormatter"/> depending on
-            which version of the API is being requested.
+            Updates the LastAccessedDateTime property for the specified keys.
+            This will apply to the preferences for the current person that
+            are not attached to a specific entity.
             </summary>
-            <seealso cref="T:System.Net.Http.Formatting.JsonMediaTypeFormatter" />
+            <param name="options">The options describing which preferences were accessed.</param>
+            <returns>A response that indicates if the request was successful.</returns>
         </member>
-        <member name="P:Rock.Rest.Utility.ApiPickerJsonMediaTypeFormatter.ApiV1Formatter">
+        <member name="M:Rock.Rest.v2.UtilitiesController.GetPersonPreferences(System.String,System.String)">
             <summary>
-            Gets the formatter that should be used for v1 endpoints.
+            Retrieves all preferences for the current person attached to
+            the specified entity.
             </summary>
-            <value>
-            The API v2 formatter.
-            </value>
+            <param name="entityTypeKey">The identifier of the attached entity type. Can be a Guid, Id or IdKey value.</param>
+            <param name="entityKey">The identifier of the attached entity. Can be a Guid, Id or IdKey value.</param>
+            <returns>A collection of preference values.</returns>
         </member>
-        <member name="P:Rock.Rest.Utility.ApiPickerJsonMediaTypeFormatter.ApiV2Formatter">
+        <member name="M:Rock.Rest.v2.UtilitiesController.PostPersonPreferences(System.String,System.String,Rock.ViewModels.Rest.Utilities.UpdatePersonPreferencesOptionsBag)">
             <summary>
-            Gets the formatter that should be used for /api/v2 endpoints.
+            <para>
+            Creates or updates a set of preferences for the current person
+            attached to the specified entity.
+            </para>
+            <para>
+            Setting a value to an empty string will cause it to be deleted.
+            </para>
             </summary>
-            <value>
-            The API v2 formatter.
-            </value>
+            <param name="entityTypeKey">The identifier of the attached entity type. Can be a Guid, Id or IdKey value.</param>
+            <param name="entityKey">The identifier of the attached entity. Can be a Guid, Id or IdKey value.</param>
+            <param name="options">The options containing the preferences to be set.</param>
+            <returns>A response that indicates if the preferences were set.</returns>
         </member>
-        <member name="M:Rock.Rest.Utility.ApiPickerJsonMediaTypeFormatter.#ctor">
+        <member name="M:Rock.Rest.v2.UtilitiesController.PostPersonPreferencesAccessed(System.String,System.String,Rock.ViewModels.Rest.Utilities.UpdatePersonPreferencesAccessedOptionsBag)">
             <summary>
-            Initializes a new instance of the <see cref="T:Rock.Rest.Utility.ApiPickerJsonMediaTypeFormatter"/> class.
+            Updates the LastAccessedDateTime property for the specified keys.
+            This will apply to the preferences for the current person that
+            are attached to the specified entity.
             </summary>
+            <param name="entityTypeKey">The identifier of the attached entity type. Can be a Guid, Id or IdKey value.</param>
+            <param name="entityKey">The identifier of the attached entity. Can be a Guid, Id or IdKey value.</param>
+            <param name="options">The options describing which preferences were accessed.</param>
+            <returns>A response that indicates if the request was successful.</returns>
         </member>
-        <member name="M:Rock.Rest.Utility.ApiPickerJsonMediaTypeFormatter.GetPerRequestFormatterInstance(System.Type,System.Net.Http.HttpRequestMessage,System.Net.Http.Headers.MediaTypeHeaderValue)">
-            <inheritdoc/>
-        </member>
-        <member name="T:Rock.Rest.Utility.RockActionValueBinder">
+        <member name="M:Rock.Rest.v2.UtilitiesController.GetPersonBlockPreferences(System.String)">
             <summary>
-            Custom action value binder that handles special /api/v2 endpoint use
-            cases.
+            Retrieves all preferences for the current person attached to
+            the specified block.
             </summary>
-            <seealso cref="T:System.Web.Http.ModelBinding.DefaultActionValueBinder" />
+            <param name="blockKey">The identifier of the block. Can be a Guid, Id or IdKey value.</param>
+            <returns>A collection of preference values.</returns>
         </member>
-        <member name="M:Rock.Rest.Utility.RockActionValueBinder.GetParameterBinding(System.Web.Http.Controllers.HttpParameterDescriptor)">
-            <inheritdoc/>
-        </member>
-        <member name="T:Rock.Rest.Utility.RockFormatterParameterBinding">
+        <member name="M:Rock.Rest.v2.UtilitiesController.PostPersonBlockPreferences(System.String,Rock.ViewModels.Rest.Utilities.UpdatePersonPreferencesOptionsBag)">
             <summary>
-            Parameter Binding that handles differences in v1 and v2 API endpoints.
+            <para>
+            Creates or updates a set of preferences for the current person
+            attached to the specified block.
+            </para>
+            <para>
+            Setting a value to an empty string will cause it to be deleted.
+            </para>
             </summary>
-            <seealso cref="T:System.Web.Http.ModelBinding.FormatterParameterBinding" />
+            <param name="blockKey">The identifier of the block. Can be a Guid, Id or IdKey value.</param>
+            <param name="options">The options containing the preferences to be set.</param>
+            <returns>A response that indicates if the preferences were set.</returns>
         </member>
-        <member name="M:Rock.Rest.Utility.RockFormatterParameterBinding.#ctor(System.Web.Http.Controllers.HttpParameterDescriptor,System.Collections.Generic.IEnumerable{System.Net.Http.Formatting.MediaTypeFormatter},System.Web.Http.Validation.IBodyModelValidator)">
+        <member name="M:Rock.Rest.v2.UtilitiesController.PostPersonBlockPreferencesAccessed(System.String,Rock.ViewModels.Rest.Utilities.UpdatePersonPreferencesAccessedOptionsBag)">
             <summary>
-            Initializes a new instance of the <see cref="T:Rock.Rest.Utility.RockFormatterParameterBinding"/> class.
+            Updates the LastAccessedDateTime property for the specified keys.
+            This will apply to the preferences for the current person that
+            are attached to the specified block.
             </summary>
-            <param name="descriptor">The descriptor.</param>
-            <param name="formatters">The formatter.</param>
-            <param name="bodyModelValidator">The body model validator.</param>
+            <param name="blockKey">The identifier of the block. Can be a Guid, Id or IdKey value.</param>
+            <param name="options">The options describing which preferences were accessed.</param>
+            <returns>A response that indicates if the request was successful.</returns>
         </member>
-        <member name="M:Rock.Rest.Utility.RockFormatterParameterBinding.ReadContentAsync(System.Net.Http.HttpRequestMessage,System.Type,System.Collections.Generic.IEnumerable{System.Net.Http.Formatting.MediaTypeFormatter},System.Net.Http.Formatting.IFormatterLogger,System.Threading.CancellationToken)">
-            <inheritdoc/>
-        </member>
-        <member name="T:Rock.Rest.Utility.RockOrganizationDateTimeJsonConverter">
+        <member name="M:Rock.Rest.v2.UtilitiesController.GetPersonOrVisitorPreferences(Rock.Web.Cache.EntityTypeCache,System.Nullable{System.Int32})">
             <summary>
-            JsonConverter that handles ensuring a DateTime is in Rock Organization
-            time zone.
+            Helper method to get the person or visitor preferences depending on
+            the logged in state of the request.
             </summary>
-            <seealso cref="T:Newtonsoft.Json.JsonConverter" />
-        </member>
-        <member name="M:Rock.Rest.Utility.RockOrganizationDateTimeJsonConverter.CanConvert(System.Type)">
-            <inheritdoc/>
-        </member>
-        <member name="M:Rock.Rest.Utility.RockOrganizationDateTimeJsonConverter.ReadJson(Newtonsoft.Json.JsonReader,System.Type,System.Object,Newtonsoft.Json.JsonSerializer)">
-            <inheritdoc/>
-        </member>
-        <member name="M:Rock.Rest.Utility.RockOrganizationDateTimeJsonConverter.WriteJson(Newtonsoft.Json.JsonWriter,System.Object,Newtonsoft.Json.JsonSerializer)">
-            <inheritdoc/>
-        </member>
-        <member name="T:Rock.Rest.Utility.ValueProviders.RockApiV2ValueProviderResult">
-            <summary>
-            Custom value provider result that handles conversion of DateTime
-            into the API v2 format.
-            </summary>
-            <seealso cref="T:System.Web.Http.ValueProviders.ValueProviderResult" />
-        </member>
-        <member name="M:Rock.Rest.Utility.ValueProviders.RockApiV2ValueProviderResult.#ctor(System.Object,System.String,System.Globalization.CultureInfo)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Rock.Rest.Utility.ValueProviders.RockApiV2ValueProviderResult"/> class.
-            </summary>
-            <param name="rawValue">The raw value.</param>
-            <param name="attemptedValue">The attempted value.</param>
-            <param name="culture">The culture.</param>
-        </member>
-        <member name="M:Rock.Rest.Utility.ValueProviders.RockApiV2ValueProviderResult.ConvertTo(System.Type,System.Globalization.CultureInfo)">
-            <inheritdoc/>
-        </member>
-        <member name="T:Rock.Rest.Utility.ValueProviders.RockQueryStringValueProvider">
-            <summary>
-            Custom <see cref="T:System.Web.Http.ValueProviders.Providers.QueryStringValueProvider"/> that handles special API v2
-            considerations.
-            </summary>
-            <seealso cref="T:System.Web.Http.ValueProviders.Providers.QueryStringValueProvider" />
-        </member>
-        <member name="M:Rock.Rest.Utility.ValueProviders.RockQueryStringValueProvider.#ctor(System.Web.Http.Controllers.HttpActionContext)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Rock.Rest.Utility.ValueProviders.RockQueryStringValueProvider"/> class.
-            </summary>
-            <param name="actionContext">The action context.</param>
-        </member>
-        <member name="M:Rock.Rest.Utility.ValueProviders.RockQueryStringValueProvider.GetValue(System.String)">
-            <inheritdoc/>
-        </member>
-        <member name="T:Rock.Rest.Utility.ValueProviders.RockQueryStringValueProviderFactory">
-            <summary>
-            Special <see cref="T:System.Web.Http.ValueProviders.Providers.QueryStringValueProviderFactory"/> that makes use
-            of our custom provider to handle API v2 considerations.
-            </summary>
-            <seealso cref="T:System.Web.Http.ValueProviders.Providers.QueryStringValueProviderFactory" />
-        </member>
-        <member name="M:Rock.Rest.Utility.ValueProviders.RockQueryStringValueProviderFactory.GetValueProvider(System.Web.Http.Controllers.HttpActionContext)">
-            <inheritdoc/>
-        </member>
-        <member name="T:Rock.Rest.Utility.ValueProviders.RockRouteDataValueProvider">
-            <summary>
-            Custom <see cref="T:System.Web.Http.ValueProviders.Providers.RouteDataValueProvider"/> implementation that
-            handles special API v2 considerations.
-            </summary>
-            <seealso cref="T:System.Web.Http.ValueProviders.Providers.RouteDataValueProvider" />
-        </member>
-        <member name="M:Rock.Rest.Utility.ValueProviders.RockRouteDataValueProvider.#ctor(System.Web.Http.Controllers.HttpActionContext)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Rock.Rest.Utility.ValueProviders.RockRouteDataValueProvider"/> class.
-            </summary>
-            <param name="actionContext">The action context.</param>
-        </member>
-        <member name="M:Rock.Rest.Utility.ValueProviders.RockRouteDataValueProvider.GetValue(System.String)">
-            <inheritdoc/>
-        </member>
-        <member name="T:Rock.Rest.Utility.ValueProviders.RockRouteDataValueProviderFactory">
-            <summary>
-            Custom <see cref="T:System.Web.Http.ValueProviders.Providers.RouteDataValueProviderFactory"/> implementation that
-            uses our custom provider to handle special API v2 considerations.
-            </summary>
-            <seealso cref="T:System.Web.Http.ValueProviders.Providers.QueryStringValueProviderFactory" />
-        </member>
-        <member name="M:Rock.Rest.Utility.ValueProviders.RockRouteDataValueProviderFactory.GetValueProvider(System.Web.Http.Controllers.HttpActionContext)">
-            <inheritdoc/>
+            <param name="entityTypeCache">The entity type cache.</param>
+            <param name="entityId">The entity identifier.</param>
+            <returns>An instance of <see cref="T:Rock.Utility.PersonPreferenceCollection"/>.</returns>
         </member>
         <member name="T:Rock.Rest.Filters.RockCacheabilityAttribute">
             <summary>
@@ -8998,6 +9499,15 @@
             </summary>
             <param name="config">The configuration.</param>
         </member>
+        <member name="M:Rock.Rest.WebApiConfig.ConfigureServiceProvider(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Configures the service provider used during API requests. This really
+            should be moved to the BeginRequest method as an HTTP handler, but
+            for now this will work until we unify everything. Just keep it all
+            private and internal.
+            </summary>
+            <param name="config">The HTTP configuration.</param>
+        </member>
         <member name="T:Rock.Rest.Constraints.ValidControllerNameConstraint">
             <summary>
             
@@ -9062,6 +9572,15 @@
             <summary>
             </summary>
             <param name="context">The exception logger context.</param>
+        </member>
+        <member name="T:Rock.Rest.Validation.RockBodyModelValidator">
+            <summary>
+            Used to recursively validate an object, while bypassing
+            types known to lead to infinite recursion, Etc.
+            </summary>
+        </member>
+        <member name="M:Rock.Rest.Validation.RockBodyModelValidator.ShouldValidateType(System.Type)">
+            <inheritdoc/>
         </member>
         <member name="T:Rock.Controllers.SearchController">
             <summary>

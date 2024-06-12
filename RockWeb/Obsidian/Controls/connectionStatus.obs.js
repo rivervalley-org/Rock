@@ -1,4 +1,4 @@
-System.register(['vue', '@Obsidian/Controls/transitionVerticalCollapse'], (function (exports) {
+System.register(['vue', '@Obsidian/Controls/transitionVerticalCollapse.obs'], (function (exports) {
   'use strict';
   var pushScopeId, popScopeId, createTextVNode, createElementVNode, defineComponent, openBlock, createBlock, unref, withCtx, createElementBlock, createCommentVNode, TransitionVerticalCollapse;
   return {

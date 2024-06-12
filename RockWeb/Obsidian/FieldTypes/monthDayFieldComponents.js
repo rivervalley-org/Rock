@@ -34,14 +34,11 @@ System.register(['vue', './utils', '@Obsidian/Utility/numberUtils', '@Obsidian/C
                         day: toNumber(components[1])
                       };
                     } else {
-                      return {
-                        month: 0,
-                        day: 0
-                      };
+                      return undefined;
                     }
                   },
                   set(newVal) {
-                    var value = newVal.month !== 0 && newVal.day !== 0 ? "".concat(newVal.month, "/").concat(newVal.day) : "";
+                    var value = newVal && newVal.month !== 0 && newVal.day !== 0 ? "".concat(newVal.month, "/").concat(newVal.day) : "";
                     emit("update:modelValue", value);
                   }
                 });

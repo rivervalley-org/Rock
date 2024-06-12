@@ -1,6 +1,6 @@
-System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/SystemGuids/entityType', '@Obsidian/Templates/detailBlock', '@Obsidian/Enums/Controls/detailPanelMode', '@Obsidian/Controls/attributeValuesContainer', '@Obsidian/Controls/checkBox', '@Obsidian/Controls/textBox', '@Obsidian/Utility/block', '@Obsidian/Utility/component', '@Obsidian/Controls/valueDetailList', '@Obsidian/Core/Controls/valueDetailListItemBuilder', '@Obsidian/Utility/util'], (function (exports) {
+System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/SystemGuids/entityType', '@Obsidian/Templates/detailBlock', '@Obsidian/Enums/Controls/detailPanelMode', '@Obsidian/Controls/attributeValuesContainer.obs', '@Obsidian/Controls/checkBox.obs', '@Obsidian/Controls/textBox.obs', '@Obsidian/Utility/block', '@Obsidian/Utility/component', '@Obsidian/Controls/valueDetailList.obs', '@Obsidian/Core/Controls/valueDetailListItemBuilder', '@Obsidian/Utility/util'], (function (exports) {
   'use strict';
-  var defineComponent, ref, watch, openBlock, createElementBlock, createElementVNode, createVNode, unref, isRef, computed, Fragment, createBlock, withCtx, createTextVNode, toDisplayString, createCommentVNode, NotificationBox, EntityType, DetailBlock, DetailPanelMode, AttributeValuesContainer, CheckBox, TextBox, watchPropertyChanges, useConfigurationValues, useInvokeBlockAction, getSecurityGrant, refreshDetailAttributes, provideSecurityGrant, propertyRef, updateRefValue, ValueDetailList, ValueDetailListItemBuilder, debounce;
+  var defineComponent, ref, watch, openBlock, createElementBlock, createElementVNode, createVNode, unref, isRef, computed, Fragment, createBlock, createCommentVNode, withCtx, NotificationBox, EntityType, DetailBlock, DetailPanelMode, AttributeValuesContainer, CheckBox, TextBox, watchPropertyChanges, useConfigurationValues, useInvokeBlockAction, getSecurityGrant, refreshDetailAttributes, provideSecurityGrant, propertyRef, updateRefValue, ValueDetailList, ValueDetailListItemBuilder, debounce;
   return {
     setters: [function (module) {
       defineComponent = module.defineComponent;
@@ -15,10 +15,8 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
       computed = module.computed;
       Fragment = module.Fragment;
       createBlock = module.createBlock;
-      withCtx = module.withCtx;
-      createTextVNode = module.createTextVNode;
-      toDisplayString = module.toDisplayString;
       createCommentVNode = module.createCommentVNode;
+      withCtx = module.withCtx;
     }, function (module) {
       NotificationBox = module["default"];
     }, function (module) {
@@ -319,13 +317,9 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
             var _snippetTypeViewBag$v, _snippetTypeViewBag$v2;
             return (_snippetTypeViewBag$v = (_snippetTypeViewBag$v2 = snippetTypeViewBag.value) === null || _snippetTypeViewBag$v2 === void 0 ? void 0 : _snippetTypeViewBag$v2.name) !== null && _snippetTypeViewBag$v !== void 0 ? _snippetTypeViewBag$v : "";
           });
-          var entityTypeName = computed(() => {
-            var _snippetTypeViewBag$v3, _snippetTypeViewBag$v4;
-            return (_snippetTypeViewBag$v3 = (_snippetTypeViewBag$v4 = snippetTypeViewBag.value) === null || _snippetTypeViewBag$v4 === void 0 ? void 0 : _snippetTypeViewBag$v4.name) !== null && _snippetTypeViewBag$v3 !== void 0 ? _snippetTypeViewBag$v3 : "New Snippet Type";
-          });
           var entityKey = computed(() => {
-            var _snippetTypeViewBag$v5, _snippetTypeViewBag$v6;
-            return (_snippetTypeViewBag$v5 = (_snippetTypeViewBag$v6 = snippetTypeViewBag.value) === null || _snippetTypeViewBag$v6 === void 0 ? void 0 : _snippetTypeViewBag$v6.idKey) !== null && _snippetTypeViewBag$v5 !== void 0 ? _snippetTypeViewBag$v5 : "";
+            var _snippetTypeViewBag$v3, _snippetTypeViewBag$v4;
+            return (_snippetTypeViewBag$v3 = (_snippetTypeViewBag$v4 = snippetTypeViewBag.value) === null || _snippetTypeViewBag$v4 === void 0 ? void 0 : _snippetTypeViewBag$v4.idKey) !== null && _snippetTypeViewBag$v3 !== void 0 ? _snippetTypeViewBag$v3 : "";
           });
           var blockLabels = computed(() => {
             var labels = [];
@@ -340,6 +334,10 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
           var options = computed(() => {
             var _config$options;
             return (_config$options = config.options) !== null && _config$options !== void 0 ? _config$options : {};
+          });
+          var isSecurityVisible = computed(() => {
+            var _config$entity;
+            return ((_config$entity = config.entity) === null || _config$entity === void 0 ? void 0 : _config$entity.canAdministrate) === true;
           });
           function onCancelEdit() {
             return _onCancelEdit.apply(this, arguments);
@@ -363,10 +361,10 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
           }
           function _onDelete() {
             _onDelete = _asyncToGenerator(function* () {
-              var _snippetTypeViewBag$v7;
+              var _snippetTypeViewBag$v5;
               errorMessage.value = "";
               var result = yield invokeBlockAction("Delete", {
-                key: (_snippetTypeViewBag$v7 = snippetTypeViewBag.value) === null || _snippetTypeViewBag$v7 === void 0 ? void 0 : _snippetTypeViewBag$v7.idKey
+                key: (_snippetTypeViewBag$v5 = snippetTypeViewBag.value) === null || _snippetTypeViewBag$v5 === void 0 ? void 0 : _snippetTypeViewBag$v5.idKey
               });
               if (result.isSuccess && result.data) {
                 return result.data;
@@ -383,9 +381,9 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
           }
           function _onEdit() {
             _onEdit = _asyncToGenerator(function* () {
-              var _snippetTypeViewBag$v8;
+              var _snippetTypeViewBag$v6;
               var result = yield invokeBlockAction("Edit", {
-                key: (_snippetTypeViewBag$v8 = snippetTypeViewBag.value) === null || _snippetTypeViewBag$v8 === void 0 ? void 0 : _snippetTypeViewBag$v8.idKey
+                key: (_snippetTypeViewBag$v6 = snippetTypeViewBag.value) === null || _snippetTypeViewBag$v6 === void 0 ? void 0 : _snippetTypeViewBag$v6.idKey
               });
               if (result.isSuccess && result.data && result.data.entity) {
                 snippetTypeEditBag.value = result.data.entity;
@@ -442,17 +440,13 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
           return (_ctx, _cache) => {
             return openBlock(), createElementBlock(Fragment, null, [blockError.value ? (openBlock(), createBlock(unref(NotificationBox), {
               key: 0,
-              alertType: "warning"
-            }, {
-              default: withCtx(() => [createTextVNode(toDisplayString(blockError.value), 1)]),
-              _: 1
-            })) : createCommentVNode("v-if", true), errorMessage.value ? (openBlock(), createBlock(unref(NotificationBox), {
+              alertType: "warning",
+              innerHTML: blockError.value
+            }, null, 8, ["innerHTML"])) : createCommentVNode("v-if", true), errorMessage.value ? (openBlock(), createBlock(unref(NotificationBox), {
               key: 1,
-              alertType: "danger"
-            }, {
-              default: withCtx(() => [createTextVNode(toDisplayString(errorMessage.value), 1)]),
-              _: 1
-            })) : createCommentVNode("v-if", true), !blockError.value ? (openBlock(), createBlock(unref(DetailBlock), {
+              alertType: "danger",
+              innerHTML: errorMessage.value
+            }, null, 8, ["innerHTML"])) : createCommentVNode("v-if", true), !blockError.value ? (openBlock(), createBlock(unref(DetailBlock), {
               key: 2,
               mode: panelMode.value,
               "onUpdate:mode": _cache[1] || (_cache[1] = $event => panelMode.value = $event),
@@ -460,13 +454,13 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
               labels: unref(blockLabels),
               entityKey: unref(entityKey),
               entityTypeGuid: unref(entityTypeGuid),
-              entityTypeName: unref(entityTypeName),
+              entityTypeName: "SnippetType",
               isAuditHidden: false,
               isBadgesVisible: true,
               isDeleteVisible: unref(isEditable),
               isEditVisible: unref(isEditable),
               isFollowVisible: false,
-              isSecurityHidden: false,
+              isSecurityHidden: !unref(isSecurityVisible),
               onCancelEdit: onCancelEdit,
               onDelete: onDelete,
               onEdit: onEdit,
@@ -483,7 +477,7 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
                 onPropertyChanged: onPropertyChanged
               }, null, 8, ["modelValue", "options"])]),
               _: 1
-            }, 8, ["mode", "name", "labels", "entityKey", "entityTypeGuid", "entityTypeName", "isDeleteVisible", "isEditVisible"])) : createCommentVNode("v-if", true)], 64);
+            }, 8, ["mode", "name", "labels", "entityKey", "entityTypeGuid", "isDeleteVisible", "isEditVisible", "isSecurityHidden"])) : createCommentVNode("v-if", true)], 64);
           };
         }
       }));

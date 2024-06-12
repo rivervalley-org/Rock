@@ -1,6 +1,6 @@
-System.register(['vue', '@Obsidian/Utility/component', './contentDropDownPicker.obs', './addressControl.obs', './rockValidation', '@Obsidian/Utility/address', './loading'], (function (exports) {
+System.register(['vue', '@Obsidian/Utility/component', './contentDropDownPicker.obs', './addressControl.obs', './rockValidation.obs', '@Obsidian/Utility/address', './loading.obs'], (function (exports) {
   'use strict';
-  var createTextVNode, defineComponent, ref, watch, openBlock, createBlock, unref, mergeProps, createSlots, withCtx, createElementVNode, createVNode, renderSlot, standardRockFormFieldProps, useStandardRockFormFieldProps, updateRefValue, ContentDropDownPicker, AddressControl, RockValidation, validateAddress, Loading;
+  var createTextVNode, defineComponent, ref, watch, openBlock, createBlock, unref, mergeProps, createSlots, withCtx, createElementVNode, createVNode, renderSlot, standardRockFormFieldProps, useStandardRockFormFieldProps, updateRefValue, ContentDropDownPicker, AddressControl, RockValidation, validateAddress, getAddressString, Loading;
   return {
     setters: [function (module) {
       createTextVNode = module.createTextVNode;
@@ -28,6 +28,7 @@ System.register(['vue', '@Obsidian/Utility/component', './contentDropDownPicker.
       RockValidation = module["default"];
     }, function (module) {
       validateAddress = module.validateAddress;
+      getAddressString = module.getAddressString;
     }, function (module) {
       Loading = module["default"];
     }],
@@ -127,8 +128,8 @@ System.register(['vue', '@Obsidian/Utility/component', './contentDropDownPicker.
         setup(__props, _ref) {
           var emit = _ref.emit;
           var props = __props;
-          var controlValue = ref(_objectSpread2({}, props.modelValue));
-          var pickerValue = ref(_objectSpread2({}, props.modelValue));
+          var controlValue = ref({});
+          var pickerValue = ref({});
           var pickerLabel = ref("");
           var errors = ref([]);
           var isLoading = ref(false);
@@ -175,9 +176,14 @@ System.register(['vue', '@Obsidian/Utility/component', './contentDropDownPicker.
             pickerValue.value = {};
             pickerLabel.value = "";
           }
-          watch(() => props.modelValue, () => {
+          watch(() => props.modelValue, _asyncToGenerator(function* () {
+            var _yield$getAddressStri, _yield$getAddressStri2;
+            console.log("Address Value Set");
             updateRefValue(controlValue, _objectSpread2({}, props.modelValue));
             updateRefValue(pickerValue, _objectSpread2({}, props.modelValue));
+            pickerLabel.value = (_yield$getAddressStri = (_yield$getAddressStri2 = yield getAddressString(props.modelValue)) === null || _yield$getAddressStri2 === void 0 ? void 0 : _yield$getAddressStri2.data) !== null && _yield$getAddressStri !== void 0 ? _yield$getAddressStri : "";
+          }), {
+            immediate: true
           });
           watch(pickerValue, () => {
             emit("update:modelValue", pickerValue.value);
@@ -219,24 +225,24 @@ System.register(['vue', '@Obsidian/Utility/component', './contentDropDownPicker.
               fn: withCtx(() => [renderSlot(_ctx.$slots, "pickerContentSuperHeader")])
             } : undefined, _ctx.$slots.prepend ? {
               name: "prepend",
-              fn: withCtx(_ref2 => {
-                var isInputGroupSupported = _ref2.isInputGroupSupported;
+              fn: withCtx(_ref3 => {
+                var isInputGroupSupported = _ref3.isInputGroupSupported;
                 return [renderSlot(_ctx.$slots, "prepend", {
                   isInputGroupSupported: isInputGroupSupported
                 })];
               })
             } : undefined, _ctx.$slots.inputGroupPrepend ? {
               name: "inputGroupPrepend",
-              fn: withCtx(_ref3 => {
-                var isInputGroupSupported = _ref3.isInputGroupSupported;
+              fn: withCtx(_ref4 => {
+                var isInputGroupSupported = _ref4.isInputGroupSupported;
                 return [renderSlot(_ctx.$slots, "inputGroupPrepend", {
                   isInputGroupSupported: isInputGroupSupported
                 })];
               })
             } : undefined, _ctx.$slots.append ? {
               name: "append",
-              fn: withCtx(_ref4 => {
-                var isInputGroupSupported = _ref4.isInputGroupSupported;
+              fn: withCtx(_ref5 => {
+                var isInputGroupSupported = _ref5.isInputGroupSupported;
                 return [renderSlot(_ctx.$slots, "append", {
                   isInputGroupSupported: isInputGroupSupported
                 })];

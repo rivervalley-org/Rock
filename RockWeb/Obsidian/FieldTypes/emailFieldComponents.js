@@ -1,4 +1,4 @@
-System.register(['vue', './utils', '@Obsidian/Controls/emailBox', '@Obsidian/Controls/textBox', '@Obsidian/Utility/component'], (function (exports) {
+System.register(['vue', './utils', '@Obsidian/Controls/emailBox.obs', '@Obsidian/Controls/textBox.obs', '@Obsidian/Utility/component'], (function (exports) {
     'use strict';
     var defineComponent, getFieldEditorProps, EmailBox, TextBox, useVModelPassthrough;
     return {

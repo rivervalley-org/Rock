@@ -1,4 +1,4 @@
-System.register(['vue', '@Obsidian/Utility/geo', '@Obsidian/SystemGuids/definedValue', '@Obsidian/Controls/loading', '@Obsidian/Utility/dialogs'], (function (exports) {
+System.register(['vue', '@Obsidian/Utility/geo', '@Obsidian/SystemGuids/definedValue', '@Obsidian/Controls/loading.obs', '@Obsidian/Utility/dialogs'], (function (exports) {
   'use strict';
   var createElementVNode, defineComponent, ref, computed, watch, nextTick, onBeforeMount, onMounted, openBlock, createElementBlock, normalizeClass, createCommentVNode, withDirectives, withModifiers, vShow, createVNode, unref, withCtx, wellKnownToCoordinates, coordinatesToWellKnown, createLatLng, toCoordinate, loadMapResources, DefinedValue, Loading, confirm;
   return {
@@ -476,7 +476,7 @@ System.register(['vue', '@Obsidian/Utility/geo', '@Obsidian/SystemGuids/definedV
         }
       }
 
-      var css_248z = ".gm-container{position:relative}.gm-map{overflow:hidden}.gm-clear-button{background:#fff;border:0;border-radius:2px;box-shadow:0 1px 4px -1px rgba(0,0,0,.3);color:#8c4b4b;line-height:0;margin-top:5px;overflow:hidden;padding:4px;position:absolute;text-align:center;text-align:left;z-index:10}.gm-clear-button:hover{background:#f5f5f5}.gm-clear-button:disabled{background:#fff;color:#aaa}.gm-clear-button i.fa{font-size:16px;padding:0 2.5px}.static-map-size{height:300px;width:500px}.expanded-map-size{height:100%;width:100%}";
+      var css_248z = ".gm-container{position:relative}.gm-map{overflow:hidden}.gm-clear-button{background:#fff;border:0;border-radius:2px;box-shadow:0 1px 4px -1px rgba(0,0,0,.3);color:#8c4b4b;line-height:0;margin-top:5px;overflow:hidden;padding:4px;position:absolute;text-align:left;z-index:10}.gm-clear-button:hover{background:#f5f5f5}.gm-clear-button:disabled{background:#fff;color:#aaa}.gm-clear-button i.fa{font-size:16px;padding:0 2.5px}.static-map-size{height:300px;width:500px}.expanded-map-size{height:100%;width:100%}";
       styleInject(css_248z);
 
       script.__file = "Framework/Controls/geoPickerMap.obs";

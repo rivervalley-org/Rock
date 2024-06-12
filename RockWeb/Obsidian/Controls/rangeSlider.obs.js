@@ -1,4 +1,4 @@
-System.register(['vue', '@Obsidian/Utility/component', './inlineRangeSlider.obs', './rockFormField'], (function (exports) {
+System.register(['vue', '@Obsidian/Utility/component', './inlineRangeSlider.obs', './rockFormField.obs'], (function (exports) {
   'use strict';
   var defineComponent, openBlock, createBlock, unref, mergeProps, withCtx, createElementVNode, createVNode, isRef, useVModelPassthrough, useStandardRockFormFieldProps, standardRockFormFieldProps, InlineRangeSlider, RockFormField;
   return {

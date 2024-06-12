@@ -1,4 +1,4 @@
-System.register(['vue', './utils', '@Obsidian/Controls/dateRangePicker'], (function (exports) {
+System.register(['vue', './utils', '@Obsidian/Controls/dateRangePicker.obs'], (function (exports) {
     'use strict';
     var defineComponent, getFieldEditorProps, DateRangePicker;
     return {
@@ -19,7 +19,7 @@ System.register(['vue', './utils', '@Obsidian/Controls/dateRangePicker'], (funct
               props: getFieldEditorProps(),
               data() {
                 return {
-                  internalValue: {}
+                  internalValue: undefined
                 };
               },
               setup() {
@@ -27,7 +27,8 @@ System.register(['vue', './utils', '@Obsidian/Controls/dateRangePicker'], (funct
               },
               watch: {
                 internalValue() {
-                  if (!this.internalValue.lowerValue && !this.internalValue.upperValue) {
+                  var _this$internalValue, _this$internalValue2;
+                  if (!((_this$internalValue = this.internalValue) !== null && _this$internalValue !== void 0 && _this$internalValue.lowerValue) && !((_this$internalValue2 = this.internalValue) !== null && _this$internalValue2 !== void 0 && _this$internalValue2.upperValue)) {
                     this.$emit("update:modelValue", "");
                   } else {
                     var _this$internalValue$l, _this$internalValue$u;

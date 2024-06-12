@@ -1,4 +1,4 @@
-System.register(['vue', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/colorPicker', './utils', '@Obsidian/Utility/component'], (function (exports) {
+System.register(['vue', '@Obsidian/Controls/dropDownList.obs', '@Obsidian/Controls/colorPicker.obs', './utils', '@Obsidian/Utility/component'], (function (exports) {
     'use strict';
     var defineComponent, computed, ref, watch, DropDownList, ColorPicker, getFieldEditorProps, getFieldConfigurationProps, useVModelPassthrough;
     return {

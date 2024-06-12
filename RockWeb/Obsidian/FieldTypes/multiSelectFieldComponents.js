@@ -1,4 +1,4 @@
-System.register(['vue', '@Obsidian/Controls/checkBoxList', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/listBox', '@Obsidian/Controls/numberBox', '@Obsidian/Controls/textBox', '@Obsidian/Utility/booleanUtils', '@Obsidian/Utility/numberUtils', '@Obsidian/Utility/component', '@Obsidian/Enums/Reporting/comparisonType', '@Obsidian/Core/Reporting/comparisonType', './fieldType', './utils'], (function (exports, module) {
+System.register(['vue', '@Obsidian/Controls/checkBoxList.obs', '@Obsidian/Controls/dropDownList.obs', '@Obsidian/Controls/listBox.obs', '@Obsidian/Controls/numberBox.obs', '@Obsidian/Controls/textBox.obs', '@Obsidian/Utility/booleanUtils', '@Obsidian/Utility/numberUtils', '@Obsidian/Utility/component', '@Obsidian/Enums/Reporting/comparisonType', '@Obsidian/Core/Reporting/comparisonType', './fieldType', './utils'], (function (exports, module) {
   'use strict';
   var defineComponent, inject, ref, computed, watch, CheckBoxList, DropDownList, ListBox, NumberBox, TextBox, asBoolean, asBooleanOrNull, asTrueFalseOrNull, toNumberOrNull, defineAsyncComponent, updateRefValue, getFieldEditorProps, getFieldConfigurationProps;
   return {
@@ -200,7 +200,7 @@ System.register(['vue', '@Obsidian/Controls/checkBoxList', '@Obsidian/Controls/d
             }
           }
         },
-        template: "\n<ListBox v-if=\"isListBox\" v-model=\"internalValue\" v-bind=\"listBoxConfigAttributes\" :items=\"options\" />\n<CheckBoxList v-else v-model=\"internalValue\" v-bind=\"checkBoxListConfigAttributes\" :items=\"options\" />\n"
+        template: "\n<ListBox v-if=\"isListBox && options.length > 0\" v-model=\"internalValue\" v-bind=\"listBoxConfigAttributes\" :items=\"options\" />\n<CheckBoxList v-else-if=\"options.length > 0\" v-model=\"internalValue\" v-bind=\"checkBoxListConfigAttributes\" :items=\"options\" />\n"
       }));
       var FilterComponent = exports('FilterComponent', defineComponent({
         name: "MultiSelectField.Filter",

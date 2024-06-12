@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="PersonSearch.ascx.cs" Inherits="RockWeb.Blocks.Crm.PersonSearch" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="PersonSearch.ascx.cs" Inherits="RockWeb.Blocks.Crm.PersonSearch" %>
 
 <asp:UpdatePanel ID="upnlContent" runat="server">
     <ContentTemplate>
@@ -20,6 +20,13 @@
                     <Rock:RockTemplateField HeaderText="Person" SortExpression="LastName,FirstName" ExcelExportBehavior="NeverInclude">
                         <ItemTemplate>
                             <asp:Literal ID="lPerson" runat="server" />
+                        </ItemTemplate>
+                    </Rock:RockTemplateField>
+                    <Rock:RockTemplateField SortExpression="" ExcelExportBehavior="NeverInclude" ItemStyle-CssClass="flex-column">
+                        <ItemTemplate>
+                            <div class="d-flex align-items-end">
+                                <asp:Literal ID="lIcons" runat="server" />
+                            </div>
                         </ItemTemplate>
                     </Rock:RockTemplateField>
                     <Rock:DateField 

@@ -1,6 +1,6 @@
-System.register(['vue', './utils', '@Obsidian/Controls/checkBox', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/imageUploader', '@Obsidian/Utility/component', '@Obsidian/Enums/Reporting/comparisonType', './fieldType', '@Obsidian/Utility/booleanUtils'], (function (exports, module) {
+System.register(['vue', './utils', '@Obsidian/Controls/checkBox.obs', '@Obsidian/Controls/dropDownList.obs', '@Obsidian/Controls/imageUploader.obs', '@Obsidian/Utility/component', '@Obsidian/Enums/Reporting/comparisonType', './fieldType', '@Obsidian/Utility/stringUtils', '@Obsidian/Utility/booleanUtils', '@Obsidian/Utility/guid'], (function (exports, module) {
   'use strict';
-  var defineComponent, ref, computed, watch, getFieldEditorProps, getFieldConfigurationProps, CheckBox, DropDownList, ImageUploader, defineAsyncComponent, updateRefValue, asBooleanOrNull, asTrueFalseOrNull;
+  var defineComponent, ref, computed, watch, getFieldEditorProps, getFieldConfigurationProps, CheckBox, DropDownList, ImageUploader, defineAsyncComponent, updateRefValue, asBooleanOrNull, asTrueFalseOrNull, toGuidOrNull;
   return {
     setters: [function (module) {
       defineComponent = module.defineComponent;
@@ -19,9 +19,11 @@ System.register(['vue', './utils', '@Obsidian/Controls/checkBox', '@Obsidian/Con
     }, function (module) {
       defineAsyncComponent = module.defineAsyncComponent;
       updateRefValue = module.updateRefValue;
-    }, function () {}, function () {}, function (module) {
+    }, function () {}, function () {}, function () {}, function (module) {
       asBooleanOrNull = module.asBooleanOrNull;
       asTrueFalseOrNull = module.asTrueFalseOrNull;
+    }, function (module) {
+      toGuidOrNull = module.toGuidOrNull;
     }],
     execute: (function () {
 
@@ -82,8 +84,7 @@ System.register(['vue', './utils', '@Obsidian/Controls/checkBox', '@Obsidian/Con
           var emit = _ref.emit;
           var internalValue = ref(null);
           var binaryFileType = computed(() => {
-            var _props$configurationV;
-            return (_props$configurationV = props.configurationValues[ConfigurationValueKey.BinaryFileType]) !== null && _props$configurationV !== void 0 ? _props$configurationV : "";
+            return toGuidOrNull(props.configurationValues[ConfigurationValueKey.BinaryFileType]);
           });
           watch(() => props.modelValue, () => {
             try {

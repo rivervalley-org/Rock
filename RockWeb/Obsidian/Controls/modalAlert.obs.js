@@ -1,4 +1,4 @@
-System.register(['vue', '@Obsidian/Enums/Controls/modalAlertType', './dialog', './rockButton'], (function (exports) {
+System.register(['vue', '@Obsidian/Enums/Controls/modalAlertType', './dialog.obs', './rockButton.obs'], (function (exports) {
   'use strict';
   var createTextVNode, defineComponent, openBlock, createBlock, unref, withCtx, createVNode, createElementBlock, toDisplayString, createCommentVNode, renderSlot, ModalAlertType, Dialog, RockButton;
   return {

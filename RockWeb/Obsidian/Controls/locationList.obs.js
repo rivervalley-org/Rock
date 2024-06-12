@@ -1,6 +1,6 @@
-System.register(['vue', '@Obsidian/Utility/block', '@Obsidian/Utility/component', '@Obsidian/Utility/http', './baseAsyncPicker', './rockLabel', './rockForm', './attributeValuesContainer', './textBox', './rockButton', './loading', './notificationBox.obs', '@Obsidian/Enums/Controls/btnSize', '@Obsidian/Enums/Controls/btnType', './addressControl.obs', '@Obsidian/Utility/address', './rockValidation'], (function (exports) {
+System.register(['vue', '@Obsidian/Utility/block', '@Obsidian/Utility/component', '@Obsidian/Utility/http', './baseAsyncPicker.obs', './rockLabel.obs', './rockForm.obs', './attributeValuesContainer.obs', './textBox.obs', './rockButton.obs', './loading.obs', './notificationBox.obs', '@Obsidian/Enums/Controls/btnSize', '@Obsidian/Enums/Controls/btnType', './addressControl.obs', '@Obsidian/Utility/address', './rockValidation.obs', '@Obsidian/Utility/guid'], (function (exports) {
   'use strict';
-  var createTextVNode, createElementVNode, defineComponent, ref, watch, computed, openBlock, createElementBlock, Fragment, createVNode, unref, withCtx, toDisplayString, createBlock, createCommentVNode, mergeProps, isRef, createSlots, useSecurityGrantToken, useStandardAsyncPickerProps, useVModelPassthrough, standardAsyncPickerProps, useHttp, BaseAsyncPicker, RockLabel, RockForm, AttributeValuesContainer, TextBox, RockButton, Loading, NotificationBox, BtnSize, BtnType, AddressControl, validateAddress, RockValidation;
+  var createTextVNode, createElementVNode, defineComponent, ref, watch, computed, openBlock, createElementBlock, Fragment, createVNode, unref, withCtx, toDisplayString, createBlock, createCommentVNode, mergeProps, isRef, createSlots, useSecurityGrantToken, useStandardAsyncPickerProps, useVModelPassthrough, standardAsyncPickerProps, useHttp, BaseAsyncPicker, RockLabel, RockForm, AttributeValuesContainer, TextBox, RockButton, Loading, NotificationBox, BtnSize, BtnType, AddressControl, validateAddress, RockValidation, toGuidOrNull, emptyGuid;
   return {
     setters: [function (module) {
       createTextVNode = module.createTextVNode;
@@ -55,6 +55,9 @@ System.register(['vue', '@Obsidian/Utility/block', '@Obsidian/Utility/component'
       validateAddress = module.validateAddress;
     }, function (module) {
       RockValidation = module["default"];
+    }, function (module) {
+      toGuidOrNull = module.toGuidOrNull;
+      emptyGuid = module.emptyGuid;
     }],
     execute: (function () {
 
@@ -162,11 +165,11 @@ System.register(['vue', '@Obsidian/Utility/block', '@Obsidian/Utility/component'
           },
           locationTypeValueGuid: {
             type: String,
-            default: ""
+            default: null
           },
           parentLocationGuid: {
             type: String,
-            default: ""
+            default: null
           },
           showCityState: {
             type: Boolean,
@@ -191,16 +194,13 @@ System.register(['vue', '@Obsidian/Utility/block', '@Obsidian/Utility/component'
           }
           function _loadItems() {
             _loadItems = _asyncToGenerator(function* () {
+              var _toGuidOrNull, _toGuidOrNull2;
               var options = {
                 showCityState: props.showCityState,
-                securityGrantToken: securityGrantToken.value
+                securityGrantToken: securityGrantToken.value,
+                locationTypeValueGuid: (_toGuidOrNull = toGuidOrNull(props.locationTypeValueGuid)) !== null && _toGuidOrNull !== void 0 ? _toGuidOrNull : emptyGuid,
+                parentLocationGuid: (_toGuidOrNull2 = toGuidOrNull(props.parentLocationGuid)) !== null && _toGuidOrNull2 !== void 0 ? _toGuidOrNull2 : emptyGuid
               };
-              if (props.parentLocationGuid) {
-                options.parentLocationGuid = props.parentLocationGuid;
-              }
-              if (props.locationTypeValueGuid) {
-                options.locationTypeValueGuid = props.locationTypeValueGuid;
-              }
               var url = "/api/v2/Controls/LocationListGetLocations";
               var result = yield http.post(url, undefined, options);
               if (result.isSuccess && result.data) {
@@ -261,6 +261,7 @@ System.register(['vue', '@Obsidian/Utility/block', '@Obsidian/Utility/component'
           }
           function _saveNewValue() {
             _saveNewValue = _asyncToGenerator(function* () {
+              var _toGuidOrNull3, _toGuidOrNull4;
               saveError.value = false;
               if (newLocationAddress.value.street1 || props.isAddressRequired) {
                 isValidating.value = true;
@@ -295,16 +296,12 @@ System.register(['vue', '@Obsidian/Utility/block', '@Obsidian/Utility/component'
                 securityGrantToken: securityGrantToken.value,
                 name: newLocationName.value,
                 showCityState: props.showCityState,
-                attributeValues: attributeValues.value
+                attributeValues: attributeValues.value,
+                locationTypeValueGuid: (_toGuidOrNull3 = toGuidOrNull(props.locationTypeValueGuid)) !== null && _toGuidOrNull3 !== void 0 ? _toGuidOrNull3 : emptyGuid,
+                parentLocationGuid: (_toGuidOrNull4 = toGuidOrNull(props.parentLocationGuid)) !== null && _toGuidOrNull4 !== void 0 ? _toGuidOrNull4 : emptyGuid
               };
               if (newLocationAddress.value.street1 || props.isAddressRequired) {
                 options.address = newLocationAddress.value;
-              }
-              if (props.parentLocationGuid) {
-                options.parentLocationGuid = props.parentLocationGuid;
-              }
-              if (props.locationTypeValueGuid) {
-                options.locationTypeValueGuid = props.locationTypeValueGuid;
               }
               var url = "/api/v2/Controls/LocationListSaveNewLocation";
               var result = yield http.post(url, undefined, options);

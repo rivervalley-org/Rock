@@ -1,6 +1,6 @@
-System.register(['vue', './utils', '@Obsidian/Utility/booleanUtils', '@Obsidian/Utility/numberUtils', '@Obsidian/Utility/component', '@Obsidian/Enums/Reporting/comparisonType', '@Obsidian/Core/Reporting/comparisonType', '@Obsidian/Utility/slidingDateRange', '@Obsidian/Utility/rockDateTime', './fieldType', '@Obsidian/Controls/slidingDateRangePicker.obs', '@Obsidian/Controls/datePicker.obs', '@Obsidian/Controls/datePartsPicker', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/textBox', '@Obsidian/Controls/numberBox', '@Obsidian/Controls/checkBox'], (function (exports, module) {
+System.register(['vue', './utils', '@Obsidian/Utility/booleanUtils', '@Obsidian/Utility/numberUtils', '@Obsidian/Utility/component', '@Obsidian/Enums/Reporting/comparisonType', '@Obsidian/Core/Reporting/comparisonType', '@Obsidian/Utility/slidingDateRange', '@Obsidian/Utility/rockDateTime', './fieldType', '@Obsidian/Controls/slidingDateRangePicker.obs', '@Obsidian/Controls/datePicker.obs', '@Obsidian/Controls/datePartsPicker.obs', '@Obsidian/Controls/dropDownList.obs', '@Obsidian/Controls/textBox.obs', '@Obsidian/Controls/numberBox.obs', '@Obsidian/Controls/checkBox.obs'], (function (exports, module) {
   'use strict';
-  var defineComponent, ref, computed, watch, getFieldEditorProps, getFieldConfigurationProps, asBoolean, asTrueFalseOrNull, toNumber, toNumberOrNull, defineAsyncComponent, updateRefValue, ComparisonType, parseSlidingDateRangeString, slidingDateRangeToString, RockDateTime, SlidingDateRangePicker, DatePicker, DatePartsPicker, getDefaultDatePartsPickerModel, DropDownList, TextBox, NumberBox, CheckBox;
+  var defineComponent, ref, computed, watch, getFieldEditorProps, getFieldConfigurationProps, asBoolean, asTrueFalseOrNull, toNumber, toNumberOrNull, defineAsyncComponent, updateRefValue, ComparisonType, parseSlidingDateRangeString, slidingDateRangeToString, RockDateTime, SlidingDateRangePicker, DatePicker, DatePartsPicker, DropDownList, TextBox, NumberBox, CheckBox;
   return {
     setters: [function (module) {
       defineComponent = module.defineComponent;
@@ -32,7 +32,6 @@ System.register(['vue', './utils', '@Obsidian/Utility/booleanUtils', '@Obsidian/
       DatePicker = module["default"];
     }, function (module) {
       DatePartsPicker = module["default"];
-      getDefaultDatePartsPickerModel = module.getDefaultDatePartsPickerModel;
     }, function (module) {
       DropDownList = module["default"];
     }, function (module) {
@@ -152,7 +151,7 @@ System.register(['vue', './utils', '@Obsidian/Utility/booleanUtils', '@Obsidian/
         data() {
           return {
             internalValue: "",
-            internalDateParts: getDefaultDatePartsPickerModel(),
+            internalDateParts: undefined,
             formattedString: ""
           };
         },
@@ -191,13 +190,13 @@ System.register(['vue', './utils', '@Obsidian/Utility/booleanUtils', '@Obsidian/
             this.internalValue = (_this$modelValue = this.modelValue) !== null && _this$modelValue !== void 0 ? _this$modelValue : "";
             var dateParts = /^(\d{4})-(\d{1,2})-(\d{1,2})/.exec((_this$modelValue2 = this.modelValue) !== null && _this$modelValue2 !== void 0 ? _this$modelValue2 : "");
             if (dateParts != null) {
-              this.internalDateParts.year = toNumber(dateParts[1]);
-              this.internalDateParts.month = toNumber(dateParts[2]);
-              this.internalDateParts.day = toNumber(dateParts[3]);
+              this.internalDateParts = {
+                year: toNumber(dateParts[1]),
+                month: toNumber(dateParts[2]),
+                day: toNumber(dateParts[3])
+              };
             } else {
-              this.internalDateParts.year = 0;
-              this.internalDateParts.month = 0;
-              this.internalDateParts.day = 0;
+              this.internalDateParts = undefined;
             }
           }
         },

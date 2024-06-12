@@ -23,6 +23,7 @@ using Rock.Utility.EntityCoding;
 using System.Data.Entity.Migrations.Model;
 using Rock.Communication;
 using System.Runtime.Remoting.Messaging;
+using Rock.Jobs;
 
 namespace com.paysley.Paysley.Jobs
 {
@@ -101,7 +102,7 @@ namespace com.paysley.Paysley.Jobs
         Order = 7
         )]
     #endregion
-    public class PaysleyDownloadPayments : IJob
+    public class PaysleyDownloadPayments : RockJob
     {
         #region Attribute Keys
 
@@ -154,21 +155,20 @@ namespace com.paysley.Paysley.Jobs
         /// Executes the specified context.
         /// </summary>
         /// <param name="context">The context.</param>
-        public void Execute( IJobExecutionContext context )
+        public override void Execute()
         {
             var exceptionMsgs = new List<string>();
             int transactionCount = 0;
 
-            JobDataMap dataMap = context.JobDetail.JobDataMap;
-            bool verboseLoggingEnabled = dataMap.GetBoolean( AttributeKey.VerboseLogging );
-            string url = dataMap.GetString( AttributeKey.ApiUrl );
-            string authToken = dataMap.GetString( AttributeKey.AuthorizationToken );
-            int daysBack = dataMap.GetString( AttributeKey.DaysBack ).AsIntegerOrNull() ?? 1;
+            bool verboseLoggingEnabled = GetAttributeValue( AttributeKey.VerboseLogging ).AsBoolean();
+            string url = GetAttributeValue( AttributeKey.ApiUrl );
+            string authToken = GetAttributeValue( AttributeKey.AuthorizationToken );
+            int daysBack = GetAttributeValue( AttributeKey.DaysBack ).AsIntegerOrNull() ?? 1;
             
-            Guid sourceTypeValueGuid = dataMap.GetString( AttributeKey.TransactionSourceType ).AsGuid();
+            Guid sourceTypeValueGuid = GetAttributeValue( AttributeKey.TransactionSourceType ).AsGuid();
             int sourceTypeValueId = DefinedValueCache.Get( sourceTypeValueGuid ).Id;
 
-            Guid defaultFinancialAccount = dataMap.GetString( AttributeKey.DefaultFinancialAccount ).AsGuid();
+            Guid defaultFinancialAccount = GetAttributeValue( AttributeKey.DefaultFinancialAccount ).AsGuid();
             int defaultAccountId = new FinancialAccountService( new RockContext() ).Get( defaultFinancialAccount ).Id;
 
             var rockContext = new RockContext();
@@ -176,7 +176,7 @@ namespace com.paysley.Paysley.Jobs
             DateTime today = RockDateTime.Today;
             TimeSpan daysBackTimeSpan = new TimeSpan( daysBack, 0, 0, 0 );
 
-            string batchNamePrefix = dataMap.GetString( AttributeKey.BatchNamePrefix );
+            string batchNamePrefix = GetAttributeValue( AttributeKey.BatchNamePrefix );
 
             DateTime endDateTime = today;
             DateTime startDateTime = endDateTime.Subtract( daysBackTimeSpan );
@@ -301,14 +301,7 @@ namespace com.paysley.Paysley.Jobs
 
                             // Get the batch
                             var batchService = new FinancialBatchService( rockContext );
-                            var batch = batchService.Get(
-                                string.Format( "{0} {1}", batchNamePrefix, transaction.TransactionDateTime.Value.ToString( "MMddy" ) ),
-                                string.Empty,
-                                null,
-                                null,
-                                transaction.TransactionDateTime.Value,
-                                new TimeSpan( 0, 0, 0, 0 ),
-                                null );
+                            var batch = batchService.GetForNewTransaction( transaction, $"{batchNamePrefix} {transaction.TransactionDateTime.Value.ToString( "MMddy" )}");
 
                             if ( batch.Id == 0 )
                             {
@@ -346,11 +339,11 @@ namespace com.paysley.Paysley.Jobs
                     sb.AppendLine( message.ToString() );
                 }
 
-                context.Result = sb.ToString();
+                this.Result = sb.ToString();
             }
             else
             {
-                context.Result = string.Format( "{0} transactions were imported.", transactionCount.ToString() ); 
+                this.Result = string.Format( "{0} transactions were imported.", transactionCount.ToString() ); 
             }
         }
 

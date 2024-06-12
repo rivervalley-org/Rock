@@ -1,6 +1,6 @@
-System.register(['vue', './categorizedValuePickerDropDownLevel.obs', './rockFormField', '@Obsidian/Utility/http', '@Obsidian/Utility/component', './notificationBox.obs', '@Obsidian/Enums/Controls/alertType', './rockButton', './dropDownList'], (function (exports) {
+System.register(['vue', './categorizedValuePickerDropDownLevel.obs', './rockFormField.obs', '@Obsidian/Utility/http', '@Obsidian/Utility/component', './notificationBox.obs', '@Obsidian/Enums/Controls/alertType', './rockButton.obs', './dropDownList.obs', '@Obsidian/Utility/guid'], (function (exports) {
   'use strict';
-  var createTextVNode, defineComponent, ref, watch, openBlock, createBlock, unref, mergeProps, withCtx, createVNode, isRef, CategorizedValuePickerDropDownLevel, RockFormField, useHttp, useVModelPassthrough, useStandardRockFormFieldProps, standardRockFormFieldProps, NotificationBox, AlertType, RockButton, DropDownList;
+  var createTextVNode, defineComponent, ref, watch, openBlock, createBlock, unref, mergeProps, withCtx, createVNode, isRef, CategorizedValuePickerDropDownLevel, RockFormField, useHttp, useVModelPassthrough, useStandardRockFormFieldProps, standardRockFormFieldProps, NotificationBox, AlertType, RockButton, DropDownList, toGuidOrNull, emptyGuid;
   return {
     setters: [function (module) {
       createTextVNode = module.createTextVNode;
@@ -32,6 +32,9 @@ System.register(['vue', './categorizedValuePickerDropDownLevel.obs', './rockForm
       RockButton = module["default"];
     }, function (module) {
       DropDownList = module["default"];
+    }, function (module) {
+      toGuidOrNull = module.toGuidOrNull;
+      emptyGuid = module.emptyGuid;
     }],
     execute: (function () {
 
@@ -148,10 +151,10 @@ System.register(['vue', './categorizedValuePickerDropDownLevel.obs', './rockForm
           }
           function _loadTree() {
             _loadTree = _asyncToGenerator(function* () {
-              var _result$errorMessage;
+              var _toGuidOrNull, _result$errorMessage;
               error.value = false;
               var options = {
-                definedTypeGuid: props.definedTypeGuid,
+                definedTypeGuid: (_toGuidOrNull = toGuidOrNull(props.definedTypeGuid)) !== null && _toGuidOrNull !== void 0 ? _toGuidOrNull : emptyGuid,
                 onlyIncludeGuids: props.onlyIncludeGuids
               };
               var result = yield http.post("/api/v2/Controls/CategorizedValuePickerGetTree", undefined, options);

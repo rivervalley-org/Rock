@@ -1,6 +1,6 @@
-System.register(['vue', '@Obsidian/Controls/checkBox', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/rockFormField', '@Obsidian/Controls/textBox', '@Obsidian/Utility/booleanUtils', '@Obsidian/Utility/component', '@Obsidian/Utility/linq', './fieldType', './utils'], (function (exports, module) {
+System.register(['vue', '@Obsidian/Controls/checkBox.obs', '@Obsidian/Controls/dropDownList.obs', '@Obsidian/Controls/rockFormField.obs', '@Obsidian/Controls/textBox.obs', '@Obsidian/Utility/booleanUtils', '@Obsidian/Utility/component', '@Obsidian/Utility/linq', './fieldType', './utils', '@Obsidian/Utility/stringUtils'], (function (exports, module) {
   'use strict';
-  var defineComponent, ref, computed, watch, CheckBox, DropDownList, RockFormField, TextBox, asBoolean, asBooleanOrNull, asTrueFalseOrNull, defineAsyncComponent, getFieldEditorProps, getFieldConfigurationProps;
+  var defineComponent, ref, computed, watch, CheckBox, DropDownList, RockFormField, TextBox, asBoolean, asBooleanOrNull, asTrueFalseOrNull, defineAsyncComponent, getFieldEditorProps, getFieldConfigurationProps, isNullOrWhiteSpace, containsHtmlTag;
   return {
     setters: [function (module) {
       defineComponent = module.defineComponent;
@@ -24,6 +24,9 @@ System.register(['vue', '@Obsidian/Controls/checkBox', '@Obsidian/Controls/dropD
     }, function () {}, function () {}, function (module) {
       getFieldEditorProps = module.getFieldEditorProps;
       getFieldConfigurationProps = module.getFieldConfigurationProps;
+    }, function (module) {
+      isNullOrWhiteSpace = module.isNullOrWhiteSpace;
+      containsHtmlTag = module.containsHtmlTag;
     }],
     execute: (function () {
 
@@ -127,6 +130,10 @@ System.register(['vue', '@Obsidian/Controls/checkBox', '@Obsidian/Controls/dropD
             var _props$configurationV4;
             return asBoolean((_props$configurationV4 = props.configurationValues[ConfigurationValueKey.DisplayValueFirst]) !== null && _props$configurationV4 !== void 0 ? _props$configurationV4 : "");
           });
+          var allowHtml = computed(() => {
+            var _props$configurationV5;
+            return asBoolean((_props$configurationV5 = props.configurationValues[ConfigurationValueKey.AllowHtml]) !== null && _props$configurationV5 !== void 0 ? _props$configurationV5 : "");
+          });
           watch(() => props.modelValue, () => {
             internalValues.value = parseModelValue(props.modelValue);
           });
@@ -148,7 +155,31 @@ System.register(['vue', '@Obsidian/Controls/checkBox', '@Obsidian/Controls/dropD
           var onRemoveClick = index => {
             internalValues.value.splice(index, 1);
           };
+          var augmentedRules = computed(() => {
+            var rules = [];
+            if (!allowHtml.value) {
+              rules.push(function (value) {
+                var isArr = Array.isArray(value);
+                if (isNullOrWhiteSpace(value) || isArr && value.length === 0) {
+                  return true;
+                }
+                if (isArr) {
+                  for (var i = 0; i < value.length; i++) {
+                    var _value$i = value[i],
+                      k = _value$i.key,
+                      v = _value$i.value;
+                    if (containsHtmlTag(String(k)) || containsHtmlTag(String(v))) {
+                      return "contains invalid characters. Please make sure that your entries do not contain any angle brackets like < or >.";
+                    }
+                  }
+                }
+                return true;
+              });
+            }
+            return rules;
+          });
           return {
+            augmentedRules,
             internalValues,
             hasValues,
             displayValueFirst,
@@ -159,7 +190,7 @@ System.register(['vue', '@Obsidian/Controls/checkBox', '@Obsidian/Controls/dropD
             onRemoveClick
           };
         },
-        template: "\n<RockFormField\n    :modelValue=\"internalValues\"\n    formGroupClasses=\"key-value-list\"\n    name=\"key-value-list\">\n    <template #default=\"{uniqueId}\">\n        <div class=\"control-wrapper\">\n<span :id=\"uniqueId\" class=\"key-value-list\">\n    <span class=\"key-value-rows\">\n        <div v-for=\"(value, valueIndex) in internalValues\" class=\"controls controls-row form-control-group\">\n            <template v-if=\"!displayValueFirst\">\n                <input v-model=\"value.key\" class=\"key-value-key form-control input-width-md\" type=\"text\" :placeholder=\"keyPlaceholder\">\n\n                <select v-if=\"hasValues\" v-model=\"value.value\" class=\"form-control input-width-lg\">\n                    <option v-for=\"option in options\" :value=\"option.value\" :key=\"option.value\">{{ option.text }}</option>\n                </select>\n                <input v-else v-model=\"value.value\" class=\"key-value-value form-control input-width-md\" type=\"text\" :placeholder=\"valuePlaceholder\">\n            </template>\n            <template v-else>\n                <select v-if=\"hasValues\" v-model=\"value.value\" class=\"form-control input-width-lg\">\n                    <option v-for=\"option in options\" :value=\"option.value\" :key=\"option.value\">{{ option.text }}</option>\n                </select>\n                <input v-else v-model=\"value.value\" class=\"key-value-value form-control input-width-md\" type=\"text\" :placeholder=\"valuePlaceholder\">\n\n                <input v-model=\"value.key\" class=\"key-value-key form-control input-width-md\" type=\"text\" :placeholder=\"keyPlaceholder\">\n            </template>\n\n            <a href=\"#\" @click.prevent=\"onRemoveClick(valueIndex)\" class=\"btn btn-sm btn-danger\"><i class=\"fa fa-times\"></i></a>\n        </div>\n    </span>\n    <div class=\"control-actions\">\n        <a class=\"btn btn-action btn-square btn-xs\" href=\"#\" @click.prevent=\"onAddClick\"><i class=\"fa fa-plus-circle\"></i></a>\n    </div>\n</span>\n        </div>\n    </template>\n</RockFormField>\n"
+        template: "\n<RockFormField\n    :modelValue=\"internalValues\"\n    formGroupClasses=\"key-value-list\"\n    name=\"key-value-list\"\n    :rules=\"augmentedRules\">\n    <template #default=\"{uniqueId}\">\n        <div class=\"control-wrapper\">\n<span :id=\"uniqueId\" class=\"key-value-list\">\n    <span class=\"key-value-rows\">\n        <div v-for=\"(value, valueIndex) in internalValues\" class=\"controls controls-row form-control-group\">\n            <template v-if=\"!displayValueFirst\">\n                <input v-model=\"value.key\" class=\"key-value-key form-control input-width-md\" type=\"text\" :placeholder=\"keyPlaceholder\">\n\n                <select v-if=\"hasValues\" v-model=\"value.value\" class=\"form-control input-width-lg\">\n                    <option v-for=\"option in options\" :value=\"option.value\" :key=\"option.value\">{{ option.text }}</option>\n                </select>\n                <input v-else v-model=\"value.value\" class=\"key-value-value form-control input-width-md\" type=\"text\" :placeholder=\"valuePlaceholder\">\n            </template>\n            <template v-else>\n                <select v-if=\"hasValues\" v-model=\"value.value\" class=\"form-control input-width-lg\">\n                    <option v-for=\"option in options\" :value=\"option.value\" :key=\"option.value\">{{ option.text }}</option>\n                </select>\n                <input v-else v-model=\"value.value\" class=\"key-value-value form-control input-width-md\" type=\"text\" :placeholder=\"valuePlaceholder\">\n\n                <input v-model=\"value.key\" class=\"key-value-key form-control input-width-md\" type=\"text\" :placeholder=\"keyPlaceholder\">\n            </template>\n\n            <a href=\"#\" @click.prevent=\"onRemoveClick(valueIndex)\" class=\"btn btn-sm btn-danger\"><i class=\"fa fa-times\"></i></a>\n        </div>\n    </span>\n    <div class=\"control-actions\">\n        <a class=\"btn btn-action btn-square btn-xs\" href=\"#\" @click.prevent=\"onAddClick\"><i class=\"fa fa-plus-circle\"></i></a>\n    </div>\n</span>\n        </div>\n    </template>\n</RockFormField>\n"
       }));
       var ConfigurationComponent = exports('ConfigurationComponent', defineComponent({
         name: "KeyValueListField.Configuration",

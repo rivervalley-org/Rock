@@ -1,6 +1,6 @@
-System.register(['vue', './checkBoxList', './datePickerBase.obs', './datePicker.obs', './dateRangePicker', './dateTimePicker', './dropDownList', './modal', './numberBox', './radioButtonList', './rockFormField', './transitionVerticalCollapse', '@Obsidian/Utility/internetCalendar', '@Obsidian/ValidationRules', '@Obsidian/Utility/rockDateTime', '@Obsidian/Utility/component', '@Obsidian/Utility/guid'], (function (exports) {
+System.register(['vue', './checkBoxList.obs', './datePickerBase.obs', './datePicker.obs', './dateRangePicker.obs', './dateTimePicker.obs', './dropDownList.obs', './modal.obs', './numberBox.obs', './radioButtonList.obs', './rockFormField.obs', './transitionVerticalCollapse.obs', '@Obsidian/Utility/internetCalendar', '@Obsidian/Utility/rockDateTime', '@Obsidian/Utility/component', '@Obsidian/Utility/guid'], (function (exports) {
   'use strict';
-  var pushScopeId, popScopeId, createTextVNode, createElementVNode, defineComponent, ref, shallowRef, computed, watch, openBlock, createElementBlock, Fragment, createVNode, unref, mergeProps, withCtx, withModifiers, isRef, renderList, toDisplayString, createCommentVNode, withDirectives, vModelRadio, CheckBoxList, DatePickerBase, DatePicker, DateRangePicker, DateTimePicker, DropDownList, Modal, NumberBox, RadioButtonList, RockFormField, TransitionVerticalCollapse, Calendar, Event, RecurrenceRule, containsRequiredRule, DayOfWeek, RockDateTime, useStandardRockFormFieldProps, standardRockFormFieldProps, updateRefValue, newGuid;
+  var pushScopeId, popScopeId, createTextVNode, createElementVNode, defineComponent, ref, shallowRef, computed, watch, openBlock, createElementBlock, Fragment, createVNode, unref, mergeProps, withCtx, withModifiers, isRef, renderList, toDisplayString, createCommentVNode, withDirectives, vModelRadio, CheckBoxList, DatePickerBase, DatePicker, DateRangePicker, DateTimePicker, DropDownList, Modal, NumberBox, RadioButtonList, RockFormField, TransitionVerticalCollapse, Calendar, Event, RecurrenceRule, DayOfWeek, RockDateTime, useStandardRockFormFieldProps, standardRockFormFieldProps, updateRefValue, newGuid;
   return {
     setters: [function (module) {
       pushScopeId = module.pushScopeId;
@@ -52,8 +52,6 @@ System.register(['vue', './checkBoxList', './datePickerBase.obs', './datePicker.
       Calendar = module.Calendar;
       Event = module.Event;
       RecurrenceRule = module.RecurrenceRule;
-    }, function (module) {
-      containsRequiredRule = module.containsRequiredRule;
     }, function (module) {
       DayOfWeek = module.DayOfWeek;
       RockDateTime = module.RockDateTime;
@@ -404,7 +402,7 @@ System.register(['vue', './checkBoxList', './datePickerBase.obs', './datePicker.
         props: _objectSpread2({
           modelValue: {
             type: String,
-            default: ""
+            required: false
           }
         }, standardRockFormFieldProps),
         emits: ["update:modelValue"],
@@ -472,39 +470,27 @@ System.register(['vue', './checkBoxList', './datePickerBase.obs', './datePicker.
             value: d,
             text: d
           }));
-          var requiredRules = computed(() => {
-            if (containsRequiredRule(props.rules)) {
-              return ["required"];
-            } else {
-              return [];
-            }
+          computed(() => {
+            return ["required"];
           });
           var durationInHours = computed({
             get() {
-              return duration.value ? Math.floor(duration.value / 60) : null;
+              return duration.value === null || duration.value <= 1 ? 0 : Math.floor(duration.value / 60);
             },
             set(value) {
               var _durationInMinutes$va;
               var newDuration = (value !== null && value !== void 0 ? value : 0) * 60 + ((_durationInMinutes$va = durationInMinutes.value) !== null && _durationInMinutes$va !== void 0 ? _durationInMinutes$va : 0);
-              if (newDuration <= 0) {
-                duration.value = null;
-              } else {
-                duration.value = newDuration;
-              }
+              duration.value = newDuration >= 0 ? newDuration : 0;
             }
           });
           var durationInMinutes = computed({
             get() {
-              return duration.value ? Math.floor(duration.value % 60) : null;
+              return duration.value === null || duration.value <= 1 ? 0 : duration.value % 60;
             },
             set(value) {
               var _durationInHours$valu;
               var newDuration = ((_durationInHours$valu = durationInHours.value) !== null && _durationInHours$valu !== void 0 ? _durationInHours$valu : 0) * 60 + (value !== null && value !== void 0 ? value : 0);
-              if (newDuration <= 0) {
-                duration.value = null;
-              } else {
-                duration.value = newDuration;
-              }
+              duration.value = newDuration >= 0 ? newDuration : 0;
             }
           });
           var isRecurringSchedule = computed(() => {
@@ -558,8 +544,8 @@ System.register(['vue', './checkBoxList', './datePickerBase.obs', './datePicker.
             return ranges;
           });
           function updateValuesFromModel() {
-            var _event$toFriendlyText, _event$startDateTime$, _event$startDateTime;
-            var calendar = getCalendarFromString(props.modelValue);
+            var _props$modelValue, _event$toFriendlyText, _event$startDateTime$, _event$startDateTime;
+            var calendar = getCalendarFromString((_props$modelValue = props.modelValue) !== null && _props$modelValue !== void 0 ? _props$modelValue : "");
             var event = calendar !== null && calendar !== void 0 && calendar.events && calendar.events.length > 0 ? calendar.events[0] : null;
             var rrule = event !== null && event !== void 0 && event.recurrenceRules && event.recurrenceRules.length > 0 ? event.recurrenceRules[0] : null;
             scheduleSummary.value = (_event$toFriendlyText = event === null || event === void 0 ? void 0 : event.toFriendlyText()) !== null && _event$toFriendlyText !== void 0 ? _event$toFriendlyText : "No Schedule";
@@ -623,13 +609,16 @@ System.register(['vue', './checkBoxList', './datePickerBase.obs', './datePicker.
                 recurringContinueUntilType.value = "endBy";
                 recurringContinueUntilDate.value = rrule.endDate.toISOString();
               }
+              if (event !== null && event !== void 0 && event.excludedDates) {
+                recurringExclusionDates.value = event === null || event === void 0 ? void 0 : event.excludedDates;
+              }
             }
           }
           function getCalendarString() {
             var _RockDateTime$parseIS, _startDateTime$value, _event$startDateTime2, _duration$value;
             var event = new Event();
-            event.startDateTime = (_RockDateTime$parseIS = RockDateTime.parseISO((_startDateTime$value = startDateTime.value) !== null && _startDateTime$value !== void 0 ? _startDateTime$value : "")) !== null && _RockDateTime$parseIS !== void 0 ? _RockDateTime$parseIS : undefined;
-            event.endDateTime = (_event$startDateTime2 = event.startDateTime) === null || _event$startDateTime2 === void 0 ? void 0 : _event$startDateTime2.addMinutes((_duration$value = duration.value) !== null && _duration$value !== void 0 ? _duration$value : 0);
+            event.startDateTime = (_RockDateTime$parseIS = RockDateTime.parseISO((_startDateTime$value = startDateTime.value) !== null && _startDateTime$value !== void 0 ? _startDateTime$value : "")) !== null && _RockDateTime$parseIS !== void 0 ? _RockDateTime$parseIS : RockDateTime.now();
+            event.endDateTime = (_event$startDateTime2 = event.startDateTime) === null || _event$startDateTime2 === void 0 ? void 0 : _event$startDateTime2.addMinutes((_duration$value = duration.value) !== null && _duration$value !== void 0 ? _duration$value : 1);
             if (scheduleType.value === "recurring") {
               if (occurrencePattern.value === "specificDates") {
                 event.recurrenceDates = specificDates.value;
@@ -703,7 +692,7 @@ System.register(['vue', './checkBoxList', './datePickerBase.obs', './datePicker.
                 }
               }
             }
-            if (event.startDateTime && event.endDateTime && duration.value !== null && duration.value > 0) {
+            if (event.startDateTime && event.endDateTime) {
               var _calendar$build;
               var calendar = new Calendar();
               calendar.events.push(event);
@@ -879,7 +868,7 @@ System.register(['vue', './checkBoxList', './datePickerBase.obs', './datePicker.
             isAddSpecificDateVisible.value = false;
           }
           function onAddExclusionDateRange() {
-            addExclusionDateRangeValue.value = {};
+            addExclusionDateRangeValue.value = undefined;
             isAddExclusionDateRangeVisible.value = true;
           }
           function onRemoveExclusionDateRange(range) {
@@ -954,13 +943,11 @@ System.register(['vue', './checkBoxList', './datePickerBase.obs', './datePicker.
                 modelValue: startDateTime.value,
                 "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => startDateTime.value = $event),
                 label: "Start Date / Time",
-                help: "",
-                rules: unref(requiredRules)
-              }, null, 8, ["modelValue", "rules"]), createVNode(unref(RockFormField), {
+                help: "Select the Date and Time to base the schedule on. Make sure to set this if you want the schedule to work. Set to blank if you want to leave this unscheduled."
+              }, null, 8, ["modelValue"]), createVNode(unref(RockFormField), {
                 modelValue: duration.value,
                 label: "Duration",
-                name: "duration",
-                rules: unref(requiredRules)
+                name: "duration"
               }, {
                 default: withCtx(() => [createElementVNode("div", _hoisted_7, [createVNode(unref(NumberBox), {
                   modelValue: unref(durationInHours),
@@ -978,7 +965,7 @@ System.register(['vue', './checkBoxList', './datePickerBase.obs', './datePicker.
                   _: 1
                 }, 8, ["modelValue"])])]),
                 _: 1
-              }, 8, ["modelValue", "rules"]), createVNode(unref(RadioButtonList), {
+              }, 8, ["modelValue"]), createVNode(unref(RadioButtonList), {
                 modelValue: scheduleType.value,
                 "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => scheduleType.value = $event),
                 items: scheduleTypeItems,

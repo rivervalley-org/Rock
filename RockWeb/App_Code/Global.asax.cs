@@ -26,12 +26,14 @@ using System.Web.Caching;
 using System.Web.Http;
 using System.Web.Optimization;
 using System.Web.Routing;
-
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Trace;
 using Rock;
 using Rock.Communication;
 using Rock.Data;
 using Rock.Logging;
 using Rock.Model;
+using Rock.Observability;
 using Rock.Transactions;
 using Rock.Utility;
 using Rock.Utility.Settings;
@@ -123,6 +125,9 @@ namespace RockWeb
 
             Rock.Bus.RockMessageBus.IsRockStarted = false;
             QueueInUse = false;
+
+            // Start-up the observability features
+            ObservabilityHelper.ConfigureObservability( true );
 
             /* 2020-05-20 MDP
                 * Prior to Application_Start, Rock.WebStartup has an AssemblyInitializer class that runs as a PreApplicationStartMethod.
@@ -494,10 +499,10 @@ namespace RockWeb
                 if ( context != null )
                 {
                     var ex = context.Server.GetLastError();
+                    HttpException httpEx = ex as HttpException;
 
                     try
                     {
-                        HttpException httpEx = ex as HttpException;
                         if ( httpEx != null )
                         {
                             int statusCode = httpEx.GetHttpCode();
@@ -522,7 +527,13 @@ namespace RockWeb
                     }
                     catch
                     {
-                        // ignore exception
+                        // Check again, but don't access the context.
+                        if ( httpEx != null && httpEx.Message.IsNotNullOrWhiteSpace() && httpEx.StackTrace.IsNotNullOrWhiteSpace() &&
+                        httpEx.Message.Contains( "The remote host closed the connection." ) &&
+                        httpEx.StackTrace.Contains( "Microsoft.AspNet.SignalR.Owin.ServerResponse.Write" ) )
+                        {
+                            return;
+                        }
                     }
 
                     while ( ex is HttpUnhandledException && ex.InnerException != null )

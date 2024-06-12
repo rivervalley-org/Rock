@@ -507,15 +507,16 @@ namespace RockWeb.Blocks.Event
             {
                 int? registrationInstanceId = hfRegistrationInstanceId.Value.AsIntegerOrNull();
                 int registrationTemplateId = hfRegistrationTemplateId.Value.AsInteger();
+                var preferences = GetBlockPersonPreferences();
 
                 string placementConfigurationJSON;
                 if ( registrationInstanceId.HasValue )
                 {
-                    placementConfigurationJSON = GetBlockUserPreference( string.Format( UserPreferenceKey.PlacementConfigurationJSON_RegistrationInstanceId, registrationInstanceId.Value ) );
+                    placementConfigurationJSON = preferences.GetValue( string.Format( UserPreferenceKey.PlacementConfigurationJSON_RegistrationInstanceId, registrationInstanceId.Value ) );
                 }
                 else
                 {
-                    placementConfigurationJSON = GetBlockUserPreference( string.Format( UserPreferenceKey.PlacementConfigurationJSON_RegistrationTemplateId, registrationTemplateId ) );
+                    placementConfigurationJSON = preferences.GetValue( string.Format( UserPreferenceKey.PlacementConfigurationJSON_RegistrationTemplateId, registrationTemplateId ) );
                 }
 
                 _placementConfiguration = placementConfigurationJSON.FromJsonOrNull<PlacementConfiguration>() ?? new PlacementConfiguration();
@@ -536,14 +537,17 @@ namespace RockWeb.Blocks.Event
             int registrationTemplateId = hfRegistrationTemplateId.Value.AsInteger();
 
             string placementConfigurationJSON = placementConfiguration.ToJson();
+            var preferences = GetBlockPersonPreferences();
             if ( registrationInstanceId.HasValue )
             {
-                SetBlockUserPreference( string.Format( UserPreferenceKey.PlacementConfigurationJSON_RegistrationInstanceId, registrationInstanceId.Value ), placementConfigurationJSON );
+                preferences.SetValue( string.Format( UserPreferenceKey.PlacementConfigurationJSON_RegistrationInstanceId, registrationInstanceId.Value ), placementConfigurationJSON );
             }
             else
             {
-                SetBlockUserPreference( string.Format( UserPreferenceKey.PlacementConfigurationJSON_RegistrationTemplateId, registrationTemplateId ), placementConfigurationJSON );
+                preferences.SetValue( string.Format( UserPreferenceKey.PlacementConfigurationJSON_RegistrationTemplateId, registrationTemplateId ), placementConfigurationJSON );
             }
+
+            preferences.Save();
 
             ShowDetails();
         }
@@ -656,6 +660,8 @@ namespace RockWeb.Blocks.Event
                 registrationInstanceList = registrationInstanceService
                     .Queryable()
                     .Where( a => a.RegistrationTemplateId == registrationTemplateId.Value )
+                    .Select( a => new { Id = a.Id, Name = a.Name } )
+                    .AsEnumerable()
                     .Select( a => new RegistrationInstance { Id = a.Id, Name = a.Name } )
                     .OrderBy( a => a.Name )
                     .ToList();
@@ -682,9 +688,9 @@ namespace RockWeb.Blocks.Event
 
                     // Only fetch what we actually need for each registration *instance* placement group.
                     var placementGroups = placementGroupsQry
-                        .Select( g => new { g.Id, g.Name, g.CampusId, g.GroupCapacity } )
+                        .Select( g => new { g.Id, g.Name, g.CampusId, g.GroupCapacity, g.GroupTypeId } )
                         .ToList()
-                        .Select( g => new Group { Id = g.Id, Name = g.Name, CampusId = g.CampusId, GroupCapacity = g.GroupCapacity } );
+                        .Select( g => new Group { Id = g.Id, Name = g.Name, CampusId = g.CampusId, GroupCapacity = g.GroupCapacity, GroupTypeId = g.GroupTypeId } );
 
                     foreach ( var placementGroup in placementGroups )
                     {
@@ -707,9 +713,9 @@ namespace RockWeb.Blocks.Event
 
             // Only fetch what we actually need for each registration *template* placement group.
             var registrationTemplatePlacementGroupList = registrationTemplatePlacementGroupQuery
-                .Select( g => new { g.Id, g.Name, g.CampusId, g.GroupCapacity } )
+                .Select( g => new { g.Id, g.Name, g.CampusId, g.GroupCapacity, g.GroupTypeId } )
                 .ToList()
-                .Select( g => new Group { Id = g.Id, Name = g.Name, CampusId = g.CampusId, GroupCapacity = g.GroupCapacity } );
+                .Select( g => new Group { Id = g.Id, Name = g.Name, CampusId = g.CampusId, GroupCapacity = g.GroupCapacity, GroupTypeId = g.GroupTypeId } );
 
             _registrationTemplatePlacementGroupIds = registrationTemplatePlacementGroupList.Select( a => a.Id ).ToList();
             var placementGroupList = new List<Group>();
@@ -735,7 +741,8 @@ namespace RockWeb.Blocks.Event
 
         private IQueryable<Group> ApplyGroupFilter( GroupTypeCache groupType, GroupService groupService, IQueryable<Group> placementGroupsQry )
         {
-            Dictionary<int, string> attributeFilters = GetBlockUserPreference( string.Format( UserPreferenceKey.GroupAttributeFilter_GroupTypeId, groupType.Id ) ).FromJsonOrNull<Dictionary<int, string>>();
+            var preferences = GetBlockPersonPreferences();
+            Dictionary<int, string> attributeFilters = preferences.GetValue( string.Format( UserPreferenceKey.GroupAttributeFilter_GroupTypeId, groupType.Id ) ).FromJsonOrNull<Dictionary<int, string>>();
             var parameterExpression = groupService.ParameterExpression;
             Expression groupWhereExpression = null;
             if (attributeFilters != null)
@@ -1680,13 +1687,14 @@ namespace RockWeb.Blocks.Event
             int registrationTemplateId = hfRegistrationTemplateId.Value.AsInteger();
 
             Dictionary<int, string> attributeFilters;
+            var preferences = GetBlockPersonPreferences();
             if ( registrationInstanceId.HasValue )
             {
-                attributeFilters = GetBlockUserPreference( string.Format( UserPreferenceKey.RegistrantAttributeFilter_RegistrationInstanceId, registrationInstanceId.Value ) ).FromJsonOrNull<Dictionary<int, string>>();
+                attributeFilters = preferences.GetValue( string.Format( UserPreferenceKey.RegistrantAttributeFilter_RegistrationInstanceId, registrationInstanceId.Value ) ).FromJsonOrNull<Dictionary<int, string>>();
             }
             else
             {
-                attributeFilters = GetBlockUserPreference( string.Format( UserPreferenceKey.RegistrantAttributeFilter_RegistrationTemplateId, registrationTemplateId ) ).FromJsonOrNull<Dictionary<int, string>>();
+                attributeFilters = preferences.GetValue( string.Format( UserPreferenceKey.RegistrantAttributeFilter_RegistrationTemplateId, registrationTemplateId ) ).FromJsonOrNull<Dictionary<int, string>>();
             }
 
             foreach ( var field in registrantAttributeFields )
@@ -1755,15 +1763,18 @@ namespace RockWeb.Blocks.Event
 
             int? registrationInstanceId = hfRegistrationInstanceId.Value.AsIntegerOrNull();
             int registrationTemplateId = hfRegistrationTemplateId.Value.AsInteger();
+            var preferences = GetBlockPersonPreferences();
 
             if ( registrationInstanceId.HasValue )
             {
-                SetBlockUserPreference( string.Format( UserPreferenceKey.RegistrantAttributeFilter_RegistrationInstanceId, registrationInstanceId.Value ), attributeFilters.ToJson() );
+                preferences.SetValue( string.Format( UserPreferenceKey.RegistrantAttributeFilter_RegistrationInstanceId, registrationInstanceId.Value ), attributeFilters.ToJson() );
             }
             else
             {
-                SetBlockUserPreference( string.Format( UserPreferenceKey.RegistrantAttributeFilter_RegistrationTemplateId, registrationTemplateId ), attributeFilters.ToJson() );
+                preferences.SetValue( string.Format( UserPreferenceKey.RegistrantAttributeFilter_RegistrationTemplateId, registrationTemplateId ), attributeFilters.ToJson() );
             }
+
+            preferences.Save();
         }
 
         /// <summary>
@@ -1860,7 +1871,8 @@ namespace RockWeb.Blocks.Event
 
             phGroupFilters.Controls.Clear();
 
-            Dictionary<int, string> attributeFilters = GetBlockUserPreference( string.Format( UserPreferenceKey.GroupAttributeFilter_GroupTypeId, groupTypeId ) ).FromJsonOrNull<Dictionary<int, string>>();
+            var preferences = GetBlockPersonPreferences();
+            Dictionary<int, string> attributeFilters = preferences.GetValue( string.Format( UserPreferenceKey.GroupAttributeFilter_GroupTypeId, groupTypeId ) ).FromJsonOrNull<Dictionary<int, string>>();
 
             foreach ( var attribute in groupAttributeList )
             {
@@ -1967,7 +1979,10 @@ namespace RockWeb.Blocks.Event
                 }
             }
 
-            SetBlockUserPreference( string.Format( UserPreferenceKey.GroupAttributeFilter_GroupTypeId, groupTypeId ), attributeFilters.ToJson() );
+            var preferences = GetBlockPersonPreferences();
+
+            preferences.SetValue( string.Format( UserPreferenceKey.GroupAttributeFilter_GroupTypeId, groupTypeId ), attributeFilters.ToJson() );
+            preferences.Save();
         }
 
         #endregion Group Filter
@@ -1988,7 +2003,8 @@ namespace RockWeb.Blocks.Event
 
             phGroupMemberFilters.Controls.Clear();
 
-            Dictionary<int, string> attributeFilters = GetBlockUserPreference( string.Format( UserPreferenceKey.GroupMemberAttributeFilter_GroupTypeId, groupTypeId ) ).FromJsonOrNull<Dictionary<int, string>>();
+            var preferences = GetBlockPersonPreferences();
+            Dictionary<int, string> attributeFilters = preferences.GetValue( string.Format( UserPreferenceKey.GroupMemberAttributeFilter_GroupTypeId, groupTypeId ) ).FromJsonOrNull<Dictionary<int, string>>();
 
             foreach ( var attribute in groupMemberAttributeList )
             {
@@ -2099,7 +2115,10 @@ namespace RockWeb.Blocks.Event
                 }
             }
 
-            SetBlockUserPreference( string.Format( UserPreferenceKey.GroupMemberAttributeFilter_GroupTypeId, groupTypeId ), attributeFilters.ToJson() );
+            var preferences = GetBlockPersonPreferences();
+
+            preferences.SetValue( string.Format( UserPreferenceKey.GroupMemberAttributeFilter_GroupTypeId, groupTypeId ), attributeFilters.ToJson() );
+            preferences.Save();
         }
 
         #endregion Group Member Filter

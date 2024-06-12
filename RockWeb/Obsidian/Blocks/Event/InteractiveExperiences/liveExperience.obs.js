@@ -1,24 +1,24 @@
-System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Controls/rockButton', '@Obsidian/Enums/Controls/btnType', '@Obsidian/Controls/radioButtonList', '@Obsidian/Utility/realTime', '@Obsidian/Utility/block'], (function (exports) {
+System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Controls/rockButton.obs', '@Obsidian/Enums/Controls/btnType', '@Obsidian/Controls/radioButtonList.obs', '@Obsidian/Utility/realTime', '@Obsidian/Utility/block'], (function (exports) {
   'use strict';
-  var createTextVNode, defineComponent, ref, computed, watch, openBlock, createElementBlock, normalizeClass, unref, createElementVNode, toDisplayString, withDirectives, vModelText, createBlock, withCtx, createCommentVNode, createVNode, resolveComponent, normalizeStyle, resolveDynamicComponent, NotificationBox, RockButton, BtnType, RadioButtonList, getTopic, useConfigurationValues, onConfigurationValuesChanged, useReloadBlock;
+  var defineComponent, computed, openBlock, createElementBlock, normalizeClass, unref, createCommentVNode, createTextVNode, ref, watch, createElementVNode, toDisplayString, withDirectives, vModelText, createBlock, withCtx, createVNode, resolveComponent, normalizeStyle, resolveDynamicComponent, NotificationBox, RockButton, BtnType, RadioButtonList, getTopic, useConfigurationValues, onConfigurationValuesChanged, useReloadBlock;
   return {
     setters: [function (module) {
-      createTextVNode = module.createTextVNode;
       defineComponent = module.defineComponent;
-      ref = module.ref;
       computed = module.computed;
-      watch = module.watch;
       openBlock = module.openBlock;
       createElementBlock = module.createElementBlock;
       normalizeClass = module.normalizeClass;
       unref = module.unref;
+      createCommentVNode = module.createCommentVNode;
+      createTextVNode = module.createTextVNode;
+      ref = module.ref;
+      watch = module.watch;
       createElementVNode = module.createElementVNode;
       toDisplayString = module.toDisplayString;
       withDirectives = module.withDirectives;
       vModelText = module.vModelText;
       createBlock = module.createBlock;
       withCtx = module.withCtx;
-      createCommentVNode = module.createCommentVNode;
       createVNode = module.createVNode;
       resolveComponent = module.resolveComponent;
       normalizeStyle = module.normalizeStyle;
@@ -89,6 +89,60 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
           required: true
         }
       };
+
+      var _hoisted_1$3 = ["src"];
+      var script$3 = defineComponent({
+        name: 'actionEmbedWebpage.partial',
+        props: actionProps,
+        setup(__props) {
+          var props = __props;
+          var additionalActionClasses = computed(() => {
+            return "experience-action-".concat(props.renderConfiguration.actionId);
+          });
+          var embedUrl = computed(() => {
+            var _props$renderConfigur, _props$renderConfigur2;
+            return (_props$renderConfigur = (_props$renderConfigur2 = props.renderConfiguration.configurationValues) === null || _props$renderConfigur2 === void 0 ? void 0 : _props$renderConfigur2.url) !== null && _props$renderConfigur !== void 0 ? _props$renderConfigur : "";
+          });
+          return (_ctx, _cache) => {
+            return openBlock(), createElementBlock("div", {
+              class: normalizeClass(["experience-action experience-action-type-3aefe3aa-41a1-4812-86e2-38255b965001", unref(additionalActionClasses)])
+            }, [unref(embedUrl) ? (openBlock(), createElementBlock("iframe", {
+              key: 0,
+              src: unref(embedUrl)
+            }, null, 8, _hoisted_1$3)) : createCommentVNode("v-if", true)], 2);
+          };
+        }
+      });
+
+      function styleInject(css, ref) {
+        if (ref === void 0) ref = {};
+        var insertAt = ref.insertAt;
+        if (!css || typeof document === 'undefined') {
+          return;
+        }
+        var head = document.head || document.getElementsByTagName('head')[0];
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        if (insertAt === 'top') {
+          if (head.firstChild) {
+            head.insertBefore(style, head.firstChild);
+          } else {
+            head.appendChild(style);
+          }
+        } else {
+          head.appendChild(style);
+        }
+        if (style.styleSheet) {
+          style.styleSheet.cssText = css;
+        } else {
+          style.appendChild(document.createTextNode(css));
+        }
+      }
+
+      var css_248z$3 = ".experience-action-type-3aefe3aa-41a1-4812-86e2-38255b965001>iframe{height:100%;left:0;position:absolute;top:0;width:100%}";
+      styleInject(css_248z$3);
+
+      script$3.__file = "src/Event/InteractiveExperiences/LiveExperience/actionEmbedWebpage.partial.obs";
 
       var _hoisted_1$2 = {
         class: "question"
@@ -180,31 +234,6 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
           };
         }
       });
-
-      function styleInject(css, ref) {
-        if (ref === void 0) ref = {};
-        var insertAt = ref.insertAt;
-        if (!css || typeof document === 'undefined') {
-          return;
-        }
-        var head = document.head || document.getElementsByTagName('head')[0];
-        var style = document.createElement('style');
-        style.type = 'text/css';
-        if (insertAt === 'top') {
-          if (head.firstChild) {
-            head.insertBefore(style, head.firstChild);
-          } else {
-            head.appendChild(style);
-          }
-        } else {
-          head.appendChild(style);
-        }
-        if (style.styleSheet) {
-          style.styleSheet.cssText = css;
-        } else {
-          style.appendChild(document.createTextNode(css));
-        }
-      }
 
       var css_248z$2 = ".experience-action-type-5ffe1f8f-5f0b-4b34-9c3f-1706d9093210 .answer:before,.experience-action-type-5ffe1f8f-5f0b-4b34-9c3f-1706d9093210 .question:before{content:\"Q:\";display:block;font-size:3em;font-weight:700;line-height:1.2;margin-bottom:4px}.experience-action-type-5ffe1f8f-5f0b-4b34-9c3f-1706d9093210 .answer:before{content:\"A:\"}.experience-action-type-5ffe1f8f-5f0b-4b34-9c3f-1706d9093210 .answer,.experience-action-type-5ffe1f8f-5f0b-4b34-9c3f-1706d9093210 .submit{margin-top:18px}";
       styleInject(css_248z$2);
@@ -352,6 +381,7 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
         setup(__props) {
           var config = useConfigurationValues();
           var actionTypeLookup = {
+            "3aefe3aa-41a1-4812-86e2-38255b965001": script$3,
             "5ffe1f8f-5f0b-4b34-9c3f-1706d9093210": script$2,
             "9256a5b7-480d-4ffa-86d1-03b8aefc254e": script$1
           };
@@ -438,7 +468,7 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
             if ((_config$style7 = config.style) !== null && _config$style7 !== void 0 && (_config$style7$action = _config$style7.action) !== null && _config$style7$action !== void 0 && _config$style7$action.primaryButtonColor) {
               styles["--experience-action-primary-btn-bg"] = config.style.action.primaryButtonColor;
             } else {
-              styles["--experience-action-primary-btn-bg"] = "var(--brand-primary)";
+              styles["--experience-action-primary-btn-bg"] = "var(--color-primary)";
             }
             if ((_config$style8 = config.style) !== null && _config$style8 !== void 0 && (_config$style8$action = _config$style8.action) !== null && _config$style8$action !== void 0 && _config$style8$action.primaryButtonTextColor) {
               styles["--experience-action-primary-btn-color"] = config.style.action.primaryButtonTextColor;
@@ -448,7 +478,7 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
             if ((_config$style9 = config.style) !== null && _config$style9 !== void 0 && (_config$style9$action = _config$style9.action) !== null && _config$style9$action !== void 0 && _config$style9$action.secondaryButtonColor) {
               styles["--experience-action-secondary-btn-bg"] = config.style.action.secondaryButtonColor;
             } else {
-              styles["--experience-action-secondary-btn-bg"] = "var(--brand-info)";
+              styles["--experience-action-secondary-btn-bg"] = "var(--color-info)";
             }
             if ((_config$style10 = config.style) !== null && _config$style10 !== void 0 && (_config$style10$actio = _config$style10.action) !== null && _config$style10$actio !== void 0 && _config$style10$actio.secondaryButtonTextColor) {
               styles["--experience-action-secondary-btn-color"] = config.style.action.secondaryButtonTextColor;

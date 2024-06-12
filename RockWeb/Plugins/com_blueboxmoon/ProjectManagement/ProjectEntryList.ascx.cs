@@ -435,7 +435,7 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
 
         #region Support Classes
 
-        public class ProjectDescription : ILiquidizable
+        public class ProjectDescription : ILavaDataDictionary, ILiquidizable
         {
             public object this[object key]
             {
@@ -505,6 +505,16 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
             public bool ContainsKey( object key )
             {
                 return AvailableKeys.Contains( key );
+            }
+
+            public bool ContainsKey( string key )
+            {
+                return ContainsKey( ( object ) key );
+            }
+
+            public object GetValue( string key )
+            {
+                return this[key];
             }
 
             public object ToLiquid()

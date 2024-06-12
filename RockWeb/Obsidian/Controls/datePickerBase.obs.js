@@ -1,6 +1,6 @@
 System.register(['vue', '@Obsidian/Utility/guid'], (function (exports) {
   'use strict';
-  var createElementVNode, defineComponent, ref, computed, watch, onMounted, openBlock, createElementBlock, withDirectives, unref, vModelText, newGuid;
+  var createElementVNode, defineComponent, ref, computed, watch, onMounted, nextTick, openBlock, createElementBlock, withDirectives, unref, vModelText, newGuid;
   return {
     setters: [function (module) {
       createElementVNode = module.createElementVNode;
@@ -9,6 +9,7 @@ System.register(['vue', '@Obsidian/Utility/guid'], (function (exports) {
       computed = module.computed;
       watch = module.watch;
       onMounted = module.onMounted;
+      nextTick = module.nextTick;
       openBlock = module.openBlock;
       createElementBlock = module.createElementBlock;
       withDirectives = module.withDirectives;
@@ -78,12 +79,6 @@ System.register(['vue', '@Obsidian/Utility/guid'], (function (exports) {
       }, [createElementVNode("i", {
         class: "fa fa-calendar"
       })], -1);
-      var StartViewOption = exports('StartViewOption', function (StartViewOption) {
-        StartViewOption[StartViewOption["Month"] = 0] = "Month";
-        StartViewOption[StartViewOption["Year"] = 1] = "Year";
-        StartViewOption[StartViewOption["Decade"] = 2] = "Decade";
-        return StartViewOption;
-      }({}));
       var script = exports('default', defineComponent({
         name: 'datePickerBase',
         props: {
@@ -122,6 +117,14 @@ System.register(['vue', '@Obsidian/Utility/guid'], (function (exports) {
           startView: {
             type: Number,
             default: 0
+          },
+          container: {
+            type: HTMLElement,
+            required: false
+          },
+          horizontalOrientation: {
+            type: String,
+            required: false
           }
         },
         emits: ["update:modelValue"],
@@ -153,6 +156,26 @@ System.register(['vue', '@Obsidian/Utility/guid'], (function (exports) {
             }
             return options;
           });
+          function initializePopup() {
+            var _props$container;
+            var input = inputEl.value;
+            if (!input) {
+              return;
+            }
+            window.Rock.controls.datePicker.initialize(_objectSpread2(_objectSpread2({}, dateLimiterOptions.value), {}, {
+              id: input.id,
+              startView: props.startView,
+              showOnFocus: !props.disableShowOnFocus,
+              format: "mm/dd/yyyy",
+              todayHighlight: !props.disableHighlightToday,
+              forceParse: !props.disableForceParse,
+              onChangeScript: () => {
+                internalValue.value = input.value;
+              },
+              container: (_props$container = props.container) !== null && _props$container !== void 0 ? _props$container : "body",
+              orientation: props.horizontalOrientation || "auto"
+            }));
+          }
           watch(() => props.modelValue, () => {
             if (!props.modelValue) {
               internalValue.value = null;
@@ -171,18 +194,9 @@ System.register(['vue', '@Obsidian/Utility/guid'], (function (exports) {
             emit("update:modelValue", asRockDateOrNull.value);
           });
           onMounted(() => {
-            var input = inputEl.value;
-            window.Rock.controls.datePicker.initialize(_objectSpread2(_objectSpread2({}, dateLimiterOptions.value), {}, {
-              id: input.id,
-              startView: props.startView,
-              showOnFocus: !props.disableShowOnFocus,
-              format: "mm/dd/yyyy",
-              todayHighlight: !props.disableHighlightToday,
-              forceParse: !props.disableForceParse,
-              onChangeScript: () => {
-                internalValue.value = input.value;
-              }
-            }));
+            nextTick(() => {
+              initializePopup();
+            });
           });
           return (_ctx, _cache) => {
             return openBlock(), createElementBlock("div", _hoisted_1, [withDirectives(createElementVNode("input", {

@@ -1,4 +1,4 @@
-System.register(['vue', './utils', '@Obsidian/Controls/checkBox', '@Obsidian/Controls/checkBoxList', '@Obsidian/Controls/dropDownList', '@Obsidian/Utility/component', '@Obsidian/Enums/Reporting/comparisonType', '@Obsidian/Utility/guid', './fieldType', '@Obsidian/Utility/booleanUtils'], (function (exports, module) {
+System.register(['vue', './utils', '@Obsidian/Controls/checkBox.obs', '@Obsidian/Controls/checkBoxList.obs', '@Obsidian/Controls/dropDownList.obs', '@Obsidian/Utility/component', '@Obsidian/Enums/Reporting/comparisonType', '@Obsidian/Utility/guid', './fieldType', '@Obsidian/Utility/booleanUtils'], (function (exports, module) {
   'use strict';
   var defineComponent, ref, computed, watch, getFieldEditorProps, getFieldConfigurationProps, CheckBox, CheckBoxList, DropDownList, defineAsyncComponent, areEqual, asBoolean, asTrueFalseOrNull;
   return {
@@ -111,6 +111,7 @@ System.register(['vue', './utils', '@Obsidian/Controls/checkBox', '@Obsidian/Con
         ConfigurationValueKey["IncludeInactive"] = "includeInactive";
         ConfigurationValueKey["FilterCampusTypes"] = "filterCampusTypes";
         ConfigurationValueKey["FilterCampusStatus"] = "filterCampusStatus";
+        ConfigurationValueKey["ForceVisible"] = "forceVisible";
         ConfigurationValueKey["SelectableCampuses"] = "selectableCampuses";
         return ConfigurationValueKey;
       }({});
@@ -153,12 +154,16 @@ System.register(['vue', './utils', '@Obsidian/Controls/checkBox', '@Obsidian/Con
             return internalValue.value = (_props$modelValue2 = props.modelValue) !== null && _props$modelValue2 !== void 0 ? _props$modelValue2 : "";
           });
           watch(internalValue, () => emit("update:modelValue", internalValue.value));
+          var shouldHidePicker = computed(() => {
+            return asBoolean(!props.configurationValues[ConfigurationValueKey.ForceVisible]) && options.value.length <= 1 && props.configurationValues[ConfigurationValueKey.FilterCampusTypes] == "" && props.configurationValues[ConfigurationValueKey.FilterCampusStatus] == "";
+          });
           return {
             internalValue,
-            options
+            options,
+            shouldHidePicker
           };
         },
-        template: "\n<DropDownList v-model=\"internalValue\" :items=\"options\" />\n"
+        template: "\n<DropDownList v-if=\"!shouldHidePicker\" v-model=\"internalValue\" :items=\"options\" />\n"
       }));
       var FilterComponent = exports('FilterComponent', defineComponent({
         name: "CampusField.Filter",

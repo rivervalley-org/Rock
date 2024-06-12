@@ -1,11 +1,12 @@
-System.register(['vue', './rockForm', './rockButton', './rockValidation', '@Obsidian/Utility/page'], (function (exports) {
+System.register(['vue', './rockForm.obs', './rockButton.obs', './rockValidation.obs', '@Obsidian/Utility/page'], (function (exports) {
   'use strict';
-  var createElementVNode, defineComponent, ref, watch, onBeforeUnmount, openBlock, createBlock, Teleport, normalizeClass, withModifiers, createElementBlock, Fragment, toDisplayString, createCommentVNode, renderSlot, createVNode, unref, withCtx, createTextVNode, RockForm, RockButton, RockValidation, trackModalState;
+  var createElementVNode, defineComponent, ref, nextTick, watch, onBeforeUnmount, openBlock, createBlock, Teleport, normalizeClass, withModifiers, createElementBlock, createCommentVNode, Fragment, toDisplayString, renderSlot, createVNode, unref, withCtx, createTextVNode, RockForm, RockButton, RockValidation, trackModalState;
   return {
     setters: [function (module) {
       createElementVNode = module.createElementVNode;
       defineComponent = module.defineComponent;
       ref = module.ref;
+      nextTick = module.nextTick;
       watch = module.watch;
       onBeforeUnmount = module.onBeforeUnmount;
       openBlock = module.openBlock;
@@ -14,9 +15,9 @@ System.register(['vue', './rockForm', './rockButton', './rockValidation', '@Obsi
       normalizeClass = module.normalizeClass;
       withModifiers = module.withModifiers;
       createElementBlock = module.createElementBlock;
+      createCommentVNode = module.createCommentVNode;
       Fragment = module.Fragment;
       toDisplayString = module.toDisplayString;
-      createCommentVNode = module.createCommentVNode;
       renderSlot = module.renderSlot;
       createVNode = module.createVNode;
       unref = module.unref;
@@ -156,6 +157,10 @@ System.register(['vue', './rockForm', './rockButton', './rockValidation', '@Obsi
             type: Boolean,
             default: false
           },
+          isCloseButtonHidden: {
+            type: Boolean,
+            default: false
+          },
           clickBackdropToClose: {
             type: Boolean,
             default: false
@@ -239,6 +244,7 @@ System.register(['vue', './rockForm', './rockButton', './rockValidation', '@Obsi
             } finally {
               _iterator.f();
             }
+            nextTick(adjustOverflowPadding);
           }
           function onOverflowResize() {
             adjustOverflowPadding();
@@ -319,15 +325,16 @@ System.register(['vue', './rockForm', './rockButton', './rockValidation', '@Obsi
                 "display": "block",
                 "margin-top": "0px"
               }
-            }, [createElementVNode("div", _hoisted_3, [createElementVNode("button", {
+            }, [createElementVNode("div", _hoisted_3, [!__props.isCloseButtonHidden ? (openBlock(), createElementBlock("button", {
+              key: 0,
               onClick: onClose,
               class: "close",
               "aria-hidden": "true",
               type: "button"
-            }, "×"), __props.title ? (openBlock(), createElementBlock(Fragment, {
-              key: 0
-            }, [createElementVNode("h3", _hoisted_4, toDisplayString(__props.title), 1), __props.subtitle ? (openBlock(), createElementBlock("small", _hoisted_5, toDisplayString(__props.subtitle), 1)) : createCommentVNode("v-if", true)], 64)) : renderSlot(_ctx.$slots, "header", {
+            }, "×")) : createCommentVNode("v-if", true), __props.title ? (openBlock(), createElementBlock(Fragment, {
               key: 1
+            }, [createElementVNode("h3", _hoisted_4, toDisplayString(__props.title), 1), __props.subtitle ? (openBlock(), createElementBlock("small", _hoisted_5, toDisplayString(__props.subtitle), 1)) : createCommentVNode("v-if", true)], 64)) : renderSlot(_ctx.$slots, "header", {
+              key: 2
             })]), createVNode(unref(RockForm), {
               onSubmit: onSubmit,
               hideErrors: "",
@@ -344,14 +351,15 @@ System.register(['vue', './rockForm', './rockButton', './rockValidation', '@Obsi
                 style: {
                   "transition": "0.15s padding-bottom"
                 }
-              }, null, 512)]), !__props.isFooterHidden ? (openBlock(), createElementBlock("div", _hoisted_7, [createVNode(unref(RockButton), {
+              }, null, 512)]), !__props.isFooterHidden ? (openBlock(), createElementBlock("div", _hoisted_7, [__props.cancelText ? (openBlock(), createBlock(unref(RockButton), {
+                key: 0,
                 onClick: onClose,
                 btnType: "link"
               }, {
                 default: withCtx(() => [createTextVNode(toDisplayString(__props.cancelText), 1)]),
                 _: 1
-              }), __props.saveText ? (openBlock(), createBlock(unref(RockButton), {
-                key: 0,
+              })) : createCommentVNode("v-if", true), __props.saveText ? (openBlock(), createBlock(unref(RockButton), {
+                key: 1,
                 type: "submit",
                 btnType: "primary",
                 disabled: __props.isSaveButtonDisabled

@@ -1,4 +1,4 @@
-System.register(['vue', '@Obsidian/Utility/component', './dropDownList', '@Obsidian/Utility/guid'], (function (exports) {
+System.register(['vue', '@Obsidian/Utility/component', './dropDownList.obs', '@Obsidian/Utility/guid'], (function (exports) {
   'use strict';
   var defineComponent, ref, computed, watch, resolveComponent, openBlock, createElementBlock, Fragment, unref, createBlock, mergeProps, createCommentVNode, nextTick, useStandardRockFormFieldProps, updateRefValue, standardRockFormFieldProps, DropDownList, emptyGuid, newGuid;
   return {

@@ -21,6 +21,22 @@ System.register([], (function (exports) {
             });
             exports('workflowActionFormPersonEntryOption', workflowActionFormPersonEntryOption);
 
+            var WorkflowActionFormShowHideOption = {
+              Hide: 0,
+              Show: 1
+            };
+            var WorkflowActionFormShowHideOptionDescription = {
+              0: "Hide",
+              1: "Show"
+            };
+
+            var workflowActionFormShowHideOption = /*#__PURE__*/Object.freeze({
+                __proto__: null,
+                WorkflowActionFormShowHideOption: WorkflowActionFormShowHideOption,
+                WorkflowActionFormShowHideOptionDescription: WorkflowActionFormShowHideOptionDescription
+            });
+            exports('workflowActionFormShowHideOption', workflowActionFormShowHideOption);
+
             var WorkflowLoggingLevel = {
               None: 0,
               Workflow: 1,

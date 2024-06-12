@@ -1,6 +1,6 @@
-System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Controls/rockButton', '@Obsidian/Enums/Controls/btnType', '@Obsidian/Utility/stringUtils', '@Obsidian/Utility/component', './codeBox.obs', '@Obsidian/Controls/rockForm', '@Obsidian/Controls/emailBox', '@Obsidian/Controls/textBox', '@Obsidian/Controls/inlineCheckBox', '@Obsidian/Controls/phoneNumberBox.obs', '@Obsidian/Controls/addressControl.obs', '@Obsidian/Controls/birthdayPicker', '@Obsidian/Controls/campusPicker.obs', '@Obsidian/Controls/datePartsPicker', '@Obsidian/Controls/genderDropDownList', '@Obsidian/Utility/rockDateTime', '@Obsidian/Enums/Blocks/Security/AccountEntry/accountEntryStep', '@Obsidian/Utility/block', '@Obsidian/Utility/http', '@Obsidian/Utility/url'], (function (exports) {
+System.register(['vue', '@Obsidian/Controls/captcha.obs', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Controls/rockButton.obs', '@Obsidian/Enums/Controls/btnType', '@Obsidian/Utility/stringUtils', '@Obsidian/Utility/component', './codeBox.obs', '@Obsidian/Controls/rockForm.obs', '@Obsidian/Controls/emailBox.obs', '@Obsidian/Controls/textBox.obs', '@Obsidian/Controls/inlineCheckBox.obs', '@Obsidian/Controls/phoneNumberBox.obs', '@Obsidian/Controls/addressControl.obs', '@Obsidian/Controls/attributeValuesContainer.obs', '@Obsidian/Controls/birthdayPicker.obs', '@Obsidian/Controls/campusPicker.obs', '@Obsidian/Controls/genderDropDownList.obs', '@Obsidian/Enums/Crm/gender', '@Obsidian/Utility/numberUtils', '@Obsidian/Utility/rockDateTime', '@Obsidian/Enums/Blocks/Security/AccountEntry/accountEntryStep', '@Obsidian/Utility/block', '@Obsidian/Utility/http', '@Obsidian/Utility/url'], (function (exports) {
   'use strict';
-  var createTextVNode, defineComponent, onMounted, openBlock, createElementBlock, Fragment, toDisplayString, createBlock, unref, withCtx, createCommentVNode, computed, createElementVNode, renderSlot, renderList, createVNode, withDirectives, isRef, vModelRadio, provide, inject, normalizeClass, ref, onBeforeUnmount, NotificationBox, RockButton, BtnType, toTitleCase, splitCamelCase, useVModelPassthrough, CodeBox, RockForm, EmailBox, TextBox, InlineCheckBox, PhoneNumberBox, Address, BirthdayPicker, CampusPicker, getDefaultDatePartsPickerModel, GenderDropDownList, RockDateTime, AccountEntryStep, useConfigurationValues, useInvokeBlockAction, onConfigurationValuesChanged, useReloadBlock, useHttp, removeCurrentUrlQueryParams;
+  var createTextVNode, defineComponent, onMounted, openBlock, createElementBlock, Fragment, toDisplayString, createBlock, unref, withCtx, createCommentVNode, computed, createElementVNode, renderSlot, renderList, createVNode, withDirectives, isRef, vModelRadio, provide, inject, normalizeClass, ref, onBeforeUnmount, Captcha, NotificationBox, RockButton, BtnType, toTitleCase, splitCase, useVModelPassthrough, CodeBox, RockForm, EmailBox, TextBox, InlineCheckBox, PhoneNumberBox, Address, AttributeValuesContainer, BirthdayPicker, CampusPicker, GenderDropDownList, Gender, toNumberOrNull, RockDateTime, AccountEntryStep, useConfigurationValues, useInvokeBlockAction, onConfigurationValuesChanged, useReloadBlock, useHttp, removeCurrentUrlQueryParams;
   return {
     setters: [function (module) {
       createTextVNode = module.createTextVNode;
@@ -28,6 +28,8 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
       ref = module.ref;
       onBeforeUnmount = module.onBeforeUnmount;
     }, function (module) {
+      Captcha = module["default"];
+    }, function (module) {
       NotificationBox = module["default"];
     }, function (module) {
       RockButton = module["default"];
@@ -35,7 +37,7 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
       BtnType = module.BtnType;
     }, function (module) {
       toTitleCase = module.toTitleCase;
-      splitCamelCase = module.splitCamelCase;
+      splitCase = module.splitCase;
     }, function (module) {
       useVModelPassthrough = module.useVModelPassthrough;
     }, function (module) {
@@ -53,13 +55,17 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
     }, function (module) {
       Address = module["default"];
     }, function (module) {
+      AttributeValuesContainer = module["default"];
+    }, function (module) {
       BirthdayPicker = module["default"];
     }, function (module) {
       CampusPicker = module["default"];
     }, function (module) {
-      getDefaultDatePartsPickerModel = module.getDefaultDatePartsPickerModel;
-    }, function (module) {
       GenderDropDownList = module["default"];
+    }, function (module) {
+      Gender = module.Gender;
+    }, function (module) {
+      toNumberOrNull = module.toNumberOrNull;
     }, function (module) {
       RockDateTime = module.RockDateTime;
     }, function (module) {
@@ -205,10 +211,10 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
         return typeof key === "symbol" ? key : String(key);
       }
 
-      var _hoisted_1$7 = {
+      var _hoisted_1$8 = {
         key: 0
       };
-      var _hoisted_2$5 = createTextVNode("Continue");
+      var _hoisted_2$6 = createTextVNode("Continue");
       var script$b = defineComponent({
         name: 'completedStep.partial',
         props: {
@@ -240,7 +246,7 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
             }
           });
           return (_ctx, _cache) => {
-            return openBlock(), createElementBlock(Fragment, null, [__props.options.isPlainCaption && __props.options.caption ? (openBlock(), createElementBlock("div", _hoisted_1$7, toDisplayString(__props.options.caption), 1)) : __props.options.caption ? (openBlock(), createBlock(unref(NotificationBox), {
+            return openBlock(), createElementBlock(Fragment, null, [__props.options.isPlainCaption && __props.options.caption ? (openBlock(), createElementBlock("div", _hoisted_1$8, toDisplayString(__props.options.caption), 1)) : __props.options.caption ? (openBlock(), createBlock(unref(NotificationBox), {
               key: 1,
               alertType: "success"
             }, {
@@ -252,7 +258,7 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
               disabled: __props.disabled,
               onClick: onContinueClicked
             }, {
-              default: withCtx(() => [_hoisted_2$5]),
+              default: withCtx(() => [_hoisted_2$6]),
               _: 1
             }, 8, ["btnType", "disabled"])) : createCommentVNode("v-if", true)], 64);
           };
@@ -284,7 +290,7 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
 
       script$a.__file = "src/Security/AccountEntry/confirmationSentStep.partial.obs";
 
-      var _hoisted_1$6 = {
+      var _hoisted_1$7 = {
         class: "grid-table table table-bordered table-striped table-hover"
       };
       var script$9 = defineComponent({
@@ -331,10 +337,10 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
             });
           }
           return (_ctx, _cache) => {
-            return openBlock(), createElementBlock("table", _hoisted_1$6, [createElementVNode("thead", null, [createCommentVNode(" Implement <template v-slot=\"header\"></template> in parent to override the header template. "), renderSlot(_ctx.$slots, "header", {}, () => [createElementVNode("tr", null, [(openBlock(true), createElementBlock(Fragment, null, renderList(unref(propertyNames), propertyName => {
+            return openBlock(), createElementBlock("table", _hoisted_1$7, [createElementVNode("thead", null, [createCommentVNode(" Implement <template v-slot=\"header\"></template> in parent to override the header template. "), renderSlot(_ctx.$slots, "header", {}, () => [createElementVNode("tr", null, [(openBlock(true), createElementBlock(Fragment, null, renderList(unref(propertyNames), propertyName => {
               return openBlock(), createElementBlock(Fragment, null, [createCommentVNode(" Implement <template v-slot=\"header-<propertyName>\"></template> in parent to override the individual header cell templates. "), renderSlot(_ctx.$slots, getHeaderSlotName(propertyName), {
                 propertyName: propertyName
-              }, () => [createElementVNode("th", null, toDisplayString(unref(toTitleCase)(unref(splitCamelCase)(propertyName))), 1)])], 64);
+              }, () => [createElementVNode("th", null, toDisplayString(unref(toTitleCase)(unref(splitCase)(propertyName))), 1)])], 64);
             }), 256))])])]), createElementVNode("tbody", null, [(openBlock(true), createElementBlock(Fragment, null, renderList(__props.items, item => {
               return openBlock(), createElementBlock(Fragment, null, [createCommentVNode(" Implement <template v-slot=\"row\"></template> in parent to override the row template. "), renderSlot(_ctx.$slots, "row", {
                 item: item
@@ -351,16 +357,16 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
 
       script$9.__file = "src/Security/AccountEntry/simpleGrid.partial.obs";
 
-      var _hoisted_1$5 = createElementVNode("tr", null, [createElementVNode("th", null, "You?"), createElementVNode("th", null, "Name")], -1);
-      var _hoisted_2$4 = ["disabled", "value"];
-      var _hoisted_3$4 = {
+      var _hoisted_1$6 = createElementVNode("tr", null, [createElementVNode("th", null, "You?"), createElementVNode("th", null, "Name")], -1);
+      var _hoisted_2$5 = ["disabled", "value"];
+      var _hoisted_3$5 = {
         class: "radio"
       };
-      var _hoisted_4$3 = ["disabled"];
-      var _hoisted_5$1 = createElementVNode("span", {
+      var _hoisted_4$4 = ["disabled"];
+      var _hoisted_5$2 = createElementVNode("span", {
         class: "label-text"
       }, [createElementVNode("strong", null, "None of these are me")], -1);
-      var _hoisted_6 = {
+      var _hoisted_6$1 = {
         class: "actions"
       };
       var _hoisted_7 = createTextVNode("Previous");
@@ -408,7 +414,7 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
             })) : createCommentVNode("v-if", true), createVNode(unref(script$9), {
               items: __props.options.duplicatePeople
             }, {
-              header: withCtx(() => [_hoisted_1$5]),
+              header: withCtx(() => [_hoisted_1$6]),
               row: withCtx(_ref2 => {
                 var item = _ref2.item;
                 return [createElementVNode("tr", null, [createElementVNode("td", null, [withDirectives(createElementVNode("input", {
@@ -417,16 +423,16 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
                   name: "DuplicatePerson",
                   type: "radio",
                   value: item
-                }, null, 8, _hoisted_2$4), [[vModelRadio, unref(internalModelValue)]])]), createElementVNode("td", null, toDisplayString(item.fullName), 1)])];
+                }, null, 8, _hoisted_2$5), [[vModelRadio, unref(internalModelValue)]])]), createElementVNode("td", null, toDisplayString(item.fullName), 1)])];
               }),
               _: 1
-            }, 8, ["items"]), createElementVNode("div", _hoisted_3$4, [createElementVNode("label", null, [withDirectives(createElementVNode("input", {
+            }, 8, ["items"]), createElementVNode("div", _hoisted_3$5, [createElementVNode("label", null, [withDirectives(createElementVNode("input", {
               "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => isRef(internalModelValue) ? internalModelValue.value = $event : null),
               disabled: __props.disabled,
               name: "DuplicatePerson",
               type: "radio",
               value: null
-            }, null, 8, _hoisted_4$3), [[vModelRadio, unref(internalModelValue)]]), _hoisted_5$1])]), createElementVNode("div", _hoisted_6, [createVNode(unref(RockButton), {
+            }, null, 8, _hoisted_4$4), [[vModelRadio, unref(internalModelValue)]]), _hoisted_5$2])]), renderSlot(_ctx.$slots, "captcha"), createElementVNode("div", _hoisted_6$1, [createVNode(unref(RockButton), {
               btnType: unref(BtnType).Link,
               disabled: __props.disabled,
               onClick: onPreviousClicked
@@ -447,12 +453,12 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
 
       script$8.__file = "src/Security/AccountEntry/duplicatePersonSelectionStep.partial.obs";
 
-      var _hoisted_1$4 = {
+      var _hoisted_1$5 = {
         class: "actions"
       };
-      var _hoisted_2$3 = createTextVNode("Previous");
-      var _hoisted_3$3 = createTextVNode("Yes, send it");
-      var _hoisted_4$2 = createTextVNode("No, just let me log in");
+      var _hoisted_2$4 = createTextVNode("Previous");
+      var _hoisted_3$4 = createTextVNode("Yes, send it");
+      var _hoisted_4$3 = createTextVNode("No, just let me log in");
       var script$7 = defineComponent({
         name: 'existingAccountStep.partial',
         props: {
@@ -485,12 +491,12 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
             }, {
               default: withCtx(() => [createTextVNode(toDisplayString(__props.options.caption), 1)]),
               _: 1
-            })) : createCommentVNode("v-if", true), createElementVNode("div", _hoisted_1$4, [createVNode(unref(RockButton), {
+            })) : createCommentVNode("v-if", true), renderSlot(_ctx.$slots, "captcha"), createElementVNode("div", _hoisted_1$5, [createVNode(unref(RockButton), {
               btnType: unref(BtnType).Link,
               disabled: __props.disabled,
               onClick: onPreviousClicked
             }, {
-              default: withCtx(() => [_hoisted_2$3]),
+              default: withCtx(() => [_hoisted_2$4]),
               _: 1
             }, 8, ["btnType", "disabled"]), createVNode(unref(RockButton), {
               btnType: unref(BtnType).Primary,
@@ -498,7 +504,7 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
               disabled: __props.disabled,
               onClick: onEmailUsernameClicked
             }, {
-              default: withCtx(() => [_hoisted_3$3]),
+              default: withCtx(() => [_hoisted_3$4]),
               _: 1
             }, 8, ["btnType", "disabled"]), createVNode(unref(RockButton), {
               btnType: unref(BtnType).Primary,
@@ -506,7 +512,7 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
               disabled: __props.disabled,
               onClick: onSendToLoginClicked
             }, {
-              default: withCtx(() => [_hoisted_4$2]),
+              default: withCtx(() => [_hoisted_4$3]),
               _: 1
             }, 8, ["btnType", "disabled"])])], 64);
           };
@@ -527,11 +533,11 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
         return breakpoint;
       }
 
-      var _hoisted_1$3 = {
+      var _hoisted_1$4 = {
         class: "actions d-flex d-sm-block flex-column-reverse"
       };
-      var _hoisted_2$2 = createTextVNode("Previous");
-      var _hoisted_3$2 = createTextVNode("Complete Sign In");
+      var _hoisted_2$3 = createTextVNode("Previous");
+      var _hoisted_3$3 = createTextVNode("Complete Sign In");
       var script$6 = defineComponent({
         name: 'passwordlessConfirmationSentStep.partial',
         props: {
@@ -581,14 +587,14 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
                 maxLength: 6,
                 rules: "required",
                 validationTitle: "Code"
-              }, null, 8, ["modelValue", "disabled"]), createElementVNode("div", _hoisted_1$3, [createVNode(unref(RockButton), {
+              }, null, 8, ["modelValue", "disabled"]), renderSlot(_ctx.$slots, "captcha"), createElementVNode("div", _hoisted_1$4, [createVNode(unref(RockButton), {
                 btnType: unref(BtnType).Link,
                 class: normalizeClass(unref(breakpoint) === 'xs' ? 'btn-block' : ''),
                 disabled: __props.disabled,
                 type: "button",
                 onClick: onPreviousClicked
               }, {
-                default: withCtx(() => [_hoisted_2$2]),
+                default: withCtx(() => [_hoisted_2$3]),
                 _: 1
               }, 8, ["btnType", "class", "disabled"]), createVNode(unref(RockButton), {
                 btnType: unref(BtnType).Primary,
@@ -596,10 +602,10 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
                 disabled: __props.disabled,
                 type: "submit"
               }, {
-                default: withCtx(() => [_hoisted_3$2]),
+                default: withCtx(() => [_hoisted_3$3]),
                 _: 1
               }, 8, ["btnType", "class", "disabled"])])]),
-              _: 1
+              _: 3
             })], 64);
           };
         }
@@ -607,7 +613,7 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
 
       script$6.__file = "src/Security/AccountEntry/passwordlessConfirmationSentStep.partial.obs";
 
-      var _hoisted_1$2 = createElementVNode("legend", null, "New Account", -1);
+      var _hoisted_1$3 = createElementVNode("legend", null, "New Account", -1);
       var script$5 = defineComponent({
         name: 'registrationStepAccountInfo.partial',
         props: {
@@ -711,7 +717,7 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
             }
           }
           return (_ctx, _cache) => {
-            return openBlock(), createElementBlock("fieldset", null, [_hoisted_1$2, !unref(isEmailRequiredForUsername) ? (openBlock(), createBlock(unref(TextBox), {
+            return openBlock(), createElementBlock("fieldset", null, [_hoisted_1$3, !unref(isEmailRequiredForUsername) ? (openBlock(), createBlock(unref(TextBox), {
               key: 0,
               modelValue: unref(internalUsername),
               "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => isRef(internalUsername) ? internalUsername.value = $event : null),
@@ -753,6 +759,25 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
 
       script$5.__file = "src/Security/AccountEntry/registrationStepAccountInfo.partial.obs";
 
+      var _hoisted_1$2 = {
+        key: 0,
+        class: "control-label col-sm-1 phonegroup-label"
+      };
+      var _hoisted_2$2 = {
+        class: "col-sm-7"
+      };
+      var _hoisted_3$2 = {
+        class: "col-sm-5 margin-t-sm"
+      };
+      var _hoisted_4$2 = {
+        class: "row"
+      };
+      var _hoisted_5$1 = {
+        class: "col-xs-6"
+      };
+      var _hoisted_6 = {
+        class: "col-xs-6"
+      };
       var script$4 = defineComponent({
         name: 'phoneNumberDetails.partial',
         props: {
@@ -761,6 +786,11 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
             required: true
           },
           disabled: {
+            type: Boolean,
+            required: false,
+            default: false
+          },
+          isMobile: {
             type: Boolean,
             required: false,
             default: false
@@ -814,25 +844,33 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
           });
           var phoneNumberRules = computed(() => props.modelValue.isRequired ? "required" : "");
           return (_ctx, _cache) => {
-            return openBlock(), createElementBlock(Fragment, null, [createVNode(unref(PhoneNumberBox), {
+            return openBlock(), createElementBlock("div", {
+              class: normalizeClass(['phonegroup clearfix form-group', __props.modelValue.isRequired ? 'required' : ''])
+            }, [!__props.isMobile ? (openBlock(), createElementBlock("div", _hoisted_1$2, toDisplayString(__props.modelValue.label) + " ", 1)) : createCommentVNode("v-if", true), createElementVNode("div", {
+              class: normalizeClass(['controls', !__props.isMobile ? 'col-sm-11' : 'col-sm-12', 'phonegroup-number'])
+            }, [createElementVNode("div", {
+              class: normalizeClass(['row', !__props.isMobile ? 'margin-l-sm' : ''])
+            }, [createElementVNode("div", _hoisted_2$2, [createVNode(unref(PhoneNumberBox), {
               modelValue: unref(internalPhoneNumber),
               "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => isRef(internalPhoneNumber) ? internalPhoneNumber.value = $event : null),
               countryCode: unref(internalCountryCode),
               "onUpdate:countryCode": _cache[1] || (_cache[1] = $event => isRef(internalCountryCode) ? internalCountryCode.value = $event : null),
               disabled: __props.disabled,
+              disableLabel: !__props.isMobile,
               label: __props.modelValue.label,
-              rules: unref(phoneNumberRules)
-            }, null, 8, ["modelValue", "countryCode", "disabled", "label", "rules"]), createVNode(unref(InlineCheckBox), {
-              disabled: __props.disabled,
-              label: "SMS",
+              rules: unref(phoneNumberRules),
+              validationTitle: "".concat(__props.modelValue.label, " phone")
+            }, null, 8, ["modelValue", "countryCode", "disabled", "disableLabel", "label", "rules", "validationTitle"])]), createElementVNode("div", _hoisted_3$2, [createElementVNode("div", _hoisted_4$2, [createElementVNode("div", _hoisted_5$1, [createVNode(unref(InlineCheckBox), {
               modelValue: unref(internalIsSmsEnabled),
-              "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => isRef(internalIsSmsEnabled) ? internalIsSmsEnabled.value = $event : null)
-            }, null, 8, ["disabled", "modelValue"]), createVNode(unref(InlineCheckBox), {
+              "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => isRef(internalIsSmsEnabled) ? internalIsSmsEnabled.value = $event : null),
               disabled: __props.disabled,
-              label: "Unlisted",
+              label: "SMS"
+            }, null, 8, ["modelValue", "disabled"])]), createElementVNode("div", _hoisted_6, [createVNode(unref(InlineCheckBox), {
               modelValue: unref(internalIsUnlisted),
-              "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => isRef(internalIsUnlisted) ? internalIsUnlisted.value = $event : null)
-            }, null, 8, ["disabled", "modelValue"])], 64);
+              "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => isRef(internalIsUnlisted) ? internalIsUnlisted.value = $event : null),
+              disabled: __props.disabled,
+              label: "Unlisted"
+            }, null, 8, ["modelValue", "disabled"])])])])], 2)], 2)], 2);
           };
         }
       });
@@ -862,6 +900,11 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
             required: true
           },
           disabled: {
+            type: Boolean,
+            required: false,
+            default: false
+          },
+          isMobile: {
             type: Boolean,
             required: false,
             default: false
@@ -914,22 +957,23 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
           var internalGender = computed({
             get() {
               var _props$modelValue$gen, _props$modelValue4;
-              return (_props$modelValue$gen = (_props$modelValue4 = props.modelValue) === null || _props$modelValue4 === void 0 ? void 0 : _props$modelValue4.gender) !== null && _props$modelValue$gen !== void 0 ? _props$modelValue$gen : 0;
+              return ((_props$modelValue$gen = (_props$modelValue4 = props.modelValue) === null || _props$modelValue4 === void 0 ? void 0 : _props$modelValue4.gender) !== null && _props$modelValue$gen !== void 0 ? _props$modelValue$gen : 0).toString();
             },
             set(newValue) {
+              var _ref2;
               emit("update:modelValue", _objectSpread2(_objectSpread2({}, props.modelValue), {}, {
-                gender: newValue
+                gender: (_ref2 = toNumberOrNull(newValue)) !== null && _ref2 !== void 0 ? _ref2 : Gender.Unknown
               }));
             }
           });
           var internalBirthday = computed({
             get() {
               var _props$modelValue$bir, _props$modelValue5;
-              return (_props$modelValue$bir = (_props$modelValue5 = props.modelValue) === null || _props$modelValue5 === void 0 ? void 0 : _props$modelValue5.birthday) !== null && _props$modelValue$bir !== void 0 ? _props$modelValue$bir : getDefaultDatePartsPickerModel();
+              return (_props$modelValue$bir = (_props$modelValue5 = props.modelValue) === null || _props$modelValue5 === void 0 ? void 0 : _props$modelValue5.birthday) !== null && _props$modelValue$bir !== void 0 ? _props$modelValue$bir : undefined;
             },
             set(newValue) {
               emit("update:modelValue", _objectSpread2(_objectSpread2({}, props.modelValue), {}, {
-                birthday: newValue
+                birthday: newValue !== null && newValue !== void 0 ? newValue : null
               }));
             }
           });
@@ -946,8 +990,8 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
           });
           var internalAddress = computed({
             get() {
-              var _props$modelValue7;
-              return ((_props$modelValue7 = props.modelValue) === null || _props$modelValue7 === void 0 ? void 0 : _props$modelValue7.address) || {};
+              var _props$modelValue$add, _props$modelValue7;
+              return (_props$modelValue$add = (_props$modelValue7 = props.modelValue) === null || _props$modelValue7 === void 0 ? void 0 : _props$modelValue7.address) !== null && _props$modelValue$add !== void 0 ? _props$modelValue$add : undefined;
             },
             set(newValue) {
               emit("update:modelValue", _objectSpread2(_objectSpread2({}, props.modelValue), {}, {
@@ -957,6 +1001,28 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
           });
           var addressRules = computed(() => isAddressRequired.value ? "required" : "");
           var internalArePhoneNumbersShown = computed(() => arePhoneNumbersShown.value && internalPhoneNumbers.value.some(p => !p.isHidden));
+          var internalAttributes = computed({
+            get() {
+              var _props$modelValue8;
+              return (_props$modelValue8 = props.modelValue) === null || _props$modelValue8 === void 0 ? void 0 : _props$modelValue8.attributes;
+            },
+            set(newValue) {
+              emit("update:modelValue", _objectSpread2(_objectSpread2({}, props.modelValue), {}, {
+                attributes: newValue
+              }));
+            }
+          });
+          var internalAttributeValues = computed({
+            get() {
+              var _props$modelValue$att, _props$modelValue9;
+              return (_props$modelValue$att = (_props$modelValue9 = props.modelValue) === null || _props$modelValue9 === void 0 ? void 0 : _props$modelValue9.attributeValues) !== null && _props$modelValue$att !== void 0 ? _props$modelValue$att : {};
+            },
+            set(newValue) {
+              emit("update:modelValue", _objectSpread2(_objectSpread2({}, props.modelValue), {}, {
+                attributeValues: newValue
+              }));
+            }
+          });
           function isListItemBag(object) {
             return !!object && typeof object === "object" && "value" in object;
           }
@@ -1007,8 +1073,9 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
                 key: 0,
                 modelValue: unref(internalPhoneNumbers)[key],
                 "onUpdate:modelValue": $event => unref(internalPhoneNumbers)[key] = $event,
-                disabled: __props.disabled
-              }, null, 8, ["modelValue", "onUpdate:modelValue", "disabled"])) : createCommentVNode("v-if", true)], 64);
+                disabled: __props.disabled,
+                isMobile: __props.isMobile
+              }, null, 8, ["modelValue", "onUpdate:modelValue", "disabled", "isMobile"])) : createCommentVNode("v-if", true)], 64);
             }), 256))])) : createCommentVNode("v-if", true), unref(isAddressShown) ? (openBlock(), createElementBlock("fieldset", _hoisted_4$1, [_hoisted_5, createVNode(unref(Address), {
               modelValue: unref(internalAddress),
               "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => isRef(internalAddress) ? internalAddress.value = $event : null),
@@ -1022,7 +1089,14 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
               forceVisible: true,
               includeInactive: true,
               showBlankItem: true
-            }, null, 8, ["disabled", "label"])) : createCommentVNode("v-if", true)]);
+            }, null, 8, ["disabled", "label"])) : createCommentVNode("v-if", true), unref(internalAttributes) ? (openBlock(), createBlock(unref(AttributeValuesContainer), {
+              key: 3,
+              modelValue: unref(internalAttributeValues),
+              "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => isRef(internalAttributeValues) ? internalAttributeValues.value = $event : null),
+              attributes: unref(internalAttributes),
+              isEditMode: "",
+              showCategoryLabel: false
+            }, null, 8, ["modelValue", "attributes"])) : createCommentVNode("v-if", true)]);
           };
         }
       });
@@ -1069,6 +1143,8 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
         setup(__props, _ref) {
           var emit = _ref.emit;
           var props = __props;
+          var breakpoint = useBreakpoint();
+          var isMobile = computed(() => breakpoint.value === "xs");
           var fullName = ref("");
           var shouldUsernameUpdateSetPersonInfoEmail = computed(() => props.config.isEmailRequiredForUsername);
           var internalIsUsernameAvailable = useVModelPassthrough(props, "isUsernameAvailable", emit);
@@ -1167,8 +1243,9 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
                 "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => isRef(internalPersonInfo) ? internalPersonInfo.value = $event : null),
                 class: "col-md-6",
                 config: __props.config,
-                disabled: __props.disabled
-              }, null, 8, ["modelValue", "config", "disabled"])]), createElementVNode("div", _hoisted_2, [createElementVNode("div", _hoisted_3, [createVNode(unref(RockButton), {
+                disabled: __props.disabled,
+                isMobile: unref(isMobile)
+              }, null, 8, ["modelValue", "config", "disabled", "isMobile"])]), renderSlot(_ctx.$slots, "captcha"), createElementVNode("div", _hoisted_2, [createElementVNode("div", _hoisted_3, [createVNode(unref(RockButton), {
                 btnType: unref(BtnType).Primary,
                 disabled: __props.disabled,
                 type: "submit"
@@ -1176,7 +1253,7 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
                 default: withCtx(() => [_hoisted_4]),
                 _: 1
               }, 8, ["btnType", "disabled"])])])]),
-              _: 1
+              _: 3
             });
           };
         }
@@ -1254,20 +1331,25 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
       var script = exports('default', defineComponent({
         name: 'accountEntry',
         setup(__props) {
-          var _config$phoneNumbers;
+          var _config$accountEntryP, _config$phoneNumbers;
           var config = useConfigurationValues();
           var invokeBlockAction = useInvokeBlockAction();
           var http = useHttp();
-          removeCurrentUrlQueryParams("State");
+          removeCurrentUrlQueryParams("State", "AreUsernameAndPasswordRequired");
           var errorMessage = ref();
+          var disableCaptchaSupport = ref(config.disableCaptchaSupport);
+          var captchaElement = ref();
           var stepStack = ref([]);
-          var accountEntryStep = computed(() => stepStack.value.length ? stepStack.value[stepStack.value.length - 1] : null);
+          var accountEntryStep = computed(() => {
+            var _config$accountEntryR;
+            return stepStack.value.length ? stepStack.value[stepStack.value.length - 1] : ((_config$accountEntryR = config.accountEntryRegisterStepBox) === null || _config$accountEntryR === void 0 ? void 0 : _config$accountEntryR.step) || null;
+          });
           var registrationInfo = ref({
             accountInfo: {
               password: "",
               username: ""
             },
-            personInfo: {
+            personInfo: (_config$accountEntryP = config.accountEntryPersonInfoBag) !== null && _config$accountEntryP !== void 0 ? _config$accountEntryP : {
               birthday: {
                 year: 0,
                 month: 0,
@@ -1316,9 +1398,6 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
           }));
           var sentLoginCaption = computed(() => {
             return config.sentLoginCaption || "Your username has been emailed to you. If you've forgotten your password, the email includes a link to reset your password.";
-          });
-          var successCaption = computed(() => {
-            return config.successCaption || "{0}, Your account has been created.";
           });
           function onCheckUsernameAvailability(_x) {
             return _onCheckUsernameAvailability.apply(this, arguments);
@@ -1468,42 +1547,16 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
                 isRegistering.value = true;
                 clearError();
                 isUsernameAvailable.value = null;
+                var actionContext = {};
+                if (captchaElement.value) {
+                  actionContext.captcha = yield captchaElement.value.getToken();
+                  captchaElement.value.refreshToken();
+                }
                 var response = yield invokeBlockAction("Register", {
                   box: registrationInfo.value
-                });
+                }, actionContext);
                 if (response !== null && response !== void 0 && (_response$data = response.data) !== null && _response$data !== void 0 && _response$data.step || (response === null || response === void 0 ? void 0 : (_response$data2 = response.data) === null || _response$data2 === void 0 ? void 0 : _response$data2.step) === AccountEntryStep.Registration) {
-                  switch (response.data.step) {
-                    case AccountEntryStep.Completed:
-                      {
-                        showCompletedStepNext(response.data.completedStepBag);
-                        break;
-                      }
-                    case AccountEntryStep.ConfirmationSent:
-                      {
-                        showConfirmationSentStepNext(response.data.confirmationSentStepBag);
-                        break;
-                      }
-                    case AccountEntryStep.DuplicatePersonSelection:
-                      {
-                        showDuplicatePersonSelectionStepNext(response.data.duplicatePersonSelectionStepBag);
-                        break;
-                      }
-                    case AccountEntryStep.PasswordlessConfirmationSent:
-                      {
-                        showPasswordlessConfirmationSentStepNext(response.data.passwordlessConfirmationSentStepBag);
-                        break;
-                      }
-                    case AccountEntryStep.ExistingAccount:
-                      {
-                        showExistingAccountStepNext(response.data.existingAccountStepBag);
-                        break;
-                      }
-                    case AccountEntryStep.Registration:
-                      {
-                        showRegistrationStepNext();
-                        break;
-                      }
-                  }
+                  displayStep(response.data);
                 } else {
                   showError((response === null || response === void 0 ? void 0 : response.errorMessage) || "An unexpected error occurred");
                 }
@@ -1554,15 +1607,43 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
             duplicatePersonSelectionStepOptions.value = {};
             stepStack.value.push(AccountEntryStep.Registration);
           }
-          if (config !== null && config !== void 0 && config.step || (config === null || config === void 0 ? void 0 : config.step) === AccountEntryStep.Completed) {
-            showCompletedStepNext({
-              isPlainCaption: true,
-              caption: successCaption.value,
-              isRedirectAutomatic: false
-            });
-          } else {
-            showRegistrationStepNext();
+          function displayStep(data) {
+            switch (data.step) {
+              case AccountEntryStep.Completed:
+                {
+                  showCompletedStepNext(data.completedStepBag);
+                  break;
+                }
+              case AccountEntryStep.ConfirmationSent:
+                {
+                  showConfirmationSentStepNext(data.confirmationSentStepBag);
+                  break;
+                }
+              case AccountEntryStep.DuplicatePersonSelection:
+                {
+                  showDuplicatePersonSelectionStepNext(data.duplicatePersonSelectionStepBag);
+                  break;
+                }
+              case AccountEntryStep.PasswordlessConfirmationSent:
+                {
+                  showPasswordlessConfirmationSentStepNext(data.passwordlessConfirmationSentStepBag);
+                  break;
+                }
+              case AccountEntryStep.ExistingAccount:
+                {
+                  showExistingAccountStepNext(data.existingAccountStepBag);
+                  break;
+                }
+              case AccountEntryStep.Registration:
+                {
+                  showRegistrationStepNext();
+                  break;
+                }
+            }
           }
+          displayStep(config.accountEntryRegisterStepBox || {
+            step: AccountEntryStep.Registration
+          });
           onConfigurationValuesChanged(useReloadBlock());
           return (_ctx, _cache) => {
             return openBlock(), createBlock(unref(script$1), null, {
@@ -1581,7 +1662,14 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
                 onCheckUsernameAvailability: onCheckUsernameAvailability,
                 onError: showError,
                 onRegister: onRegister
-              }, null, 8, ["modelValue", "isUsernameAvailable", "config", "disabled"])) : unref(step).isDuplicatePersonSelection ? (openBlock(), createBlock(unref(script$8), {
+              }, {
+                captcha: withCtx(() => [!disableCaptchaSupport.value ? (openBlock(), createBlock(unref(Captcha), {
+                  key: 0,
+                  ref_key: "captchaElement",
+                  ref: captchaElement
+                }, null, 512)) : createCommentVNode("v-if", true)]),
+                _: 1
+              }, 8, ["modelValue", "isUsernameAvailable", "config", "disabled"])) : unref(step).isDuplicatePersonSelection ? (openBlock(), createBlock(unref(script$8), {
                 key: 2,
                 modelValue: unref(selectedDuplicatePerson),
                 "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => isRef(selectedDuplicatePerson) ? selectedDuplicatePerson.value = $event : null),
@@ -1590,7 +1678,14 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
                 onMovePrevious: _cache[3] || (_cache[3] = $event => onDuplicatePersonSelectionStepMovePrevious()),
                 onPersonSelected: onDuplicatePersonSelected,
                 onNoPersonSelected: onNoDuplicatePersonSelected
-              }, null, 8, ["modelValue", "disabled", "options"])) : unref(step).isPasswordlessConfirmationSent ? (openBlock(), createBlock(unref(script$6), {
+              }, {
+                captcha: withCtx(() => [!disableCaptchaSupport.value ? (openBlock(), createBlock(unref(Captcha), {
+                  key: 0,
+                  ref_key: "captchaElement",
+                  ref: captchaElement
+                }, null, 512)) : createCommentVNode("v-if", true)]),
+                _: 1
+              }, 8, ["modelValue", "disabled", "options"])) : unref(step).isPasswordlessConfirmationSent ? (openBlock(), createBlock(unref(script$6), {
                 key: 3,
                 modelValue: passwordlessConfirmationCode.value,
                 "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => passwordlessConfirmationCode.value = $event),
@@ -1598,14 +1693,28 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Con
                 options: passwordlessConfirmationSentStepOptions.value,
                 onMovePrevious: _cache[5] || (_cache[5] = $event => onPasswordlessConfirmationSentStepMovePrevious()),
                 onSubmit: onPasswordlessConfirmationSubmitted
-              }, null, 8, ["modelValue", "disabled", "options"])) : unref(step).isExistingAccount ? (openBlock(), createBlock(unref(script$7), {
+              }, {
+                captcha: withCtx(() => [!disableCaptchaSupport.value ? (openBlock(), createBlock(unref(Captcha), {
+                  key: 0,
+                  ref_key: "captchaElement",
+                  ref: captchaElement
+                }, null, 512)) : createCommentVNode("v-if", true)]),
+                _: 1
+              }, 8, ["modelValue", "disabled", "options"])) : unref(step).isExistingAccount ? (openBlock(), createBlock(unref(script$7), {
                 key: 4,
                 disabled: isSendingForgotUsername.value || isRegistering.value || isNavigating.value,
                 options: existingAccountStepOptions.value,
                 onMovePrevious: _cache[6] || (_cache[6] = $event => onMovePrevious()),
                 onEmailUsername: onEmailUsername,
                 onSendToLogin: onSendToLogin
-              }, null, 8, ["disabled", "options"])) : unref(step).isConfirmationSent ? (openBlock(), createBlock(unref(script$a), {
+              }, {
+                captcha: withCtx(() => [!disableCaptchaSupport.value ? (openBlock(), createBlock(unref(Captcha), {
+                  key: 0,
+                  ref_key: "captchaElement",
+                  ref: captchaElement
+                }, null, 512)) : createCommentVNode("v-if", true)]),
+                _: 1
+              }, 8, ["disabled", "options"])) : unref(step).isConfirmationSent ? (openBlock(), createBlock(unref(script$a), {
                 key: 5,
                 options: confirmationSentStepOptions.value
               }, null, 8, ["options"])) : unref(step).isCompleted ? (openBlock(), createBlock(unref(script$b), {

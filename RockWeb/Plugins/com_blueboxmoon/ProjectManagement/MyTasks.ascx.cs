@@ -15,6 +15,7 @@ using Rock.Web.UI;
 
 using com.blueboxmoon.ProjectManagement;
 using com.blueboxmoon.ProjectManagement.Model;
+using com.blueboxmoon.ProjectManagement.Cache;
 
 namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
 {
@@ -35,6 +36,12 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
         key: AttributeKeys.TaskNameTemplate,
         order: 2 )]
 
+    [CustomCheckboxListField( "Project Types",
+        Description = "The project types that will be used to filter tasks. Leave blank to include all.",
+        ListSource = "SELECT [Guid] AS [Value], [Name] AS [Text] FROM [_com_blueboxmoon_ProjectManagement_ProjectType]",
+        Key = AttributeKeys.ProjectTypes,
+        Order = 3 )]
+
     #endregion
 
     public partial class MyTasks : RockBlock
@@ -42,6 +49,8 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
         public static class AttributeKeys
         {
             public const string TaskNameTemplate = "TaskNameTemplate";
+
+            public const string ProjectTypes = "ProjectTypes";
         }
 
         #region Private Fields
@@ -115,7 +124,19 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
             var taskService = new TaskService( rockContext );
             bool assigned = liAssigned.Attributes["class"].ToStringSafe().Contains( "active" );
             bool followed = liFollowing.Attributes["class"].ToStringSafe().Contains( "active" );
-            List<Task> tasks = taskService.MyTasks( CurrentPerson, assigned, followed );
+            var projectTypeGuids = GetAttributeValue( AttributeKeys.ProjectTypes ).SplitDelimitedValues().AsGuidList();
+            var tasks = taskService.MyTasks( CurrentPerson, assigned, followed );
+
+            if ( projectTypeGuids.Any() )
+            {
+                var projectTypeIds = projectTypeGuids
+                    .Select( guid => ProjectTypeCache.Get( guid ) )
+                    .Where( ptc => ptc != null )
+                    .Select( ptc => ptc.Id )
+                    .ToList();
+
+                tasks = tasks.Where( t => projectTypeIds.Contains( t.Project.ProjectTypeId ) ).ToList();
+            }
 
             _showMore = tasks.Count > hfDisplayCount.ValueAsInt();
             rpTasks.DataSource = tasks.Take( hfDisplayCount.ValueAsInt() ).ToList();

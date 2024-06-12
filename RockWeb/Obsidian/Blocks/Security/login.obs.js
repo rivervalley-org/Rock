@@ -1,6 +1,6 @@
-System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@Obsidian/Controls/rockButton', '@Obsidian/Controls/rockForm', '@Obsidian/Controls/textBox', '@Obsidian/Enums/Controls/btnType', '@Obsidian/Enums/Blocks/Security/Login/loginMethod', '@Obsidian/Controls/rockValidation', '@Obsidian/Utility/email', '@Obsidian/Utility/phone', '@Obsidian/ValidationRules', './codeBox.obs', '@Obsidian/Controls/radioButtonList', '@Obsidian/Utility/component', '@Obsidian/Enums/Blocks/Security/Login/passwordlessLoginStep', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Utility/block', '@Obsidian/Utility/url'], (function (exports) {
+System.register(['vue', '@Obsidian/Utility/guid', '@Obsidian/Controls/inlineCheckBox.obs', '@Obsidian/Controls/rockButton.obs', '@Obsidian/Controls/rockForm.obs', '@Obsidian/Controls/textBox.obs', '@Obsidian/Enums/Controls/btnType', '@Obsidian/Enums/Blocks/Security/Login/loginMethod', '@Obsidian/Utility/component', '@Obsidian/Controls/rockValidation.obs', '@Obsidian/Utility/email', '@Obsidian/Utility/phone', '@Obsidian/ValidationRules', './codeBox.obs', '@Obsidian/Controls/radioButtonList.obs', '@Obsidian/Enums/Blocks/Security/Login/passwordlessLoginStep', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Utility/block', '@Obsidian/Utility/url'], (function (exports) {
   'use strict';
-  var provide, inject, defineComponent, ref, computed, onMounted, onBeforeUnmount, openBlock, createElementBlock, Fragment, renderSlot, createElementVNode, normalizeClass, unref, createTextVNode, createBlock, withCtx, createCommentVNode, createVNode, toDisplayString, renderList, isRef, watch, onUnmounted, Divider, InlineCheckBox, RockButton, RockForm, TextBox, BtnType, LoginMethod, RockValidation, isEmail, formatPhoneNumber, stripPhoneNumber, getPhoneNumberConfiguration, validateValue, CodeBox, RadioButtonList, useVModelPassthrough, PasswordlessLoginStep, NotificationBox, useConfigurationValues, useInvokeBlockAction, onConfigurationValuesChanged, useReloadBlock, removeCurrentUrlQueryParams;
+  var provide, inject, defineComponent, ref, computed, onMounted, onBeforeUnmount, openBlock, createElementBlock, Fragment, renderSlot, createElementVNode, normalizeClass, unref, watch, createCommentVNode, createTextVNode, createBlock, withCtx, createVNode, toDisplayString, pushScopeId, popScopeId, renderList, isRef, onUnmounted, newGuid, InlineCheckBox, RockButton, RockForm, TextBox, BtnType, LoginMethod, useVModelPassthrough, RockValidation, isEmail, formatPhoneNumber, stripPhoneNumber, getPhoneNumberConfiguration, validateValue, CodeBox, RadioButtonList, PasswordlessLoginStep, NotificationBox, useConfigurationValues, useInvokeBlockAction, onConfigurationValuesChanged, useReloadBlock, removeCurrentUrlQueryParams;
   return {
     setters: [function (module) {
       provide = module.provide;
@@ -17,18 +17,20 @@ System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@
       createElementVNode = module.createElementVNode;
       normalizeClass = module.normalizeClass;
       unref = module.unref;
+      watch = module.watch;
+      createCommentVNode = module.createCommentVNode;
       createTextVNode = module.createTextVNode;
       createBlock = module.createBlock;
       withCtx = module.withCtx;
-      createCommentVNode = module.createCommentVNode;
       createVNode = module.createVNode;
       toDisplayString = module.toDisplayString;
+      pushScopeId = module.pushScopeId;
+      popScopeId = module.popScopeId;
       renderList = module.renderList;
       isRef = module.isRef;
-      watch = module.watch;
       onUnmounted = module.onUnmounted;
     }, function (module) {
-      Divider = module["default"];
+      newGuid = module.newGuid;
     }, function (module) {
       InlineCheckBox = module["default"];
     }, function (module) {
@@ -41,6 +43,8 @@ System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@
       BtnType = module.BtnType;
     }, function (module) {
       LoginMethod = module.LoginMethod;
+    }, function (module) {
+      useVModelPassthrough = module.useVModelPassthrough;
     }, function (module) {
       RockValidation = module["default"];
     }, function (module) {
@@ -55,8 +59,6 @@ System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@
       CodeBox = module["default"];
     }, function (module) {
       RadioButtonList = module["default"];
-    }, function (module) {
-      useVModelPassthrough = module.useVModelPassthrough;
     }, function (module) {
       PasswordlessLoginStep = module.PasswordlessLoginStep;
     }, function (module) {
@@ -166,8 +168,14 @@ System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@
       function _slicedToArray(arr, i) {
         return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
       }
+      function _toArray(arr) {
+        return _arrayWithHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableRest();
+      }
       function _arrayWithHoles(arr) {
         if (Array.isArray(arr)) return arr;
+      }
+      function _iterableToArray(iter) {
+        if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
       }
       function _unsupportedIterableToArray(o, minLen) {
         if (!o) return;
@@ -263,7 +271,7 @@ System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@
         return breakpoint;
       }
 
-      var script$7 = defineComponent({
+      var script$9 = defineComponent({
         name: 'breakpointObserver.partial',
         emits: ["breakpoint"],
         setup(__props, _ref) {
@@ -328,18 +336,115 @@ System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@
         }
       });
 
-      script$7.__file = "src/Security/breakpointObserver.partial.obs";
+      script$9.__file = "src/Security/breakpointObserver.partial.obs";
 
-      var _hoisted_1$5 = ["innerHTML"];
-      var _hoisted_2$5 = createTextVNode("Log In");
-      var _hoisted_3$1 = createTextVNode("Forgot Account");
-      var script$6 = defineComponent({
+      var _hoisted_1$7 = ["id"];
+      var script$8 = defineComponent({
+        name: 'htmlRenderer.partial',
+        props: {
+          html: {
+            type: String
+          }
+        },
+        setup(__props) {
+          var props = __props;
+          var id = newGuid();
+          var mountPoint = ref();
+          var mountedWrapper = ref();
+          var mountedNodes = ref([]);
+          function mountHtml() {
+            var mountedWrapperElement = mountedWrapper.value;
+            var mountPointElement = mountPoint.value;
+            if (!mountedWrapperElement || !mountPointElement) {
+              return;
+            }
+            var parentElement = mountPointElement.parentElement;
+            if (!parentElement) {
+              return;
+            }
+            if (mountedWrapperElement.childNodes.length === 0) {
+              return;
+            }
+            mountedNodes.value = [];
+            for (var i = 0; i < mountedWrapperElement.childNodes.length; i++) {
+              var childNode = mountedWrapperElement.childNodes[i];
+              parentElement.insertBefore(childNode, mountPointElement);
+              mountedNodes.value.push(childNode);
+            }
+            parentElement.removeChild(mountPointElement);
+          }
+          function unmountHtml() {
+            var nodesToRemove = mountedNodes.value;
+            if (nodesToRemove.length === 0) {
+              return;
+            }
+            var mountPointElement = mountPoint.value;
+            if (!mountPointElement) {
+              return;
+            }
+            var parentElement = nodesToRemove[0].parentElement;
+            if (!parentElement) {
+              return;
+            }
+            parentElement.insertBefore(mountPointElement, nodesToRemove[0]);
+            var _iterator = _createForOfIteratorHelper(nodesToRemove),
+              _step;
+            try {
+              for (_iterator.s(); !(_step = _iterator.n()).done;) {
+                var node = _step.value;
+                parentElement.removeChild(node);
+              }
+            } catch (err) {
+              _iterator.e(err);
+            } finally {
+              _iterator.f();
+            }
+          }
+          watch([() => props.html, mountPoint], (_ref, _ref2) => {
+            var _ref3 = _slicedToArray(_ref, 2),
+              newHtml = _ref3[0],
+              newMount = _ref3[1];
+            var _ref4 = _slicedToArray(_ref2, 2),
+              oldHtml = _ref4[0];
+              _ref4[1];
+            unmountHtml();
+            if (newHtml !== oldHtml) {
+              mountedWrapper.value = undefined;
+            }
+            if (!mountedWrapper.value && newHtml) {
+              var tempDiv = document.createElement("div");
+              tempDiv.innerHTML = newHtml;
+              mountedWrapper.value = tempDiv;
+            }
+            if (newMount) {
+              mountHtml();
+            }
+          });
+          onMounted(() => {
+            var _div$parentElement;
+            var div = document.getElementById(id);
+            mountPoint.value = document.createComment("");
+            div === null || div === void 0 ? void 0 : (_div$parentElement = div.parentElement) === null || _div$parentElement === void 0 ? void 0 : _div$parentElement.insertBefore(mountPoint.value, div);
+            div === null || div === void 0 ? void 0 : div.remove();
+          });
+          return (_ctx, _cache) => {
+            return openBlock(), createElementBlock("div", {
+              id: unref(id),
+              style: {
+                "display": "none"
+              }
+            }, [createCommentVNode(" This will be removed once the component is mounted. ")], 8, _hoisted_1$7);
+          };
+        }
+      });
+
+      script$8.__file = "src/Security/Login/htmlRenderer.partial.obs";
+
+      var _hoisted_1$6 = createTextVNode("Log In");
+      var _hoisted_2$5 = createTextVNode("Forgot Account");
+      var script$7 = defineComponent({
         name: 'credentialLogin.partial',
         props: {
-          config: {
-            type: Object,
-            required: true
-          },
           disabled: {
             type: Boolean,
             required: false,
@@ -349,6 +454,28 @@ System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@
             type: Boolean,
             required: false,
             default: false
+          },
+          isNewAccountHidden: {
+            type: Boolean,
+            required: false,
+            default: false
+          },
+          isRememberMeHidden: {
+            type: Boolean,
+            required: false,
+            default: false
+          },
+          newAccountButtonText: {
+            type: String,
+            required: false
+          },
+          promptMessage: {
+            type: String,
+            required: false
+          },
+          usernameFieldLabel: {
+            type: String,
+            required: false
           }
         },
         emits: ["forgotAccount", "login", "register"],
@@ -359,8 +486,8 @@ System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@
           var username = ref("");
           var password = ref("");
           var rememberMe = ref(false);
-          var usernameFieldLabel = computed(() => props.config.usernameFieldLabel || "Username");
-          var newAccountButtonText = computed(() => props.config.newAccountButtonText || "Register");
+          var usernameFieldLabel = computed(() => props.usernameFieldLabel || "Username");
+          var newAccountButtonText = computed(() => props.newAccountButtonText || "Register");
           var isMobile = computed(() => props.isMobileForced || breakpoint.value === "xs");
           function onCredentialLoginSubmitted() {
             emit("login", {
@@ -379,10 +506,10 @@ System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@
             return openBlock(), createBlock(unref(RockForm), {
               onSubmit: onCredentialLoginSubmitted
             }, {
-              default: withCtx(() => [__props.config.promptMessage ? (openBlock(), createElementBlock("div", {
+              default: withCtx(() => [__props.promptMessage ? (openBlock(), createBlock(unref(script$8), {
                 key: 0,
-                innerHTML: __props.config.promptMessage
-              }, null, 8, _hoisted_1$5)) : createCommentVNode("v-if", true), createVNode(unref(TextBox), {
+                html: __props.promptMessage
+              }, null, 8, ["html"])) : createCommentVNode("v-if", true), createVNode(unref(TextBox), {
                 modelValue: username.value,
                 "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => username.value = $event),
                 disabled: __props.disabled,
@@ -398,22 +525,23 @@ System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@
                 label: "Password",
                 rules: "required",
                 type: "password"
-              }, null, 8, ["modelValue", "disabled"]), createVNode(unref(InlineCheckBox), {
+              }, null, 8, ["modelValue", "disabled"]), !__props.isRememberMeHidden ? (openBlock(), createBlock(unref(InlineCheckBox), {
+                key: 1,
                 modelValue: rememberMe.value,
                 "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => rememberMe.value = $event),
                 disabled: __props.disabled,
                 label: "Keep me logged in"
-              }, null, 8, ["modelValue", "disabled"]), createVNode(unref(RockButton), {
+              }, null, 8, ["modelValue", "disabled"])) : createCommentVNode("v-if", true), createVNode(unref(RockButton), {
                 autoDisable: "",
                 btnType: unref(BtnType).Primary,
                 class: normalizeClass(unref(isMobile) ? 'btn-block' : 'd-inline-block'),
                 disabled: __props.disabled,
                 type: "submit"
               }, {
-                default: withCtx(() => [_hoisted_2$5]),
+                default: withCtx(() => [_hoisted_1$6]),
                 _: 1
-              }, 8, ["btnType", "class", "disabled"]), !__props.config.hideNewAccountOption ? (openBlock(), createBlock(unref(RockButton), {
-                key: 1,
+              }, 8, ["btnType", "class", "disabled"]), !__props.isNewAccountHidden ? (openBlock(), createBlock(unref(RockButton), {
+                key: 2,
                 autoDisable: "",
                 btnType: unref(BtnType).Action,
                 class: normalizeClass(unref(isMobile) ? 'btn-block mt-2' : 'ml-1 d-inline-block'),
@@ -431,7 +559,7 @@ System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@
                 type: "button",
                 onClick: onForgotAccountClicked
               }, {
-                default: withCtx(() => [_hoisted_3$1]),
+                default: withCtx(() => [_hoisted_2$5]),
                 _: 1
               }, 8, ["btnType", "class", "disabled"])]),
               _: 1
@@ -440,12 +568,79 @@ System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@
         }
       });
 
-      script$6.__file = "src/Security/Login/credentialLogin.partial.obs";
+      script$7.__file = "src/Security/Login/credentialLogin.partial.obs";
 
-      var _hoisted_1$4 = {
-        class: "external-logins"
-      };
+      var _withScopeId = n => (pushScopeId("data-v-6419958a"), n = n(), popScopeId(), n);
+      var _hoisted_1$5 = _withScopeId(() => createElementVNode("div", {
+        class: "rock-divider-line"
+      }, null, -1));
       var _hoisted_2$4 = ["innerHTML"];
+      var _hoisted_3$1 = {
+        key: 1,
+        class: "rock-divider-line"
+      };
+      var script$6 = defineComponent({
+        name: 'divider.partial',
+        props: {
+          isVertical: {
+            type: Object,
+            required: false,
+            default: () => false
+          },
+          content: {
+            type: Object,
+            required: false,
+            default: () => null
+          }
+        },
+        setup(__props) {
+          var props = __props;
+          var isContentVisible = computed(() => !!props.content);
+          var dividerClassRef = computed(() => "rock-divider".concat(props.isVertical ? " rock-divider-vertical" : ""));
+          return (_ctx, _cache) => {
+            return openBlock(), createElementBlock("div", {
+              class: normalizeClass(unref(dividerClassRef))
+            }, [_hoisted_1$5, unref(isContentVisible) ? (openBlock(), createElementBlock("div", {
+              key: 0,
+              class: "rock-divider-content",
+              innerHTML: __props.content
+            }, null, 8, _hoisted_2$4)) : createCommentVNode("v-if", true), unref(isContentVisible) ? (openBlock(), createElementBlock("div", _hoisted_3$1)) : createCommentVNode("v-if", true)], 2);
+          };
+        }
+      });
+
+      function styleInject(css, ref) {
+        if (ref === void 0) ref = {};
+        var insertAt = ref.insertAt;
+        if (!css || typeof document === 'undefined') {
+          return;
+        }
+        var head = document.head || document.getElementsByTagName('head')[0];
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        if (insertAt === 'top') {
+          if (head.firstChild) {
+            head.insertBefore(style, head.firstChild);
+          } else {
+            head.appendChild(style);
+          }
+        } else {
+          head.appendChild(style);
+        }
+        if (style.styleSheet) {
+          style.styleSheet.cssText = css;
+        } else {
+          style.appendChild(document.createTextNode(css));
+        }
+      }
+
+      var css_248z = "[data-v-6419958a]{--var-divider-color:#a4a4a4}.rock-divider[data-v-6419958a]{align-items:center;display:flex;flex-direction:row;margin:2rem 0}.rock-divider-line[data-v-6419958a]{border-top:1px solid var(--var-divider-color);flex:1}.rock-divider-content[data-v-6419958a]{color:var(--var-divider-color);padding:0 1rem}.rock-divider-vertical[data-v-6419958a]{flex-direction:column;margin:0}.rock-divider-vertical .rock-divider-line[data-v-6419958a]{border:0;border-left:1px solid var(--var-divider-color)}";
+      styleInject(css_248z);
+
+      script$6.__scopeId = "data-v-6419958a";
+      script$6.__file = "src/Security/Login/divider.partial.obs";
+
+      var _hoisted_1$4 = ["innerHTML"];
       var script$5 = defineComponent({
         name: 'externalLogin.partial',
         props: {
@@ -479,10 +674,10 @@ System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@
             emit("login", externalLogin);
           }
           return (_ctx, _cache) => {
-            return openBlock(), createElementBlock("div", _hoisted_1$4, [unref(hasExternalLogins) && unref(isCaptionNotEmpty) ? (openBlock(), createElementBlock("div", {
+            return openBlock(), createElementBlock(Fragment, null, [unref(hasExternalLogins) && unref(isCaptionNotEmpty) ? (openBlock(), createElementBlock("p", {
               key: 0,
               innerHTML: __props.caption
-            }, null, 8, _hoisted_2$4)) : createCommentVNode("v-if", true), (openBlock(true), createElementBlock(Fragment, null, renderList(unref(externalLogins), login => {
+            }, null, 8, _hoisted_1$4)) : createCommentVNode("v-if", true), (openBlock(true), createElementBlock(Fragment, null, renderList(unref(externalLogins), login => {
               return openBlock(), createBlock(unref(RockButton), {
                 btnType: unref(BtnType).Authentication,
                 class: normalizeClass(login.cssClass + ' btn-authentication-v2'),
@@ -492,7 +687,7 @@ System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@
                 default: withCtx(() => [createTextVNode(toDisplayString(login.text), 1)]),
                 _: 2
               }, 1032, ["btnType", "class", "disabled", "onClick"]);
-            }), 256))]);
+            }), 256))], 64);
           };
         }
       });
@@ -526,18 +721,7 @@ System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@
         setup(__props, _ref) {
           var emit = _ref.emit;
           var props = __props;
-          var loginMethodWrapper = computed(() => ({
-            isCredential: internalLoginMethod.value === LoginMethod.InternalDatabase,
-            isPasswordless: internalLoginMethod.value === LoginMethod.Passwordless
-          }));
-          var internalLoginMethod = computed({
-            get() {
-              return props.modelValue;
-            },
-            set(newValue) {
-              emit("update:modelValue", newValue);
-            }
-          });
+          var internalLoginMethod = useVModelPassthrough(props, "modelValue", emit);
           function onSignInWithAccountClicked() {
             internalLoginMethod.value = LoginMethod.InternalDatabase;
           }
@@ -545,7 +729,7 @@ System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@
             internalLoginMethod.value = LoginMethod.Passwordless;
           }
           return (_ctx, _cache) => {
-            return __props.isCredentialLoginSupported && !unref(loginMethodWrapper).isCredential ? (openBlock(), createBlock(unref(RockButton), {
+            return __props.isCredentialLoginSupported && unref(internalLoginMethod) !== unref(LoginMethod).InternalDatabase ? (openBlock(), createBlock(unref(RockButton), {
               key: 0,
               btnType: unref(BtnType).Default,
               class: "btn-block",
@@ -555,7 +739,7 @@ System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@
             }, {
               default: withCtx(() => [_hoisted_1$3]),
               _: 1
-            }, 8, ["btnType", "disabled"])) : __props.isPasswordlessLoginSupported && !unref(loginMethodWrapper).isPasswordless ? (openBlock(), createBlock(unref(RockButton), {
+            }, 8, ["btnType", "disabled"])) : __props.isPasswordlessLoginSupported && unref(internalLoginMethod) !== unref(LoginMethod).Passwordless ? (openBlock(), createBlock(unref(RockButton), {
               key: 1,
               btnType: unref(BtnType).Default,
               class: "btn-block",
@@ -1057,26 +1241,23 @@ System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@
         key: 0
       };
       var _hoisted_2 = {
-        key: 1,
+        key: 1
+      };
+      var _hoisted_3 = {
+        key: 2,
         class: "login-block"
       };
-      var _hoisted_3 = createElementVNode("fieldset", null, [createElementVNode("legend", null, "Log In")], -1);
-      var _hoisted_4 = {
-        key: 0,
-        class: "login-methods col"
-      };
+      var _hoisted_4 = createElementVNode("legend", null, "Log In", -1);
       var _hoisted_5 = {
-        class: "login-entry col"
+        key: 1,
+        class: "row"
       };
-      var _hoisted_6 = {
-        key: 2,
-        class: "mt-3"
-      };
+      var _hoisted_6 = ["innerHTML"];
       var _hoisted_7 = ["innerHTML"];
       var script = exports('default', defineComponent({
         name: 'login',
         setup(__props) {
-          var _config$passwordlessA, _config$passwordlessA2;
+          var _config$passwordlessA, _config$passwordlessA2, _config$twoFactorEmai, _config$twoFactorEmai2, _config$twoFactorLogi, _config$twoFactorLogi2, _config$twoFactorNotS;
           var config = useConfigurationValues();
           var invokeBlockAction = useInvokeBlockAction();
           var breakpoint = ref("unknown");
@@ -1084,6 +1265,7 @@ System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@
           var isAuthenticating = ref(config.shouldRedirect);
           var completedCaption = ref(null);
           var errorMessage = ref(config.errorMessage || null);
+          var criticalErrorMessage = ref(null);
           var isNavigating = ref(false);
           var passwordlessLoginOptions = ref({
             code: (_config$passwordlessA = config.passwordlessAutoVerifyOptions) === null || _config$passwordlessA === void 0 ? void 0 : _config$passwordlessA.code,
@@ -1094,6 +1276,12 @@ System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@
             step: config.passwordlessAutoVerifyOptions ? PasswordlessLoginStep.Verify : PasswordlessLoginStep.Start
           });
           var isCompleted = ref(false);
+          var mfa = ref();
+          var twoFactorEmailPhoneNotAvailableMessage = ref((_config$twoFactorEmai = config.twoFactorEmailPhoneNotAvailableMessage) !== null && _config$twoFactorEmai !== void 0 ? _config$twoFactorEmai : "");
+          var twoFactorEmailPhoneRequiredMessage = ref((_config$twoFactorEmai2 = config.twoFactorEmailPhoneRequiredMessage) !== null && _config$twoFactorEmai2 !== void 0 ? _config$twoFactorEmai2 : "");
+          var twoFactorLoginNotAvailableMessage = ref((_config$twoFactorLogi = config.twoFactorLoginNotAvailableMessage) !== null && _config$twoFactorLogi !== void 0 ? _config$twoFactorLogi : "");
+          var twoFactorLoginRequiredMessage = ref((_config$twoFactorLogi2 = config.twoFactorLoginRequiredMessage) !== null && _config$twoFactorLogi2 !== void 0 ? _config$twoFactorLogi2 : "");
+          var twoFactorNotSupportedByAuthenticationMethodMessage = ref((_config$twoFactorNotS = config.twoFactorNotSupportedByAuthenticationMethodMessage) !== null && _config$twoFactorNotS !== void 0 ? _config$twoFactorNotS : "");
           var areBothInternalAuthProvidersVisible = computed(() => config.isInternalDatabaseLoginSupported && config.isPasswordlessLoginSupported);
           var isAnyExternalAuthProviderVisible = computed(() => {
             var _config$externalAuthP;
@@ -1103,20 +1291,40 @@ System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@
             var isAnyInternalAuthProviderVisible = config.isInternalDatabaseLoginSupported || config.isPasswordlessLoginSupported;
             return isAnyExternalAuthProviderVisible.value && isAnyInternalAuthProviderVisible || areBothInternalAuthProvidersVisible.value;
           });
-          var loginMethod = ref(getInitialLoginMethod());
-          var internalLoginMethod = computed({
-            get() {
-              return passwordlessLoginOptions.value.isAutomaticVerificationRequired ? LoginMethod.Passwordless : loginMethod.value;
-            },
-            set(newValue) {
-              loginMethod.value = newValue;
+          var loginMethod = ref();
+          var isMobile = computed(() => isMobileForced || breakpoint.value === "xs");
+          var mfaMessage = computed(() => {
+            var _mfa$value$passwordle, _mfa$value$credential;
+            if (!mfa.value) {
+              return null;
+            } else if (mfa.value.passwordless && !mfa.value.passwordless.isError) {
+              return twoFactorEmailPhoneRequiredMessage.value;
+            } else if ((_mfa$value$passwordle = mfa.value.passwordless) !== null && _mfa$value$passwordle !== void 0 && _mfa$value$passwordle.isEmailAndMobilePhoneMissing) {
+              return twoFactorEmailPhoneNotAvailableMessage.value;
+            } else if (mfa.value.credentialLogin && !mfa.value.credentialLogin.isError) {
+              return twoFactorLoginRequiredMessage.value;
+            } else if ((_mfa$value$credential = mfa.value.credentialLogin) !== null && _mfa$value$credential !== void 0 && _mfa$value$credential.isUsernameAndPasswordMissing) {
+              return twoFactorLoginNotAvailableMessage.value;
+            } else if (mfa.value.is2FANotSupportedForAuthenticationFactor) {
+              return twoFactorNotSupportedByAuthenticationMethodMessage.value;
+            } else {
+              return null;
             }
           });
-          var loginMethodWrapper = computed(() => ({
-            isCredential: internalLoginMethod.value === LoginMethod.InternalDatabase,
-            isPasswordless: internalLoginMethod.value === LoginMethod.Passwordless
-          }));
-          var isMobile = computed(() => isMobileForced || breakpoint.value === "xs");
+          var currentMfaFactor = computed(() => {
+            var mfaDetails = mfa.value;
+            if (!mfaDetails) {
+              return null;
+            }
+            if (mfaDetails.credentialLogin) {
+              return LoginMethod.InternalDatabase;
+            }
+            if (mfaDetails.passwordless) {
+              return LoginMethod.Passwordless;
+            }
+            console.error("Unknown MFA factor");
+            return null;
+          });
           function onCredentialLogin(_x) {
             return _onCredentialLogin.apply(this, arguments);
           }
@@ -1124,22 +1332,50 @@ System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@
             _onCredentialLogin = _asyncToGenerator(function* (bag) {
               isAuthenticating.value = true;
               try {
+                var _mfa$value5;
+                bag.mfaTicket = (_mfa$value5 = mfa.value) === null || _mfa$value5 === void 0 ? void 0 : _mfa$value5.ticket;
                 var response = yield invokeBlockAction("CredentialLogin", {
                   bag
                 });
-                if (!(response !== null && response !== void 0 && response.isSuccess) || !response.data) {
-                  showError((response === null || response === void 0 ? void 0 : response.errorMessage) || "Something went wrong. Please try again.");
+                var responseBag = response === null || response === void 0 ? void 0 : response.data;
+                if (!(response !== null && response !== void 0 && response.isSuccess) || !responseBag) {
+                  uiState.error({
+                    errorMessage: (response === null || response === void 0 ? void 0 : response.errorMessage) || "Something went wrong. Please try again."
+                  });
                   return;
                 }
-                if (response.data.isAuthenticated) {
-                  yield navigate(response.data.redirectUrl || "/");
+                if (responseBag.isLockedOut) {
+                  var _responseBag$errorMes;
+                  uiState.criticalError({
+                    errorMessage: (_responseBag$errorMes = responseBag.errorMessage) !== null && _responseBag$errorMes !== void 0 ? _responseBag$errorMes : null
+                  });
                   return;
                 }
-                if (response.data.isConfirmationRequired) {
-                  showCompleted(response.data.errorMessage || response.errorMessage);
+                if (responseBag.isAuthenticated) {
+                  uiState.valid();
+                  yield navigate(responseBag.redirectUrl || "/");
                   return;
                 }
-                showError(response.data.errorMessage || "Authentication failed. Please try again.");
+                if (responseBag.isConfirmationRequired) {
+                  uiState.confirmationRequired({
+                    caption: responseBag.errorMessage || response.errorMessage
+                  });
+                  return;
+                }
+                if (responseBag.mfa) {
+                  var _responseBag$mfa$tick;
+                  uiState.initMfaFactor({
+                    mfa: {
+                      passwordless: responseBag.mfa,
+                      ticket: (_responseBag$mfa$tick = responseBag.mfa.ticket) !== null && _responseBag$mfa$tick !== void 0 ? _responseBag$mfa$tick : null
+                    },
+                    loginMethod: LoginMethod.Passwordless
+                  });
+                  return;
+                }
+                uiState.error({
+                  errorMessage: responseBag.errorMessage || "Authentication failed. Please try again."
+                });
               } finally {
                 isAuthenticating.value = false;
               }
@@ -1153,7 +1389,8 @@ System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@
             _onExternalLogin = _asyncToGenerator(function* (externalLogin) {
               isAuthenticating.value = true;
               var bag = {
-                authenticationType: externalLogin.authenticationType
+                authenticationType: externalLogin.authenticationType,
+                route: location.pathname
               };
               try {
                 var _response$data;
@@ -1164,7 +1401,9 @@ System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@
                   yield navigate(response.data.redirectUrl);
                   return;
                 }
-                showError(response === null || response === void 0 ? void 0 : response.errorMessage);
+                uiState.error({
+                  errorMessage: response === null || response === void 0 ? void 0 : response.errorMessage
+                });
                 return;
               } finally {
                 isAuthenticating.value = false;
@@ -1182,20 +1421,30 @@ System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@
             });
             return _onForgotAccount.apply(this, arguments);
           }
+          function onLoginMethodPickerChanged(value) {
+            if (typeof value !== "undefined") {
+              uiState.init({
+                loginMethod: value
+              });
+            }
+          }
           function onPasswordlessLoginStart(_x3) {
             return _onPasswordlessLoginStart.apply(this, arguments);
           }
           function _onPasswordlessLoginStart() {
             _onPasswordlessLoginStart = _asyncToGenerator(function* (bag) {
               isAuthenticating.value = true;
-              clearError();
+              uiState.valid();
               try {
-                var _response$data2;
+                var _mfa$value6, _response$data2;
+                bag.mfaTicket = (_mfa$value6 = mfa.value) === null || _mfa$value6 === void 0 ? void 0 : _mfa$value6.ticket;
                 var response = yield invokeBlockAction("PasswordlessLoginStart", {
                   bag
                 });
                 if (!(response !== null && response !== void 0 && response.isSuccess) || !response.data) {
-                  showError((response === null || response === void 0 ? void 0 : response.errorMessage) || "Something went wrong. Please try again.");
+                  uiState.error({
+                    errorMessage: (response === null || response === void 0 ? void 0 : response.errorMessage) || "Something went wrong. Please try again."
+                  });
                   return;
                 }
                 if (response.data.isSuccessful) {
@@ -1203,12 +1452,16 @@ System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@
                     state: response.data.state || "",
                     step: PasswordlessLoginStep.Verify
                   });
+                  loginMethod.value = LoginMethod.Passwordless;
                   return;
                 }
                 passwordlessLoginOptions.value = _objectSpread2(_objectSpread2({}, passwordlessLoginOptions.value), {}, {
                   step: PasswordlessLoginStep.Start
                 });
-                showError((response === null || response === void 0 ? void 0 : (_response$data2 = response.data) === null || _response$data2 === void 0 ? void 0 : _response$data2.errorMessage) || (response === null || response === void 0 ? void 0 : response.errorMessage) || "An unknown error occurred. Please submit email or phone number again.");
+                loginMethod.value = LoginMethod.Passwordless;
+                uiState.error({
+                  errorMessage: (response === null || response === void 0 ? void 0 : (_response$data2 = response.data) === null || _response$data2 === void 0 ? void 0 : _response$data2.errorMessage) || (response === null || response === void 0 ? void 0 : response.errorMessage) || "An unknown error occurred. Please submit email or phone number again."
+                });
                 return;
               } finally {
                 isAuthenticating.value = false;
@@ -1222,23 +1475,40 @@ System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@
           function _onPasswordlessLoginVerify() {
             _onPasswordlessLoginVerify = _asyncToGenerator(function* (bag) {
               isAuthenticating.value = true;
-              clearError();
+              uiState.valid();
               try {
-                var _response$data$errorM;
+                var _mfa$value7, _response$data$errorM;
+                bag.mfaTicket = (_mfa$value7 = mfa.value) === null || _mfa$value7 === void 0 ? void 0 : _mfa$value7.ticket;
                 var response = yield invokeBlockAction("PasswordlessLoginVerify", {
                   bag
                 });
                 if (!response || !response.isSuccess || !response.data) {
-                  showError("Something went wrong. Please try again.");
+                  uiState.error({
+                    errorMessage: "Something went wrong. Please try again."
+                  });
                   return;
                 }
                 if (response.data.isAuthenticated) {
+                  uiState.valid();
                   yield navigate(config.redirectUrl || "/");
+                  return;
+                }
+                if (response.data.mfa) {
+                  var _response$data$mfa$ti;
+                  uiState.initMfaFactor({
+                    mfa: {
+                      credentialLogin: response.data.mfa,
+                      ticket: (_response$data$mfa$ti = response.data.mfa.ticket) !== null && _response$data$mfa$ti !== void 0 ? _response$data$mfa$ti : null
+                    },
+                    loginMethod: LoginMethod.InternalDatabase
+                  });
                   return;
                 }
                 if (response.data.isRegistrationRequired) {
                   if (!response.data.registrationUrl) {
-                    showError("Redirecting to default registration page");
+                    uiState.error({
+                      errorMessage: "Redirecting to default registration page"
+                    });
                   }
                   yield navigate(response.data.registrationUrl || "/NewAccount");
                   return;
@@ -1248,9 +1518,12 @@ System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@
                     isPersonSelectionRequired: true,
                     matchingPeople: response.data.matchingPeople || []
                   });
+                  loginMethod.value = LoginMethod.Passwordless;
                   return;
                 }
-                showError((_response$data$errorM = response.data.errorMessage) !== null && _response$data$errorM !== void 0 ? _response$data$errorM : "Authentication failed. Please try again.");
+                uiState.error({
+                  errorMessage: (_response$data$errorM = response.data.errorMessage) !== null && _response$data$errorM !== void 0 ? _response$data$errorM : "Authentication failed. Please try again."
+                });
               } finally {
                 isAuthenticating.value = false;
               }
@@ -1267,11 +1540,11 @@ System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@
             });
             return _onRegister.apply(this, arguments);
           }
-          function clearError() {
-            errorMessage.value = null;
-          }
           function getInitialLoginMethod() {
             var configuredDefaultLoginMethod = config.defaultLoginMethod;
+            if (config.passwordlessAutoVerifyOptions) {
+              return LoginMethod.Passwordless;
+            }
             switch (configuredDefaultLoginMethod) {
               case LoginMethod.InternalDatabase:
                 {
@@ -1305,35 +1578,109 @@ System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@
             completedCaption.value = caption || "An unknown error occurred";
             isCompleted.value = true;
           }
-          function showError(error) {
-            errorMessage.value = error || "An unknown error occurred";
+          function getErrorOrDefault(error) {
+            return error || "An unknown error occurred";
           }
+          var uiState = {
+            init(state) {
+              errorMessage.value = null;
+              loginMethod.value = state.loginMethod;
+              mfa.value = null;
+            },
+            initMfaFactor(state) {
+              errorMessage.value = null;
+              loginMethod.value = state.loginMethod;
+              mfa.value = state.mfa;
+            },
+            criticalError(state) {
+              criticalErrorMessage.value = state.errorMessage;
+            },
+            error(state) {
+              errorMessage.value = getErrorOrDefault(state.errorMessage);
+            },
+            valid() {
+              errorMessage.value = null;
+            },
+            confirmationRequired(state) {
+              errorMessage.value = null;
+              mfa.value = null;
+              showCompleted(state.caption);
+            },
+            passwordlessCodeSent() {
+              errorMessage.value = null;
+            },
+            passwordlessResendCode() {
+              errorMessage.value = null;
+            },
+            unsupportedMfaFactor() {
+              errorMessage.value = null;
+              mfa.value = {
+                is2FANotSupportedForAuthenticationFactor: true,
+                ticket: null,
+                credentialLogin: null,
+                passwordless: null
+              };
+            }
+          };
           onMounted(() => {
             if (config.shouldRedirect) {
               navigate(config.redirectUrl ? config.redirectUrl : "/");
+              return;
+            }
+            if (mfaParameter) {
+              uiState.initMfaFactor({
+                mfa: {
+                  credentialLogin: null,
+                  passwordless: {
+                    isEmailAndMobilePhoneMissing: false,
+                    isError: false
+                  },
+                  ticket: mfaParameter
+                },
+                loginMethod: LoginMethod.Passwordless
+              });
+            } else if (config.is2FANotSupportedForAuthenticationFactor) {
+              uiState.unsupportedMfaFactor();
+            } else {
+              uiState.init({
+                loginMethod: getInitialLoginMethod()
+              });
             }
           });
-          removeCurrentUrlQueryParams("State", "Code", "IsPasswordless", "state", "code", "scope", "authuser", "prompt");
+          var _removeCurrentUrlQuer = removeCurrentUrlQueryParams("Mfa", "State", "Code", "IsPasswordless", "state", "code", "scope", "authuser", "prompt"),
+            _removeCurrentUrlQuer2 = _toArray(_removeCurrentUrlQuer),
+            mfaParameter = _removeCurrentUrlQuer2[0];
+            _removeCurrentUrlQuer2.slice(1);
           onConfigurationValuesChanged(useReloadBlock());
           return (_ctx, _cache) => {
-            return openBlock(), createBlock(unref(script$7), {
-              onBreakpoint: _cache[8] || (_cache[8] = value => breakpoint.value = value)
+            return openBlock(), createBlock(unref(script$9), {
+              onBreakpoint: _cache[7] || (_cache[7] = value => breakpoint.value = value)
             }, {
               default: withCtx(() => {
-                var _unref$configurationE, _unref$remoteAuthoriz;
-                return [isCompleted.value ? (openBlock(), createElementBlock("div", _hoisted_1, [createVNode(unref(NotificationBox), {
+                var _unref$configurationE, _unref$remoteAuthoriz, _mfa$value, _mfa$value2, _mfa$value2$credentia, _mfa$value3, _mfa$value4, _mfa$value4$passwordl;
+                return [createElementVNode("div", null, [criticalErrorMessage.value ? (openBlock(), createElementBlock("div", _hoisted_1, [createVNode(unref(NotificationBox), {
+                  alertType: "danger",
+                  innerHTML: criticalErrorMessage.value
+                }, null, 8, ["innerHTML"])])) : isCompleted.value ? (openBlock(), createElementBlock("div", _hoisted_2, [createVNode(unref(NotificationBox), {
                   alertType: "warning",
                   innerHTML: completedCaption.value
-                }, null, 8, ["innerHTML"])])) : (openBlock(), createElementBlock("div", _hoisted_2, [_hoisted_3, (_unref$configurationE = unref(config).configurationErrors) !== null && _unref$configurationE !== void 0 && _unref$configurationE.length ? (openBlock(true), createElementBlock(Fragment, {
+                }, null, 8, ["innerHTML"])])) : (openBlock(), createElementBlock("div", _hoisted_3, [createElementVNode("fieldset", null, [_hoisted_4, (_unref$configurationE = unref(config).configurationErrors) !== null && _unref$configurationE !== void 0 && _unref$configurationE.length ? (openBlock(true), createElementBlock(Fragment, {
                   key: 0
                 }, renderList(unref(config).configurationErrors, configError => {
                   return openBlock(), createBlock(unref(NotificationBox), {
                     alertType: "warning",
                     textContent: toDisplayString(configError)
                   }, null, 8, ["textContent"]);
-                }), 256)) : createCommentVNode("v-if", true), createElementVNode("div", {
+                }), 256)) : createCommentVNode("v-if", true), unref(config).errorMessage ? (openBlock(), createElementBlock("div", _hoisted_5, [createVNode(unref(NotificationBox), {
+                  alertType: "danger",
+                  class: "col-sm-12",
+                  innerHTML: unref(config).errorMessage
+                }, null, 8, ["innerHTML"])])) : createCommentVNode("v-if", true), createElementVNode("div", {
                   class: normalizeClass(['row', unref(isMobile) ? 'mobile-layout' : 'd-flex'])
-                }, [unref(isAnyExternalAuthProviderVisible) || unref(areBothInternalAuthProvidersVisible) ? (openBlock(), createElementBlock("div", _hoisted_4, [unref(isAnyExternalAuthProviderVisible) ? (openBlock(), createBlock(unref(script$5), {
+                }, [unref(isAnyExternalAuthProviderVisible) || unref(areBothInternalAuthProvidersVisible) ? (openBlock(), createElementBlock("div", {
+                  key: 0,
+                  class: normalizeClass(['login-methods', isMobileForced ? 'col-sm-12' : 'col-sm-5', 'remote-logins'])
+                }, [unref(isAnyExternalAuthProviderVisible) ? (openBlock(), createBlock(unref(script$5), {
                   key: 0,
                   modelValue: unref(config).externalAuthProviderButtons || [],
                   caption: (_unref$remoteAuthoriz = unref(config).remoteAuthorizationPromptMessage) !== null && _unref$remoteAuthoriz !== void 0 ? _unref$remoteAuthoriz : '',
@@ -1341,41 +1688,52 @@ System.register(['vue', './divider.obs', '@Obsidian/Controls/inlineCheckBox', '@
                   onLogin: _cache[0] || (_cache[0] = $event => onExternalLogin($event))
                 }, null, 8, ["modelValue", "caption", "disabled"])) : createCommentVNode("v-if", true), unref(areBothInternalAuthProvidersVisible) ? (openBlock(), createBlock(unref(script$4), {
                   key: 1,
-                  modelValue: unref(internalLoginMethod),
-                  "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => isRef(internalLoginMethod) ? internalLoginMethod.value = $event : null),
+                  modelValue: loginMethod.value,
                   disabled: isAuthenticating.value || isNavigating.value,
                   isCredentialLoginSupported: unref(config).isInternalDatabaseLoginSupported,
-                  isPasswordlessLoginSupported: unref(config).isPasswordlessLoginSupported
-                }, null, 8, ["modelValue", "disabled", "isCredentialLoginSupported", "isPasswordlessLoginSupported"])) : createCommentVNode("v-if", true)])) : createCommentVNode("v-if", true), unref(areSecondaryAndPrimaryAuthVisible) ? (openBlock(), createBlock(unref(Divider), {
+                  isPasswordlessLoginSupported: unref(config).isPasswordlessLoginSupported,
+                  "onUpdate:modelValue": onLoginMethodPickerChanged
+                }, null, 8, ["modelValue", "disabled", "isCredentialLoginSupported", "isPasswordlessLoginSupported"])) : createCommentVNode("v-if", true)], 2)) : createCommentVNode("v-if", true), unref(areSecondaryAndPrimaryAuthVisible) ? (openBlock(), createBlock(unref(script$6), {
                   key: 1,
-                  class: normalizeClass(unref(isMobile) ? 'col' : 'd-flex col-1'),
+                  class: normalizeClass(isMobileForced ? 'col-sm-12' : 'col-sm-1'),
                   content: "or",
                   isVertical: !unref(isMobile)
-                }, null, 8, ["class", "isVertical"])) : createCommentVNode("v-if", true), createElementVNode("div", _hoisted_5, [unref(config).isInternalDatabaseLoginSupported && unref(loginMethodWrapper).isCredential ? (openBlock(), createBlock(unref(script$6), {
+                }, null, 8, ["class", "isVertical"])) : createCommentVNode("v-if", true), createElementVNode("div", {
+                  class: normalizeClass(['login-entry', isMobileForced || !unref(isAnyExternalAuthProviderVisible) && !unref(areBothInternalAuthProvidersVisible) ? 'col-sm-12' : 'col-sm-6'])
+                }, [unref(mfaMessage) ? (openBlock(), createElementBlock("div", {
                   key: 0,
-                  config: unref(config),
+                  innerHTML: unref(mfaMessage)
+                }, null, 8, _hoisted_6)) : createCommentVNode("v-if", true), loginMethod.value === unref(LoginMethod).InternalDatabase && (unref(config).isInternalDatabaseLoginSupported && !((_mfa$value = mfa.value) !== null && _mfa$value !== void 0 && _mfa$value.credentialLogin) || ((_mfa$value2 = mfa.value) === null || _mfa$value2 === void 0 ? void 0 : (_mfa$value2$credentia = _mfa$value2.credentialLogin) === null || _mfa$value2$credentia === void 0 ? void 0 : _mfa$value2$credentia.isError) === false) ? (openBlock(), createBlock(unref(script$7), {
+                  key: 1,
                   disabled: isAuthenticating.value || isNavigating.value,
                   isMobileForced: isMobileForced,
-                  onForgotAccount: _cache[2] || (_cache[2] = $event => onForgotAccount()),
-                  onLogin: _cache[3] || (_cache[3] = $event => onCredentialLogin($event)),
-                  onRegister: _cache[4] || (_cache[4] = $event => onRegister())
-                }, null, 8, ["config", "disabled"])) : unref(config).isPasswordlessLoginSupported && unref(loginMethodWrapper).isPasswordless ? (openBlock(), createBlock(unref(script$1), {
-                  key: 1,
+                  isNewAccountHidden: unref(currentMfaFactor) === unref(LoginMethod).InternalDatabase || unref(config).hideNewAccountOption,
+                  isRememberMeHidden: unref(currentMfaFactor) === unref(LoginMethod).InternalDatabase,
+                  newAccountButtonText: unref(config).newAccountButtonText,
+                  promptMessage: unref(config).promptMessage,
+                  usernameFieldLabel: unref(config).usernameFieldLabel,
+                  onForgotAccount: _cache[1] || (_cache[1] = $event => onForgotAccount()),
+                  onLogin: _cache[2] || (_cache[2] = $event => onCredentialLogin($event)),
+                  onRegister: _cache[3] || (_cache[3] = $event => onRegister())
+                }, null, 8, ["disabled", "isNewAccountHidden", "isRememberMeHidden", "newAccountButtonText", "promptMessage", "usernameFieldLabel"])) : loginMethod.value !== unref(LoginMethod).InternalDatabase && (unref(config).isPasswordlessLoginSupported && !((_mfa$value3 = mfa.value) !== null && _mfa$value3 !== void 0 && _mfa$value3.passwordless) || ((_mfa$value4 = mfa.value) === null || _mfa$value4 === void 0 ? void 0 : (_mfa$value4$passwordl = _mfa$value4.passwordless) === null || _mfa$value4$passwordl === void 0 ? void 0 : _mfa$value4$passwordl.isError) === false) ? (openBlock(), createBlock(unref(script$1), {
+                  key: 2,
                   modelValue: passwordlessLoginOptions.value,
-                  "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => passwordlessLoginOptions.value = $event),
+                  "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => passwordlessLoginOptions.value = $event),
                   config: unref(config),
                   disabled: isAuthenticating.value || isNavigating.value,
                   isMobileForced: isMobileForced,
-                  onStart: _cache[6] || (_cache[6] = $event => onPasswordlessLoginStart($event)),
-                  onVerify: _cache[7] || (_cache[7] = $event => onPasswordlessLoginVerify($event))
-                }, null, 8, ["modelValue", "config", "disabled"])) : createCommentVNode("v-if", true), errorMessage.value ? (openBlock(), createElementBlock("div", _hoisted_6, [createVNode(unref(NotificationBox), {
+                  onStart: _cache[5] || (_cache[5] = $event => onPasswordlessLoginStart($event)),
+                  onVerify: _cache[6] || (_cache[6] = $event => onPasswordlessLoginVerify($event))
+                }, null, 8, ["modelValue", "config", "disabled"])) : createCommentVNode("v-if", true), errorMessage.value ? (openBlock(), createBlock(unref(NotificationBox), {
+                  key: 3,
                   alertType: "warning",
+                  class: "block-message margin-t-md",
                   innerHTML: errorMessage.value
-                }, null, 8, ["innerHTML"])])) : createCommentVNode("v-if", true)])], 2), unref(config).contentText ? (openBlock(), createElementBlock("div", {
-                  key: 1,
+                }, null, 8, ["innerHTML"])) : createCommentVNode("v-if", true)], 2)], 2)]), unref(config).contentText ? (openBlock(), createElementBlock("div", {
+                  key: 0,
                   class: "mt-3",
                   innerHTML: unref(config).contentText
-                }, null, 8, _hoisted_7)) : createCommentVNode("v-if", true)]))];
+                }, null, 8, _hoisted_7)) : createCommentVNode("v-if", true)]))])];
               }),
               _: 1
             });

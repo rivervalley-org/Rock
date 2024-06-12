@@ -1,12 +1,12 @@
-System.register(['vue', '@Obsidian/Utility/numberUtils', '@Obsidian/Utility/component', './rockFormField', '@Obsidian/ValidationRules'], (function (exports) {
+System.register(['vue', '@Obsidian/Utility/numberUtils', '@Obsidian/Utility/component', './rockFormField.obs', '@Obsidian/ValidationRules'], (function (exports) {
   'use strict';
-  var defineComponent, ref, watch, computed, openBlock, createBlock, unref, mergeProps, withCtx, createElementVNode, renderSlot, withDirectives, vModelText, toNumberOrNull, toNumber, useStandardRockFormFieldProps, updateRefValue, standardRockFormFieldProps, RockFormField, normalizeRules;
+  var defineComponent, ref, computed, watch, openBlock, createBlock, unref, mergeProps, withCtx, createElementVNode, renderSlot, withDirectives, vModelText, toNumberOrNull, toNumber, useStandardRockFormFieldProps, updateRefValue, standardRockFormFieldProps, RockFormField, normalizeRules;
   return {
     setters: [function (module) {
       defineComponent = module.defineComponent;
       ref = module.ref;
-      watch = module.watch;
       computed = module.computed;
+      watch = module.watch;
       openBlock = module.openBlock;
       createBlock = module.createBlock;
       unref = module.unref;
@@ -114,23 +114,21 @@ System.register(['vue', '@Obsidian/Utility/numberUtils', '@Obsidian/Utility/comp
           var volume = ref("");
           var page = ref("");
           var line = ref("");
-          watch(volume, () => console.log("volume changed", volume.value));
-          watch(page, () => console.log("page changed", page.value));
-          watch(line, () => console.log("line changed", line.value));
           var internalValue = computed({
             get() {
-              console.log("get internal", internalValue);
               return volume.value + "," + page.value + "," + line.value;
             },
             set(value) {
               var _toNumberOrNull$toStr, _toNumberOrNull, _toNumberOrNull$toStr2, _toNumberOrNull2, _toNumberOrNull$toStr3, _toNumberOrNull3;
-              console.log("set internal", value);
               var parts = value.split(",");
               volume.value = (_toNumberOrNull$toStr = (_toNumberOrNull = toNumberOrNull(parts[0])) === null || _toNumberOrNull === void 0 ? void 0 : _toNumberOrNull.toString()) !== null && _toNumberOrNull$toStr !== void 0 ? _toNumberOrNull$toStr : "";
               page.value = (_toNumberOrNull$toStr2 = (_toNumberOrNull2 = toNumberOrNull(parts[1])) === null || _toNumberOrNull2 === void 0 ? void 0 : _toNumberOrNull2.toString()) !== null && _toNumberOrNull$toStr2 !== void 0 ? _toNumberOrNull$toStr2 : "";
               line.value = (_toNumberOrNull$toStr3 = (_toNumberOrNull3 = toNumberOrNull(parts[2])) === null || _toNumberOrNull3 === void 0 ? void 0 : _toNumberOrNull3.toString()) !== null && _toNumberOrNull$toStr3 !== void 0 ? _toNumberOrNull$toStr3 : "";
             }
           });
+          if (props.modelValue != null) {
+            internalValue.value = props.modelValue;
+          }
           var fieldRules = computed(() => {
             var rules = normalizeRules(props.rules);
             rules = rules.map(rule => {
@@ -143,11 +141,9 @@ System.register(['vue', '@Obsidian/Utility/numberUtils', '@Obsidian/Utility/comp
             return rules;
           });
           watch(() => props.modelValue, () => {
-            console.log("prop changed", props.modelValue);
             updateRefValue(internalValue, props.modelValue);
           });
           watch(internalValue, () => {
-            console.log("internalvalue changes", internalValue.value);
             emit("update:modelValue", internalValue.value);
           });
           function validateRequired() {
@@ -161,15 +157,12 @@ System.register(['vue', '@Obsidian/Utility/numberUtils', '@Obsidian/Utility/comp
           }
           function validateNumeric() {
             var errs = [];
-            console.log("validate volume numberic", !!volume.value.trim(), !toNumberOrNull(volume.value.trim()));
             if (volume.value.trim() && toNumber(volume.value.trim()) == 0) {
               errs.push("Volume");
             }
-            console.log("validate page numberic", !!page.value.trim(), !toNumberOrNull(page.value.trim()));
             if (page.value.trim() && toNumber(page.value.trim()) == 0) {
               errs.push("Page");
             }
-            console.log("validate line numberic", !!line.value.trim(), !toNumberOrNull(line.value.trim()));
             if (line.value.trim() && toNumber(line.value.trim()) == 0) {
               errs.push("Line");
             }

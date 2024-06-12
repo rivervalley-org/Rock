@@ -1,10 +1,11 @@
 System.register(['vue', './utils', '@Obsidian/Controls/addressControl.obs'], (function (exports) {
     'use strict';
-    var defineComponent, ref, watch, getFieldEditorProps, AddressControl;
+    var defineComponent, ref, computed, watch, getFieldEditorProps, AddressControl;
     return {
         setters: [function (module) {
             defineComponent = module.defineComponent;
             ref = module.ref;
+            computed = module.computed;
             watch = module.watch;
         }, function (module) {
             getFieldEditorProps = module.getFieldEditorProps;
@@ -22,6 +23,8 @@ System.register(['vue', './utils', '@Obsidian/Controls/addressControl.obs'], (fu
               setup(props, _ref) {
                 var emit = _ref.emit;
                 var internalValue = ref({});
+                var disableFrontEndValidation = computed(() => props.dataEntryMode == "defaultValue");
+                var omitDefaultValues = computed(() => props.dataEntryMode == "defaultValue");
                 watch(() => props.modelValue, () => {
                   try {
                     internalValue.value = JSON.parse(props.modelValue || "{}");
@@ -37,10 +40,12 @@ System.register(['vue', './utils', '@Obsidian/Controls/addressControl.obs'], (fu
                   deep: true
                 });
                 return {
-                  internalValue
+                  internalValue,
+                  disableFrontEndValidation,
+                  omitDefaultValues
                 };
               },
-              template: "\n<AddressControl v-model=\"internalValue\" />\n"
+              template: "\n<AddressControl v-model=\"internalValue\" :disableFrontEndValidation=\"disableFrontEndValidation\" :omitDefaultValues=\"omitDefaultValues\" />\n"
             }));
             var ConfigurationComponent = exports('ConfigurationComponent', defineComponent({
               name: "AddressField.Configuration",

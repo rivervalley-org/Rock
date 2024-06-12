@@ -315,6 +315,11 @@ namespace RockWeb.Blocks.Crm
                 $('#{2}').closest('.form-group').toggleClass('bulk-item-selected', enabled)
             }}
 
+            // Enhanced lists need special handling
+            var enhancedList = $(this).parent().find('.chosen-select');
+            if (enhancedList.length) {{
+                $(enhancedList).trigger('chosen:updated');
+            }}
         }});
 
         // Update the hidden field with the client id of each selected control, (if client id ends with '_hf' as in the case of multi-select attributes, strip the ending '_hf').
@@ -1133,7 +1138,29 @@ namespace RockWeb.Blocks.Crm
 
         private void SetGroupControls()
         {
+            nbGroupMessage.Visible = false;
+            var rockContext = new RockContext();
+            Group group = null;
+
+            int? groupId = gpGroup.SelectedValueAsId();
+            if ( groupId.HasValue )
+            {
+                group = new GroupService( rockContext ).Get( groupId.Value );
+            }
+
             string action = ddlGroupAction.SelectedValue;
+
+            // If the person is not authorized to update/edit the group members...
+            if ( group != null && !( group.IsAuthorized( Authorization.EDIT, CurrentPerson ) || group.IsAuthorized( Authorization.MANAGE_MEMBERS, CurrentPerson ) ) )
+            {
+                nbGroupMessage.Visible = true;
+                nbGroupMessage.Text = $"You are not authorized to {action.ToLowerInvariant()} members for {group.Name}";
+                gpGroup.SetValue( null );
+                ddlGroupMemberStatus.Visible = false;
+                ddlGroupRole.Visible = false;
+                return;
+            }
+
             if ( action == "Remove" )
             {
                 ddlGroupMemberStatus.Visible = false;
@@ -1141,10 +1168,6 @@ namespace RockWeb.Blocks.Crm
             }
             else
             {
-                var rockContext = new RockContext();
-                Group group = null;
-
-                int? groupId = gpGroup.SelectedValueAsId();
                 if ( groupId.HasValue )
                 {
                     group = new GroupService( rockContext ).Get( groupId.Value );
@@ -2243,7 +2266,7 @@ namespace RockWeb.Blocks.Crm
                 if ( this.UpdateGroupAction != GroupChangeActionSpecifier.None )
                 {
                     var group = new GroupService( rockContext ).Get( UpdateGroupId.Value );
-                    if ( group != null )
+                    if ( group != null && ( group.IsAuthorized( Authorization.EDIT, CurrentPerson ) || group.IsAuthorized( Authorization.MANAGE_MEMBERS, CurrentPerson ) ) )
                     {
                         var groupMemberService = new GroupMemberService( rockContext );
 

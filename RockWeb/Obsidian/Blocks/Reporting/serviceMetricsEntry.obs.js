@@ -1,6 +1,6 @@
-System.register(['vue', '@Obsidian/Controls/numberBox', './ServiceMetricsEntry/metricItemTree.obs', '@Obsidian/Controls/loading', '@Obsidian/Controls/rockButton', '@Obsidian/Utility/rockDateTime', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Controls/rockForm', '@Obsidian/Controls/panel', '@Obsidian/Controls/textBox', '@Obsidian/Enums/Controls/btnType', '@Obsidian/Utility/block'], (function (exports) {
+System.register(['vue', '@Obsidian/Controls/numberBox.obs', './ServiceMetricsEntry/metricItemTree.obs', '@Obsidian/Controls/loading.obs', '@Obsidian/Controls/rockButton.obs', '@Obsidian/Utility/rockDateTime', '@Obsidian/Controls/buttonDropDownList.obs', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Controls/rockForm.obs', '@Obsidian/Controls/panel.obs', '@Obsidian/Controls/textBox.obs', '@Obsidian/Enums/Controls/btnType', '@Obsidian/Utility/block', '@Obsidian/Utility/guid'], (function (exports) {
   'use strict';
-  var defineComponent, openBlock, createElementBlock, createVNode, unref, ref, computed, watch, onMounted, createElementVNode, toDisplayString, withCtx, Fragment, renderList, createBlock, createTextVNode, createCommentVNode, isRef, NumberBox, MetricItemTree, Loading, RockButton, RockDateTime, DropDownList, NotificationBox, RockForm, Panel, TextBox, BtnType, useConfigurationValues, useInvokeBlockAction, useReloadBlock, onConfigurationValuesChanged;
+  var defineComponent, openBlock, createElementBlock, createVNode, unref, ref, computed, watch, onMounted, createElementVNode, toDisplayString, withCtx, Fragment, renderList, createBlock, createTextVNode, createCommentVNode, isRef, NumberBox, MetricItemTree, Loading, RockButton, RockDateTime, ButtonDropDownList, NotificationBox, RockForm, Panel, TextBox, BtnType, useConfigurationValues, useInvokeBlockAction, useReloadBlock, onConfigurationValuesChanged, toGuidOrNull;
   return {
     setters: [function (module) {
       defineComponent = module.defineComponent;
@@ -32,7 +32,7 @@ System.register(['vue', '@Obsidian/Controls/numberBox', './ServiceMetricsEntry/m
     }, function (module) {
       RockDateTime = module.RockDateTime;
     }, function (module) {
-      DropDownList = module["default"];
+      ButtonDropDownList = module["default"];
     }, function (module) {
       NotificationBox = module["default"];
     }, function (module) {
@@ -48,6 +48,8 @@ System.register(['vue', '@Obsidian/Controls/numberBox', './ServiceMetricsEntry/m
       useInvokeBlockAction = module.useInvokeBlockAction;
       useReloadBlock = module.useReloadBlock;
       onConfigurationValuesChanged = module.onConfigurationValuesChanged;
+    }, function (module) {
+      toGuidOrNull = module.toGuidOrNull;
     }],
     execute: (function () {
 
@@ -350,7 +352,7 @@ System.register(['vue', '@Obsidian/Controls/numberBox', './ServiceMetricsEntry/m
         key: 2
       };
       var _hoisted_4 = {
-        class: "panel-settings-group margin-b-lg"
+        class: "panel-settings-group mb-3"
       };
       var _hoisted_5 = {
         key: 0,
@@ -361,7 +363,7 @@ System.register(['vue', '@Obsidian/Controls/numberBox', './ServiceMetricsEntry/m
         key: 2
       };
       var _hoisted_8 = {
-        class: "form-horizontal label-md"
+        class: "form-horizontal label-xl"
       };
       var _hoisted_9 = {
         class: "actions"
@@ -375,15 +377,15 @@ System.register(['vue', '@Obsidian/Controls/numberBox', './ServiceMetricsEntry/m
           var reloadBlock = useReloadBlock();
           var blockError = ref(config.errorMessage);
           var errorMessage = ref("");
-          var campusGuid = ref(config.campusGuid);
+          var campusGuid = ref(toGuidOrNull(config.campusGuid));
           var weekendDate = ref(config.weekendDate);
-          var scheduleGuid = ref(config.scheduleGuid);
+          var scheduleGuid = ref(toGuidOrNull(config.scheduleGuid));
           var stepperController = ref();
           var areMetricParametersSet = ref(false);
-          var campuses = ref();
+          var campuses = ref([]);
           var areCampusesLoaded = ref(false);
-          var weekendDates = ref();
-          var serviceTimes = ref();
+          var weekendDates = ref([]);
+          var serviceTimes = ref([]);
           var areServiceTimesLoaded = ref(false);
           var isSaving = ref(false);
           var isSavedMessage = ref();
@@ -401,7 +403,7 @@ System.register(['vue', '@Obsidian/Controls/numberBox', './ServiceMetricsEntry/m
               return (_campusGuid$value = campusGuid.value) !== null && _campusGuid$value !== void 0 ? _campusGuid$value : "";
             },
             set(newValue) {
-              campusGuid.value = newValue;
+              campusGuid.value = toGuidOrNull(newValue);
             }
           });
           var weekendDateOrEmptyString = computed({
@@ -419,7 +421,7 @@ System.register(['vue', '@Obsidian/Controls/numberBox', './ServiceMetricsEntry/m
               return (_scheduleGuid$value = scheduleGuid.value) !== null && _scheduleGuid$value !== void 0 ? _scheduleGuid$value : "";
             },
             set(newValue) {
-              scheduleGuid.value = newValue;
+              scheduleGuid.value = toGuidOrNull(newValue);
             }
           });
           var notesOrEmptyString = computed({
@@ -496,7 +498,7 @@ System.register(['vue', '@Obsidian/Controls/numberBox', './ServiceMetricsEntry/m
               try {
                 isLoadingServiceTimes.value = true;
                 var bag = {
-                  campusGuid: campusGuid.value,
+                  campusGuid: toGuidOrNull(campusGuid.value),
                   weekendDate: weekendDate.value
                 };
                 var result = yield invokeBlockAction("GetServiceTimes", {
@@ -545,9 +547,9 @@ System.register(['vue', '@Obsidian/Controls/numberBox', './ServiceMetricsEntry/m
                 isSavedMessage.value = null;
                 errorMessage.value = "";
                 var bag = {
-                  campusGuid: campusGuid.value,
+                  campusGuid: toGuidOrNull(campusGuid.value),
                   note: notes.value,
-                  scheduleGuid: scheduleGuid.value,
+                  scheduleGuid: toGuidOrNull(scheduleGuid.value),
                   weekendDate: weekendDate.value,
                   items: metricItems.value
                 };
@@ -622,8 +624,8 @@ System.register(['vue', '@Obsidian/Controls/numberBox', './ServiceMetricsEntry/m
                 isGettingServiceMetrics.value = true;
                 errorMessage.value = "";
                 var bag = {
-                  campusGuid: campusGuid.value,
-                  scheduleGuid: scheduleGuid.value,
+                  campusGuid: toGuidOrNull(campusGuid.value),
+                  scheduleGuid: toGuidOrNull(scheduleGuid.value),
                   weekendDate: weekendDate.value
                 };
                 var result = yield invokeBlockAction("GetMetrics", {
@@ -694,19 +696,19 @@ System.register(['vue', '@Obsidian/Controls/numberBox', './ServiceMetricsEntry/m
                 onLoadCampuses: onLoadCampuses,
                 onLoadServiceTimes: onLoadServiceTimes,
                 onLoadWeekendDates: onLoadWeekendDates
-              }, null, 8, ["campusGuid", "scheduleGuid", "weekendDate", "campuses", "serviceTimes", "weekendDates"])) : (openBlock(), createElementBlock("div", _hoisted_3, [createElementVNode("div", _hoisted_4, [createVNode(unref(DropDownList), {
+              }, null, 8, ["campusGuid", "scheduleGuid", "weekendDate", "campuses", "serviceTimes", "weekendDates"])) : (openBlock(), createElementBlock("div", _hoisted_3, [createElementVNode("div", _hoisted_4, [createVNode(unref(ButtonDropDownList), {
                 modelValue: unref(campusGuidOrEmptyString),
                 "onUpdate:modelValue": [_cache[3] || (_cache[3] = $event => isRef(campusGuidOrEmptyString) ? campusGuidOrEmptyString.value = $event : null), onCampusUpdated],
                 disabled: isLoadingCampuses.value,
                 items: campuses.value,
                 label: "Campus"
-              }, null, 8, ["modelValue", "disabled", "items"]), createVNode(unref(DropDownList), {
+              }, null, 8, ["modelValue", "disabled", "items"]), createVNode(unref(ButtonDropDownList), {
                 modelValue: unref(weekendDateOrEmptyString),
                 "onUpdate:modelValue": [_cache[4] || (_cache[4] = $event => isRef(weekendDateOrEmptyString) ? weekendDateOrEmptyString.value = $event : null), onWeekendDateUpdated],
                 disabled: isLoadingWeekendDates.value,
                 items: weekendDates.value,
                 label: "Week of"
-              }, null, 8, ["modelValue", "disabled", "items"]), unref(areNoServiceTimesLoaded) ? (openBlock(), createElementBlock("div", _hoisted_5, "No Services Available")) : (openBlock(), createBlock(unref(DropDownList), {
+              }, null, 8, ["modelValue", "disabled", "items"]), unref(areNoServiceTimesLoaded) ? (openBlock(), createElementBlock("div", _hoisted_5, "No Services Available")) : (openBlock(), createBlock(unref(ButtonDropDownList), {
                 key: 1,
                 modelValue: unref(scheduleGuidOrEmptyString),
                 "onUpdate:modelValue": [_cache[5] || (_cache[5] = $event => isRef(scheduleGuidOrEmptyString) ? scheduleGuidOrEmptyString.value = $event : null), onScheduleUpdated],

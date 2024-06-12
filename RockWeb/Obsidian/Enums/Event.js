@@ -43,6 +43,28 @@ System.register([], (function (exports) {
             });
             exports('attendanceStatus', attendanceStatus);
 
+            var CheckInStatus = {
+              Unknown: 0,
+              Pending: 1,
+              NotPresent: 2,
+              Present: 3,
+              CheckedOut: 4
+            };
+            var CheckInStatusDescription = {
+              0: "Unknown",
+              1: "Pending",
+              2: "Not Present",
+              3: "Present",
+              4: "Checked Out"
+            };
+
+            var checkInStatus = /*#__PURE__*/Object.freeze({
+                __proto__: null,
+                CheckInStatus: CheckInStatus,
+                CheckInStatusDescription: CheckInStatusDescription
+            });
+            exports('checkInStatus', checkInStatus);
+
             var InteractiveExperienceApprovalStatus = {
               Pending: 0,
               Approved: 1,

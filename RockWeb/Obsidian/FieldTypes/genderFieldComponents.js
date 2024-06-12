@@ -1,4 +1,4 @@
-System.register(['vue', './utils', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/checkBox', '@Obsidian/Utility/booleanUtils'], (function (exports) {
+System.register(['vue', './utils', '@Obsidian/Controls/dropDownList.obs', '@Obsidian/Controls/checkBox.obs', '@Obsidian/Utility/booleanUtils'], (function (exports) {
     'use strict';
     var defineComponent, ref, watch, getFieldEditorProps, getFieldConfigurationProps, DropDownList, CheckBox, asBoolean, asTrueFalseOrNull;
     return {

@@ -1,6 +1,6 @@
-System.register(['vue', '@Obsidian/Controls/checkBoxList', '@Obsidian/Controls/dropDownList', '@Obsidian/Utility/component', '@Obsidian/Controls/dateRangePicker', '@Obsidian/Controls/inputGroupDropDown.obs', '@Obsidian/Controls/loading', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Controls/numberBox', '@Obsidian/Controls/rockAttributeFilter', '@Obsidian/Controls/rockButton', '@Obsidian/Controls/rockLabel', '@Obsidian/Controls/rockForm', '@Obsidian/Controls/textBox', '@Obsidian/Enums/Controls/alertType', '@Obsidian/Enums/Controls/btnType', '@Obsidian/Utility/block'], (function (exports) {
+System.register(['vue', '@Obsidian/Controls/checkBoxList.obs', '@Obsidian/Controls/dropDownList.obs', '@Obsidian/Utility/component', '@Obsidian/Controls/dateRangePicker.obs', '@Obsidian/Controls/inputGroupDropDown.obs', '@Obsidian/Controls/loading.obs', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Controls/numberBox.obs', '@Obsidian/Controls/rockAttributeFilter.obs', '@Obsidian/Controls/rockButton.obs', '@Obsidian/Controls/rockLabel.obs', '@Obsidian/Controls/rockForm.obs', '@Obsidian/Controls/textBox.obs', '@Obsidian/Enums/Controls/alertType', '@Obsidian/Enums/Controls/btnType', '@Obsidian/Utility/block'], (function (exports) {
   'use strict';
-  var defineComponent, computed, openBlock, createElementBlock, Fragment, unref, createBlock, createCommentVNode, createElementVNode, createTextVNode, ref, withCtx, toDisplayString, normalizeClass, createVNode, renderList, nextTick, CheckBoxList, DropLownList, useVModelPassthrough, DateRangePicker, InputGroupDropDown, Loading, NotificationBox, NumberBox, RockAttributeFilter, RockButton, RockLabel, RockForm, TextBox, AlertType, BtnType, useConfigurationValues, useInvokeBlockAction, useReloadBlock, onConfigurationValuesChanged;
+  var defineComponent, computed, openBlock, createElementBlock, Fragment, unref, createBlock, isRef, createCommentVNode, createElementVNode, createTextVNode, ref, withCtx, toDisplayString, normalizeClass, createVNode, renderList, nextTick, CheckBoxList, DropLownList, useVModelPassthrough, DateRangePicker, InputGroupDropDown, Loading, NotificationBox, NumberBox, RockAttributeFilter, RockButton, RockLabel, RockForm, TextBox, AlertType, BtnType, useConfigurationValues, useInvokeBlockAction, useReloadBlock, onConfigurationValuesChanged;
   return {
     setters: [function (module) {
       defineComponent = module.defineComponent;
@@ -10,6 +10,7 @@ System.register(['vue', '@Obsidian/Controls/checkBoxList', '@Obsidian/Controls/d
       Fragment = module.Fragment;
       unref = module.unref;
       createBlock = module.createBlock;
+      isRef = module.isRef;
       createCommentVNode = module.createCommentVNode;
       createElementVNode = module.createElementVNode;
       createTextVNode = module.createTextVNode;
@@ -118,7 +119,7 @@ System.register(['vue', '@Obsidian/Controls/checkBoxList', '@Obsidian/Controls/d
         setup(__props, _ref) {
           var emit = _ref.emit;
           var props = __props;
-          useVModelPassthrough(props, "modelValue", emit);
+          var modelValue = useVModelPassthrough(props, "modelValue", emit);
           var displayAsDropDown = computed(() => {
             return props.displayAs === SignUpFilterType.MultiSelectDropDown;
           });
@@ -126,16 +127,16 @@ System.register(['vue', '@Obsidian/Controls/checkBoxList', '@Obsidian/Controls/d
             var _props$label;
             return openBlock(), createElementBlock(Fragment, null, [!unref(displayAsDropDown) ? (openBlock(), createBlock(unref(CheckBoxList), {
               key: 0,
-              modelValue: props.modelValue,
-              "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => props.modelValue = $event),
+              modelValue: unref(modelValue),
+              "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => isRef(modelValue) ? modelValue.value = $event : null),
               label: props.label,
               items: props.items,
               horizontal: true,
               repeatColumns: 4
             }, null, 8, ["modelValue", "label", "items"])) : createCommentVNode("v-if", true), unref(displayAsDropDown) ? (openBlock(), createBlock(unref(DropLownList), {
               key: 1,
-              modelValue: props.modelValue,
-              "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => props.modelValue = $event),
+              modelValue: unref(modelValue),
+              "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => isRef(modelValue) ? modelValue.value = $event : null),
               label: (_props$label = props.label) !== null && _props$label !== void 0 ? _props$label : '',
               items: props.items,
               multiple: true
@@ -147,17 +148,18 @@ System.register(['vue', '@Obsidian/Controls/checkBoxList', '@Obsidian/Controls/d
       script$1.__file = "src/Engagement/SignUp/SignUpFinder/signUpFilter.partial.obs";
 
       var _hoisted_1 = {
-        key: 2
+        key: 2,
+        class: "sign-up-finder"
       };
       var _hoisted_2 = {
         class: "row d-flex flex-wrap"
       };
-      var _hoisted_3 = {
-        class: "form-group"
-      };
-      var _hoisted_4 = createElementVNode("span", {
+      var _hoisted_3 = createElementVNode("span", {
         class: "input-group-addon"
       }, "Miles", -1);
+      var _hoisted_4 = {
+        class: "form-group"
+      };
       var _hoisted_5 = {
         class: "actions"
       };
@@ -188,7 +190,7 @@ System.register(['vue', '@Obsidian/Controls/checkBoxList', '@Obsidian/Controls/d
           var selectedProjectTypes = ref([]);
           var selectedCampuses = ref((_config$pageCampusCon = config.pageCampusContext) !== null && _config$pageCampusCon !== void 0 && _config$pageCampusCon.value ? [config.pageCampusContext.value] : []);
           var selectedNamedSchedules = ref([]);
-          var selectedDateRange = ref({});
+          var selectedDateRange = ref();
           var selectedLocationSort = ref("");
           var selectedLocationRange = ref(null);
           var selectedSlotsAvailableComparisonType = ref("AtLeast");
@@ -307,6 +309,7 @@ System.register(['vue', '@Obsidian/Controls/checkBoxList', '@Obsidian/Controls/d
           }
           function _onSearch() {
             _onSearch = _asyncToGenerator(function* () {
+              var _selectedDateRange$va, _selectedDateRange$va2;
               isSearching.value = true;
               errorMessage.value = "";
               var bag = {
@@ -314,8 +317,8 @@ System.register(['vue', '@Obsidian/Controls/checkBoxList', '@Obsidian/Controls/d
                 campuses: selectedCampuses.value,
                 namedSchedules: selectedNamedSchedules.value,
                 attributeFiltersByProjectType: getActiveAttributeFiltersByProjectType(),
-                startDate: selectedDateRange.value.lowerValue,
-                endDate: selectedDateRange.value.upperValue,
+                startDate: (_selectedDateRange$va = selectedDateRange.value) === null || _selectedDateRange$va === void 0 ? void 0 : _selectedDateRange$va.lowerValue,
+                endDate: (_selectedDateRange$va2 = selectedDateRange.value) === null || _selectedDateRange$va2 === void 0 ? void 0 : _selectedDateRange$va2.upperValue,
                 locationSort: selectedLocationSort.value,
                 locationRange: selectedLocationRange.value,
                 slotsAvailableComparisonType: selectedSlotsAvailableComparisonType.value,
@@ -345,7 +348,7 @@ System.register(['vue', '@Obsidian/Controls/checkBoxList', '@Obsidian/Controls/d
             selectedProjectTypes.value = [];
             selectedCampuses.value = [];
             selectedNamedSchedules.value = [];
-            selectedDateRange.value = {};
+            selectedDateRange.value = undefined;
             selectedLocationSort.value = "";
             selectedLocationRange.value = null;
             selectedSlotsAvailableComparisonType.value = "AtLeast";
@@ -374,115 +377,126 @@ System.register(['vue', '@Obsidian/Controls/checkBoxList', '@Obsidian/Controls/d
               _: 1
             }, 8, ["alertType"])) : createCommentVNode("v-if", true), !unref(blockErrorMessage) ? (openBlock(), createElementBlock("div", _hoisted_1, [unref(isSearchFormVisible) ? (openBlock(), createBlock(unref(RockForm), {
               key: 0,
-              onSubmit: onSearch
+              onSubmit: onSearch,
+              class: "filters"
             }, {
-              default: withCtx(() => [createElementVNode("div", _hoisted_2, [projectTypes.value.length ? (openBlock(), createElementBlock("div", {
-                key: 0,
-                class: normalizeClass(unref(columnClass))
-              }, [createVNode(unref(script$1), {
-                modelValue: selectedProjectTypes.value,
-                "onUpdate:modelValue": [_cache[0] || (_cache[0] = $event => selectedProjectTypes.value = $event), onProjectTypesUpdated],
-                label: unref(config).projectTypeFilterLabel,
-                items: projectTypes.value,
-                displayAs: unref(displayAs)
-              }, null, 8, ["modelValue", "label", "items", "displayAs"])], 2)) : createCommentVNode("v-if", true), campuses.value.length ? (openBlock(), createElementBlock("div", {
-                key: 1,
-                class: normalizeClass(unref(columnClass))
-              }, [createVNode(unref(script$1), {
-                modelValue: selectedCampuses.value,
-                "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => selectedCampuses.value = $event),
-                label: "Campus",
-                items: campuses.value,
-                displayAs: unref(displayAs)
-              }, null, 8, ["modelValue", "items", "displayAs"])], 2)) : createCommentVNode("v-if", true), namedSchedules.value.length ? (openBlock(), createElementBlock("div", {
-                key: 2,
-                class: normalizeClass(unref(columnClass))
-              }, [createVNode(unref(script$1), {
-                modelValue: selectedNamedSchedules.value,
-                "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => selectedNamedSchedules.value = $event),
-                label: unref(config).namedScheduleFilterLabel,
-                items: namedSchedules.value,
-                displayAs: unref(displayAs)
-              }, null, 8, ["modelValue", "label", "items", "displayAs"])], 2)) : createCommentVNode("v-if", true), (openBlock(true), createElementBlock(Fragment, null, renderList(unref(attributeFilters), a => {
-                return openBlock(), createElementBlock("div", {
-                  key: a.key,
-                  class: normalizeClass(unref(columnClass))
-                }, [createElementVNode("div", _hoisted_3, [createVNode(unref(RockLabel), null, {
-                  default: withCtx(() => [createTextVNode(toDisplayString(a.attribute.name), 1)]),
-                  _: 2
-                }, 1024), createVNode(unref(RockAttributeFilter), {
-                  modelValue: comparisonValuesByAttributeGuid[a.key],
-                  "onUpdate:modelValue": $event => comparisonValuesByAttributeGuid[a.key] = $event,
-                  attribute: a.attribute
-                }, null, 8, ["modelValue", "onUpdate:modelValue", "attribute"])])], 2);
-              }), 128)), unref(config).displayDateRange ? (openBlock(), createElementBlock("div", {
-                key: 3,
-                class: normalizeClass(unref(columnClass))
-              }, [createVNode(unref(DateRangePicker), {
-                modelValue: selectedDateRange.value,
-                "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => selectedDateRange.value = $event),
-                label: "Date Range",
-                disallowPastDateSelection: true
-              }, null, 8, ["modelValue"])], 2)) : createCommentVNode("v-if", true), unref(config).displayLocationSort ? (openBlock(), createElementBlock("div", {
-                key: 4,
-                class: normalizeClass(unref(columnClass))
-              }, [createVNode(unref(TextBox), {
-                modelValue: selectedLocationSort.value,
-                "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => selectedLocationSort.value = $event),
-                label: unref(config).locationSortLabel,
-                class: "input-max-w-xl"
-              }, null, 8, ["modelValue", "label"])], 2)) : createCommentVNode("v-if", true), unref(config).displayLocationRangeFilter ? (openBlock(), createElementBlock("div", {
-                key: 5,
-                class: normalizeClass(unref(columnClass))
-              }, [createVNode(unref(NumberBox), {
-                modelValue: selectedLocationRange.value,
-                "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => selectedLocationRange.value = $event),
-                label: "Within",
-                formGroupClasses: "input-max-w-md"
-              }, {
-                inputGroupAppend: withCtx(() => [_hoisted_4]),
-                _: 1
-              }, 8, ["modelValue"])], 2)) : createCommentVNode("v-if", true), unref(config).displaySlotsAvailableFilter ? (openBlock(), createElementBlock("div", {
-                key: 6,
-                class: normalizeClass(unref(columnClass))
-              }, [createVNode(unref(NumberBox), {
-                modelValue: selectedSlotsAvailable.value,
-                "onUpdate:modelValue": _cache[7] || (_cache[7] = $event => selectedSlotsAvailable.value = $event),
-                class: "input-max-w-md",
-                label: "Spots Available"
-              }, {
-                inputGroupPrepend: withCtx(() => [createVNode(unref(InputGroupDropDown), {
-                  items: slotsAvailableComparisonTypes,
-                  modelValue: selectedSlotsAvailableComparisonType.value,
-                  "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => selectedSlotsAvailableComparisonType.value = $event)
-                }, null, 8, ["modelValue"])]),
-                _: 1
-              }, 8, ["modelValue"])], 2)) : createCommentVNode("v-if", true)]), createElementVNode("div", _hoisted_5, [createVNode(unref(RockButton), {
-                type: "submit",
-                btnType: unref(BtnType).Primary,
-                disabled: isSearching.value
-              }, {
-                default: withCtx(() => [_hoisted_6]),
-                _: 1
-              }, 8, ["btnType", "disabled"]), createVNode(unref(RockButton), {
-                type: "button",
-                btnType: unref(BtnType).Link,
-                disabled: isSearching.value,
-                onClick: onClearBtnClick
-              }, {
-                default: withCtx(() => [_hoisted_7]),
-                _: 1
-              }, 8, ["btnType", "disabled"])])]),
+              default: withCtx(() => {
+                var _unref$locationSortLa;
+                return [createElementVNode("div", _hoisted_2, [campuses.value.length ? (openBlock(), createElementBlock("div", {
+                  key: 0,
+                  class: normalizeClass([unref(columnClass), "filters-campus"])
+                }, [createVNode(unref(script$1), {
+                  modelValue: selectedCampuses.value,
+                  "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => selectedCampuses.value = $event),
+                  label: "Campus",
+                  items: campuses.value,
+                  displayAs: unref(displayAs)
+                }, null, 8, ["modelValue", "items", "displayAs"])], 2)) : createCommentVNode("v-if", true), namedSchedules.value.length ? (openBlock(), createElementBlock("div", {
+                  key: 1,
+                  class: normalizeClass([unref(columnClass), "filters-namedschedule"])
+                }, [createVNode(unref(script$1), {
+                  modelValue: selectedNamedSchedules.value,
+                  "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => selectedNamedSchedules.value = $event),
+                  label: unref(config).namedScheduleFilterLabel,
+                  items: namedSchedules.value,
+                  displayAs: unref(displayAs)
+                }, null, 8, ["modelValue", "label", "items", "displayAs"])], 2)) : createCommentVNode("v-if", true), unref(config).displayDateRange ? (openBlock(), createElementBlock("div", {
+                  key: 2,
+                  class: normalizeClass([unref(columnClass), "filters-daterange"])
+                }, [createVNode(unref(DateRangePicker), {
+                  modelValue: selectedDateRange.value,
+                  "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => selectedDateRange.value = $event),
+                  label: "Date Range",
+                  disallowPastDateSelection: true
+                }, null, 8, ["modelValue"])], 2)) : createCommentVNode("v-if", true), unref(config).displayLocationSort ? (openBlock(), createElementBlock("div", {
+                  key: 3,
+                  class: normalizeClass([unref(columnClass), "filters-locationsort"])
+                }, [createVNode(unref(TextBox), {
+                  modelValue: selectedLocationSort.value,
+                  "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => selectedLocationSort.value = $event),
+                  label: (_unref$locationSortLa = unref(config).locationSortLabel) !== null && _unref$locationSortLa !== void 0 ? _unref$locationSortLa : undefined,
+                  class: "input-max-w-xl"
+                }, null, 8, ["modelValue", "label"])], 2)) : createCommentVNode("v-if", true), unref(config).displayLocationRangeFilter ? (openBlock(), createElementBlock("div", {
+                  key: 4,
+                  class: normalizeClass([unref(columnClass), "filters-locationrange"])
+                }, [createVNode(unref(NumberBox), {
+                  modelValue: selectedLocationRange.value,
+                  "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => selectedLocationRange.value = $event),
+                  label: "Within",
+                  formGroupClasses: "input-max-w-md"
+                }, {
+                  inputGroupAppend: withCtx(() => [_hoisted_3]),
+                  _: 1
+                }, 8, ["modelValue"])], 2)) : createCommentVNode("v-if", true), unref(config).displaySlotsAvailableFilter ? (openBlock(), createElementBlock("div", {
+                  key: 5,
+                  class: normalizeClass([unref(columnClass), "filters-slots"])
+                }, [createVNode(unref(NumberBox), {
+                  modelValue: selectedSlotsAvailable.value,
+                  "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => selectedSlotsAvailable.value = $event),
+                  class: "input-max-w-md",
+                  label: "Spots Available"
+                }, {
+                  inputGroupPrepend: withCtx(() => [createVNode(unref(InputGroupDropDown), {
+                    items: slotsAvailableComparisonTypes,
+                    modelValue: selectedSlotsAvailableComparisonType.value,
+                    "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => selectedSlotsAvailableComparisonType.value = $event)
+                  }, null, 8, ["modelValue"])]),
+                  _: 1
+                }, 8, ["modelValue"])], 2)) : createCommentVNode("v-if", true), projectTypes.value.length ? (openBlock(), createElementBlock("div", {
+                  key: 6,
+                  class: normalizeClass([unref(columnClass), "filters-projecttype"])
+                }, [createVNode(unref(script$1), {
+                  modelValue: selectedProjectTypes.value,
+                  "onUpdate:modelValue": [_cache[7] || (_cache[7] = $event => selectedProjectTypes.value = $event), onProjectTypesUpdated],
+                  label: unref(config).projectTypeFilterLabel,
+                  items: projectTypes.value,
+                  displayAs: unref(displayAs)
+                }, null, 8, ["modelValue", "label", "items", "displayAs"])], 2)) : createCommentVNode("v-if", true), (openBlock(true), createElementBlock(Fragment, null, renderList(unref(attributeFilters), a => {
+                  var _a$attribute, _a$attribute$key;
+                  return openBlock(), createElementBlock("div", {
+                    key: a.key,
+                    class: normalizeClass("".concat(unref(columnClass), " filters-attribute-").concat((_a$attribute = a.attribute) === null || _a$attribute === void 0 ? void 0 : (_a$attribute$key = _a$attribute.key) === null || _a$attribute$key === void 0 ? void 0 : _a$attribute$key.toLowerCase()))
+                  }, [createElementVNode("div", _hoisted_4, [createVNode(unref(RockLabel), null, {
+                    default: withCtx(() => {
+                      var _a$attribute2;
+                      return [createTextVNode(toDisplayString((_a$attribute2 = a.attribute) === null || _a$attribute2 === void 0 ? void 0 : _a$attribute2.name), 1)];
+                    }),
+                    _: 2
+                  }, 1024), createVNode(unref(RockAttributeFilter), {
+                    modelValue: comparisonValuesByAttributeGuid[a.key],
+                    "onUpdate:modelValue": $event => comparisonValuesByAttributeGuid[a.key] = $event,
+                    attribute: a.attribute
+                  }, null, 8, ["modelValue", "onUpdate:modelValue", "attribute"])])], 2);
+                }), 128))]), createElementVNode("div", _hoisted_5, [createVNode(unref(RockButton), {
+                  type: "submit",
+                  btnType: unref(BtnType).Primary,
+                  disabled: isSearching.value
+                }, {
+                  default: withCtx(() => [_hoisted_6]),
+                  _: 1
+                }, 8, ["btnType", "disabled"]), createVNode(unref(RockButton), {
+                  type: "button",
+                  btnType: unref(BtnType).Link,
+                  disabled: isSearching.value,
+                  onClick: onClearBtnClick
+                }, {
+                  default: withCtx(() => [_hoisted_7]),
+                  _: 1
+                }, 8, ["btnType", "disabled"])])];
+              }),
               _: 1
             })) : createCommentVNode("v-if", true), createVNode(unref(Loading), {
-              isLoading: isSearching.value
+              isLoading: isSearching.value,
+              class: "results"
             }, {
               default: withCtx(() => [createElementVNode("div", {
                 ref_key: "resultsHeaderElement",
-                ref: resultsHeaderElement
+                ref: resultsHeaderElement,
+                class: "results-header"
               }, null, 512), createElementVNode("div", {
                 ref_key: "resultsElement",
-                ref: resultsElement
+                ref: resultsElement,
+                class: "results-body"
               }, null, 512)]),
               _: 1
             }, 8, ["isLoading"])])) : createCommentVNode("v-if", true)], 64);

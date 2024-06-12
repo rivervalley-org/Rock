@@ -1,9 +1,8 @@
-System.register(['vue', '@Obsidian/Controls/categoryPicker', '@Obsidian/Controls/checkBox', '@Obsidian/Controls/checkBoxList', '@Obsidian/Controls/codeEditor', '@Obsidian/Controls/definedValuePicker.obs', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/groupTypePicker.obs', '@Obsidian/Controls/loadingIndicator', '@Obsidian/Controls/modal', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Controls/pagePicker.obs', '@Obsidian/Controls/panelWidget', '@Obsidian/Controls/radioButtonList', '@Obsidian/Controls/textBox', '@Obsidian/Enums/Controls/alertType', '@Obsidian/SystemGuids/definedType', '@Obsidian/SystemGuids/entityType', '@Obsidian/Utility/block'], (function (exports) {
+System.register(['vue', '@Obsidian/Controls/categoryPicker.obs', '@Obsidian/Controls/checkBox.obs', '@Obsidian/Controls/checkBoxList.obs', '@Obsidian/Controls/codeEditor.obs', '@Obsidian/Controls/definedValuePicker.obs', '@Obsidian/Controls/dropDownList.obs', '@Obsidian/Controls/groupTypePicker.obs', '@Obsidian/Controls/loadingIndicator.obs', '@Obsidian/Controls/modal.obs', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Controls/pagePicker.obs', '@Obsidian/Controls/panel.obs', '@Obsidian/Controls/radioButtonList.obs', '@Obsidian/Controls/textBox.obs', '@Obsidian/Enums/Controls/alertType', '@Obsidian/SystemGuids/definedType', '@Obsidian/SystemGuids/entityType', '@Obsidian/Utility/block'], (function (exports) {
   'use strict';
-  var createTextVNode, createElementVNode, defineComponent, ref, computed, watch, openBlock, createBlock, unref, withCtx, toDisplayString, createElementBlock, createVNode, createCommentVNode, CategoryPicker, CheckBox, CheckBoxList, CodeEditor, DefinedValuePicker, DropDownList, GroupTypePicker, LoadingIndicator, Modal, NotificationBox, PagePicker, PanelWidget, RadioButtonList, TextBox, AlertType, DefinedType, EntityType, useInvokeBlockAction, getSecurityGrant, useReloadBlock, provideSecurityGrant, setCustomSettingsBoxValue;
+  var createElementVNode, defineComponent, ref, computed, watch, openBlock, createBlock, unref, withCtx, createTextVNode, toDisplayString, createElementBlock, createVNode, createCommentVNode, CategoryPicker, CheckBox, CheckBoxList, CodeEditor, DefinedValuePicker, DropDownList, GroupTypePicker, LoadingIndicator, Modal, NotificationBox, PagePicker, Panel, RadioButtonList, TextBox, AlertType, DefinedType, EntityType, useInvokeBlockAction, getSecurityGrant, useReloadBlock, provideSecurityGrant, setCustomSettingsBoxValue;
   return {
     setters: [function (module) {
-      createTextVNode = module.createTextVNode;
       createElementVNode = module.createElementVNode;
       defineComponent = module.defineComponent;
       ref = module.ref;
@@ -13,6 +12,7 @@ System.register(['vue', '@Obsidian/Controls/categoryPicker', '@Obsidian/Controls
       createBlock = module.createBlock;
       unref = module.unref;
       withCtx = module.withCtx;
+      createTextVNode = module.createTextVNode;
       toDisplayString = module.toDisplayString;
       createElementBlock = module.createElementBlock;
       createVNode = module.createVNode;
@@ -40,7 +40,7 @@ System.register(['vue', '@Obsidian/Controls/categoryPicker', '@Obsidian/Controls
     }, function (module) {
       PagePicker = module["default"];
     }, function (module) {
-      PanelWidget = module["default"];
+      Panel = module["default"];
     }, function (module) {
       RadioButtonList = module["default"];
     }, function (module) {
@@ -94,27 +94,33 @@ System.register(['vue', '@Obsidian/Controls/categoryPicker', '@Obsidian/Controls
       var _hoisted_1 = {
         key: 2
       };
-      var _hoisted_2 = createTextVNode("Layout / Initial Page Load");
-      var _hoisted_3 = {
+      var _hoisted_2 = {
         class: "row"
+      };
+      var _hoisted_3 = {
+        class: "col-md-6"
       };
       var _hoisted_4 = {
         class: "col-md-6"
       };
       var _hoisted_5 = {
-        class: "col-md-6"
-      };
-      var _hoisted_6 = createTextVNode("Project Filters");
-      var _hoisted_7 = {
         class: "row"
       };
-      var _hoisted_8 = {
+      var _hoisted_6 = {
         class: "col-md-6"
+      };
+      var _hoisted_7 = {
+        class: "col-md-6"
+      };
+      var _hoisted_8 = {
+        class: "row"
       };
       var _hoisted_9 = {
         class: "col-md-6"
       };
-      var _hoisted_10 = createTextVNode("Campus Filters");
+      var _hoisted_10 = {
+        class: "col-md-6"
+      };
       var _hoisted_11 = {
         class: "row"
       };
@@ -124,63 +130,49 @@ System.register(['vue', '@Obsidian/Controls/categoryPicker', '@Obsidian/Controls
       var _hoisted_13 = {
         class: "col-md-6"
       };
-      var _hoisted_14 = createTextVNode("Schedule Filters");
-      var _hoisted_15 = {
+      var _hoisted_14 = {
         class: "row"
       };
+      var _hoisted_15 = createElementVNode("div", {
+        class: "col-md-6"
+      }, "   ", -1);
       var _hoisted_16 = {
         class: "col-md-6"
       };
       var _hoisted_17 = {
-        class: "col-md-6"
+        class: "row"
       };
       var _hoisted_18 = {
+        class: "col-md-6"
+      };
+      var _hoisted_19 = {
+        class: "col-md-6"
+      };
+      var _hoisted_20 = {
         class: "row"
       };
-      var _hoisted_19 = createElementVNode("div", {
+      var _hoisted_21 = {
+        class: "col-md-6"
+      };
+      var _hoisted_22 = createElementVNode("div", {
         class: "col-md-6"
       }, "   ", -1);
-      var _hoisted_20 = {
-        class: "col-md-6"
-      };
-      var _hoisted_21 = createTextVNode("Location Filters");
-      var _hoisted_22 = {
-        class: "row"
-      };
       var _hoisted_23 = {
-        class: "col-md-6"
+        class: "row"
       };
       var _hoisted_24 = {
         class: "col-md-6"
       };
       var _hoisted_25 = {
-        class: "row"
+        class: "col-md-6"
       };
       var _hoisted_26 = {
-        class: "col-md-6"
-      };
-      var _hoisted_27 = createElementVNode("div", {
-        class: "col-md-6"
-      }, "   ", -1);
-      var _hoisted_28 = createTextVNode("Additional Filters");
-      var _hoisted_29 = {
         class: "row"
       };
-      var _hoisted_30 = {
+      var _hoisted_27 = {
         class: "col-md-6"
       };
-      var _hoisted_31 = {
-        class: "col-md-6"
-      };
-      var _hoisted_32 = createTextVNode("Lava");
-      var _hoisted_33 = createTextVNode("Linked Pages");
-      var _hoisted_34 = {
-        class: "row"
-      };
-      var _hoisted_35 = {
-        class: "col-md-6"
-      };
-      var _hoisted_36 = {
+      var _hoisted_28 = {
         class: "col-md-6"
       };
       var script = exports('default', defineComponent({
@@ -224,8 +216,10 @@ System.register(['vue', '@Obsidian/Controls/categoryPicker', '@Obsidian/Controls
           var displayCampusFilterSettings = ref(false);
           var displayCampusFilter = ref(false);
           var enableCampusContext = ref(false);
+          var hideCampusesWithNoOpportunities = ref(false);
           var campusTypes = ref([]);
           var campusStatuses = ref([]);
+          var campuses = ref([]);
           var displayNamedScheduleFilter = ref(false);
           var namedScheduleFilterLabel = ref("");
           var rootScheduleCategory = ref(null);
@@ -240,6 +234,7 @@ System.register(['vue', '@Obsidian/Controls/categoryPicker', '@Obsidian/Controls
           var registrationPage = ref(null);
           var availableProjectTypeGuids = ref([]);
           var availableDisplayAttributeFilters = ref([]);
+          var availableCampuses = ref([]);
           var saveButtonText = computed(() => {
             return errorMessage.value || !isLoading.value ? "Save" : "";
           });
@@ -253,7 +248,7 @@ System.register(['vue', '@Obsidian/Controls/categoryPicker', '@Obsidian/Controls
             _startLoading = _asyncToGenerator(function* () {
               var result = yield invokeBlockAction("GetCustomSettings");
               if (result.isSuccess && result.data && result.data.settings && result.data.options) {
-                var _result$data$settings, _result$data$settings2, _result$data$settings3, _result$data$settings4, _result$data$settings5, _result$data$settings6, _result$data$settings7, _result$data$settings8, _result$data$settings9, _result$data$settings10, _result$data$settings11, _result$data$settings12, _result$data$settings13, _result$data$options$, _result$data$options$2;
+                var _result$data$settings, _result$data$settings2, _result$data$settings3, _result$data$settings4, _result$data$settings5, _result$data$settings6, _result$data$settings7, _result$data$settings8, _result$data$settings9, _result$data$settings10, _result$data$settings11, _result$data$settings12, _result$data$settings13, _result$data$settings14, _result$data$options$, _result$data$options$2, _result$data$options$3;
                 hideOvercapacityProjects.value = result.data.settings.hideOvercapacityProjects;
                 loadResultsOnInitialPageLoad.value = result.data.settings.loadResultsOnInitialPageLoad;
                 displayProjectFiltersAs.value = (_result$data$settings = result.data.settings.displayProjectFiltersAs) !== null && _result$data$settings !== void 0 ? _result$data$settings : "";
@@ -264,23 +259,26 @@ System.register(['vue', '@Obsidian/Controls/categoryPicker', '@Obsidian/Controls
                 displayCampusFilterSettings.value = result.data.settings.displayCampusFilterSettings;
                 displayCampusFilter.value = result.data.settings.displayCampusFilter;
                 enableCampusContext.value = result.data.settings.enableCampusContext;
+                hideCampusesWithNoOpportunities.value = result.data.settings.hideCampusesWithNoOpportunities;
                 campusTypes.value = (_result$data$settings5 = result.data.settings.campusTypes) !== null && _result$data$settings5 !== void 0 ? _result$data$settings5 : [];
                 campusStatuses.value = (_result$data$settings6 = result.data.settings.campusStatuses) !== null && _result$data$settings6 !== void 0 ? _result$data$settings6 : [];
+                campuses.value = (_result$data$settings7 = result.data.settings.campuses) !== null && _result$data$settings7 !== void 0 ? _result$data$settings7 : [];
                 displayNamedScheduleFilter.value = result.data.settings.displayNamedScheduleFilter;
-                namedScheduleFilterLabel.value = (_result$data$settings7 = result.data.settings.namedScheduleFilterLabel) !== null && _result$data$settings7 !== void 0 ? _result$data$settings7 : "";
-                rootScheduleCategory.value = (_result$data$settings8 = result.data.settings.rootScheduleCategory) !== null && _result$data$settings8 !== void 0 ? _result$data$settings8 : null;
+                namedScheduleFilterLabel.value = (_result$data$settings8 = result.data.settings.namedScheduleFilterLabel) !== null && _result$data$settings8 !== void 0 ? _result$data$settings8 : "";
+                rootScheduleCategory.value = (_result$data$settings9 = result.data.settings.rootScheduleCategory) !== null && _result$data$settings9 !== void 0 ? _result$data$settings9 : null;
                 displayLocationSort.value = result.data.settings.displayLocationSort;
-                locationSortLabel.value = (_result$data$settings9 = result.data.settings.locationSortLabel) !== null && _result$data$settings9 !== void 0 ? _result$data$settings9 : "";
+                locationSortLabel.value = (_result$data$settings10 = result.data.settings.locationSortLabel) !== null && _result$data$settings10 !== void 0 ? _result$data$settings10 : "";
                 displayLocationRangeFilter.value = result.data.settings.displayLocationRangeFilter;
                 displayDateRange.value = result.data.settings.displayDateRange;
                 displaySlotsAvailableFilter.value = result.data.settings.displaySlotsAvailableFilter;
-                resultsLavaTemplate.value = (_result$data$settings10 = result.data.settings.resultsLavaTemplate) !== null && _result$data$settings10 !== void 0 ? _result$data$settings10 : "";
-                resultsHeaderLavaTemplate.value = (_result$data$settings11 = result.data.settings.resultsHeaderLavaTemplate) !== null && _result$data$settings11 !== void 0 ? _result$data$settings11 : "";
-                projectDetailPage.value = (_result$data$settings12 = result.data.settings.projectDetailPage) !== null && _result$data$settings12 !== void 0 ? _result$data$settings12 : null;
-                registrationPage.value = (_result$data$settings13 = result.data.settings.registrationPage) !== null && _result$data$settings13 !== void 0 ? _result$data$settings13 : null;
+                resultsLavaTemplate.value = (_result$data$settings11 = result.data.settings.resultsLavaTemplate) !== null && _result$data$settings11 !== void 0 ? _result$data$settings11 : "";
+                resultsHeaderLavaTemplate.value = (_result$data$settings12 = result.data.settings.resultsHeaderLavaTemplate) !== null && _result$data$settings12 !== void 0 ? _result$data$settings12 : "";
+                projectDetailPage.value = (_result$data$settings13 = result.data.settings.projectDetailPage) !== null && _result$data$settings13 !== void 0 ? _result$data$settings13 : null;
+                registrationPage.value = (_result$data$settings14 = result.data.settings.registrationPage) !== null && _result$data$settings14 !== void 0 ? _result$data$settings14 : null;
                 securityGrant.updateToken(result.data.securityGrantToken);
                 availableProjectTypeGuids.value = (_result$data$options$ = result.data.options.availableProjectTypeGuids) !== null && _result$data$options$ !== void 0 ? _result$data$options$ : [];
                 availableDisplayAttributeFilters.value = (_result$data$options$2 = result.data.options.availableDisplayAttributeFilters) !== null && _result$data$options$2 !== void 0 ? _result$data$options$2 : [];
+                availableCampuses.value = (_result$data$options$3 = result.data.options.availableCampuses) !== null && _result$data$options$3 !== void 0 ? _result$data$options$3 : [];
               } else {
                 errorMessage.value = result.errorMessage || "Unknown error while loading custom settings.";
               }
@@ -307,6 +305,34 @@ System.register(['vue', '@Obsidian/Controls/categoryPicker', '@Obsidian/Controls
             });
             return _onProjectTypesUpdated.apply(this, arguments);
           }
+          function onCampusFiltersUpdated() {
+            return _onCampusFiltersUpdated.apply(this, arguments);
+          }
+          function _onCampusFiltersUpdated() {
+            _onCampusFiltersUpdated = _asyncToGenerator(function* () {
+              var _campusTypes$value$ma, _campusStatuses$value, _result$data2;
+              var bag = {
+                selectedCampusTypes: (_campusTypes$value$ma = campusTypes.value.map(ct => {
+                  var _ct$value;
+                  return (_ct$value = ct.value) !== null && _ct$value !== void 0 ? _ct$value : "";
+                })) !== null && _campusTypes$value$ma !== void 0 ? _campusTypes$value$ma : [],
+                selectedCampusStatuses: (_campusStatuses$value = campusStatuses.value.map(cs => {
+                  var _cs$value;
+                  return (_cs$value = cs.value) !== null && _cs$value !== void 0 ? _cs$value : "";
+                })) !== null && _campusStatuses$value !== void 0 ? _campusStatuses$value : []
+              };
+              var result = yield invokeBlockAction("GetUpdatedAvailableCampuses", {
+                bag
+              });
+              if (!result.isSuccess) {
+                errorMessage.value = result.errorMessage || "Unknown error when trying to load updated campuses.";
+                return;
+              }
+              availableCampuses.value = (_result$data2 = result.data) !== null && _result$data2 !== void 0 ? _result$data2 : [];
+              campuses.value = [...campuses.value.filter(selected => availableCampuses.value.some(available => available.value === selected))];
+            });
+            return _onCampusFiltersUpdated.apply(this, arguments);
+          }
           function onSave() {
             return _onSave.apply(this, arguments);
           }
@@ -322,8 +348,10 @@ System.register(['vue', '@Obsidian/Controls/categoryPicker', '@Obsidian/Controls
               setCustomSettingsBoxValue(box, "displayAttributeFilters", displayAttributeFilters.value);
               setCustomSettingsBoxValue(box, "displayCampusFilter", displayCampusFilter.value);
               setCustomSettingsBoxValue(box, "enableCampusContext", enableCampusContext.value);
+              setCustomSettingsBoxValue(box, "hideCampusesWithNoOpportunities", hideCampusesWithNoOpportunities.value);
               setCustomSettingsBoxValue(box, "campusTypes", campusTypes.value);
               setCustomSettingsBoxValue(box, "campusStatuses", campusStatuses.value);
+              setCustomSettingsBoxValue(box, "campuses", campuses.value);
               setCustomSettingsBoxValue(box, "displayNamedScheduleFilter", displayNamedScheduleFilter.value);
               setCustomSettingsBoxValue(box, "namedScheduleFilterLabel", namedScheduleFilterLabel.value);
               setCustomSettingsBoxValue(box, "rootScheduleCategory", rootScheduleCategory.value);
@@ -359,7 +387,7 @@ System.register(['vue', '@Obsidian/Controls/categoryPicker', '@Obsidian/Controls
           return (_ctx, _cache) => {
             return openBlock(), createBlock(unref(Modal), {
               modelValue: isModalOpen.value,
-              "onUpdate:modelValue": _cache[23] || (_cache[23] = $event => isModalOpen.value = $event),
+              "onUpdate:modelValue": _cache[25] || (_cache[25] = $event => isModalOpen.value = $event),
               title: "Sign-Up Finder Settings",
               saveText: unref(saveButtonText),
               onSave: onSave
@@ -373,11 +401,12 @@ System.register(['vue', '@Obsidian/Controls/categoryPicker', '@Obsidian/Controls
               }, 8, ["alertType"])) : isLoading.value ? (openBlock(), createBlock(unref(LoadingIndicator), {
                 key: 1,
                 delay: 500
-              })) : (openBlock(), createElementBlock("div", _hoisted_1, [createVNode(unref(PanelWidget), {
-                isDefaultOpen: true
+              })) : (openBlock(), createElementBlock("div", _hoisted_1, [createVNode(unref(Panel), {
+                title: "Layout / Initial Page Load",
+                modelValue: true,
+                hasCollapse: ""
               }, {
-                header: withCtx(() => [_hoisted_2]),
-                default: withCtx(() => [createElementVNode("div", _hoisted_3, [createElementVNode("div", _hoisted_4, [createVNode(unref(CheckBox), {
+                default: withCtx(() => [createElementVNode("div", _hoisted_2, [createElementVNode("div", _hoisted_3, [createVNode(unref(CheckBox), {
                   modelValue: hideOvercapacityProjects.value,
                   "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => hideOvercapacityProjects.value = $event),
                   label: "Hide Overcapacity Projects",
@@ -387,7 +416,7 @@ System.register(['vue', '@Obsidian/Controls/categoryPicker', '@Obsidian/Controls
                   "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => loadResultsOnInitialPageLoad.value = $event),
                   label: "Load Results on Initial Page Load",
                   help: "When enabled the group finder will load with all configured groups (no filters enabled)."
-                }, null, 8, ["modelValue"])]), createElementVNode("div", _hoisted_5, [createVNode(unref(RadioButtonList), {
+                }, null, 8, ["modelValue"])]), createElementVNode("div", _hoisted_4, [createVNode(unref(RadioButtonList), {
                   modelValue: displayProjectFiltersAs.value,
                   "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => displayProjectFiltersAs.value = $event),
                   label: "Display Project Filters As",
@@ -405,11 +434,12 @@ System.register(['vue', '@Obsidian/Controls/categoryPicker', '@Obsidian/Controls
                   rules: "required"
                 }, null, 8, ["modelValue"])])])]),
                 _: 1
-              }), createVNode(unref(PanelWidget), {
-                isDefaultOpen: true
+              }), createVNode(unref(Panel), {
+                title: "Project Filters",
+                modelValue: true,
+                hasCollapse: ""
               }, {
-                header: withCtx(() => [_hoisted_6]),
-                default: withCtx(() => [createElementVNode("div", _hoisted_7, [createElementVNode("div", _hoisted_8, [createVNode(unref(GroupTypePicker), {
+                default: withCtx(() => [createElementVNode("div", _hoisted_5, [createElementVNode("div", _hoisted_6, [createVNode(unref(GroupTypePicker), {
                   modelValue: projectTypes.value,
                   "onUpdate:modelValue": [_cache[4] || (_cache[4] = $event => projectTypes.value = $event), onProjectTypesUpdated],
                   label: "Project Types",
@@ -423,141 +453,160 @@ System.register(['vue', '@Obsidian/Controls/categoryPicker', '@Obsidian/Controls
                   label: "Project Type Filter Label",
                   help: "The label to use for the project type filter.",
                   rules: "required"
-                }, null, 8, ["modelValue"])]), createElementVNode("div", _hoisted_9, [createVNode(unref(CheckBoxList), {
+                }, null, 8, ["modelValue"])]), createElementVNode("div", _hoisted_7, [createVNode(unref(CheckBoxList), {
                   modelValue: displayAttributeFilters.value,
                   "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => displayAttributeFilters.value = $event),
                   label: "Display Attribute Filters",
                   help: "The group attributes that should be available for an individual to filter the results by.",
-                  items: availableDisplayAttributeFilters.value
+                  items: availableDisplayAttributeFilters.value,
+                  repeatColumns: 2
                 }, null, 8, ["modelValue", "items"])])])]),
                 _: 1
-              }), displayCampusFilterSettings.value ? (openBlock(), createBlock(unref(PanelWidget), {
+              }), displayCampusFilterSettings.value ? (openBlock(), createBlock(unref(Panel), {
                 key: 0,
-                isDefaultOpen: false
+                title: "Campus Filters",
+                modelValue: true,
+                hasCollapse: ""
               }, {
-                header: withCtx(() => [_hoisted_10]),
-                default: withCtx(() => [createElementVNode("div", _hoisted_11, [createElementVNode("div", _hoisted_12, [createVNode(unref(CheckBox), {
+                default: withCtx(() => [createElementVNode("div", _hoisted_8, [createElementVNode("div", _hoisted_9, [createVNode(unref(CheckBox), {
                   modelValue: displayCampusFilter.value,
                   "onUpdate:modelValue": _cache[7] || (_cache[7] = $event => displayCampusFilter.value = $event),
                   label: "Display Campus Filter",
-                  help: "Determines if the campus filter should be shown."
+                  help: "Determines if the campus filter should be shown. If there is only one active campus to display then this filter will not be shown, even if enabled."
+                }, null, 8, ["modelValue"]), createVNode(unref(CheckBox), {
+                  modelValue: hideCampusesWithNoOpportunities.value,
+                  "onUpdate:modelValue": _cache[8] || (_cache[8] = $event => hideCampusesWithNoOpportunities.value = $event),
+                  label: "Hide Campuses with no Sign-Up Opportunities",
+                  help: "Determines if campuses should be excluded from the filter list if they do not have any sign-up opportunities. This setting will be ignored if \"Display Campus Filter\" is disabled."
                 }, null, 8, ["modelValue"]), createVNode(unref(CheckBox), {
                   modelValue: enableCampusContext.value,
-                  "onUpdate:modelValue": _cache[8] || (_cache[8] = $event => enableCampusContext.value = $event),
+                  "onUpdate:modelValue": _cache[9] || (_cache[9] = $event => enableCampusContext.value = $event),
                   label: "Enable Campus Context",
-                  help: "If the page has a campus context, its value will be used as a filter."
-                }, null, 8, ["modelValue"])]), createElementVNode("div", _hoisted_13, [createVNode(unref(DefinedValuePicker), {
+                  help: "If enabled and the page has a campus context, its value will be used as a filter. If \"Display Campus Filter\" is disabled when this setting is enabled, the \"Campus Types\", \"Campus Statuses\" and \"Campuses\" settings will be ignored. However, if \"Display Campus Filter\" is enabled and the campus context is one of the allowed campuses, it will be pre-selected in the filter list."
+                }, null, 8, ["modelValue"])]), createElementVNode("div", _hoisted_10, [createVNode(unref(DefinedValuePicker), {
                   modelValue: campusTypes.value,
-                  "onUpdate:modelValue": _cache[9] || (_cache[9] = $event => campusTypes.value = $event),
+                  "onUpdate:modelValue": [_cache[10] || (_cache[10] = $event => campusTypes.value = $event), onCampusFiltersUpdated],
                   label: "Campus Types",
-                  help: "The types of campuses to include in the campus list.",
+                  help: "The types of campuses to include in the filter list if \"Display Campus Filter\" is enabled. If the filter is not displayed, these are the types the results should be automatically filtered by.",
                   definedTypeGuid: unref(DefinedType).CampusType,
                   multiple: true
                 }, null, 8, ["modelValue", "definedTypeGuid"]), createVNode(unref(DefinedValuePicker), {
                   modelValue: campusStatuses.value,
-                  "onUpdate:modelValue": _cache[10] || (_cache[10] = $event => campusStatuses.value = $event),
+                  "onUpdate:modelValue": [_cache[11] || (_cache[11] = $event => campusStatuses.value = $event), onCampusFiltersUpdated],
                   label: "Campus Statuses",
-                  help: "The statuses of the campuses to include in the campus list.",
+                  help: "The statuses of campuses to include in the filter list if \"Display Campus Filter\" is enabled. If the filter is not displayed, these are the statuses the results should be automatically filtered by.",
                   definedTypeGuid: unref(DefinedType).CampusStatus,
                   multiple: true
-                }, null, 8, ["modelValue", "definedTypeGuid"])])])]),
+                }, null, 8, ["modelValue", "definedTypeGuid"]), createVNode(unref(CheckBoxList), {
+                  modelValue: campuses.value,
+                  "onUpdate:modelValue": _cache[12] || (_cache[12] = $event => campuses.value = $event),
+                  label: "Selectable Campuses",
+                  help: "The specific campuses to include in the filter list if \"Display Campus Filter\" is enabled. If the filter is not displayed, these are the campuses the results should be automatically filtered by.",
+                  items: availableCampuses.value,
+                  repeatColumns: 3
+                }, null, 8, ["modelValue", "items"])])])]),
                 _: 1
-              })) : createCommentVNode("v-if", true), createVNode(unref(PanelWidget), {
-                isDefaultOpen: true
+              })) : createCommentVNode("v-if", true), createVNode(unref(Panel), {
+                title: "Schedule Filters",
+                modelValue: true,
+                hasCollapse: ""
               }, {
-                header: withCtx(() => [_hoisted_14]),
-                default: withCtx(() => [createElementVNode("div", _hoisted_15, [createElementVNode("div", _hoisted_16, [createVNode(unref(CheckBox), {
+                default: withCtx(() => [createElementVNode("div", _hoisted_11, [createElementVNode("div", _hoisted_12, [createVNode(unref(CheckBox), {
                   modelValue: displayNamedScheduleFilter.value,
-                  "onUpdate:modelValue": _cache[11] || (_cache[11] = $event => displayNamedScheduleFilter.value = $event),
+                  "onUpdate:modelValue": _cache[13] || (_cache[13] = $event => displayNamedScheduleFilter.value = $event),
                   label: "Display Named Schedule Filter",
                   help: "When enabled a list of named schedules will be show as a filter."
-                }, null, 8, ["modelValue"])]), createElementVNode("div", _hoisted_17, [createVNode(unref(TextBox), {
+                }, null, 8, ["modelValue"])]), createElementVNode("div", _hoisted_13, [createVNode(unref(TextBox), {
                   modelValue: namedScheduleFilterLabel.value,
-                  "onUpdate:modelValue": _cache[12] || (_cache[12] = $event => namedScheduleFilterLabel.value = $event),
+                  "onUpdate:modelValue": _cache[14] || (_cache[14] = $event => namedScheduleFilterLabel.value = $event),
                   label: "Named Schedule Filter Label",
                   help: "The label to use for the named schedule filter.",
                   rules: "required"
-                }, null, 8, ["modelValue"])])]), createElementVNode("div", _hoisted_18, [_hoisted_19, createElementVNode("div", _hoisted_20, [createVNode(unref(CategoryPicker), {
+                }, null, 8, ["modelValue"])])]), createElementVNode("div", _hoisted_14, [_hoisted_15, createElementVNode("div", _hoisted_16, [createVNode(unref(CategoryPicker), {
                   modelValue: rootScheduleCategory.value,
-                  "onUpdate:modelValue": _cache[13] || (_cache[13] = $event => rootScheduleCategory.value = $event),
+                  "onUpdate:modelValue": _cache[15] || (_cache[15] = $event => rootScheduleCategory.value = $event),
                   label: "Root Schedule Category",
                   help: "When displaying the named schedule filter this will serve to filter which named schedules to show. Only direct descendants of this root schedule category will be displayed.",
                   entityTypeGuid: unref(EntityType).Schedule,
                   securityGrantToken: unref(securityGrantToken)
                 }, null, 8, ["modelValue", "entityTypeGuid", "securityGrantToken"])])])]),
                 _: 1
-              }), createVNode(unref(PanelWidget), {
-                isDefaultOpen: true
+              }), createVNode(unref(Panel), {
+                title: "Location Filters",
+                modelValue: true,
+                hasCollapse: ""
               }, {
-                header: withCtx(() => [_hoisted_21]),
-                default: withCtx(() => [createElementVNode("div", _hoisted_22, [createElementVNode("div", _hoisted_23, [createVNode(unref(CheckBox), {
+                default: withCtx(() => [createElementVNode("div", _hoisted_17, [createElementVNode("div", _hoisted_18, [createVNode(unref(CheckBox), {
                   modelValue: displayLocationSort.value,
-                  "onUpdate:modelValue": _cache[14] || (_cache[14] = $event => displayLocationSort.value = $event),
+                  "onUpdate:modelValue": _cache[16] || (_cache[16] = $event => displayLocationSort.value = $event),
                   label: "Display Location Sort",
                   help: "Determines if the location sort field should be shown."
-                }, null, 8, ["modelValue"])]), createElementVNode("div", _hoisted_24, [createVNode(unref(TextBox), {
+                }, null, 8, ["modelValue"])]), createElementVNode("div", _hoisted_19, [createVNode(unref(TextBox), {
                   modelValue: locationSortLabel.value,
-                  "onUpdate:modelValue": _cache[15] || (_cache[15] = $event => locationSortLabel.value = $event),
+                  "onUpdate:modelValue": _cache[17] || (_cache[17] = $event => locationSortLabel.value = $event),
                   label: "Location Sort Label",
                   help: "The label to use for the location sort filter.",
                   rules: "required"
-                }, null, 8, ["modelValue"])])]), createElementVNode("div", _hoisted_25, [createElementVNode("div", _hoisted_26, [createVNode(unref(CheckBox), {
+                }, null, 8, ["modelValue"])])]), createElementVNode("div", _hoisted_20, [createElementVNode("div", _hoisted_21, [createVNode(unref(CheckBox), {
                   modelValue: displayLocationRangeFilter.value,
-                  "onUpdate:modelValue": _cache[16] || (_cache[16] = $event => displayLocationRangeFilter.value = $event),
+                  "onUpdate:modelValue": _cache[18] || (_cache[18] = $event => displayLocationRangeFilter.value = $event),
                   label: "Display Location Range Filter",
                   help: "When enabled a filter will be shown to limit results to a specified number of miles from the location selected or their mailing address if logged in. If the Location Sort entry is not enabled to be shown and the individual is not logged in then this filter will not be shown, even if enabled, as we will not be able to honor the filter."
-                }, null, 8, ["modelValue"])]), _hoisted_27])]),
+                }, null, 8, ["modelValue"])]), _hoisted_22])]),
                 _: 1
-              }), createVNode(unref(PanelWidget), {
-                isDefaultOpen: false
+              }), createVNode(unref(Panel), {
+                title: "Additional Filters",
+                modelValue: true,
+                hasCollapse: ""
               }, {
-                header: withCtx(() => [_hoisted_28]),
-                default: withCtx(() => [createElementVNode("div", _hoisted_29, [createElementVNode("div", _hoisted_30, [createVNode(unref(CheckBox), {
+                default: withCtx(() => [createElementVNode("div", _hoisted_23, [createElementVNode("div", _hoisted_24, [createVNode(unref(CheckBox), {
                   modelValue: displayDateRange.value,
-                  "onUpdate:modelValue": _cache[17] || (_cache[17] = $event => displayDateRange.value = $event),
+                  "onUpdate:modelValue": _cache[19] || (_cache[19] = $event => displayDateRange.value = $event),
                   label: "Display Date Range",
                   help: "When enabled, individuals would be able to filter the results by projects occurring inside the provided date range."
-                }, null, 8, ["modelValue"])]), createElementVNode("div", _hoisted_31, [createVNode(unref(CheckBox), {
+                }, null, 8, ["modelValue"])]), createElementVNode("div", _hoisted_25, [createVNode(unref(CheckBox), {
                   modelValue: displaySlotsAvailableFilter.value,
-                  "onUpdate:modelValue": _cache[18] || (_cache[18] = $event => displaySlotsAvailableFilter.value = $event),
+                  "onUpdate:modelValue": _cache[20] || (_cache[20] = $event => displaySlotsAvailableFilter.value = $event),
                   label: "Display Slots Available Filter",
                   help: "When enabled allows the individual to find projects with \"at least\" or \"no more than\" the provided spots available."
                 }, null, 8, ["modelValue"])])])]),
                 _: 1
-              }), createVNode(unref(PanelWidget), {
-                isDefaultOpen: true
+              }), createVNode(unref(Panel), {
+                title: "Lava",
+                modelValue: true,
+                hasCollapse: ""
               }, {
-                header: withCtx(() => [_hoisted_32]),
                 default: withCtx(() => [createVNode(unref(CodeEditor), {
                   modelValue: resultsLavaTemplate.value,
-                  "onUpdate:modelValue": _cache[19] || (_cache[19] = $event => resultsLavaTemplate.value = $event),
+                  "onUpdate:modelValue": _cache[21] || (_cache[21] = $event => resultsLavaTemplate.value = $event),
                   label: "Results Lava Template",
                   help: "The Lava template to show with the results of the search.",
                   mode: "lava",
                   rules: "required"
                 }, null, 8, ["modelValue"]), createVNode(unref(CodeEditor), {
                   modelValue: resultsHeaderLavaTemplate.value,
-                  "onUpdate:modelValue": _cache[20] || (_cache[20] = $event => resultsHeaderLavaTemplate.value = $event),
+                  "onUpdate:modelValue": _cache[22] || (_cache[22] = $event => resultsHeaderLavaTemplate.value = $event),
                   label: "Results Header Lava Template",
                   help: "The Lava Template to use to show the results header.",
                   mode: "lava"
                 }, null, 8, ["modelValue"])]),
                 _: 1
-              }), createVNode(unref(PanelWidget), {
-                isDefaultOpen: true
+              }), createVNode(unref(Panel), {
+                title: "Linked Pages",
+                modelValue: true,
+                hasCollapse: ""
               }, {
-                header: withCtx(() => [_hoisted_33]),
-                default: withCtx(() => [createElementVNode("div", _hoisted_34, [createElementVNode("div", _hoisted_35, [createVNode(unref(PagePicker), {
+                default: withCtx(() => [createElementVNode("div", _hoisted_26, [createElementVNode("div", _hoisted_27, [createVNode(unref(PagePicker), {
                   modelValue: projectDetailPage.value,
-                  "onUpdate:modelValue": _cache[21] || (_cache[21] = $event => projectDetailPage.value = $event),
+                  "onUpdate:modelValue": _cache[23] || (_cache[23] = $event => projectDetailPage.value = $event),
                   label: "Project Detail Page",
                   help: "The page reference to pass to the Lava template for the details of the project.",
                   rules: "required",
                   promptForPageRoute: true,
                   securityGrantToken: unref(securityGrantToken)
-                }, null, 8, ["modelValue", "securityGrantToken"])]), createElementVNode("div", _hoisted_36, [createVNode(unref(PagePicker), {
+                }, null, 8, ["modelValue", "securityGrantToken"])]), createElementVNode("div", _hoisted_28, [createVNode(unref(PagePicker), {
                   modelValue: registrationPage.value,
-                  "onUpdate:modelValue": _cache[22] || (_cache[22] = $event => registrationPage.value = $event),
+                  "onUpdate:modelValue": _cache[24] || (_cache[24] = $event => registrationPage.value = $event),
                   label: "Registration Page",
                   help: "The page reference to pass to the Lava template for the registration page.",
                   rules: "required",

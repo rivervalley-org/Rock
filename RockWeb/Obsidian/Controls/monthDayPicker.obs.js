@@ -1,6 +1,6 @@
-System.register(['vue', './datePartsPicker'], (function (exports) {
+System.register(['vue', './datePartsPicker.obs'], (function (exports) {
   'use strict';
-  var defineComponent, computed, openBlock, createBlock, unref, isRef, getDefaultDatePartsPickerModel, DatePartsPicker;
+  var defineComponent, computed, openBlock, createBlock, unref, isRef, DatePartsPicker;
   return {
     setters: [function (module) {
       defineComponent = module.defineComponent;
@@ -10,7 +10,6 @@ System.register(['vue', './datePartsPicker'], (function (exports) {
       unref = module.unref;
       isRef = module.isRef;
     }, function (module) {
-      getDefaultDatePartsPickerModel = module.getDefaultDatePartsPickerModel;
       DatePartsPicker = module["default"];
     }],
     execute: (function () {
@@ -20,7 +19,7 @@ System.register(['vue', './datePartsPicker'], (function (exports) {
         props: {
           modelValue: {
             type: Object,
-            default: getDefaultDatePartsPickerModel
+            required: false
           }
         },
         emits: ["update:modelValue"],
@@ -29,16 +28,23 @@ System.register(['vue', './datePartsPicker'], (function (exports) {
           var props = __props;
           var internalValue = computed({
             get() {
+              if (!props.modelValue) {
+                return undefined;
+              }
               return Object.assign({}, props.modelValue, {
                 year: 0
               });
             },
             set(newVal) {
-              var value = {
-                month: newVal.month,
-                day: newVal.day
-              };
-              emit("update:modelValue", value);
+              if (newVal === undefined) {
+                emit("update:modelValue", undefined);
+              } else {
+                var value = {
+                  month: newVal.month,
+                  day: newVal.day
+                };
+                emit("update:modelValue", value);
+              }
             }
           });
           return (_ctx, _cache) => {

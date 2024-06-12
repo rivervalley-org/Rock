@@ -411,7 +411,7 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
                 Rock.Attribute.Helper.SaveAttributeEdits( attr, entityTypeId, qualifierColumn, qualifierValue, rockContext );
             }
 
-            AttributeCache.RemoveEntityAttributes();
+            EntityTypeAttributesCache.Clear();
         }
 
         /// <summary>
@@ -622,7 +622,7 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
                 } );
 
                 ProjectTypeCache.Clear();
-                AttributeCache.RemoveEntityAttributes();
+                EntityTypeAttributesCache.Clear();
 
                 NavigateToParentPage();
             }
@@ -1027,6 +1027,14 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
 
                 movedProject.Order = e.NewIndex;
             }
+
+            // Forcibly fix all the Order properties.
+            int order = 0;
+            foreach ( var attr in ProjectAttributesState.OrderBy( a => a.Order ).ThenBy( a => a.Name ) )
+            {
+                attr.Order = order++;
+            }
+
 
             BindProjectAttributesGrid();
         }

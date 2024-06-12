@@ -49,6 +49,15 @@ System.register(['vue', '@Obsidian/Utility/component'], (function (exports) {
           "transform": "translateX(-50%)"
         }
       };
+      var _hoisted_7 = createElementVNode("span", {
+        class: "flex-grow-1",
+        style: {
+          "background-color": "var(--slider-bg)",
+          "height": "var(--slider-height)",
+          "border-top-right-radius": "calc(var(--slider-height) / 2)",
+          "border-bottom-right-radius": "calc(var(--slider-height) / 2)"
+        }
+      }, null, -1);
       var script = exports('default', defineComponent({
         name: 'inlineRangeSlider',
         props: {
@@ -97,12 +106,6 @@ System.register(['vue', '@Obsidian/Utility/component'], (function (exports) {
             var value = Math.round(percentValue.value * 10000);
             return {
               flexBasis: "".concat(value / 100, "%")
-            };
-          });
-          var rightSliderStyle = computed(() => {
-            var value = Math.round(percentValue.value * 10000);
-            return {
-              flexBasis: "".concat(100 - value / 100, "%")
             };
           });
           var showMinValue = computed(() => percentValue.value >= 0.1);
@@ -183,40 +186,29 @@ System.register(['vue', '@Obsidian/Utility/component'], (function (exports) {
             }, [createElementVNode("span", _hoisted_6, toDisplayString(unref(internalValue)), 1)], 4)])) : createCommentVNode("v-if", true), createElementVNode("div", {
               ref_key: "sliderElement",
               ref: sliderElement,
-              class: "d-flex",
+              class: "d-flex align-items-center position-relative",
               style: {
-                "height": "var(--slider-handle-height)",
-                "align-items": "center",
-                "position": "relative"
+                "height": "var(--slider-handle-height)"
               },
               onMousedown: onMouseDown,
               onTouchdown: onTouchDown
             }, [createElementVNode("span", {
-              class: "flex-grow-1",
               style: normalizeStyle([unref(leftSliderStyle), {
                 "background-color": "var(--slider-progress-bg)",
                 "height": "var(--slider-height)",
                 "border-top-left-radius": "calc(var(--slider-height) / 2)",
                 "border-bottom-left-radius": "calc(var(--slider-height) / 2)"
               }])
-            }, null, 4), createElementVNode("span", {
-              class: "flex-grow-1",
-              style: normalizeStyle([unref(rightSliderStyle), {
-                "background-color": "var(--slider-bg)",
-                "height": "var(--slider-height)",
-                "border-top-right-radius": "calc(var(--slider-height) / 2)",
-                "border-bottom-right-radius": "calc(var(--slider-height) / 2)"
-              }])
-            }, null, 4), createElementVNode("span", {
+            }, null, 4), _hoisted_7, createElementVNode("span", {
+              class: "position-absolute cursor-pointer",
               style: normalizeStyle([unref(thumbStyle), {
-                "position": "absolute",
                 "width": "var(--slider-handle-height)",
                 "height": "var(--slider-handle-height)",
-                "margin-left": "calc(0px - calc(var(--slider-handle-height) / 2))",
-                "cursor": "pointer",
+                "margin-left": "calc(var(--slider-handle-height) * -.5))",
                 "background": "var(--slider-handle-bg)",
                 "border": "1px solid var(--slider-handle-border-color)",
-                "border-radius": "var(--slider-handle-height)"
+                "border-radius": "var(--slider-handle-height)",
+                "transform": "translateX(-50%)"
               }]),
               onMousedown: onMouseDown,
               onMouseup: onMouseUp

@@ -1,6 +1,6 @@
 System.register(['@Obsidian/Utility/booleanUtils', '@Obsidian/Utility/dateKey', '@Obsidian/Utility/email', '@Obsidian/Utility/numberUtils', '@Obsidian/Utility/stringUtils', '@Obsidian/Utility/url', '@Obsidian/Utility/validationRules'], (function (exports) {
     'use strict';
-    var asBooleanOrNull, DateKey, isEmail, toNumberOrNull, isNullOrWhiteSpace, isUrl, defineRule;
+    var asBooleanOrNull, DateKey, isEmail, toNumberOrNull, isNullOrWhiteSpace, containsHtmlTag, isUrl, defineRule;
     return {
         setters: [function (module) {
             asBooleanOrNull = module.asBooleanOrNull;
@@ -12,6 +12,7 @@ System.register(['@Obsidian/Utility/booleanUtils', '@Obsidian/Utility/dateKey', 
             toNumberOrNull = module.toNumberOrNull;
         }, function (module) {
             isNullOrWhiteSpace = module.isNullOrWhiteSpace;
+            containsHtmlTag = module.containsHtmlTag;
         }, function (module) {
             isUrl = module.isUrl;
         }, function (module) {
@@ -247,6 +248,12 @@ System.register(['@Obsidian/Utility/booleanUtils', '@Obsidian/Utility/dateKey', 
                 return true;
               }
               return typeof error === "string" ? error : "must match value";
+            });
+            defineRule("nohtml", value => {
+              if (isNullOrWhiteSpace(value)) {
+                return true;
+              }
+              return !containsHtmlTag(String(value)) || "contains invalid characters. Please make sure that your entries do not contain any angle brackets like < or >.";
             });
 
         })

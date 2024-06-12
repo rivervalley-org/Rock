@@ -1,6 +1,6 @@
-System.register(['vue', '@Obsidian/Enums/Controls/pickerDisplayStyle', '@Obsidian/Utility/component', '@Obsidian/Utility/http', './baseAsyncPicker'], (function (exports) {
+System.register(['vue', '@Obsidian/Enums/Controls/pickerDisplayStyle', '@Obsidian/Utility/component', '@Obsidian/Utility/http', './baseAsyncPicker.obs', '@Obsidian/Utility/guid'], (function (exports) {
   'use strict';
-  var defineComponent, ref, computed, watch, openBlock, createBlock, unref, mergeProps, isRef, PickerDisplayStyle, useVModelPassthrough, useStandardAsyncPickerProps, standardAsyncPickerProps, useHttp, BaseAsyncPicker;
+  var defineComponent, ref, computed, watch, openBlock, createBlock, unref, mergeProps, isRef, PickerDisplayStyle, useVModelPassthrough, useStandardAsyncPickerProps, standardAsyncPickerProps, useHttp, BaseAsyncPicker, toGuidOrNull;
   return {
     setters: [function (module) {
       defineComponent = module.defineComponent;
@@ -22,6 +22,8 @@ System.register(['vue', '@Obsidian/Enums/Controls/pickerDisplayStyle', '@Obsidia
       useHttp = module.useHttp;
     }, function (module) {
       BaseAsyncPicker = module["default"];
+    }, function (module) {
+      toGuidOrNull = module.toGuidOrNull;
     }],
     execute: (function () {
 
@@ -140,7 +142,7 @@ System.register(['vue', '@Obsidian/Enums/Controls/pickerDisplayStyle', '@Obsidia
           function _loadOptions() {
             _loadOptions = _asyncToGenerator(function* () {
               var options = {
-                entityTypeGuid: props.entityTypeGuid
+                entityTypeGuid: toGuidOrNull(props.entityTypeGuid)
               };
               var result = yield http.post("/api/v2/Controls/ReminderTypePickerGetReminderTypes", undefined, options);
               if (result.isSuccess && result.data) {

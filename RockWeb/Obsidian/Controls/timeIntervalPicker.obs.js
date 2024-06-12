@@ -1,4 +1,4 @@
-System.register(['vue', '@Obsidian/Controls/rockFormField', '@Obsidian/Controls/numberBox', '@Obsidian/Controls/dropDownList', '@Obsidian/Utility/numberUtils', '@Obsidian/Enums/Core/timeIntervalUnit', '@Obsidian/Utility/component'], (function (exports) {
+System.register(['vue', '@Obsidian/Controls/rockFormField.obs', '@Obsidian/Controls/numberBox.obs', '@Obsidian/Controls/dropDownList.obs', '@Obsidian/Utility/numberUtils', '@Obsidian/Enums/Core/timeIntervalUnit', '@Obsidian/Utility/component'], (function (exports) {
   'use strict';
   var defineComponent, computed, openBlock, createBlock, unref, mergeProps, withCtx, createElementVNode, createVNode, isRef, RockFormField, NumberBox, DropDownList, toNumber, TimeIntervalUnit, useStandardRockFormFieldProps, standardRockFormFieldProps;
   return {

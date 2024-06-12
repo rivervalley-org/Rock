@@ -1,4 +1,4 @@
-System.register(['vue', './utils', '@Obsidian/Controls/timePicker', '@Obsidian/Utility/numberUtils', '@Obsidian/Utility/stringUtils'], (function (exports) {
+System.register(['vue', './utils', '@Obsidian/Controls/timePicker.obs', '@Obsidian/Utility/numberUtils', '@Obsidian/Utility/stringUtils'], (function (exports) {
     'use strict';
     var defineComponent, getFieldEditorProps, TimePicker, toNumber, padLeft;
     return {

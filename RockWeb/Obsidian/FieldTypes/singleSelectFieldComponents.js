@@ -1,4 +1,4 @@
-System.register(['vue', './utils', '@Obsidian/Controls/checkBoxList', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/numberBox', '@Obsidian/Controls/radioButtonList', '@Obsidian/Controls/textBox', '@Obsidian/Utility/numberUtils', '@Obsidian/Utility/component', './fieldType', '@Obsidian/Enums/Reporting/comparisonType'], (function (exports, module) {
+System.register(['vue', './utils', '@Obsidian/Controls/checkBoxList.obs', '@Obsidian/Controls/dropDownList.obs', '@Obsidian/Controls/numberBox.obs', '@Obsidian/Controls/radioButtonList.obs', '@Obsidian/Controls/textBox.obs', '@Obsidian/Utility/numberUtils', '@Obsidian/Utility/component', './fieldType', '@Obsidian/Enums/Reporting/comparisonType'], (function (exports, module) {
   'use strict';
   var defineComponent, inject, ref, computed, watch, getFieldEditorProps, getFieldConfigurationProps, CheckBoxList, DropDownList, NumberBox, RadioButtonList, TextBox, toNumberOrNull, defineAsyncComponent, updateRefValue;
   return {

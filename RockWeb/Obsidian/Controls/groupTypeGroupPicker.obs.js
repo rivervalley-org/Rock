@@ -1,6 +1,6 @@
-System.register(['vue', '@Obsidian/Utility/component', '@Obsidian/Utility/http', './baseAsyncPicker', './groupTypePicker.obs', './rockFormField', '@Obsidian/Enums/Controls/pickerDisplayStyle'], (function (exports) {
+System.register(['vue', '@Obsidian/Utility/component', '@Obsidian/Utility/http', './baseAsyncPicker.obs', './groupTypePicker.obs', './rockFormField.obs', '@Obsidian/Enums/Controls/pickerDisplayStyle', '@Obsidian/Utility/guid'], (function (exports) {
   'use strict';
-  var defineComponent, ref, computed, watch, openBlock, createBlock, unref, mergeProps, withCtx, createVNode, nextTick, useStandardAsyncPickerProps, useStandardRockFormFieldProps, updateRefValue, standardAsyncPickerProps, useHttp, BaseAsyncPicker, GroupTypePicker, RockFormField, PickerDisplayStyle;
+  var defineComponent, ref, computed, watch, openBlock, createBlock, unref, mergeProps, withCtx, createVNode, nextTick, useStandardAsyncPickerProps, useStandardRockFormFieldProps, updateRefValue, standardAsyncPickerProps, useHttp, BaseAsyncPicker, GroupTypePicker, RockFormField, PickerDisplayStyle, toGuidOrNull, areEqual, emptyGuid;
   return {
     setters: [function (module) {
       defineComponent = module.defineComponent;
@@ -29,6 +29,10 @@ System.register(['vue', '@Obsidian/Utility/component', '@Obsidian/Utility/http',
       RockFormField = module["default"];
     }, function (module) {
       PickerDisplayStyle = module.PickerDisplayStyle;
+    }, function (module) {
+      toGuidOrNull = module.toGuidOrNull;
+      areEqual = module.areEqual;
+      emptyGuid = module.emptyGuid;
     }],
     execute: (function () {
 
@@ -126,6 +130,10 @@ System.register(['vue', '@Obsidian/Utility/component', '@Obsidian/Utility/http',
           groupLabel: {
             type: String,
             default: "Group"
+          },
+          disabled: {
+            type: Boolean,
+            default: false
           }
         }, standardAsyncPickerProps),
         emits: ["update:groupType", "update:modelValue"],
@@ -147,11 +155,12 @@ System.register(['vue', '@Obsidian/Utility/component', '@Obsidian/Utility/http',
           function _loadGroupOptions() {
             _loadGroupOptions = _asyncToGenerator(function* () {
               var _internalTypeValue$va;
-              if (!internalTypeValue.value) {
+              var groupTypeGuid = toGuidOrNull((_internalTypeValue$va = internalTypeValue.value) === null || _internalTypeValue$va === void 0 ? void 0 : _internalTypeValue$va.value);
+              if (!groupTypeGuid || areEqual(groupTypeGuid, emptyGuid)) {
                 return [];
               }
               var options = {
-                groupTypeGuid: (_internalTypeValue$va = internalTypeValue.value) === null || _internalTypeValue$va === void 0 ? void 0 : _internalTypeValue$va.value
+                groupTypeGuid
               };
               var result = yield http.post("/api/v2/Controls/GroupTypeGroupPickerGetGroups", null, options);
               if (result.isSuccess && result.data) {
@@ -173,8 +182,9 @@ System.register(['vue', '@Obsidian/Utility/component', '@Obsidian/Utility/http',
           function _loadGroupTypeFromGroup() {
             _loadGroupTypeFromGroup = _asyncToGenerator(function* () {
               var _props$modelValue;
+              var groupGuid = toGuidOrNull((_props$modelValue = props.modelValue) === null || _props$modelValue === void 0 ? void 0 : _props$modelValue.value);
               var options = {
-                groupGuid: (_props$modelValue = props.modelValue) === null || _props$modelValue === void 0 ? void 0 : _props$modelValue.value
+                groupGuid: groupGuid !== null && groupGuid !== void 0 ? groupGuid : emptyGuid
               };
               var result = yield http.post("/api/v2/Controls/GroupTypeGroupPickerGetGroupTypeOfGroup", null, options);
               if (result.isSuccess && result.data) {
@@ -213,7 +223,8 @@ System.register(['vue', '@Obsidian/Utility/component', '@Obsidian/Utility/http',
           return (_ctx, _cache) => {
             return openBlock(), createBlock(unref(RockFormField), mergeProps(unref(fieldProps), {
               modelValue: internalGroupValue.value,
-              name: "group-type-group-picker"
+              name: "group-type-group-picker",
+              disabled: __props.disabled
             }), {
               default: withCtx(() => [createVNode(unref(GroupTypePicker), mergeProps(unref(standardProps), {
                 modelValue: internalTypeValue.value,
@@ -224,19 +235,21 @@ System.register(['vue', '@Obsidian/Utility/component', '@Obsidian/Utility/http',
                 multiple: false,
                 rules: "",
                 onlyGroupListItems: "",
-                formGroupClasses: "mt-0"
-              }), null, 16, ["modelValue", "displayStyle"]), createVNode(unref(BaseAsyncPicker), mergeProps({
+                formGroupClasses: "mt-0",
+                disabled: __props.disabled
+              }), null, 16, ["modelValue", "displayStyle", "disabled"]), createVNode(unref(BaseAsyncPicker), mergeProps({
                 modelValue: internalGroupValue.value,
                 "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => internalGroupValue.value = $event)
               }, unref(standardProps), {
                 label: __props.groupLabel,
-                displayStyle: _ctx.displayStyle,
+                displayStyle: unref(PickerDisplayStyle).Condensed,
                 items: unref(actualGroupItems),
                 showBlankItem: "",
-                multiple: false
-              }), null, 16, ["modelValue", "label", "displayStyle", "items"])]),
+                multiple: false,
+                disabled: __props.disabled
+              }), null, 16, ["modelValue", "label", "displayStyle", "items", "disabled"])]),
               _: 1
-            }, 16, ["modelValue"]);
+            }, 16, ["modelValue", "disabled"]);
           };
         }
       }));

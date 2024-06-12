@@ -1,6 +1,6 @@
-System.register(['vue', '@Obsidian/Utility/component', '@Obsidian/Utility/http', './baseAsyncPicker', './rockFormField'], (function (exports) {
+System.register(['vue', '@Obsidian/Utility/component', '@Obsidian/Utility/http', './baseAsyncPicker.obs', './rockFormField.obs', '@Obsidian/Utility/guid'], (function (exports) {
   'use strict';
-  var defineComponent, ref, computed, watch, openBlock, createBlock, unref, mergeProps, withCtx, createCommentVNode, createVNode, nextTick, useStandardRockFormFieldProps, useStandardAsyncPickerProps, updateRefValue, standardAsyncPickerProps, useHttp, BaseAsyncPicker, RockFormField;
+  var defineComponent, ref, computed, watch, openBlock, createBlock, unref, mergeProps, withCtx, createCommentVNode, createVNode, nextTick, useStandardRockFormFieldProps, useStandardAsyncPickerProps, updateRefValue, standardAsyncPickerProps, useHttp, BaseAsyncPicker, RockFormField, toGuidOrNull, areEqual, emptyGuid;
   return {
     setters: [function (module) {
       defineComponent = module.defineComponent;
@@ -26,6 +26,10 @@ System.register(['vue', '@Obsidian/Utility/component', '@Obsidian/Utility/http',
       BaseAsyncPicker = module["default"];
     }, function (module) {
       RockFormField = module["default"];
+    }, function (module) {
+      toGuidOrNull = module.toGuidOrNull;
+      areEqual = module.areEqual;
+      emptyGuid = module.emptyGuid;
     }],
     execute: (function () {
 
@@ -136,8 +140,8 @@ System.register(['vue', '@Obsidian/Utility/component', '@Obsidian/Utility/http',
           var internalItemValue = ref(props.modelValue);
           var loadedContentChannelItemItems = ref(null);
           var contentChannelGuidValue = computed(() => {
-            var _internalChannelValue;
-            return props.contentChannelGuid || ((_internalChannelValue = internalChannelValue.value) === null || _internalChannelValue === void 0 ? void 0 : _internalChannelValue.value) || null;
+            var _toGuidOrNull, _internalChannelValue;
+            return (_toGuidOrNull = toGuidOrNull(props.contentChannelGuid)) !== null && _toGuidOrNull !== void 0 ? _toGuidOrNull : toGuidOrNull((_internalChannelValue = internalChannelValue.value) === null || _internalChannelValue === void 0 ? void 0 : _internalChannelValue.value);
           });
           var actualChannelItems = computed(() => {
             return loadedTypeItems.value || loadTypeOptions;
@@ -169,11 +173,12 @@ System.register(['vue', '@Obsidian/Utility/component', '@Obsidian/Utility/http',
           }
           function _loadContentChannelItemOptions() {
             _loadContentChannelItemOptions = _asyncToGenerator(function* () {
-              if (!contentChannelGuidValue.value) {
+              var contentChannelGuid = toGuidOrNull(contentChannelGuidValue.value);
+              if (!contentChannelGuid || areEqual(contentChannelGuid, emptyGuid)) {
                 return [];
               }
               var options = {
-                contentChannelGuid: contentChannelGuidValue.value,
+                contentChannelGuid,
                 excludeContentChannelItems: props.excludeContentChannelItems
               };
               var result = yield http.post("/api/v2/Controls/ContentChannelItemPickerGetContentChannelItems", null, options);
@@ -197,7 +202,7 @@ System.register(['vue', '@Obsidian/Utility/component', '@Obsidian/Utility/http',
             _loadContentChannelItemOptionsFromValue = _asyncToGenerator(function* () {
               var _props$modelValue;
               var options = {
-                contentChannelItemGuid: (_props$modelValue = props.modelValue) === null || _props$modelValue === void 0 ? void 0 : _props$modelValue.value,
+                contentChannelItemGuid: toGuidOrNull((_props$modelValue = props.modelValue) === null || _props$modelValue === void 0 ? void 0 : _props$modelValue.value) || emptyGuid,
                 excludeContentChannelItems: props.excludeContentChannelItems
               };
               var result = yield http.post("/api/v2/Controls/ContentChannelItemPickerGetAllForContentChannelItem", null, options);

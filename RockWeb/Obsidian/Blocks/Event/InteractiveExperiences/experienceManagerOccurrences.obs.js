@@ -1,4 +1,4 @@
-System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Controls/panel', '@Obsidian/Controls/sectionHeader', '@Obsidian/Utility/block'], (function (exports) {
+System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Controls/panel.obs', '@Obsidian/Controls/sectionHeader.obs', '@Obsidian/Utility/block'], (function (exports) {
     'use strict';
     var createElementVNode, defineComponent, ref, computed, unref, openBlock, createBlock, withCtx, createTextVNode, toDisplayString, createVNode, createElementBlock, Fragment, renderList, createCommentVNode, NotificationBox, Panel, SectionHeader, useConfigurationValues, onConfigurationValuesChanged, useReloadBlock;
     return {

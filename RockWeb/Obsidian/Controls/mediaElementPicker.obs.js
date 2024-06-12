@@ -1,6 +1,6 @@
-System.register(['vue', '@Obsidian/Utility/component', '@Obsidian/Enums/Controls/controlLazyMode', '@Obsidian/Utility/http', './baseAsyncPicker', './rockButton', './rockFormField'], (function (exports) {
+System.register(['vue', '@Obsidian/Utility/component', '@Obsidian/Enums/Controls/controlLazyMode', '@Obsidian/Utility/guid', '@Obsidian/Utility/http', './baseAsyncPicker.obs', './rockButton.obs', './rockFormField.obs'], (function (exports) {
   'use strict';
-  var createElementVNode, defineComponent, ref, computed, watch, openBlock, createBlock, unref, mergeProps, withCtx, createCommentVNode, createSlots, createVNode, withModifiers, nextTick, standardRockFormFieldProps, useStandardAsyncPickerProps, useStandardRockFormFieldProps, updateRefValue, standardAsyncPickerProps, ControlLazyMode, useHttp, BaseAsyncPicker, RockButton, RockFormField;
+  var createElementVNode, defineComponent, ref, computed, watch, openBlock, createBlock, unref, mergeProps, withCtx, createCommentVNode, createSlots, createVNode, withModifiers, nextTick, standardRockFormFieldProps, useStandardAsyncPickerProps, useStandardRockFormFieldProps, updateRefValue, standardAsyncPickerProps, ControlLazyMode, emptyGuid, useHttp, BaseAsyncPicker, RockButton, RockFormField;
   return {
     setters: [function (module) {
       createElementVNode = module.createElementVNode;
@@ -26,6 +26,8 @@ System.register(['vue', '@Obsidian/Utility/component', '@Obsidian/Enums/Controls
       standardAsyncPickerProps = module.standardAsyncPickerProps;
     }, function (module) {
       ControlLazyMode = module.ControlLazyMode;
+    }, function (module) {
+      emptyGuid = module.emptyGuid;
     }, function (module) {
       useHttp = module.useHttp;
     }, function (module) {
@@ -211,9 +213,9 @@ System.register(['vue', '@Obsidian/Utility/component', '@Obsidian/Enums/Controls
           }
           function _loadMediaFolders() {
             _loadMediaFolders = _asyncToGenerator(function* () {
-              var _internalMediaAccount2, _internalMediaAccount3;
+              var _internalMediaAccount2;
               var options = {
-                mediaAccountGuid: (_internalMediaAccount2 = (_internalMediaAccount3 = internalMediaAccount.value) === null || _internalMediaAccount3 === void 0 ? void 0 : _internalMediaAccount3.value) !== null && _internalMediaAccount2 !== void 0 ? _internalMediaAccount2 : null
+                mediaAccountGuid: ((_internalMediaAccount2 = internalMediaAccount.value) === null || _internalMediaAccount2 === void 0 ? void 0 : _internalMediaAccount2.value) || emptyGuid
               };
               return loadItems("MediaElementPickerGetMediaFolders", options);
             });
@@ -224,9 +226,9 @@ System.register(['vue', '@Obsidian/Utility/component', '@Obsidian/Enums/Controls
           }
           function _loadMediaElements() {
             _loadMediaElements = _asyncToGenerator(function* () {
-              var _internalMediaFolder$2, _internalMediaFolder$3;
+              var _internalMediaFolder$2;
               var options = {
-                mediaFolderGuid: (_internalMediaFolder$2 = (_internalMediaFolder$3 = internalMediaFolder.value) === null || _internalMediaFolder$3 === void 0 ? void 0 : _internalMediaFolder$3.value) !== null && _internalMediaFolder$2 !== void 0 ? _internalMediaFolder$2 : null
+                mediaFolderGuid: ((_internalMediaFolder$2 = internalMediaFolder.value) === null || _internalMediaFolder$2 === void 0 ? void 0 : _internalMediaFolder$2.value) || emptyGuid
               };
               return loadItems("MediaElementPickerGetMediaElements", options);
             });

@@ -651,17 +651,17 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Lib
             if (style !== null && style !== void 0 && (_style$visualizer4 = style.visualizer) !== null && _style$visualizer4 !== void 0 && _style$visualizer4.primaryColor) {
               styles["--experience-visualizer-primary-color"] = style.visualizer.primaryColor;
             } else {
-              styles["--experience-visualizer-primary-color"] = "var(--brand-primary)";
+              styles["--experience-visualizer-primary-color"] = "var(--color-primary)";
             }
             if (style !== null && style !== void 0 && (_style$visualizer5 = style.visualizer) !== null && _style$visualizer5 !== void 0 && _style$visualizer5.secondaryColor) {
               styles["--experience-visualizer-secondary-color"] = style.visualizer.secondaryColor;
             } else {
-              styles["--experience-visualizer-secondary-color"] = "var(--brand-success)";
+              styles["--experience-visualizer-secondary-color"] = "var(--color-success)";
             }
             if (style !== null && style !== void 0 && (_style$visualizer6 = style.visualizer) !== null && _style$visualizer6 !== void 0 && _style$visualizer6.accentColor) {
               styles["--experience-visualizer-accent-color"] = style.visualizer.accentColor;
             } else {
-              styles["--experience-visualizer-accent-color"] = "var(--brand-info)";
+              styles["--experience-visualizer-accent-color"] = "var(--color-info)";
             }
             return styles;
           }

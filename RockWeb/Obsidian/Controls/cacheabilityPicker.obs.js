@@ -1,4 +1,4 @@
-System.register(['vue', '@Obsidian/Controls/radioButtonList', './timeIntervalPicker.obs', '@Obsidian/Utility/numberUtils', '@Obsidian/Enums/Controls/rockCacheabilityType', '@Obsidian/Enums/Core/timeIntervalUnit'], (function (exports) {
+System.register(['vue', '@Obsidian/Controls/radioButtonList.obs', './timeIntervalPicker.obs', '@Obsidian/Utility/numberUtils', '@Obsidian/Enums/Controls/rockCacheabilityType', '@Obsidian/Enums/Core/timeIntervalUnit'], (function (exports) {
   'use strict';
   var defineComponent, computed, openBlock, createElementBlock, Fragment, createVNode, unref, isRef, createBlock, createCommentVNode, RadioButtonList, TimeIntervalPicker, toNumber, RockCacheabilityType, TimeIntervalUnit;
   return {
@@ -55,6 +55,12 @@ System.register(['vue', '@Obsidian/Controls/radioButtonList', './timeIntervalPic
               }
             };
           }
+          function defaultTimeIntervalValue() {
+            return {
+              unit: TimeIntervalUnit.Minutes,
+              value: null
+            };
+          }
           var internalValue = computed({
             get() {
               var _props$modelValue;
@@ -91,7 +97,8 @@ System.register(['vue', '@Obsidian/Controls/radioButtonList', './timeIntervalPic
           });
           var maxAge = computed({
             get() {
-              return internalValue.value.maxAge;
+              var _internalValue$value$;
+              return (_internalValue$value$ = internalValue.value.maxAge) !== null && _internalValue$value$ !== void 0 ? _internalValue$value$ : defaultTimeIntervalValue();
             },
             set(newValue) {
               internalValue.value = {
@@ -103,7 +110,8 @@ System.register(['vue', '@Obsidian/Controls/radioButtonList', './timeIntervalPic
           });
           var sharedMaxAge = computed({
             get() {
-              return internalValue.value.sharedMaxAge;
+              var _internalValue$value$2;
+              return (_internalValue$value$2 = internalValue.value.sharedMaxAge) !== null && _internalValue$value$2 !== void 0 ? _internalValue$value$2 : defaultTimeIntervalValue();
             },
             set(newValue) {
               internalValue.value = {
@@ -138,7 +146,7 @@ System.register(['vue', '@Obsidian/Controls/radioButtonList', './timeIntervalPic
               formGroupClasses: "col-md-6",
               modelValue: unref(sharedMaxAge),
               "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => isRef(sharedMaxAge) ? sharedMaxAge.value = $event : null),
-              label: "Max Age",
+              label: "Max Shared Age",
               help: "The maximum amount of time the item will be cached in a shared cache (e.g. CDN). If not provided then the Max Age is typically used."
             }, null, 8, ["modelValue"])) : createCommentVNode("v-if", true)])) : createCommentVNode("v-if", true)], 64);
           };

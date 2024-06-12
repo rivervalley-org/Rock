@@ -1,4 +1,4 @@
-System.register(['vue', './utils', '@Obsidian/Utility/booleanUtils', '@Obsidian/Enums/Reporting/comparisonType', '@Obsidian/Utility/component', './fieldType', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/toggle', '@Obsidian/Controls/checkBox', '@Obsidian/Controls/textBox', '@Obsidian/Utility/numberUtils'], (function (exports, module) {
+System.register(['vue', './utils', '@Obsidian/Utility/booleanUtils', '@Obsidian/Enums/Reporting/comparisonType', '@Obsidian/Utility/component', './fieldType', '@Obsidian/Controls/dropDownList.obs', '@Obsidian/Controls/toggle.obs', '@Obsidian/Controls/checkBox.obs', '@Obsidian/Controls/textBox.obs', '@Obsidian/Utility/numberUtils'], (function (exports, module) {
   'use strict';
   var defineComponent, ref, computed, watch, getFieldEditorProps, getFieldConfigurationProps, asBoolean, asTrueFalseOrNull, defineAsyncComponent, DropDownList, Toggle, CheckBox, TextBox, toNumberOrNull;
   return {

@@ -1,6 +1,6 @@
-System.register(['vue', '@Obsidian/Enums/Blocks/Crm/FamilyPreRegistration/communicationPreference', '@Obsidian/Enums/Crm/gender', '@Obsidian/Utility/booleanUtils', '@Obsidian/Utility/dateKey', '@Obsidian/Utility/numberUtils', '@Obsidian/Controls/attributeValuesContainer', '@Obsidian/Controls/birthdayPicker', '@Obsidian/Controls/checkBox', '@Obsidian/Controls/definedValuePicker.obs', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/emailBox', '@Obsidian/Controls/ethnicityPicker.obs', '@Obsidian/Controls/genderDropDownList', '@Obsidian/Controls/gradePicker', '@Obsidian/Controls/imageEditor.obs', '@Obsidian/Controls/phoneNumberBox.obs', '@Obsidian/Controls/racePicker.obs', '@Obsidian/Controls/radioButtonList', '@Obsidian/Controls/rockButton', '@Obsidian/Controls/staticFormControl', '@Obsidian/Controls/textBox', '@Obsidian/SystemGuids/binaryFiletype', '@Obsidian/SystemGuids/definedType', '@Obsidian/Utility/block', '@Obsidian/Utility/stringUtils', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Controls/addressControl.obs', '@Obsidian/Controls/campusPicker.obs', '@Obsidian/Controls/datePicker.obs', '@Obsidian/Controls/panel', '@Obsidian/Controls/rockForm', '@Obsidian/Utility/http'], (function (exports) {
+System.register(['vue', '@Obsidian/Enums/Blocks/Crm/FamilyPreRegistration/communicationPreference', '@Obsidian/Enums/Crm/gender', '@Obsidian/Utility/booleanUtils', '@Obsidian/Utility/dateKey', '@Obsidian/Utility/guid', '@Obsidian/Utility/numberUtils', '@Obsidian/Controls/attributeValuesContainer.obs', '@Obsidian/Controls/birthdayPicker.obs', '@Obsidian/Controls/checkBox.obs', '@Obsidian/Controls/definedValuePicker.obs', '@Obsidian/Controls/dropDownList.obs', '@Obsidian/Controls/emailBox.obs', '@Obsidian/Controls/ethnicityPicker.obs', '@Obsidian/Controls/genderDropDownList.obs', '@Obsidian/Controls/gradePicker.obs', '@Obsidian/Controls/imageEditor.obs', '@Obsidian/Controls/phoneNumberBox.obs', '@Obsidian/Controls/racePicker.obs', '@Obsidian/Controls/radioButtonList.obs', '@Obsidian/Controls/rockButton.obs', '@Obsidian/Controls/staticFormControl.obs', '@Obsidian/Controls/textBox.obs', '@Obsidian/SystemGuids/binaryFiletype', '@Obsidian/SystemGuids/definedType', '@Obsidian/Utility/block', '@Obsidian/Utility/stringUtils', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Controls/addressControl.obs', '@Obsidian/Controls/campusPicker.obs', '@Obsidian/Controls/datePicker.obs', '@Obsidian/Controls/panel.obs', '@Obsidian/Controls/rockForm.obs', '@Obsidian/Utility/http'], (function (exports) {
   'use strict';
-  var reactive, computed, toRefs, pushScopeId, popScopeId, createElementVNode, defineComponent, ref, watch, openBlock, createElementBlock, Fragment, createVNode, unref, withCtx, toDisplayString, createCommentVNode, createBlock, renderList, createTextVNode, nextTick, withDirectives, isRef, vShow, CommunicationPreference, CommunicationPreferenceDescription, Gender, asBooleanOrNull, getMonth, getDay, getYear, toNumberOrNull, AttributeValuesContainer, BirthdayPicker, CheckBox, DefinedValuePicker, DropDownList, EmailBox, EthnicityPicker, GenderDropDownList, GradePicker, ImageEditor, PhoneNumberBox, RacePicker, RadioButtonList, RockButton, StaticFormControl, TextBox, BinaryFiletype, DefinedType, useConfigurationValues, useInvokeBlockAction, onConfigurationValuesChanged, useReloadBlock, toTitleCase, NotificationBox, AddressControl, CampusPicker, DatePicker, Panel, RockForm, useHttp;
+  var reactive, computed, toRefs, pushScopeId, popScopeId, createElementVNode, defineComponent, ref, watch, openBlock, createElementBlock, Fragment, createVNode, unref, withCtx, toDisplayString, createCommentVNode, createBlock, renderList, createTextVNode, nextTick, withDirectives, isRef, vShow, CommunicationPreference, CommunicationPreferenceDescription, Gender, asBooleanOrNull, getMonth, getDay, getYear, emptyGuid, toGuidOrNull, toNumberOrNull, AttributeValuesContainer, BirthdayPicker, CheckBox, DefinedValuePicker, DropDownList, EmailBox, EthnicityPicker, GenderDropDownList, GradePicker, ImageEditor, PhoneNumberBox, RacePicker, RadioButtonList, RockButton, StaticFormControl, TextBox, BinaryFiletype, DefinedType, useConfigurationValues, useInvokeBlockAction, onConfigurationValuesChanged, useReloadBlock, toTitleCase, NotificationBox, AddressControl, CampusPicker, DatePicker, Panel, RockForm, useHttp;
   return {
     setters: [function (module) {
       reactive = module.reactive;
@@ -38,6 +38,9 @@ System.register(['vue', '@Obsidian/Enums/Blocks/Crm/FamilyPreRegistration/commun
       getMonth = module.getMonth;
       getDay = module.getDay;
       getYear = module.getYear;
+    }, function (module) {
+      emptyGuid = module.emptyGuid;
+      toGuidOrNull = module.toGuidOrNull;
     }, function (module) {
       toNumberOrNull = module.toNumberOrNull;
     }, function (module) {
@@ -184,6 +187,7 @@ System.register(['vue', '@Obsidian/Enums/Blocks/Crm/FamilyPreRegistration/commun
         var _person$communication;
         var defaults = createPersonRequest();
         return _objectSpread2(_objectSpread2({}, person), {}, {
+          guid: (person === null || person === void 0 ? void 0 : person.guid) || emptyGuid,
           attributeValues: (person === null || person === void 0 ? void 0 : person.attributeValues) || defaults.attributeValues,
           communicationPreference: (_person$communication = person === null || person === void 0 ? void 0 : person.communicationPreference) !== null && _person$communication !== void 0 ? _person$communication : defaults.communicationPreference,
           email: (person === null || person === void 0 ? void 0 : person.email) || defaults.email,
@@ -206,6 +210,7 @@ System.register(['vue', '@Obsidian/Enums/Blocks/Crm/FamilyPreRegistration/commun
       }
       function createPersonRequest() {
         return {
+          guid: emptyGuid,
           attributeValues: {},
           communicationPreference: CommunicationPreference.None,
           email: "",
@@ -248,10 +253,11 @@ System.register(['vue', '@Obsidian/Enums/Blocks/Crm/FamilyPreRegistration/commun
       }
       function createChildRequest() {
         return {
+          guid: emptyGuid,
           attributeValues: {},
           communicationPreference: CommunicationPreference.None,
           email: "",
-          familyRoleGuid: "",
+          familyRoleGuid: emptyGuid,
           firstName: "",
           gender: Gender.Unknown,
           isFirstNameReadOnly: false,
@@ -1197,7 +1203,7 @@ System.register(['vue', '@Obsidian/Enums/Blocks/Crm/FamilyPreRegistration/commun
             value: config.campusGuid
           } : undefined);
           var plannedVisitDate = ref("");
-          var scheduleGuid = ref("");
+          var scheduleGuidOrEmptyString = ref("");
           var scheduleDateItems = ref([]);
           var isUsernameAvailable = ref();
           var confirmPassword = ref("");
@@ -1263,14 +1269,14 @@ System.register(['vue', '@Obsidian/Enums/Blocks/Crm/FamilyPreRegistration/commun
                   address: address.value,
                   adult1: isAdult1Entered.value ? adult1Request.value : undefined,
                   adult2: isAdult2Entered.value ? adult2Request.value : undefined,
-                  campusGuid: ((_internalCampusListIt = internalCampusListItemBag.value) === null || _internalCampusListIt === void 0 ? void 0 : _internalCampusListIt.value) || null,
+                  campusGuid: toGuidOrNull((_internalCampusListIt = internalCampusListItemBag.value) === null || _internalCampusListIt === void 0 ? void 0 : _internalCampusListIt.value),
                   children: children.value,
                   createAccount: createAccount.value,
                   familyAttributeValues: familyAttributeValues.value,
-                  familyGuid: config.familyGuid,
+                  familyGuid: toGuidOrNull(config.familyGuid),
                   fullName: fullName.value,
                   plannedVisitDate: plannedVisitDate.value,
-                  scheduleGuid: scheduleGuid.value
+                  scheduleGuid: toGuidOrNull(scheduleGuidOrEmptyString.value)
                 };
                 clearErrors();
                 var result = yield invokeBlockAction("Save", {
@@ -1405,7 +1411,7 @@ System.register(['vue', '@Obsidian/Enums/Blocks/Crm/FamilyPreRegistration/commun
                 return;
               }
               var bag = {
-                campusGuid: (_campusListItemBag$va = campusListItemBag.value) === null || _campusListItemBag$va === void 0 ? void 0 : _campusListItemBag$va.value
+                campusGuid: toGuidOrNull((_campusListItemBag$va = campusListItemBag.value) === null || _campusListItemBag$va === void 0 ? void 0 : _campusListItemBag$va.value)
               };
               clearErrors();
               var result = yield invokeBlockAction("GetScheduleDates", {
@@ -1489,8 +1495,8 @@ System.register(['vue', '@Obsidian/Enums/Blocks/Crm/FamilyPreRegistration/commun
                         rules: unref(config).visitDateField.isRequired ? 'required' : '',
                         showBlankItem: unref(config).visitDateField.isOptional
                       }, null, 8, ["modelValue", "disabled", "items", "rules", "showBlankItem"])]), createElementVNode("div", _hoisted_6, [createVNode(unref(DropDownList), {
-                        modelValue: scheduleGuid.value,
-                        "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => scheduleGuid.value = $event),
+                        modelValue: scheduleGuidOrEmptyString.value,
+                        "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => scheduleGuidOrEmptyString.value = $event),
                         disabled: isSaving.value || isNavigating.value,
                         items: unref(scheduleTimeItems),
                         label: "Planned Visit Time",

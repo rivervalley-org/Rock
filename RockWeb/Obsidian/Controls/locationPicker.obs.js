@@ -1,6 +1,6 @@
-System.register(['vue', './locationItemPicker', './locationAddressPicker.obs', './geoPicker.obs', './radioButtonList'], (function (exports) {
+System.register(['vue', './locationItemPicker.obs', './locationAddressPicker.obs', './geoPicker.obs', './radioButtonList.obs', '@Obsidian/Enums/Controls/locationPickerMode', '@Obsidian/Utility/component'], (function (exports) {
   'use strict';
-  var defineComponent, ref, computed, watch, openBlock, createElementBlock, Fragment, createBlock, unref, createSlots, withCtx, createVNode, renderSlot, createCommentVNode, LocationItemPicker, LocationAddressPicker, GeoPicker, RadioButtonList;
+  var defineComponent, ref, computed, watch, openBlock, createElementBlock, Fragment, unref, createBlock, mergeProps, createSlots, withCtx, createVNode, renderSlot, createCommentVNode, LocationItemPicker, LocationAddressPicker, GeoPicker, RadioButtonList, LocationPickerMode, useStandardRockFormFieldProps, standardRockFormFieldProps;
   return {
     setters: [function (module) {
       defineComponent = module.defineComponent;
@@ -10,8 +10,9 @@ System.register(['vue', './locationItemPicker', './locationAddressPicker.obs', '
       openBlock = module.openBlock;
       createElementBlock = module.createElementBlock;
       Fragment = module.Fragment;
-      createBlock = module.createBlock;
       unref = module.unref;
+      createBlock = module.createBlock;
+      mergeProps = module.mergeProps;
       createSlots = module.createSlots;
       withCtx = module.withCtx;
       createVNode = module.createVNode;
@@ -25,70 +26,209 @@ System.register(['vue', './locationItemPicker', './locationAddressPicker.obs', '
       GeoPicker = module["default"];
     }, function (module) {
       RadioButtonList = module["default"];
+    }, function (module) {
+      LocationPickerMode = module.LocationPickerMode;
+    }, function (module) {
+      useStandardRockFormFieldProps = module.useStandardRockFormFieldProps;
+      standardRockFormFieldProps = module.standardRockFormFieldProps;
     }],
     execute: (function () {
 
+      function ownKeys(object, enumerableOnly) {
+        var keys = Object.keys(object);
+        if (Object.getOwnPropertySymbols) {
+          var symbols = Object.getOwnPropertySymbols(object);
+          enumerableOnly && (symbols = symbols.filter(function (sym) {
+            return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+          })), keys.push.apply(keys, symbols);
+        }
+        return keys;
+      }
+      function _objectSpread2(target) {
+        for (var i = 1; i < arguments.length; i++) {
+          var source = null != arguments[i] ? arguments[i] : {};
+          i % 2 ? ownKeys(Object(source), !0).forEach(function (key) {
+            _defineProperty(target, key, source[key]);
+          }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) {
+            Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+          });
+        }
+        return target;
+      }
+      function _defineProperty(obj, key, value) {
+        key = _toPropertyKey(key);
+        if (key in obj) {
+          Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+          });
+        } else {
+          obj[key] = value;
+        }
+        return obj;
+      }
+      function _toPrimitive(input, hint) {
+        if (typeof input !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+          var res = prim.call(input, hint || "default");
+          if (typeof res !== "object") return res;
+          throw new TypeError("@@toPrimitive must return a primitive value.");
+        }
+        return (hint === "string" ? String : Number)(input);
+      }
+      function _toPropertyKey(arg) {
+        var key = _toPrimitive(arg, "string");
+        return typeof key === "symbol" ? key : String(key);
+      }
+
       var script = exports('default', defineComponent({
         name: 'locationPicker',
-        props: {
+        props: _objectSpread2({
           modelValue: {
             type: Object
+          },
+          currentPickerMode: {
+            type: Number,
+            default: () => LocationPickerMode.Named
+          },
+          allowedPickerModes: {
+            type: Number,
+            default: () => LocationPickerMode.All
           }
-        },
-        emits: ["update:modelValue"],
+        }, standardRockFormFieldProps),
+        emits: ["update:modelValue", "update:currentPickerMode"],
         setup(__props, _ref) {
           var emit = _ref.emit;
-          var selectedOption = ref("0");
-          var options = [{
-            text: "Location",
-            value: "0"
-          }, {
-            text: "Address",
-            value: "1"
-          }, {
-            text: "Point",
-            value: "2"
-          }, {
-            text: "Geo-fence",
-            value: "3"
-          }];
-          var itemValue = ref({});
+          var props = __props;
+          var fieldProps = useStandardRockFormFieldProps(props);
+          var selectedMode = ref(props.currentPickerMode.toString());
+          var numericSelectedMode = computed(() => Number(selectedMode.value));
+          var options = computed(() => {
+            var optionList = [];
+            if (props.allowedPickerModes & LocationPickerMode.Named) {
+              optionList.push({
+                text: "Location",
+                value: "2"
+              });
+            }
+            if (props.allowedPickerModes & LocationPickerMode.Address) {
+              optionList.push({
+                text: "Address",
+                value: "1"
+              });
+            }
+            if (props.allowedPickerModes & LocationPickerMode.Point) {
+              optionList.push({
+                text: "Point",
+                value: "4"
+              });
+            }
+            if (props.allowedPickerModes & LocationPickerMode.Polygon) {
+              optionList.push({
+                text: "Geo-fence",
+                value: "8"
+              });
+            }
+            return optionList;
+          });
+          var itemValue = ref(undefined);
           var addressValue = ref({});
           var pointValue = ref("");
-          var fenceValue = ref("");
+          var polygonValue = ref("");
           var popupStatus = ref(false);
           var internalValue = computed(() => {
-            if (selectedOption.value == "0") {
-              return itemValue.value;
-            }
-            if (selectedOption.value == "1") {
+            if (numericSelectedMode.value === LocationPickerMode.Address) {
               return addressValue.value;
             }
-            if (selectedOption.value == "2") {
+            if (numericSelectedMode.value === LocationPickerMode.Named) {
+              return itemValue.value;
+            }
+            if (numericSelectedMode.value === LocationPickerMode.Point) {
               return pointValue.value;
             }
-            if (selectedOption.value == "3") {
-              return fenceValue.value;
+            if (numericSelectedMode.value === LocationPickerMode.Polygon) {
+              return polygonValue.value;
             }
             return "";
           });
           watch(internalValue, () => emit("update:modelValue", internalValue.value));
+          watch(numericSelectedMode, () => emit("update:currentPickerMode", numericSelectedMode.value));
+          watch(() => props.modelValue, () => {
+            if (props.modelValue == internalValue.value) {
+              return;
+            }
+            if (props.modelValue == undefined) {
+              if (numericSelectedMode.value === LocationPickerMode.Address) {
+                addressValue.value = {};
+              }
+              if (numericSelectedMode.value === LocationPickerMode.Named) {
+                itemValue.value = undefined;
+              }
+              if (numericSelectedMode.value === LocationPickerMode.Point) {
+                pointValue.value = "";
+              }
+              if (numericSelectedMode.value === LocationPickerMode.Polygon) {
+                polygonValue.value = "";
+              }
+              return;
+            }
+            if (typeof props.modelValue === "string") {
+              if ((props.modelValue.search(/^POINT *\(/) >= 0 || props.modelValue == "") && props.allowedPickerModes & LocationPickerMode.Point) {
+                pointValue.value = props.modelValue;
+                selectedMode.value = "".concat(LocationPickerMode.Point);
+                return;
+              } else if ((props.modelValue.search(/^POLYGON *\(\(/) >= 0 || props.modelValue == "") && props.allowedPickerModes & LocationPickerMode.Polygon) {
+                polygonValue.value = props.modelValue;
+                selectedMode.value = "".concat(LocationPickerMode.Polygon);
+                return;
+              }
+            } else if (typeof props.modelValue === "object") {
+              if (props.allowedPickerModes & LocationPickerMode.Address && ("street1" in props.modelValue || "street2" in props.modelValue || "city" in props.modelValue || "state" in props.modelValue || "postalCode" in props.modelValue || "locality" in props.modelValue || "country" in props.modelValue)) {
+                addressValue.value = props.modelValue;
+                selectedMode.value = "".concat(LocationPickerMode.Address);
+                return;
+              } else if ("value" in props.modelValue && props.allowedPickerModes & LocationPickerMode.Named) {
+                itemValue.value = props.modelValue;
+                selectedMode.value = "".concat(LocationPickerMode.Named);
+                return;
+              }
+            }
+            emit("update:modelValue", internalValue.value);
+            emit("update:currentPickerMode", numericSelectedMode.value);
+          }, {
+            immediate: true
+          });
+          watch(() => props.currentPickerMode, () => {
+            selectedMode.value = "".concat(props.currentPickerMode);
+          });
+          watch(() => props.allowedPickerModes, () => {
+            if (!(props.allowedPickerModes & numericSelectedMode.value)) {
+              selectedMode.value = options.value[0].value;
+            }
+          }, {
+            immediate: true
+          });
           return (_ctx, _cache) => {
-            return openBlock(), createElementBlock(Fragment, null, [selectedOption.value == '0' ? (openBlock(), createBlock(unref(LocationItemPicker), {
+            return openBlock(), createElementBlock(Fragment, null, [unref(numericSelectedMode) === unref(LocationPickerMode).Named ? (openBlock(), createBlock(unref(LocationItemPicker), mergeProps({
               key: 0,
               modelValue: itemValue.value,
               "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => itemValue.value = $event),
               showPopup: popupStatus.value,
               "onUpdate:showPopup": _cache[2] || (_cache[2] = $event => popupStatus.value = $event)
-            }, createSlots({
-              pickerContentSuperHeader: withCtx(() => [createVNode(unref(RadioButtonList), {
-                modelValue: selectedOption.value,
-                "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => selectedOption.value = $event),
-                items: options,
-                horizontal: ""
-              }, null, 8, ["modelValue"])]),
+            }, unref(fieldProps)), createSlots({
               _: 2
-            }, [_ctx.$slots.prepend ? {
+            }, [unref(options).length > 1 ? {
+              name: "pickerContentSuperHeader",
+              fn: withCtx(() => [createVNode(unref(RadioButtonList), {
+                modelValue: selectedMode.value,
+                "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => selectedMode.value = $event),
+                items: unref(options),
+                horizontal: ""
+              }, null, 8, ["modelValue", "items"])])
+            } : undefined, _ctx.$slots.prepend ? {
               name: "prepend",
               fn: withCtx(_ref2 => {
                 var isInputGroupSupported = _ref2.isInputGroupSupported;
@@ -112,21 +252,23 @@ System.register(['vue', './locationItemPicker', './locationAddressPicker.obs', '
                   isInputGroupSupported: isInputGroupSupported
                 })];
               })
-            } : undefined]), 1032, ["modelValue", "showPopup"])) : createCommentVNode("v-if", true), selectedOption.value == '1' ? (openBlock(), createBlock(unref(LocationAddressPicker), {
+            } : undefined]), 1040, ["modelValue", "showPopup"])) : createCommentVNode("v-if", true), unref(numericSelectedMode) === unref(LocationPickerMode).Address ? (openBlock(), createBlock(unref(LocationAddressPicker), mergeProps({
               key: 1,
               modelValue: addressValue.value,
               "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => addressValue.value = $event),
               showPopup: popupStatus.value,
               "onUpdate:showPopup": _cache[5] || (_cache[5] = $event => popupStatus.value = $event)
-            }, createSlots({
-              pickerContentSuperHeader: withCtx(() => [createVNode(unref(RadioButtonList), {
-                modelValue: selectedOption.value,
-                "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => selectedOption.value = $event),
-                items: options,
-                horizontal: ""
-              }, null, 8, ["modelValue"])]),
+            }, unref(fieldProps)), createSlots({
               _: 2
-            }, [_ctx.$slots.prepend ? {
+            }, [unref(options).length > 1 ? {
+              name: "pickerContentSuperHeader",
+              fn: withCtx(() => [createVNode(unref(RadioButtonList), {
+                modelValue: selectedMode.value,
+                "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => selectedMode.value = $event),
+                items: unref(options),
+                horizontal: ""
+              }, null, 8, ["modelValue", "items"])])
+            } : undefined, _ctx.$slots.prepend ? {
               name: "prepend",
               fn: withCtx(_ref5 => {
                 var isInputGroupSupported = _ref5.isInputGroupSupported;
@@ -150,22 +292,24 @@ System.register(['vue', './locationItemPicker', './locationAddressPicker.obs', '
                   isInputGroupSupported: isInputGroupSupported
                 })];
               })
-            } : undefined]), 1032, ["modelValue", "showPopup"])) : createCommentVNode("v-if", true), selectedOption.value == '2' ? (openBlock(), createBlock(unref(GeoPicker), {
+            } : undefined]), 1040, ["modelValue", "showPopup"])) : createCommentVNode("v-if", true), unref(numericSelectedMode) === unref(LocationPickerMode).Point ? (openBlock(), createBlock(unref(GeoPicker), mergeProps({
               key: 2,
               modelValue: pointValue.value,
               "onUpdate:modelValue": _cache[7] || (_cache[7] = $event => pointValue.value = $event),
               drawingMode: "Point",
               showPopup: popupStatus.value,
               "onUpdate:showPopup": _cache[8] || (_cache[8] = $event => popupStatus.value = $event)
-            }, createSlots({
-              pickerContentSuperHeader: withCtx(() => [createVNode(unref(RadioButtonList), {
-                modelValue: selectedOption.value,
-                "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => selectedOption.value = $event),
-                items: options,
-                horizontal: ""
-              }, null, 8, ["modelValue"])]),
+            }, unref(fieldProps)), createSlots({
               _: 2
-            }, [_ctx.$slots.prepend ? {
+            }, [unref(options).length > 1 ? {
+              name: "pickerContentSuperHeader",
+              fn: withCtx(() => [createVNode(unref(RadioButtonList), {
+                modelValue: selectedMode.value,
+                "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => selectedMode.value = $event),
+                items: unref(options),
+                horizontal: ""
+              }, null, 8, ["modelValue", "items"])])
+            } : undefined, _ctx.$slots.prepend ? {
               name: "prepend",
               fn: withCtx(_ref8 => {
                 var isInputGroupSupported = _ref8.isInputGroupSupported;
@@ -189,22 +333,24 @@ System.register(['vue', './locationItemPicker', './locationAddressPicker.obs', '
                   isInputGroupSupported: isInputGroupSupported
                 })];
               })
-            } : undefined]), 1032, ["modelValue", "showPopup"])) : createCommentVNode("v-if", true), selectedOption.value == '3' ? (openBlock(), createBlock(unref(GeoPicker), {
+            } : undefined]), 1040, ["modelValue", "showPopup"])) : createCommentVNode("v-if", true), unref(numericSelectedMode) === unref(LocationPickerMode).Polygon ? (openBlock(), createBlock(unref(GeoPicker), mergeProps({
               key: 3,
-              modelValue: fenceValue.value,
-              "onUpdate:modelValue": _cache[10] || (_cache[10] = $event => fenceValue.value = $event),
+              modelValue: polygonValue.value,
+              "onUpdate:modelValue": _cache[10] || (_cache[10] = $event => polygonValue.value = $event),
               drawingMode: "Polygon",
               showPopup: popupStatus.value,
               "onUpdate:showPopup": _cache[11] || (_cache[11] = $event => popupStatus.value = $event)
-            }, createSlots({
-              pickerContentSuperHeader: withCtx(() => [createVNode(unref(RadioButtonList), {
-                modelValue: selectedOption.value,
-                "onUpdate:modelValue": _cache[9] || (_cache[9] = $event => selectedOption.value = $event),
-                items: options,
-                horizontal: ""
-              }, null, 8, ["modelValue"])]),
+            }, unref(fieldProps)), createSlots({
               _: 2
-            }, [_ctx.$slots.prepend ? {
+            }, [unref(options).length > 1 ? {
+              name: "pickerContentSuperHeader",
+              fn: withCtx(() => [createVNode(unref(RadioButtonList), {
+                modelValue: selectedMode.value,
+                "onUpdate:modelValue": _cache[9] || (_cache[9] = $event => selectedMode.value = $event),
+                items: unref(options),
+                horizontal: ""
+              }, null, 8, ["modelValue", "items"])])
+            } : undefined, _ctx.$slots.prepend ? {
               name: "prepend",
               fn: withCtx(_ref11 => {
                 var isInputGroupSupported = _ref11.isInputGroupSupported;
@@ -228,7 +374,7 @@ System.register(['vue', './locationItemPicker', './locationAddressPicker.obs', '
                   isInputGroupSupported: isInputGroupSupported
                 })];
               })
-            } : undefined]), 1032, ["modelValue", "showPopup"])) : createCommentVNode("v-if", true)], 64);
+            } : undefined]), 1040, ["modelValue", "showPopup"])) : createCommentVNode("v-if", true)], 64);
           };
         }
       }));

@@ -481,11 +481,10 @@
              * @param successLocation the Postback javascript if navigation is allowed
             */
             function navigateNext(e, successLocation) {
+                if (e) {
+                    e.preventDefault();
+                }
                 if (hasUnallocated()) {
-                    if (e) {
-                        e.preventDefault();
-                    }
-
                     var originalTotalAmountCents = Number($('#<%=pnlView.ClientID%>').find('.js-original-total-amount').val());
                     var totalAmountCents = Number($('#<%=pnlView.ClientID%>').find('.js-total-amount :input').val()) * 100;
                     var currencySymbol = $('#<%=pnlView.ClientID%>').find('.js-currencysymbol').val()
@@ -498,7 +497,7 @@
                     });
                 }
                 else {
-                    // do the Postback (which will save the changes)
+                    // Do the Postback wired up via the button's OnClick handler (which will save the changes).
                     window.location = successLocation;
                 }
             }

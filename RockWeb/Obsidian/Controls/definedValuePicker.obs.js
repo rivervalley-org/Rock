@@ -1,6 +1,6 @@
-System.register(['vue', '@Obsidian/Utility/block', '@Obsidian/Utility/component', '@Obsidian/Utility/http', './baseAsyncPicker', './rockLabel', './rockForm', './attributeValuesContainer', './textBox', './rockButton', './loading', './notificationBox.obs', '@Obsidian/Enums/Controls/btnType', '@Obsidian/Enums/Controls/btnSize'], (function (exports) {
+System.register(['vue', '@Obsidian/Utility/block', '@Obsidian/Utility/component', '@Obsidian/Utility/http', './baseAsyncPicker.obs', './rockLabel.obs', './rockForm.obs', './attributeValuesContainer.obs', './textBox.obs', './rockButton.obs', './loading.obs', './notificationBox.obs', '@Obsidian/Enums/Controls/btnType', '@Obsidian/Enums/Controls/btnSize', '@Obsidian/Utility/guid'], (function (exports) {
   'use strict';
-  var createTextVNode, createElementVNode, defineComponent, ref, watch, openBlock, createElementBlock, Fragment, createVNode, unref, withCtx, toDisplayString, createBlock, createCommentVNode, mergeProps, isRef, createSlots, useSecurityGrantToken, useStandardAsyncPickerProps, useVModelPassthrough, standardAsyncPickerProps, useHttp, BaseAsyncPicker, RockLabel, RockForm, AttributeValuesContainer, TextBox, RockButton, Loading, NotificationBox, BtnType, BtnSize;
+  var createTextVNode, createElementVNode, defineComponent, ref, watch, computed, openBlock, createElementBlock, Fragment, createVNode, unref, withCtx, toDisplayString, createBlock, createCommentVNode, mergeProps, isRef, createSlots, useSecurityGrantToken, useStandardAsyncPickerProps, useVModelPassthrough, standardAsyncPickerProps, useHttp, BaseAsyncPicker, RockLabel, RockForm, AttributeValuesContainer, TextBox, RockButton, Loading, NotificationBox, BtnType, BtnSize, toGuidOrNull, emptyGuid;
   return {
     setters: [function (module) {
       createTextVNode = module.createTextVNode;
@@ -8,6 +8,7 @@ System.register(['vue', '@Obsidian/Utility/block', '@Obsidian/Utility/component'
       defineComponent = module.defineComponent;
       ref = module.ref;
       watch = module.watch;
+      computed = module.computed;
       openBlock = module.openBlock;
       createElementBlock = module.createElementBlock;
       Fragment = module.Fragment;
@@ -48,6 +49,9 @@ System.register(['vue', '@Obsidian/Utility/block', '@Obsidian/Utility/component'
       BtnType = module.BtnType;
     }, function (module) {
       BtnSize = module.BtnSize;
+    }, function (module) {
+      toGuidOrNull = module.toGuidOrNull;
+      emptyGuid = module.emptyGuid;
     }],
     execute: (function () {
 
@@ -177,9 +181,11 @@ System.register(['vue', '@Obsidian/Utility/block', '@Obsidian/Utility/component'
           }
           function _loadItems() {
             _loadItems = _asyncToGenerator(function* () {
+              var _toGuidOrNull;
               var options = {
-                definedTypeGuid: props.definedTypeGuid,
-                securityGrantToken: securityGrantToken.value
+                definedTypeGuid: (_toGuidOrNull = toGuidOrNull(props.definedTypeGuid)) !== null && _toGuidOrNull !== void 0 ? _toGuidOrNull : emptyGuid,
+                securityGrantToken: securityGrantToken.value,
+                includeInactive: false
               };
               var url = "/api/v2/Controls/DefinedValuePickerGetDefinedValues";
               var result = yield http.post(url, undefined, options);
@@ -202,19 +208,23 @@ System.register(['vue', '@Obsidian/Utility/block', '@Obsidian/Utility/component'
           var isLoading = ref(false);
           var fetchError = ref(false);
           var saveError = ref(false);
+          var isAddAllowed = computed(() => {
+            return props.allowAdd && !!toGuidOrNull(props.definedTypeGuid);
+          });
           function showAddForm() {
             return _showAddForm.apply(this, arguments);
           }
           function _showAddForm() {
             _showAddForm = _asyncToGenerator(function* () {
-              if (!props.allowAdd) return;
+              if (!isAddAllowed.value) return;
               isShowingAddForm.value = true;
               if (attributes.value == null) {
+                var _toGuidOrNull2;
                 isLoading.value = true;
                 fetchError.value = false;
                 saveError.value = false;
                 var options = {
-                  definedTypeGuid: props.definedTypeGuid,
+                  definedTypeGuid: (_toGuidOrNull2 = toGuidOrNull(props.definedTypeGuid)) !== null && _toGuidOrNull2 !== void 0 ? _toGuidOrNull2 : emptyGuid,
                   securityGrantToken: securityGrantToken.value
                 };
                 var url = "/api/v2/Controls/DefinedValuePickerGetAttributes";
@@ -243,10 +253,11 @@ System.register(['vue', '@Obsidian/Utility/block', '@Obsidian/Utility/component'
           }
           function _saveNewValue() {
             _saveNewValue = _asyncToGenerator(function* () {
+              var _toGuidOrNull3;
               isLoading.value = true;
               saveError.value = false;
               var options = {
-                definedTypeGuid: props.definedTypeGuid,
+                definedTypeGuid: (_toGuidOrNull3 = toGuidOrNull(props.definedTypeGuid)) !== null && _toGuidOrNull3 !== void 0 ? _toGuidOrNull3 : emptyGuid,
                 securityGrantToken: securityGrantToken.value,
                 value: newValue.value,
                 description: newDescription.value,
@@ -364,12 +375,13 @@ System.register(['vue', '@Obsidian/Utility/block', '@Obsidian/Utility/component'
               name: "inputGroupAppend",
               fn: withCtx(() => [createElementVNode("span", _hoisted_4, [createVNode(unref(RockButton), {
                 onClick: showAddForm,
+                disabled: !unref(isAddAllowed),
                 btnType: unref(BtnType).Default,
                 "aria-label": "Add Item"
               }, {
                 default: withCtx(() => [_hoisted_5]),
                 _: 1
-              }, 8, ["btnType"])])])
+              }, 8, ["disabled", "btnType"])])])
             } : undefined, __props.allowAdd ? {
               name: "append",
               fn: withCtx(_ref2 => {
@@ -377,11 +389,12 @@ System.register(['vue', '@Obsidian/Utility/block', '@Obsidian/Utility/component'
                 return [!isInputGroupSupported ? (openBlock(), createBlock(unref(RockButton), {
                   key: 0,
                   onClick: showAddForm,
+                  disabled: !unref(isAddAllowed),
                   btnType: unref(BtnType).Link
                 }, {
                   default: withCtx(() => [_hoisted_6]),
                   _: 1
-                }, 8, ["btnType"])) : createCommentVNode("v-if", true)];
+                }, 8, ["disabled", "btnType"])) : createCommentVNode("v-if", true)];
               })
             } : undefined]), 1040, ["modelValue", "items", "disabled"]));
           };

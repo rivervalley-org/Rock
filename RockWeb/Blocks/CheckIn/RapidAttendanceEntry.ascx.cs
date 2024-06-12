@@ -487,6 +487,8 @@ namespace RockWeb.Blocks.CheckIn
         {
             base.OnInit( e );
 
+            RockPage.AddCSSLink( "~/Styles/Blocks/Checkin/RapidAttendanceEntry.css", true );
+
             base.BlockUpdated += RapidAttendanceEntry_BlockUpdated;
             lbAddFamily.Visible = GetAttributeValue( AttributeKey.AddFamilyPage ).IsNotNullOrWhiteSpace();
             dvpMaritalStatus.DefinedTypeId = DefinedTypeCache.Get( Rock.SystemGuid.DefinedType.PERSON_MARITAL_STATUS.AsGuid() ).Id;
@@ -763,7 +765,16 @@ namespace RockWeb.Blocks.CheckIn
             if ( IsAttendanceEnabled && _attendanceSettingState != null )
             {
                 group = new GroupService( rockContext ).Get( _attendanceSettingState.GroupId );
-                groupLocation = new GroupLocationService( rockContext ).Get( _attendanceSettingState.GroupLocationId );
+                groupLocation = new GroupLocationService( rockContext ).GetInclude(
+                    _attendanceSettingState.GroupLocationId,
+                    gl => gl.Location
+                );
+
+                var campusId = group.CampusId;
+                if ( !campusId.HasValue )
+                {
+                    campusId = groupLocation.Location.CampusId;
+                }
 
                 for ( int i = 0; i < rcbAttendance.Items.Count; i++ )
                 {
@@ -772,7 +783,7 @@ namespace RockWeb.Blocks.CheckIn
 
                     if ( rcbAttendance.Items[i].Selected )
                     {
-                        var attendance = attendanceService.AddOrUpdate( attendancePerson.PrimaryAliasId.Value, _attendanceSettingState.AttendanceDate, group.Id, groupLocation.LocationId, _attendanceSettingState.ScheduleId, group.CampusId );
+                        var attendance = attendanceService.AddOrUpdate( attendancePerson.PrimaryAliasId.Value, _attendanceSettingState.AttendanceDate, group.Id, groupLocation.LocationId, _attendanceSettingState.ScheduleId, campusId );
                     }
                     else
                     {
@@ -1494,7 +1505,7 @@ namespace RockWeb.Blocks.CheckIn
                       we'll require an SMS number in these situations. The goal is to only enforce if they are able to do something about it.
                       1) The block is configured to show both 'Communication Preference' and 'Phone Numbers'.
                       2) Communication Preference is set to SMS
-                      
+
                      Edge cases
                        - Both #1 and #2 are true, but no Phone Types are selected in block settings. In this case, still enforce.
                          Think of this as a block configuration issue (they shouldn't have configured it that way)
@@ -1522,7 +1533,7 @@ namespace RockWeb.Blocks.CheckIn
 
                     person.LoadAttributes();
                     avcPersonAttributes.GetEditValues( person );
-                    person.SaveAttributeValues();
+                    person.SaveAttributeValues( rockContext );
                 }
 
                 return true;

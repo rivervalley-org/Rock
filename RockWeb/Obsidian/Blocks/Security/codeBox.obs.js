@@ -1,4 +1,4 @@
-System.register(['vue', '@Obsidian/Controls/rockFormField', '@Obsidian/Utility/component', '@Obsidian/ValidationRules'], (function (exports) {
+System.register(['vue', '@Obsidian/Controls/rockFormField.obs', '@Obsidian/Utility/component', '@Obsidian/ValidationRules'], (function (exports) {
   'use strict';
   var defineComponent, ref, onMounted, openBlock, createElementBlock, normalizeClass, computed, createBlock, unref, isRef, withCtx, createElementVNode, Fragment, renderList, RockFormField, useVModelPassthrough, rulesPropType, normalizeRules;
   return {

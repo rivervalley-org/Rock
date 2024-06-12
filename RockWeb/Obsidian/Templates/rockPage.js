@@ -1,6 +1,6 @@
-System.register(['vue', '@Obsidian/Utility/http', '@Obsidian/PageState', '@Obsidian/Utility/rockDateTime', '@Obsidian/Utility/block', '@Obsidian/Utility/guid', '@Obsidian/ValidationRules', '@Obsidian/FieldTypes/index', '@Obsidian/Utility/suspense'], (function (exports, module) {
+System.register(['vue', '@Obsidian/Core/Core/personPreferences', '@Obsidian/Utility/http', '@Obsidian/PageState', '@Obsidian/Utility/rockDateTime', '@Obsidian/Utility/block', '@Obsidian/Utility/guid', '@Obsidian/ValidationRules', '@Obsidian/FieldTypes/index', '@Obsidian/Utility/suspense', '@Obsidian/Utility/dialogs'], (function (exports, module) {
   'use strict';
-  var defineComponent, ref, computed, watch, onErrorCaptured, onMounted, provide, nextTick, h, createApp, markRaw, provideHttp, doApiCall, useStore, RockDateTime, provideReloadBlock, provideConfigurationValuesChanged, provideBlockGuid, emptyGuid, areEqual, BasicSuspenseProvider, provideSuspense;
+  var defineComponent, ref, computed, watch, onErrorCaptured, onMounted, provide, nextTick, h, createApp, markRaw, PersonPreferenceCollection, provideHttp, doApiCall, useStore, RockDateTime, createInvokeBlockAction, provideReloadBlock, providePersonPreferences, provideConfigurationValuesChanged, provideStaticContent, provideBlockGuid, toGuidOrNull, emptyGuid, areEqual, BasicSuspenseProvider, provideSuspense, alert;
   return {
     setters: [function (module) {
       defineComponent = module.defineComponent;
@@ -15,6 +15,8 @@ System.register(['vue', '@Obsidian/Utility/http', '@Obsidian/PageState', '@Obsid
       createApp = module.createApp;
       markRaw = module.markRaw;
     }, function (module) {
+      PersonPreferenceCollection = module.PersonPreferenceCollection;
+    }, function (module) {
       provideHttp = module.provideHttp;
       doApiCall = module.doApiCall;
     }, function (module) {
@@ -22,45 +24,31 @@ System.register(['vue', '@Obsidian/Utility/http', '@Obsidian/PageState', '@Obsid
     }, function (module) {
       RockDateTime = module.RockDateTime;
     }, function (module) {
+      createInvokeBlockAction = module.createInvokeBlockAction;
       provideReloadBlock = module.provideReloadBlock;
+      providePersonPreferences = module.providePersonPreferences;
       provideConfigurationValuesChanged = module.provideConfigurationValuesChanged;
+      provideStaticContent = module.provideStaticContent;
       provideBlockGuid = module.provideBlockGuid;
     }, function (module) {
+      toGuidOrNull = module.toGuidOrNull;
       emptyGuid = module.emptyGuid;
       areEqual = module.areEqual;
     }, function () {}, function () {}, function (module) {
       BasicSuspenseProvider = module.BasicSuspenseProvider;
       provideSuspense = module.provideSuspense;
+    }, function (module) {
+      alert = module.alert;
     }],
     execute: (function () {
 
       exports({
         initializeBlock: initializeBlock,
         initializePage: initializePage,
-        initializePageTimings: initializePageTimings
+        initializePageTimings: initializePageTimings,
+        showCustomBlockAction: showCustomBlockAction
       });
 
-      function ownKeys(object, enumerableOnly) {
-        var keys = Object.keys(object);
-        if (Object.getOwnPropertySymbols) {
-          var symbols = Object.getOwnPropertySymbols(object);
-          enumerableOnly && (symbols = symbols.filter(function (sym) {
-            return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-          })), keys.push.apply(keys, symbols);
-        }
-        return keys;
-      }
-      function _objectSpread2(target) {
-        for (var i = 1; i < arguments.length; i++) {
-          var source = null != arguments[i] ? arguments[i] : {};
-          i % 2 ? ownKeys(Object(source), !0).forEach(function (key) {
-            _defineProperty(target, key, source[key]);
-          }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) {
-            Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-          });
-        }
-        return target;
-      }
       function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
         try {
           var info = gen[key](arg);
@@ -90,20 +78,6 @@ System.register(['vue', '@Obsidian/Utility/http', '@Obsidian/PageState', '@Obsid
             _next(undefined);
           });
         };
-      }
-      function _defineProperty(obj, key, value) {
-        key = _toPropertyKey(key);
-        if (key in obj) {
-          Object.defineProperty(obj, key, {
-            value: value,
-            enumerable: true,
-            configurable: true,
-            writable: true
-          });
-        } else {
-          obj[key] = value;
-        }
-        return obj;
       }
       function _unsupportedIterableToArray(o, minLen) {
         if (!o) return;
@@ -168,20 +142,6 @@ System.register(['vue', '@Obsidian/Utility/http', '@Obsidian/PageState', '@Obsid
             }
           }
         };
-      }
-      function _toPrimitive(input, hint) {
-        if (typeof input !== "object" || input === null) return input;
-        var prim = input[Symbol.toPrimitive];
-        if (prim !== undefined) {
-          var res = prim.call(input, hint || "default");
-          if (typeof res !== "object") return res;
-          throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return (hint === "string" ? String : Number)(input);
-      }
-      function _toPropertyKey(arg) {
-        var key = _toPrimitive(arg, "string");
-        return typeof key === "symbol" ? key : String(key);
       }
 
       var store$1 = useStore();
@@ -249,10 +209,14 @@ System.register(['vue', '@Obsidian/Utility/http', '@Obsidian/PageState', '@Obsid
           startTimeMs: {
             type: Number,
             required: true
+          },
+          staticContent: {
+            type: String,
+            required: false
           }
         },
         setup(props) {
-          var _props$config$blockGu;
+          var _toGuidOrNull, _props$config$blockGu;
           var error = ref("");
           var finishTimeMs = ref(null);
           var blockContainerElement = ref(null);
@@ -331,21 +295,9 @@ System.register(['vue', '@Obsidian/Utility/http', '@Obsidian/PageState', '@Obsid
               return _ref4.apply(this, arguments);
             };
           }();
-          var invokeBlockAction = function () {
-            var _ref5 = _asyncToGenerator(function* (actionName) {
-              var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
-              return yield post("/api/v2/BlockActions/".concat(store$1.state.pageGuid, "/").concat(props.config.blockGuid, "/").concat(actionName), undefined, _objectSpread2({
-                __context: {
-                  pageParameters: store$1.state.pageParameters
-                }
-              }, data));
-            });
-            return function invokeBlockAction(_x5) {
-              return _ref5.apply(this, arguments);
-            };
-          }();
+          var invokeBlockAction = createInvokeBlockAction(post, store$1.state.pageGuid, (_toGuidOrNull = toGuidOrNull(props.config.blockGuid)) !== null && _toGuidOrNull !== void 0 ? _toGuidOrNull : emptyGuid, store$1.state.pageParameters);
           var reloadBlock = function () {
-            var _ref6 = _asyncToGenerator(function* () {
+            var _ref5 = _asyncToGenerator(function* () {
               var result = yield invokeBlockAction("RefreshObsidianBlockInitialization");
               if (result.isSuccess && result.data) {
                 currentBlockComponent.value = null;
@@ -361,9 +313,78 @@ System.register(['vue', '@Obsidian/Utility/http', '@Obsidian/PageState', '@Obsid
               }
             });
             return function reloadBlock() {
-              return _ref6.apply(this, arguments);
+              return _ref5.apply(this, arguments);
             };
           }();
+          function getPreferenceProvider() {
+            var _props$config, _props$config$prefere, _props$config$prefere7, _props$config$prefere8, _props$config$prefere9, _props$config$prefere10;
+            var timeStampFromSessionData = 0;
+            var valuesFromSessionData = [];
+            var values = [];
+            var sessionStorageKey = "".concat(props.config.rootElementId, "-preferences");
+            try {
+              var _sessionStorage$getIt, _JSON$parse$timeStamp, _JSON$parse, _JSON$parse$values, _JSON$parse2;
+              var sessionStorageDataRaw = (_sessionStorage$getIt = sessionStorage.getItem(sessionStorageKey)) !== null && _sessionStorage$getIt !== void 0 ? _sessionStorage$getIt : "{}";
+              timeStampFromSessionData = (_JSON$parse$timeStamp = (_JSON$parse = JSON.parse(sessionStorageDataRaw)) === null || _JSON$parse === void 0 ? void 0 : _JSON$parse.timeStamp) !== null && _JSON$parse$timeStamp !== void 0 ? _JSON$parse$timeStamp : 0;
+              valuesFromSessionData = (_JSON$parse$values = (_JSON$parse2 = JSON.parse(sessionStorageDataRaw)) === null || _JSON$parse2 === void 0 ? void 0 : _JSON$parse2.values) !== null && _JSON$parse$values !== void 0 ? _JSON$parse$values : [];
+            } catch (_unused) {}
+            if ((_props$config = props.config) !== null && _props$config !== void 0 && (_props$config$prefere = _props$config.preferences) !== null && _props$config$prefere !== void 0 && _props$config$prefere.timeStamp && timeStampFromSessionData <= props.config.preferences.timeStamp) {
+              var _props$config$prefere2, _props$config$prefere3, _props$config$prefere4, _props$config$prefere5, _props$config$prefere6;
+              var preferenceDataToBeStored = {
+                timeStamp: (_props$config$prefere2 = props.config.preferences) === null || _props$config$prefere2 === void 0 ? void 0 : _props$config$prefere2.timeStamp,
+                values: (_props$config$prefere3 = (_props$config$prefere4 = props.config.preferences) === null || _props$config$prefere4 === void 0 ? void 0 : _props$config$prefere4.values) !== null && _props$config$prefere3 !== void 0 ? _props$config$prefere3 : []
+              };
+              sessionStorage.setItem(sessionStorageKey, "".concat(JSON.stringify(preferenceDataToBeStored)));
+              values = (_props$config$prefere5 = (_props$config$prefere6 = props.config.preferences) === null || _props$config$prefere6 === void 0 ? void 0 : _props$config$prefere6.values) !== null && _props$config$prefere5 !== void 0 ? _props$config$prefere5 : [];
+            } else {
+              values = valuesFromSessionData;
+            }
+            var entityTypeKey = (_props$config$prefere7 = (_props$config$prefere8 = props.config.preferences) === null || _props$config$prefere8 === void 0 ? void 0 : _props$config$prefere8.entityTypeKey) !== null && _props$config$prefere7 !== void 0 ? _props$config$prefere7 : undefined;
+            var entityKey = (_props$config$prefere9 = (_props$config$prefere10 = props.config.preferences) === null || _props$config$prefere10 === void 0 ? void 0 : _props$config$prefere10.entityKey) !== null && _props$config$prefere9 !== void 0 ? _props$config$prefere9 : undefined;
+            var anonymous = !store$1.state.isAnonymousVisitor && !store$1.state.currentPerson;
+            var preferenceProvider = {
+              blockPreferences: new PersonPreferenceCollection(entityTypeKey, entityKey, "", anonymous, values),
+              getGlobalPreferences() {
+                return _asyncToGenerator(function* () {
+                  try {
+                    var response = yield get("/api/v2/Utilities/PersonPreferences");
+                    if (!response.isSuccess || !response.data) {
+                      console.error(response.errorMessage || "Unable to retrieve person preferences.");
+                      return new PersonPreferenceCollection();
+                    }
+                    return new PersonPreferenceCollection(undefined, undefined, "", anonymous, response.data);
+                  } catch (error) {
+                    console.error(error);
+                    return new PersonPreferenceCollection();
+                  }
+                })();
+              },
+              getEntityPreferences(entityTypeKey, entityKey) {
+                return _asyncToGenerator(function* () {
+                  try {
+                    var response = yield get("/api/v2/Utilities/PersonPreferences/".concat(entityTypeKey, "/").concat(entityKey));
+                    if (!response.isSuccess || !response.data) {
+                      console.error(response.errorMessage || "Unable to retrieve person preferences.");
+                      return new PersonPreferenceCollection();
+                    }
+                    return new PersonPreferenceCollection(entityTypeKey, entityKey, "", anonymous, response.data);
+                  } catch (error) {
+                    console.error(error);
+                    return new PersonPreferenceCollection();
+                  }
+                })();
+              }
+            };
+            var onPreferenceSave = prefereneces => {
+              var preferenceDataToBeStored = {
+                timeStamp: new Date().getTime(),
+                values: prefereneces
+              };
+              sessionStorage.setItem(sessionStorageKey, "".concat(JSON.stringify(preferenceDataToBeStored)));
+            };
+            preferenceProvider.blockPreferences.on("preferenceSaved", onPreferenceSave);
+            return preferenceProvider;
+          }
           var onCustomActionClose = () => {
             customActionComponent.value = null;
           };
@@ -411,7 +432,9 @@ System.register(['vue', '@Obsidian/Utility/http', '@Obsidian/PageState', '@Obsid
           provide("invokeBlockAction", invokeBlockAction);
           provide("configurationValues", configurationValues);
           provideReloadBlock(reloadBlock);
+          providePersonPreferences(getPreferenceProvider());
           var configurationValuesChanged = provideConfigurationValuesChanged();
+          provideStaticContent(props.staticContent);
           if (props.config.blockGuid) {
             provideBlockGuid(props.config.blockGuid);
           }
@@ -462,8 +485,9 @@ System.register(['vue', '@Obsidian/Utility/http', '@Obsidian/PageState', '@Obsid
             console.error(e);
             errorMessage = "".concat(e);
           }
-          var name = "Root".concat(config.blockFileUrl.replace(/\//g, "."));
           var startTimeMs = RockDateTime.now().toMilliseconds();
+          var name = "Root".concat(config.blockFileUrl.replace(/\//g, "."));
+          var staticContent = rootElement.innerHTML;
           var app = createApp({
             name,
             components: {
@@ -485,6 +509,7 @@ System.register(['vue', '@Obsidian/Utility/http', '@Obsidian/PageState', '@Obsid
                   return;
                 }
                 isLoaded = true;
+                rootElement.classList.remove("obsidian-block-loading");
                 var pendingCount = parseInt((_document$body$getAtt2 = document.body.getAttribute("data-obsidian-pending-blocks")) !== null && _document$body$getAtt2 !== void 0 ? _document$body$getAtt2 : "0");
                 if (pendingCount > 0) {
                   pendingCount--;
@@ -509,10 +534,11 @@ System.register(['vue', '@Obsidian/Utility/http', '@Obsidian/PageState', '@Obsid
                 config: config,
                 blockComponent: blockComponent ? markRaw(blockComponent) : null,
                 startTimeMs,
+                staticContent,
                 errorMessage
               };
             },
-            template: "\n<div v-if=\"errorMessage\" class=\"alert alert-danger\">\n    <strong>Error Initializing Block</strong>\n    <br />\n    {{errorMessage}}\n</div>\n<RockBlock v-else :config=\"config\" :blockComponent=\"blockComponent\" :startTimeMs=\"startTimeMs\" />"
+            template: "\n<div v-if=\"errorMessage\" class=\"alert alert-danger\">\n    <strong>Error Initializing Block</strong>\n    <br />\n    {{errorMessage}}\n</div>\n<RockBlock v-else :config=\"config\" :blockComponent=\"blockComponent\" :startTimeMs=\"startTimeMs\" :staticContent=\"staticContent\" />"
           });
           app.component("v-style", developerStyle);
           app.mount(rootElement);
@@ -520,7 +546,83 @@ System.register(['vue', '@Obsidian/Utility/http', '@Obsidian/PageState', '@Obsid
         });
         return _initializeBlock.apply(this, arguments);
       }
-      function initializePage(_x2) {
+      function showCustomBlockAction(_x2, _x3, _x4) {
+        return _showCustomBlockAction.apply(this, arguments);
+      }
+      function _showCustomBlockAction() {
+        _showCustomBlockAction = _asyncToGenerator(function* (actionFileUrl, pageGuid, blockGuid) {
+          var actionComponent = null;
+          try {
+            var actionComponentModule = yield module.import(actionFileUrl);
+            actionComponent = actionComponentModule ? actionComponentModule.default || actionComponentModule : null;
+          } catch (e) {
+            console.error(e);
+            alert("There was an error trying to show these settings.");
+            return;
+          }
+          var name = "Action".concat(actionFileUrl.replace(/\//g, "."));
+          var app = createApp({
+            name,
+            components: {},
+            setup() {
+              var suspense = new BasicSuspenseProvider(undefined);
+              provideSuspense(suspense);
+              var httpCall = function () {
+                var _ref = _asyncToGenerator(function* (method, url) {
+                  var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : undefined;
+                  var data = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : undefined;
+                  return yield doApiCall(method, url, params, data);
+                });
+                return function httpCall(_x7, _x8) {
+                  return _ref.apply(this, arguments);
+                };
+              }();
+              var get = function () {
+                var _ref2 = _asyncToGenerator(function* (url) {
+                  var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
+                  return yield httpCall("GET", url, params);
+                });
+                return function get(_x9) {
+                  return _ref2.apply(this, arguments);
+                };
+              }();
+              var post = function () {
+                var _ref3 = _asyncToGenerator(function* (url) {
+                  var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
+                  var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : undefined;
+                  return yield httpCall("POST", url, params, data);
+                });
+                return function post(_x10) {
+                  return _ref3.apply(this, arguments);
+                };
+              }();
+              var invokeBlockAction = createInvokeBlockAction(post, pageGuid, blockGuid, store.state.pageParameters);
+              provideHttp({
+                doApiCall,
+                get,
+                post
+              });
+              provide("invokeBlockAction", invokeBlockAction);
+              provideBlockGuid(blockGuid);
+              return {
+                actionComponent,
+                onCustomActionClose
+              };
+            },
+            template: "<component :is=\"actionComponent\" @close=\"onCustomActionClose\" />"
+          });
+          function onCustomActionClose() {
+            app.unmount();
+            rootElement.remove();
+          }
+          var rootElement = document.createElement("div");
+          document.body.append(rootElement);
+          app.component("v-style", developerStyle);
+          app.mount(rootElement);
+        });
+        return _showCustomBlockAction.apply(this, arguments);
+      }
+      function initializePage(_x5) {
         return _initializePage.apply(this, arguments);
       }
       function _initializePage() {
@@ -529,7 +631,7 @@ System.register(['vue', '@Obsidian/Utility/http', '@Obsidian/PageState', '@Obsid
         });
         return _initializePage.apply(this, arguments);
       }
-      function initializePageTimings(_x3) {
+      function initializePageTimings(_x6) {
         return _initializePageTimings.apply(this, arguments);
       }
       function _initializePageTimings() {
@@ -539,7 +641,7 @@ System.register(['vue', '@Obsidian/Utility/http', '@Obsidian/PageState', '@Obsid
             console.error("Could not show Obsidian debug timings because the HTML element did not resolve.");
             return;
           }
-          var pageDebugTimings = (yield module.import('@Obsidian/Controls/pageDebugTimings')).default;
+          var pageDebugTimings = (yield module.import('@Obsidian/Controls/Internal/pageDebugTimings.obs')).default;
           var app = createApp({
             name: "PageDebugTimingsRoot",
             components: {

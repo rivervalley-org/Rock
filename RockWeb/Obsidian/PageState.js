@@ -15,6 +15,7 @@ System.register(['vue', '@Obsidian/Utility/rockDateTime'], (function (exports) {
             var state = reactive({
               areSecondaryBlocksShown: true,
               currentPerson: null,
+              isAnonymousVisitor: false,
               pageParameters: {},
               contextEntities: {},
               pageId: 0,
@@ -32,8 +33,8 @@ System.register(['vue', '@Obsidian/Utility/rockDateTime'], (function (exports) {
               }
               initialize(pageConfig) {
                 state.currentPerson = pageConfig.currentPerson || null;
+                state.isAnonymousVisitor = pageConfig.isAnonymousVisitor;
                 state.pageParameters = pageConfig.pageParameters || {};
-                state.contextEntities = pageConfig.contextEntities || {};
                 state.pageId = pageConfig.pageId || 0;
                 state.pageGuid = pageConfig.pageGuid || "";
                 state.executionStartTime = pageConfig.executionStartTime;
@@ -59,15 +60,6 @@ System.register(['vue', '@Obsidian/Utility/rockDateTime'], (function (exports) {
               }
               get isAuthenticated() {
                 return !!state.currentPerson;
-              }
-              getContextEntity(type) {
-                return state.contextEntities[type] || null;
-              }
-              get personContext() {
-                return this.getContextEntity("person");
-              }
-              get groupContext() {
-                return this.getContextEntity("group");
               }
               getPageParameter(key) {
                 return state.pageParameters[key];

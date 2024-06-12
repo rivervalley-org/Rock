@@ -1,4 +1,14 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ActiveUsers.ascx.cs" Inherits="RockWeb.Blocks.Cms.ActiveUsers" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ActiveUsers.ascx.cs" Inherits="RockWeb.Blocks.Cms.ActiveUsers" %>
+
+<style>
+.activeusers .recent i {
+    color: var(--color-success);
+}
+
+.activeusers .not-recent i {
+    color: var(--color-warning);
+}
+</style>
 
 <asp:UpdatePanel ID="upnlContent" runat="server">
     <ContentTemplate>

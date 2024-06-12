@@ -1,6 +1,6 @@
-System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/SystemGuids/entityType', '@Obsidian/Templates/detailBlock', '@Obsidian/Enums/Controls/detailPanelMode', '@Obsidian/Controls/attributeValuesContainer', '@Obsidian/Controls/checkBox', '@Obsidian/Controls/textBox', '@Obsidian/Controls/toggle', '@Obsidian/Controls/personPicker', '@Obsidian/Controls/categoryPicker', '@Obsidian/Controls/codeEditor', '@Obsidian/Controls/transitionVerticalCollapse', '@Obsidian/Controls/rockLabel', '@Obsidian/Utility/block', '@Obsidian/Utility/component', '@Obsidian/Controls/valueDetailList', '@Obsidian/Core/Controls/valueDetailListItemBuilder', '@Obsidian/Utility/util'], (function (exports) {
+System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Templates/detailBlock', '@Obsidian/Enums/Controls/detailPanelMode', '@Obsidian/Controls/attributeValuesContainer.obs', '@Obsidian/Controls/checkBox.obs', '@Obsidian/Controls/textBox.obs', '@Obsidian/Controls/toggle.obs', '@Obsidian/Controls/personPicker.obs', '@Obsidian/Controls/categoryPicker.obs', '@Obsidian/Controls/codeEditor.obs', '@Obsidian/Controls/transitionVerticalCollapse.obs', '@Obsidian/Controls/rockLabel.obs', '@Obsidian/Utility/block', '@Obsidian/Utility/component', '@Obsidian/SystemGuids/entityType', '@Obsidian/Controls/valueDetailList.obs', '@Obsidian/Core/Controls/valueDetailListItemBuilder'], (function (exports) {
   'use strict';
-  var createTextVNode, defineComponent, ref, computed, watch, openBlock, createElementBlock, createElementVNode, createVNode, unref, isRef, withCtx, createCommentVNode, createBlock, Fragment, NotificationBox, EntityType, DetailBlock, DetailPanelMode, AttributeValuesContainer, CheckBox, TextBox, Toggle, PersonPicker, CategoryPicker, CodeEditor, TransitionVerticalCollapse, RockLabel, watchPropertyChanges, useConfigurationValues, useInvokeBlockAction, getSecurityGrant, refreshDetailAttributes, provideSecurityGrant, propertyRef, updateRefValue, ValueDetailList, ValueDetailListItemBuilder, debounce;
+  var createTextVNode, defineComponent, ref, computed, watch, openBlock, createElementBlock, createElementVNode, createVNode, unref, isRef, withCtx, createCommentVNode, createBlock, Fragment, NotificationBox, DetailBlock, DetailPanelMode, AttributeValuesContainer, CheckBox, TextBox, Toggle, PersonPicker, CategoryPicker, CodeEditor, TransitionVerticalCollapse, RockLabel, setPropertiesBoxValue, watchPropertyChanges, useConfigurationValues, useInvokeBlockAction, useEntityDetailBlock, propertyRef, updateRefValue, EntityType, ValueDetailList, ValueDetailListItemBuilder;
   return {
     setters: [function (module) {
       createTextVNode = module.createTextVNode;
@@ -20,8 +20,6 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
       Fragment = module.Fragment;
     }, function (module) {
       NotificationBox = module["default"];
-    }, function (module) {
-      EntityType = module.EntityType;
     }, function (module) {
       DetailBlock = module["default"];
     }, function (module) {
@@ -45,21 +43,20 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
     }, function (module) {
       RockLabel = module["default"];
     }, function (module) {
+      setPropertiesBoxValue = module.setPropertiesBoxValue;
       watchPropertyChanges = module.watchPropertyChanges;
       useConfigurationValues = module.useConfigurationValues;
       useInvokeBlockAction = module.useInvokeBlockAction;
-      getSecurityGrant = module.getSecurityGrant;
-      refreshDetailAttributes = module.refreshDetailAttributes;
-      provideSecurityGrant = module.provideSecurityGrant;
+      useEntityDetailBlock = module.useEntityDetailBlock;
     }, function (module) {
       propertyRef = module.propertyRef;
       updateRefValue = module.updateRefValue;
     }, function (module) {
+      EntityType = module.EntityType;
+    }, function (module) {
       ValueDetailList = module["default"];
     }, function (module) {
       ValueDetailListItemBuilder = module.ValueDetailListItemBuilder;
-    }, function (module) {
-      debounce = module.debounce;
     }],
     execute: (function () {
 
@@ -200,21 +197,21 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
         },
         emits: ["update:modelValue", "propertyChanged"],
         setup(__props, _ref) {
-          var _props$modelValue$att, _props$modelValue$att2, _props$modelValue$des, _props$modelValue$isA, _props$modelValue$con, _props$modelValue$nam, _props$modelValue$con2, _props$modelValue$con3, _props$modelValue$own, _props$modelValue$cat;
+          var _props$modelValue$bag, _props$modelValue$bag2, _props$modelValue$bag3, _props$modelValue$bag4, _props$modelValue$bag5, _props$modelValue$bag6, _props$modelValue$bag7, _props$modelValue$bag8, _props$modelValue$bag9, _props$modelValue$bag10, _props$modelValue$bag11, _props$modelValue$bag12, _props$modelValue$bag13, _props$modelValue$bag14, _props$modelValue$bag15, _props$modelValue$bag16, _props$modelValue$bag17, _props$modelValue$bag18, _props$modelValue$bag19, _props$modelValue$bag20;
           var emit = _ref.emit;
           var props = __props;
-          var attributes = ref((_props$modelValue$att = props.modelValue.attributes) !== null && _props$modelValue$att !== void 0 ? _props$modelValue$att : {});
-          var attributeValues = ref((_props$modelValue$att2 = props.modelValue.attributeValues) !== null && _props$modelValue$att2 !== void 0 ? _props$modelValue$att2 : {});
-          var description = propertyRef((_props$modelValue$des = props.modelValue.description) !== null && _props$modelValue$des !== void 0 ? _props$modelValue$des : "", "Description");
-          var isActive = propertyRef((_props$modelValue$isA = props.modelValue.isActive) !== null && _props$modelValue$isA !== void 0 ? _props$modelValue$isA : false, "IsActive");
-          var content = propertyRef((_props$modelValue$con = props.modelValue.content) !== null && _props$modelValue$con !== void 0 ? _props$modelValue$con : "", "Content");
-          var name = propertyRef((_props$modelValue$nam = props.modelValue.name) !== null && _props$modelValue$nam !== void 0 ? _props$modelValue$nam : "", "Name");
-          var isShared = ref(props.modelValue.ownerPersonAlias == null);
-          var isLava = ref((_props$modelValue$con2 = (_props$modelValue$con3 = props.modelValue.content) === null || _props$modelValue$con3 === void 0 ? void 0 : _props$modelValue$con3.includes("{")) !== null && _props$modelValue$con2 !== void 0 ? _props$modelValue$con2 : false);
+          var attributes = ref((_props$modelValue$bag = (_props$modelValue$bag2 = props.modelValue.bag) === null || _props$modelValue$bag2 === void 0 ? void 0 : _props$modelValue$bag2.attributes) !== null && _props$modelValue$bag !== void 0 ? _props$modelValue$bag : {});
+          var attributeValues = ref((_props$modelValue$bag3 = (_props$modelValue$bag4 = props.modelValue.bag) === null || _props$modelValue$bag4 === void 0 ? void 0 : _props$modelValue$bag4.attributeValues) !== null && _props$modelValue$bag3 !== void 0 ? _props$modelValue$bag3 : {});
+          var description = propertyRef((_props$modelValue$bag5 = (_props$modelValue$bag6 = props.modelValue.bag) === null || _props$modelValue$bag6 === void 0 ? void 0 : _props$modelValue$bag6.description) !== null && _props$modelValue$bag5 !== void 0 ? _props$modelValue$bag5 : "", "Description");
+          var isActive = propertyRef((_props$modelValue$bag7 = (_props$modelValue$bag8 = props.modelValue.bag) === null || _props$modelValue$bag8 === void 0 ? void 0 : _props$modelValue$bag8.isActive) !== null && _props$modelValue$bag7 !== void 0 ? _props$modelValue$bag7 : false, "IsActive");
+          var content = propertyRef((_props$modelValue$bag9 = (_props$modelValue$bag10 = props.modelValue.bag) === null || _props$modelValue$bag10 === void 0 ? void 0 : _props$modelValue$bag10.content) !== null && _props$modelValue$bag9 !== void 0 ? _props$modelValue$bag9 : "", "Content");
+          var name = propertyRef((_props$modelValue$bag11 = (_props$modelValue$bag12 = props.modelValue.bag) === null || _props$modelValue$bag12 === void 0 ? void 0 : _props$modelValue$bag12.name) !== null && _props$modelValue$bag11 !== void 0 ? _props$modelValue$bag11 : "", "Name");
+          var isShared = ref(((_props$modelValue$bag13 = props.modelValue.bag) === null || _props$modelValue$bag13 === void 0 ? void 0 : _props$modelValue$bag13.ownerPersonAlias) == null);
+          var isLava = ref((_props$modelValue$bag14 = (_props$modelValue$bag15 = props.modelValue.bag) === null || _props$modelValue$bag15 === void 0 ? void 0 : (_props$modelValue$bag16 = _props$modelValue$bag15.content) === null || _props$modelValue$bag16 === void 0 ? void 0 : _props$modelValue$bag16.includes("{")) !== null && _props$modelValue$bag14 !== void 0 ? _props$modelValue$bag14 : false);
           var isAuthorizedToEdit = ref(props.options.isAuthorizedToEdit);
           var isPersonalAllowed = ref(props.options.isPersonalAllowed);
-          var ownerPersonAlias = propertyRef((_props$modelValue$own = props.modelValue.ownerPersonAlias) !== null && _props$modelValue$own !== void 0 ? _props$modelValue$own : undefined, "OwnerPersonAlias");
-          var category = propertyRef((_props$modelValue$cat = props.modelValue.category) !== null && _props$modelValue$cat !== void 0 ? _props$modelValue$cat : null, "Category");
+          var ownerPersonAlias = propertyRef((_props$modelValue$bag17 = (_props$modelValue$bag18 = props.modelValue.bag) === null || _props$modelValue$bag18 === void 0 ? void 0 : _props$modelValue$bag18.ownerPersonAlias) !== null && _props$modelValue$bag17 !== void 0 ? _props$modelValue$bag17 : undefined, "OwnerPersonAlias");
+          var category = propertyRef((_props$modelValue$bag19 = (_props$modelValue$bag20 = props.modelValue.bag) === null || _props$modelValue$bag20 === void 0 ? void 0 : _props$modelValue$bag20.category) !== null && _props$modelValue$bag19 !== void 0 ? _props$modelValue$bag19 : null, "Category");
           var entityTypeGuid = EntityType.Snippet;
           var propRefs = [description, isActive, content, name, ownerPersonAlias, category];
           var ownerHelpText = computed(() => {
@@ -222,26 +219,27 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
             return isAuthorizedToEdit ? helpText : helpText + "To make the snippet public you will need edit access to the SMS snippet type.";
           });
           watch(() => props.modelValue, () => {
-            var _props$modelValue$att3, _props$modelValue$att4, _props$modelValue$des2, _props$modelValue$isA2, _props$modelValue$con4, _props$modelValue$nam2, _props$modelValue$own2, _props$modelValue$cat2;
-            updateRefValue(attributes, (_props$modelValue$att3 = props.modelValue.attributes) !== null && _props$modelValue$att3 !== void 0 ? _props$modelValue$att3 : {});
-            updateRefValue(attributeValues, (_props$modelValue$att4 = props.modelValue.attributeValues) !== null && _props$modelValue$att4 !== void 0 ? _props$modelValue$att4 : {});
-            updateRefValue(description, (_props$modelValue$des2 = props.modelValue.description) !== null && _props$modelValue$des2 !== void 0 ? _props$modelValue$des2 : "");
-            updateRefValue(isActive, (_props$modelValue$isA2 = props.modelValue.isActive) !== null && _props$modelValue$isA2 !== void 0 ? _props$modelValue$isA2 : false);
-            updateRefValue(content, (_props$modelValue$con4 = props.modelValue.content) !== null && _props$modelValue$con4 !== void 0 ? _props$modelValue$con4 : "");
-            updateRefValue(name, (_props$modelValue$nam2 = props.modelValue.name) !== null && _props$modelValue$nam2 !== void 0 ? _props$modelValue$nam2 : "");
-            updateRefValue(ownerPersonAlias, (_props$modelValue$own2 = props.modelValue.ownerPersonAlias) !== null && _props$modelValue$own2 !== void 0 ? _props$modelValue$own2 : undefined);
-            updateRefValue(category, (_props$modelValue$cat2 = props.modelValue.category) !== null && _props$modelValue$cat2 !== void 0 ? _props$modelValue$cat2 : null);
+            var _props$modelValue$bag21, _props$modelValue$bag22, _props$modelValue$bag23, _props$modelValue$bag24, _props$modelValue$bag25, _props$modelValue$bag26, _props$modelValue$bag27, _props$modelValue$bag28, _props$modelValue$bag29, _props$modelValue$bag30, _props$modelValue$bag31, _props$modelValue$bag32, _props$modelValue$bag33, _props$modelValue$bag34, _props$modelValue$bag35, _props$modelValue$bag36;
+            updateRefValue(attributes, (_props$modelValue$bag21 = (_props$modelValue$bag22 = props.modelValue.bag) === null || _props$modelValue$bag22 === void 0 ? void 0 : _props$modelValue$bag22.attributes) !== null && _props$modelValue$bag21 !== void 0 ? _props$modelValue$bag21 : {});
+            updateRefValue(attributeValues, (_props$modelValue$bag23 = (_props$modelValue$bag24 = props.modelValue.bag) === null || _props$modelValue$bag24 === void 0 ? void 0 : _props$modelValue$bag24.attributeValues) !== null && _props$modelValue$bag23 !== void 0 ? _props$modelValue$bag23 : {});
+            updateRefValue(description, (_props$modelValue$bag25 = (_props$modelValue$bag26 = props.modelValue.bag) === null || _props$modelValue$bag26 === void 0 ? void 0 : _props$modelValue$bag26.description) !== null && _props$modelValue$bag25 !== void 0 ? _props$modelValue$bag25 : "");
+            updateRefValue(isActive, (_props$modelValue$bag27 = (_props$modelValue$bag28 = props.modelValue.bag) === null || _props$modelValue$bag28 === void 0 ? void 0 : _props$modelValue$bag28.isActive) !== null && _props$modelValue$bag27 !== void 0 ? _props$modelValue$bag27 : false);
+            updateRefValue(content, (_props$modelValue$bag29 = (_props$modelValue$bag30 = props.modelValue.bag) === null || _props$modelValue$bag30 === void 0 ? void 0 : _props$modelValue$bag30.content) !== null && _props$modelValue$bag29 !== void 0 ? _props$modelValue$bag29 : "");
+            updateRefValue(name, (_props$modelValue$bag31 = (_props$modelValue$bag32 = props.modelValue.bag) === null || _props$modelValue$bag32 === void 0 ? void 0 : _props$modelValue$bag32.name) !== null && _props$modelValue$bag31 !== void 0 ? _props$modelValue$bag31 : "");
+            updateRefValue(ownerPersonAlias, (_props$modelValue$bag33 = (_props$modelValue$bag34 = props.modelValue.bag) === null || _props$modelValue$bag34 === void 0 ? void 0 : _props$modelValue$bag34.ownerPersonAlias) !== null && _props$modelValue$bag33 !== void 0 ? _props$modelValue$bag33 : undefined);
+            updateRefValue(category, (_props$modelValue$bag35 = (_props$modelValue$bag36 = props.modelValue.bag) === null || _props$modelValue$bag36 === void 0 ? void 0 : _props$modelValue$bag36.category) !== null && _props$modelValue$bag35 !== void 0 ? _props$modelValue$bag35 : null);
           });
           watch([attributeValues, isShared, ...propRefs], () => {
-            var newValue = _objectSpread2(_objectSpread2({}, props.modelValue), {}, {
-              attributeValues: attributeValues.value,
-              description: description.value,
-              isActive: isActive.value,
-              content: content.value,
-              name: name.value,
-              ownerPersonAlias: isShared.value ? null : ownerPersonAlias.value,
-              category: category.value
-            });
+            var newValue = {
+              bag: _objectSpread2({}, props.modelValue.bag)
+            };
+            setPropertiesBoxValue(newValue, "attributeValues", attributeValues.value);
+            setPropertiesBoxValue(newValue, "description", description.value);
+            setPropertiesBoxValue(newValue, "isActive", isActive.value);
+            setPropertiesBoxValue(newValue, "content", content.value);
+            setPropertiesBoxValue(newValue, "name", name.value);
+            setPropertiesBoxValue(newValue, "ownerPersonAlias", isShared.value ? null : ownerPersonAlias.value);
+            setPropertiesBoxValue(newValue, "category", category.value);
             emit("update:modelValue", newValue);
           });
           watchPropertyChanges(propRefs, emit);
@@ -356,6 +354,9 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
             if (props.modelValue.description) {
               valueBuilder.addTextValue("Description", props.modelValue.description);
             }
+            if (props.modelValue.content) {
+              valueBuilder.addTextValue("Content", props.modelValue.content);
+            }
             return valueBuilder.build();
           });
           var leftSideValues = computed(() => {
@@ -400,34 +401,32 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
         setup(__props) {
           var config = useConfigurationValues();
           var invokeBlockAction = useInvokeBlockAction();
-          var securityGrant = getSecurityGrant(config.securityGrantToken);
           var blockError = ref("");
           var errorMessage = ref("");
           var snippetViewBag = ref(config.entity);
-          var snippetEditBag = ref({});
-          var entityTypeGuid = EntityType.Snippet;
+          var snippetEditBag = ref({
+            bag: {}
+          });
           var panelMode = ref(DetailPanelMode.View);
-          var validProperties = ["attributeValues", "category", "description", "isActive", "content", "name", "order", "ownerPersonAlias"];
-          var refreshAttributesDebounce = debounce(() => refreshDetailAttributes(snippetEditBag, validProperties, invokeBlockAction), undefined, true);
+          var baseBlock = useEntityDetailBlock({
+            blockConfig: config,
+            entity: snippetEditBag
+          });
           var panelName = computed(() => {
             var _snippetViewBag$value, _snippetViewBag$value2;
             return (_snippetViewBag$value = (_snippetViewBag$value2 = snippetViewBag.value) === null || _snippetViewBag$value2 === void 0 ? void 0 : _snippetViewBag$value2.name) !== null && _snippetViewBag$value !== void 0 ? _snippetViewBag$value : "";
           });
-          var entityTypeName = computed(() => {
-            var _snippetViewBag$value3, _snippetViewBag$value4;
-            return (_snippetViewBag$value3 = (_snippetViewBag$value4 = snippetViewBag.value) === null || _snippetViewBag$value4 === void 0 ? void 0 : _snippetViewBag$value4.name) !== null && _snippetViewBag$value3 !== void 0 ? _snippetViewBag$value3 : "New Snippet";
-          });
           var entityKey = computed(() => {
-            var _snippetViewBag$value5, _snippetViewBag$value6;
-            return (_snippetViewBag$value5 = (_snippetViewBag$value6 = snippetViewBag.value) === null || _snippetViewBag$value6 === void 0 ? void 0 : _snippetViewBag$value6.idKey) !== null && _snippetViewBag$value5 !== void 0 ? _snippetViewBag$value5 : "";
+            var _snippetViewBag$value3, _snippetViewBag$value4;
+            return (_snippetViewBag$value3 = (_snippetViewBag$value4 = snippetViewBag.value) === null || _snippetViewBag$value4 === void 0 ? void 0 : _snippetViewBag$value4.idKey) !== null && _snippetViewBag$value3 !== void 0 ? _snippetViewBag$value3 : "";
           });
           var blockLabels = computed(() => {
-            var _snippetViewBag$value7;
+            var _snippetViewBag$value5;
             var labels = [];
             if (panelMode.value !== DetailPanelMode.View) {
               return undefined;
             }
-            if (((_snippetViewBag$value7 = snippetViewBag.value) === null || _snippetViewBag$value7 === void 0 ? void 0 : _snippetViewBag$value7.isActive) === true) {
+            if (((_snippetViewBag$value5 = snippetViewBag.value) === null || _snippetViewBag$value5 === void 0 ? void 0 : _snippetViewBag$value5.isActive) === true) {
               labels.push({
                 iconCssClass: "fa fa-lightbulb",
                 title: "Active",
@@ -447,10 +446,11 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
           });
           var options = computed(() => {
             var _config$options;
-            return (_config$options = config.options) !== null && _config$options !== void 0 ? _config$options : {
-              isAuthorizedToEdit: false,
-              isPersonalAllowed: false
-            };
+            return (_config$options = config.options) !== null && _config$options !== void 0 ? _config$options : {};
+          });
+          var isSecurityVisible = computed(() => {
+            var _config$entity;
+            return ((_config$entity = config.entity) === null || _config$entity === void 0 ? void 0 : _config$entity.canAdministrate) === true;
           });
           function onCancelEdit() {
             return _onCancelEdit.apply(this, arguments);
@@ -458,7 +458,7 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
           function _onCancelEdit() {
             _onCancelEdit = _asyncToGenerator(function* () {
               var _snippetEditBag$value;
-              if (!((_snippetEditBag$value = snippetEditBag.value) !== null && _snippetEditBag$value !== void 0 && _snippetEditBag$value.idKey)) {
+              if (!((_snippetEditBag$value = snippetEditBag.value.bag) !== null && _snippetEditBag$value !== void 0 && _snippetEditBag$value.idKey)) {
                 var _config$navigationUrl;
                 if ((_config$navigationUrl = config.navigationUrls) !== null && _config$navigationUrl !== void 0 && _config$navigationUrl[NavigationUrlKey.ParentPage]) {
                   return config.navigationUrls[NavigationUrlKey.ParentPage];
@@ -474,10 +474,10 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
           }
           function _onDelete() {
             _onDelete = _asyncToGenerator(function* () {
-              var _snippetViewBag$value8;
+              var _snippetViewBag$value6;
               errorMessage.value = "";
               var result = yield invokeBlockAction("Delete", {
-                key: (_snippetViewBag$value8 = snippetViewBag.value) === null || _snippetViewBag$value8 === void 0 ? void 0 : _snippetViewBag$value8.idKey
+                key: (_snippetViewBag$value6 = snippetViewBag.value) === null || _snippetViewBag$value6 === void 0 ? void 0 : _snippetViewBag$value6.idKey
               });
               if (result.isSuccess && result.data) {
                 return result.data;
@@ -494,24 +494,22 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
           }
           function _onEdit() {
             _onEdit = _asyncToGenerator(function* () {
-              var _snippetViewBag$value9;
+              var _snippetViewBag$value7;
               var result = yield invokeBlockAction("Edit", {
-                key: (_snippetViewBag$value9 = snippetViewBag.value) === null || _snippetViewBag$value9 === void 0 ? void 0 : _snippetViewBag$value9.idKey
+                key: (_snippetViewBag$value7 = snippetViewBag.value) === null || _snippetViewBag$value7 === void 0 ? void 0 : _snippetViewBag$value7.idKey
               });
-              if (result.isSuccess && result.data && result.data.entity) {
-                snippetEditBag.value = result.data.entity;
+              if (result.isSuccess && result.data && result.data.bag) {
+                var _result$data$validPro;
+                snippetEditBag.value = {
+                  bag: result.data.bag,
+                  validProperties: (_result$data$validPro = result.data.validProperties) !== null && _result$data$validPro !== void 0 ? _result$data$validPro : Object.keys(result.data.bag)
+                };
                 return true;
               } else {
                 return false;
               }
             });
             return _onEdit.apply(this, arguments);
-          }
-          function onPropertyChanged(propertyName) {
-            if (!config.qualifiedAttributeProperties || !config.qualifiedAttributeProperties.some(n => n.toLowerCase() === propertyName.toLowerCase())) {
-              return;
-            }
-            refreshAttributesDebounce();
           }
           function onSave() {
             return _onSave.apply(this, arguments);
@@ -520,17 +518,12 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
             _onSave = _asyncToGenerator(function* () {
               var _result$errorMessage2;
               errorMessage.value = "";
-              var data = {
-                entity: snippetEditBag.value,
-                isEditable: true,
-                validProperties: validProperties
-              };
               var result = yield invokeBlockAction("Save", {
-                box: data
+                box: snippetEditBag.value
               });
               if (result.isSuccess && result.data) {
                 if (result.statusCode === 200 && typeof result.data === "object") {
-                  snippetViewBag.value = result.data;
+                  snippetViewBag.value = result.data.bag;
                   return true;
                 } else if (result.statusCode === 201 && typeof result.data === "string") {
                   return result.data;
@@ -541,13 +534,14 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
             });
             return _onSave.apply(this, arguments);
           }
-          provideSecurityGrant(securityGrant);
           if (config.errorMessage) {
             blockError.value = config.errorMessage;
           } else if (!config.entity) {
             blockError.value = "The specified snippet could not be viewed.";
           } else if (!config.entity.idKey) {
-            snippetEditBag.value = config.entity;
+            snippetEditBag.value = {
+              bag: config.entity
+            };
             panelMode.value = DetailPanelMode.Add;
           }
           return (_ctx, _cache) => {
@@ -566,14 +560,13 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
               name: unref(panelName),
               labels: unref(blockLabels),
               entityKey: unref(entityKey),
-              entityTypeGuid: unref(entityTypeGuid),
-              entityTypeName: unref(entityTypeName),
               isAuditHidden: false,
               isBadgesVisible: true,
               isDeleteVisible: unref(isEditable),
               isEditVisible: unref(isEditable),
               isFollowVisible: false,
-              isSecurityHidden: false,
+              isSecurityHidden: !unref(isSecurityVisible),
+              isFullScreenVisible: false,
               onCancelEdit: onCancelEdit,
               onDelete: onDelete,
               onEdit: onEdit,
@@ -587,10 +580,10 @@ System.register(['vue', '@Obsidian/Controls/notificationBox.obs', '@Obsidian/Sys
                 modelValue: snippetEditBag.value,
                 "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => snippetEditBag.value = $event),
                 options: unref(options),
-                onPropertyChanged: onPropertyChanged
-              }, null, 8, ["modelValue", "options"])]),
+                onPropertyChanged: unref(baseBlock).onPropertyChanged
+              }, null, 8, ["modelValue", "options", "onPropertyChanged"])]),
               _: 1
-            }, 8, ["mode", "name", "labels", "entityKey", "entityTypeGuid", "entityTypeName", "isDeleteVisible", "isEditVisible"])) : createCommentVNode("v-if", true)], 64);
+            }, 8, ["mode", "name", "labels", "entityKey", "isDeleteVisible", "isEditVisible", "isSecurityHidden"])) : createCommentVNode("v-if", true)], 64);
           };
         }
       }));

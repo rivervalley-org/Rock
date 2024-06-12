@@ -1,4 +1,4 @@
-System.register(['vue', '@Obsidian/Utility/component', '@Obsidian/Utility/http', './baseAsyncPicker'], (function (exports) {
+System.register(['vue', '@Obsidian/Utility/component', '@Obsidian/Utility/http', './baseAsyncPicker.obs'], (function (exports) {
   'use strict';
   var defineComponent, ref, computed, watch, openBlock, createBlock, unref, mergeProps, isRef, useVModelPassthrough, useStandardAsyncPickerProps, standardAsyncPickerProps, useHttp, BaseAsyncPicker;
   return {

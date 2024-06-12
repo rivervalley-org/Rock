@@ -1,4 +1,4 @@
-System.register(['vue', '@Obsidian/Controls/rockFormField', '@Obsidian/Controls/rockButton', '@Obsidian/Enums/Controls/btnType', '@Obsidian/Enums/Controls/btnSize', '@Obsidian/Utility/component'], (function (exports) {
+System.register(['vue', '@Obsidian/Controls/rockFormField.obs', '@Obsidian/Controls/rockButton.obs', '@Obsidian/Enums/Controls/btnType', '@Obsidian/Enums/Controls/btnSize', '@Obsidian/Utility/component'], (function (exports) {
   'use strict';
   var defineComponent, computed, openBlock, createBlock, unref, mergeProps, withCtx, createElementVNode, createElementBlock, Fragment, renderList, createTextVNode, toDisplayString, RockFormField, RockButton, BtnType, BtnSize, useStandardRockFormFieldProps, standardRockFormFieldProps;
   return {
@@ -105,6 +105,10 @@ System.register(['vue', '@Obsidian/Controls/rockFormField', '@Obsidian/Controls/
           btnSize: {
             type: String,
             default: BtnSize.Default
+          },
+          disabled: {
+            type: Boolean,
+            default: false
           }
         }, standardRockFormFieldProps),
         emits: ["update:modelValue"],
@@ -132,11 +136,12 @@ System.register(['vue', '@Obsidian/Controls/rockFormField', '@Obsidian/Controls/
                 return openBlock(), createBlock(unref(RockButton), {
                   onClick: $event => internalValue.value = item.value,
                   btnSize: __props.btnSize,
-                  btnType: itemButtonType(item)
+                  btnType: itemButtonType(item),
+                  disabled: __props.disabled
                 }, {
                   default: withCtx(() => [createTextVNode(toDisplayString(item.text), 1)]),
                   _: 2
-                }, 1032, ["onClick", "btnSize", "btnType"]);
+                }, 1032, ["onClick", "btnSize", "btnType", "disabled"]);
               }), 256))])]),
               _: 1
             }, 16, ["modelValue"]);

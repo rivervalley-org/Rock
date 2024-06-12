@@ -1,17 +1,14 @@
+using System;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
+using System.Data;
 using System.IO;
 using System.Linq;
 
 using Rock;
 using Rock.Attribute;
-using Rock.Model;
-using Rock.Web.UI.Controls;
 using Rock.Data;
-using System.Collections.Generic;
-using System.Data;
-using System;
-using System.Diagnostics;
+using Rock.Model;
 using Rock.Web.Cache;
 
 namespace com.centralaz.SpiritualGifts.PersonProfile.Badge
@@ -31,12 +28,16 @@ namespace com.centralaz.SpiritualGifts.PersonProfile.Badge
         /// </summary>
         /// <param name="badge">The badge.</param>
         /// <param name="writer">The writer.</param>
-        public override void Render( BadgeCache badge, System.Web.UI.HtmlTextWriter writer )
+        public override void Render( BadgeCache badge, IEntity entity, TextWriter writer )
         {
+            if ( !( entity is Person person ) )
+            {
+                return;
+            }
 
             // Find the Spiritual Gift Personality Type / Strength
             String description = string.Empty;
-            string gifting = Person.GetAttributeValue( "Gifting" );
+            string gifting = person.GetAttributeValue( "Gifting" );
             DefinedValueCache giftingValue = null;
             if ( !string.IsNullOrEmpty( gifting ) )
             {
@@ -52,7 +53,7 @@ namespace com.centralaz.SpiritualGifts.PersonProfile.Badge
             if ( !String.IsNullOrEmpty( GetAttributeValue( badge, "SpiritualGiftResultDetail" ) ) )
             {
                 int pageId = Rock.Web.Cache.PageCache.Get( Guid.Parse( GetAttributeValue( badge, "SpiritualGiftResultDetail" ) ) ).Id;
-                detailPageUrl = System.Web.VirtualPathUtility.ToAbsolute( String.Format( "~/page/{0}?Person={1}", pageId, Person.UrlEncodedKey ) );
+                detailPageUrl = System.Web.VirtualPathUtility.ToAbsolute( String.Format( "~/page/{0}?Person={1}", pageId, person.UrlEncodedKey ) );
                 writer.Write( "<a href='{0}'>", detailPageUrl );
             }
 

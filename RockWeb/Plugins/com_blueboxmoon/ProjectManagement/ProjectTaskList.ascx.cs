@@ -291,10 +291,10 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
             //
             // Configure the recurring options.
             //
-            if ( task.RecurringSchedule != null )
+            if ( task.RecurringScheduleContent.IsNotNullOrWhiteSpace() )
             {
                 cbRecurring.Checked = true;
-                sbRecurringSchedule.iCalendarContent = task.RecurringSchedule.iCalendarContent;
+                sbRecurringSchedule.iCalendarContent = task.RecurringScheduleContent;
             }
             else
             {
@@ -568,22 +568,12 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
             };
             if ( cbRecurring.Checked && fakeSchedule.HasSchedule() )
             {
-                if ( task.RecurringSchedule == null )
-                {
-                    task.RecurringSchedule = new Schedule();
-                }
-
-                task.RecurringSchedule.iCalendarContent = sbRecurringSchedule.iCalendarContent;
+                task.RecurringScheduleContent = sbRecurringSchedule.iCalendarContent;
                 task.RecurDaysBefore = nbRecurDaysBefore.Text.AsIntegerOrNull();
             }
             else
             {
-                if ( task.RecurringSchedule != null )
-                {
-                    scheduleService.Delete( task.RecurringSchedule );
-                }
-
-                task.RecurringScheduleId = null;
+                task.RecurringScheduleContent = null;
                 task.RecurDaysBefore = null;
             }
 
@@ -689,11 +679,11 @@ namespace RockWeb.Plugins.com_blueboxmoon.ProjectManagement
                 //
                 // Check if this is a recurring task.
                 //
-                if ( task.RecurringSchedule != null )
+                if ( task.RecurringScheduleContent.IsNotNullOrWhiteSpace() )
                 {
                     var fakeSchedule = new Schedule
                     {
-                        iCalendarContent = task.RecurringSchedule.iCalendarContent
+                        iCalendarContent = task.RecurringScheduleContent
                     };
 
                     lRecurringTask.Text = string.Format( "<i class=\"fa fa-recycle\" title=\"{0}\" data-toggle=\"tooltip\" data-delay=\"200\"></i> ", fakeSchedule.ToFriendlyScheduleText( true ) );

@@ -1,4 +1,4 @@
-System.register(['vue', '@Obsidian/Controls/numberBox', '@Obsidian/Controls/panel', '@Obsidian/Utility/tooltip'], (function (exports) {
+System.register(['vue', '@Obsidian/Controls/numberBox.obs', '@Obsidian/Controls/panel.obs', '@Obsidian/Utility/tooltip'], (function (exports) {
   'use strict';
   var defineComponent, openBlock, createElementBlock, createVNode, unref, ref, computed, onMounted, resolveComponent, createBlock, withCtx, createElementVNode, toDisplayString, Fragment, renderList, NumberBox, Panel, tooltip;
   return {
@@ -359,7 +359,7 @@ System.register(['vue', '@Obsidian/Controls/numberBox', '@Obsidian/Controls/pane
               title: (_props$category$name = __props.category.name) !== null && _props$category$name !== void 0 ? _props$category$name : ''
             }, {
               headerActions: withCtx(() => [createElementVNode("span", {
-                class: "action label label-default",
+                class: "label label-default",
                 "data-toggle": "tooltip",
                 ref_key: "metricCategoryCountLabel",
                 ref: metricCategoryCountLabel,
@@ -410,7 +410,7 @@ System.register(['vue', '@Obsidian/Controls/numberBox', '@Obsidian/Controls/pane
         }
       }
 
-      var css_248z = "[data-v-3097fe40] .metric-category{border:none;box-shadow:none}[data-v-3097fe40] .metric-category>.panel-body{padding-bottom:0;padding-right:0}.metric-item[data-v-3097fe40]{padding-right:18px}";
+      var css_248z = "[data-v-3097fe40] .metric-category{border:none;box-shadow:none;margin-bottom:0}[data-v-3097fe40] .metric-category>.panel-body{padding-bottom:0;padding-left:0;padding-right:0}[data-v-3097fe40] .metric-category .panel-title{max-width:100%;overflow:hidden;text-overflow:ellipsis}[data-v-3097fe40] .metric-category .metric-category{margin-left:8%}.metric-item[data-v-3097fe40]{margin:0}.metric-item+div[data-v-3097fe40]:not(.metric-item){margin-top:18px}";
       styleInject(css_248z);
 
       script.__scopeId = "data-v-3097fe40";

@@ -1,4 +1,4 @@
-System.register(['vue', './rockFormField', './dropDownList', './datePicker.obs', '@Obsidian/Utility/numberUtils', '@Obsidian/Utility/http', '@Obsidian/Utility/slidingDateRange'], (function (exports) {
+System.register(['vue', './rockFormField.obs', './dropDownList.obs', './datePicker.obs', '@Obsidian/Utility/numberUtils', '@Obsidian/Utility/http', '@Obsidian/Utility/slidingDateRange'], (function (exports) {
   'use strict';
   var createElementVNode, defineComponent, ref, computed, watch, openBlock, createBlock, unref, createSlots, withCtx, createVNode, withDirectives, createElementBlock, vModelText, createCommentVNode, Fragment, toDisplayString, RockFormField, DropDownList, DatePicker, toNumber, toNumberOrNull, useHttp, timeUnitOptions, rangeTypeOptions;
   return {
@@ -106,7 +106,7 @@ System.register(['vue', './rockFormField', './dropDownList', './datePicker.obs',
           },
           previewLocation: {
             type: String,
-            default: "Right"
+            default: "Top"
           }
         },
         emits: ["update:modelValue"],

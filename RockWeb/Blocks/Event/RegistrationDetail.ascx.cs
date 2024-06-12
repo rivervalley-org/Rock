@@ -1771,7 +1771,7 @@ namespace RockWeb.Blocks.Event
             bool enableCreditCard = true;
             if ( this.FinancialGatewayComponent != null && this.FinancialGateway != null )
             {
-                _hostedPaymentInfoControl = this.FinancialGatewayComponent.GetHostedPaymentInfoControl( this.FinancialGateway, $"_hostedPaymentInfoControl_{this.FinancialGateway.Id}", new HostedPaymentInfoControlOptions { EnableACH = enableACH, EnableCreditCard = enableCreditCard } );
+                _hostedPaymentInfoControl = this.FinancialGatewayComponent.GetHostedPaymentInfoControl( this.FinancialGateway, $"_hostedPaymentInfoControl_{this.FinancialGateway.Id}", new HostedPaymentInfoControlOptions { EnableACH = enableACH, EnableCreditCard = enableCreditCard, EnableBillingAddressCollection = false } );
                 phHostedPaymentControl.Controls.Add( _hostedPaymentInfoControl );
                 this.HostPaymentInfoSubmitScript = this.FinancialGatewayComponent.GetHostPaymentInfoSubmitScript( this.FinancialGateway, _hostedPaymentInfoControl );
             }
@@ -1879,6 +1879,13 @@ namespace RockWeb.Blocks.Event
                 paymentInfo.TransactionTypeValueId = txnType.Id;
 
                 gateway.UpdatePaymentInfoFromPaymentControl( this.FinancialGateway, _hostedPaymentInfoControl, paymentInfo, out errorMessage );
+                if ( errorMessage.IsNotNullOrWhiteSpace() )
+                {
+                    nbPaymentError.Text = errorMessage ?? "Unknown Error";
+                    nbPaymentError.Visible = true;
+                    return false;
+                }
+
                 var customerToken = gateway.CreateCustomerAccount( this.FinancialGateway, paymentInfo, out errorMessage );
                 if ( errorMessage.IsNotNullOrWhiteSpace() || customerToken.IsNullOrWhiteSpace() )
                 {
@@ -1999,23 +2006,10 @@ namespace RockWeb.Blocks.Event
                 DefinedValueCache.Get( transaction.FinancialPaymentDetail.CreditCardTypeValueId.Value ) : null;
 
             // Get the batch
-            var batch = batchService.Get(
-                batchPrefix,
-                dvCurrencyType,
-                dvCredCardType,
-                transaction.TransactionDateTime.Value,
-                this.RegistrationTemplate.FinancialGateway.GetBatchTimeOffset() );
+            var batch = batchService.GetForNewTransaction( transaction, batchPrefix );
 
             var batchChanges = new History.HistoryChangeList();
-
-            if ( batch.Id == 0 )
-            {
-                batchChanges.AddChange( History.HistoryVerb.Add, History.HistoryChangeType.Record, "Batch" );
-                History.EvaluateChange( batchChanges, "Batch Name", string.Empty, batch.Name );
-                History.EvaluateChange( batchChanges, "Status", null, batch.Status );
-                History.EvaluateChange( batchChanges, "Start Date/Time", null, batch.BatchStartDateTime );
-                History.EvaluateChange( batchChanges, "End Date/Time", null, batch.BatchEndDateTime );
-            }
+            FinancialBatchService.EvaluateNewBatchHistory( batch, batchChanges );
 
             decimal newControlAmount = batch.ControlAmount + transaction.TotalAmount;
             History.EvaluateChange( batchChanges, "Control Amount", batch.ControlAmount.FormatAsCurrency(), newControlAmount.FormatAsCurrency() );

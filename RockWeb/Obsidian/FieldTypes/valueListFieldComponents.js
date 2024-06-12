@@ -1,4 +1,4 @@
-System.register(['vue', '@Obsidian/Controls/checkBox', '@Obsidian/Controls/dropDownList', '@Obsidian/Controls/rockFormField', '@Obsidian/Controls/textBox', '@Obsidian/Utility/booleanUtils', '@Obsidian/Utility/component', './fieldType', './utils'], (function (exports, module) {
+System.register(['vue', '@Obsidian/Controls/checkBox.obs', '@Obsidian/Controls/dropDownList.obs', '@Obsidian/Controls/rockFormField.obs', '@Obsidian/Controls/textBox.obs', '@Obsidian/Utility/booleanUtils', '@Obsidian/Utility/component', './fieldType', './utils'], (function (exports, module) {
   'use strict';
   var defineComponent, ref, computed, watch, CheckBox, DropDownList, RockFormField, TextBox, asBooleanOrNull, asTrueFalseOrNull, defineAsyncComponent, getFieldEditorProps, getFieldConfigurationProps;
   return {
