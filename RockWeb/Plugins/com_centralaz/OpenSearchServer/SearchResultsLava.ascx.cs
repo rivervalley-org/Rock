@@ -136,7 +136,7 @@ namespace RockWeb.Plugins.com_centralaz.OpenSearchServer
             mergeFields.Add( "CurrentPerson", CurrentPerson );
             mergeFields.Add( "CurrentUser", CurrentUser );
 
-            var globalAttributeFields = Rock.Web.Cache.GlobalAttributesCache.GetMergeFields( CurrentPerson );
+            var globalAttributeFields = Rock.Lava.LavaHelper.GetCommonMergeFields( this.RockPage, CurrentPerson );
             globalAttributeFields.ToList().ForEach( d => mergeFields.Add( d.Key, d.Value ) );
 
             lOutput.Text = GetAttributeValue( "LavaTemplate" ).ResolveMergeFields( mergeFields );
